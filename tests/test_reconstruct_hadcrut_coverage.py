@@ -78,6 +78,44 @@ class HadCRUTCoverageTests(unittest.TestCase):
         self.assertTrue(np.allclose(errors, 0.0, atol=1e-12))
         self.assertTrue(np.allclose(sigma, 0.0, atol=1e-12))
 
+    def test_monthly_coverage_errors_are_averaged_before_reference_rms(self):
+        lat = np.arange(-87.5, 90.0, 5.0)
+        area = np.cos(np.deg2rad(lat))[:, None] * np.ones((1, 72))
+        longitude_gradient = np.tile(np.arange(72, dtype=np.float64), (36, 1))
+        anomalies = np.broadcast_to(
+            longitude_gradient, (40, 12, 36, 72)
+        ).copy()
+
+        masks = np.zeros((24, 36, 72), dtype=np.uint8)
+        for t in range(24):
+            if (t % 12) < 6:
+                masks[t, :, 36:] = 1
+            else:
+                masks[t, :, :36] = 1
+        months = np.tile(np.arange(1, 13), 2)
+
+        errors, sigma = calculate_annual_coverage_errors(anomalies, masks, months, area)
+        self.assertTrue(np.allclose(errors, 0.0, atol=1e-12))
+        self.assertTrue(np.allclose(sigma, 0.0, atol=1e-12))
+
+    def test_coverage_rms_is_taken_across_reference_year_trajectories(self):
+        lat = np.arange(-87.5, 90.0, 5.0)
+        area = np.cos(np.deg2rad(lat))[:, None] * np.ones((1, 72))
+        longitude_gradient = np.tile(np.arange(72, dtype=np.float64), (36, 1))
+        anomalies = np.empty((40, 12, 36, 72), dtype=np.float64)
+        for p in range(40):
+            sign = 1.0 if p % 2 == 0 else -1.0
+            anomalies[p] = sign * longitude_gradient[None, :, :]
+
+        masks = np.zeros((24, 36, 72), dtype=np.uint8)
+        masks[:, :, 36:] = 1
+        months = np.tile(np.arange(1, 13), 2)
+
+        errors, sigma = calculate_annual_coverage_errors(anomalies, masks, months, area)
+        expected_error = 18.0
+        self.assertTrue(np.allclose(np.abs(errors), expected_error, atol=1e-12))
+        self.assertTrue(np.allclose(sigma, expected_error, atol=1e-12))
+
     def test_ols_does_not_mutate_input(self):
         values = np.arange(47, dtype=np.float64) * 0.02 + 1.0
         original = values.copy()
