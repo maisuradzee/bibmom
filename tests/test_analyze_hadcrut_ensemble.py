@@ -86,7 +86,7 @@ class HadCRUTEnsembleTests(unittest.TestCase):
             header.remove("Realization 200")
             lines[0] = ",".join(header)
             path.write_text("\n".join(lines) + "\n", encoding="utf-8")
-            with self.assertRaisesRegex(ValueError, "missing columns"):
+            with self.assertRaisesRegex(ValueError, "Expected exactly 200 realization columns"):
                 read_member_csv(path)
 
     def test_wrong_dataset_version_filename_is_rejected(self):
