@@ -71,11 +71,11 @@ class ValidateResearchTests(unittest.TestCase):
 
     def test_rejects_path_escape(self) -> None:
         item = self.item()
-        item["file"] = "research/preprints/../../drafts/leak.md"
+        item["file"] = "research/preprints/../drafts/leak.md"
         (self.root / "research" / "drafts").mkdir()
         (self.root / "research" / "drafts" / "leak.md").write_text("# private", encoding="utf-8")
         self.write_index([item])
-        with self.assertRaisesRegex(ValueError, "inside research/preprints"):
+        with self.assertRaisesRegex(ValueError, "source is missing or escapes"):
             validate_index(self.root)
 
     def test_rejects_duplicate_ids(self) -> None:
