@@ -502,7 +502,14 @@ def decimal_integer_superaccumulator(
         _integer_to_decimal_digits(abs(units)),
         common_exponent,
     ))
-    return ctx.create_decimal(exact)
+    rounded = ctx.create_decimal(exact)
+    if rounded.is_zero():
+        return rounded
+    # Preserve a canonical full-precision representation (the same significant
+    # digit width as the context) without expanding the accumulator to Etiny.
+    target_exponent = rounded.adjusted() - ctx.prec + 1
+    quantum = Decimal((0, (1,), target_exponent))
+    return ctx.quantize(rounded, quantum)
 
 
 DECIMAL_METHODS = {
