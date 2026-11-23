@@ -12,9 +12,9 @@
 | კვლევის სტანდარტი და შაბლონები | მზადაა | `docs/RESEARCH_STANDARD.md`, `research/TEMPLATE.md` |
 | მონაცემთა აუდიტი NOEMA-002 | შესრულებულია | ფიქსირებული SignBase snapshot და JSON შედეგი |
 | NOEMA-003 ტემპერატურის ტენდენციის ანალიზი | დრაფტი / გამეორებადი; HadCRUT5 ensemble და ოფიციალური coverage კომპონენტის cross-check შესრულებულია | სამი პროდუქტის snapshot, OLS/Theil–Sen და HAC 1–6; 200-member HadCRUT5 slope distribution; ოფიციალური coverage 1σ სერია summary-series-ის 95% საზღვრებთან/ensemble SD-თან RMSE 3.55×10⁻⁸°C-ით ემთხვევა; coverage slope-error RMS ზედა ზღვარი 0.0029339°C/ათწლეული; ERA5-ის სრული trajectory validation კვლავ ღიაა |
-| Python ტესტები და მონაცემთა რეპროდუქცია | <escape>PASS</escape> | [CI run 45166485552](https://github.com/maisuradzee/bibmom/actions/runs/45166485552) წარმატებულია; **50 Python unit test**, სამი ტემპერატურული შედეგის reproducibility, HadCRUT source SHA-256 და 200-member frozen JSON შემოწმდა |
+| Python ტესტები და მონაცემთა რეპროდუქცია | PASS | [CI run 45166485552](https://github.com/maisuradzee/bibmom/actions/runs/45166485552) წარმატებულია; **50 Python unit test**, სამი ტემპერატურული შედეგის reproducibility, HadCRUT source SHA-256 და 200-member frozen JSON შემოწმდა |
 | სტატიკური საიტის build | წარმატებულია | CI და Pages build job |
-| GitHub Pages deployment | <escape>PASS</escape> | [უახლესი deployment — run 45166485541](https://github.com/maisuradzee/bibmom/actions/runs/45166485541) წარმატებით დასრულდა |
+| GitHub Pages deployment | PASS | [უახლესი deployment — run 45166485541](https://github.com/maisuradzee/bibmom/actions/runs/45166485541) წარმატებით დასრულდა |
 | საჯარო კვლევების ინდექსი | ცარიელია განზრახ | კვლევები ჯერ `draft/review` სტატუსშია |
 | ვიზუალური AI ექსპერიმენტი | დაწყებამდეა | SignBase-ის გამოსახულებებზე გამოყენების ნებართვა მოსაპოვებელია |
 | Supabase | გადადებულია | ამ ეტაპზე სტატიკურ JSON ინდექსს ვიყენებთ |
