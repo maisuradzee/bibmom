@@ -110,6 +110,10 @@ jobs:
           expected = json.loads((root / "ensemble-trend-results-1979-2025.json").read_text(encoding="utf-8"))
           actual = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
           if actual != expected:
+              import difflib
+              expected_text = json.dumps(expected, ensure_ascii=False, indent=2, sort_keys=True).splitlines()
+              actual_text = json.dumps(actual, ensure_ascii=False, indent=2, sort_keys=True).splitlines()
+              print("\\n".join(difflib.unified_diff(expected_text, actual_text, fromfile="pinned", tofile="generated")))
               raise SystemExit("HadCRUT5 generated ensemble results differ from pinned results")
           print("HadCRUT5 5.2.0.0 source hashes and 200-member results match")
           PY
