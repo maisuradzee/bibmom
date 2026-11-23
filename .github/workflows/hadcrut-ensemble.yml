@@ -51,6 +51,27 @@ jobs:
           sha256sum "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.anomalies.ensemble_mean.nc" \
             "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.weights.nc"
 
+      - name: Test public APCC ERA5 monthly 2m-temperature mirror
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/era5"
+          URL1="https://apcc21.org/clikapi/download/ERA5/MONTHLY/single/t2m/t2m_1979.nc"
+          URL2="https://download.apcc21.org/ERA5/MONTHLY/single/t2m/t2m_1979.nc"
+          if ! curl --fail --location --retry 2 --retry-delay 2 "$URL1" --output "$RUNNER_TEMP/era5/t2m_1979.nc"; then
+            curl --fail --location --retry 2 --retry-delay 2 "$URL2" --output "$RUNNER_TEMP/era5/t2m_1979.nc"
+          fi
+          test -s "$RUNNER_TEMP/era5/t2m_1979.nc"
+          python -m pip install --quiet netCDF4
+          python - "$RUNNER_TEMP/era5/t2m_1979.nc" <<'PY'
+          import sys
+          from netCDF4 import Dataset
+          with Dataset(sys.argv[1]) as ds:
+              print("ERA5 dimensions:", {k: len(v) for k, v in ds.dimensions.items()})
+              print("ERA5 variables:", list(ds.variables))
+              for name, var in ds.variables.items():
+                  print(name, var.dimensions, var.shape, getattr(var, "units", ""))
+          PY
+          sha256sum "$RUNNER_TEMP/era5/t2m_1979.nc"
       - name: Analyze 200 member-specific trends
         run: |
           python scripts/analyze_hadcrut_ensemble.py \
@@ -68,6 +89,7 @@ jobs:
             ${{ runner.temp }}/HadCRUT.5.2.0.0.analysis.summary_series.global.annual.csv
             ${{ runner.temp }}/HadCRUT.5.2.0.0.analysis.anomalies.ensemble_mean.nc
             ${{ runner.temp }}/HadCRUT.5.2.0.0.analysis.weights.nc
+            ${{ runner.temp }}/era5/t2m_1979.nc
             ${{ runner.temp }}/hadcrut5-ensemble-results.json
           if-no-files-found: error
           retention-days: 30
