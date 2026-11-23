@@ -177,8 +177,8 @@ class Noema005SummationTests(unittest.TestCase):
                     units = decimal_integer_superaccumulator_units(ctx, values)
                     self.assertEqual(Fraction(units, denominator), exact)
                     self.assertEqual(
-                        decimal_integer_superaccumulator(ctx, values),
-                        ctx.create_decimal(str(decimal_integer_superaccumulator(ctx, values))),
+                        Fraction(decimal_integer_superaccumulator(ctx, values)),
+                        exact,
                     )
 
     def test_decimal64_naive_sum_depends_on_order(self) -> None:
