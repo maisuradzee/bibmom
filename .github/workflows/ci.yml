@@ -34,6 +34,10 @@ jobs:
           test -f scripts/compare_noema003_datasets.py
           test -f scripts/analyze_hadcrut_ensemble.py
           test -f data/noema-003/cross-dataset-results-2026-11-23.json
+          test -f data/noema-003/hadcrut5-5.2.0.0/HadCRUT.5.2.0.0.analysis.ensemble_series.global.annual.csv
+          test -f data/noema-003/hadcrut5-5.2.0.0/HadCRUT.5.2.0.0.analysis.summary_series.global.annual.csv
+          test -f data/noema-003/hadcrut5-5.2.0.0/ensemble-trend-results-1979-2025.json
+          test -f data/noema-003/hadcrut5-5.2.0.0/source-manifest.json
           test -f data/noema-003/snapshots/2026.10/sources.json
           test -f data/noema-003/snapshots/2026.10/gistemp.csv
           test -f data/noema-003/snapshots/2026.10/hadcrut5_annual.csv
@@ -79,6 +83,31 @@ jobs:
           if actual != expected:
               raise SystemExit("NOEMA-003 cross-dataset results differ from the frozen result")
           print("NOEMA-003 cross-dataset frozen results match")
+          PY
+      - name: Reproduce HadCRUT5 200-member trend distribution and verify source hashes
+        run: |
+          SNAP="data/noema-003/hadcrut5-5.2.0.0"
+          python scripts/analyze_hadcrut_ensemble.py \
+            --input "$SNAP/HadCRUT.5.2.0.0.analysis.ensemble_series.global.annual.csv" \
+            --summary-csv "$SNAP/HadCRUT.5.2.0.0.analysis.summary_series.global.annual.csv" \
+            --output "$RUNNER_TEMP/hadcrut5-ensemble-results.json"
+          python - "$RUNNER_TEMP/hadcrut5-ensemble-results.json" <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+          import sys
+
+          root = Path("data/noema-003/hadcrut5-5.2.0.0")
+          manifest = json.loads((root / "source-manifest.json").read_text(encoding="utf-8"))
+          for filename, metadata in manifest["files"].items():
+              actual_hash = hashlib.sha256((root / filename).read_bytes()).hexdigest()
+              if actual_hash != metadata["sha256"]:
+                  raise SystemExit(f"HadCRUT5 source hash mismatch: {filename}")
+          expected = json.loads((root / "ensemble-trend-results-1979-2025.json").read_text(encoding="utf-8"))
+          actual = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+          if actual != expected:
+              raise SystemExit("HadCRUT5 generated ensemble results differ from pinned results")
+          print("HadCRUT5 5.2.0.0 source hashes and 200-member results match")
           PY
       - name: Run finite-sample simulation smoke test
         run: python scripts/short_sequence_bias_simulation.py --trials 2000
