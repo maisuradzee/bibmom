@@ -81,7 +81,7 @@ def validate_index(root: Path = ROOT) -> int:
         relative = item.get("file")
         if relative is not None:
             prefix = PUBLIC_ROOTS[status]
-            if not isinstance(relative, str) or "\\\\" in relative or not relative.startswith(prefix) or not relative.endswith(".md"):
+            if not isinstance(relative, str) or "\\" in relative or not relative.startswith(prefix) or not relative.endswith(".md"):
                 raise ValueError(f"{item['id']}: file must be a Markdown file inside {prefix}")
             public_root = (root / prefix.rstrip("/")).resolve()
             target = (root / relative).resolve()
