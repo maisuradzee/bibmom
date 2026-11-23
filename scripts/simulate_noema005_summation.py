@@ -683,8 +683,8 @@ def build_decimal_experiments() -> dict:
             "each primitive operation is rounded to the selected context"
         ),
         "reference": (
-            "exact Fraction sum of represented Decimal inputs; final rounding by "
-            "exact integer superaccumulator on the 10**Etiny grid"
+            "exact Fraction sum of represented Decimal inputs; adaptive exact integer "
+            "accumulation at the minimum input exponent, then final Decimal Context rounding"
         ),
         "methods": list(DECIMAL_METHODS),
         "formats": formats,
