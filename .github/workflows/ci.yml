@@ -136,6 +136,12 @@ jobs:
           expected.pop("environment", None)
           actual.pop("environment", None)
           if actual != expected:
+              import difflib
+              expected_text = json.dumps(expected, ensure_ascii=False, indent=2, sort_keys=True).splitlines()
+              actual_text = json.dumps(actual, ensure_ascii=False, indent=2, sort_keys=True).splitlines()
+              print("\\n".join(difflib.unified_diff(
+                  expected_text, actual_text, fromfile="frozen", tofile="generated"
+              )))
               raise SystemExit("NOEMA-005 generated summation results differ from frozen results")
           print("NOEMA-005 summation results match the frozen snapshot")
           PY
