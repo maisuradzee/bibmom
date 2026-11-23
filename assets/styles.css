@@ -22,3 +22,8 @@
 .discussion-card .text-link{margin-top:auto}
 .discussion-note{margin-top:22px}
 @media(max-width:760px){.discussion-section{padding-top:78px;padding-bottom:85px}.discussion-intro{align-items:flex-start;flex-direction:column;padding:24px}.discussion-intro h3{font-size:19px}.discussion-create{white-space:normal}.discussion-list{grid-template-columns:1fr}.discussion-list-heading{align-items:flex-start;gap:16px;flex-direction:column}}
+
+/* Research result status labels */
+.research-status{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;padding:7px 9px;margin-bottom:14px;border:1px solid var(--line);display:inline-block}
+.status-preliminary{background:#f5edda;color:#745b24;border-color:#d7c79f}
+.status-published{background:#e2ead8;color:#405b2b;border-color:#b8c8a7}
