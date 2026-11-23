@@ -98,9 +98,25 @@
             "items": {
               "type": "string"
             }
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
           }
         },
-        "additionalProperties": false
+        "additionalProperties": false,
+        "anyOf": [
+          {
+            "required": [
+              "file"
+            ]
+          },
+          {
+            "required": [
+              "url"
+            ]
+          }
+        ]
       }
     }
   }
