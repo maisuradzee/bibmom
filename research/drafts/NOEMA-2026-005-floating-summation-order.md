@@ -260,7 +260,48 @@ Binary32 ეტალონისთვის გამოყენებულ�
 - CI smoke პროფილი: sizes 128 / 512; 1 warmup; 2 repetitions. ბოლო CI-მ გაზომა 8 format/size შემთხვევა და 44 method measurement. CI ამოწმებს ოთხივე ფორმატის დაფარვას, გაზომვების სტრუქტურასა და ვალიდურ მნიშვნელობებს; დროის მყარ ზღვარს არ აწესებს.
 - პროტოკოლი: `data/noema-005/benchmark-protocol.json`.
 
-**სტატუსის შენიშვნა:** CI smoke test ამოწმებს benchmark harness-ის მუშაობას, მაგრამ მისი runner-specific დროები არ წარმოადგენს სრულ benchmark კვლევას. სრული ადგილობრივი პროფილი (1,024 / 8,192 / 65,536; 2 warmup; 7 repetitions) ჯერ არ არის შესრულებული და მისი შედეგები არ არის კვლევით დასკვნად წარმოდგენილი.
+**სტატუსის შენიშვნა:** CI smoke test harness-ის სტრუქტურას ამოწმებს. სრული პროფილი შესრულდა ცალკე GitHub Actions run #4-ზე; შედეგები ქვემოთაა შეჯამებული. ეს არის ერთი CPython/Linux runner-ის აღწერითი გაზომვა და არა სხვადასხვა მანქანაზე განმეორებული performance კვლევა.
+
+
+### Full runtime/memory profile results — 2026-11-24
+
+სრული პროფილი გაეშვა ცალკე workflow-ით: [run #4](https://github.com/maisuradzee/bibmom/actions/runs/45283854718). შესრულდა 12 format/size შემთხვევა და 66 method measurement. გარემო: CPython 3.14.4, Linux x86-64 (AWS runner); sizes 1,024 / 8,192 / 65,536; 2 warmup; 7 timed repetitions; seed 20261124. ქვემოთ მოცემულია ყველაზე დიდი შეყვანის — 65,536 წევრის — median runtime და `tracemalloc` peak.
+
+| ფორმატი | მეთოდი | median runtime (ms) | peak traced Python bytes |
+|---|---|---:|---:|
+| binary64 | naive left-to-right | 0.662 | 160 |
+| binary64 | adjacent pairwise | 3.644 | 1,593,864 |
+| binary64 | Kahan | 2.195 | 232 |
+| binary64 | Neumaier | 3.141 | 232 |
+| binary64 | math.fsum | 1.104 | 181 |
+| binary64 | integer superaccumulator | 60.835 | 4,384 |
+| binary32 | naive left-to-right | 81.808 | 3,756 |
+| binary32 | adjacent pairwise | 88.222 | 1,597,321 |
+| binary32 | Kahan | 324.736 | 3,832 |
+| binary32 | Neumaier | 320.630 | 3,832 |
+| binary32 | math.fsum then binary32 cast | 0.383 | 536 |
+| binary32 | integer superaccumulator | 14.024 | 3,704 |
+| decimal64 | naive left-to-right | 6.362 | 480 |
+| decimal64 | adjacent pairwise | 11.759 | 6,312,528 |
+| decimal64 | Kahan | 25.327 | 1,032 |
+| decimal64 | Neumaier | 30.652 | 1,032 |
+| decimal64 | integer superaccumulator | 37.376 | 6,853,728 |
+| decimal128 | naive left-to-right | 6.365 | 480 |
+| decimal128 | adjacent pairwise | 11.737 | 6,312,528 |
+| decimal128 | Kahan | 25.232 | 1,032 |
+| decimal128 | Neumaier | 31.416 | 1,032 |
+| decimal128 | integer superaccumulator | 37.210 | 6,853,728 |
+
+**დაკვირვებები და ინტერპრეტაცია**
+
+- ამ კონკრეტულ CPython/Linux პროფილში binary64 integer accumulator-ის median იყო 60.835 ms, naive-ის — 0.662 ms (დაახლოებით 91.9× განსხვავება). ეს accumulator-ის მიმდინარე Python reference-implementation-ის ხარჯია და არა ზუსტი summation-ის ფუნდამენტური სიჩქარის ქვედა ზღვარი.
+- Decimal64/128-ში exact integer accumulator-მა დაახლოებით 37 ms და 6.85 MB peak traced allocation აჩვენა; pairwise-ს ჰქონდა დაახლოებით 11.7 ms და 6.31 MB. მიმდინარე exact accumulator-ის რეალიზაცია მეხსიერების/დროის თვალსაზრისით ოპტიმიზაციას საჭიროებს.
+- Pairwise მეთოდის peak memory იზრდება შეყვანის ზომასთან ერთად, რადგან რეალიზაცია ქმნის შუალედურ სამუშაო სიებს; Kahan/Neumaier-ის ამ იმპლემენტაციებს გაცილებით მცირე traced peak ჰქონდათ, თუმცა მეტი დრო სჭირდებოდათ.
+- Binary32-ის native-emulation გზები ყოველ ელემენტზე Python-level rational rounding-ს ასრულებს; მათი მაღალი დრო არ ასახავს hardware binary32 ოპერაციის სიჩქარეს. `math.fsum then binary32 cast` ფართო სიზუსტის საკონტროლო გზაა და native binary32 მეთოდებთან პირდაპირი სიჩქარის შედარება არ შეიძლება.
+- Decimal64 და decimal128-ის დროები ახლოსაა, რადგან benchmark-ში გამოყენებული შეყვანები ორივე precision-ში წარმოდგენადია; ეს არ ადასტურებს ზოგად თანაბარ ხარჯს ყველა decimal მონაცემზე.
+- დროები არის ერთი runner-ის median-ები. სხვა Python build, არქიტექტურა, load, allocator ან input distribution შეიძლება მნიშვნელოვნად განსხვავდებოდეს. `tracemalloc` არ არის RSS და არ ითვლის ყველა native allocation-ს.
+
+სრული 66-გაზომვიანი report ინახება `data/noema-005/benchmark-full-profile-summary-2026-11-24.json`-ში. ორიგინალი report JSON-ის SHA-256: `cb902442026cfe4b74a506d01c568efdb6e009a27f38014ce0548c6bf36f4ce9`; Actions artifact ID `14870647841` (30-დღიანი retention).
 
 ## შეზღუდვები და გაურკვევლობები
 
@@ -271,7 +312,7 @@ Binary32 ეტალონისთვის გამოყენებულ�
 - ზუსტი integer accumulator-ის დაგროვება სრულდება arbitrary-precision integer-ით; decimal-ში საერთო quantum შეყვანებიდან დინამიკურად განისაზღვრება. საბოლოო rounding იყენებს შესაბამისი ფორმატის Fraction/Context converter-ს. ეს არ არის დამოუკიდებელი hardware rounding implementation.
 - გამოყენებულია ერთი CPython/OS გარემო. სხვა runtime-მა, compiler-მა ან არქიტექტურამ შეიძლება შედეგი ან ბოლო ბიტი შეცვალოს.
 - Python 3.12-დან ჩაშენებული sum() float-ებისთვის გაუმჯობესებულ ალგორითმს იყენებს; აქ naive baseline ხელითაა განსაზღვრული, როგორც მარცხნიდან-მარჯვნივ დაგროვება.
-- დამატებულია runtime/memory benchmark harness და CI smoke test; ბოლო CI-მ 8 format/size შემთხვევა და 44 method measurement წარმატებით შეასრულა. სრული ადგილობრივი პროფილის შედეგები ჯერ არ არის გაზომილი/განხილული. `tracemalloc` ზომავს მხოლოდ Python-managed allocations-ს და არა სრულ RSS-ს. Thread/GPU parallel reduction ჯერ არ გამოკვლეულა.
+- დამატებულია runtime/memory benchmark harness; CI smoke-მა 8 format/size შემთხვევა და 44 method measurement შეასრულა, ხოლო სრული პროფილმა — 12 შემთხვევა და 66 გაზომვა ერთ CPython/Linux runner-ზე. ეს არ არის cross-platform გამეორება; `tracemalloc` ზომავს მხოლოდ Python-managed allocations-ს და არა სრულ RSS-ს. Thread/GPU parallel reduction ჯერ არ გამოკვლეულა.
 - ზუსტი reference ეხება მხოლოდ რეალურად წარმოდგენილ შეყვანებს; ის არ ამოწმებს შეყვანის წყაროს სიზუსტეს ან შემდგომი მოდელის სისწორეს.
 - შედეგები არ წარმოადგენს ყველა პლატფორმაზე method-ի უნივერსალურ გარანტიას ან წარმოების workload-ის error-rate შეფასებას.
 
@@ -299,9 +340,9 @@ NOEMA სთავაზობს რიცხვით პროექტებ
 
 ## შემდეგი ნაბიჯები
 
-1. შესრულდეს benchmark-ის სრული ადგილობრივი პროფილი (1,024 / 8,192 / 65,536; 2 warmup; 7 repetitions) და ცალკე შედარდეს exact-reference-ის გამოთვლითი ხარჯი.
-2. შემოწმდეს deterministic და nondeterministic parallel reduction trees.
-3. განმეორდეს სხვა Python ვერსიებსა და არქიტექტურებზე.
+1. განმეორდეს სრული benchmark სულ მცირე სამ დამოუკიდებელ run-ზე და სხვა Python ვერსიასა/არქიტექტურაზე; გაიმიჯნოს noise და runtime-specific შედეგები.
+2. დაიხვეწოს exact integer accumulator-ის ალგორითმი, განსაკუთრებით binary64/decimal-ში, და ხელახლა გაიზომოს დრო/მეხსიერება ისე, რომ ზუსტი ეტალონი უცვლელი დარჩეს.
+3. შემოწმდეს deterministic და nondeterministic parallel reduction trees.
 4. დაემატოს რეალური სამეცნიერო მონაცემთა ნაკრები, რომლის შეყვანის სიზუსტე და provenance დამოუკიდებლად დოკუმენტირებულია.
 5. დამოუკიდებელმა მკვლევარმა გადაამოწმოს binary32 quantizer, decimal Context-ის პარამეტრები, exact accumulator, benchmark-ის მეთოდოლოგია, ტესტები და გამოყენებული წყაროები.
 
@@ -340,7 +381,8 @@ NOEMA-ს კონტროლირებულმა ექსპერიმ
 - [x] ოთხივე ფორმატის CI წარმატებულია: [run 45282263124](https://github.com/maisuradzee/bibmom/actions/runs/45282263124); 72 repository-wide test და frozen JSON reproduction PASS.
 - [x] უახლესი სრული CI წარმატებულია: [run 45283388439](https://github.com/maisuradzee/bibmom/actions/runs/45283388439); 74 repository-wide test, ოთხივე ფორმატის frozen JSON reproduction, 8 benchmark format/size შემთხვევა და 44 method measurement, NOEMA-003/HadCRUT5 წყაროთა შემოწმება, SignBase audit, site build და publication boundary PASS.
 - [x] runtime/memory benchmark harness და CI smoke test დამატებულია; CI smoke-პროფილი გაიარა.
-- [ ] სრული ადგილობრივი benchmark პროფილის შესრულება (1,024 / 8,192 / 65,536; 2 warmup; 7 repetitions) და დამოუკიდებელი ინტერპრეტაცია.
+- [x] სრული benchmark პროფილი: 12 format/size cases, 66 method measurements, 3 input size, 7 timed repetitions; შედეგები და შეზღუდვები დოკუმენტირებულია.
+- [ ] სრული პროფილის განმეორება სხვა Python ვერსიაზე/არქიტექტურაზე და რამდენიმე დამოუკიდებელ run-ზე.
 - [ ] სხვა runtime/არქიტექტურაზე დამოუკიდებელი გამეორება.
 - [ ] დამოუკიდებელი სამეცნიერო და სარედაქციო განხილვა.
 - [ ] გამოქვეყნების მზადყოფნის დადასტურება.
@@ -358,3 +400,4 @@ NOEMA-ს კონტროლირებულმა ექსპერიმ
 - 2026-11-24 — decimal integer accumulator ოპტიმიზებულია ადაპტიურ საერთო exponent-ზე; Etiny-grid helper შენარჩუნებულია დამოუკიდებელი ზუსტი reference ტესტისთვის.
 - 2026-11-24 — benchmark-ის პირდაპირი CLI გაშვების import path გასწორდა; decimal integer accumulator-ის შედეგის ფორმატირება დასტაბილურდა და provenance აღწერა კოდთან გათანაბრდა.
 - 2026-11-24 — CI run 45283388439 წარმატებით დასრულდა: 74 repository-wide test; ოთხივე ფორმატის frozen JSON reproduction, benchmark smoke (8 cases / 44 method measurements), NOEMA-003/HadCRUT5 წყაროთა აუდიტი, SignBase audit და site publication boundary PASS.
+- 2026-11-24 — სრული benchmark run 45283854718 წარმატებით დასრულდა: 12 format/size შემთხვევა და 66 method measurement; report-ის არტეფაქტი SHA-256 provenance-ით შენახულია, ხოლო median runtime/peak memory შეჯამებულია ამ დრაფტში.
