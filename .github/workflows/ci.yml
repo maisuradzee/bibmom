@@ -26,11 +26,14 @@ jobs:
           test -f data/research.json
           test -f research/TEMPLATE.md
           test -f scripts/validate_research.py
+          test -f scripts/validate_drafts.py
           test -f scripts/build_site.py
           test -f scripts/short_sequence_bias_simulation.py
           test -f scripts/audit_signbase.py
           test -f docs/RESEARCH_STANDARD.md
           test -f research/protocols/NOEMA-002-blind-coding-protocol.md
+      - name: Validate draft completeness
+        run: python scripts/validate_drafts.py
       - name: Validate research index
         run: python scripts/validate_research.py
       - name: Run Python unit tests
