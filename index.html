@@ -39,8 +39,8 @@
     </section>
 
     <section class="research-section section-wrap" id="research">
-      <div class="section-heading"><div><div class="section-kicker">02 / კვლევითი არქივი</div><h2>ბოლო კვლევები</h2></div><span class="section-note">ცოდნა მუდმივად ვითარდება</span></div>
-      <div id="research-list" class="research-list" aria-live="polite"><div class="empty-state">კვლევების არქივი მზადდება. პირველი შემოწმებული კვლევა აქ გამოჩნდება.</div></div>
+      <div class="section-heading"><div><div class="section-kicker">02 / კვლევითი არქივი</div><h2>ბოლო კვლევები</h2></div><a class="section-note" href="./data/research.json">მონაცემთა კატალოგი (JSON) ↗</a></div>
+      <div id="research-list" class="research-list" aria-live="polite"><div class="empty-state">კვლევების არქივი მზადდება. აქ გამოჩნდება წინასწარი შედეგები მკაფიო სტატუსით და საბოლოოდ დამტკიცებული კვლევები.</div></div>
     </section>
 
     <section class="discussion-section section-wrap" id="discussion">
@@ -87,18 +87,31 @@
         const response = await fetch('./data/research.json');
         if (!response.ok) throw new Error('Research index unavailable');
         const data = await response.json();
-        const items = Array.isArray(data.research) ? data.research.filter(x => x.status === 'published') : [];
+        const items = Array.isArray(data.research)
+          ? data.research.filter(x => ['preliminary', 'published'].includes(x.status))
+          : [];
         if (!items.length) return;
-        root.innerHTML = items.map(item => {
+        root.replaceChildren();
+        items.forEach(item => {
           const card = document.createElement('article');
           card.className = 'research-card';
-          const meta = document.createElement('div'); meta.className = 'research-meta'; meta.textContent = [item.category, item.date].filter(Boolean).join(' · ');
-          const title = document.createElement('h3'); title.textContent = item.title || 'უსათაურო კვლევა';
-          const summary = document.createElement('p'); summary.textContent = item.summary || '';
-          const link = document.createElement('a'); link.className = 'text-link'; link.href = item.url || '#'; link.textContent = 'კვლევის ნახვა ↗';
-          card.append(meta, title, summary, link);
-          return card.outerHTML;
-        }).join('');
+          const status = document.createElement('div');
+          status.className = 'research-status ' + (item.status === 'preliminary' ? 'status-preliminary' : 'status-published');
+          status.textContent = item.status === 'preliminary' ? 'წინასწარი შედეგი · არა რეცენზირებული' : 'გამოქვეყნებული კვლევა';
+          const meta = document.createElement('div');
+          meta.className = 'research-meta';
+          meta.textContent = [item.category, item.date].filter(Boolean).join(' · ');
+          const title = document.createElement('h3');
+          title.textContent = item.title || 'უსათაურო კვლევა';
+          const summary = document.createElement('p');
+          summary.textContent = item.summary || '';
+          const link = document.createElement('a');
+          link.className = 'text-link';
+          link.href = item.url || '#';
+          link.textContent = 'კვლევის ნახვა ↗';
+          card.append(status, meta, title, summary, link);
+          root.append(card);
+        });
       } catch (_) {
         root.innerHTML = '<div class="empty-state">კვლევების ინდექსის ჩატვირთვა ვერ მოხერხდა. სცადეთ მოგვიანებით.</div>';
       }
