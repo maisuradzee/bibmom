@@ -70,10 +70,11 @@ jobs:
             out="$2/t2m_$year.nc"
             primary="https://apcc21.org/clikapi/download/ERA5/MONTHLY/single/t2m/t2m_$year.nc"
             fallback="https://download.apcc21.org/ERA5/MONTHLY/single/t2m/t2m_$year.nc"
-            curl_args=(--fail --location --show-error --connect-timeout 20 --max-time 240 --retry 2 --retry-all-errors --retry-delay 3)
-            if ! curl "${curl_args[@]}" "$primary" --output "$out.tmp"; then
+            primary_args=(--fail --location --show-error --connect-timeout 15 --max-time 90 --retry 1 --retry-all-errors --retry-delay 2)
+            fallback_args=(--fail --location --show-error --connect-timeout 15 --max-time 90)
+            if ! curl "${primary_args[@]}" "$primary" --output "$out.tmp"; then
               rm -f "$out.tmp"
-              curl "${curl_args[@]}" "$fallback" --output "$out.tmp"
+              curl "${fallback_args[@]}" "$fallback" --output "$out.tmp"
             fi
             test -s "$out.tmp"
             mv "$out.tmp" "$out"
