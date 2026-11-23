@@ -1,0 +1,107 @@
+{
+  "study_id": "NOEMA-2026-003",
+  "analysis": "HadCRUT5 member-specific global annual trend distribution",
+  "dataset": {
+    "version": "HadCRUT.5.2.0.0",
+    "source_url": "https://www.metoffice.gov.uk/hadobs/hadcrut5/data/HadCRUT.5.2.0.0/analysis/diagnostics/HadCRUT.5.2.0.0.analysis.ensemble_series.global.annual.csv",
+    "source_file": "HadCRUT.5.2.0.0.analysis.ensemble_series.global.annual.csv",
+    "source_bytes": 413320,
+    "source_sha256": "4f6621606034ad5cd881fc8fdc758830673e284d79e5b6c22f1810b1ecd22ecb",
+    "analysis_period": "1979-2025",
+    "n_years": 47,
+    "n_members": 200,
+    "member_columns": [
+      "Realization 1",
+      "Realization 200"
+    ]
+  },
+  "ensemble_member_ols_slope_distribution_c_per_decade": {
+    "mean": 0.2072270638,
+    "sample_standard_deviation": 0.0029784063,
+    "minimum": 0.1999389609,
+    "p2_5": 0.2012860074,
+    "p5": 0.2015532373,
+    "median": 0.2072944878,
+    "p95": 0.212389336,
+    "p97_5": 0.2129688229,
+    "maximum": 0.2142450097,
+    "all_positive": true,
+    "positive_member_count": 200,
+    "quantile_method": "linear interpolation (Type 7)"
+  },
+  "ensemble_mean_series": {
+    "ols_slope_c_per_decade": 0.2072270638,
+    "mean_of_member_slopes_c_per_decade": 0.2072270638,
+    "hac_bartlett_lag_sensitivity": {
+      "1": {
+        "standard_error_c_per_decade": 0.0148691744,
+        "normal_approx_95_interval_c_per_decade": [
+          0.178083482,
+          0.2363706456
+        ]
+      },
+      "2": {
+        "standard_error_c_per_decade": 0.0152405999,
+        "normal_approx_95_interval_c_per_decade": [
+          0.1773554881,
+          0.2370986396
+        ]
+      },
+      "3": {
+        "standard_error_c_per_decade": 0.0151504172,
+        "normal_approx_95_interval_c_per_decade": [
+          0.1775322462,
+          0.2369218815
+        ]
+      },
+      "4": {
+        "standard_error_c_per_decade": 0.0150556674,
+        "normal_approx_95_interval_c_per_decade": [
+          0.1777179557,
+          0.236736172
+        ]
+      },
+      "5": {
+        "standard_error_c_per_decade": 0.0146890903,
+        "normal_approx_95_interval_c_per_decade": [
+          0.1784364468,
+          0.2360176808
+        ]
+      },
+      "6": {
+        "standard_error_c_per_decade": 0.0141868144,
+        "normal_approx_95_interval_c_per_decade": [
+          0.1794209075,
+          0.2350332202
+        ]
+      }
+    },
+    "hac_note": "Conditional residual-based uncertainty; not a replacement for member-level trend distribution."
+  },
+  "coverage_metadata": {
+    "fraction_of_area_represented_mean_1979_2025": 0.9945713019,
+    "fraction_of_area_represented_2025": 0.99496967,
+    "coverage_uncertainty_1sigma_2025": 0.004196998,
+    "coverage_uncertainty_1sigma_range_1979_2025": [
+      0.0034241755,
+      0.0065984265
+    ],
+    "limitation": "The additional coverage-uncertainty component is reported separately and is not propagated into member slope percentiles."
+  },
+  "summary_series_comparison": {
+    "summary_series_ols_slope_c_per_decade": 0.2072270633,
+    "member_mean_series_ols_slope_c_per_decade": 0.2072270638,
+    "slope_difference_c_per_decade": 5e-10,
+    "mean_member_mean_minus_summary_anomaly_c": 1e-9,
+    "max_absolute_annual_difference_c": 3.01e-8,
+    "note": "Rounding/processing differences are reported, not silently corrected."
+  },
+  "method_notes": [
+    "Each of the 200 annual global member series is fitted independently over the same 47 complete years, 1979-2025.",
+    "OLS slope is expressed in degrees Celsius per decade; a constant anomaly baseline shift does not alter it.",
+    "The empirical 2.5th-97.5th percentile interval describes the spread of member-specific slopes, preserving temporal covariance within each member series.",
+    "This interval is not a frequentist confidence interval for the OLS regression coefficient.",
+    "The additional coverage uncertainty is not folded into member-specific slope percentiles because its time dependence is not modeled here.",
+    "Partial 2026 data are excluded."
+  ]
+}
