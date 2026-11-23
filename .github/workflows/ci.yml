@@ -21,9 +21,17 @@ jobs:
           test -f assets/styles.css
           test -f data/research.json
           test -f research/TEMPLATE.md
-      - name: Validate research JSON
-        run: python -m json.tool data/research.json > /dev/null
+          test -f scripts/validate_research.py
+          test -f scripts/short_sequence_bias_simulation.py
+      - name: Validate research index
+        run: python scripts/validate_research.py
+      - name: Run finite-sample simulation smoke test
+        run: python scripts/short_sequence_bias_simulation.py --trials 2000
       - name: Check HTML document basics
         run: |
           grep -q '<html lang="ka">' index.html
           grep -q '<title>NOEMA' index.html
+      - name: Ensure drafts are excluded from Pages build
+        run: |
+          grep -q 'research/published' .github/workflows/deploy.yml
+          ! grep -q 'research/drafts' .github/workflows/deploy.yml
