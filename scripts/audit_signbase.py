@@ -212,7 +212,7 @@ def build_audit(artifacts_path: Path, dictionary_path: Path) -> dict[str, Any]:
             "objects_with_at_least_one_sign": nonempty_sequences - zero_sign_sequences,
             "dictionary_sign_types": len(sign_chars),
             "dictionary_annotation_types": len(annotation_chars),
-            "coded_codepoints_total": total_sign_tokens + total_annotation_tokens,
+            "coded_codepoints_total": total_sign_tokens + total_annotation_tokens + total_unknown_tokens,
             "recognized_sign_tokens": total_sign_tokens,
             "annotation_tokens": total_annotation_tokens,
             "annotation_share_percent": percentage(
