@@ -5,6 +5,7 @@ import unittest
 from pathlib import Path
 from scripts.analyze_hadcrut_ensemble import (
     END_YEAR, EXPECTED_MEMBERS, START_YEAR, analyze,
+    coverage_slope_rms_upper_bound_c_per_decade,
     newey_west_slope_se_c_per_decade, ols_slope_c_per_decade,
     quantile, read_member_csv,
 )
@@ -63,6 +64,53 @@ class HadCRUTEnsembleTests(unittest.TestCase):
         values = [.02 * (year - 1979) + ((year % 4) - 1.5) * .003 for year in years]
         for lag in range(1, 7):
             self.assertGreater(newey_west_slope_se_c_per_decade(years, values, lag), 0.)
+
+    def test_coverage_trend_error_rms_upper_bound(self):
+        years = list(range(START_YEAR, END_YEAR + 1))
+        sigmas = [.005] * len(years)
+        xbar = sum(years) / len(years)
+        sxx = sum((year - xbar) ** 2 for year in years)
+        expected = sum(abs(10.0 * (year - xbar) / sxx) * .005 for year in years)
+        self.assertAlmostEqual(
+            coverage_slope_rms_upper_bound_c_per_decade(years, sigmas),
+            expected,
+            places=14,
+        )
+
+    def test_summary_interval_recovers_published_coverage_sigma(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            member_path = self.make_fixture(root)
+            summary_path = root / "summary.csv"
+            fields = [
+                "Time", "Anomaly (deg C)",
+                "Lower confidence limit (2.5%)",
+                "Upper confidence limit (97.5%)",
+            ]
+            with member_path.open("r", encoding="utf-8", newline="") as handle:
+                rows = list(csv.DictReader(handle))
+            with summary_path.open("w", encoding="utf-8", newline="") as handle:
+                writer = csv.DictWriter(handle, fieldnames=fields)
+                writer.writeheader()
+                for row in rows:
+                    values = [float(row[f"Realization {i}"]) for i in range(1, EXPECTED_MEMBERS + 1)]
+                    mean = sum(values) / len(values)
+                    ensemble_sigma = __import__("statistics").stdev(values)
+                    total_sigma = (ensemble_sigma ** 2 + .005 ** 2) ** .5
+                    writer.writerow({
+                        "Time": row["Time"],
+                        "Anomaly (deg C)": mean,
+                        "Lower confidence limit (2.5%)": mean - 1.96 * total_sigma,
+                        "Upper confidence limit (97.5%)": mean + 1.96 * total_sigma,
+                    })
+            result = analyze(member_path, summary_path)
+        check = result["summary_series_comparison"]["coverage_uncertainty_internal_consistency"]
+        self.assertLess(check["maximum_absolute_difference_c"], 1e-12)
+        self.assertEqual(check["n_years"], 47)
+        self.assertGreater(
+            result["coverage_metadata"]["coverage_trend_error_rms_upper_bound_c_per_decade"],
+            0.0,
+        )
 
     def test_missing_year_is_rejected(self):
         with tempfile.TemporaryDirectory() as tmp:
