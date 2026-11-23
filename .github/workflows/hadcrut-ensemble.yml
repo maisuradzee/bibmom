@@ -40,15 +40,15 @@ jobs:
         run: |
           set -euo pipefail
           BASE="https://hadleyserver.metoffice.gov.uk/hadcrut5/data/HadCRUT.5.2.0.0/analysis"
-          curl --fail --location --retry 3 --retry-delay 2 \\
-            "$BASE/HadCRUT.5.2.0.0.analysis.anomalies.ensemble_mean.nc" \\
+          curl --fail --location --retry 3 --retry-delay 2 \
+            "$BASE/HadCRUT.5.2.0.0.analysis.anomalies.ensemble_mean.nc" \
             --output "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.anomalies.ensemble_mean.nc"
-          curl --fail --location --retry 3 --retry-delay 2 \\
-            "$BASE/HadCRUT.5.2.0.0.analysis.weights.nc" \\
+          curl --fail --location --retry 3 --retry-delay 2 \
+            "$BASE/HadCRUT.5.2.0.0.analysis.weights.nc" \
             --output "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.weights.nc"
           test -s "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.anomalies.ensemble_mean.nc"
           test -s "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.weights.nc"
-          sha256sum "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.anomalies.ensemble_mean.nc" \\
+          sha256sum "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.anomalies.ensemble_mean.nc" \
             "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.weights.nc"
 
       - name: Analyze 200 member-specific trends
