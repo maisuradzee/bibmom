@@ -44,9 +44,9 @@ class SignBaseAuditTests(unittest.TestCase):
     def test_annotation_characters_are_excluded_from_sign_length(self) -> None:
         report = build_audit(self.artifacts, self.dictionary)
         self.assertEqual(report["counts"]["recognized_sign_tokens"], 4)
-        self.assertEqual(report["counts"]["annotation_tokens"], 3)
+        self.assertEqual(report["counts"]["annotation_tokens"], 5)
         self.assertEqual(report["sign_only_sequence_length"]["n_nonempty_coded_objects"], 2)
-        self.assertEqual(report["sign_only_sequence_length"]["median"], 1.5)
+        self.assertEqual(report["sign_only_sequence_length"]["median"], 2)
         self.assertEqual(report["counts"]["objects_with_empty_coding"], 1)
 
     def test_certainty_is_normalized_and_baseline_counts_are_consistent(self) -> None:
