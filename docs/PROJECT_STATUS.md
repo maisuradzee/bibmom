@@ -11,26 +11,27 @@
 | GitHub საცავი და კოდის შენახვა | მზადაა | მთავარი branch და ფაილები ხელმისაწვდომია |
 | კვლევის სტანდარტი და შაბლონები | მზადაა | `docs/RESEARCH_STANDARD.md`, `research/TEMPLATE.md` |
 | მონაცემთა აუდიტი NOEMA-002 | შესრულებულია | ფიქსირებული SignBase snapshot და JSON შედეგი |
-| NOEMA-003 ტემპერატურის ტენდენციის ანალიზი | დრაფტი / გამეორებადი | NASA GISTEMP v4, HadCRUT5 5.2.0.0 და NOAA v6.1.0 snapshot-ები; checksum-ები, ორი გამეორებადი ანალიზის სკრიპტი და შედეგების JSON |
-| Python ტესტები და მონაცემთა რეპროდუქცია | წარმატებულია | [CI run 45135390456](https://github.com/maisuradzee/bibmom/actions/runs/45135390456), 31 ტესტი წარმატებულია |
+| NOEMA-003 ტემპერატურის ტენდენციის ანალიზი | დრაფტი / გამეორებადი | სამი ფიქსირებული პროდუქტის snapshot; checksum-ები; OLS/Theil–Sen; HAC ლაგების 1–6 მგრძნობელობა; HadCRUT5 წლიური 95%-იანი საზღვრების აღწერითი ანალიზი |
+| Python ტესტები და მონაცემთა რეპროდუქცია | წარმატებულია | [CI run 45137630834](https://github.com/maisuradzee/bibmom/actions/runs/45137630834), 34 ტესტი წარმატებულია |
 | სტატიკური საიტის build | წარმატებულია | CI და Pages build job |
-| GitHub Pages deployment | წარმატებულია | [უახლესი deployment — run 45135390616](https://github.com/maisuradzee/bibmom/actions/runs/45135390616) |
+| GitHub Pages deployment | წარმატებულია | [უახლესი deployment — run 45137630882](https://github.com/maisuradzee/bibmom/actions/runs/45137630882) |
 | საჯარო კვლევების ინდექსი | ცარიელია განზრახ | კვლევები ჯერ `draft/review` სტატუსშია |
 | ვიზუალური AI ექსპერიმენტი | დაწყებამდეა | SignBase-ის გამოსახულებებზე გამოყენების ნებართვა მოსაპოვებელია |
 | Supabase | გადადებულია | ამ ეტაპზე სტატიკურ JSON ინდექსს ვიყენებთ |
 
 ## ბოლო ტექნიკური შემოწმება
 
-NOEMA-003-ის cross-dataset განახლება აიტვირთა commit-ზე `fbf0f528096751f01b380f9ab99bc015b8836db5` და სრულად შემოწმდა:
+NOEMA-003-ის cross-dataset და HAC robustness განახლება დადასტურდა commit-ზე `653820747cc42f1074306cb7f5081bc956cc3116`:
 
-- [CI run 45135390456](https://github.com/maisuradzee/bibmom/actions/runs/45135390456) — წარმატებული; **31 Python unit test** გაიარა.
-- [Pages deployment run 45135390616](https://github.com/maisuradzee/bibmom/actions/runs/45135390616) — build და deploy წარმატებულია.
-- NOAA-ს, NASA GISTEMP v4-ისა და HadCRUT5 5.2.0.0-ის 1979–2025 სერიები მოიცავს ერთსა და იმავე 47 სრულ წელს.
-- სამივე snapshot-ის SHA-256 ზუსტად ემთხვევა დაფიქსირებულ წყაროს manifest-ს.
-- OLS და Theil–Sen ყველა პროდუქტზე იძლევა დადებით დახრილობას; cross-dataset JSON ხელახლა გამოითვალა და შინაარსობრივად დაემთხვა შენახულ შედეგს.
-- გადაბაზისებული სერიების წყვილური კორელაცია 0.99727–0.99840-ია; OLS დახრილობების მაქსიმალურ-მინიმალური სხვაობა 4.41%-ია.
-- დრაფტების ვალიდაციამ დაადასტურა 4 draft ფაილი; საჯარო ინდექსი კვლავ შეიცავს 0 გამოქვეყნებულ კვლევას.
-- საიტის build წარმატებულია; NOEMA-003 დრაფტი საჯარო Pages არტეფაქტში არ შედის.
+- [CI run 45137630834](https://github.com/maisuradzee/bibmom/actions/runs/45137630834) — წარმატებული; **34 Python unit test** გაიარა.
+- [Pages deployment run 45137630882](https://github.com/maisuradzee/bibmom/actions/runs/45137630882) — build და deploy წარმატებულია.
+- სამი წყაროს snapshot-ის SHA-256 ისევ ემთხვევა ფიქსირებულ manifest-ს.
+- 1979–2025 ფანჯარაში OLS დახრილობები: NASA GISTEMP 0.20556, HadCRUT5 0.20723, NOAA GlobalTemp 0.19848 °C/ათწლეულში.
+- სამივე პროდუქტის OLS დახრილობა დადებითია; მაქსიმალურ-მინიმალური განსხვავება დაახლოებით 4.41%-ია.
+- HAC Bartlett lag 1–6 sensitivity ყველა პროდუქტზე ხელახლა გამოითვალა; ყველა ლაგზე მიახლოებითი 95%-იანი ქვედა ზღვარი დადებითია.
+- HadCRUT5-ის 47 წლიური 2.5%–97.5% ინტერვალის ნახევარსიგანე შეჯამებულია, მაგრამ ეს არ არის 47-წლიანი slope-ის confidence interval. 200 ensemble წევრის წლიური დროითი სერიები/კოვარიაცია ჯერ არ არის დაფიქსირებული, ამიტომ trend-level ensemble uncertainty propagation დარჩენილია.
+- CI ადასტურებს ორივე გამოთვლითი სკრიპტის შედეგების JSON-თან შინაარსობრივ თანხვედრას.
+- დრაფტების ვალიდაციამ დაადასტურა 4 draft ფაილი; საჯარო ინდექსი კვლავ შეიცავს 0 გამოქვეყნებულ კვლევას. საიტის build წარმატებულია და დრაფტები Pages არტეფაქტში არ შედის.
 
 Pages deployment workflow ავტომატურად იშვება `main` branch-ზე push-ისას.
 
@@ -41,7 +42,7 @@ Pages deployment workflow ავტომატურად იშვება `
 - [NOEMA-2026-003](../research/drafts/2026-11-23-noaa-globaltemp-trend-sensitivity.md) — NOAA GlobalTemp v6.1.0 მონაცემში დათბობის ხაზოვანი ტენდენციის საწყისი წლის მგრძნობელობა.
 - [NOEMA-002 blind coding protocol](../research/protocols/NOEMA-002-blind-coding-protocol.md) — მომავალი ექსპერტულ-ალგორითმული შედარების პროტოკოლი.
 
-ყველა კვლევა ამ ეტაპზე დრაფტად რჩება. საჯარო Pages ინდექსში მათი დამატება არ მომხდარა. NOEMA-003-ის cross-dataset შედარება შესრულებულია; დამოუკიდებელი სარედაქციო რეცენზია და სრული uncertainty propagation ჯერ დარჩენილია.
+ყველა კვლევა ამ ეტაპზე დრაფტად რჩება. საჯარო Pages ინდექსში მათი დამატება არ მომხდარა. NOEMA-003-ის cross-dataset შედარება და HAC lag robustness შესრულებულია; HadCRUT5-ის სრული ensemble-based trend uncertainty propagation და დამოუკიდებელი სარედაქციო რეცენზია ჯერ დარჩენილია.
 
 ## ავტომატიზაცია
 
