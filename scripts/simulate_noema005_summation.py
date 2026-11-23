@@ -362,7 +362,6 @@ def build_binary32_experiments() -> dict:
             "methods": list(BINARY32_METHODS),
         },
         "cases": [cancellation, half_ulp],
-        "binary32_experiments": build_binary32_experiments(),
         "interpretation_guardrail": (
             "Constructed binary32 stress tests only; outcomes do not estimate real-workload "
             "error rates or establish a universal method ranking."
@@ -525,6 +524,7 @@ def build_results(
             "methods": list(METHODS),
         },
         "cases": [cancellation, half_ulp],
+        "binary32_experiments": build_binary32_experiments(),
         "interpretation_guardrail": (
             "Constructed examples demonstrate sensitivity and algorithm behaviour; "
             "they do not estimate error rates for arbitrary application workloads. "
