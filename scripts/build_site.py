@@ -182,11 +182,15 @@ def build_site(root: Path, output: Path) -> dict[str, int]:
     (output / "data").mkdir(parents=True)
     (output / "research" / "articles").mkdir(parents=True)
 
+    source_index = json.loads((root / "data" / "research.json").read_text(encoding="utf-8"))
     public_index = {
         "project": "NOEMA",
         "schema_version": 1,
+        "updated_at": source_index.get("updated_at"),
         "research": items,
     }
+    if public_index["updated_at"] is None:
+        public_index.pop("updated_at")
     (output / "data" / "research.json").write_text(
         json.dumps(public_index, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
