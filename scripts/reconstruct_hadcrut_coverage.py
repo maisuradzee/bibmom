@@ -480,8 +480,9 @@ def reconstruct(
             "units": "K; converted to monthly anomalies relative to 1979-1990",
             "target_grid": "HadCRUT5 5-degree latitude-longitude grid",
             "spatial_weighting": (
-                "ERA5 grid-point longitude-bin averages with cos(latitude) "
-                "area weighting within each 5-degree cell"
+                "Conservative source-cell overlap: longitude overlap in degrees and "
+                "latitude overlap in sin(latitude), with source cell bounds halfway "
+                "between ERA5 grid centres and target HadCRUT5 bounds at 5-degree edges."
             ),
         },
         "era5_sources": era5_manifest,
