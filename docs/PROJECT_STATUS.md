@@ -11,6 +11,7 @@
 | GitHub საცავი და კოდის შენახვა | მზადაა | მთავარი branch და ფაილები ხელმისაწვდომია |
 | კვლევის სტანდარტი და შაბლონები | მზადაა | `docs/RESEARCH_STANDARD.md`, `research/TEMPLATE.md` |
 | მონაცემთა აუდიტი NOEMA-002 | შესრულებულია | ფიქსირებული SignBase snapshot და JSON შედეგი |
+| NOEMA-003 ტემპერატურის ტენდენციის ანალიზი | დრაფტი / გამეორებადი | NOAA v6.1.0 snapshot, სკრიპტი, JSON შედეგი და 7 unit test |
 | Python ტესტები და მონაცემთა რეპროდუქცია | წარმატებულია | [უახლესი CI run 45128722992](https://github.com/maisuradzee/bibmom/actions/runs/45128722992), commit `fe35a936b171f293046acbafcd96a8a584ba59c1` |
 | სტატიკური საიტის build | წარმატებულია | CI და Pages build job |
 | GitHub Pages deployment | წარმატებულია | [პირველი წარმატებული deployment — run 45131663024](https://github.com/maisuradzee/bibmom/actions/runs/45131663024) |
@@ -36,9 +37,10 @@ CI გაშვება [45128722992](https://github.com/maisuradzee/bibmom/act
 
 - [NOEMA-2026-001](../research/drafts/2026-11-23-paleolithic-sign-systems.md) — პალეოლითური ნიშნების პირველადი კვლევა, მეთოდოლოგიური გადახედვით.
 - [NOEMA-2026-002](../research/drafts/2026-11-23-signbase-coding-audit.md) — SignBase 2.0-ის ტექსტური კოდირების აუდიტი.
+- [NOEMA-2026-003](../research/drafts/2026-11-23-noaa-globaltemp-trend-sensitivity.md) — NOAA GlobalTemp v6.1.0 მონაცემში დათბობის ხაზოვანი ტენდენციის საწყისი წლის მგრძნობელობა.
 - [NOEMA-002 blind coding protocol](../research/protocols/NOEMA-002-blind-coding-protocol.md) — მომავალი ექსპერტულ-ალგორითმული შედარების პროტოკოლი.
 
-ყველა კვლევა ამ ეტაპზე დრაფტად რჩება. საჯარო Pages ინდექსში მათი დამატება არ მომხდარა.
+ყველა კვლევა ამ ეტაპზე დრაფტად რჩება. საჯარო Pages ინდექსში მათი დამატება არ მომხდარა. NOEMA-003-ის მონაცემთა ამონარიდი და გამოთვლები ვერსიაკონტროლირებადია; დამოუკიდებელი cross-dataset შემოწმება და გარე რეცენზია ჯერ არ ჩატარებულა.
 
 ## ავტომატიზაცია
 

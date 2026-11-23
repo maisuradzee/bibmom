@@ -30,6 +30,11 @@ jobs:
           test -f scripts/build_site.py
           test -f scripts/short_sequence_bias_simulation.py
           test -f scripts/audit_signbase.py
+          test -f scripts/analyze_noema003.py
+          test -f data/noema-003/noaa-globaltemp-v6.1.0-global-annual-202606.csv
+          test -f data/noema-003/dataset-metadata-2026-11-23.json
+          test -f data/noema-003/trend-sensitivity-results-2026-11-23.json
+          test -f tests/test_analyze_noema003.py
           test -f docs/RESEARCH_STANDARD.md
           test -f research/protocols/NOEMA-002-blind-coding-protocol.md
       - name: Validate draft completeness
@@ -38,6 +43,10 @@ jobs:
         run: python scripts/validate_research.py
       - name: Run Python unit tests
         run: python -m unittest discover -s tests -v
+      - name: Reproduce NOEMA-003 trend analysis and compare frozen results
+        run: |
+          python scripts/analyze_noema003.py --output "$RUNNER_TEMP/noema003-results.json"
+          diff -u data/noema-003/trend-sensitivity-results-2026-11-23.json "$RUNNER_TEMP/noema003-results.json"
       - name: Run finite-sample simulation smoke test
         run: python scripts/short_sequence_bias_simulation.py --trials 2000
       - name: Build public site and verify publication boundary
