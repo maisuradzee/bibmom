@@ -462,7 +462,7 @@ def main() -> None:
         ),
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    args.output.write_text(json.dumps(result, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     print(f"Wrote {args.output}")
     for gap, condition in primary.items():
         cluster = condition["clustered"]["mean_peak_sd_mps"]
