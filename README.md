@@ -15,7 +15,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - `index.html` — მთავარი გვერდი.
 - `assets/styles.css` და `assets/articles.css` — მთავარი გვერდისა და კვლევითი სტატიების ვიზუალური სტილები.
 - `data/research.json` — საჯარო კვლევების ინდექსი.
-- `data/noema-003/` — NOEMA-003-ის ფიქსირებული NOAA მონაცემთა ამონარიდი, provenance metadata და გამეორებადი შედეგები.
+- `data/noema-003/` — NOEMA-003-ის NOAA өгөгдлийн ამონარიდი, NASA/HadCRUT5/NOAA snapshot-ები, provenance metadata და გამეორებადი შედეგები.
 - `research/drafts/` — სამუშაო ჩანაწერები; Pages არტეფაქტში არ შედის, თუმცა საჯარო GitHub საცავში იკითხება.
 - `research/published/` — მხოლოდ შემოწმებული და გამოსაქვეყნებლად დამტკიცებული კვლევების გვერდები.
 - `research/TEMPLATE.md` — კვლევის დოკუმენტის შაბლონი.
@@ -29,10 +29,10 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 
 - [NOEMA-2026-001](research/drafts/2026-11-23-paleolithic-sign-systems.md) — პალეოლითური ნიშნები; მეთოდოლოგიური გადახედვა: [დამატება A](research/drafts/2026-11-23-methodological-reassessment.md).
 - [NOEMA-2026-002](research/drafts/2026-11-23-signbase-coding-audit.md) — SignBase 2.0-ის ტექსტური კოდირების აუდიტი და საბაზისო heuristic-ის ტესტი.
-- [NOEMA-2026-003](research/drafts/2026-11-23-noaa-globaltemp-trend-sensitivity.md) — NOAA GlobalTemp v6.1.0-ზე გლობალური ტემპერატურის ტენდენციის საწყისი წლის მგრძნობელობის კვლევა.
+- [NOEMA-2026-003](research/drafts/2026-11-23-noaa-globaltemp-trend-sensitivity.md) — NOAA GlobalTemp-ის ტენდენციის საწყისი წლის მგრძნობელობა და NASA GISTEMP/HadCRUT5-თან cross-dataset გამეორება.
 - აუდიტის გამეორებადი სკრიპტი: `scripts/audit_signbase.py`; შედეგები: `data/audits/signbase-v2-audit-2026-11-23.json`.
 - მოკლე მიმდევრობების ენტროპიის სიმულაცია: `scripts/short_sequence_bias_simulation.py`.
-- NOEMA-003-ის ანალიზი: `scripts/analyze_noema003.py`; მონაცემთა snapshot, metadata და შედეგები: `data/noema-003/`.
+- NOEMA-003-ის NOAA ანალიზი: `scripts/analyze_noema003.py`; cross-dataset შედარება: `scripts/compare_noema003_datasets.py`; მონაცემთა snapshot-ები, metadata და შედეგები: `data/noema-003/`.
 
 ## პროექტის მდგომარეობა
 

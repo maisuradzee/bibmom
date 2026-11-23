@@ -1,0 +1,84 @@
+{
+  "study_id": "NOEMA-2026-003",
+  "addendum": "Cross-dataset replication",
+  "snapshot": {
+    "archive_repository": "climate-resource/bookshelf-global-surface-temperature",
+    "archive_commit": "74218762d2d1dda92047a234360fa1d870d0857f",
+    "retrieved": "2026-10-19T06:17:45Z",
+    "analysis_period": "1979-2025",
+    "common_reference_period": "1991-2020"
+  },
+  "datasets": {
+    "NASA_GISTEMP": {
+      "n": 47,
+      "baseline_mean_1991_2020": 0.6113333333,
+      "ols_slope_c_per_decade": 0.2055619796,
+      "theil_sen_slope_c_per_decade": 0.2029411765,
+      "r_squared": 0.8764090829,
+      "rebased_anomaly_2025_c": 0.5686666667
+    },
+    "HadCRUT5_5_2_0_0": {
+      "n": 47,
+      "baseline_mean_1991_2020": 0.5481930703,
+      "ols_slope_c_per_decade": 0.2072270633,
+      "theil_sen_slope_c_per_decade": 0.2053253333,
+      "r_squared": 0.8827149992,
+      "rebased_anomaly_2025_c": 0.5250236297
+    },
+    "NOAAGlobalTemp_6_1_0": {
+      "n": 47,
+      "baseline_mean_1991_2020": 4e-7,
+      "ols_slope_c_per_decade": 0.1984826179,
+      "theil_sen_slope_c_per_decade": 0.1963003448,
+      "r_squared": 0.877841184,
+      "rebased_anomaly_2025_c": 0.5092056
+    }
+  },
+  "cross_dataset_trend": {
+    "minimum_ols_slope_c_per_decade": 0.1984826179,
+    "maximum_ols_slope_c_per_decade": 0.2072270633,
+    "spread_c_per_decade": 0.0087444454,
+    "max_to_min_percent_difference": 4.4056479567,
+    "all_slopes_positive": true
+  },
+  "pairwise_rebased_series_comparison": {
+    "NASA_GISTEMP_vs_HadCRUT5_5_2_0_0": {
+      "correlation": 0.9981109451,
+      "rmse": 0.0197357512,
+      "mean_difference": 0.0071434284,
+      "max_absolute_difference": 0.047212787,
+      "anomaly_2025": {
+        "NASA_GISTEMP": 0.5686666667,
+        "HadCRUT5_5_2_0_0": 0.5250236297
+      }
+    },
+    "NASA_GISTEMP_vs_NOAAGlobalTemp_6_1_0": {
+      "correlation": 0.9984043453,
+      "rmse": 0.0196862127,
+      "mean_difference": -0.0020769546,
+      "max_absolute_difference": 0.0594610667,
+      "anomaly_2025": {
+        "NASA_GISTEMP": 0.5686666667,
+        "NOAAGlobalTemp_6_1_0": 0.5092056
+      }
+    },
+    "HadCRUT5_5_2_0_0_vs_NOAAGlobalTemp_6_1_0": {
+      "correlation": 0.9972733402,
+      "rmse": 0.0263405262,
+      "mean_difference": -0.009220383,
+      "max_absolute_difference": 0.0615222403,
+      "anomaly_2025": {
+        "HadCRUT5_5_2_0_0": 0.5250236297,
+        "NOAAGlobalTemp_6_1_0": 0.5092056
+      }
+    }
+  },
+  "method_notes": [
+    "Each product is rebased by subtracting its own 1991-2020 arithmetic mean; slopes are invariant to this constant shift.",
+    "NASA GISTEMP annual value is the J-D column of the global land-ocean table.",
+    "HadCRUT5 value is the published global (NH+SH)/2 annual analysis summary-series anomaly, ensemble mean.",
+    "NOAAGlobalTemp value is the second column of the annual global 90S-90N series.",
+    "Partial 2026 values are excluded; all three series are compared over the same 47 calendar years.",
+    "Products have different input datasets and methods, and may share some underlying observations; product comparison is not a statistical independence claim."
+  ]
+}

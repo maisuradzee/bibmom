@@ -31,6 +31,12 @@ jobs:
           test -f scripts/short_sequence_bias_simulation.py
           test -f scripts/audit_signbase.py
           test -f scripts/analyze_noema003.py
+          test -f scripts/compare_noema003_datasets.py
+          test -f data/noema-003/cross-dataset-results-2026-11-23.json
+          test -f data/noema-003/snapshots/2026.10/sources.json
+          test -f data/noema-003/snapshots/2026.10/gistemp.csv
+          test -f data/noema-003/snapshots/2026.10/hadcrut5_annual.csv
+          test -f data/noema-003/snapshots/2026.10/noaaglobaltemp_annual.asc
           test -f data/noema-003/noaa-globaltemp-v6.1.0-global-annual-202606.csv
           test -f data/noema-003/dataset-metadata-2026-11-23.json
           test -f data/noema-003/trend-sensitivity-results-2026-11-23.json
@@ -56,6 +62,20 @@ jobs:
           if actual != expected:
               raise SystemExit("NOEMA-003 generated results differ from frozen results")
           print("NOEMA-003 frozen results match")
+          PY
+      - name: Reproduce NOEMA-003 cross-dataset comparison and check frozen results
+        run: |
+          python scripts/compare_noema003_datasets.py --output "$RUNNER_TEMP/noema003-cross-results.json"
+          python - "$RUNNER_TEMP/noema003-cross-results.json" <<'PY'
+          import json
+          from pathlib import Path
+          import sys
+
+          expected = json.loads(Path("data/noema-003/cross-dataset-results-2026-11-23.json").read_text(encoding="utf-8"))
+          actual = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+          if actual != expected:
+              raise SystemExit("NOEMA-003 cross-dataset results differ from the frozen result")
+          print("NOEMA-003 cross-dataset frozen results match")
           PY
       - name: Run finite-sample simulation smoke test
         run: python scripts/short_sequence_bias_simulation.py --trials 2000
