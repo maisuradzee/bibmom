@@ -1,6 +1,6 @@
 # NOEMA — მიმდინარე პროექტის მდგომარეობა
 
-- **განახლდა:** 2026-11-23
+- **განახლდა:** 2026-11-23 (უახლესი CI გადამოწმება)
 - **საცავი:** [maisuradzee/bibmom](https://github.com/maisuradzee/bibmom)
 - **ძირითადი branch:** `main`
 
@@ -11,7 +11,7 @@
 | GitHub საცავი და კოდის შენახვა | მზადაა | მთავარი branch და ფაილები ხელმისაწვდომია |
 | კვლევის სტანდარტი და შაბლონები | მზადაა | `docs/RESEARCH_STANDARD.md`, `research/TEMPLATE.md` |
 | მონაცემთა აუდიტი NOEMA-002 | შესრულებულია | ფიქსირებული SignBase snapshot და JSON შედეგი |
-| Python ტესტები და მონაცემთა რეპროდუქცია | წარმატებულია | [CI run 45128599708](https://github.com/maisuradzee/bibmom/actions/runs/45128599708) |
+| Python ტესტები და მონაცემთა რეპროდუქცია | წარმატებულია | [უახლესი CI run 45128722992](https://github.com/maisuradzee/bibmom/actions/runs/45128722992), commit `fe35a936b171f293046acbafcd96a8a584ba59c1` |
 | სტატიკური საიტის build | წარმატებულია | CI და Pages build job |
 | GitHub Pages deployment | დაბლოკილია | Pages site-ის შექმნა/ჩართვა ჯერ არ მომხდარა; Configure Pages აბრუნებს 404-ს |
 | საჯარო კვლევების ინდექსი | ცარიელია განზრახ | კვლევები ჯერ `draft/review` სტატუსშია |
@@ -20,7 +20,7 @@
 
 ## ბოლო ტექნიკური შემოწმება
 
-ბოლო CI გაშვება წარმატებით დასრულდა commit-ზე `ce3f36280f00cf7f3637ab7fe5c40a7e09c0c087`. მასში წარმატებით გაიარა:
+უახლესი CI გაშვება [45128722992](https://github.com/maisuradzee/bibmom/actions/runs/45128722992) წარმატებით დასრულდა `main` branch-ის მიმდინარე HEAD-ზე (`fe35a936b171f293046acbafcd96a8a584ba59c1`, 2026-11-23 07:06:34 UTC). ყველა ქვემოთ ჩამოთვლილი ნაბიჯი წარმატებულია:
 
 - აუცილებელი ფაილების შემოწმება;
 - დრაფტების სარედაქციო მინიმალური ვალიდაცია;
