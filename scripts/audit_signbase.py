@@ -45,7 +45,8 @@ def nearest_rank(values: list[int], quantile: float) -> int | None:
 def percentage(numerator: int, denominator: int) -> float | None:
     if denominator == 0:
         return None
-    return round(100.0 * numerator / denominator, 1)
+    rounded = round(100.0 * numerator / denominator, 1)
+    return int(rounded) if rounded.is_integer() else rounded
 
 
 def build_audit(artifacts_path: Path, dictionary_path: Path) -> dict[str, Any]:
@@ -109,6 +110,8 @@ def build_audit(artifacts_path: Path, dictionary_path: Path) -> dict[str, Any]:
         site = (row.get("site_name") or "unknown").strip() or "unknown"
         certainty_counts[certainty] += 1
         site_counts[site]["objects"] += 1
+        if certainty in {"certain", "very certain", "uncertain"}:
+            site_counts[site]["labelled_objects"] += 1
         if certainty == "uncertain":
             site_counts[site]["uncertain"] += 1
 
@@ -167,8 +170,11 @@ def build_audit(artifacts_path: Path, dictionary_path: Path) -> dict[str, Any]:
     for site, counts in sorted(site_counts.items()):
         site_summary[site] = {
             "objects": counts["objects"],
+            "labelled_objects": counts["labelled_objects"],
             "uncertain": counts["uncertain"],
-            "uncertain_rate_percent": percentage(counts["uncertain"], counts["objects"]),
+            "uncertain_rate_percent": percentage(
+                counts["uncertain"], counts["labelled_objects"]
+            ),
         }
 
     top_signs = [
