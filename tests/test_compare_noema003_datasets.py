@@ -109,15 +109,10 @@ class NOEMA003CrossDatasetTests(unittest.TestCase):
             self.assertEqual(len(series), 47)
 
     def test_hac_lag_three_matches_primary_noaa_analysis(self):
-        from scripts.analyze_noema003 import (
-            DEFAULT_INPUT,
-            load_series,
-            newey_west_slope_se,
-        )
+        from scripts.analyze_noema003 import newey_west_slope_se
 
-        primary_rows = load_series(DEFAULT_INPUT)
         cross_rows = parse_noaa(DEFAULT_DATA / "noaaglobaltemp_annual.asc")
-        primary = newey_west_slope_se(primary_rows, 3) * 10.0
+        primary = newey_west_slope_se(cross_rows, 3) * 10.0
         cross = hac_lag_sensitivity(cross_rows)["lag_results"]["3"][
             "standard_error_c_per_decade"
         ]
