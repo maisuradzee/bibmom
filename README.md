@@ -21,6 +21,11 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - `.github/workflows/ci.yml` — საბაზისო შემოწმებები.
 - `.github/workflows/deploy.yml` — საჯარო ფაილების შერჩევა და Pages deployment.
 
+## მიმდინარე კვლევა
+
+- [NOEMA-2026-001](research/drafts/2026-11-23-paleolithic-sign-systems.md) — პალეოლითური ნიშნები; პირველადი ანალიზის მეთოდოლოგიური გადახედვა: [დამატება A](research/drafts/2026-11-23-methodological-reassessment.md).
+- მოკლე მიმდევრობების ენტროპიის სიმულაცია: `scripts/short_sequence_bias_simulation.py`.
+
 ## კვლევის სტატუსები
 
 - `draft` — სამუშაო ვერსია.
