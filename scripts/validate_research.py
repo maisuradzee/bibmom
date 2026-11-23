@@ -7,40 +7,52 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 INDEX = ROOT / "data" / "research.json"
-PUBLISHED = ROOT / "research" / "published"
+PUBLISHED = (ROOT / "research" / "published").resolve()
+
+
+def validate_index(root: Path = ROOT) -> int:
+    root = root.resolve()
+    index_path = root / "data" / "research.json"
+    published_root = (root / "research" / "published").resolve()
+    data = json.loads(index_path.read_text(encoding="utf-8"))
+    if data.get("project") != "NOEMA":
+        raise ValueError("research.json: project must be NOEMA")
+    if data.get("schema_version") != 1:
+        raise ValueError("research.json: unsupported schema_version")
+    items = data.get("research")
+    if not isinstance(items, list):
+        raise ValueError("research.json: research must be an array")
+
+    seen_ids: set[str] = set()
+    seen_files: set[Path] = set()
+    for item in items:
+        if not isinstance(item, dict):
+            raise ValueError("research.json: every item must be an object")
+        for field in ("id", "title", "date", "category", "summary", "file", "status"):
+            if not isinstance(item.get(field), str) or not item[field].strip():
+                raise ValueError(f"research.json: missing non-empty field {field!r}")
+        if item["status"] != "published":
+            raise ValueError(f"{item['id']}: public index only accepts status=published")
+        if item["id"] in seen_ids:
+            raise ValueError(f"research.json: duplicate id {item['id']!r}")
+        seen_ids.add(item["id"])
+
+        relative = item["file"]
+        if "\\" in relative or not relative.startswith("research/published/") or not relative.endswith(".md"):
+            raise ValueError(f"{item['id']}: file must be a Markdown file inside research/published/")
+        target = (root / relative).resolve()
+        if published_root not in target.parents or not target.is_file():
+            raise ValueError(f"{item['id']}: source is missing or escapes research/published/")
+        if target in seen_files:
+            raise ValueError(f"{item['id']}: duplicate source file")
+        seen_files.add(target)
+
+    return len(items)
 
 
 def main() -> None:
-    data = json.loads(INDEX.read_text(encoding="utf-8"))
-    if data.get("project") != "NOEMA":
-        raise SystemExit("research.json: project must be NOEMA")
-    if data.get("schema_version") != 1:
-        raise SystemExit("research.json: unsupported schema_version")
-    items = data.get("research")
-    if not isinstance(items, list):
-        raise SystemExit("research.json: research must be an array")
-
-    seen: set[str] = set()
-    for item in items:
-        if not isinstance(item, dict):
-            raise SystemExit("research.json: every item must be an object")
-        for field in ("id", "title", "date", "category", "summary", "file"):
-            if not isinstance(item.get(field), str) or not item[field].strip():
-                raise SystemExit(f"research.json: missing non-empty field {field!r}")
-        if item["id"] in seen:
-            raise SystemExit(f"research.json: duplicate id {item['id']!r}")
-        seen.add(item["id"])
-        if not item["file"].startswith("research/published/"):
-            raise SystemExit(f"research item {item['id']!r} must point inside research/published/")
-        target = (ROOT / item["file"]).resolve()
-        if ROOT not in target.parents or not target.is_file():
-            raise SystemExit(f"research item {item['id']!r} references a missing or unsafe file")
-
-    # Drafts must never be linked from the public index.
-    if any("draft" in item["file"].lower() for item in items):
-        raise SystemExit("draft content must not be exposed via the public research index")
-
-    print(f"NOEMA research index OK: {len(items)} published item(s)")
+    count = validate_index()
+    print(f"NOEMA research index OK: {count} published item(s)")
 
 
 if __name__ == "__main__":
