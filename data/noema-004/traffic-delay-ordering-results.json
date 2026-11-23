@@ -18,108 +18,492 @@
   },
   "primary_outcome": "First model time at which cross-vehicle speed standard deviation exceeds the fixed operational threshold; every run is censored at the first non-positive headway.",
   "results": [
-    {"first_collision_time":198.92,"pattern":"uniform_mean","time_to_velocity_sd_threshold":162.6},
-    {"first_collision_time":175.44,"pattern":"alternating","time_to_velocity_sd_threshold":144.6},
-    {"first_collision_time":117.78,"pattern":"cluster_rotation_00","time_to_velocity_sd_threshold":71.22},
-    {"first_collision_time":126.32,"pattern":"cluster_rotation_01","time_to_velocity_sd_threshold":74.32},
-    {"first_collision_time":132.88,"pattern":"cluster_rotation_02","time_to_velocity_sd_threshold":78.5},
-    {"first_collision_time":139.2,"pattern":"cluster_rotation_03","time_to_velocity_sd_threshold":81.44},
-    {"first_collision_time":146.9,"pattern":"cluster_rotation_04","time_to_velocity_sd_threshold":84.7},
-    {"first_collision_time":152.52,"pattern":"cluster_rotation_05","time_to_velocity_sd_threshold":91.82},
-    {"first_collision_time":156.3,"pattern":"cluster_rotation_06","time_to_velocity_sd_threshold":97.06},
-    {"first_collision_time":161.3,"pattern":"cluster_rotation_07","time_to_velocity_sd_threshold":100.72},
-    {"first_collision_time":166.26,"pattern":"cluster_rotation_08","time_to_velocity_sd_threshold":105.18},
-    {"first_collision_time":171.16,"pattern":"cluster_rotation_09","time_to_velocity_sd_threshold":108.18},
-    {"first_collision_time":174.36,"pattern":"cluster_rotation_10","time_to_velocity_sd_threshold":122.4},
-    {"first_collision_time":178.8,"pattern":"cluster_rotation_11","time_to_velocity_sd_threshold":161.9},
-    {"first_collision_time":183.42,"pattern":"cluster_rotation_12","time_to_velocity_sd_threshold":165.84},
-    {"first_collision_time":186.14,"pattern":"cluster_rotation_13","time_to_velocity_sd_threshold":169.64},
-    {"first_collision_time":190.64,"pattern":"cluster_rotation_14","time_to_velocity_sd_threshold":173.2},
-    {"first_collision_time":193.24,"pattern":"cluster_rotation_15","time_to_velocity_sd_threshold":176.68},
-    {"first_collision_time":197.66,"pattern":"cluster_rotation_16","time_to_velocity_sd_threshold":180.02},
-    {"first_collision_time":200.18,"pattern":"cluster_rotation_17","time_to_velocity_sd_threshold":183.34},
-    {"first_collision_time":202.9,"pattern":"cluster_rotation_18","time_to_velocity_sd_threshold":186.5},
-    {"first_collision_time":207.04,"pattern":"cluster_rotation_19","time_to_velocity_sd_threshold":189.68},
-    {"first_collision_time":204.0,"pattern":"cluster_rotation_20","time_to_velocity_sd_threshold":187.32},
-    {"first_collision_time":203.06,"pattern":"cluster_rotation_21","time_to_velocity_sd_threshold":184.34},
-    {"first_collision_time":199.1,"pattern":"cluster_rotation_22","time_to_velocity_sd_threshold":138.12},
-    {"first_collision_time":193.34,"pattern":"cluster_rotation_23","time_to_velocity_sd_threshold":137.24},
-    {"first_collision_time":184.64,"pattern":"cluster_rotation_24","time_to_velocity_sd_threshold":134.7},
-    {"first_collision_time":180.92,"pattern":"cluster_rotation_25","time_to_velocity_sd_threshold":132.0},
-    {"first_collision_time":182.68,"pattern":"cluster_rotation_26","time_to_velocity_sd_threshold":132.18},
-    {"first_collision_time":177.0,"pattern":"cluster_rotation_27","time_to_velocity_sd_threshold":132.08},
-    {"first_collision_time":152.82,"pattern":"cluster_rotation_28","time_to_velocity_sd_threshold":132.08},
-    {"first_collision_time":152.82,"pattern":"cluster_rotation_29","time_to_velocity_sd_threshold":132.06},
-    {"first_collision_time":152.82,"pattern":"cluster_rotation_30","time_to_velocity_sd_threshold":131.94},
-    {"first_collision_time":152.84,"pattern":"cluster_rotation_31","time_to_velocity_sd_threshold":131.66},
-    {"first_collision_time":147.64,"pattern":"cluster_rotation_32","time_to_velocity_sd_threshold":131.1},
-    {"first_collision_time":145.04,"pattern":"cluster_rotation_33","time_to_velocity_sd_threshold":129.88},
-    {"first_collision_time":143.96,"pattern":"cluster_rotation_34","time_to_velocity_sd_threshold":127.58},
-    {"first_collision_time":138.56,"pattern":"cluster_rotation_35","time_to_velocity_sd_threshold":123.82},
-    {"first_collision_time":133.94,"pattern":"cluster_rotation_36","time_to_velocity_sd_threshold":72.18},
-    {"first_collision_time":126.64,"pattern":"cluster_rotation_37","time_to_velocity_sd_threshold":66.26},
-    {"first_collision_time":118.38,"pattern":"cluster_rotation_38","time_to_velocity_sd_threshold":66.2},
-    {"first_collision_time":110.46,"pattern":"cluster_rotation_39","time_to_velocity_sd_threshold":66.1},
-    {"first_collision_time":165.78,"pattern":"random_01","time_to_velocity_sd_threshold":136.1},
-    {"first_collision_time":158.06,"pattern":"random_02","time_to_velocity_sd_threshold":131.6},
-    {"first_collision_time":177.38,"pattern":"random_03","time_to_velocity_sd_threshold":136.72},
-    {"first_collision_time":175.6,"pattern":"random_04","time_to_velocity_sd_threshold":145.94},
-    {"first_collision_time":171.94,"pattern":"random_05","time_to_velocity_sd_threshold":141.34},
-    {"first_collision_time":173.7,"pattern":"random_06","time_to_velocity_sd_threshold":142.56},
-    {"first_collision_time":180.24,"pattern":"random_07","time_to_velocity_sd_threshold":151.24},
-    {"first_collision_time":164.86,"pattern":"random_08","time_to_velocity_sd_threshold":126.16},
-    {"first_collision_time":180.82,"pattern":"random_09","time_to_velocity_sd_threshold":142.06},
-    {"first_collision_time":170.28,"pattern":"random_10","time_to_velocity_sd_threshold":141.08},
-    {"first_collision_time":180.86,"pattern":"random_11","time_to_velocity_sd_threshold":144.04},
-    {"first_collision_time":189.4,"pattern":"random_12","time_to_velocity_sd_threshold":156.8},
-    {"first_collision_time":167.88,"pattern":"random_13","time_to_velocity_sd_threshold":141.26},
-    {"first_collision_time":183.66,"pattern":"random_14","time_to_velocity_sd_threshold":155.04},
-    {"first_collision_time":176.92,"pattern":"random_15","time_to_velocity_sd_threshold":140.2},
-    {"first_collision_time":171.7,"pattern":"random_16","time_to_velocity_sd_threshold":140.96},
-    {"first_collision_time":171.98,"pattern":"random_17","time_to_velocity_sd_threshold":143.18},
-    {"first_collision_time":173.94,"pattern":"random_18","time_to_velocity_sd_threshold":144.58},
-    {"first_collision_time":167.56,"pattern":"random_19","time_to_velocity_sd_threshold":136.52},
-    {"first_collision_time":158.22,"pattern":"random_20","time_to_velocity_sd_threshold":133.28},
-    {"first_collision_time":165.58,"pattern":"random_21","time_to_velocity_sd_threshold":139.44},
-    {"first_collision_time":172.88,"pattern":"random_22","time_to_velocity_sd_threshold":139.64},
-    {"first_collision_time":165.48,"pattern":"random_23","time_to_velocity_sd_threshold":138.8},
-    {"first_collision_time":179.56,"pattern":"random_24","time_to_velocity_sd_threshold":149.02},
-    {"first_collision_time":171.22,"pattern":"random_25","time_to_velocity_sd_threshold":142.78},
-    {"first_collision_time":165.42,"pattern":"random_26","time_to_velocity_sd_threshold":135.12},
-    {"first_collision_time":159.16,"pattern":"random_27","time_to_velocity_sd_threshold":135.78},
-    {"first_collision_time":169.5,"pattern":"random_28","time_to_velocity_sd_threshold":144.8},
-    {"first_collision_time":171.84,"pattern":"random_29","time_to_velocity_sd_threshold":142.32},
-    {"first_collision_time":174.76,"pattern":"random_30","time_to_velocity_sd_threshold":136.94},
-    {"first_collision_time":167.64,"pattern":"random_31","time_to_velocity_sd_threshold":138.16},
-    {"first_collision_time":172.16,"pattern":"random_32","time_to_velocity_sd_threshold":139.38},
-    {"first_collision_time":169.04,"pattern":"random_33","time_to_velocity_sd_threshold":140.68},
-    {"first_collision_time":170.2,"pattern":"random_34","time_to_velocity_sd_threshold":142.98},
-    {"first_collision_time":159.66,"pattern":"random_35","time_to_velocity_sd_threshold":130.6},
-    {"first_collision_time":177.6,"pattern":"random_36","time_to_velocity_sd_threshold":141.76},
-    {"first_collision_time":181.7,"pattern":"random_37","time_to_velocity_sd_threshold":148.26},
-    {"first_collision_time":172.0,"pattern":"random_38","time_to_velocity_sd_threshold":141.84},
-    {"first_collision_time":172.66,"pattern":"random_39","time_to_velocity_sd_threshold":139.3},
-    {"first_collision_time":179.26,"pattern":"random_40","time_to_velocity_sd_threshold":136.42}
+    {
+      "first_collision_time": 198.92,
+      "pattern": "uniform_mean",
+      "time_to_velocity_sd_threshold": 162.6
+    },
+    {
+      "first_collision_time": 175.44,
+      "pattern": "alternating",
+      "time_to_velocity_sd_threshold": 144.6
+    },
+    {
+      "first_collision_time": 117.78,
+      "pattern": "cluster_rotation_00",
+      "time_to_velocity_sd_threshold": 71.22
+    },
+    {
+      "first_collision_time": 126.32,
+      "pattern": "cluster_rotation_01",
+      "time_to_velocity_sd_threshold": 74.32
+    },
+    {
+      "first_collision_time": 132.88,
+      "pattern": "cluster_rotation_02",
+      "time_to_velocity_sd_threshold": 78.5
+    },
+    {
+      "first_collision_time": 139.2,
+      "pattern": "cluster_rotation_03",
+      "time_to_velocity_sd_threshold": 81.44
+    },
+    {
+      "first_collision_time": 146.9,
+      "pattern": "cluster_rotation_04",
+      "time_to_velocity_sd_threshold": 84.7
+    },
+    {
+      "first_collision_time": 152.52,
+      "pattern": "cluster_rotation_05",
+      "time_to_velocity_sd_threshold": 91.82
+    },
+    {
+      "first_collision_time": 156.3,
+      "pattern": "cluster_rotation_06",
+      "time_to_velocity_sd_threshold": 97.06
+    },
+    {
+      "first_collision_time": 161.3,
+      "pattern": "cluster_rotation_07",
+      "time_to_velocity_sd_threshold": 100.72
+    },
+    {
+      "first_collision_time": 166.26,
+      "pattern": "cluster_rotation_08",
+      "time_to_velocity_sd_threshold": 105.18
+    },
+    {
+      "first_collision_time": 171.16,
+      "pattern": "cluster_rotation_09",
+      "time_to_velocity_sd_threshold": 108.18
+    },
+    {
+      "first_collision_time": 174.36,
+      "pattern": "cluster_rotation_10",
+      "time_to_velocity_sd_threshold": 122.4
+    },
+    {
+      "first_collision_time": 178.8,
+      "pattern": "cluster_rotation_11",
+      "time_to_velocity_sd_threshold": 161.9
+    },
+    {
+      "first_collision_time": 183.42,
+      "pattern": "cluster_rotation_12",
+      "time_to_velocity_sd_threshold": 165.84
+    },
+    {
+      "first_collision_time": 186.14,
+      "pattern": "cluster_rotation_13",
+      "time_to_velocity_sd_threshold": 169.64
+    },
+    {
+      "first_collision_time": 190.64,
+      "pattern": "cluster_rotation_14",
+      "time_to_velocity_sd_threshold": 173.2
+    },
+    {
+      "first_collision_time": 193.24,
+      "pattern": "cluster_rotation_15",
+      "time_to_velocity_sd_threshold": 176.68
+    },
+    {
+      "first_collision_time": 197.66,
+      "pattern": "cluster_rotation_16",
+      "time_to_velocity_sd_threshold": 180.02
+    },
+    {
+      "first_collision_time": 200.18,
+      "pattern": "cluster_rotation_17",
+      "time_to_velocity_sd_threshold": 183.34
+    },
+    {
+      "first_collision_time": 202.9,
+      "pattern": "cluster_rotation_18",
+      "time_to_velocity_sd_threshold": 186.5
+    },
+    {
+      "first_collision_time": 207.04,
+      "pattern": "cluster_rotation_19",
+      "time_to_velocity_sd_threshold": 189.68
+    },
+    {
+      "first_collision_time": 204.0,
+      "pattern": "cluster_rotation_20",
+      "time_to_velocity_sd_threshold": 187.32
+    },
+    {
+      "first_collision_time": 203.06,
+      "pattern": "cluster_rotation_21",
+      "time_to_velocity_sd_threshold": 184.34
+    },
+    {
+      "first_collision_time": 199.1,
+      "pattern": "cluster_rotation_22",
+      "time_to_velocity_sd_threshold": 138.12
+    },
+    {
+      "first_collision_time": 193.34,
+      "pattern": "cluster_rotation_23",
+      "time_to_velocity_sd_threshold": 137.24
+    },
+    {
+      "first_collision_time": 184.64,
+      "pattern": "cluster_rotation_24",
+      "time_to_velocity_sd_threshold": 134.7
+    },
+    {
+      "first_collision_time": 180.92,
+      "pattern": "cluster_rotation_25",
+      "time_to_velocity_sd_threshold": 132.0
+    },
+    {
+      "first_collision_time": 182.68,
+      "pattern": "cluster_rotation_26",
+      "time_to_velocity_sd_threshold": 132.18
+    },
+    {
+      "first_collision_time": 177.0,
+      "pattern": "cluster_rotation_27",
+      "time_to_velocity_sd_threshold": 132.08
+    },
+    {
+      "first_collision_time": 152.82,
+      "pattern": "cluster_rotation_28",
+      "time_to_velocity_sd_threshold": 132.08
+    },
+    {
+      "first_collision_time": 152.82,
+      "pattern": "cluster_rotation_29",
+      "time_to_velocity_sd_threshold": 132.06
+    },
+    {
+      "first_collision_time": 152.82,
+      "pattern": "cluster_rotation_30",
+      "time_to_velocity_sd_threshold": 131.94
+    },
+    {
+      "first_collision_time": 152.84,
+      "pattern": "cluster_rotation_31",
+      "time_to_velocity_sd_threshold": 131.66
+    },
+    {
+      "first_collision_time": 147.64,
+      "pattern": "cluster_rotation_32",
+      "time_to_velocity_sd_threshold": 131.1
+    },
+    {
+      "first_collision_time": 145.04,
+      "pattern": "cluster_rotation_33",
+      "time_to_velocity_sd_threshold": 129.88
+    },
+    {
+      "first_collision_time": 143.96,
+      "pattern": "cluster_rotation_34",
+      "time_to_velocity_sd_threshold": 127.58
+    },
+    {
+      "first_collision_time": 138.56,
+      "pattern": "cluster_rotation_35",
+      "time_to_velocity_sd_threshold": 123.82
+    },
+    {
+      "first_collision_time": 133.94,
+      "pattern": "cluster_rotation_36",
+      "time_to_velocity_sd_threshold": 72.18
+    },
+    {
+      "first_collision_time": 126.64,
+      "pattern": "cluster_rotation_37",
+      "time_to_velocity_sd_threshold": 66.26
+    },
+    {
+      "first_collision_time": 118.38,
+      "pattern": "cluster_rotation_38",
+      "time_to_velocity_sd_threshold": 66.2
+    },
+    {
+      "first_collision_time": 110.46,
+      "pattern": "cluster_rotation_39",
+      "time_to_velocity_sd_threshold": 66.1
+    },
+    {
+      "first_collision_time": 165.78,
+      "pattern": "random_01",
+      "time_to_velocity_sd_threshold": 136.1
+    },
+    {
+      "first_collision_time": 158.06,
+      "pattern": "random_02",
+      "time_to_velocity_sd_threshold": 131.6
+    },
+    {
+      "first_collision_time": 177.38,
+      "pattern": "random_03",
+      "time_to_velocity_sd_threshold": 136.72
+    },
+    {
+      "first_collision_time": 175.6,
+      "pattern": "random_04",
+      "time_to_velocity_sd_threshold": 145.94
+    },
+    {
+      "first_collision_time": 171.94,
+      "pattern": "random_05",
+      "time_to_velocity_sd_threshold": 141.34
+    },
+    {
+      "first_collision_time": 173.7,
+      "pattern": "random_06",
+      "time_to_velocity_sd_threshold": 142.56
+    },
+    {
+      "first_collision_time": 180.24,
+      "pattern": "random_07",
+      "time_to_velocity_sd_threshold": 151.24
+    },
+    {
+      "first_collision_time": 164.86,
+      "pattern": "random_08",
+      "time_to_velocity_sd_threshold": 126.16
+    },
+    {
+      "first_collision_time": 180.82,
+      "pattern": "random_09",
+      "time_to_velocity_sd_threshold": 142.06
+    },
+    {
+      "first_collision_time": 170.28,
+      "pattern": "random_10",
+      "time_to_velocity_sd_threshold": 141.08
+    },
+    {
+      "first_collision_time": 180.86,
+      "pattern": "random_11",
+      "time_to_velocity_sd_threshold": 144.04
+    },
+    {
+      "first_collision_time": 189.4,
+      "pattern": "random_12",
+      "time_to_velocity_sd_threshold": 156.8
+    },
+    {
+      "first_collision_time": 167.88,
+      "pattern": "random_13",
+      "time_to_velocity_sd_threshold": 141.26
+    },
+    {
+      "first_collision_time": 183.66,
+      "pattern": "random_14",
+      "time_to_velocity_sd_threshold": 155.04
+    },
+    {
+      "first_collision_time": 176.92,
+      "pattern": "random_15",
+      "time_to_velocity_sd_threshold": 140.2
+    },
+    {
+      "first_collision_time": 171.7,
+      "pattern": "random_16",
+      "time_to_velocity_sd_threshold": 140.96
+    },
+    {
+      "first_collision_time": 171.98,
+      "pattern": "random_17",
+      "time_to_velocity_sd_threshold": 143.18
+    },
+    {
+      "first_collision_time": 173.94,
+      "pattern": "random_18",
+      "time_to_velocity_sd_threshold": 144.58
+    },
+    {
+      "first_collision_time": 167.56,
+      "pattern": "random_19",
+      "time_to_velocity_sd_threshold": 136.52
+    },
+    {
+      "first_collision_time": 158.22,
+      "pattern": "random_20",
+      "time_to_velocity_sd_threshold": 133.28
+    },
+    {
+      "first_collision_time": 165.58,
+      "pattern": "random_21",
+      "time_to_velocity_sd_threshold": 139.44
+    },
+    {
+      "first_collision_time": 172.88,
+      "pattern": "random_22",
+      "time_to_velocity_sd_threshold": 139.64
+    },
+    {
+      "first_collision_time": 165.48,
+      "pattern": "random_23",
+      "time_to_velocity_sd_threshold": 138.8
+    },
+    {
+      "first_collision_time": 179.56,
+      "pattern": "random_24",
+      "time_to_velocity_sd_threshold": 149.02
+    },
+    {
+      "first_collision_time": 171.22,
+      "pattern": "random_25",
+      "time_to_velocity_sd_threshold": 142.78
+    },
+    {
+      "first_collision_time": 165.42,
+      "pattern": "random_26",
+      "time_to_velocity_sd_threshold": 135.12
+    },
+    {
+      "first_collision_time": 159.16,
+      "pattern": "random_27",
+      "time_to_velocity_sd_threshold": 135.78
+    },
+    {
+      "first_collision_time": 169.5,
+      "pattern": "random_28",
+      "time_to_velocity_sd_threshold": 144.8
+    },
+    {
+      "first_collision_time": 171.84,
+      "pattern": "random_29",
+      "time_to_velocity_sd_threshold": 142.32
+    },
+    {
+      "first_collision_time": 174.76,
+      "pattern": "random_30",
+      "time_to_velocity_sd_threshold": 136.94
+    },
+    {
+      "first_collision_time": 167.64,
+      "pattern": "random_31",
+      "time_to_velocity_sd_threshold": 138.16
+    },
+    {
+      "first_collision_time": 172.16,
+      "pattern": "random_32",
+      "time_to_velocity_sd_threshold": 139.38
+    },
+    {
+      "first_collision_time": 169.04,
+      "pattern": "random_33",
+      "time_to_velocity_sd_threshold": 140.68
+    },
+    {
+      "first_collision_time": 170.2,
+      "pattern": "random_34",
+      "time_to_velocity_sd_threshold": 142.98
+    },
+    {
+      "first_collision_time": 159.66,
+      "pattern": "random_35",
+      "time_to_velocity_sd_threshold": 130.6
+    },
+    {
+      "first_collision_time": 177.6,
+      "pattern": "random_36",
+      "time_to_velocity_sd_threshold": 141.76
+    },
+    {
+      "first_collision_time": 181.7,
+      "pattern": "random_37",
+      "time_to_velocity_sd_threshold": 148.26
+    },
+    {
+      "first_collision_time": 172.0,
+      "pattern": "random_38",
+      "time_to_velocity_sd_threshold": 141.84
+    },
+    {
+      "first_collision_time": 172.66,
+      "pattern": "random_39",
+      "time_to_velocity_sd_threshold": 139.3
+    },
+    {
+      "first_collision_time": 179.26,
+      "pattern": "random_40",
+      "time_to_velocity_sd_threshold": 136.42
+    }
   ],
   "run_count": 82,
   "snapshot_note": "Reduced per-run snapshot: primary threshold time and collision-censoring time only. The script regenerates the full diagnostics.",
   "study_id": "NOEMA-2026-004",
   "summary": {
     "alternating_low_high": {
-      "first_collision_time": {"max":175.44,"mean":175.44,"median":175.44,"min":175.44,"n":1,"population_sd":0.0},
-      "time_to_velocity_sd_threshold": {"max":144.6,"mean":144.6,"median":144.6,"min":144.6,"n":1,"population_sd":0.0}
+      "first_collision_time": {
+        "max": 175.44,
+        "mean": 175.44,
+        "median": 175.44,
+        "min": 175.44,
+        "n": 1.0,
+        "population_sd": 0.0
+      },
+      "time_to_velocity_sd_threshold": {
+        "max": 144.6,
+        "mean": 144.6,
+        "median": 144.6,
+        "min": 144.6,
+        "n": 1.0,
+        "population_sd": 0.0
+      }
     },
     "clustered_rotations": {
-      "first_collision_time": {"max":207.04,"mean":164.6415,"median":163.78,"min":110.46,"n":40,"population_sd":27.435176},
-      "time_to_velocity_sd_threshold": {"max":189.68,"mean":127.2795,"median":131.8,"min":66.1,"n":40,"population_sd":38.698645}
+      "first_collision_time": {
+        "max": 207.04,
+        "mean": 164.6415,
+        "median": 163.78,
+        "min": 110.46,
+        "n": 40.0,
+        "population_sd": 27.435176
+      },
+      "time_to_velocity_sd_threshold": {
+        "max": 189.68,
+        "mean": 127.2795,
+        "median": 131.8,
+        "min": 66.1,
+        "n": 40.0,
+        "population_sd": 38.698645
+      }
     },
     "homogeneous_mean_delay": {
-      "first_collision_time": {"max":198.92,"mean":198.92,"median":198.92,"min":198.92,"n":1,"population_sd":0.0},
-      "time_to_velocity_sd_threshold": {"max":162.6,"mean":162.6,"median":162.6,"min":162.6,"n":1,"population_sd":0.0}
+      "first_collision_time": {
+        "max": 198.92,
+        "mean": 198.92,
+        "median": 198.92,
+        "min": 198.92,
+        "n": 1.0,
+        "population_sd": 0.0
+      },
+      "time_to_velocity_sd_threshold": {
+        "max": 162.6,
+        "mean": 162.6,
+        "median": 162.6,
+        "min": 162.6,
+        "n": 1.0,
+        "population_sd": 0.0
+      }
     },
     "random_permutations": {
-      "first_collision_time": {"max":189.4,"mean":171.9525,"median":171.96,"min":158.06,"n":40,"population_sd":7.027488},
-      "time_to_velocity_sd_threshold": {"max":156.8,"mean":140.867,"median":141.02,"min":126.16,"n":40,"population_sd":5.934913}
+      "first_collision_time": {
+        "max": 189.4,
+        "mean": 171.9525,
+        "median": 171.96,
+        "min": 158.06,
+        "n": 40.0,
+        "population_sd": 7.027488
+      },
+      "time_to_velocity_sd_threshold": {
+        "max": 156.8,
+        "mean": 140.867,
+        "median": 141.02,
+        "min": 126.16,
+        "n": 40.0,
+        "population_sd": 5.934913
+      }
     }
   },
   "units_and_scope": "Dimensionless model units. Time is not calibrated to seconds; headway is not calibrated to metres."
