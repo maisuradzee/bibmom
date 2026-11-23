@@ -8,6 +8,7 @@ their intended decimal spellings. Only the Python standard library is used.
 from __future__ import annotations
 
 import argparse
+from decimal import Context, Decimal, ROUND_HALF_EVEN
 from fractions import Fraction
 import json
 import math
@@ -369,6 +370,307 @@ def build_binary32_experiments() -> dict:
     }
 
 
+DECIMAL_FORMATS = {
+    "decimal64": {"prec": 16, "Emin": -383, "Emax": 384, "clamp": 1, "half_ulp": "5e-16"},
+    "decimal128": {"prec": 34, "Emin": -6143, "Emax": 6144, "clamp": 1, "half_ulp": "5e-34"},
+}
+
+
+def decimal_context(format_name: str) -> Context:
+    if format_name not in DECIMAL_FORMATS:
+        raise ValueError(f"Unsupported decimal format: {format_name}")
+    params = DECIMAL_FORMATS[format_name]
+    return Context(
+        prec=params["prec"],
+        Emin=params["Emin"],
+        Emax=params["Emax"],
+        rounding=ROUND_HALF_EVEN,
+        clamp=params["clamp"],
+    )
+
+
+def decimal_naive_left_to_right(ctx: Context, values: Sequence[Decimal]) -> Decimal:
+    total = ctx.create_decimal(0)
+    for value in values:
+        total = ctx.add(total, value)
+    return total
+
+
+def decimal_pairwise_sum(ctx: Context, values: Sequence[Decimal]) -> Decimal:
+    work = list(values)
+    if not work:
+        return ctx.create_decimal(0)
+    while len(work) > 1:
+        reduced = []
+        for index in range(0, len(work), 2):
+            if index + 1 < len(work):
+                reduced.append(ctx.add(work[index], work[index + 1]))
+            else:
+                reduced.append(work[index])
+        work = reduced
+    return work[0]
+
+
+def decimal_kahan_sum(ctx: Context, values: Sequence[Decimal]) -> Decimal:
+    total = correction = ctx.create_decimal(0)
+    for value in values:
+        adjusted = ctx.subtract(value, correction)
+        updated = ctx.add(total, adjusted)
+        correction = ctx.subtract(ctx.subtract(updated, total), adjusted)
+        total = updated
+    return total
+
+
+def decimal_neumaier_sum(ctx: Context, values: Sequence[Decimal]) -> Decimal:
+    total = correction = ctx.create_decimal(0)
+    for value in values:
+        updated = ctx.add(total, value)
+        if total.copy_abs() >= value.copy_abs():
+            term = ctx.add(ctx.subtract(total, updated), value)
+        else:
+            term = ctx.add(ctx.subtract(value, updated), total)
+        correction = ctx.add(correction, term)
+        total = updated
+    return ctx.add(total, correction)
+
+
+def _integer_to_decimal_digits(number: int) -> tuple[int, ...]:
+    """Convert an arbitrary-size integer to Decimal digits without int-string limits."""
+    if number == 0:
+        return (0,)
+    chunks = []
+    while number:
+        number, remainder = divmod(number, 1_000_000_000)
+        chunks.append(remainder)
+    text = str(chunks[-1]) + "".join(f"{chunk:09d}" for chunk in reversed(chunks[:-1]))
+    return tuple(int(character) for character in text)
+
+
+def decimal_integer_superaccumulator_units(
+    ctx: Context, values: Sequence[Decimal]
+) -> int:
+    """Accumulate finite Decimal inputs exactly in units of 10**Etiny."""
+    etiny = ctx.Etiny()
+    units = 0
+    for value in values:
+        parts = value.as_tuple()
+        if not isinstance(parts.exponent, int):
+            raise ValueError("decimal integer accumulator accepts only finite values")
+        coefficient = 0
+        for digit in parts.digits:
+            coefficient = coefficient * 10 + digit
+        signed_coefficient = -coefficient if parts.sign else coefficient
+        shift = parts.exponent - etiny
+        if shift < 0:
+            raise ValueError("decimal input is below the selected format's Etiny")
+        units += signed_coefficient * (10 ** shift)
+    return units
+
+
+def decimal_integer_superaccumulator(
+    ctx: Context, values: Sequence[Decimal]
+) -> Decimal:
+    units = decimal_integer_superaccumulator_units(ctx, values)
+    sign = 1 if units < 0 else 0
+    exact = Decimal((sign, _integer_to_decimal_digits(abs(units)), ctx.Etiny()))
+    return ctx.create_decimal(exact)
+
+
+DECIMAL_METHODS = {
+    "naive_left_to_right": decimal_naive_left_to_right,
+    "pairwise_adjacent": decimal_pairwise_sum,
+    "kahan": decimal_kahan_sum,
+    "neumaier": decimal_neumaier_sum,
+    "integer_superaccumulator": decimal_integer_superaccumulator,
+}
+
+
+def make_decimal_cancellation_case(
+    ctx: Context, replicates: int = 100, seed: int = DEFAULT_SEED
+) -> dict[str, list[Decimal]]:
+    if replicates < 1:
+        raise ValueError("replicates must be positive")
+    large = ctx.create_decimal("1e16")
+    small = ctx.create_decimal("1")
+    negative_large = ctx.create_decimal("-1e16")
+    base = [large, small, negative_large] * replicates
+    shuffled = base.copy()
+    random.Random(seed).shuffle(shuffled)
+    return {
+        "triplet_blocks": base,
+        "reverse": list(reversed(base)),
+        "magnitude_ascending": sorted(base, key=lambda value: value.copy_abs()),
+        "magnitude_descending": sorted(
+            base, key=lambda value: value.copy_abs(), reverse=True
+        ),
+        "large_positive_then_small_then_large_negative": (
+            [large] * replicates + [small] * replicates + [negative_large] * replicates
+        ),
+        "small_then_large_positive_then_large_negative": (
+            [small] * replicates + [large] * replicates + [negative_large] * replicates
+        ),
+        "seeded_shuffle": shuffled,
+    }
+
+
+def make_decimal_half_ulp_case(
+    ctx: Context, format_name: str, count: int = 100
+) -> dict[str, list[Decimal]]:
+    if count < 1:
+        raise ValueError("count must be positive")
+    half_ulp = ctx.create_decimal(DECIMAL_FORMATS[format_name]["half_ulp"])
+    one = ctx.create_decimal("1")
+    negative_one = ctx.create_decimal("-1")
+    base = [one] + [half_ulp] * count + [negative_one]
+    return {
+        "large_then_half_ulps_then_negative": base,
+        "half_ulps_then_large_then_negative": [half_ulp] * count + [one, negative_one],
+        "negative_then_half_ulps_then_large": [negative_one] + [half_ulp] * count + [one],
+        "magnitude_ascending": sorted(base, key=lambda value: value.copy_abs()),
+        "magnitude_descending": sorted(
+            base, key=lambda value: value.copy_abs(), reverse=True
+        ),
+    }
+
+
+def evaluate_decimal_case(
+    ctx: Context, name: str, orders: dict[str, list[Decimal]]
+) -> dict:
+    order_results = {}
+    method_records = {method: [] for method in DECIMAL_METHODS}
+    reference = None
+    condition_number = None
+    rounded_reference = None
+
+    for order_name, values in orders.items():
+        exact = sum((Fraction(value) for value in values), Fraction(0, 1))
+        if reference is None:
+            reference = exact
+            absolute_sum = sum(
+                (abs(Fraction(value)) for value in values), Fraction(0, 1)
+            )
+            condition_number = float(absolute_sum / abs(exact)) if exact else None
+            rounded_reference = decimal_integer_superaccumulator(ctx, values)
+        elif exact != reference:
+            raise AssertionError(f"{name}/{order_name}: input multiset sum changed")
+
+        method_values = {}
+        correctly_rounded = []
+        for method_name, method in DECIMAL_METHODS.items():
+            value = method(ctx, values)
+            error = abs(Fraction(value) - exact)
+            record = {
+                "value": str(value),
+                "absolute_error": float(error),
+                "relative_error": float(error / abs(exact)) if exact else 0.0,
+                "correctly_rounded": value == rounded_reference,
+            }
+            method_records[method_name].append(record)
+            method_values[method_name] = str(value)
+            if record["correctly_rounded"]:
+                correctly_rounded.append(method_name)
+        order_results[order_name] = {
+            "input_count": len(values),
+            "method_values": method_values,
+            "correctly_rounded_methods": correctly_rounded,
+        }
+
+    summaries = {}
+    for method_name, records in method_records.items():
+        outputs = [Decimal(record["value"]) for record in records]
+        summaries[method_name] = {
+            "orders_correctly_rounded": sum(
+                bool(record["correctly_rounded"]) for record in records
+            ),
+            "orders_tested": len(records),
+            "maximum_absolute_error": max(
+                float(record["absolute_error"]) for record in records
+            ),
+            "maximum_relative_error": max(
+                float(record["relative_error"]) for record in records
+            ),
+            "distinct_outputs_across_orders": len(set(outputs)),
+            "minimum_output": str(min(outputs)),
+            "maximum_output": str(max(outputs)),
+        }
+
+    exact_sum = (
+        str(reference.numerator)
+        if reference.denominator == 1
+        else f"{reference.numerator}/{reference.denominator}"
+    )
+    return {
+        "case": name,
+        "input_multiset_condition_number_sum_abs_over_abs_sum": condition_number,
+        "exact_sum": exact_sum,
+        "rounded_exact_sum": str(rounded_reference),
+        "orders": order_results,
+        "method_summary": summaries,
+    }
+
+
+def build_decimal_experiments() -> dict:
+    formats = {}
+    for format_name, params in DECIMAL_FORMATS.items():
+        ctx = decimal_context(format_name)
+        cancellation = evaluate_decimal_case(
+            ctx,
+            "cancellation_triplets_1e16_plus_1_minus_1e16",
+            make_decimal_cancellation_case(ctx),
+        )
+        half_ulp = evaluate_decimal_case(
+            ctx,
+            "half_ulp_accumulation_at_one",
+            make_decimal_half_ulp_case(ctx, format_name),
+        )
+        for case, names in (
+            (
+                cancellation,
+                ("triplet_blocks", "seeded_shuffle", "magnitude_ascending"),
+            ),
+            (
+                half_ulp,
+                ("large_then_half_ulps_then_negative", "magnitude_ascending"),
+            ),
+        ):
+            all_orders = case.pop("orders")
+            case["representative_orders"] = {
+                name: all_orders[name] for name in names
+            }
+        formats[format_name] = {
+            "format_parameters": {
+                "precision": params["prec"],
+                "Emin": params["Emin"],
+                "Emax": params["Emax"],
+                "Etiny": ctx.Etiny(),
+                "Etop": ctx.Etop(),
+                "clamp": params["clamp"],
+            },
+            "rounding_mode": "ROUND_HALF_EVEN",
+            "emulation_note": (
+                "Python decimal.Context emulates finite decimal arithmetic parameters; "
+                "this is not a decimal interchange encoding implementation."
+            ),
+            "cases": [cancellation, half_ulp],
+        }
+    return {
+        "arithmetic": (
+            "decimal arithmetic emulated with Python decimal.Context; "
+            "each primitive operation is rounded to the selected context"
+        ),
+        "reference": (
+            "exact Fraction sum of represented Decimal inputs; final rounding by "
+            "exact integer superaccumulator on the 10**Etiny grid"
+        ),
+        "methods": list(DECIMAL_METHODS),
+        "formats": formats,
+        "interpretation_guardrail": (
+            "Constructed decimal stress cases only; results do not estimate real workload "
+            "error rates or prove a universal method ranking."
+        ),
+    }
+
+
 def exact_float_sum(values: Sequence[float]) -> Fraction:
     """Exact rational sum of the actual binary64 inputs."""
     return sum((Fraction.from_float(value) for value in values), Fraction(0, 1))
@@ -525,6 +827,7 @@ def build_results(
         },
         "cases": [cancellation, half_ulp],
         "binary32_experiments": build_binary32_experiments(),
+        "decimal_experiments": build_decimal_experiments(),
         "interpretation_guardrail": (
             "Constructed examples demonstrate sensitivity and algorithm behaviour; "
             "they do not estimate error rates for arbitrary application workloads. "
