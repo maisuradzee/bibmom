@@ -479,5 +479,259 @@
       }
     ],
     "interpretation_guardrail": "Constructed binary32 stress tests only; outcomes do not estimate real-workload error rates or establish a universal method ranking."
+  },
+  "decimal_experiments": {
+    "arithmetic": "decimal arithmetic emulated with Python decimal.Context; each primitive operation is rounded to the selected context",
+    "reference": "exact Fraction sum of represented Decimal inputs; final rounding by exact integer superaccumulator on the 10**Etiny grid",
+    "methods": [
+      "naive_left_to_right",
+      "pairwise_adjacent",
+      "kahan",
+      "neumaier",
+      "integer_superaccumulator"
+    ],
+    "formats": {
+      "decimal64": {
+        "format_parameters": {
+          "precision": 16,
+          "Emin": -383,
+          "Emax": 384,
+          "Etiny": -398,
+          "Etop": 369,
+          "clamp": 1
+        },
+        "rounding_mode": "ROUND_HALF_EVEN",
+        "emulation_note": "Python decimal.Context emulates finite decimal arithmetic parameters; this is not a decimal interchange encoding implementation.",
+        "cases": [
+          {
+            "case": "cancellation_triplets_1e16_plus_1_minus_1e16",
+            "input_multiset_condition_number_sum_abs_over_abs_sum": 20000000000000000,
+            "exact_sum": "100",
+            "rounded_exact_sum": "100.0000000000000",
+            "method_summary": {
+              "naive_left_to_right": {
+                "orders_correctly_rounded": 3,
+                "orders_tested": 7,
+                "maximum_absolute_error": 100,
+                "maximum_relative_error": 1,
+                "distinct_outputs_across_orders": 2,
+                "minimum_output": "0E+1",
+                "maximum_output": "100"
+              },
+              "pairwise_adjacent": {
+                "orders_correctly_rounded": 4,
+                "orders_tested": 7,
+                "maximum_absolute_error": 100,
+                "maximum_relative_error": 1,
+                "distinct_outputs_across_orders": 4,
+                "minimum_output": "0E+2",
+                "maximum_output": "100"
+              },
+              "kahan": {
+                "orders_correctly_rounded": 5,
+                "orders_tested": 7,
+                "maximum_absolute_error": 81,
+                "maximum_relative_error": 0.81,
+                "distinct_outputs_across_orders": 3,
+                "minimum_output": "2E+1",
+                "maximum_output": "181"
+              },
+              "neumaier": {
+                "orders_correctly_rounded": 7,
+                "orders_tested": 7,
+                "maximum_absolute_error": 0,
+                "maximum_relative_error": 0,
+                "distinct_outputs_across_orders": 1,
+                "minimum_output": "100",
+                "maximum_output": "100"
+              },
+              "integer_superaccumulator": {
+                "orders_correctly_rounded": 7,
+                "orders_tested": 7,
+                "maximum_absolute_error": 0,
+                "maximum_relative_error": 0,
+                "distinct_outputs_across_orders": 1,
+                "minimum_output": "100.0000000000000",
+                "maximum_output": "100.0000000000000"
+              }
+            }
+          },
+          {
+            "case": "half_ulp_accumulation_at_one",
+            "input_multiset_condition_number_sum_abs_over_abs_sum": 40000000000001,
+            "exact_sum": "1/20000000000000",
+            "rounded_exact_sum": "5.000000000000000E-14",
+            "method_summary": {
+              "naive_left_to_right": {
+                "orders_correctly_rounded": 4,
+                "orders_tested": 5,
+                "maximum_absolute_error": 5e-14,
+                "maximum_relative_error": 1,
+                "distinct_outputs_across_orders": 2,
+                "minimum_output": "0E-15",
+                "maximum_output": "5.0E-14"
+              },
+              "pairwise_adjacent": {
+                "orders_correctly_rounded": 3,
+                "orders_tested": 5,
+                "maximum_absolute_error": 5e-16,
+                "maximum_relative_error": 0.01,
+                "distinct_outputs_across_orders": 2,
+                "minimum_output": "4.95E-14",
+                "maximum_output": "5.00E-14"
+              },
+              "kahan": {
+                "orders_correctly_rounded": 5,
+                "orders_tested": 5,
+                "maximum_absolute_error": 0,
+                "maximum_relative_error": 0,
+                "distinct_outputs_across_orders": 1,
+                "minimum_output": "5.0E-14",
+                "maximum_output": "5.0E-14"
+              },
+              "neumaier": {
+                "orders_correctly_rounded": 5,
+                "orders_tested": 5,
+                "maximum_absolute_error": 0,
+                "maximum_relative_error": 0,
+                "distinct_outputs_across_orders": 1,
+                "minimum_output": "5.00E-14",
+                "maximum_output": "5.00E-14"
+              },
+              "integer_superaccumulator": {
+                "orders_correctly_rounded": 5,
+                "orders_tested": 5,
+                "maximum_absolute_error": 0,
+                "maximum_relative_error": 0,
+                "distinct_outputs_across_orders": 1,
+                "minimum_output": "5.000000000000000E-14",
+                "maximum_output": "5.000000000000000E-14"
+              }
+            }
+          }
+        ]
+      },
+      "decimal128": {
+        "format_parameters": {
+          "precision": 34,
+          "Emin": -6143,
+          "Emax": 6144,
+          "Etiny": -6176,
+          "Etop": 6111,
+          "clamp": 1
+        },
+        "rounding_mode": "ROUND_HALF_EVEN",
+        "emulation_note": "Python decimal.Context emulates finite decimal arithmetic parameters; this is not a decimal interchange encoding implementation.",
+        "cases": [
+          {
+            "case": "cancellation_triplets_1e16_plus_1_minus_1e16",
+            "input_multiset_condition_number_sum_abs_over_abs_sum": 20000000000000000,
+            "exact_sum": "100",
+            "rounded_exact_sum": "100.0000000000000000000000000000000",
+            "method_summary": {
+              "naive_left_to_right": {
+                "orders_correctly_rounded": 7,
+                "orders_tested": 7,
+                "maximum_absolute_error": 0,
+                "maximum_relative_error": 0,
+                "distinct_outputs_across_orders": 1,
+                "minimum_output": "100",
+                "maximum_output": "100"
+              },
+              "pairwise_adjacent": {
+                "orders_correctly_rounded": 7,
+                "orders_tested": 7,
+                "maximum_absolute_error": 0,
+                "maximum_relative_error": 0,
+                "distinct_outputs_across_orders": 1,
+                "minimum_output": "100",
+                "maximum_output": "100"
+              },
+              "kahan": {
+                "orders_correctly_rounded": 7,
+                "orders_tested": 7,
+                "maximum_absolute_error": 0,
+                "maximum_relative_error": 0,
+                "distinct_outputs_across_orders": 1,
+                "minimum_output": "100",
+                "maximum_output": "100"
+              },
+              "neumaier": {
+                "orders_correctly_rounded": 7,
+                "orders_tested": 7,
+                "maximum_absolute_error": 0,
+                "maximum_relative_error": 0,
+                "distinct_outputs_across_orders": 1,
+                "minimum_output": "100",
+                "maximum_output": "100"
+              },
+              "integer_superaccumulator": {
+                "orders_correctly_rounded": 7,
+                "orders_tested": 7,
+                "maximum_absolute_error": 0,
+                "maximum_relative_error": 0,
+                "distinct_outputs_across_orders": 1,
+                "minimum_output": "100.0000000000000000000000000000000",
+                "maximum_output": "100.0000000000000000000000000000000"
+              }
+            }
+          },
+          {
+            "case": "half_ulp_accumulation_at_one",
+            "input_multiset_condition_number_sum_abs_over_abs_sum": 4e+31,
+            "exact_sum": "1/20000000000000000000000000000000",
+            "rounded_exact_sum": "5.000000000000000000000000000000000E-32",
+            "method_summary": {
+              "naive_left_to_right": {
+                "orders_correctly_rounded": 4,
+                "orders_tested": 5,
+                "maximum_absolute_error": 5e-32,
+                "maximum_relative_error": 1,
+                "distinct_outputs_across_orders": 2,
+                "minimum_output": "0E-33",
+                "maximum_output": "5.0E-32"
+              },
+              "pairwise_adjacent": {
+                "orders_correctly_rounded": 3,
+                "orders_tested": 5,
+                "maximum_absolute_error": 5e-34,
+                "maximum_relative_error": 0.01,
+                "distinct_outputs_across_orders": 2,
+                "minimum_output": "4.95E-32",
+                "maximum_output": "5.00E-32"
+              },
+              "kahan": {
+                "orders_correctly_rounded": 5,
+                "orders_tested": 5,
+                "maximum_absolute_error": 0,
+                "maximum_relative_error": 0,
+                "distinct_outputs_across_orders": 1,
+                "minimum_output": "5.0E-32",
+                "maximum_output": "5.0E-32"
+              },
+              "neumaier": {
+                "orders_correctly_rounded": 5,
+                "orders_tested": 5,
+                "maximum_absolute_error": 0,
+                "maximum_relative_error": 0,
+                "distinct_outputs_across_orders": 1,
+                "minimum_output": "5.00E-32",
+                "maximum_output": "5.00E-32"
+              },
+              "integer_superaccumulator": {
+                "orders_correctly_rounded": 5,
+                "orders_tested": 5,
+                "maximum_absolute_error": 0,
+                "maximum_relative_error": 0,
+                "distinct_outputs_across_orders": 1,
+                "minimum_output": "5.000000000000000000000000000000000E-32",
+                "maximum_output": "5.000000000000000000000000000000000E-32"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "interpretation_guardrail": "Constructed decimal stress cases only; results do not estimate real workload error rates or prove a universal method ranking."
   }
 }
