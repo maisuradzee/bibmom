@@ -13,7 +13,7 @@
 | მონაცემთა აუდიტი NOEMA-002 | შესრულებულია | ფიქსირებული SignBase snapshot და JSON შედეგი |
 | Python ტესტები და მონაცემთა რეპროდუქცია | წარმატებულია | [უახლესი CI run 45128722992](https://github.com/maisuradzee/bibmom/actions/runs/45128722992), commit `fe35a936b171f293046acbafcd96a8a584ba59c1` |
 | სტატიკური საიტის build | წარმატებულია | CI და Pages build job |
-| GitHub Pages deployment | დაბლოკილია | Pages site-ის შექმნა/ჩართვა ჯერ არ მომხდარა; Configure Pages აბრუნებს 404-ს |
+| GitHub Pages deployment | წარმატებულია | [პირველი წარმატებული deployment — run 45131663024](https://github.com/maisuradzee/bibmom/actions/runs/45131663024) |
 | საჯარო კვლევების ინდექსი | ცარიელია განზრახ | კვლევები ჯერ `draft/review` სტატუსშია |
 | ვიზუალური AI ექსპერიმენტი | დაწყებამდეა | SignBase-ის გამოსახულებებზე გამოყენების ნებართვა მოსაპოვებელია |
 | Supabase | გადადებულია | ამ ეტაპზე სტატიკურ JSON ინდექსს ვიყენებთ |
@@ -30,7 +30,7 @@ CI გაშვება [45128722992](https://github.com/maisuradzee/bibmom/act
 - საჯარო საიტის აგება და დრაფტების გამორიცხვის ტესტი;
 - SignBase 2.0-ის ფიქსირებულ წყაროსთან JSON შედეგის ზუსტი შედარება.
 
-Pages-ის deployment-ის წინა მცდელობაში build და upload წარმატებით დასრულდა, მაგრამ deploy job შეჩერდა `Configure GitHub Pages` ეტაპზე — GitHub Pages site არ იყო შექმნილი/ჩართული. ამიტომ deployment workflow დროებით მხოლოდ `workflow_dispatch`-ით გაეშვება, სანამ საცავის მფლობელი Settings → Pages → Source → GitHub Actions პარამეტრს ჩართავს.
+საცავის მფლობელმა ჩართო Settings → Pages → Source → GitHub Actions. ამის შემდეგ `Configure GitHub Pages`, build, artifact upload და `Deploy to GitHub Pages` წარმატებით დასრულდა [run 45131663024](https://github.com/maisuradzee/bibmom/actions/runs/45131663024)-ში. Deployment workflow ახლა `main` branch-ზე push-ისას ავტომატურად იშვება და ხელით გაშვების შესაძლებლობაც შენარჩუნებულია.
 
 ## კვლევები
 
