@@ -35,7 +35,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - აუდიტის გამეორებადი სკრიპტი: `scripts/audit_signbase.py`; შედეგები: `data/audits/signbase-v2-audit-2026-11-23.json`.
 - მოკლე მიმდევრობების ენტროპიის სიმულაცია: `scripts/short_sequence_bias_simulation.py`.
 - NOEMA-003-ის NOAA ანალიზი: `scripts/analyze_noema003.py`; cross-dataset შედარება და HAC ლაგების 1–6 ტესტი: `scripts/compare_noema003_datasets.py`; მონაცემთა snapshot-ები, metadata და შედეგები: `data/noema-003/`.
-- NOEMA-005-ის ექსპერიმენტი: `scripts/simulate_noema005_summation.py`; runtime/memory benchmark: `scripts/benchmark_noema005_summation.py`; ტესტები: `tests/test_noema005_summation.py` და `tests/test_benchmark_noema005_summation.py`; შედეგები: `data/noema-005/floating-summation-results.json`; benchmark protocol: `data/noema-005/benchmark-protocol.json`.
+- NOEMA-005-ის ექსპერიმენტი: `scripts/simulate_noema005_summation.py`; runtime/memory benchmark: `scripts/benchmark_noema005_summation.py`; სრული პროფილის workflow: `.github/workflows/noema005-full-benchmark.yml`; ტესტები: `tests/test_noema005_summation.py` და `tests/test_benchmark_noema005_summation.py`; numerical შედეგები: `data/noema-005/floating-summation-results.json`; benchmark protocol: `data/noema-005/benchmark-protocol.json`; სრული benchmark-ის შეჯამება: `data/noema-005/benchmark-full-profile-summary-2026-11-24.json`.
 
 ## პროექტის მდგომარეობა
 
