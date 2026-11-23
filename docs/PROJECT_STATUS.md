@@ -91,4 +91,4 @@
 - `tracemalloc` ზომავს Python-managed traced allocations-ს, არა სრულ RSS-ს და არა ყველა native allocation-ს. ერთი runner-ის შედეგები აღწერითია და უნივერსალურ performance ranking-ს არ ამტკიცებს.
 - შემდეგი ნაბიჯებია: სრული პროფილის განმეორება სხვა Python ვერსიაზე/არქიტექტურაზე და რამდენიმე run-ზე; ზუსტი integer accumulator-ის ოპტიმიზაცია; parallel reduction tree-ების კვლევა; რეალური მონაცემთა ნაკრების შერჩევა და დამოუკიდებელი მეთოდოლოგიური რეცენზია.
 - კვლევის ყველა ექსპერიმენტი synthetic stress case-ია; real workload error rate ან უნივერსალური method ranking არ დასტურდება. საჭიროა სხვა Python ვერსიაზე/არქიტექტურაზე გამეორება, parallel reduction tree-ების შეფასება, რეალური მონაცემთა ნაკრების კვლევა და დამოუკიდებელი მეთოდოლოგიური რეცენზია.
-- კატალოგში PR branch дээр 1 preliminary და 0 published item-ია. PR #3 კვლავ draft-ია; merge არ მომხდარა. საჯარო Pages deployment ამ branch-ის ცვლილებებს ჯერ არ შეიცავს.
+- კატალოგში PR-ის ფილიალში 1 preliminary და 0 published item-ია. PR #3 კვლავ draft-ია; merge არ მომხდარა. საჯარო Pages deployment ამ branch-ის ცვლილებებს ჯერ არ შეიცავს.
