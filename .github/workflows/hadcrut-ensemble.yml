@@ -29,18 +29,18 @@ jobs:
           BASE="https://www.metoffice.gov.uk/hadobs/hadcrut5/data/HadCRUT.5.2.0.0/analysis/diagnostics"
           curl --fail --location --retry 3 --retry-delay 2 \
             "$BASE/HadCRUT.5.2.0.0.analysis.ensemble_series.global.annual.csv" \
-            --output "$RUNNER_TEMP/hadcrut5-ensemble.csv"
+            --output "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.ensemble_series.global.annual.csv"
           curl --fail --location --retry 3 --retry-delay 2 \
             "$BASE/HadCRUT.5.2.0.0.analysis.summary_series.global.annual.csv" \
-            --output "$RUNNER_TEMP/hadcrut5-summary.csv"
-          test -s "$RUNNER_TEMP/hadcrut5-ensemble.csv"
-          test -s "$RUNNER_TEMP/hadcrut5-summary.csv"
+            --output "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.summary_series.global.annual.csv"
+          test -s "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.ensemble_series.global.annual.csv"
+          test -s "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.summary_series.global.annual.csv"
 
       - name: Analyze 200 member-specific trends
         run: |
           python scripts/analyze_hadcrut_ensemble.py \
-            --input "$RUNNER_TEMP/hadcrut5-ensemble.csv" \
-            --summary-csv "$RUNNER_TEMP/hadcrut5-summary.csv" \
+            --input "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.ensemble_series.global.annual.csv" \
+            --summary-csv "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.summary_series.global.annual.csv" \
             --output "$RUNNER_TEMP/hadcrut5-ensemble-results.json"
           cat "$RUNNER_TEMP/hadcrut5-ensemble-results.json"
 
@@ -49,8 +49,8 @@ jobs:
         with:
           name: noema-hadcrut5-ensemble-${{ github.run_id }}
           path: |
-            ${{ runner.temp }}/hadcrut5-ensemble.csv
-            ${{ runner.temp }}/hadcrut5-summary.csv
+            ${{ runner.temp }}/HadCRUT.5.2.0.0.analysis.ensemble_series.global.annual.csv
+            ${{ runner.temp }}/HadCRUT.5.2.0.0.analysis.summary_series.global.annual.csv
             ${{ runner.temp }}/hadcrut5-ensemble-results.json
           if-no-files-found: error
           retention-days: 30
