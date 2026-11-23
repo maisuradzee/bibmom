@@ -74,16 +74,18 @@ Pages deployment workflow ავტომატურად იშვება `
 - დარჩენილია: ERA5-ის ორიგინალი 31 კმ-იანი reference realization-ის ან იმავე CDS source stream-ის იდენტური ასლის მიღება, provenance-ის გადამოწმება და დამოუკიდებელი მეთოდოლოგიური რეცენზია.
 
 
-## NOEMA-005 — binary64 summation order (2026-11-24)
+## NOEMA-005 — summation accuracy across binary32, binary64, decimal64 and decimal128 (2026-11-24)
 
-- სტატუსი: `review`; კვლევა კვლავ `research/drafts/`-შია და საჯარო ინდექსში არ არის დამატებული.
-- სამუშაო განახლება დაფუძნებულია მიმდინარე `main` branch-ზე; ძველი კვლევითი branch ჩამორჩებოდა მთავარს და მისი პირდაპირი გაერთიანება არ გამოიყენება.
-- ორი კონტროლირებული synthetic შემთხვევა: cancellation triplets (3,000 წევრი, 7 დალაგება) და half-ULP დაგროვება (1,026 წევრი, 5 დალაგება); სულ 12 დალაგება და ექვსი მეთოდი.
-- შედარებულია naive left-to-right, adjacent pairwise, Kahan, Neumaier, `math.fsum` და 2⁻¹⁰⁷⁴ ერთეულებზე დაფუძნებული ზუსტი integer superaccumulator.
-- ეტალონი არის წარმოდგენილი binary64 შეყვანების ზუსტი Fraction ჯამი. Integer accumulator-ის დაგროვება ცალკე ხდება arbitrary-precision integer-ით; საბოლოო binary64 კონვერტაცია იყენებს Python Fraction-ის rational rounding-ს და ამიტომ სრულად დამოუკიდებელ rounding implementation-ად არ არის წარმოდგენილი.
-- ახალი CI კონტროლი ხელახლა აგებს კვლევის JSON შედეგს და ადარებს გაყინულ snapshot-ს; გარემოს ვერსიის/პლატფორმის მეტამონაცემები შედარებისგან გამორიცხულია, მაგრამ არტეფაქტში რჩება.
-- GitHub Actions CI წარმატებით დასრულდა: [run 45280161907](https://github.com/maisuradzee/bibmom/actions/runs/45280161907), 62 Python unit test; NOEMA-003-ის გამოთვლები, HadCRUT5-ის წყაროთა SHA-256, NOEMA-005-ის frozen JSON, site build, draft-publication boundary, SignBase აუდიტი და HTML შემოწმება წარმატებულია. კვლევა არ ამტკიცებს მეთოდის უნივერსალურ უპირატესობას და არ იყენებს რეალური წარმოების workload-ის error-rate შეფასებას.
-- Binary32 გაფართოება დადასტურებულია: 2 stress test, 12 order, 6 method; direct Fraction-to-binary32 ties-to-even reference და 4 ახალი unit test. [CI run 45281284340](https://github.com/maisuradzee/bibmom/actions/runs/45281284340) SUCCESS: 66 unit test.
-- Decimal64/decimal128 გაფართოება დადასტურებულია: decimal Context precision 16/34, Emin/Emax −383/+384 და −6143/+6144, Etiny −398/−6176, clamp=1, ROUND_HALF_EVEN; თითო ფორმატში 2 stress test, 12 order და 5 method. ზუსტი accumulator იყენებს შეყვანებში არსებულ უმცირეს exponent-ს საერთო quantum-ად; Etiny-grid helper რჩება ტესტებში. ეს არის Python decimal.Context arithmetic emulation და არა decimal interchange encoding.
-- NOEMA-005-ს აქვს 20 unit test; სრული repository suite — 72 test. [CI run 45282263124](https://github.com/maisuradzee/bibmom/actions/runs/45282263124) SUCCESS: ოთხივე ფორმატის frozen JSON reproduction, NOEMA-003 trend/cross-dataset/HadCRUT5 source checks, site build, publication boundary და SignBase audit PASS.
-- შემდეგი ეტაპები: decimal გაფართოების CI, runtime/memory benchmark, პარალელური reduction tree-ების კვლევა, რეალური მონაცემთა ნაკრების შერჩევა და დამოუკიდებელი რეცენზია. PR #3 draft-ია; merge და საჯარო გამოქვეყნება არ მომხდარა. `
+- სტატუსი: `review`; კვლევა კვლავ `research/drafts/NOEMA-2026-005-floating-summation-order.md`-შია და საჯარო ინდექსში არ არის დამატებული.
+- სამუშაო branch: `research/noema-2026-005-mainline-2026-11-24`, მიმდინარე `main`-ზე დაფუძნებული. ძველი branch, რომელიც main-ს 45 commit-ით ჩამორჩებოდა, არ გაერთიანებულა.
+- კვლევის მოცულობა: 4 ფორმატი; თითოეულში 2 synthetic stress case, სულ 48 input ordering. Binary32/binary64-ში თითო 6 method; decimal64/decimal128-ში თითო 5 method.
+- Binary32-ის oracle პირდაპირი rational-to-binary32 round-to-nearest ties-to-even quantizer-ია; native binary32 მეთოდებში ყოველი შუალედური არითმეტიკული ოპერაცია binary32-ში მრგვალდება. `math.fsum_then_round_binary32` ცალკე wider-precision comparison path-ია.
+- Decimal64/decimal128 გამოიყენებს Python `decimal.Context` arithmetic emulation-ს: precision 16/34, Emin/Emax −383/+384 და −6143/+6144, Etiny −398/−6176, clamp=1, ROUND_HALF_EVEN. ეს არ არის decimal interchange BID/DPD byte-level implementation.
+- ზუსტი integer accumulator-ები იყენებს binary32-ის (2^{-149}), binary64-ის (2^{-1074}) grid-ს; decimal-ში შეყვანებში არსებულ უმცირეს exponent-ს საერთო quantum-ად. Final rounding შესაბამისი Fraction/Context conversion-ით სრულდება; ეს დამოუკიდებელი hardware rounding implementation არ არის.
+- NOEMA-005 summation suite შეიცავს 20 unit test-ს; benchmark suite — 2 test-ს. სრული საცავის CI suite — **74 test**.
+- უახლესი სრული CI: [run 45283388439](https://github.com/maisuradzee/bibmom/actions/runs/45283388439) — SUCCESS. 74 ტესტი; NOEMA-003 trend/cross-dataset/HadCRUT5 200-member შედეგები და source SHA-256; NOEMA-005-ის ოთხივე ფორმატის frozen JSON reproduction; benchmark smoke; draft/index validation; site build; publication boundary; SignBase audit და HTML checks — PASS.
+- Benchmark harness: `scripts/benchmark_noema005_summation.py`; protocol: `data/noema-005/benchmark-protocol.json`. CI smoke profile-მა შეამოწმა 8 format/size შემთხვევა და 44 method measurement (sizes 128/512, 1 warmup, 2 repetitions). დროის threshold განზრახ არ არის დაყენებული.
+- `tracemalloc` ზომავს Python-managed traced allocations-ს, არა სრულ RSS-ს და არა ყველა native allocation-ს. Smoke-profile-ის runner-specific რიცხვები აღწერითი მონაცემებია და არა უნივერსალური performance ranking.
+- სრული ადგილობრივი benchmark profile ჯერ არ არის შესრულებული: sizes 1,024 / 8,192 / 65,536; 2 warmup; 7 repetitions. ეს არის შემდეგი ტექნიკური ეტაპი, რომელსაც უნდა მოჰყვეს runtime/memory შედეგების ფრთხილი ინტერპრეტაცია.
+- კვლევის ყველა ექსპერიმენტი synthetic stress case-ია; real workload error rate ან უნივერსალური method ranking არ დასტურდება. საჭიროა სხვა Python ვერსიაზე/არქიტექტურაზე გამეორება, parallel reduction tree-ების შეფასება, რეალური მონაცემთა ნაკრების კვლევა და დამოუკიდებელი მეთოდოლოგიური რეცენზია.
+- საჯარო ინდექსი უცვლელია: `data/research.json`-ში 0 published item. PR #3 კვლავ draft-ია; merge და საჯარო გამოქვეყნება არ მომხდარა.
