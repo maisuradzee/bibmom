@@ -96,7 +96,7 @@ class BuildSiteTests(unittest.TestCase):
         second["id"] = "NOEMA-TEST-002"
         second["file"] = "research/published/first.md"
         self.write_index([first, second])
-        with self.assertRaisesRegex(ValueError, "duplicate output name"):
+        with self.assertRaisesRegex(ValueError, "duplicate article output name"):
             load_public_items(self.root)
 
 
