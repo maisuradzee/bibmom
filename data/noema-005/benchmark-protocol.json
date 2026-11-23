@@ -41,4 +41,4 @@
   },
   "input_policy": "deterministic format-specific sequence with documented seed; each method receives the same unchanged list for each format and size",
   "interpretation_guardrail": "Measurements are environment-specific descriptive evidence only. Do not infer universal algorithm rankings or impose performance thresholds across hosts."
-}\n
+}
