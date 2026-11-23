@@ -1,0 +1,154 @@
+{
+  "project": "NOEMA",
+  "study_id": "NOEMA-2026-002",
+  "dataset": {
+    "name": "SignBase 2.0 — Swabian Aurignacian mobile artefacts",
+    "upstream_repository": "christianbentz/PaleoSigns",
+    "upstream_commit": "b376bd87d9676fbf63f8555d03e06b4c28113740",
+    "artifact_csv": {
+      "path": "data/signBase/Sb2Artifact-2025-03-06.csv",
+      "git_blob_sha1": "9cbbc7277bb7e84eebb351d50d7c58ca389904e0"
+    },
+    "sign_dictionary_csv": {
+      "path": "data/signBase/Sign-2025-03-06.csv",
+      "git_blob_sha1": "749eb0435ed121222c9770f7d2248b4f6dcc16e7"
+    },
+    "data_license": "CC BY 4.0",
+    "image_use_note": "Do not republish SignBase drawings without contacting the database team."
+  },
+  "counts": {
+    "objects_total": 260,
+    "objects_with_nonempty_coding": 255,
+    "objects_with_empty_coding": 5,
+    "nonempty_sequences_with_zero_signs_after_annotation_filter": 1,
+    "objects_with_at_least_one_sign": 254,
+    "dictionary_sign_types": 42,
+    "dictionary_annotation_types": 11,
+    "coded_codepoints_total": 4923,
+    "recognized_sign_tokens": 3312,
+    "annotation_tokens": 1611,
+    "annotation_share_percent": 32.7,
+    "unknown_tokens": 0,
+    "unknown_token_examples": []
+  },
+  "sign_only_sequence_length": {
+    "n_nonempty_coded_objects": 255,
+    "minimum": 0,
+    "p25_nearest_rank": 3,
+    "median": 6,
+    "p75_nearest_rank": 11,
+    "p95_nearest_rank": 53,
+    "maximum": 151,
+    "under_10_count": 177,
+    "under_10_percent": 69.4,
+    "under_4_count": 78,
+    "under_4_percent": 30.6
+  },
+  "coding_certainty": {
+    "very_certain": 100,
+    "certain": 99,
+    "uncertain": 56,
+    "missing": 5,
+    "labelled_objects": 255
+  },
+  "site_uncertainty": {
+    "Bockstein-Törle": {
+      "objects": 3,
+      "uncertain": 0,
+      "uncertain_rate_percent": 0
+    },
+    "Geissenklösterle": {
+      "objects": 30,
+      "uncertain": 1,
+      "uncertain_rate_percent": 3.3
+    },
+    "Hohle Fels": {
+      "objects": 50,
+      "uncertain": 13,
+      "uncertain_rate_percent": 26
+    },
+    "Hohlenstein-Stadel": {
+      "objects": 2,
+      "uncertain": 0,
+      "uncertain_rate_percent": 0
+    },
+    "Vogelherd": {
+      "objects": 175,
+      "uncertain": 42,
+      "uncertain_rate_percent": 24
+    }
+  },
+  "top_sign_tokens": [
+    {
+      "character": "v",
+      "name": "notch",
+      "count": 1442
+    },
+    {
+      "character": "°",
+      "name": "dot",
+      "count": 523
+    },
+    {
+      "character": "|",
+      "name": "long line",
+      "count": 508
+    },
+    {
+      "character": "X",
+      "name": "cross",
+      "count": 234
+    },
+    {
+      "character": "/",
+      "name": "oblique line (right leaning)",
+      "count": 196
+    },
+    {
+      "character": "¤",
+      "name": "radial line",
+      "count": 100
+    },
+    {
+      "character": ">",
+      "name": "oblique notch (right pointing)",
+      "count": 74
+    },
+    {
+      "character": "\\\\",
+      "name": "oblique line (left leaning)",
+      "count": 43
+    },
+    {
+      "character": "≠",
+      "name": "hatching",
+      "count": 38
+    },
+    {
+      "character": "l",
+      "name": "short line",
+      "count": 36
+    }
+  ],
+  "exploratory_length_rule": {
+    "purpose": "baseline triage of human coding certainty; not sign decoding",
+    "rule": "flag uncertain if sign-only sequence length <= 2",
+    "labelled_objects": 255,
+    "uncertain_objects": 56,
+    "non_uncertain_objects": 199,
+    "true_positive": 21,
+    "false_positive": 38,
+    "true_negative": 161,
+    "false_negative": 35,
+    "precision_percent": 35.6,
+    "recall_percent": 37.5,
+    "accuracy_percent": 71.4,
+    "majority_baseline_accuracy_percent": 78,
+    "evaluation_limit": "exploratory in-sample threshold; no held-out or grouped validation"
+  },
+  "interpretation": {
+    "parser_status": "all encoded code points matched the provided dictionary",
+    "meaning_status": "not inferred; this audit does not decode archaeological meaning",
+    "model_status": "no AI image classifier was trained or evaluated"
+  }
+}
