@@ -12,17 +12,17 @@
 | კვლევის სტანდარტი და შაბლონები | მზადაა | `docs/RESEARCH_STANDARD.md`, `research/TEMPLATE.md` |
 | მონაცემთა აუდიტი NOEMA-002 | შესრულებულია | ფიქსირებული SignBase snapshot და JSON შედეგი |
 | NOEMA-003 ტემპერატურის ტენდენციის ანალიზი | დრაფტი / გამეორებადი; HadCRUT5 ensemble და ოფიციალური coverage კომპონენტის cross-check შესრულებულია | სამი პროდუქტის snapshot, OLS/Theil–Sen და HAC 1–6; 200-member HadCRUT5 slope distribution; ოფიციალური coverage 1σ სერია summary-series-ის 95% საზღვრებთან/ensemble SD-თან RMSE 3.55×10⁻⁸°C-ით ემთხვევა; coverage slope-error RMS ზედა ზღვარი 0.0029339°C/ათწლეული; ERA5-ის სრული trajectory validation კვლავ ღიაა |
-| Python ტესტები და მონაცემთა რეპროდუქცია | გადამოწმების ციკლშია | 50 Python unit test-მა გაიარა; ბოლო CI run [45165997556](https://github.com/maisuradzee/bibmom/actions/runs/45165997556) ჩავარდა მხოლოდ frozen HadCRUT JSON-ში ორი მეთოდოლოგიური შენიშვნის არქონის გამო; JSON გასწორებულია და ახალი CI run [45166360959](https://github.com/maisuradzee/bibmom/actions/runs/45166360959) მიმდინარეობს |
+| Python ტესტები და მონაცემთა რეპროდუქცია | <escape>PASS</escape> | [CI run 45166485552](https://github.com/maisuradzee/bibmom/actions/runs/45166485552) წარმატებულია; **50 Python unit test**, სამი ტემპერატურული შედეგის reproducibility, HadCRUT source SHA-256 და 200-member frozen JSON შემოწმდა |
 | სტატიკური საიტის build | წარმატებულია | CI და Pages build job |
-| GitHub Pages deployment | განახლება რიგშია | ბოლო წარმატებული deployment [45166161568](https://github.com/maisuradzee/bibmom/actions/runs/45166161568); ბოლო draft/status ცვლილებებზე ახალი deploy [45166360686](https://github.com/maisuradzee/bibmom/actions/runs/45166360686) რიგშია |
+| GitHub Pages deployment | <escape>PASS</escape> | [უახლესი deployment — run 45166485541](https://github.com/maisuradzee/bibmom/actions/runs/45166485541) წარმატებით დასრულდა |
 | საჯარო კვლევების ინდექსი | ცარიელია განზრახ | კვლევები ჯერ `draft/review` სტატუსშია |
 | ვიზუალური AI ექსპერიმენტი | დაწყებამდეა | SignBase-ის გამოსახულებებზე გამოყენების ნებართვა მოსაპოვებელია |
 | Supabase | გადადებულია | ამ ეტაპზე სტატიკურ JSON ინდექსს ვიყენებთ |
 
 ## ბოლო ტექნიკური შემოწმება
 
-- [CI run 45161558665](https://github.com/maisuradzee/bibmom/actions/runs/45161558665) — წარმატებული; **42 Python unit test** გაიარა. სამივე ტემპერატურული ანალიზი ხელახლა გამოითვალა, HadCRUT5 source SHA-256 და გაყინული 200-member შედეგი დაემთხვა.
-- [Pages deployment run 45161558656](https://github.com/maisuradzee/bibmom/actions/runs/45161558656) — წარმატებული.
+- [CI run 45166485552](https://github.com/maisuradzee/bibmom/actions/runs/45166485552) — წარმატებული; **50 Python unit test** გაიარა. NOAA trend analysis, cross-dataset/HAC comparison და HadCRUT5 200-member analysis ხელახლა გამოითვალა; frozen JSON და წყაროების SHA-256 დაემთხვა; public build-ის დრაფტების გამორიცხვის კონტროლიც წარმატებულია.
+- [Pages deployment run 45166485541](https://github.com/maisuradzee/bibmom/actions/runs/45166485541) — build და deploy წარმატებულია.
 
 NOEMA-003-ის cross-dataset და HAC robustness განახლება თავდაპირველად დადასტურდა commit-ზე `653820747cc42f1074306cb7f5081bc956cc3116`:
 
