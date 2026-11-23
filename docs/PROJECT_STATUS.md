@@ -1,6 +1,6 @@
 # NOEMA — მიმდინარე პროექტის მდგომარეობა
 
-- **განახლდა:** 2026-11-23 (უახლესი CI გადამოწმება)
+- **განახლდა:** 2026-11-24 (NOEMA-005 კვლევითი ციკლის განახლება)
 - **საცავი:** [maisuradzee/bibmom](https://github.com/maisuradzee/bibmom)
 - **ძირითადი branch:** `main`
 
@@ -72,3 +72,15 @@ Pages deployment workflow ავტომატურად იშვება `
 - ბოლო სრულმა workflow-მ 40-ივე საცნობარო წლის ჩამოტვირთვა, დამუშავება და 5° anomaly snapshot-ის შენახვა წარმატებით დაასრულა; ჩავარდა მხოლოდ ოფიციალურ წლიურ coverage sigma-სთან ვალიდაციის gate. სრული 5° anomaly snapshot და 40 საწყისი ფაილის SHA-256 სია დაცულია Actions artifact-ში [run 45167639382](https://github.com/maisuradzee/bibmom/actions/runs/45167639382), artifact ID 14815616537. თავად 40 ორიგინალი NetCDF ფაილი საცავში არ არის დაკომიტებული.
 - HadCRUT5-ის ოფიციალური annual coverage sigma ცალკე დოკუმენტირებულია; interannual covariance აქ არ არის აღდგენილი. ამიტომ არ ვაერთიანებთ coverage RMS ზედა ზღვარს 200-member percentile interval-თან ერთ საერთო 95%-იან დიაპაზონად.
 - დარჩენილია: ERA5-ის ორიგინალი 31 კმ-იანი reference realization-ის ან იმავე CDS source stream-ის იდენტური ასლის მიღება, provenance-ის გადამოწმება და დამოუკიდებელი მეთოდოლოგიური რეცენზია.
+
+
+## NOEMA-005 — binary64 summation order (2026-11-24)
+
+- სტატუსი: `review`; კვლევა კვლავ `research/drafts/`-შია და საჯარო ინდექსში არ არის დამატებული.
+- სამუშაო განახლება დაფუძნებულია მიმდინარე `main` branch-ზე; ძველი კვლევითი branch ჩამორჩებოდა მთავარს და მისი პირდაპირი გაერთიანება არ გამოიყენება.
+- ორი კონტროლირებული synthetic შემთხვევა: cancellation triplets (3,000 წევრი, 7 დალაგება) და half-ULP დაგროვება (1,026 წევრი, 5 დალაგება); სულ 12 დალაგება და ექვსი მეთოდი.
+- შედარებულია naive left-to-right, adjacent pairwise, Kahan, Neumaier, `math.fsum` და 2⁻¹⁰⁷⁴ ერთეულებზე დაფუძნებული ზუსტი integer superaccumulator.
+- ეტალონი არის წარმოდგენილი binary64 შეყვანების ზუსტი Fraction ჯამი. Integer accumulator-ის დაგროვება ცალკე ხდება arbitrary-precision integer-ით; საბოლოო binary64 კონვერტაცია იყენებს Python Fraction-ის rational rounding-ს და ამიტომ სრულად დამოუკიდებელ rounding implementation-ად არ არის წარმოდგენილი.
+- ახალი CI კონტროლი ხელახლა აგებს კვლევის JSON შედეგს და ადარებს გაყინულ snapshot-ს; გარემოს ვერსიის/პლატფორმის მეტამონაცემები შედარებისგან გამორიცხულია, მაგრამ არტეფაქტში რჩება.
+- დამოუკიდებელი CI გაშვების შედეგი ჯერ არ არის დადასტურებული. კვლევა არ ამტკიცებს მეთოდის უნივერსალურ უპირატესობას და არ იყენებს რეალური წარმოების workload-ის error-rate შეფასებას.
+- შემდეგი ეტაპები: PR CI-ის წარმატებული გავლა, რამდენიმე Python ვერსიაზე გამეორება, binary32 emulation, ხარჯის (runtime/memory) გაზომვა და დამოუკიდებელი რეცენზია.
