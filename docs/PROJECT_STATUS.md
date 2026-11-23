@@ -11,7 +11,7 @@
 | GitHub საცავი და კოდის შენახვა | მზადაა | მთავარი branch და ფაილები ხელმისაწვდომია |
 | კვლევის სტანდარტი და შაბლონები | მზადაა | `docs/RESEARCH_STANDARD.md`, `research/TEMPLATE.md` |
 | მონაცემთა აუდიტი NOEMA-002 | შესრულებულია | ფიქსირებული SignBase snapshot და JSON შედეგი |
-| NOEMA-003 ტემპერატურის ტენდენციის ანალიზი | დრაფტი / გამეორებადი | NOAA v6.1.0 snapshot, სკრიპტი, JSON შედეგი და 7 unit test |
+| NOEMA-003 ტემპერატურის ტენდენციის ანალიზი | დრაფტი / გამეორებადი | NOAA v6.1.0 snapshot, სკრიპტი, JSON შედეგი და 8 dedicated unit test |
 | Python ტესტები და მონაცემთა რეპროდუქცია | წარმატებულია | [უახლესი CI run 45128722992](https://github.com/maisuradzee/bibmom/actions/runs/45128722992), commit `fe35a936b171f293046acbafcd96a8a584ba59c1` |
 | სტატიკური საიტის build | წარმატებულია | CI და Pages build job |
 | GitHub Pages deployment | წარმატებულია | [პირველი წარმატებული deployment — run 45131663024](https://github.com/maisuradzee/bibmom/actions/runs/45131663024) |
@@ -21,17 +21,15 @@
 
 ## ბოლო ტექნიკური შემოწმება
 
-CI გაშვება [45128722992](https://github.com/maisuradzee/bibmom/actions/runs/45128722992) წარმატებით დასრულდა commit-ზე `fe35a936b171f293046acbafcd96a8a584ba59c1` (2026-11-23 07:06:34 UTC). ამ სტატუს-დოკუმენტის შემდგომი განახლების commit `6a4ffa7356177affa4fbd6e3b3a0b239a0aabee6`-ზეც CI წარმატებით დასრულდა: [run 45131068451](https://github.com/maisuradzee/bibmom/actions/runs/45131068451). ყველა ქვემოთ ჩამოთვლილი შემოწმება წარმატებით დასრულდა:
+NOEMA-003-ის კოდის commit `c61cdb1537256d6f8e71e93e3e32ca5750662f9c` სრულად შემოწმდა:
 
-- აუცილებელი ფაილების შემოწმება;
-- დრაფტების სარედაქციო მინიმალური ვალიდაცია;
-- საჯარო კვლევების ინდექსის ვალიდაცია;
-- Python unit tests;
-- მცირე მიმდევრობის ენტროპიის სიმულაცია;
-- საჯარო საიტის აგება და დრაფტების გამორიცხვის ტესტი;
-- SignBase 2.0-ის ფიქსირებულ წყაროსთან JSON შედეგის ზუსტი შედარება.
-
-საცავის მფლობელმა ჩართო Settings → Pages → Source → GitHub Actions. ამის შემდეგ `Configure GitHub Pages`, build, artifact upload და `Deploy to GitHub Pages` წარმატებით დასრულდა [run 45131663024](https://github.com/maisuradzee/bibmom/actions/runs/45131663024)-ში. Deployment workflow ახლა `main` branch-ზე push-ისას ავტომატურად იშვება და ხელით გაშვების შესაძლებლობაც შენარჩუნებულია.
+- [CI run 45132816719](https://github.com/maisuradzee/bibmom/actions/runs/45132816719) — წარმატებული.
+- [Pages deployment run 45132816601](https://github.com/maisuradzee/bibmom/actions/runs/45132816601) — წარმატებული.
+- GitHub Actions-მა გაიარა ყველა არსებული შემოწმება, მათ შორის 22 Python unit test.
+- NOEMA-003-ის ცალკე შემოწმებამ გადაამოწმა 47-წლიანი უწყვეტი მონაცემთა სერია, CSV-ის SHA-256, OLS/Theil–Sen/HAC შედეგები და საწყისი წლის 27 ვარიანტი. ხელახლა გამოთვლილი JSON შინაარსობრივად დაემთხვა შენახულ შედეგს.
+- დრაფტების ვალიდაციამ დაადასტურა 4 draft ფაილი; საჯარო ინდექსი კვლავ შეიცავს 0 გამოქვეყნებულ კვლევას.
+- საიტის build წარმატებულია; NOEMA-003 დრაფტი საჯარო Pages არტეფაქტში არ შედის.
+- Pages deployment workflow ავტომატურად იშვება `main` branch-ზე push-ისას.
 
 ## კვლევები
 
