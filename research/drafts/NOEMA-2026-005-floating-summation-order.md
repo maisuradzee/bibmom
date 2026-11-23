@@ -269,9 +269,9 @@ NOEMA-ს კონტროლირებულმა ექსპერიმ
 - [x] გამოყენებულია პირველადი სტანდარტი, ოფიციალური დოკუმენტაცია და რეცენზირებული რიცხვითი ანალიზის ნაშრომები.
 - [x] Binary64: ორი სტრეს-ტესტი, 12 დალაგება, 6 მეთოდი; binary32: ორი სტრეს-ტესტი, 12 დალაგება, 6 მეთოდი.
 - [x] შედეგები შედარებულია Fraction-ით გამოთვლილ ზუსტ რაციონალურ ეტალონთან და 2⁻¹⁰⁷⁴ ერთეულებზე დაფუძნებულ ზუსტ integer accumulator-თან.
-- [ ] Binary32 გაფართოების შემდეგ განახლებული CI და დამატებული 4 ტესტი ჯერ თავიდან უნდა შემოწმდეს.
+- [x] Binary32 გაფართოების CI წარმატებულია: [run 45281284340](https://github.com/maisuradzee/bibmom/actions/runs/45281284340); 66 repository-wide test, NOEMA-005 binary32/binary64 frozen JSON comparison და ყველა workflow ნაბიჯი გაიარა.
 - [x] შედეგების JSON და SHA-256 ჩანაწერები მომზადებულია.
-- [x] წინა binary64 ვერსია გადამოწმდა [CI run 45280161907](https://github.com/maisuradzee/bibmom/actions/runs/45280161907)-ით; binary32 გაფართოების საბოლოო CI ჯერ არ არის დადასტურებული.
+- [x] Binary64 + binary32 გაფართოების სრული CI დადასტურდა [run 45281284340](https://github.com/maisuradzee/bibmom/actions/runs/45281284340)-ით; 66 ტესტი, frozen JSON, site build, publication boundary და SignBase audit წარმატებულია.
 - [ ] სხვა runtime/არქიტექტურაზე დამოუკიდებელი გამეორება.
 - [ ] დამოუკიდებელი სამეცნიერო და სარედაქციო განხილვა.
 - [ ] გამოქვეყნების მზადყოფნის დადასტურება.
@@ -281,4 +281,5 @@ NOEMA-ს კონტროლირებულმა ექსპერიმ
 - 2026-11-23 — შეიქმნა NOEMA-2026-005 დრაფტი; დაემატა გამეორებადი binary64 summation ექსპერიმენტი, ზუსტი Fraction reference, შედეგების JSON და შვიდი ერთეული ტესტი.
 - 2026-11-24 — დაემატა 2⁻¹⁰⁷⁴-ზე მასშტაბირებული integer superaccumulator, სამი ახალი unit test და CI-ში გაყინული შედეგის ხელახალი გამოთვლის შემოწმება.
 - 2026-11-24 — CI run 45280161907 წარმატებით დასრულდა binary64 ვერსიისთვის: 62 repository-wide test.
-- 2026-11-24 — დაემატა binary32 ემულაცია, პირდაპირი ties-to-even ეტალონი, 2 დამატებითი სტრეს-ტესტი და ოთხი ახალი unit test; საბოლოო CI შემოწმება მოლოდინშია.
+- 2026-11-24 — დაემატა binary32 ემულაცია, პირდაპირი ties-to-even ეტალონი, 2 დამატებითი სტრეს-ტესტი და ოთხი ახალი unit test.
+- 2026-11-24 — CI run 45281284340 წარმატებით დასრულდა: 66 repository-wide test; binary32/binary64 frozen JSON match, site build, publication boundary და SignBase audit PASS.
