@@ -15,13 +15,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Install pinned site build dependency
+        run: python -m pip install --disable-pip-version-check -r requirements-site.txt
       - name: Validate required files
         run: |
           test -f index.html
           test -f assets/styles.css
+          test -f assets/articles.css
+          test -f requirements-site.txt
           test -f data/research.json
           test -f research/TEMPLATE.md
           test -f scripts/validate_research.py
+          test -f scripts/build_site.py
           test -f scripts/short_sequence_bias_simulation.py
           test -f scripts/audit_signbase.py
           test -f docs/RESEARCH_STANDARD.md
@@ -32,6 +37,14 @@ jobs:
         run: python -m unittest discover -s tests -v
       - name: Run finite-sample simulation smoke test
         run: python scripts/short_sequence_bias_simulation.py --trials 2000
+      - name: Build public site and verify publication boundary
+        run: |
+          python scripts/build_site.py --output "$RUNNER_TEMP/noema-site"
+          test -f "$RUNNER_TEMP/noema-site/index.html"
+          test -f "$RUNNER_TEMP/noema-site/assets/articles.css"
+          test -f "$RUNNER_TEMP/noema-site/data/research.json"
+          test ! -d "$RUNNER_TEMP/noema-site/research/drafts"
+          test ! -d "$RUNNER_TEMP/noema-site/research/published"
       - name: Verify pinned SignBase 2.0 audit snapshot
         run: |
           BASE="https://raw.githubusercontent.com/christianbentz/PaleoSigns/b376bd87d9676fbf63f8555d03e06b4c28113740/data/signBase"
@@ -46,7 +59,3 @@ jobs:
         run: |
           grep -q '<html lang="ka">' index.html
           grep -q '<title>NOEMA' index.html
-      - name: Ensure drafts are excluded from Pages build
-        run: |
-          grep -q 'research/published' .github/workflows/deploy.yml
-          ! grep -q 'research/drafts' .github/workflows/deploy.yml
