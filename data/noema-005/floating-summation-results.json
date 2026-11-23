@@ -1,0 +1,219 @@
+{
+  "arithmetic": {
+    "input_type": "Python binary64 float",
+    "reference": "exact Fraction sum of each represented binary64 input",
+    "rounding_assumption": "Python runtime's normal float operations; platform and version recorded below"
+  },
+  "cases": [
+    {
+      "case": "cancellation_triplets_1e16_plus_1_minus_1e16",
+      "exact_sum": "1000",
+      "input_multiset_condition_number_sum_abs_over_abs_sum": 2e+16,
+      "method_summary": {
+        "kahan": {
+          "distinct_outputs_across_orders": 3,
+          "maximum_absolute_error": 1000.0,
+          "maximum_output": 1000.0,
+          "maximum_relative_error": 1.0,
+          "minimum_output": 0.0,
+          "orders_correctly_rounded": 4,
+          "orders_tested": 7
+        },
+        "math_fsum": {
+          "distinct_outputs_across_orders": 1,
+          "maximum_absolute_error": 0.0,
+          "maximum_output": 1000.0,
+          "maximum_relative_error": 0.0,
+          "minimum_output": 1000.0,
+          "orders_correctly_rounded": 7,
+          "orders_tested": 7
+        },
+        "naive_left_to_right": {
+          "distinct_outputs_across_orders": 2,
+          "maximum_absolute_error": 1000.0,
+          "maximum_output": 1000.0,
+          "maximum_relative_error": 1.0,
+          "minimum_output": 0.0,
+          "orders_correctly_rounded": 2,
+          "orders_tested": 7
+        },
+        "neumaier": {
+          "distinct_outputs_across_orders": 1,
+          "maximum_absolute_error": 0.0,
+          "maximum_output": 1000.0,
+          "maximum_relative_error": 0.0,
+          "minimum_output": 1000.0,
+          "orders_correctly_rounded": 7,
+          "orders_tested": 7
+        },
+        "pairwise_adjacent": {
+          "distinct_outputs_across_orders": 2,
+          "maximum_absolute_error": 1000.0,
+          "maximum_output": 1000.0,
+          "maximum_relative_error": 1.0,
+          "minimum_output": 0.0,
+          "orders_correctly_rounded": 2,
+          "orders_tested": 7
+        }
+      },
+      "representative_orders": {
+        "magnitude_ascending": {
+          "correctly_rounded_methods": [
+            "naive_left_to_right",
+            "pairwise_adjacent",
+            "kahan",
+            "neumaier",
+            "math_fsum"
+          ],
+          "input_count": 3000,
+          "method_values": {
+            "kahan": 1000.0,
+            "math_fsum": 1000.0,
+            "naive_left_to_right": 1000.0,
+            "neumaier": 1000.0,
+            "pairwise_adjacent": 1000.0
+          }
+        },
+        "seeded_shuffle": {
+          "correctly_rounded_methods": [
+            "neumaier",
+            "math_fsum"
+          ],
+          "input_count": 3000,
+          "method_values": {
+            "kahan": 768.0,
+            "math_fsum": 1000.0,
+            "naive_left_to_right": 0.0,
+            "neumaier": 1000.0,
+            "pairwise_adjacent": 0.0
+          }
+        },
+        "triplet_blocks": {
+          "correctly_rounded_methods": [
+            "neumaier",
+            "math_fsum"
+          ],
+          "input_count": 3000,
+          "method_values": {
+            "kahan": 0.0,
+            "math_fsum": 1000.0,
+            "naive_left_to_right": 0.0,
+            "neumaier": 1000.0,
+            "pairwise_adjacent": 0.0
+          }
+        }
+      },
+      "rounded_exact_sum": 1000.0
+    },
+    {
+      "case": "half_ulp_accumulation_at_one",
+      "exact_sum": "1/8796093022208",
+      "input_multiset_condition_number_sum_abs_over_abs_sum": 17592186044417.0,
+      "method_summary": {
+        "kahan": {
+          "distinct_outputs_across_orders": 1,
+          "maximum_absolute_error": 0.0,
+          "maximum_output": 1.1368683772161603e-13,
+          "maximum_relative_error": 0.0,
+          "minimum_output": 1.1368683772161603e-13,
+          "orders_correctly_rounded": 5,
+          "orders_tested": 5
+        },
+        "math_fsum": {
+          "distinct_outputs_across_orders": 1,
+          "maximum_absolute_error": 0.0,
+          "maximum_output": 1.1368683772161603e-13,
+          "maximum_relative_error": 0.0,
+          "minimum_output": 1.1368683772161603e-13,
+          "orders_correctly_rounded": 5,
+          "orders_tested": 5
+        },
+        "naive_left_to_right": {
+          "distinct_outputs_across_orders": 2,
+          "maximum_absolute_error": 1.1368683772161603e-13,
+          "maximum_output": 1.1368683772161603e-13,
+          "maximum_relative_error": 1.0,
+          "minimum_output": 0.0,
+          "orders_correctly_rounded": 4,
+          "orders_tested": 5
+        },
+        "neumaier": {
+          "distinct_outputs_across_orders": 1,
+          "maximum_absolute_error": 0.0,
+          "maximum_output": 1.1368683772161603e-13,
+          "maximum_relative_error": 0.0,
+          "minimum_output": 1.1368683772161603e-13,
+          "orders_correctly_rounded": 5,
+          "orders_tested": 5
+        },
+        "pairwise_adjacent": {
+          "distinct_outputs_across_orders": 2,
+          "maximum_absolute_error": 1.1102230246251565e-16,
+          "maximum_output": 1.1368683772161603e-13,
+          "maximum_relative_error": 0.0009765625,
+          "minimum_output": 1.1357581541915351e-13,
+          "orders_correctly_rounded": 3,
+          "orders_tested": 5
+        }
+      },
+      "representative_orders": {
+        "large_then_half_ulps_then_negative": {
+          "correctly_rounded_methods": [
+            "kahan",
+            "neumaier",
+            "math_fsum"
+          ],
+          "input_count": 1026,
+          "method_values": {
+            "kahan": 1.1368683772161603e-13,
+            "math_fsum": 1.1368683772161603e-13,
+            "naive_left_to_right": 0.0,
+            "neumaier": 1.1368683772161603e-13,
+            "pairwise_adjacent": 1.1357581541915351e-13
+          }
+        },
+        "magnitude_ascending": {
+          "correctly_rounded_methods": [
+            "naive_left_to_right",
+            "pairwise_adjacent",
+            "kahan",
+            "neumaier",
+            "math_fsum"
+          ],
+          "input_count": 1026,
+          "method_values": {
+            "kahan": 1.1368683772161603e-13,
+            "math_fsum": 1.1368683772161603e-13,
+            "naive_left_to_right": 1.1368683772161603e-13,
+            "neumaier": 1.1368683772161603e-13,
+            "pairwise_adjacent": 1.1368683772161603e-13
+          }
+        }
+      },
+      "rounded_exact_sum": 1.1368683772161603e-13
+    }
+  ],
+  "environment": {
+    "float_epsilon": 2.220446049250313e-16,
+    "float_mant_dig_bits": 53,
+    "float_radix": 2,
+    "implementation": "CPython",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "python_version": "3.13.5"
+  },
+  "experiment_type": "constructed numerical stress tests; not an empirical application dataset",
+  "interpretation_guardrail": "Constructed examples demonstrate sensitivity and algorithm behaviour; they do not estimate error rates for arbitrary application workloads. math.fsum is evaluated on this runtime and is not asserted as a universal formal proof of correct rounding for every platform.",
+  "parameters": {
+    "cancellation_triplet_replicates": 1000,
+    "half_ulp_terms": 1024,
+    "methods": [
+      "naive_left_to_right",
+      "pairwise_adjacent",
+      "kahan",
+      "neumaier",
+      "math_fsum"
+    ],
+    "random_seed": 20261123
+  },
+  "study_id": "NOEMA-2026-005"
+}
