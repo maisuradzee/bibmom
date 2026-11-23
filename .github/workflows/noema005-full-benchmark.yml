@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - benchmark/noema005-full-profile-2026-11-24
+  pull_request:
+    branches:
+      - research/noema-2026-005-mainline-2026-11-24
   workflow_dispatch:
     inputs:
       sizes:
