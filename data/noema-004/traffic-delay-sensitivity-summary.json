@@ -165,8 +165,8 @@
           "mean": 155.70000000000002,
           "median": 155.70000000000002,
           "min": 155.70000000000002,
-          "population_sd": 0.0,
-          "n": 1
+          "n": 1,
+          "population_sd": 0.0
         },
         "clustered_rotations": {
           "max": 196.54,
