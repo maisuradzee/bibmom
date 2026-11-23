@@ -15,7 +15,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - `index.html` — მთავარი გვერდი.
 - `assets/styles.css` და `assets/articles.css` — მთავარი გვერდისა და კვლევითი სტატიების ვიზუალური სტილები.
 - `data/research.json` — საჯარო კვლევების ინდექსი.
-- `data/noema-003/` — NOEMA-003-ის NOAA өгөгдлийн ამონარიდი, NASA/HadCRUT5/NOAA snapshot-ები, provenance metadata და გამეორებადი შედეგები.
+- `data/noema-003/` — NOAA-ს ფიქსირებული მონაცემთა ამონარიდი, NASA/HadCRUT5/NOAA snapshot-ები, provenance metadata და გამეორებადი შედეგები.
 - `research/drafts/` — სამუშაო ჩანაწერები; Pages არტეფაქტში არ შედის, თუმცა საჯარო GitHub საცავში იკითხება.
 - `research/published/` — მხოლოდ შემოწმებული და გამოსაქვეყნებლად დამტკიცებული კვლევების გვერდები.
 - `research/TEMPLATE.md` — კვლევის დოკუმენტის შაბლონი.

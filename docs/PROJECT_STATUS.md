@@ -12,9 +12,9 @@
 | კვლევის სტანდარტი და შაბლონები | მზადაა | `docs/RESEARCH_STANDARD.md`, `research/TEMPLATE.md` |
 | მონაცემთა აუდიტი NOEMA-002 | შესრულებულია | ფიქსირებული SignBase snapshot და JSON შედეგი |
 | NOEMA-003 ტემპერატურის ტენდენციის ანალიზი | დრაფტი / გამეორებადი | NASA GISTEMP v4, HadCRUT5 5.2.0.0 და NOAA v6.1.0 snapshot-ები; checksum-ები, ორი გამეორებადი ანალიზის სკრიპტი და შედეგების JSON |
-| Python ტესტები და მონაცემთა რეპროდუქცია | წარმატებულია | [CI run 45135219039](https://github.com/maisuradzee/bibmom/actions/runs/45135219039), 31 ტესტი წარმატებულია |
+| Python ტესტები და მონაცემთა რეპროდუქცია | წარმატებულია | [CI run 45135390456](https://github.com/maisuradzee/bibmom/actions/runs/45135390456), 31 ტესტი წარმატებულია |
 | სტატიკური საიტის build | წარმატებულია | CI და Pages build job |
-| GitHub Pages deployment | წარმატებულია | [უახლესი deployment — run 45135219074](https://github.com/maisuradzee/bibmom/actions/runs/45135219074) |
+| GitHub Pages deployment | წარმატებულია | [უახლესი deployment — run 45135390616](https://github.com/maisuradzee/bibmom/actions/runs/45135390616) |
 | საჯარო კვლევების ინდექსი | ცარიელია განზრახ | კვლევები ჯერ `draft/review` სტატუსშია |
 | ვიზუალური AI ექსპერიმენტი | დაწყებამდეა | SignBase-ის გამოსახულებებზე გამოყენების ნებართვა მოსაპოვებელია |
 | Supabase | გადადებულია | ამ ეტაპზე სტატიკურ JSON ინდექსს ვიყენებთ |
@@ -23,8 +23,8 @@
 
 NOEMA-003-ის cross-dataset განახლება აიტვირთა commit-ზე `fbf0f528096751f01b380f9ab99bc015b8836db5` და სრულად შემოწმდა:
 
-- [CI run 45135219039](https://github.com/maisuradzee/bibmom/actions/runs/45135219039) — წარმატებული; **31 Python unit test** გაიარა.
-- [Pages deployment run 45135219074](https://github.com/maisuradzee/bibmom/actions/runs/45135219074) — build და deploy წარმატებულია.
+- [CI run 45135390456](https://github.com/maisuradzee/bibmom/actions/runs/45135390456) — წარმატებული; **31 Python unit test** გაიარა.
+- [Pages deployment run 45135390616](https://github.com/maisuradzee/bibmom/actions/runs/45135390616) — build და deploy წარმატებულია.
 - NOAA-ს, NASA GISTEMP v4-ისა და HadCRUT5 5.2.0.0-ის 1979–2025 სერიები მოიცავს ერთსა და იმავე 47 სრულ წელს.
 - სამივე snapshot-ის SHA-256 ზუსტად ემთხვევა დაფიქსირებულ წყაროს manifest-ს.
 - OLS და Theil–Sen ყველა პროდუქტზე იძლევა დადებით დახრილობას; cross-dataset JSON ხელახლა გამოითვალა და შინაარსობრივად დაემთხვა შენახულ შედეგს.
