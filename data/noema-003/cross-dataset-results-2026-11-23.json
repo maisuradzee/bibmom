@@ -1,6 +1,6 @@
 {
   "study_id": "NOEMA-2026-003",
-  "addendum": "Cross-dataset replication",
+  "addendum": "Cross-dataset replication and HAC lag sensitivity",
   "snapshot": {
     "archive_repository": "climate-resource/bookshelf-global-surface-temperature",
     "archive_commit": "74218762d2d1dda92047a234360fa1d870d0857f",
@@ -79,6 +79,191 @@
     "HadCRUT5 value is the published global (NH+SH)/2 annual analysis summary-series anomaly, ensemble mean.",
     "NOAAGlobalTemp value is the second column of the annual global 90S-90N series.",
     "Partial 2026 values are excluded; all three series are compared over the same 47 calendar years.",
-    "Products have different input datasets and methods, and may share some underlying observations; product comparison is not a statistical independence claim."
-  ]
+    "Products have different input datasets and methods, and may share some underlying observations; product comparison is not a statistical independence claim.",
+    "HAC standard errors use Bartlett weights, annual residuals, lag lengths 1-6, and no finite-sample correction; intervals use the approximate normal critical value 1.96.",
+    "HAC intervals are conditional on each product's central series and do not incorporate the products' full measurement, coverage, or structural uncertainty.",
+    "HadCRUT5 annual 2.5%-97.5% bounds are summarized descriptively; they are not combined as if annual errors were independent to infer a trend interval.",
+    "Full HadCRUT5 trend-uncertainty propagation requires the time-correlated ensemble member annual series or corresponding covariance information."
+  ],
+  "hac_lag_sensitivity": {
+    "NASA_GISTEMP": {
+      "kernel": "Bartlett",
+      "normal_critical_value": 1.96,
+      "ols_slope_c_per_decade": 0.2055619796,
+      "lag_results": {
+        "1": {
+          "standard_error_c_per_decade": 0.0156640108,
+          "approximate_95_percent_interval_c_per_decade": [
+            0.1748605184,
+            0.2362634409
+          ]
+        },
+        "2": {
+          "standard_error_c_per_decade": 0.0163175523,
+          "approximate_95_percent_interval_c_per_decade": [
+            0.1735795772,
+            0.2375443821
+          ]
+        },
+        "3": {
+          "standard_error_c_per_decade": 0.0164065877,
+          "approximate_95_percent_interval_c_per_decade": [
+            0.1734050678,
+            0.2377188915
+          ]
+        },
+        "4": {
+          "standard_error_c_per_decade": 0.0164687656,
+          "approximate_95_percent_interval_c_per_decade": [
+            0.1732831991,
+            0.2378407602
+          ]
+        },
+        "5": {
+          "standard_error_c_per_decade": 0.0163422633,
+          "approximate_95_percent_interval_c_per_decade": [
+            0.1735311435,
+            0.2375928158
+          ]
+        },
+        "6": {
+          "standard_error_c_per_decade": 0.0160765353,
+          "approximate_95_percent_interval_c_per_decade": [
+            0.1740519704,
+            0.2370719889
+          ]
+        }
+      },
+      "standard_error_range_c_per_decade": [
+        0.0156640108,
+        0.0164687656
+      ],
+      "outer_envelope_of_approximate_95_percent_intervals_c_per_decade": [
+        0.1732831991,
+        0.2378407602
+      ]
+    },
+    "HadCRUT5_5_2_0_0": {
+      "kernel": "Bartlett",
+      "normal_critical_value": 1.96,
+      "ols_slope_c_per_decade": 0.2072270633,
+      "lag_results": {
+        "1": {
+          "standard_error_c_per_decade": 0.0148691738,
+          "approximate_95_percent_interval_c_per_decade": [
+            0.1780834826,
+            0.236370644
+          ]
+        },
+        "2": {
+          "standard_error_c_per_decade": 0.0152405994,
+          "approximate_95_percent_interval_c_per_decade": [
+            0.1773554885,
+            0.2370986382
+          ]
+        },
+        "3": {
+          "standard_error_c_per_decade": 0.0151504168,
+          "approximate_95_percent_interval_c_per_decade": [
+            0.1775322465,
+            0.2369218802
+          ]
+        },
+        "4": {
+          "standard_error_c_per_decade": 0.015055667,
+          "approximate_95_percent_interval_c_per_decade": [
+            0.177717956,
+            0.2367361707
+          ]
+        },
+        "5": {
+          "standard_error_c_per_decade": 0.0146890899,
+          "approximate_95_percent_interval_c_per_decade": [
+            0.1784364471,
+            0.2360176796
+          ]
+        },
+        "6": {
+          "standard_error_c_per_decade": 0.0141868141,
+          "approximate_95_percent_interval_c_per_decade": [
+            0.1794209078,
+            0.2350332189
+          ]
+        }
+      },
+      "standard_error_range_c_per_decade": [
+        0.0141868141,
+        0.0152405994
+      ],
+      "outer_envelope_of_approximate_95_percent_intervals_c_per_decade": [
+        0.1773554885,
+        0.2370986382
+      ]
+    },
+    "NOAAGlobalTemp_6_1_0": {
+      "kernel": "Bartlett",
+      "normal_critical_value": 1.96,
+      "ols_slope_c_per_decade": 0.1984826179,
+      "lag_results": {
+        "1": {
+          "standard_error_c_per_decade": 0.0151723855,
+          "approximate_95_percent_interval_c_per_decade": [
+            0.1687447424,
+            0.2282204935
+          ]
+        },
+        "2": {
+          "standard_error_c_per_decade": 0.0159405941,
+          "approximate_95_percent_interval_c_per_decade": [
+            0.1672390535,
+            0.2297261824
+          ]
+        },
+        "3": {
+          "standard_error_c_per_decade": 0.0162845847,
+          "approximate_95_percent_interval_c_per_decade": [
+            0.1665648319,
+            0.230400404
+          ]
+        },
+        "4": {
+          "standard_error_c_per_decade": 0.0166286472,
+          "approximate_95_percent_interval_c_per_decade": [
+            0.1658904694,
+            0.2310747665
+          ]
+        },
+        "5": {
+          "standard_error_c_per_decade": 0.016767036,
+          "approximate_95_percent_interval_c_per_decade": [
+            0.1656192275,
+            0.2313460084
+          ]
+        },
+        "6": {
+          "standard_error_c_per_decade": 0.0167515046,
+          "approximate_95_percent_interval_c_per_decade": [
+            0.165649669,
+            0.2313155669
+          ]
+        }
+      },
+      "standard_error_range_c_per_decade": [
+        0.0151723855,
+        0.016767036
+      ],
+      "outer_envelope_of_approximate_95_percent_intervals_c_per_decade": [
+        0.1656192275,
+        0.2313460084
+      ]
+    }
+  },
+  "hadcrut5_annual_uncertainty_summary": {
+    "n_annual_intervals": 47,
+    "mean_half_width_c": 0.0349174284,
+    "median_half_width_c": 0.034422045,
+    "minimum_half_width_c": 0.0295656375,
+    "maximum_half_width_c": 0.04227265,
+    "interpretation": "Descriptive summary of annual 2.5%-97.5% limits; not a confidence interval for the 1979-2025 trend."
+  }
 }
