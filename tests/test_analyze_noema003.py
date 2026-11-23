@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import csv
+import hashlib
+import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -17,6 +19,12 @@ class NOAAAnnualTrendTests(unittest.TestCase):
         self.assertEqual(len(rows), 47)
         self.assertEqual(rows[0][0], 1979)
         self.assertEqual(rows[-1][0], 2025)
+
+    def test_archived_csv_matches_recorded_sha256(self) -> None:
+        metadata_path = ROOT / "data/noema-003/dataset-metadata-2026-11-23.json"
+        metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+        digest = hashlib.sha256(DATA.read_bytes()).hexdigest()
+        self.assertEqual(digest, metadata["extracted_csv_sha256"])
 
     def test_primary_and_robust_slopes_reproduce_snapshot(self) -> None:
         result = analyze(load_series(DATA))
