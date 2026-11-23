@@ -30,6 +30,8 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - [NOEMA-2026-001](research/drafts/2026-11-23-paleolithic-sign-systems.md) — პალეოლითური ნიშნები; მეთოდოლოგიური გადახედვა: [დამატება A](research/drafts/2026-11-23-methodological-reassessment.md).
 - [NOEMA-2026-002](research/drafts/2026-11-23-signbase-coding-audit.md) — SignBase 2.0-ის ტექსტური კოდირების აუდიტი და საბაზისო heuristic-ის ტესტი.
 - [NOEMA-2026-003](research/drafts/2026-11-23-noaa-globaltemp-trend-sensitivity.md) — NOAA GlobalTemp-ის ტენდენციის საწყისი წლის მგრძნობელობა და NASA GISTEMP/HadCRUT5-თან cross-dataset გამეორება.
+- [NOEMA-2026-004](research/drafts/NOEMA-2026-004-traffic-delay-ordering.md) — რეაქციის დაყოვნებების სივრცითი განლაგების გავლენა სატრანსპორტო დინამიკაზე; delayed OVM და დამოუკიდებელი delayed-state IDM cross-model შემოწმება.
+- NOEMA-004-ის IDM სიმულაცია: `scripts/simulate_noema004_idm.py`; შედეგები: `data/noema-004/idm-cross-model-results.json`; ტესტები: `tests/test_noema004_idm.py`.
 - აუდიტის გამეორებადი სკრიპტი: `scripts/audit_signbase.py`; შედეგები: `data/audits/signbase-v2-audit-2026-11-23.json`.
 - მოკლე მიმდევრობების ენტროპიის სიმულაცია: `scripts/short_sequence_bias_simulation.py`.
 - NOEMA-003-ის NOAA ანალიზი: `scripts/analyze_noema003.py`; cross-dataset შედარება და HAC ლაგების 1–6 ტესტი: `scripts/compare_noema003_datasets.py`; მონაცემთა snapshot-ები, metadata და შედეგები: `data/noema-003/`.
