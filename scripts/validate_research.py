@@ -52,6 +52,23 @@ def validate_index(root: Path = ROOT) -> int:
         raise ValueError("research.schema.json: unsupported JSON Schema dialect")
     if schema.get("properties", {}).get("schema_version", {}).get("const") != 1:
         raise ValueError("research.schema.json: schema version contract mismatch")
+    item_schema = schema.get("properties", {}).get("research", {}).get("items", {})
+    item_properties = item_schema.get("properties", {})
+    required_fields = set(item_schema.get("required", []))
+    source_or_site_url = item_schema.get("anyOf", [])
+    if not {"id", "title", "date", "category", "summary", "status"}.issubset(required_fields):
+        raise ValueError("research.schema.json: required research fields are incomplete")
+    if "file" in required_fields:
+        raise ValueError("research.schema.json: file cannot be required because generated site records use url")
+    if not (
+        any(rule.get("required") == ["file"] for rule in source_or_site_url)
+        and any(rule.get("required") == ["url"] for rule in source_or_site_url)
+    ):
+        raise ValueError("research.schema.json: each record must allow either source file or generated URL")
+    if item_properties.get("status", {}).get("enum") != ["preliminary", "published"]:
+        raise ValueError("research.schema.json: public status contract mismatch")
+    if item_properties.get("url", {}).get("format") != "uri-reference":
+        raise ValueError("research.schema.json: generated article URL must use uri-reference")
 
     seen_ids: set[str] = set()
     seen_files: set[Path] = set()
@@ -99,6 +116,8 @@ def validate_index(root: Path = ROOT) -> int:
             parsed = urlsplit(item["url"])
             if parsed.scheme and parsed.scheme not in {"http", "https"}:
                 raise ValueError(f"{item['id']}: url must use HTTP(S) or be a relative URL")
+            if parsed.netloc and not parsed.scheme:
+                raise ValueError(f"{item['id']}: protocol-relative URLs are not allowed")
 
         if "sources" in item:
             if not isinstance(item["sources"], list):
