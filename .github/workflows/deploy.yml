@@ -1,8 +1,8 @@
 name: Deploy NOEMA website
 
+# Temporarily manual-only until GitHub Pages is enabled in repository Settings.
+# After the first successful deployment, restore the push trigger for automatic releases.
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 concurrency:
