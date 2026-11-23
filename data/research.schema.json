@@ -29,7 +29,6 @@
           "date",
           "category",
           "summary",
-          "file",
           "status"
         ],
         "properties": {
@@ -101,7 +100,7 @@
           },
           "url": {
             "type": "string",
-            "format": "uri"
+            "format": "uri-reference"
           }
         },
         "additionalProperties": false,
