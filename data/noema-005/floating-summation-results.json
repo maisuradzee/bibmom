@@ -245,5 +245,239 @@
     ],
     "random_seed": 20261123
   },
-  "study_id": "NOEMA-2026-005"
+  "study_id": "NOEMA-2026-005",
+  "binary32_experiments": {
+    "input_type": "IEEE-754 binary32; every basic arithmetic operation is rounded to binary32",
+    "accumulator_unit": "2^-149",
+    "rounding_reference": "Exact Fraction sum of represented binary32 inputs, rounded directly to binary32 using integer-ratio round-to-nearest ties-to-even",
+    "parameters": {
+      "cancellation_triplet_replicates": 100,
+      "half_ulp_terms": 128,
+      "random_seed": 20261123,
+      "methods": [
+        "naive_left_to_right",
+        "pairwise_adjacent",
+        "kahan",
+        "neumaier",
+        "math_fsum_then_round_binary32",
+        "integer_superaccumulator"
+      ]
+    },
+    "cases": [
+      {
+        "case": "binary32_cancellation_triplets_1e8_plus_1_minus_1e8",
+        "input_multiset_condition_number_sum_abs_over_abs_sum": 200000001,
+        "exact_sum": "100",
+        "rounded_exact_sum": 100,
+        "method_summary": {
+          "integer_superaccumulator": {
+            "distinct_outputs_across_orders": 1,
+            "maximum_absolute_error": 0,
+            "maximum_output": 100,
+            "maximum_relative_error": 0,
+            "minimum_output": 100,
+            "orders_correctly_rounded": 7,
+            "orders_tested": 7
+          },
+          "kahan": {
+            "distinct_outputs_across_orders": 3,
+            "maximum_absolute_error": 100,
+            "maximum_output": 100,
+            "maximum_relative_error": 1,
+            "minimum_output": 0,
+            "orders_correctly_rounded": 1,
+            "orders_tested": 7
+          },
+          "math_fsum_then_round_binary32": {
+            "distinct_outputs_across_orders": 1,
+            "maximum_absolute_error": 0,
+            "maximum_output": 100,
+            "maximum_relative_error": 0,
+            "minimum_output": 100,
+            "orders_correctly_rounded": 7,
+            "orders_tested": 7
+          },
+          "naive_left_to_right": {
+            "distinct_outputs_across_orders": 4,
+            "maximum_absolute_error": 156,
+            "maximum_output": 256,
+            "maximum_relative_error": 1.56,
+            "minimum_output": 0,
+            "orders_correctly_rounded": 1,
+            "orders_tested": 7
+          },
+          "neumaier": {
+            "distinct_outputs_across_orders": 1,
+            "maximum_absolute_error": 0,
+            "maximum_output": 100,
+            "maximum_relative_error": 0,
+            "minimum_output": 100,
+            "orders_correctly_rounded": 7,
+            "orders_tested": 7
+          },
+          "pairwise_adjacent": {
+            "distinct_outputs_across_orders": 2,
+            "maximum_absolute_error": 100,
+            "maximum_output": 100,
+            "maximum_relative_error": 1,
+            "minimum_output": 0,
+            "orders_correctly_rounded": 2,
+            "orders_tested": 7
+          }
+        },
+        "representative_orders": {
+          "magnitude_ascending": {
+            "correctly_rounded_methods": [
+              "pairwise_adjacent",
+              "neumaier",
+              "math_fsum_then_round_binary32",
+              "integer_superaccumulator"
+            ],
+            "input_count": 300,
+            "method_values": {
+              "integer_superaccumulator": 100,
+              "kahan": 96,
+              "math_fsum_then_round_binary32": 100,
+              "naive_left_to_right": 96,
+              "neumaier": 100,
+              "pairwise_adjacent": 100
+            }
+          },
+          "seeded_shuffle": {
+            "correctly_rounded_methods": [
+              "neumaier",
+              "math_fsum_then_round_binary32",
+              "integer_superaccumulator"
+            ],
+            "input_count": 300,
+            "method_values": {
+              "integer_superaccumulator": 100,
+              "kahan": 0,
+              "math_fsum_then_round_binary32": 100,
+              "naive_left_to_right": 0,
+              "neumaier": 100,
+              "pairwise_adjacent": 0
+            }
+          },
+          "triplet_blocks": {
+            "correctly_rounded_methods": [
+              "neumaier",
+              "math_fsum_then_round_binary32",
+              "integer_superaccumulator"
+            ],
+            "input_count": 300,
+            "method_values": {
+              "integer_superaccumulator": 100,
+              "kahan": 0,
+              "math_fsum_then_round_binary32": 100,
+              "naive_left_to_right": 0,
+              "neumaier": 100,
+              "pairwise_adjacent": 0
+            }
+          }
+        }
+      },
+      {
+        "case": "binary32_half_ulp_accumulation_at_one",
+        "input_multiset_condition_number_sum_abs_over_abs_sum": 262145,
+        "exact_sum": "1/131072",
+        "rounded_exact_sum": 0.00000762939453125,
+        "method_summary": {
+          "integer_superaccumulator": {
+            "distinct_outputs_across_orders": 1,
+            "maximum_absolute_error": 0,
+            "maximum_output": 0.00000762939453125,
+            "maximum_relative_error": 0,
+            "minimum_output": 0.00000762939453125,
+            "orders_correctly_rounded": 5,
+            "orders_tested": 5
+          },
+          "kahan": {
+            "distinct_outputs_across_orders": 1,
+            "maximum_absolute_error": 0,
+            "maximum_output": 0.00000762939453125,
+            "maximum_relative_error": 0,
+            "minimum_output": 0.00000762939453125,
+            "orders_correctly_rounded": 5,
+            "orders_tested": 5
+          },
+          "math_fsum_then_round_binary32": {
+            "distinct_outputs_across_orders": 1,
+            "maximum_absolute_error": 0,
+            "maximum_output": 0.00000762939453125,
+            "maximum_relative_error": 0,
+            "minimum_output": 0.00000762939453125,
+            "orders_correctly_rounded": 5,
+            "orders_tested": 5
+          },
+          "naive_left_to_right": {
+            "distinct_outputs_across_orders": 2,
+            "maximum_absolute_error": 0.00000762939453125,
+            "maximum_output": 0.00000762939453125,
+            "maximum_relative_error": 1,
+            "minimum_output": 0,
+            "orders_correctly_rounded": 4,
+            "orders_tested": 5
+          },
+          "neumaier": {
+            "distinct_outputs_across_orders": 1,
+            "maximum_absolute_error": 0,
+            "maximum_output": 0.00000762939453125,
+            "maximum_relative_error": 0,
+            "minimum_output": 0.00000762939453125,
+            "orders_correctly_rounded": 5,
+            "orders_tested": 5
+          },
+          "pairwise_adjacent": {
+            "distinct_outputs_across_orders": 2,
+            "maximum_absolute_error": 5.960464477539063e-8,
+            "maximum_output": 0.00000762939453125,
+            "maximum_relative_error": 0.0078125,
+            "minimum_output": 0.000007569789886474609,
+            "orders_correctly_rounded": 3,
+            "orders_tested": 5
+          }
+        },
+        "representative_orders": {
+          "large_then_half_ulps_then_negative": {
+            "correctly_rounded_methods": [
+              "kahan",
+              "neumaier",
+              "math_fsum_then_round_binary32",
+              "integer_superaccumulator"
+            ],
+            "input_count": 130,
+            "method_values": {
+              "integer_superaccumulator": 0.00000762939453125,
+              "kahan": 0.00000762939453125,
+              "math_fsum_then_round_binary32": 0.00000762939453125,
+              "naive_left_to_right": 0,
+              "neumaier": 0.00000762939453125,
+              "pairwise_adjacent": 0.000007569789886474609
+            }
+          },
+          "magnitude_ascending": {
+            "correctly_rounded_methods": [
+              "naive_left_to_right",
+              "pairwise_adjacent",
+              "kahan",
+              "neumaier",
+              "math_fsum_then_round_binary32",
+              "integer_superaccumulator"
+            ],
+            "input_count": 130,
+            "method_values": {
+              "integer_superaccumulator": 0.00000762939453125,
+              "kahan": 0.00000762939453125,
+              "math_fsum_then_round_binary32": 0.00000762939453125,
+              "naive_left_to_right": 0.00000762939453125,
+              "neumaier": 0.00000762939453125,
+              "pairwise_adjacent": 0.00000762939453125
+            }
+          }
+        }
+      }
+    ],
+    "interpretation_guardrail": "Constructed binary32 stress tests only; outcomes do not estimate real-workload error rates or establish a universal method ranking."
+  }
 }
