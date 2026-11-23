@@ -268,7 +268,7 @@ Binary32 ეტალონისთვის გამოყენებულ�
 - შემოწმებულია binary32, binary64, decimal64 და decimal128 ფორმატების ემულაცია; შედეგები ყველა მონაცემთა განაწილებაზე ან რეალურ workload-ზე არ განზოგადდება.
 - Decimal64/decimal128 ნაწილი იყენებს Python `decimal.Context`-ს შესაბამის precision, exponent, clamp და ROUND_HALF_EVEN პარამეტრებით. ის არ ამოწმებს IEEE decimal interchange-ის BID/DPD კოდირებას ან byte-level თავსებადობას.
 - Binary32-ის `math.fsum_then_round_binary32` არის ფართო სიზუსტის კონტროლი და არა binary32-native მეთოდი.
-- ზუსტი integer accumulator-ის დაგროვება სრულდება arbitrary-precision integer-ით; საბოლოო rounding იყენებს შესაბამისი ფორმატის Fraction/Context converter-ს. ეს არ არის დამოუკიდებელი hardware rounding implementation.
+- ზუსტი integer accumulator-ის დაგროვება სრულდება arbitrary-precision integer-ით; decimal-ში საერთო quantum შეყვანებიდან დინამიკურად განისაზღვრება. საბოლოო rounding იყენებს შესაბამისი ფორმატის Fraction/Context converter-ს. ეს არ არის დამოუკიდებელი hardware rounding implementation.
 - გამოყენებულია ერთი CPython/OS გარემო. სხვა runtime-მა, compiler-მა ან არქიტექტურამ შეიძლება შედეგი ან ბოლო ბიტი შეცვალოს.
 - Python 3.12-დან ჩაშენებული sum() float-ებისთვის გაუმჯობესებულ ალგორითმს იყენებს; აქ naive baseline ხელითაა განსაზღვრული, როგორც მარცხნიდან-მარჯვნივ დაგროვება.
 - დამატებულია runtime/memory benchmark harness და CI smoke test, მაგრამ სრული ადგილობრივი პროფილის შედეგები ჯერ არ არის გაზომილი/განხილული. `tracemalloc` ზომავს მხოლოდ Python-managed allocations-ს და არა სრულ RSS-ს. Thread/GPU parallel reduction ჯერ არ გამოკვლეულა.
@@ -354,3 +354,4 @@ NOEMA-ს კონტროლირებულმა ექსპერიმ
 - 2026-11-24 — დაემატა decimal64/decimal128 arithmetic emulation, ორი stress case თითო format-ზე, exact integer superaccumulator და ექვსი დამატებითი unit test.
 - 2026-11-24 — CI run 45282263124 წარმატებით დასრულდა: 72 repository-wide test; ოთხივე ფორმატის frozen JSON reproduction, NOEMA-003 checks, site build, publication boundary და SignBase audit PASS.
 - 2026-11-24 — დაემატა runtime/memory benchmark harness, benchmark protocol, ორი unit test და CI smoke-profile validation; full local performance report ჯერ არ არის დასრულებული.
+- 2026-11-24 — decimal integer accumulator ოპტიმიზებულია ადაპტიურ საერთო exponent-ზე; Etiny-grid helper შენარჩუნებულია დამოუკიდებელი ზუსტი reference ტესტისთვის.
