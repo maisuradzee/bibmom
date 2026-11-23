@@ -245,6 +245,7 @@ def build_results(
             "input_type": "Python binary64 float",
             "reference": "exact Fraction sum of each represented binary64 input",
             "rounding_assumption": "Python runtime's normal float operations; platform and version recorded below",
+            "integer_accumulator": "Exact integer sum in units of 2^-1074; one final conversion through Python Fraction",
         },
         "environment": {
             "python_version": platform.python_version(),
