@@ -55,58 +55,119 @@ def ols_slope_per_decade(values: np.ndarray) -> float:
     return float(np.dot(x, y) / denom * 10.0)
 
 
+def build_conservative_regrid_weights(
+    latitude: np.ndarray,
+    longitude: np.ndarray,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Build exact spherical-area overlap weights from ERA5 grid cells to HadCRUT5 cells.
+
+    ERA5 coordinates are treated as grid-cell centres. Source-cell bounds are
+    halfway between adjacent coordinates, with periodic longitude and polar
+    latitude bounds clipped to +/-90 degrees. Each 5-degree target cell receives
+    the exact overlap area of every contributing 0.25-degree source cell.
+    """
+    lat = np.asarray(latitude, dtype=np.float64)
+    lon = np.asarray(longitude, dtype=np.float64)
+    if lat.shape != (721,) or lon.shape != (1440,):
+        raise ValueError(
+            f"Expected ERA5 0.25-degree 721x1440 coordinates; received {lat.size}x{lon.size}"
+        )
+    if not np.allclose(np.diff(lat), -0.25, atol=1e-7):
+        raise ValueError("ERA5 latitude grid is not descending at 0.25-degree spacing")
+    if not np.allclose(np.diff(lon), 0.25, atol=1e-7):
+        raise ValueError("ERA5 longitude grid is not ascending at 0.25-degree spacing")
+    if not np.isclose(lat[0], 90.0) or not np.isclose(lat[-1], -90.0):
+        raise ValueError("ERA5 latitude grid must span 90N to 90S")
+    lon_shifted = ((lon + 180.0) % 360.0) - 180.0
+    lon_order = np.argsort(lon_shifted)
+    lon_centres = lon_shifted[lon_order]
+    if not np.allclose(np.diff(lon_centres), 0.25, atol=1e-7):
+        raise ValueError("ERA5 longitude coordinates are not a complete periodic 0.25-degree grid")
+
+    # Source latitude-cell boundaries are midpoint edges; poles bound the grid.
+    lat_edges = np.empty(lat.size + 1, dtype=np.float64)
+    lat_edges[1:-1] = 0.5 * (lat[:-1] + lat[1:])
+    lat_edges[0], lat_edges[-1] = 90.0, -90.0
+    source_lat_hi = np.maximum(lat_edges[:-1], lat_edges[1:])
+    source_lat_lo = np.minimum(lat_edges[:-1], lat_edges[1:])
+    target_lat_edges = np.linspace(-90.0, 90.0, N_LAT + 1)
+    lat_weights = np.zeros((N_LAT, lat.size), dtype=np.float64)
+    for row in range(N_LAT):
+        lo, hi = target_lat_edges[row], target_lat_edges[row + 1]
+        overlap_lo = np.maximum(source_lat_lo, lo)
+        overlap_hi = np.minimum(source_lat_hi, hi)
+        valid = overlap_hi > overlap_lo
+        lat_weights[row, valid] = (
+            np.sin(np.deg2rad(overlap_hi[valid]))
+            - np.sin(np.deg2rad(overlap_lo[valid]))
+        )
+
+    # Periodic source longitude-cell boundaries and exact overlap in degrees.
+    lon_edges = np.empty(lon_centres.size + 1, dtype=np.float64)
+    lon_edges[1:-1] = 0.5 * (lon_centres[:-1] + lon_centres[1:])
+    lon_edges[0] = 0.5 * (lon_centres[0] + lon_centres[-1] - 360.0)
+    lon_edges[-1] = lon_edges[0] + 360.0
+    source_lon_lo, source_lon_hi = lon_edges[:-1], lon_edges[1:]
+    target_lon_edges = np.linspace(-180.0, 180.0, N_LON + 1)
+    lon_weights = np.zeros((N_LON, lon_centres.size), dtype=np.float64)
+    for column in range(N_LON):
+        lo, hi = target_lon_edges[column], target_lon_edges[column + 1]
+        for shift in (-360.0, 0.0, 360.0):
+            shifted_lo = source_lon_lo + shift
+            shifted_hi = source_lon_hi + shift
+            lon_weights[column] += np.maximum(
+                0.0,
+                np.minimum(shifted_hi, hi) - np.maximum(shifted_lo, lo),
+            )
+
+    expected_lat_area = (
+        np.sin(np.deg2rad(target_lat_edges[1:]))
+        - np.sin(np.deg2rad(target_lat_edges[:-1]))
+    )
+    if not np.allclose(lat_weights.sum(axis=1), expected_lat_area, atol=1e-12):
+        raise ValueError("Conservative latitude weights do not cover every target cell")
+    if not np.allclose(lon_weights.sum(axis=1), 5.0, atol=1e-12):
+        raise ValueError("Conservative longitude weights do not cover every target cell")
+    return lat_weights, lon_order, lon_weights
+
+
 def regrid_era5_monthly_field(
     field: np.ndarray,
     latitude: np.ndarray,
     longitude: np.ndarray,
+    weights: tuple[np.ndarray, np.ndarray, np.ndarray] | None = None,
 ) -> np.ndarray:
-    """Area-weight ERA5 0.25-degree cells into the HadCRUT5 5-degree grid.
+    """Conservatively area-average ERA5 0.25-degree cells to HadCRUT5 5-degree cells.
 
-    Each ERA5 cell is assigned to the HadCRUT5 cell containing its grid-point
-    centre. Longitude cells are equally wide. Latitude contributions are
-    weighted by cos(latitude), the spherical area factor for a regular
-    latitude-longitude grid. Output latitude order is south to north.
+    The source coordinates are interpreted as cell centres. Target-cell means
+    use exact overlaps in longitude and in sin(latitude), preserving spherical
+    area integrals and correctly splitting cells that straddle 5-degree edges.
+    Output latitude order is south to north and longitude order is west to east.
     """
     data = np.asarray(np.ma.filled(field, np.nan), dtype=np.float64)
     lat = np.asarray(latitude, dtype=np.float64)
     lon = np.asarray(longitude, dtype=np.float64)
     if data.shape != (lat.size, lon.size):
         raise ValueError("ERA5 field dimensions do not match its coordinates")
-    if lat.size != 721 or lon.size != 1440:
-        raise ValueError(
-            f"Expected ERA5 0.25-degree 721x1440 grid; received {lat.size}x{lon.size}"
-        )
-    if not np.allclose(np.diff(lat), -0.25, atol=1e-7):
-        raise ValueError("ERA5 latitude grid is not descending at 0.25-degree spacing")
-    if not np.allclose(np.diff(lon), 0.25, atol=1e-7):
-        raise ValueError("ERA5 longitude grid is not ascending at 0.25-degree spacing")
+    if weights is None:
+        weights = build_conservative_regrid_weights(lat, lon)
+    lat_weights, lon_order, lon_weights = weights
+    if lat_weights.shape != (N_LAT, lat.size) or lon_weights.shape != (N_LON, lon.size):
+        raise ValueError("Conservative regridding weights do not match ERA5 coordinates")
+    if not np.all(np.isfinite(data)):
+        raise ValueError("ERA5 field contains missing or non-finite values")
 
-    lat_bin = np.floor((lat + 90.0) / 5.0 + 1e-9).astype(np.int64)
-    lat_bin = np.clip(lat_bin, 0, N_LAT - 1)
-    lon_shifted = ((lon + 180.0) % 360.0) - 180.0
-    lon_bin = np.floor((lon_shifted + 180.0) / 5.0 + 1e-9).astype(np.int64)
-    lon_bin = np.clip(lon_bin, 0, N_LON - 1)
-    if not np.array_equal(np.bincount(lon_bin, minlength=N_LON), np.full(N_LON, 20)):
-        raise ValueError("ERA5 longitude points do not form 72 equal 5-degree groups")
-
-    ordered = data[:, np.argsort(lon_bin)]
-    lon_means = np.nanmean(ordered.reshape(lat.size, N_LON, 20), axis=2)
-    lat_area = np.cos(np.deg2rad(lat))
-    lat_area[np.abs(lat) > 89.999999] = 0.0
-    result = np.full((N_LAT, N_LON), np.nan, dtype=np.float64)
-    for row in range(N_LAT):
-        rows = np.flatnonzero(lat_bin == row)
-        values = lon_means[rows]
-        weights = lat_area[rows, None] * np.isfinite(values)
-        numerator = np.nansum(values * lat_area[rows, None], axis=0)
-        denominator = np.sum(weights, axis=0)
-        if np.any(denominator <= 0):
-            raise ValueError(f"No valid ERA5 cells contribute to HadCRUT5 latitude row {row}")
-        result[row] = numerator / denominator
-    if not np.all(np.isfinite(result)):
-        raise ValueError("Regridded ERA5 field contains non-finite values")
+    # First aggregate source longitudes into target 5-degree cells, then
+    # aggregate latitudes using exact spherical-area overlap weights.
+    lon_numerator = data[:, lon_order] @ lon_weights.T
+    lon_denominator = lon_weights.sum(axis=1)
+    lon_mean = lon_numerator / lon_denominator[None, :]
+    lat_numerator = lat_weights @ lon_mean
+    lat_denominator = lat_weights.sum(axis=1)
+    result = lat_numerator / lat_denominator[:, None]
+    if result.shape != (N_LAT, N_LON) or not np.all(np.isfinite(result)):
+        raise ValueError("Conservatively regridded ERA5 field is invalid")
     return result
-
 
 def load_era5_reference_fields(era5_dir: Path) -> tuple[np.ndarray, list[dict]]:
     """Load 1979-2018 APCC ERA5 monthly files and regrid them to 5 degrees."""
@@ -119,6 +180,7 @@ def load_era5_reference_fields(era5_dir: Path) -> tuple[np.ndarray, list[dict]]:
     fields = np.empty((len(years), 12, N_LAT, N_LON), dtype=np.float32)
     manifest: list[dict] = []
     canonical_lat = canonical_lon = None
+    regrid_weights = None
     for year_index, year in enumerate(years):
         path = era5_dir / f"t2m_{year}.nc"
         if not path.is_file() or path.stat().st_size == 0:
@@ -139,6 +201,7 @@ def load_era5_reference_fields(era5_dir: Path) -> tuple[np.ndarray, list[dict]]:
                 )
             if canonical_lat is None:
                 canonical_lat, canonical_lon = latitude, longitude
+                regrid_weights = build_conservative_regrid_weights(latitude, longitude)
             elif not np.array_equal(canonical_lat, latitude) or not np.array_equal(canonical_lon, longitude):
                 raise ValueError(f"{path.name}: ERA5 grid differs from the first reference year")
             annual_data = t2m_var[:]
@@ -150,7 +213,7 @@ def load_era5_reference_fields(era5_dir: Path) -> tuple[np.ndarray, list[dict]]:
                 raise ValueError(f"{path.name}: missing or non-finite ERA5 t2m values")
             for month in range(12):
                 fields[year_index, month] = regrid_era5_monthly_field(
-                    annual_data[month], latitude, longitude
+                    annual_data[month], latitude, longitude, regrid_weights
                 ).astype(np.float32)
         manifest.append({
             "year": year,
