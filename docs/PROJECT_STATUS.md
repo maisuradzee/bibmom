@@ -17,7 +17,7 @@
 | საჯარო კვლევითი კატალოგი | 1 preliminary, 0 published — სამუშაო PR branch-ზე | `data/research.json`, `data/research.schema.json`; Pages build ქმნის 1 preliminary HTML გვერდს |
 | კვლევის ბარათები და სტატუსები | კოდში დამატებულია | მთავარი გვერდი აჩვენებს preliminary და published სტატუსებს ცალ-ცალკე |
 | ღია განხილვის რეჟიმი | კოდში დამატებულია | GitHub Issues feed, ახალი განხილვის ბმული და მომხმარებლის კომენტარები GitHub-ზე |
-| CI და საიტის build | PASS — მიმდინარე ცვლილებების საწყისი შემოწმება | [CI run 45287511224](https://github.com/maisuradzee/bibmom/actions/runs/45287511224): build report — 0 published, 1 preliminary; ცვლილებების ბოლო JSON Schema შესწორება დამატებით CI გადამოწმებას ელოდება |
+| CI და საიტის build | PASS — მიმდინარე ცვლილებების საწყისი შემოწმება | [CI run 45287511224](https://github.com/maisuradzee/bibmom/actions/runs/45287511224): 81 ტესტი PASS, build report — 0 published, 1 preliminary; ამის შემდეგ დამატებული schema-contract ტესტი ჯერ დამატებით CI გადამოწმებას ელოდება |
 | GitHub Pages | წინა deployment წარმატებული | [deployment run 45169053640](https://github.com/maisuradzee/bibmom/actions/runs/45169053640); ამ PR-ის ახალი branch ცვლილებები ჯერ არ არის გამოქვეყნებული |
 | Supabase მონაცემთა ბაზა | ჯერ არ შექმნილა | ამჟამად გამოიყენება Git-ით ვერსიაკონტროლირებადი JSON კატალოგი; ეს არ არის სერვერული/ტრანზაქციული DB |
 | ვიზუალური AI ექსპერიმენტი | შეჩერებულია ნებართვამდე | SignBase-ის გამოსახულებებზე გამოყენების უფლება მოსაპოვებელია |
@@ -41,7 +41,7 @@
 
 ## ბოლო ტექნიკური შემოწმება
 
-- [CI run 45287511224](https://github.com/maisuradzee/bibmom/actions/runs/45287511224) — SUCCESS: ყველა სამუშაო ნაბიჯი დასრულდა წარმატებით; საიტის build-მა 1 preliminary სტატია შექმნა, ხოლო draft ფაილები Pages არტეფაქტში არ მოხვდა.
+- [CI run 45287511224](https://github.com/maisuradzee/bibmom/actions/runs/45287511224) — SUCCESS: 81 Python test და ყველა სამუშაო ნაბიჯი დასრულდა წარმატებით; საიტის build-მა 1 preliminary სტატია შექმნა, ხოლო draft ფაილები Pages არტეფაქტში არ მოხვდა. ამ run-ის შემდეგ დაემატა ერთი schema-contract test და validator-ის დამატებითი შემოწმება; მიმდინარე head-ზე მათი ცალკე CI შედეგი ჯერ არ დადასტურებულა.
 - [სრული NOEMA-005 benchmark run 45283854718](https://github.com/maisuradzee/bibmom/actions/runs/45283854718) — 12 format/size case და 66 method measurement.
 - [წინა Pages deployment run 45169053640](https://github.com/maisuradzee/bibmom/actions/runs/45169053640) — build და deploy წარმატებით დასრულდა. ეს არ ნიშნავს, რომ მიმდინარე PR-ის ცვლილებები უკვე საჯარო გვერდზეა.
 
