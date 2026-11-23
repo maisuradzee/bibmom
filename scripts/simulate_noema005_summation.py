@@ -470,9 +470,38 @@ def decimal_integer_superaccumulator_units(
 def decimal_integer_superaccumulator(
     ctx: Context, values: Sequence[Decimal]
 ) -> Decimal:
-    units = decimal_integer_superaccumulator_units(ctx, values)
+    """Exact integer accumulation at the finest exponent present in the inputs."""
+    parts_list = []
+    common_exponent = None
+    for value in values:
+        parts = value.as_tuple()
+        if not isinstance(parts.exponent, int):
+            raise ValueError("decimal integer accumulator accepts only finite values")
+        if parts.exponent < ctx.Etiny():
+            raise ValueError("decimal input is below the selected format's Etiny")
+        coefficient = 0
+        for digit in parts.digits:
+            coefficient = coefficient * 10 + digit
+        signed_coefficient = -coefficient if parts.sign else coefficient
+        parts_list.append((signed_coefficient, parts.exponent))
+        common_exponent = (
+            parts.exponent if common_exponent is None
+            else min(common_exponent, parts.exponent)
+        )
+
+    if common_exponent is None:
+        return ctx.create_decimal(0)
+
+    units = sum(
+        coefficient * (10 ** (exponent - common_exponent))
+        for coefficient, exponent in parts_list
+    )
     sign = 1 if units < 0 else 0
-    exact = Decimal((sign, _integer_to_decimal_digits(abs(units)), ctx.Etiny()))
+    exact = Decimal((
+        sign,
+        _integer_to_decimal_digits(abs(units)),
+        common_exponent,
+    ))
     return ctx.create_decimal(exact)
 
 
