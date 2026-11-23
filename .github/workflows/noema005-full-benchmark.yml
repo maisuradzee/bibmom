@@ -66,12 +66,13 @@ jobs:
         run: |
           python - "$RUNNER_TEMP/noema005-full-benchmark.json" <<'PY'
           import json
-          import math
+          import json
+          import os
           import sys
           from pathlib import Path
 
           report = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
-          expected_sizes = [int(item) for item in sys.argv[2].split(",")] if len(sys.argv) > 2 else [1024, 8192, 65536]
+          expected_sizes = [int(item) for item in os.environ["BENCH_SIZES"].split(",") if item]
           expected_methods = {
               "binary32": 6,
               "binary64": 6,
@@ -105,8 +106,6 @@ jobs:
               f"{len(cases)} format/size cases, {measurement_count} method measurements"
           )
           PY
-        env:
-          BENCH_SIZES: ${{ env.BENCH_SIZES }}
 
       - name: Upload full benchmark result artifact
         uses: actions/upload-artifact@v7
