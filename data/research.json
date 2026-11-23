@@ -1,5 +1,74 @@
 {
   "project": "NOEMA",
   "schema_version": 1,
-  "research": []
+  "updated_at": "2026-11-24",
+  "research": [
+    {
+      "id": "NOEMA-2026-005",
+      "title": "მცურავი წერტილის ჯამის სიზუსტე: ალგორითმი და რიგითობა",
+      "date": "2026-11-24",
+      "category": "რიცხვითი ანალიზი",
+      "summary": "კონტროლირებული ტესტები აჩვენებს, რომ შეკრების რიგითობამ შეიძლება შეცვალოს შედეგი. წარმოდგენილია ოთხი რიცხვითი ფორმატის accuracy stress-test და ერთ CPython/Linux გარემოში ჩატარებული runtime/memory პროფილი; ეს წინასწარი, არა რეცენზირებული შედეგია.",
+      "file": "research/preprints/NOEMA-2026-005-floating-point-summation.md",
+      "status": "preliminary",
+      "version": "1.0",
+      "sources": [
+        {
+          "title": "Higham (1993), The accuracy of floating point summation",
+          "url": "https://doi.org/10.1137/0914050",
+          "type": "peer-reviewed"
+        },
+        {
+          "title": "Ogita, Rump & Oishi (2005), Accurate Sum and Dot Product",
+          "url": "https://doi.org/10.1137/030601818",
+          "type": "peer-reviewed"
+        },
+        {
+          "title": "Shewchuk (1997), Adaptive Precision Floating-Point Arithmetic",
+          "url": "https://doi.org/10.1007/PL00009321",
+          "type": "peer-reviewed"
+        },
+        {
+          "title": "IEEE 754-2019",
+          "url": "https://standards.ieee.org/ieee/754/6210/",
+          "type": "standard"
+        },
+        {
+          "title": "Python math.fsum documentation",
+          "url": "https://docs.python.org/3.12/library/math.html#math.fsum",
+          "type": "official-documentation"
+        },
+        {
+          "title": "NIST DLMF §3.1",
+          "url": "https://dlmf.nist.gov/3.1",
+          "type": "reference"
+        }
+      ],
+      "methodology": {
+        "formats": [
+          "binary32",
+          "binary64",
+          "decimal64",
+          "decimal128"
+        ],
+        "benchmark_sizes": [
+          1024,
+          8192,
+          65536
+        ],
+        "warmups": 2,
+        "repetitions": 7,
+        "random_seed": 20261124,
+        "execution_environment": "CPython 3.14.4, Linux x86-64 (AWS runner)",
+        "full_profile_run": "https://github.com/maisuradzee/bibmom/actions/runs/45283854718"
+      },
+      "limitations": [
+        "ერთი CPython/Linux runner; cross-platform განმეორება არ დასრულებულა",
+        "tracemalloc არ ზომავს სრულ RSS-ს ან ყველა native allocation-ს",
+        "binary32-ის ნაწილი Python-ში ემულირებულია და hardware-ის სიჩქარეს არ წარმოადგენს",
+        "integer accumulator არის reference implementation და არა production-ოპტიმიზაცია",
+        "დამოუკიდებელი გარე რეცენზია ჯერ არ დასრულებულა"
+      ]
+    }
+  ]
 }
