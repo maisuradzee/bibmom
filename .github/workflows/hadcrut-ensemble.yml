@@ -36,6 +36,21 @@ jobs:
           test -s "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.ensemble_series.global.annual.csv"
           test -s "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.summary_series.global.annual.csv"
 
+      - name: Download HadCRUT5 spatial reference grids for coverage extension
+        run: |
+          set -euo pipefail
+          BASE="https://hadleyserver.metoffice.gov.uk/hadcrut5/data/HadCRUT.5.2.0.0/analysis"
+          curl --fail --location --retry 3 --retry-delay 2 \\
+            "$BASE/HadCRUT.5.2.0.0.analysis.anomalies.ensemble_mean.nc" \\
+            --output "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.anomalies.ensemble_mean.nc"
+          curl --fail --location --retry 3 --retry-delay 2 \\
+            "$BASE/HadCRUT.5.2.0.0.analysis.weights.nc" \\
+            --output "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.weights.nc"
+          test -s "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.anomalies.ensemble_mean.nc"
+          test -s "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.weights.nc"
+          sha256sum "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.anomalies.ensemble_mean.nc" \\
+            "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.weights.nc"
+
       - name: Analyze 200 member-specific trends
         run: |
           python scripts/analyze_hadcrut_ensemble.py \
@@ -51,6 +66,8 @@ jobs:
           path: |
             ${{ runner.temp }}/HadCRUT.5.2.0.0.analysis.ensemble_series.global.annual.csv
             ${{ runner.temp }}/HadCRUT.5.2.0.0.analysis.summary_series.global.annual.csv
+            ${{ runner.temp }}/HadCRUT.5.2.0.0.analysis.anomalies.ensemble_mean.nc
+            ${{ runner.temp }}/HadCRUT.5.2.0.0.analysis.weights.nc
             ${{ runner.temp }}/hadcrut5-ensemble-results.json
           if-no-files-found: error
           retention-days: 30
