@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Test ensemble analysis
-        run: python -m unittest tests.test_analyze_hadcrut_ensemble -v
+        run: python -m unittest discover -s tests -p "test_analyze_hadcrut_ensemble.py" -v
 
       - name: Download official HadCRUT.5.2.0.0 member series
         run: |
