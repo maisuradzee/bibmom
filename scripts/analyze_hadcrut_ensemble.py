@@ -58,6 +58,101 @@ def newey_west_slope_se_c_per_decade(years: list[int], values: list[float], lag_
         raise ValueError("HAC covariance estimate is negative")
     return 10.0 * math.sqrt(max(variance, 0.0))
 
+def coverage_slope_rms_upper_bound_c_per_decade(
+    years: list[int], annual_sigma: list[float]
+) -> float:
+    """Covariance-agnostic RMS upper bound for coverage contribution to an OLS slope.
+
+    For slope weights a_t and annual RMS uncertainties sigma_t, Minkowski's
+    inequality gives ||sum(a_t * epsilon_t)||_2 <= sum(|a_t| * sigma_t).
+    This is an upper bound, not a confidence interval.
+    """
+    if len(years) != len(annual_sigma) or len(years) < 2:
+        raise ValueError("Coverage slope bound requires matching arrays with n >= 2")
+    if any(not math.isfinite(float(value)) or float(value) < 0.0 for value in annual_sigma):
+        raise ValueError("Annual coverage uncertainties must be finite and non-negative")
+    xbar = sum(years) / len(years)
+    sxx = sum((year - xbar) ** 2 for year in years)
+    if sxx <= 0:
+        raise ValueError("Coverage slope bound requires distinct years")
+    return sum(
+        abs(10.0 * (year - xbar) / sxx) * float(sigma)
+        for year, sigma in zip(years, annual_sigma)
+    )
+
+
+def read_summary_confidence_limits(path: Path) -> dict[int, tuple[float, float]]:
+    result: dict[int, tuple[float, float]] = {}
+    with path.open("r", encoding="utf-8-sig", newline="") as handle:
+        reader = csv.DictReader(handle)
+        required = {
+            "Time",
+            "Lower confidence limit (2.5%)",
+            "Upper confidence limit (97.5%)",
+        }
+        if not reader.fieldnames or not required.issubset(reader.fieldnames):
+            raise ValueError("HadCRUT summary CSV is missing 2.5%/97.5% confidence limits")
+        for row in reader:
+            year = int(float(row["Time"]))
+            if START_YEAR <= year <= END_YEAR:
+                if year in result:
+                    raise ValueError(f"Duplicate summary confidence-limit row for {year}")
+                lower = float(row["Lower confidence limit (2.5%)"])
+                upper = float(row["Upper confidence limit (97.5%)"])
+                if not math.isfinite(lower) or not math.isfinite(upper) or lower > upper:
+                    raise ValueError(f"Invalid summary confidence limits for {year}")
+                result[year] = (lower, upper)
+    if set(result) != set(range(START_YEAR, END_YEAR + 1)):
+        raise ValueError("Summary confidence limits do not cover all 47 analysis years")
+    return result
+
+
+def coverage_uncertainty_internal_check(
+    years: list[int],
+    members: list[dict[int, float]],
+    published_coverage_sigma: list[float],
+    summary_path: Path,
+) -> dict:
+    """Cross-check the published coverage sigma against the summary 95% interval.
+
+    The summary interval encodes total uncertainty, while the 200-member annual
+    sample standard deviation encodes the ensemble term. Under the documented
+    quadrature combination, infer coverage sigma from total_sigma^2-ensemble_sigma^2.
+    """
+    limits = read_summary_confidence_limits(summary_path)
+    inferred = []
+    published = []
+    for index, year in enumerate(years):
+        member_values = [member[year] for member in members]
+        ensemble_sigma = stdev(member_values)
+        lower, upper = limits[year]
+        total_sigma = (upper - lower) / (2.0 * 1.96)
+        residual_variance = total_sigma * total_sigma - ensemble_sigma * ensemble_sigma
+        if residual_variance < -1e-10:
+            raise ValueError(
+                f"Summary interval variance is smaller than the ensemble variance for {year}"
+            )
+        inferred.append(math.sqrt(max(residual_variance, 0.0)))
+        published.append(float(published_coverage_sigma[index]))
+    differences = [a - b for a, b in zip(inferred, published)]
+    max_index = max(range(len(differences)), key=lambda i: abs(differences[i]))
+    return {
+        "method": (
+            "Infer total_sigma from the published 2.5%-97.5% interval using 1.96, "
+            "then subtract the annual 200-member sample variance in quadrature."
+        ),
+        "n_years": len(years),
+        "rmse_c": rounded(math.sqrt(sum(value * value for value in differences) / len(differences))),
+        "mean_absolute_difference_c": rounded(sum(abs(value) for value in differences) / len(differences)),
+        "maximum_absolute_difference_c": rounded(abs(differences[max_index])),
+        "maximum_difference_year": years[max_index],
+        "interpretation": (
+            "Internal consistency check across official HadCRUT5 summary and ensemble CSVs; "
+            "it does not independently reproduce the ERA5 coverage-error model."
+        ),
+    }
+
+
 def read_member_csv(path: Path):
     expected_name = f"{VERSION}.analysis.ensemble_series.global.annual.csv"
     if path.name != expected_name:
@@ -159,6 +254,9 @@ def analyze(input_path: Path, summary_path: Path | None = None) -> dict:
             "slope_difference_c_per_decade": rounded(mean_series_slope - summary_slope),
             "mean_member_mean_minus_summary_anomaly_c": rounded(sum(diffs) / len(diffs)),
             "max_absolute_annual_difference_c": rounded(max(abs(v) for v in diffs)),
+            "coverage_uncertainty_internal_consistency": coverage_uncertainty_internal_check(
+                years, members, coverage_uncertainty, summary_path
+            ),
             "note": "Rounding/processing differences are reported, not silently corrected.",
         }
     raw = input_path.read_bytes()
@@ -193,11 +291,26 @@ def analyze(input_path: Path, summary_path: Path | None = None) -> dict:
         "coverage_metadata": {
             "fraction_of_area_represented_mean_1979_2025": rounded(sum(coverage) / len(coverage)),
             "fraction_of_area_represented_2025": rounded(coverage[-1]),
+            "coverage_uncertainty_1sigma_mean_1979_2025": rounded(
+                sum(coverage_uncertainty) / len(coverage_uncertainty)
+            ),
             "coverage_uncertainty_1sigma_2025": rounded(coverage_uncertainty[-1]),
             "coverage_uncertainty_1sigma_range_1979_2025": [
                 rounded(min(coverage_uncertainty)), rounded(max(coverage_uncertainty))
             ],
-            "limitation": "The additional coverage-uncertainty component is reported separately and is not propagated into member slope percentiles.",
+            "coverage_trend_error_rms_upper_bound_c_per_decade": rounded(
+                coverage_slope_rms_upper_bound_c_per_decade(years, coverage_uncertainty)
+            ),
+            "coverage_trend_bound_interpretation": (
+                "Covariance-agnostic RMS upper bound from Minkowski's inequality using "
+                "the 47 published annual coverage 1-sigma values and OLS slope weights. "
+                "This is not a confidence interval or a point estimate of coverage trend error."
+            ),
+            "limitation": (
+                "The annual coverage uncertainty series is official and retained separately; "
+                "its interannual covariance is not supplied here, so no exact coverage-error "
+                "slope distribution is claimed."
+            ),
         },
         "summary_series_comparison": summary_comparison,
         "method_notes": [
