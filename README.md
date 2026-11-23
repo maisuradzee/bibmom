@@ -16,6 +16,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - `assets/styles.css` და `assets/articles.css` — მთავარი გვერდისა და კვლევითი სტატიების ვიზუალური სტილები.
 - `data/research.json` — საჯარო კვლევების ინდექსი.
 - `data/noema-003/` — NOAA-ს ფიქსირებული მონაცემთა ამონარიდი, NASA/HadCRUT5/NOAA snapshot-ები, provenance metadata და გამეორებადი შედეგები.
+- `data/noema-005/` — binary64 ჯამის რიგითობის ექსპერიმენტის გაყინული შედეგები და ზუსტი reference შედარება.
 - `research/drafts/` — სამუშაო ჩანაწერები; Pages არტეფაქტში არ შედის, თუმცა საჯარო GitHub საცავში იკითხება.
 - `research/published/` — მხოლოდ შემოწმებული და გამოსაქვეყნებლად დამტკიცებული კვლევების გვერდები.
 - `research/TEMPLATE.md` — კვლევის დოკუმენტის შაბლონი.
@@ -30,9 +31,11 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - [NOEMA-2026-001](research/drafts/2026-11-23-paleolithic-sign-systems.md) — პალეოლითური ნიშნები; მეთოდოლოგიური გადახედვა: [დამატება A](research/drafts/2026-11-23-methodological-reassessment.md).
 - [NOEMA-2026-002](research/drafts/2026-11-23-signbase-coding-audit.md) — SignBase 2.0-ის ტექსტური კოდირების აუდიტი და საბაზისო heuristic-ის ტესტი.
 - [NOEMA-2026-003](research/drafts/2026-11-23-noaa-globaltemp-trend-sensitivity.md) — NOAA GlobalTemp-ის ტენდენციის საწყისი წლის მგრძნობელობა და NASA GISTEMP/HadCRUT5-თან cross-dataset გამეორება.
+- [NOEMA-2026-005](research/drafts/NOEMA-2026-005-floating-summation-order.md) — binary64 ჯამის რიგითობისა და ზუსტი/კომპენსირებული ალგორითმების კონტროლირებული კვლევა.
 - აუდიტის გამეორებადი სკრიპტი: `scripts/audit_signbase.py`; შედეგები: `data/audits/signbase-v2-audit-2026-11-23.json`.
 - მოკლე მიმდევრობების ენტროპიის სიმულაცია: `scripts/short_sequence_bias_simulation.py`.
 - NOEMA-003-ის NOAA ანალიზი: `scripts/analyze_noema003.py`; cross-dataset შედარება და HAC ლაგების 1–6 ტესტი: `scripts/compare_noema003_datasets.py`; მონაცემთა snapshot-ები, metadata და შედეგები: `data/noema-003/`.
+- NOEMA-005-ის ექსპერიმენტი: `scripts/simulate_noema005_summation.py`; ტესტები: `tests/test_noema005_summation.py`; გაყინული შედეგები: `data/noema-005/floating-summation-results.json`.
 
 ## პროექტის მდგომარეობა
 
