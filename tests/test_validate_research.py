@@ -17,7 +17,19 @@ class ValidateResearchTests(unittest.TestCase):
         (self.root / "research" / "preprints").mkdir(parents=True)
         schema = {
             "$schema": "https://json-schema.org/draft/2020-12/schema",
-            "properties": {"schema_version": {"const": 1}},
+            "properties": {
+                "schema_version": {"const": 1},
+                "research": {
+                    "items": {
+                        "required": ["id", "title", "date", "category", "summary", "status"],
+                        "properties": {
+                            "status": {"enum": ["preliminary", "published"]},
+                            "url": {"format": "uri-reference"},
+                        },
+                        "anyOf": [{"required": ["file"]}, {"required": ["url"]}],
+                    }
+                },
+            },
         }
         (self.root / "data" / "research.schema.json").write_text(
             json.dumps(schema), encoding="utf-8"
@@ -86,6 +98,17 @@ class ValidateResearchTests(unittest.TestCase):
         (self.root / second["file"]).write_text("# Two", encoding="utf-8")
         self.write_index([first, second])
         with self.assertRaisesRegex(ValueError, "duplicate id"):
+            validate_index(self.root)
+
+    def test_rejects_schema_that_requires_source_file_for_public_site_output(self) -> None:
+        item = self.item()
+        (self.root / item["file"]).write_text("# Preliminary", encoding="utf-8")
+        self.write_index([item])
+        schema_path = self.root / "data" / "research.schema.json"
+        schema = json.loads(schema_path.read_text(encoding="utf-8"))
+        schema["properties"]["research"]["items"]["required"].append("file")
+        schema_path.write_text(json.dumps(schema), encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "file cannot be required"):
             validate_index(self.root)
 
     def test_rejects_non_http_source(self) -> None:
