@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://noema.example/schemas/research-index.v1.json",
+  "title": "NOEMA public research catalogue",
+  "type": "object",
+  "required": [
+    "project",
+    "schema_version",
+    "research"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "project": {
+      "const": "NOEMA"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date"
+    },
+    "research": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "date",
+          "category",
+          "summary",
+          "file",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^NOEMA-[0-9]{4}-[0-9]{3}$"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 3
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "category": {
+            "type": "string",
+            "minLength": 2
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 20
+          },
+          "file": {
+            "type": "string",
+            "pattern": "^research/(preprints|published)/[A-Za-z0-9._-]+\\.md$"
+          },
+          "status": {
+            "enum": [
+              "preliminary",
+              "published"
+            ]
+          },
+          "version": {
+            "type": "string"
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "title",
+                "url",
+                "type"
+              ],
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "methodology": {
+            "type": "object"
+          },
+          "limitations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}
