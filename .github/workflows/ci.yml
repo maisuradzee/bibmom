@@ -23,10 +23,23 @@ jobs:
           test -f research/TEMPLATE.md
           test -f scripts/validate_research.py
           test -f scripts/short_sequence_bias_simulation.py
+          test -f scripts/audit_signbase.py
       - name: Validate research index
         run: python scripts/validate_research.py
+      - name: Run Python unit tests
+        run: python -m unittest discover -s tests -v
       - name: Run finite-sample simulation smoke test
         run: python scripts/short_sequence_bias_simulation.py --trials 2000
+      - name: Verify pinned SignBase 2.0 audit snapshot
+        run: |
+          BASE="https://raw.githubusercontent.com/christianbentz/PaleoSigns/b376bd87d9676fbf63f8555d03e06b4c28113740/data/signBase"
+          curl --fail --location --silent --show-error "$BASE/Sb2Artifact-2025-03-06.csv" --output /tmp/signbase-objects.csv
+          curl --fail --location --silent --show-error "$BASE/Sign-2025-03-06.csv" --output /tmp/signbase-signs.csv
+          python scripts/audit_signbase.py \
+            --artifacts /tmp/signbase-objects.csv \
+            --dictionary /tmp/signbase-signs.csv \
+            --output /tmp/signbase-audit.json
+          diff -u data/audits/signbase-v2-audit-2026-11-23.json /tmp/signbase-audit.json
       - name: Check HTML document basics
         run: |
           grep -q '<html lang="ka">' index.html
