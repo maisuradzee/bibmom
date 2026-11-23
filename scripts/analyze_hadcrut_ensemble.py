@@ -67,14 +67,14 @@ def read_member_csv(path: Path):
         fields = reader.fieldnames or []
         if len(fields) != len(set(fields)):
             raise ValueError("HadCRUT ensemble CSV contains duplicate column names")
-        realization_fields = [name for name in fields if name.startswith("Realization ")]
-        if set(realization_fields) != set(REALIZATIONS):
-            raise ValueError(f"Expected exactly {EXPECTED_MEMBERS} realization columns")
         required = {"Time", "Fraction of area represented",
                     "Coverage uncertainty (1 sigma)", *REALIZATIONS}
         missing = sorted(required.difference(fields))
         if missing:
             raise ValueError("HadCRUT ensemble CSV missing columns: " + ", ".join(missing[:8]))
+        realization_fields = [name for name in fields if name.startswith("Realization ")]
+        if set(realization_fields) != set(REALIZATIONS):
+            raise ValueError(f"Expected exactly {EXPECTED_MEMBERS} realization columns")
         records = {}
         for row in reader:
             raw_year = (row.get("Time") or "").strip()
