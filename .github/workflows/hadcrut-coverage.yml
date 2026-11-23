@@ -68,15 +68,15 @@ jobs:
           seq 1979 2018 | xargs -P 8 -I{} bash -c '
             set -euo pipefail
             year="$1"
-            out="$2/t2m_@YEAR@.nc"
-            primary="https://apcc21.org/clikapi/download/ERA5/MONTHLY/single/t2m/t2m_@YEAR@.nc"
-            fallback="https://download.apcc21.org/ERA5/MONTHLY/single/t2m/t2m_@YEAR@.nc"
+            out="$2/t2m_$year.nc"
+            primary="https://apcc21.org/clikapi/download/ERA5/MONTHLY/single/t2m/t2m_$year.nc"
+            fallback="https://download.apcc21.org/ERA5/MONTHLY/single/t2m/t2m_$year.nc"
             if ! curl --fail --location --retry 3 --retry-delay 2 "$primary" --output "$out.tmp"; then
               curl --fail --location --retry 3 --retry-delay 2 "$fallback" --output "$out.tmp"
             fi
             test -s "$out.tmp"
             mv "$out.tmp" "$out"
-            echo "Downloaded ERA5 t2m @YEAR@ ($(stat -c%s "$out") bytes)"
+            echo "Downloaded ERA5 t2m $year ($(stat -c%s "$out") bytes)"
           ' _ {} "$RUNNER_TEMP/era5"
           test "$(find "$RUNNER_TEMP/era5" -maxdepth 1 -name "t2m_*.nc" | wc -l)" -eq 40
           sha256sum "$RUNNER_TEMP"/era5/t2m_*.nc > "$RUNNER_TEMP/era5-sha256.txt"
