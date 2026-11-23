@@ -59,10 +59,10 @@ NOEMA-ს წინადადებაა მცირე **summation contract
 ## გამეორებადობა და წყარო მონაცემები
 
 - სრული benchmark workflow: [GitHub Actions run #45283854718](https://github.com/maisuradzee/bibmom/actions/runs/45283854718).
-- [Benchmark protocol](https://github.com/maisuradzee/bibmom/blob/research/noema-2026-005-mainline-2026-11-24/data/noema-005/benchmark-protocol.json)
-- [Full profile summary JSON](https://github.com/maisuradzee/bibmom/blob/research/noema-2026-005-mainline-2026-11-24/data/noema-005/benchmark-full-profile-summary-2026-11-24.json)
-- [Summation experiment result JSON](https://github.com/maisuradzee/bibmom/blob/research/noema-2026-005-mainline-2026-11-24/data/noema-005/floating-summation-results.json)
-- [კვლევის სრული სამუშაო ჩანაწერი](https://github.com/maisuradzee/bibmom/blob/research/noema-2026-005-mainline-2026-11-24/research/drafts/NOEMA-2026-005-floating-summation-order.md)
+- [Benchmark protocol](https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/benchmark-protocol.json)
+- [Full profile summary JSON](https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/benchmark-full-profile-summary-2026-11-24.json)
+- [Summation experiment result JSON](https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/floating-summation-results.json)
+- [კვლევის სრული სამუშაო ჩანაწერი](https://github.com/maisuradzee/bibmom/blob/main/research/drafts/NOEMA-2026-005-floating-summation-order.md)
 
 ## წყაროები
 
