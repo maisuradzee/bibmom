@@ -1,0 +1,65 @@
+{
+  "cluster_rotations_per_condition": 40,
+  "conditions": {
+    "dt_0.01": {
+      "dt": 0.01,
+      "groups": {
+        "alternating_low_high": {"max":142.07,"mean":142.07,"median":142.07,"min":142.07,"n":1,"population_sd":0.0},
+        "clustered_rotations": {"max":188.79,"mean":124.8485,"median":131.03,"min":66.05,"n":40,"population_sd":37.128806508558824},
+        "homogeneous_mean_delay": {"max":160.97,"mean":160.97,"median":160.97,"min":160.97,"n":1,"population_sd":0.0},
+        "random_permutations": {"max":153.25,"mean":139.8265,"median":139.92000000000002,"min":121.81,"n":20,"population_sd":6.980113376586373}
+      },
+      "perturbation": 0.01,
+      "sd_threshold": 0.05
+    },
+    "perturbation_0.005": {
+      "dt": 0.02,
+      "groups": {
+        "alternating_low_high": {"max":163.96,"mean":163.96,"median":163.96,"min":163.96,"n":1,"population_sd":0.0},
+        "clustered_rotations": {"max":201.38,"mean":153.9855,"median":152.25,"min":78.46000000000001,"n":40,"population_sd":34.92137854882021},
+        "homogeneous_mean_delay": {"max":184.16,"mean":184.16,"median":184.16,"min":184.16,"n":1,"population_sd":0.0},
+        "random_permutations": {"max":181.70000000000002,"mean":161.43800000000002,"median":160.58,"min":144.22,"n":20,"population_sd":8.971610557753833}
+      },
+      "perturbation": 0.005,
+      "sd_threshold": 0.05
+    },
+    "perturbation_0.02": {
+      "dt": 0.02,
+      "groups": {
+        "alternating_low_high": {"max":125.16,"mean":125.16,"median":125.16,"min":125.16,"n":1,"population_sd":0.0},
+        "clustered_rotations": {"max":143.48,"mean":99.7595,"median":110.93,"min":57.06,"n":40,"population_sd":26.629852604736662},
+        "homogeneous_mean_delay": {"max":140.68,"mean":140.68,"median":140.68,"min":140.68,"n":1,"population_sd":0.0},
+        "random_permutations": {"max":130.02,"mean":120.529,"median":120.94,"min":95.3,"n":20,"population_sd":7.1570677655028545}
+      },
+      "perturbation": 0.02,
+      "sd_threshold": 0.05
+    },
+    "sd_threshold_0.02": {
+      "dt": 0.02,
+      "groups": {
+        "alternating_low_high": {"max":121.18,"mean":121.18,"median":121.18,"min":121.18,"n":1,"population_sd":0.0},
+        "clustered_rotations": {"max":130.06,"mean":96.2135,"median":102.81,"min":55.22,"n":40,"population_sd":26.56072265112529},
+        "homogeneous_mean_delay": {"max":137.34,"mean":137.34,"median":137.34,"min":137.34,"n":1,"population_sd":0.0},
+        "random_permutations": {"max":125.88000000000001,"mean":117.294,"median":118.80000000000001,"min":93.5,"n":20,"population_sd":6.930902105786809}
+      },
+      "perturbation": 0.01,
+      "sd_threshold": 0.02
+    },
+    "sd_threshold_0.1": {
+      "dt": 0.02,
+      "groups": {
+        "alternating_low_high": {"max":155.70000000000002,"mean":155.70000000000002,"median":155.70000000000002,"min":155.70000000000002,"n":1,"population_sd":0.0},
+        "clustered_rotations": {"max":196.54,"mean":145.399,"median":142.91000000000003,"min":71.98,"n":40,"population_sd":34.431545405340145},
+        "homogeneous_mean_delay": {"max":176.74,"mean":176.74,"median":176.74,"min":176.74,"n":1,"population_sd":0.0},
+        "random_permutations": {"max":174.1,"mean":155.389,"median":153.43,"min":139.16,"n":20,"population_sd":8.23373663654601}
+      },
+      "perturbation": 0.01,
+      "sd_threshold": 0.1
+    }
+  },
+  "purpose": "Sensitivity checks for the time-to-velocity-SD-threshold outcome.",
+  "random_permutations_per_condition": 20,
+  "random_seed": 20261123,
+  "study_id": "NOEMA-2026-004",
+  "units": "dimensionless model-time units; not calibrated seconds"
+}
