@@ -1,0 +1,56 @@
+name: NOEMA HadCRUT5 ensemble validation
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/hadcrut-ensemble.yml"
+      - "scripts/analyze_hadcrut_ensemble.py"
+      - "tests/test_analyze_hadcrut_ensemble.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Test ensemble analysis
+        run: python -m unittest tests.test_analyze_hadcrut_ensemble -v
+
+      - name: Download official HadCRUT.5.2.0.0 member series
+        run: |
+          set -euo pipefail
+          BASE="https://www.metoffice.gov.uk/hadobs/hadcrut5/data/HadCRUT.5.2.0.0/analysis/diagnostics"
+          curl --fail --location --retry 3 --retry-delay 2 \
+            "$BASE/HadCRUT.5.2.0.0.analysis.ensemble_series.global.annual.csv" \
+            --output "$RUNNER_TEMP/hadcrut5-ensemble.csv"
+          curl --fail --location --retry 3 --retry-delay 2 \
+            "$BASE/HadCRUT.5.2.0.0.analysis.summary_series.global.annual.csv" \
+            --output "$RUNNER_TEMP/hadcrut5-summary.csv"
+          test -s "$RUNNER_TEMP/hadcrut5-ensemble.csv"
+          test -s "$RUNNER_TEMP/hadcrut5-summary.csv"
+
+      - name: Analyze 200 member-specific trends
+        run: |
+          python scripts/analyze_hadcrut_ensemble.py \
+            --input "$RUNNER_TEMP/hadcrut5-ensemble.csv" \
+            --summary-csv "$RUNNER_TEMP/hadcrut5-summary.csv" \
+            --output "$RUNNER_TEMP/hadcrut5-ensemble-results.json"
+          cat "$RUNNER_TEMP/hadcrut5-ensemble-results.json"
+
+      - name: Preserve exact source inputs and results
+        uses: actions/upload-artifact@v4
+        with:
+          name: noema-hadcrut5-ensemble-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/hadcrut5-ensemble.csv
+            ${{ runner.temp }}/hadcrut5-summary.csv
+            ${{ runner.temp }}/hadcrut5-ensemble-results.json
+          if-no-files-found: error
+          retention-days: 30
