@@ -6,7 +6,6 @@ on:
     paths:
       - ".github/workflows/hadcrut-coverage.yml"
       - "scripts/reconstruct_hadcrut_coverage.py"
-      - "tests/test_reconstruct_hadcrut_coverage.py"
   workflow_dispatch:
 
 permissions:
@@ -105,3 +104,25 @@ jobs:
             ${{ runner.temp }}/hadcrut5-coverage-reconstruction.json
           if-no-files-found: error
           retention-days: 30
+
+      - name: Enforce official coverage RMS validation
+        if: success()
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import sys
+
+          path = Path("${{ runner.temp }}/hadcrut5-coverage-reconstruction.json")
+          result = json.loads(path.read_text(encoding="utf-8"))
+          check = result["coverage_validation"]
+          print(
+              "Coverage validation:",
+              f"RMSE={check['annual_sigma_rmse_c']:.6f} C,",
+              f"max_abs={check['annual_sigma_max_absolute_difference_c']:.6f} C,",
+              f"tolerance={check['tolerance_c']:.6f} C,",
+              f"pass={check['pass']}",
+          )
+          if not check["pass"]:
+              raise SystemExit("Official HadCRUT5 coverage uncertainty reconstruction failed validation")
+          PY
