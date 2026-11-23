@@ -29,6 +29,10 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - აუდიტის გამეორებადი სკრიპტი: `scripts/audit_signbase.py`; შედეგები: `data/audits/signbase-v2-audit-2026-11-23.json`.
 - მოკლე მიმდევრობების ენტროპიის სიმულაცია: `scripts/short_sequence_bias_simulation.py`.
 
+## პროექტის მდგომარეობა
+
+იხილე [მიმდინარე სტატუსი და დადასტურებული შემოწმებები](docs/PROJECT_STATUS.md).
+
 ## კვლევის სტანდარტები
 
 - [კვლევითი და სარედაქციო სტანდარტი](docs/RESEARCH_STANDARD.md)
