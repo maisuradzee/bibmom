@@ -6,15 +6,21 @@ from fractions import Fraction
 
 from scripts.simulate_noema005_summation import (
     build_results,
+    binary32_integer_superaccumulator,
+    binary32_integer_superaccumulator_units,
     exact_float_sum,
     integer_superaccumulator,
     integer_superaccumulator_units,
     kahan_sum,
+    make_binary32_cancellation_case,
+    make_binary32_half_ulp_case,
     make_cancellation_case,
     make_half_ulp_case,
     naive_left_to_right,
     neumaier_sum,
     pairwise_sum,
+    round_fraction_to_binary32,
+    to_binary32,
 )
 
 
@@ -92,6 +98,50 @@ class Noema005SummationTests(unittest.TestCase):
         for value in (float("nan"), float("inf"), float("-inf")):
             with self.assertRaises(ValueError):
                 integer_superaccumulator([value])
+
+
+    def test_binary32_rounding_uses_ties_to_even_and_preserves_subnormals(self) -> None:
+        self.assertEqual(
+            round_fraction_to_binary32(Fraction(1, 1) + Fraction(1, 2**24)),
+            1.0,
+        )
+        self.assertEqual(
+            round_fraction_to_binary32(Fraction(1, 1) + Fraction(3, 2**24)),
+            1.0 + 2.0**-22,
+        )
+        self.assertEqual(
+            round_fraction_to_binary32(Fraction(1, 2**149)),
+            2.0**-149,
+        )
+
+    def test_binary32_integer_accumulator_matches_exact_sum_on_all_orders(self) -> None:
+        scale = 1 << 149
+        groups = (
+            make_binary32_cancellation_case(),
+            make_binary32_half_ulp_case(),
+        )
+        for group in groups:
+            for values in group.values():
+                exact = exact_float_sum(values)
+                units = binary32_integer_superaccumulator_units(values)
+                self.assertEqual(Fraction(units, scale), exact)
+                self.assertEqual(
+                    binary32_integer_superaccumulator(values),
+                    round_fraction_to_binary32(exact),
+                )
+
+    def test_binary32_naive_accumulation_depends_on_order(self) -> None:
+        from scripts.simulate_noema005_summation import binary32_naive_left_to_right
+        orders = make_binary32_cancellation_case()
+        self.assertNotEqual(
+            binary32_naive_left_to_right(orders["triplet_blocks"]),
+            binary32_naive_left_to_right(orders["magnitude_ascending"]),
+        )
+
+    def test_binary32_accumulator_rejects_non_finite_values(self) -> None:
+        for value in (float("nan"), float("inf"), float("-inf")):
+            with self.assertRaises(ValueError):
+                binary32_integer_superaccumulator([value])
 
 
 if __name__ == "__main__":
