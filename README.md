@@ -31,7 +31,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - [NOEMA-2026-001](research/drafts/2026-11-23-paleolithic-sign-systems.md) — პალეოლითური ნიშნები; მეთოდოლოგიური გადახედვა: [დამატება A](research/drafts/2026-11-23-methodological-reassessment.md).
 - [NOEMA-2026-002](research/drafts/2026-11-23-signbase-coding-audit.md) — SignBase 2.0-ის ტექსტური კოდირების აუდიტი და საბაზისო heuristic-ის ტესტი.
 - [NOEMA-2026-003](research/drafts/2026-11-23-noaa-globaltemp-trend-sensitivity.md) — NOAA GlobalTemp-ის ტენდენციის საწყისი წლის მგრძნობელობა და NASA GISTEMP/HadCRUT5-თან cross-dataset გამეორება.
-- [NOEMA-2026-005](research/drafts/NOEMA-2026-005-floating-summation-order.md) — binary32/binary64 ჯამის რიგითობისა და ზუსტი/კომპენსირებული ალგორითმების კონტროლირებული კვლევა.
+- [NOEMA-2026-005](research/drafts/NOEMA-2026-005-floating-summation-order.md) — binary32/binary64/decimal64/decimal128 ჯამის რიგითობისა და ზუსტი/კომპენსირებული ალგორითმების კონტროლირებული კვლევა.
 - აუდიტის გამეორებადი სკრიპტი: `scripts/audit_signbase.py`; შედეგები: `data/audits/signbase-v2-audit-2026-11-23.json`.
 - მოკლე მიმდევრობების ენტროპიის სიმულაცია: `scripts/short_sequence_bias_simulation.py`.
 - NOEMA-003-ის NOAA ანალიზი: `scripts/analyze_noema003.py`; cross-dataset შედარება და HAC ლაგების 1–6 ტესტი: `scripts/compare_noema003_datasets.py`; მონაცემთა snapshot-ები, metadata და შედეგები: `data/noema-003/`.
