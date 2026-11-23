@@ -23,18 +23,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Install pinned site build dependency
+        run: python -m pip install --disable-pip-version-check -r requirements-site.txt
+      - name: Validate approved publication index
+        run: python scripts/validate_research.py
+      - name: Build public site artifact
+        run: python scripts/build_site.py --output _site
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
-      - name: Build public site artifact
-        run: |
-          mkdir -p _site/assets _site/data _site/research
-          cp index.html _site/index.html
-          cp -R assets/. _site/assets/
-          cp data/research.json _site/data/research.json
-          if [ -d research/published ]; then
-            cp -R research/published/. _site/research/
-          fi
-          touch _site/.nojekyll
       - name: Upload static site
         uses: actions/upload-pages-artifact@v3
         with:
