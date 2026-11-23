@@ -7,13 +7,19 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 INDEX = ROOT / "data" / "research.json"
-PUBLISHED = (ROOT / "research" / "published").resolve()
+PUBLIC_ROOTS = {
+    "published": (ROOT / "research" / "published").resolve(),
+    "preliminary": (ROOT / "research" / "preprints").resolve(),
+}
 
 
 def validate_index(root: Path = ROOT) -> int:
     root = root.resolve()
     index_path = root / "data" / "research.json"
-    published_root = (root / "research" / "published").resolve()
+    public_roots = {
+        "published": (root / "research" / "published").resolve(),
+        "preliminary": (root / "research" / "preprints").resolve(),
+    }
     data = json.loads(index_path.read_text(encoding="utf-8"))
     if data.get("project") != "NOEMA":
         raise ValueError("research.json: project must be NOEMA")
@@ -31,18 +37,21 @@ def validate_index(root: Path = ROOT) -> int:
         for field in ("id", "title", "date", "category", "summary", "file", "status"):
             if not isinstance(item.get(field), str) or not item[field].strip():
                 raise ValueError(f"research.json: missing non-empty field {field!r}")
-        if item["status"] != "published":
-            raise ValueError(f"{item['id']}: public index only accepts status=published")
+        status = item["status"]
+        if status not in {"preliminary", "published"}:
+            raise ValueError(f"{item['id']}: public status must be preliminary or published")
+        public_root = public_roots[status]
+        public_prefix = f"research/{'preprints' if status == 'preliminary' else 'published'}/"
         if item["id"] in seen_ids:
             raise ValueError(f"research.json: duplicate id {item['id']!r}")
         seen_ids.add(item["id"])
 
         relative = item["file"]
-        if "\\" in relative or not relative.startswith("research/published/") or not relative.endswith(".md"):
-            raise ValueError(f"{item['id']}: file must be a Markdown file inside research/published/")
+        if "\\" in relative or not relative.startswith(public_prefix) or not relative.endswith(".md"):
+            raise ValueError(f"{item['id']}: file must be a Markdown file inside {public_prefix}")
         target = (root / relative).resolve()
-        if published_root not in target.parents or not target.is_file():
-            raise ValueError(f"{item['id']}: source is missing or escapes research/published/")
+        if public_root not in target.parents or not target.is_file():
+            raise ValueError(f"{item['id']}: source is missing or escapes {public_prefix}")
         if target in seen_files:
             raise ValueError(f"{item['id']}: duplicate source file")
         seen_files.add(target)
@@ -52,7 +61,7 @@ def validate_index(root: Path = ROOT) -> int:
 
 def main() -> None:
     count = validate_index()
-    print(f"NOEMA research index OK: {count} published item(s)")
+    print(f"NOEMA public research catalogue OK: {count} item(s)")
 
 
 if __name__ == "__main__":
