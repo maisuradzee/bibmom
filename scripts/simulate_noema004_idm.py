@@ -393,35 +393,83 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, default=Path("data/noema-004/idm-cross-model-results.json"))
     args = parser.parse_args()
-    result = build_study()
-    # Store the aggregate result rather than hundreds of verbose per-run rows.
-    # The fixed seed and this script deterministically regenerate those rows.
-    for collection in (result["primary_results"], result["sensitivity_results"]):
-        for condition in collection.values():
-            summary = condition.pop("summary")
-            condition.pop("runs", None)
-            for key in ("clustered_rotations", "random_permutations"):
-                if key in summary:
-                    condition[key] = summary[key]
-            if "uniform_mean" in summary:
-                condition["uniform_mean_control"] = summary["uniform_mean"]
-            if "alternating" in summary:
-                condition["alternating_control"] = summary["alternating"]
-            if "cluster_to_random_peak_sd_ratio" in summary:
-                condition["cluster_to_random_peak_sd_ratio"] = summary["cluster_to_random_peak_sd_ratio"]
-    result["regeneration_command"] = (
-        "python scripts/simulate_noema004_idm.py --output data/noema-004/idm-cross-model-results.json"
-    )
+    raw = build_study()
+
+    def summarize(group: dict[str, Any], detailed: bool = False) -> dict[str, Any]:
+        peak = group["max_velocity_sd_mps"]
+        out: dict[str, Any] = {
+            "n": group["runs"],
+            "mean_peak_sd_mps": peak["mean"],
+        }
+        if detailed:
+            out.update({
+                "median_peak_sd_mps": peak["median"],
+                "peak_sd_population_sd_mps": peak["population_sd"],
+            })
+        return out
+
+    primary: dict[str, Any] = {}
+    for gap, condition in raw["primary_results"].items():
+        groups = condition["summary"]
+        primary[gap] = {
+            "clustered": summarize(groups["clustered_rotations"], True),
+            "random": summarize(groups["random_permutations"], True),
+            "uniform_mean_control": summarize(groups["uniform_mean"]),
+            "alternating_control": summarize(groups["alternating"]),
+            "cluster_to_random_peak_sd_ratio": groups["cluster_to_random_peak_sd_ratio"],
+        }
+
+    sensitivity: dict[str, Any] = {}
+    for name, condition in raw["sensitivity_results"].items():
+        groups = condition["summary"]
+        sensitivity[name] = {
+            "net_gap_m": condition["net_gap_m"],
+            "dt_s": condition["dt_s"],
+            "initial_position_perturbation_m": condition["initial_position_perturbation_m"],
+            "clustered": summarize(groups["clustered_rotations"]),
+            "random": summarize(groups["random_permutations"]),
+            "cluster_to_random_peak_sd_ratio": groups["cluster_to_random_peak_sd_ratio"],
+        }
+
+    result = {
+        "study_id": raw["study_id"],
+        "model": raw["model"],
+        "model_note": raw["model_note"],
+        "units": raw["units"],
+        "parameters": raw["parameters"],
+        "primary_design": raw["primary_design"],
+        "primary_results": primary,
+        "sensitivity_results": sensitivity,
+        "all_conditions_safety_check": {
+            "peak_sd_threshold_crossings": sum(
+                group["threshold_crossings"]
+                for collection in (raw["primary_results"], raw["sensitivity_results"])
+                for condition in collection.values()
+                for group in condition["summary"].values()
+                if isinstance(group, dict) and "threshold_crossings" in group
+            ),
+            "safety_gap_censored_runs": sum(
+                group["safety_gap_censored_runs"]
+                for collection in (raw["primary_results"], raw["sensitivity_results"])
+                for condition in collection.values()
+                for group in condition["summary"].values()
+                if isinstance(group, dict) and "safety_gap_censored_runs" in group
+            ),
+        },
+        "interpretation_guardrail": raw["interpretation_guardrail"],
+        "regeneration_command": (
+            "python scripts/simulate_noema004_idm.py --output data/noema-004/idm-cross-model-results.json"
+        ),
+    }
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    args.output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8")
     print(f"Wrote {args.output}")
-    for gap, condition in result["primary_results"].items():
-        s = condition
+    for gap, condition in primary.items():
+        cluster = condition["clustered"]["mean_peak_sd_mps"]
+        random_mean = condition["random"]["mean_peak_sd_mps"]
         print(
-            f"gap={gap}m: cluster peak-SD={s['clustered_rotations']['max_velocity_sd_mps']['mean']:.6f}, "
-            f"random={s['random_permutations']['max_velocity_sd_mps']['mean']:.6f}, "
-            f"ratio={s['cluster_to_random_peak_sd_ratio']:.3f}, "
-            f"threshold crossings={s['clustered_rotations']['threshold_crossings'] + s['random_permutations']['threshold_crossings']}"
+            f"gap={gap}m: cluster peak-SD={cluster:.6f}, random={random_mean:.6f}, "
+            f"ratio={condition['cluster_to_random_peak_sd_ratio']:.3f}"
         )
 
 
