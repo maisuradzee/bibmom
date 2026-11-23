@@ -1,0 +1,120 @@
+name: NOEMA-005 full runtime and memory benchmark
+
+on:
+  push:
+    branches:
+      - benchmark/noema005-full-profile-2026-11-24
+  pull_request:
+    branches:
+      - research/noema-2026-005-mainline-2026-11-24
+  workflow_dispatch:
+    inputs:
+      sizes:
+        description: Comma-separated input sizes
+        required: false
+        default: "1024,8192,65536"
+        type: string
+      warmups:
+        description: Warm-up invocations per method
+        required: false
+        default: "2"
+        type: string
+      repetitions:
+        description: Timed invocations per method
+        required: false
+        default: "7"
+        type: string
+      seed:
+        description: Deterministic input seed
+        required: false
+        default: "20261124"
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: noema005-full-benchmark-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      BENCH_SIZES: ${{ inputs.sizes || '1024,8192,65536' }}
+      BENCH_WARMUPS: ${{ inputs.warmups || '2' }}
+      BENCH_REPETITIONS: ${{ inputs.repetitions || '7' }}
+      BENCH_SEED: ${{ inputs.seed || '20261124' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Record benchmark environment
+        run: |
+          python --version
+          uname -a
+          git rev-parse HEAD
+
+      - name: Run full NOEMA-005 benchmark profile
+        run: |
+          python scripts/benchmark_noema005_summation.py \
+            --sizes "$BENCH_SIZES" \
+            --warmups "$BENCH_WARMUPS" \
+            --repetitions "$BENCH_REPETITIONS" \
+            --seed "$BENCH_SEED" \
+            --output "$RUNNER_TEMP/noema005-full-benchmark.json"
+
+      - name: Validate benchmark coverage and measurements
+        run: |
+          python - "$RUNNER_TEMP/noema005-full-benchmark.json" <<'PY'
+          import json
+          import json
+          import os
+          import sys
+          from pathlib import Path
+
+          report = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+          expected_sizes = [int(item) for item in os.environ["BENCH_SIZES"].split(",") if item]
+          expected_methods = {
+              "binary32": 6,
+              "binary64": 6,
+              "decimal64": 5,
+              "decimal128": 5,
+          }
+          cases = report["cases"]
+          if len(cases) != len(expected_sizes) * 4:
+              raise SystemExit(f"Expected {len(expected_sizes) * 4} cases, got {len(cases)}")
+          if {case["format"] for case in cases} != set(expected_methods):
+              raise SystemExit("Benchmark did not cover all four formats")
+          if {case["input_size"] for case in cases} != set(expected_sizes):
+              raise SystemExit("Benchmark input sizes differ from the requested profile")
+          measurement_count = 0
+          for case in cases:
+              methods = case["methods"]
+              expected_count = expected_methods[case["format"]]
+              if len(methods) != expected_count:
+                  raise SystemExit(f"{case['format']} expected {expected_count} methods, got {len(methods)}")
+              for method in methods:
+                  if method["median_runtime_ns"] <= 0:
+                      raise SystemExit("Runtime measurement must be positive")
+                  if method["peak_traced_python_bytes"] < 0:
+                      raise SystemExit("Peak traced memory must be non-negative")
+                  samples = method["runtime_samples_ns"]
+                  if len(samples) < 1 or any(sample <= 0 for sample in samples):
+                      raise SystemExit("Runtime sample series is incomplete or invalid")
+                  measurement_count += 1
+          print(
+              f"NOEMA-005 full benchmark validation OK: "
+              f"{len(cases)} format/size cases, {measurement_count} method measurements"
+          )
+          PY
+
+      - name: Upload full benchmark result artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: noema005-full-benchmark-${{ github.run_id }}
+          path: ${{ runner.temp }}/noema005-full-benchmark.json
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 1
