@@ -623,20 +623,8 @@ def build_decimal_experiments() -> dict:
             "half_ulp_accumulation_at_one",
             make_decimal_half_ulp_case(ctx, format_name),
         )
-        for case, names in (
-            (
-                cancellation,
-                ("triplet_blocks", "seeded_shuffle", "magnitude_ascending"),
-            ),
-            (
-                half_ulp,
-                ("large_then_half_ulps_then_negative", "magnitude_ascending"),
-            ),
-        ):
-            all_orders = case.pop("orders")
-            case["representative_orders"] = {
-                name: all_orders[name] for name in names
-            }
+        cancellation.pop("orders")
+        half_ulp.pop("orders")
         formats[format_name] = {
             "format_parameters": {
                 "precision": params["prec"],
