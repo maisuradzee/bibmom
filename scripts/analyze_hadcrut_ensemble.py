@@ -320,6 +320,8 @@ def analyze(input_path: Path, summary_path: Path | None = None) -> dict:
             "This interval is not a frequentist confidence interval for the OLS regression coefficient.",
             "The additional coverage uncertainty is not folded into member-specific slope percentiles because its time dependence is not modeled here.",
             "Partial 2026 data are excluded.",
+            "Official annual coverage uncertainty values are cross-checked against the published 95% summary-series limits and the 200-member sample standard deviation; the quadrature reconstruction agrees within rounding.",
+            "A covariance-agnostic RMS upper bound for coverage contribution to the 1979-2025 OLS slope is reported using the annual 1-sigma coverage values. It is a mathematical bound, not a confidence interval.",
         ],
     }
 
