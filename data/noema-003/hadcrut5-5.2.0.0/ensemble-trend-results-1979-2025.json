@@ -86,7 +86,10 @@
       0.0034241755,
       0.0065984265
     ],
-    "limitation": "The additional coverage-uncertainty component is reported separately and is not propagated into member slope percentiles."
+    "limitation": "The annual coverage uncertainty series is official and retained separately; its interannual covariance is not supplied here, so no exact coverage-error slope distribution is claimed.",
+    "coverage_uncertainty_1sigma_mean_1979_2025": 0.0046862566,
+    "coverage_trend_error_rms_upper_bound_c_per_decade": 0.0029338712,
+    "coverage_trend_bound_interpretation": "Covariance-agnostic RMS upper bound from Minkowski's inequality using the 47 published annual coverage 1-sigma values and OLS slope weights. This is not a confidence interval or a point estimate of coverage trend error."
   },
   "summary_series_comparison": {
     "summary_series_ols_slope_c_per_decade": 0.2072270633,
@@ -94,7 +97,16 @@
     "slope_difference_c_per_decade": 5e-10,
     "mean_member_mean_minus_summary_anomaly_c": 1e-9,
     "max_absolute_annual_difference_c": 3.01e-8,
-    "note": "Rounding/processing differences are reported, not silently corrected."
+    "note": "Rounding/processing differences are reported, not silently corrected.",
+    "coverage_uncertainty_internal_consistency": {
+      "method": "Infer total_sigma from the published 2.5%-97.5% interval using 1.96, then subtract the annual 200-member sample variance in quadrature.",
+      "n_years": 47,
+      "rmse_c": 3.55e-8,
+      "mean_absolute_difference_c": 2.2e-8,
+      "maximum_absolute_difference_c": 1.399e-7,
+      "maximum_difference_year": 2023,
+      "interpretation": "Internal consistency check across official HadCRUT5 summary and ensemble CSVs; it does not independently reproduce the ERA5 coverage-error model."
+    }
   },
   "method_notes": [
     "Each of the 200 annual global member series is fitted independently over the same 47 complete years, 1979-2025.",
@@ -102,6 +114,8 @@
     "The empirical 2.5th-97.5th percentile interval describes the spread of member-specific slopes, preserving temporal covariance within each member series.",
     "This interval is not a frequentist confidence interval for the OLS regression coefficient.",
     "The additional coverage uncertainty is not folded into member-specific slope percentiles because its time dependence is not modeled here.",
-    "Partial 2026 data are excluded."
+    "Partial 2026 data are excluded.",
+    "Official annual coverage uncertainty values are cross-checked against the published 95% summary-series limits and the 200-member sample standard deviation; the quadrature reconstruction agrees within rounding.",
+    "A covariance-agnostic RMS upper bound for coverage contribution to the 1979-2025 OLS slope is reported using the annual 1-sigma coverage values. It is a mathematical bound, not a confidence interval."
   ]
 }
