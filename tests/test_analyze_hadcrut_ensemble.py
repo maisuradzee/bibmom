@@ -89,5 +89,15 @@ class HadCRUTEnsembleTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "missing columns"):
                 read_member_csv(path)
 
+    def test_wrong_dataset_version_filename_is_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = self.make_fixture(Path(tmp))
+            old_version = path.with_name(
+                "HadCRUT.5.1.0.0.analysis.ensemble_series.global.annual.csv"
+            )
+            path.rename(old_version)
+            with self.assertRaisesRegex(ValueError, "pinned product filename"):
+                read_member_csv(old_version)
+
 if __name__ == "__main__":
     unittest.main()
