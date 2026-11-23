@@ -64,14 +64,16 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p "$RUNNER_TEMP/era5"
-          seq 1979 2018 | xargs -P 8 -I{} bash -c '
+          seq 1979 2018 | xargs -P 4 -I{} bash -c '
             set -euo pipefail
             year="$1"
             out="$2/t2m_$year.nc"
             primary="https://apcc21.org/clikapi/download/ERA5/MONTHLY/single/t2m/t2m_$year.nc"
             fallback="https://download.apcc21.org/ERA5/MONTHLY/single/t2m/t2m_$year.nc"
-            if ! curl --fail --location --retry 3 --retry-delay 2 "$primary" --output "$out.tmp"; then
-              curl --fail --location --retry 3 --retry-delay 2 "$fallback" --output "$out.tmp"
+            curl_args=(--fail --location --show-error --connect-timeout 20 --max-time 240 --retry 2 --retry-all-errors --retry-delay 3)
+            if ! curl "${curl_args[@]}" "$primary" --output "$out.tmp"; then
+              rm -f "$out.tmp"
+              curl "${curl_args[@]}" "$fallback" --output "$out.tmp"
             fi
             test -s "$out.tmp"
             mv "$out.tmp" "$out"
