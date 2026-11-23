@@ -11,25 +11,28 @@
 | GitHub საცავი და კოდის შენახვა | მზადაა | მთავარი branch და ფაილები ხელმისაწვდომია |
 | კვლევის სტანდარტი და შაბლონები | მზადაა | `docs/RESEARCH_STANDARD.md`, `research/TEMPLATE.md` |
 | მონაცემთა აუდიტი NOEMA-002 | შესრულებულია | ფიქსირებული SignBase snapshot და JSON შედეგი |
-| NOEMA-003 ტემპერატურის ტენდენციის ანალიზი | დრაფტი / გამეორებადი | NOAA v6.1.0 snapshot, სკრიპტი, JSON შედეგი და 8 dedicated unit test |
-| Python ტესტები და მონაცემთა რეპროდუქცია | წარმატებულია | [უახლესი CI run 45128722992](https://github.com/maisuradzee/bibmom/actions/runs/45128722992), commit `fe35a936b171f293046acbafcd96a8a584ba59c1` |
+| NOEMA-003 ტემპერატურის ტენდენციის ანალიზი | დრაფტი / გამეორებადი | NASA GISTEMP v4, HadCRUT5 5.2.0.0 და NOAA v6.1.0 snapshot-ები; checksum-ები, ორი გამეორებადი ანალიზის სკრიპტი და შედეგების JSON |
+| Python ტესტები და მონაცემთა რეპროდუქცია | წარმატებულია | [CI run 45135219039](https://github.com/maisuradzee/bibmom/actions/runs/45135219039), 31 ტესტი წარმატებულია |
 | სტატიკური საიტის build | წარმატებულია | CI და Pages build job |
-| GitHub Pages deployment | წარმატებულია | [პირველი წარმატებული deployment — run 45131663024](https://github.com/maisuradzee/bibmom/actions/runs/45131663024) |
+| GitHub Pages deployment | წარმატებულია | [უახლესი deployment — run 45135219074](https://github.com/maisuradzee/bibmom/actions/runs/45135219074) |
 | საჯარო კვლევების ინდექსი | ცარიელია განზრახ | კვლევები ჯერ `draft/review` სტატუსშია |
 | ვიზუალური AI ექსპერიმენტი | დაწყებამდეა | SignBase-ის გამოსახულებებზე გამოყენების ნებართვა მოსაპოვებელია |
 | Supabase | გადადებულია | ამ ეტაპზე სტატიკურ JSON ინდექსს ვიყენებთ |
 
 ## ბოლო ტექნიკური შემოწმება
 
-NOEMA-003-ის კოდის commit `c61cdb1537256d6f8e71e93e3e32ca5750662f9c` სრულად შემოწმდა:
+NOEMA-003-ის cross-dataset განახლება აიტვირთა commit-ზე `fbf0f528096751f01b380f9ab99bc015b8836db5` და სრულად შემოწმდა:
 
-- [CI run 45132816719](https://github.com/maisuradzee/bibmom/actions/runs/45132816719) — წარმატებული.
-- [Pages deployment run 45132816601](https://github.com/maisuradzee/bibmom/actions/runs/45132816601) — წარმატებული.
-- GitHub Actions-მა გაიარა ყველა არსებული შემოწმება, მათ შორის 22 Python unit test.
-- NOEMA-003-ის ცალკე შემოწმებამ გადაამოწმა 47-წლიანი უწყვეტი მონაცემთა სერია, CSV-ის SHA-256, OLS/Theil–Sen/HAC შედეგები და საწყისი წლის 27 ვარიანტი. ხელახლა გამოთვლილი JSON შინაარსობრივად დაემთხვა შენახულ შედეგს.
+- [CI run 45135219039](https://github.com/maisuradzee/bibmom/actions/runs/45135219039) — წარმატებული; **31 Python unit test** გაიარა.
+- [Pages deployment run 45135219074](https://github.com/maisuradzee/bibmom/actions/runs/45135219074) — build და deploy წარმატებულია.
+- NOAA-ს, NASA GISTEMP v4-ისა და HadCRUT5 5.2.0.0-ის 1979–2025 სერიები მოიცავს ერთსა და იმავე 47 სრულ წელს.
+- სამივე snapshot-ის SHA-256 ზუსტად ემთხვევა დაფიქსირებულ წყაროს manifest-ს.
+- OLS და Theil–Sen ყველა პროდუქტზე იძლევა დადებით დახრილობას; cross-dataset JSON ხელახლა გამოითვალა და შინაარსობრივად დაემთხვა შენახულ შედეგს.
+- გადაბაზისებული სერიების წყვილური კორელაცია 0.99727–0.99840-ია; OLS დახრილობების მაქსიმალურ-მინიმალური სხვაობა 4.41%-ია.
 - დრაფტების ვალიდაციამ დაადასტურა 4 draft ფაილი; საჯარო ინდექსი კვლავ შეიცავს 0 გამოქვეყნებულ კვლევას.
 - საიტის build წარმატებულია; NOEMA-003 დრაფტი საჯარო Pages არტეფაქტში არ შედის.
-- Pages deployment workflow ავტომატურად იშვება `main` branch-ზე push-ისას.
+
+Pages deployment workflow ავტომატურად იშვება `main` branch-ზე push-ისას.
 
 ## კვლევები
 
@@ -38,7 +41,7 @@ NOEMA-003-ის კოდის commit `c61cdb1537256d6f8e71e93e3e32ca5750662f9
 - [NOEMA-2026-003](../research/drafts/2026-11-23-noaa-globaltemp-trend-sensitivity.md) — NOAA GlobalTemp v6.1.0 მონაცემში დათბობის ხაზოვანი ტენდენციის საწყისი წლის მგრძნობელობა.
 - [NOEMA-002 blind coding protocol](../research/protocols/NOEMA-002-blind-coding-protocol.md) — მომავალი ექსპერტულ-ალგორითმული შედარების პროტოკოლი.
 
-ყველა კვლევა ამ ეტაპზე დრაფტად რჩება. საჯარო Pages ინდექსში მათი დამატება არ მომხდარა. NOEMA-003-ის მონაცემთა ამონარიდი და გამოთვლები ვერსიაკონტროლირებადია; დამოუკიდებელი cross-dataset შემოწმება და გარე რეცენზია ჯერ არ ჩატარებულა.
+ყველა კვლევა ამ ეტაპზე დრაფტად რჩება. საჯარო Pages ინდექსში მათი დამატება არ მომხდარა. NOEMA-003-ის cross-dataset შედარება შესრულებულია; დამოუკიდებელი სარედაქციო რეცენზია და სრული uncertainty propagation ჯერ დარჩენილია.
 
 ## ავტომატიზაცია
 

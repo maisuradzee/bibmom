@@ -13,7 +13,7 @@
       "dataset": "NASA GISTEMP v4, global land-ocean annual means",
       "source_url": "https://data.giss.nasa.gov/gistemp/tabledata_v4/GLB.Ts+dSST.csv",
       "source_sha256": "4c64eda288bce32b8d76926278f346ecea1e53506df8ee72a3d5accb0657c416",
-      "source_git_blob_sha": "1ea40018adeb5e02f09bba5c8b53edc81b0500e8",
+      "source_git_blob_sha": "1ea40018de00081d03f248fa2b535403ab28822f",
       "native_anomaly_baseline": "1951-1980",
       "selected_annual_column": "J-D"
     },
