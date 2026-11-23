@@ -54,28 +54,33 @@
   "site_uncertainty": {
     "Bockstein-Törle": {
       "objects": 3,
+      "labelled_objects": 1,
       "uncertain": 0,
       "uncertain_rate_percent": 0
     },
     "Geissenklösterle": {
       "objects": 30,
+      "labelled_objects": 30,
       "uncertain": 1,
       "uncertain_rate_percent": 3.3
     },
     "Hohle Fels": {
       "objects": 50,
+      "labelled_objects": 48,
       "uncertain": 13,
-      "uncertain_rate_percent": 26
+      "uncertain_rate_percent": 27.1
     },
     "Hohlenstein-Stadel": {
       "objects": 2,
+      "labelled_objects": 2,
       "uncertain": 0,
       "uncertain_rate_percent": 0
     },
     "Vogelherd": {
       "objects": 175,
+      "labelled_objects": 174,
       "uncertain": 42,
-      "uncertain_rate_percent": 24
+      "uncertain_rate_percent": 24.1
     }
   },
   "top_sign_tokens": [
@@ -115,7 +120,7 @@
       "count": 74
     },
     {
-      "character": "\\\\",
+      "character": "\\",
       "name": "oblique line (left leaning)",
       "count": 43
     },
