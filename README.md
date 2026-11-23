@@ -1,4 +1,4 @@
-# NOEMA — დამოუკიდებელი კვლევითი პლატფორმა
+# NOEMA — დამოუკიდებელი კვლევითი პლატფორმა\n\n[![NOEMA quality checks](https://github.com/maisuradzee/bibmom/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/maisuradzee/bibmom/actions/workflows/ci.yml)
 
 NOEMA აერთიანებს ცოდნის მოძიებას, წყაროების გადამოწმებას, ჰიპოთეზების ჩამოყალიბებას, კვლევების არქივირებასა და შედეგების გამოქვეყნებას.
 
@@ -13,13 +13,13 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 ## სტრუქტურა
 
 - `index.html` — მთავარი გვერდი.
-- `assets/styles.css` — ვიზუალური სტილები.
+- `assets/styles.css` და `assets/articles.css` — მთავარი გვერდისა და კვლევითი სტატიების ვიზუალური სტილები.
 - `data/research.json` — საჯარო კვლევების ინდექსი.
 - `research/drafts/` — სამუშაო ჩანაწერები; Pages არტეფაქტში არ შედის, თუმცა საჯარო GitHub საცავში იკითხება.
 - `research/published/` — მხოლოდ შემოწმებული და გამოსაქვეყნებლად დამტკიცებული კვლევების გვერდები.
 - `research/TEMPLATE.md` — კვლევის დოკუმენტის შაბლონი.
 - `.github/workflows/ci.yml` — საბაზისო შემოწმებები.
-- `.github/workflows/deploy.yml` — საჯარო ფაილების შერჩევა და Pages deployment.
+- `scripts/build_site.py` — Markdown კვლევების უსაფრთხო HTML-გვერდებად გარდაქმნა და საჯარო არტეფაქტის აწყობა.\n- `requirements-site.txt` — ფიქსირებული Markdown renderer ვერსია.\n- `.github/workflows/deploy.yml` — საჯარო ფაილების შერჩევა და Pages deployment.
 
 ## მიმდინარე კვლევა
 
@@ -45,7 +45,7 @@ GitHub Pages-ის არტეფაქტში შედის მხოლ�
 
 ## ლოკალური გაშვება
 
-გახსენი `index.html` ბრაუზერში ან გამოიყენე ნებისმიერი სტატიკური HTTP სერვერი.
+გაუშვი `python -m pip install -r requirements-site.txt`, შემდეგ `python scripts/build_site.py --output _site` და `python -m http.server 8000 --directory _site`. ბრაუზერში გახსენი `http://localhost:8000`.
 
 ## გამოქვეყნება
 
