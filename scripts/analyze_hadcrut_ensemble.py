@@ -59,9 +59,17 @@ def newey_west_slope_se_c_per_decade(years: list[int], values: list[float], lag_
     return 10.0 * math.sqrt(max(variance, 0.0))
 
 def read_member_csv(path: Path):
+    expected_name = f"{VERSION}.analysis.ensemble_series.global.annual.csv"
+    if path.name != expected_name:
+        raise ValueError(f"Expected pinned product filename {expected_name}; received {path.name}")
     with path.open("r", encoding="utf-8-sig", newline="") as handle:
         reader = csv.DictReader(handle)
         fields = reader.fieldnames or []
+        if len(fields) != len(set(fields)):
+            raise ValueError("HadCRUT ensemble CSV contains duplicate column names")
+        realization_fields = [name for name in fields if name.startswith("Realization ")]
+        if set(realization_fields) != set(REALIZATIONS):
+            raise ValueError(f"Expected exactly {EXPECTED_MEMBERS} realization columns")
         required = {"Time", "Fraction of area represented",
                     "Coverage uncertainty (1 sigma)", *REALIZATIONS}
         missing = sorted(required.difference(fields))
