@@ -32,6 +32,7 @@ jobs:
           test -f scripts/audit_signbase.py
           test -f scripts/analyze_noema003.py
           test -f scripts/compare_noema003_datasets.py
+          test -f scripts/analyze_hadcrut_ensemble.py
           test -f data/noema-003/cross-dataset-results-2026-11-23.json
           test -f data/noema-003/snapshots/2026.10/sources.json
           test -f data/noema-003/snapshots/2026.10/gistemp.csv
@@ -42,6 +43,7 @@ jobs:
           test -f data/noema-003/trend-sensitivity-results-2026-11-23.json
           test -f tests/test_analyze_noema003.py
           test -f tests/test_compare_noema003_datasets.py
+          test -f tests/test_analyze_hadcrut_ensemble.py
           test -f docs/RESEARCH_STANDARD.md
           test -f research/protocols/NOEMA-002-blind-coding-protocol.md
       - name: Validate draft completeness
