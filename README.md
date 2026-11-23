@@ -19,7 +19,8 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - `research/published/` — მხოლოდ შემოწმებული და გამოსაქვეყნებლად დამტკიცებული კვლევების გვერდები.
 - `research/TEMPLATE.md` — კვლევის დოკუმენტის შაბლონი.
 - `.github/workflows/ci.yml` — საბაზისო შემოწმებები.
-- `scripts/build_site.py` — Markdown კვლევების უსაფრთხო HTML-გვერდებად გარდაქმნა და საჯარო არტეფაქტის აწყობა.\n- `requirements-site.txt` — ფიქსირებული Markdown renderer ვერსია.\n- `.github/workflows/deploy.yml` — საჯარო ფაილების შერჩევა და Pages deployment.
+- `scripts/build_site.py` — Markdown კვლევების უსაფრთხო HTML-გვერდებად გარდაქმნა და საჯარო არტეფაქტის აწყობა.
+- `scripts/validate_drafts.py` — დრაფტების მინიმალური სარედაქციო სისრულის ავტომატური შემოწმება.\n- `requirements-site.txt` — ფიქსირებული Markdown renderer ვერსია.\n- `.github/workflows/deploy.yml` — საჯარო ფაილების შერჩევა და Pages deployment.
 
 ## მიმდინარე კვლევა
 
