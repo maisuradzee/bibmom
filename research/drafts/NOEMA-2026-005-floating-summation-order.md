@@ -324,7 +324,7 @@ NOEMA-ს კონტროლირებულმა ექსპერიმ
 - [x] Binary32 გაფართოების CI წარმატებულია: [run 45281284340](https://github.com/maisuradzee/bibmom/actions/runs/45281284340); 66 repository-wide test, NOEMA-005 binary32/binary64 frozen JSON comparison და ყველა workflow ნაბიჯი გაიარა.
 - [x] შედეგების JSON და SHA-256 ჩანაწერები მომზადებულია.
 - [x] Binary64 + binary32 გაფართოების სრული CI დადასტურდა [run 45281284340](https://github.com/maisuradzee/bibmom/actions/runs/45281284340)-ით; 66 ტესტი, frozen JSON, site build, publication boundary და SignBase audit წარმატებულია.
-- [ ] Decimal64/decimal128 გაფართოების საბოლოო CI, 72 ტესტისა და frozen JSON-ის შემოწმება ჯერ მოლოდინშია.
+- [x] ოთხივე ფორმატის საბოლოო CI წარმატებულია: [run 45282263124](https://github.com/maisuradzee/bibmom/actions/runs/45282263124); 72 repository-wide test, Decimal64/128 და Binary32/64 frozen JSON match, site build, publication boundary და SignBase audit PASS.
 - [ ] სხვა runtime/არქიტექტურაზე დამოუკიდებელი გამეორება.
 - [ ] დამოუკიდებელი სამეცნიერო და სარედაქციო განხილვა.
 - [ ] გამოქვეყნების მზადყოფნის დადასტურება.
@@ -336,4 +336,5 @@ NOEMA-ს კონტროლირებულმა ექსპერიმ
 - 2026-11-24 — CI run 45280161907 წარმატებით დასრულდა binary64 ვერსიისთვის: 62 repository-wide test.
 - 2026-11-24 — დაემატა binary32 ემულაცია, პირდაპირი ties-to-even ეტალონი, 2 დამატებითი სტრეს-ტესტი და ოთხი ახალი unit test.
 - 2026-11-24 — CI run 45281284340 წარმატებით დასრულდა: 66 repository-wide test; binary32/binary64 frozen JSON match, site build, publication boundary და SignBase audit PASS.
-- 2026-11-24 — დაემატა decimal64/decimal128 arithmetic emulation, ორი stress case თითო format-ზე, exact integer superaccumulator და ექვსი დამატებითი unit test; final CI ჯერ არ არის დადასტურებული.
+- 2026-11-24 — დაემატა decimal64/decimal128 arithmetic emulation, ორი stress case თითო format-ზე, exact integer superaccumulator და ექვსი დამატებითი unit test.
+- 2026-11-24 — CI run 45282263124 წარმატებით დასრულდა: 72 repository-wide test; ოთხივე ფორმატის frozen JSON reproduction, NOEMA-003 checks, site build, publication boundary და SignBase audit PASS.
