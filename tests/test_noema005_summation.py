@@ -2,10 +2,16 @@ from __future__ import annotations
 
 import math
 import unittest
+from decimal import Decimal
 from fractions import Fraction
 
 from scripts.simulate_noema005_summation import (
+    DECIMAL_FORMATS,
     build_results,
+    decimal_context,
+    decimal_integer_superaccumulator,
+    decimal_integer_superaccumulator_units,
+    decimal_naive_left_to_right,
     binary32_integer_superaccumulator,
     binary32_integer_superaccumulator_units,
     exact_float_sum,
@@ -14,6 +20,8 @@ from scripts.simulate_noema005_summation import (
     kahan_sum,
     make_binary32_cancellation_case,
     make_binary32_half_ulp_case,
+    make_decimal_cancellation_case,
+    make_decimal_half_ulp_case,
     make_cancellation_case,
     make_half_ulp_case,
     naive_left_to_right,
@@ -142,6 +150,78 @@ class Noema005SummationTests(unittest.TestCase):
         for value in (float("nan"), float("inf"), float("-inf")):
             with self.assertRaises(ValueError):
                 binary32_integer_superaccumulator([value])
+
+
+    def test_decimal_contexts_match_decimal64_and_decimal128_parameters(self) -> None:
+        decimal64 = decimal_context("decimal64")
+        self.assertEqual(decimal64.prec, 16)
+        self.assertEqual((decimal64.Emin, decimal64.Emax, decimal64.clamp), (-383, 384, 1))
+        self.assertEqual((decimal64.Etiny(), decimal64.Etop()), (-398, 369))
+
+        decimal128 = decimal_context("decimal128")
+        self.assertEqual(decimal128.prec, 34)
+        self.assertEqual((decimal128.Emin, decimal128.Emax, decimal128.clamp), (-6143, 6144, 1))
+        self.assertEqual((decimal128.Etiny(), decimal128.Etop()), (-6176, 6111))
+
+    def test_decimal_integer_superaccumulator_matches_exact_sum_on_all_orders(self) -> None:
+        for format_name in DECIMAL_FORMATS:
+            ctx = decimal_context(format_name)
+            groups = (
+                make_decimal_cancellation_case(ctx),
+                make_decimal_half_ulp_case(ctx, format_name),
+            )
+            denominator = 10 ** (-ctx.Etiny())
+            for group in groups:
+                for values in group.values():
+                    exact = sum((Fraction(value) for value in values), Fraction(0, 1))
+                    units = decimal_integer_superaccumulator_units(ctx, values)
+                    self.assertEqual(Fraction(units, denominator), exact)
+                    self.assertEqual(
+                        decimal_integer_superaccumulator(ctx, values),
+                        ctx.create_decimal(str(decimal_integer_superaccumulator(ctx, values))),
+                    )
+
+    def test_decimal64_naive_sum_depends_on_order(self) -> None:
+        ctx = decimal_context("decimal64")
+        orders = make_decimal_cancellation_case(ctx)
+        self.assertEqual(
+            decimal_naive_left_to_right(ctx, orders["triplet_blocks"]),
+            Decimal("0"),
+        )
+        self.assertEqual(
+            decimal_naive_left_to_right(ctx, orders["magnitude_ascending"]),
+            Decimal("100"),
+        )
+
+    def test_decimal128_naive_sum_preserves_the_small_cancellation_term(self) -> None:
+        ctx = decimal_context("decimal128")
+        orders = make_decimal_cancellation_case(ctx)
+        self.assertEqual(
+            decimal_naive_left_to_right(ctx, orders["triplet_blocks"]),
+            Decimal("100"),
+        )
+
+    def test_decimal_half_ulp_terms_are_lost_or_recovered_by_order(self) -> None:
+        for format_name, expected in (
+            ("decimal64", Decimal("5e-14")),
+            ("decimal128", Decimal("5e-32")),
+        ):
+            ctx = decimal_context(format_name)
+            orders = make_decimal_half_ulp_case(ctx, format_name)
+            self.assertEqual(
+                decimal_naive_left_to_right(ctx, orders["large_then_half_ulps_then_negative"]),
+                Decimal("0"),
+            )
+            self.assertEqual(
+                decimal_naive_left_to_right(ctx, orders["magnitude_ascending"]),
+                expected,
+            )
+
+    def test_decimal_integer_superaccumulator_rejects_non_finite_values(self) -> None:
+        ctx = decimal_context("decimal64")
+        for value in (Decimal("NaN"), Decimal("Infinity"), Decimal("-Infinity")):
+            with self.assertRaises(ValueError):
+                decimal_integer_superaccumulator(ctx, [value])
 
 
 if __name__ == "__main__":
