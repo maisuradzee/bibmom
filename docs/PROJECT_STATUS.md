@@ -12,6 +12,7 @@
 | კვლევის სტანდარტი და შაბლონები | მზადაა | `docs/RESEARCH_STANDARD.md`, `research/TEMPLATE.md` |
 | მონაცემთა აუდიტი NOEMA-002 | შესრულებულია | ფიქსირებული SignBase snapshot და JSON შედეგი |
 | NOEMA-003 ტემპერატურის ტენდენციის ანალიზი | დრაფტი / გამეორებადი | სამი ფიქსირებული პროდუქტის snapshot; checksum-ები; OLS/Theil–Sen; HAC ლაგების 1–6 მგრძნობელობა; HadCRUT5 წლიური 95%-იანი საზღვრების აღწერითი ანალიზი |
+| NOEMA-004 სატრანსპორტო დინამიკა | review / გამეორებადი სიმულაციები | delayed OVM-ის კვლევა დაემატა delayed-state IDM cross-model შემოწმებით; IDM-ის 5 ახალი unit test ლოკალურად წარმატებულია; რეალური NGSIM/highD მონაცემები ჯერ არ გაანალიზებულა |
 | Python ტესტები და მონაცემთა რეპროდუქცია | წარმატებულია | [CI run 45137630834](https://github.com/maisuradzee/bibmom/actions/runs/45137630834), 34 ტესტი წარმატებულია |
 | სტატიკური საიტის build | წარმატებულია | CI და Pages build job |
 | GitHub Pages deployment | წარმატებულია | [უახლესი deployment — run 45137630882](https://github.com/maisuradzee/bibmom/actions/runs/45137630882) |
@@ -40,9 +41,12 @@ Pages deployment workflow ავტომატურად იშვება `
 - [NOEMA-2026-001](../research/drafts/2026-11-23-paleolithic-sign-systems.md) — პალეოლითური ნიშნების პირველადი კვლევა, მეთოდოლოგიური გადახედვით.
 - [NOEMA-2026-002](../research/drafts/2026-11-23-signbase-coding-audit.md) — SignBase 2.0-ის ტექსტური კოდირების აუდიტი.
 - [NOEMA-2026-003](../research/drafts/2026-11-23-noaa-globaltemp-trend-sensitivity.md) — NOAA GlobalTemp v6.1.0 მონაცემში დათბობის ხაზოვანი ტენდენციის საწყისი წლის მგრძნობელობა.
+- [NOEMA-2026-004](../research/drafts/NOEMA-2026-004-traffic-delay-ordering.md) — რეაქციის დაყოვნების სივრცითი განლაგება; OVM-ის შემდეგ დაემატა delayed-state IDM cross-model სიმულაცია.
 - [NOEMA-002 blind coding protocol](../research/protocols/NOEMA-002-blind-coding-protocol.md) — მომავალი ექსპერტულ-ალგორითმული შედარების პროტოკოლი.
 
 ყველა კვლევა ამ ეტაპზე დრაფტად რჩება. საჯარო Pages ინდექსში მათი დამატება არ მომხდარა. NOEMA-003-ის cross-dataset შედარება და HAC lag robustness შესრულებულია; HadCRUT5-ის სრული ensemble-based trend uncertainty propagation და დამოუკიდებელი სარედაქციო რეცენზია ჯერ დარჩენილია.
+
+NOEMA-004-ის მიმდინარე branch-ზე დამატებულია IDM cross-model შემოწმება (სამი საწყისი დაშორება; თითოეულზე 40 დაჯგუფებული ფაზა და 40 შემთხვევითი განლაგება; ორი მგრძნობელობის პირობა). ყველა IDM გაშვებაში 0.10 მ/წმ სიჩქარის SD ზღვარი არ გადალახულა და 0.5 მ უსაფრთხოების ზღვარზე არც ერთი გაშვება არ შეწყვეტილა. ეს არის სიმულაციური, არა ემპირიული მტკიცებულება. დამატებულია ხუთი unit test; ისინი ლოკალურად გაიარა, თუმცა არსებული CI workflow ამ branch-ზე ავტომატურად არ გაშვებულა. NGSIM/highD მონაცემები ჯერ არ ჩამოტვირთულა და არ დაკალიბრებულა.
 
 ## ავტომატიზაცია
 
