@@ -247,7 +247,7 @@ Binary32 ეტალონისთვის გამოყენებულ�
 
 - Binary64/32: ზუსტი Fraction ეტალონი, rounding boundaries, subnormal cases, order sensitivity, non-finite rejection და შედეგების deterministic generation.
 - Decimal64/128: Context-ის precision/exponent/clamp პარამეტრები, ზუსტი integer accumulator-ის Fraction reference-თან დამთხვევა ყველა დალაგებაზე, decimal64/128 cancellation ქცევა, half-ULP order sensitivity და non-finite rejection.
-- NOEMA-005-ს ახლა აქვს 20 unit test; სრული საცავის CI suite შეიცავს 72 ტესტს.
+- NOEMA-005-ის summation suite შეიცავს 20 unit test-ს; benchmark harness-ს — 2 unit test-ს. სრული საცავის CI suite შეიცავს 74 ტესტს.
 
 ### Runtime/memory benchmark protocol — 2026-11-24
 
@@ -257,10 +257,10 @@ Binary32 ეტალონისთვის გამოყენებულ�
 - მეხსიერება: `tracemalloc`-ით ერთი invocation-ის peak traced Python-managed bytes; ეს არ არის სრული RSS და არ ითვლის ყველა native C/extension allocation-ს.
 - თითო format/size შემთხვევაში ყველა მეთოდი იღებს ერთსა და იმავე უცვლელ, seed-ით გენერირებულ შეყვანის სიას; ინახება input SHA-256.
 - სრული ადგილობრივი პროფილი: sizes 1,024 / 8,192 / 65,536; 2 warmup; 7 repetitions; seed 20261124.
-- CI smoke პროფილი: sizes 128 / 512; 1 warmup; 2 repetitions. CI ამოწმებს ოთხივე ფორმატის დაფარვას, გაზომვების სტრუქტურასა და ვალიდურ მნიშვნელობებს; დროის მყარ ზღვარს არ აწესებს.
+- CI smoke პროფილი: sizes 128 / 512; 1 warmup; 2 repetitions. ბოლო CI-მ გაზომა 8 format/size შემთხვევა და 44 method measurement. CI ამოწმებს ოთხივე ფორმატის დაფარვას, გაზომვების სტრუქტურასა და ვალიდურ მნიშვნელობებს; დროის მყარ ზღვარს არ აწესებს.
 - პროტოკოლი: `data/noema-005/benchmark-protocol.json`.
 
-**სტატუსის შენიშვნა:** CI smoke test ამოწმებს benchmark harness-ის მუშაობას, მაგრამ მისი runner-specific დროები არ წარმოადგენს სრულ benchmark კვლევას. სრული პროფილის შედეგები ჯერ არ არის შედარებული ან კვლევით დასკვნად წარმოდგენილი.
+**სტატუსის შენიშვნა:** CI smoke test ამოწმებს benchmark harness-ის მუშაობას, მაგრამ მისი runner-specific დროები არ წარმოადგენს სრულ benchmark კვლევას. სრული ადგილობრივი პროფილი (1,024 / 8,192 / 65,536; 2 warmup; 7 repetitions) ჯერ არ არის შესრულებული და მისი შედეგები არ არის კვლევით დასკვნად წარმოდგენილი.
 
 ## შეზღუდვები და გაურკვევლობები
 
@@ -271,7 +271,7 @@ Binary32 ეტალონისთვის გამოყენებულ�
 - ზუსტი integer accumulator-ის დაგროვება სრულდება arbitrary-precision integer-ით; decimal-ში საერთო quantum შეყვანებიდან დინამიკურად განისაზღვრება. საბოლოო rounding იყენებს შესაბამისი ფორმატის Fraction/Context converter-ს. ეს არ არის დამოუკიდებელი hardware rounding implementation.
 - გამოყენებულია ერთი CPython/OS გარემო. სხვა runtime-მა, compiler-მა ან არქიტექტურამ შეიძლება შედეგი ან ბოლო ბიტი შეცვალოს.
 - Python 3.12-დან ჩაშენებული sum() float-ებისთვის გაუმჯობესებულ ალგორითმს იყენებს; აქ naive baseline ხელითაა განსაზღვრული, როგორც მარცხნიდან-მარჯვნივ დაგროვება.
-- დამატებულია runtime/memory benchmark harness და CI smoke test, მაგრამ სრული ადგილობრივი პროფილის შედეგები ჯერ არ არის გაზომილი/განხილული. `tracemalloc` ზომავს მხოლოდ Python-managed allocations-ს და არა სრულ RSS-ს. Thread/GPU parallel reduction ჯერ არ გამოკვლეულა.
+- დამატებულია runtime/memory benchmark harness და CI smoke test; ბოლო CI-მ 8 format/size შემთხვევა და 44 method measurement წარმატებით შეასრულა. სრული ადგილობრივი პროფილის შედეგები ჯერ არ არის გაზომილი/განხილული. `tracemalloc` ზომავს მხოლოდ Python-managed allocations-ს და არა სრულ RSS-ს. Thread/GPU parallel reduction ჯერ არ გამოკვლეულა.
 - ზუსტი reference ეხება მხოლოდ რეალურად წარმოდგენილ შეყვანებს; ის არ ამოწმებს შეყვანის წყაროს სიზუსტეს ან შემდგომი მოდელის სისწორეს.
 - შედეგები არ წარმოადგენს ყველა პლატფორმაზე method-ի უნივერსალურ გარანტიას ან წარმოების workload-ის error-rate შეფასებას.
 
@@ -337,9 +337,10 @@ NOEMA-ს კონტროლირებულმა ექსპერიმ
 - [x] Binary32 გაფართოების CI წარმატებულია: [run 45281284340](https://github.com/maisuradzee/bibmom/actions/runs/45281284340); 66 repository-wide test, NOEMA-005 binary32/binary64 frozen JSON comparison და ყველა workflow ნაბიჯი გაიარა.
 - [x] შედეგების JSON და SHA-256 ჩანაწერები მომზადებულია.
 - [x] Binary64 + binary32 გაფართოების სრული CI დადასტურდა [run 45281284340](https://github.com/maisuradzee/bibmom/actions/runs/45281284340)-ით; 66 ტესტი, frozen JSON, site build, publication boundary და SignBase audit წარმატებულია.
-- [x] ოთხივე ფორმატის საბოლოო CI წარმატებულია: [run 45282263124](https://github.com/maisuradzee/bibmom/actions/runs/45282263124); 72 repository-wide test, Decimal64/128 და Binary32/64 frozen JSON match, site build, publication boundary და SignBase audit PASS.
-- [x] runtime/memory benchmark harness და CI smoke test დამატებულია; სრული comparative measurement report ჯერ არ არის მიღებული.
-- [ ] სრული ადგილობრივი benchmark პროფილის შესრულება და დამოუკიდებელი ინტერპრეტაცია.
+- [x] ოთხივე ფორმატის CI წარმატებულია: [run 45282263124](https://github.com/maisuradzee/bibmom/actions/runs/45282263124); 72 repository-wide test და frozen JSON reproduction PASS.
+- [x] უახლესი სრული CI წარმატებულია: [run 45283388439](https://github.com/maisuradzee/bibmom/actions/runs/45283388439); 74 repository-wide test, ოთხივე ფორმატის frozen JSON reproduction, 8 benchmark format/size შემთხვევა და 44 method measurement, NOEMA-003/HadCRUT5 წყაროთა შემოწმება, SignBase audit, site build და publication boundary PASS.
+- [x] runtime/memory benchmark harness და CI smoke test დამატებულია; CI smoke-პროფილი გაიარა.
+- [ ] სრული ადგილობრივი benchmark პროფილის შესრულება (1,024 / 8,192 / 65,536; 2 warmup; 7 repetitions) და დამოუკიდებელი ინტერპრეტაცია.
 - [ ] სხვა runtime/არქიტექტურაზე დამოუკიდებელი გამეორება.
 - [ ] დამოუკიდებელი სამეცნიერო და სარედაქციო განხილვა.
 - [ ] გამოქვეყნების მზადყოფნის დადასტურება.
@@ -355,3 +356,5 @@ NOEMA-ს კონტროლირებულმა ექსპერიმ
 - 2026-11-24 — CI run 45282263124 წარმატებით დასრულდა: 72 repository-wide test; ოთხივე ფორმატის frozen JSON reproduction, NOEMA-003 checks, site build, publication boundary და SignBase audit PASS.
 - 2026-11-24 — დაემატა runtime/memory benchmark harness, benchmark protocol, ორი unit test და CI smoke-profile validation; full local performance report ჯერ არ არის დასრულებული.
 - 2026-11-24 — decimal integer accumulator ოპტიმიზებულია ადაპტიურ საერთო exponent-ზე; Etiny-grid helper შენარჩუნებულია დამოუკიდებელი ზუსტი reference ტესტისთვის.
+- 2026-11-24 — benchmark-ის პირდაპირი CLI გაშვების import path გასწორდა; decimal integer accumulator-ის შედეგის ფორმატირება დასტაბილურდა და provenance აღწერა კოდთან გათანაბრდა.
+- 2026-11-24 — CI run 45283388439 წარმატებით დასრულდა: 74 repository-wide test; ოთხივე ფორმატის frozen JSON reproduction, benchmark smoke (8 cases / 44 method measurements), NOEMA-003/HadCRUT5 წყაროთა აუდიტი, SignBase audit და site publication boundary PASS.
