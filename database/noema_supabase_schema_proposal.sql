@@ -131,6 +131,9 @@ grant select on public.research_reviews to authenticated;
 grant insert, update, delete on public.research_entries,
   public.research_sources, public.research_artifacts to authenticated;
 grant insert on public.research_reviews, public.research_comments to authenticated;
+grant all on public.research_entries, public.research_sources,
+  public.research_artifacts, public.research_reviews,
+  public.research_comments to service_role;
 
 grant usage on schema noema_private to service_role;
 grant all on noema_private.automation_runs to service_role;
@@ -209,6 +212,29 @@ create policy "authors add sources to own drafts"
     )
   );
 
+drop policy if exists "authors update own draft sources" on public.research_sources;
+create policy "authors update own draft sources"
+  on public.research_sources for update to authenticated
+  using (exists (
+    select 1 from public.research_entries e
+    where e.id = research_id and e.created_by = (select auth.uid())
+      and e.status = 'draft'
+  ))
+  with check (exists (
+    select 1 from public.research_entries e
+    where e.id = research_id and e.created_by = (select auth.uid())
+      and e.status = 'draft'
+  ));
+
+drop policy if exists "authors delete own draft sources" on public.research_sources;
+create policy "authors delete own draft sources"
+  on public.research_sources for delete to authenticated
+  using (exists (
+    select 1 from public.research_entries e
+    where e.id = research_id and e.created_by = (select auth.uid())
+      and e.status = 'draft'
+  ));
+
 drop policy if exists "editors manage sources" on public.research_sources;
 create policy "editors manage sources"
   on public.research_sources for all to authenticated
@@ -244,6 +270,29 @@ create policy "authors add artifacts to own drafts"
         and e.status = 'draft'
     )
   );
+
+drop policy if exists "authors update own draft artifacts" on public.research_artifacts;
+create policy "authors update own draft artifacts"
+  on public.research_artifacts for update to authenticated
+  using (exists (
+    select 1 from public.research_entries e
+    where e.id = research_id and e.created_by = (select auth.uid())
+      and e.status = 'draft'
+  ))
+  with check (exists (
+    select 1 from public.research_entries e
+    where e.id = research_id and e.created_by = (select auth.uid())
+      and e.status = 'draft'
+  ));
+
+drop policy if exists "authors delete own draft artifacts" on public.research_artifacts;
+create policy "authors delete own draft artifacts"
+  on public.research_artifacts for delete to authenticated
+  using (exists (
+    select 1 from public.research_entries e
+    where e.id = research_id and e.created_by = (select auth.uid())
+      and e.status = 'draft'
+  ));
 
 drop policy if exists "editors manage artifacts" on public.research_artifacts;
 create policy "editors manage artifacts"
