@@ -26,7 +26,7 @@ class BuildSiteTests(unittest.TestCase):
 
     def write_index(self, items: list[dict[str, str]]) -> None:
         (self.root / "data" / "research.json").write_text(
-            json.dumps({"project": "NOEMA", "schema_version": 1, "research": items}),
+            json.dumps({"project": "NOEMA", "schema_version": 2, "research": items}),
             encoding="utf-8",
         )
 
@@ -72,6 +72,7 @@ class BuildSiteTests(unittest.TestCase):
         self.assertTrue((output / "assets" / "articles.css").is_file())
 
         public_index = json.loads((output / "data" / "research.json").read_text(encoding="utf-8"))
+        self.assertEqual(public_index["schema_version"], 2)
         self.assertEqual(public_index["research"][0]["url"], "./research/articles/sample-study.html")
         self.assertNotIn("file", public_index["research"][0])
         self.assertFalse((output / "research" / "published").exists())
