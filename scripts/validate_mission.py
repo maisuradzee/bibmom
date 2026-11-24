@@ -2,6 +2,15 @@
 """Validate NOEMA's foundational mission and autonomy policy."""
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
+# Executing a file under scripts/ puts that directory, not the repository
+# root, first on sys.path. Add the root so the local noema_core package resolves.
+REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
+if str(REPOSITORY_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPOSITORY_ROOT))
+
 from noema_core import load_mission
 
 
