@@ -3,7 +3,7 @@ name: NOEMA-005 cross-platform deterministic reproduction
 on:
   push:
     branches:
-      - research/noema-2026-005-mainline-2026-11-24
+      - research/noema005-cross-platform-ci-2026-11-24
   pull_request:
     branches: [main]
   workflow_dispatch:
@@ -22,7 +22,7 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - ubuntu-latest
+          - ubuntu-24.04
           - windows-latest
           - macos-latest
     runs-on: ${{ matrix.os }}
