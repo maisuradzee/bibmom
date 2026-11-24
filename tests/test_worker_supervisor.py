@@ -6,7 +6,14 @@ import unittest
 from pathlib import Path
 from unittest.mock import Mock
 
-from noema_core import HandlerRegistry, JobQueue, Worker, WorkerSupervisor
+from noema_core import (
+    HandlerRegistry,
+    JobQueue,
+    Worker,
+    WorkerSupervisor,
+    WorkflowEngine,
+    WorkflowStep,
+)
 from noema_core.jobs import InvalidJob
 
 
@@ -98,6 +105,53 @@ class WorkerSupervisorTests(unittest.TestCase):
             with self.subTest(kwargs=kwargs):
                 with self.assertRaises(InvalidJob):
                     supervisor.run(**kwargs)
+
+    def test_supervisor_advances_workflow_without_manual_intervention(self) -> None:
+        registry = HandlerRegistry()
+        registry.register("task.first", lambda payload, context: {"first": payload["value"]})
+        registry.register("task.second", lambda payload, context: {"second": payload["value"]})
+        engine = WorkflowEngine(self.queue, registry)
+        workflow = engine.start(
+            "automated pipeline",
+            [
+                WorkflowStep("first", "task.first", {"value": 1}),
+                WorkflowStep("second", "task.second", {"value": 2}, ("first",)),
+            ],
+            idempotency_key="supervisor-workflow-auto-001",
+        )
+        worker = Worker(self.queue, "workflow-supervisor", registry, lease_seconds=30)
+        supervisor = WorkerSupervisor(
+            worker,
+            poll_interval_seconds=0.001,
+            workflow_engine=engine,
+        )
+        report = supervisor.run(max_jobs=2)
+
+        completed = engine.get(workflow.workflow_id)
+        self.assertEqual(report.processed, 2)
+        self.assertEqual(report.succeeded, 2)
+        self.assertEqual(report.stop_reason, "max_jobs")
+        self.assertEqual(completed.status, "succeeded")
+        self.assertTrue(all(step.status == "succeeded" for step in completed.steps))
+
+    def test_supervisor_rejects_workflow_engine_with_different_database(self) -> None:
+        registry = HandlerRegistry()
+        registry.register("task.safe", lambda payload, context: {"ok": True})
+        other_queue = JobQueue(Path(self.temporary.name) / "other.sqlite3")
+        engine = WorkflowEngine(other_queue, registry)
+        worker = Worker(self.queue, "different-db-worker", registry)
+        with self.assertRaises(InvalidJob):
+            WorkerSupervisor(worker, workflow_engine=engine)
+
+    def test_supervisor_rejects_worker_registry_missing_workflow_handlers(self) -> None:
+        workflow_registry = HandlerRegistry()
+        workflow_registry.register("task.required", lambda payload, context: {"ok": True})
+        engine = WorkflowEngine(self.queue, workflow_registry)
+        worker_registry = HandlerRegistry()
+        worker_registry.register("system.only", lambda payload, context: {"ok": True})
+        worker = Worker(self.queue, "incomplete-registry-worker", worker_registry)
+        with self.assertRaises(InvalidJob):
+            WorkerSupervisor(worker, workflow_engine=engine)
 
     def test_supervisor_configuration_is_bounded_and_validated(self) -> None:
         worker = self._worker()
