@@ -63,6 +63,16 @@ class NoemaMissionCoreTests(unittest.TestCase):
         decision = autonomy_decision("analyze_data")
         self.assertEqual(decision.mode, "autonomous")
 
+    def test_internal_job_orchestration_is_autonomous(self) -> None:
+        for action in (
+            "enqueue_internal_jobs",
+            "record_job_state",
+            "recover_expired_jobs",
+            "verify_job_audit_log",
+        ):
+            with self.subTest(action=action):
+                self.assertEqual(autonomy_decision(action).mode, "autonomous")
+
     def test_preliminary_publication_requires_all_quality_gates(self) -> None:
         self.assertEqual(autonomy_decision("publish_preliminary").mode, "blocked")
         self.assertEqual(

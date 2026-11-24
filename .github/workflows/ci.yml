@@ -65,11 +65,18 @@ jobs:
           test -f tests/test_noema005_summation.py
           test -f docs/RESEARCH_STANDARD.md
           test -f docs/CORE_MISSION.md
+          test -f docs/AUTONOMY_ARCHITECTURE.md
           test -f noema_core/__init__.py
           test -f noema_core/mission.py
           test -f noema_core/mission.json
           test -f scripts/validate_mission.py
           test -f tests/test_mission_core.py
+          test -f noema_core/jobs.py
+          test -f noema_core/jobs_cli.py
+          test -f tests/test_durable_job_queue.py
+          test -f noema_core/worker.py
+          test -f tests/test_noema_worker.py
+          test -f scripts/validate_job_queue.py
           test -f research/protocols/NOEMA-002-blind-coding-protocol.md
       - name: Validate draft completeness
         run: python scripts/validate_drafts.py
@@ -77,6 +84,8 @@ jobs:
         run: python scripts/validate_research.py
       - name: Validate NOEMA mission and autonomy policy
         run: python scripts/validate_mission.py
+      - name: Validate durable job queue
+        run: python scripts/validate_job_queue.py
       - name: Run Python unit tests
         run: python -m unittest discover -s tests -v
       - name: Reproduce NOEMA-003 trend analysis and compare frozen results

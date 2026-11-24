@@ -16,6 +16,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 
 - `index.html` — მთავარი გვერდი.
 - `noema_core/mission.json` და `noema_core/mission.py` — მანქანურად წაკითხვადი მისია, ინფორმაციის წვდომის პოლიტიკა და ავტონომიური მოქმედებების წესები.
+- `noema_core/jobs.py`, `noema_core/worker.py` და `noema_core/jobs_cli.py` — SQLite-ზე დაფუძნებული მდგრადი დავალებების რიგი, worker lease-ები, retry/idempotency, allowlisted handler-ები და audit log.
 - `assets/styles.css` და `assets/articles.css` — მთავარი გვერდისა და კვლევითი სტატიების ვიზუალური სტილები.
 - `data/research.json` — საჯარო, ვერსიაკონტროლირებადი კვლევების კატალოგი; `data/research.schema.json` განსაზღვრავს ჩანაწერების სტრუქტურას. ეს არის ამჟამინდელი სტატიკური კატალოგი და არა Supabase/სერვერული მონაცემთა ბაზა.
 - `data/noema-003/` — NOAA-ს ფიქსირებული მონაცემთა ამონარიდი, NASA/HadCRUT5/NOAA snapshot-ები, provenance metadata და გამეორებადი შედეგები.
@@ -41,6 +42,12 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - მოკლე მიმდევრობების ენტროპიის სიმულაცია: `scripts/short_sequence_bias_simulation.py`.
 - NOEMA-003-ის NOAA ანალიზი: `scripts/analyze_noema003.py`; cross-dataset შედარება და HAC ლაგების 1–6 ტესტი: `scripts/compare_noema003_datasets.py`; მონაცემთა snapshot-ები, metadata და შედეგები: `data/noema-003/`.
 - NOEMA-005-ის ექსპერიმენტი: `scripts/simulate_noema005_summation.py`; runtime/memory benchmark: `scripts/benchmark_noema005_summation.py`; სრული პროფილის workflow: `.github/workflows/noema005-full-benchmark.yml`; ტესტები: `tests/test_noema005_summation.py` და `tests/test_benchmark_noema005_summation.py`; numerical შედეგები: `data/noema-005/floating-summation-results.json`; benchmark protocol: `data/noema-005/benchmark-protocol.json`; სრული benchmark-ის შეჯამება: `data/noema-005/benchmark-full-profile-summary-2026-11-24.json`.
+
+## ტექნიკური სამუშაოების მართვა
+
+NOEMA-ს შიდა სამუშაოების მართვის პირველი ბირთვი ინახავს დავალებებს მომხმარებლის ლოკალურ `~/.noema/noema-jobs.sqlite3` ბაზაში (ან `NOEMA_JOBS_DB` გარემოს ცვლადით მითითებულ მისამართზე). მას აქვს idempotency key, worker lease და ვადის გასვლის შემდეგ აღდგენა, შეზღუდული retry, შედეგის hash და SHA-256-ით დაკავშირებული audit events. Queue არ ასრულებს თვითნებურ კოდს; სამუშაოს შესრულება მომავალ ეტაპზე მხოლოდ წინასწარ რეგისტრირებულ handler-ებს გადაეცემა. CLI: `python -m noema_core.jobs_cli --help`.
+
+დავალებების რიგისა და worker execution-ის დეტალები აღწერილია [ავტონომიური მართვის არქიტექტურაში](docs/AUTONOMY_ARCHITECTURE.md).
 
 ## ძირითადი მისია და ავტონომია
 

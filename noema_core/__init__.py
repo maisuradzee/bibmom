@@ -1,5 +1,22 @@
 """NOEMA's machine-readable mission and autonomy policy core."""
 
+from .jobs import (
+    AuditVerification,
+    ClaimedJob,
+    InvalidJob,
+    Job,
+    JobNotFound,
+    JobQueue,
+    JobQueueError,
+    LeaseLost,
+)
+from .worker import (
+    HandlerRegistry,
+    JobContext,
+    NonRetryableJobError,
+    RunOutcome,
+    Worker,
+)
 from .mission import (
     AccessDecision,
     AutonomyDecision,
@@ -11,6 +28,19 @@ from .mission import (
 )
 
 __all__ = [
+    "AuditVerification",
+    "ClaimedJob",
+    "InvalidJob",
+    "Job",
+    "JobNotFound",
+    "JobQueue",
+    "JobQueueError",
+    "LeaseLost",
+    "HandlerRegistry",
+    "JobContext",
+    "NonRetryableJobError",
+    "RunOutcome",
+    "Worker",
     "AccessDecision",
     "AutonomyDecision",
     "MissionConfigurationError",
