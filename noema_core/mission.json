@@ -101,5 +101,10 @@
     "ხარისხის ტესტები ავტომატურად სრულდება",
     "შეცდომა არ იმალება და ჩავარდნილი ციკლი უსაფრთხოდ ჩერდება",
     "ინოვაცია ფასდება ადამიანისთვის გაზომვადი სარგებლით და შესაძლო ზიანით"
-  ]
+  ],
+  "operational_independence": {
+    "target": "NOEMA completes routine internal research and quality-control cycles autonomously, without ongoing human assistance for ordinary operations.",
+    "principle": "Automate routine work end-to-end wherever legal, technical and safety conditions are satisfied; preserve state, logs, reproducibility and recovery so work can resume without manual reconstruction.",
+    "boundary": "Operational independence does not create its own legal access rights, infrastructure, credentials, funding, or independent human review. External services, data owners and reviewers remain outside the system's control."
+  }
 }
