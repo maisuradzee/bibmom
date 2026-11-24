@@ -9,6 +9,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import os
 import re
 import sqlite3
 import time
@@ -84,9 +85,10 @@ def _canonical_json(value: Any) -> str:
             separators=(",", ":"),
             allow_nan=False,
         )
-    except (TypeError, ValueError) as exc:
-        raise InvalidJob(f"Value is not strict JSON: {exc}") from exc
-    if len(encoded.encode("utf-8")) > MAX_JSON_BYTES:
+        encoded_bytes = encoded.encode("utf-8")
+    except (TypeError, ValueError, UnicodeError) as exc:
+        raise InvalidJob(f"Value is not strict UTF-8 JSON: {exc}") from exc
+    if len(encoded_bytes) > MAX_JSON_BYTES:
         raise InvalidJob(f"JSON payload/result exceeds {MAX_JSON_BYTES} bytes")
     return encoded
 
@@ -101,11 +103,18 @@ def _row_to_job(row: sqlite3.Row) -> Job:
         result_hash = hashlib.sha256(result_raw.encode("utf-8")).hexdigest()
         if result_hash != row["result_sha256"]:
             raise JobQueueError(f"Result integrity check failed for job '{row['job_id']}'")
+    try:
+        payload = json.loads(payload_raw)
+        result = json.loads(result_raw) if result_raw is not None else None
+    except json.JSONDecodeError as exc:
+        raise JobQueueError(f"Stored JSON is invalid for job '{row['job_id']}'") from exc
+    if not isinstance(payload, dict):
+        raise JobQueueError(f"Stored payload is not an object for job '{row['job_id']}'")
     return Job(
         job_id=row["job_id"],
         idempotency_key=row["idempotency_key"],
         job_type=row["job_type"],
-        payload=json.loads(payload_raw),
+        payload=payload,
         status=row["status"],
         attempts=row["attempts"],
         max_attempts=row["max_attempts"],
@@ -115,7 +124,7 @@ def _row_to_job(row: sqlite3.Row) -> Job:
         lease_owner=row["lease_owner"],
         lease_expires_at=row["lease_expires_at"],
         last_error=row["last_error"],
-        result=json.loads(result_raw) if result_raw is not None else None,
+        result=result,
     )
 
 
@@ -128,15 +137,26 @@ class JobQueue:
     """
 
     def __init__(self, db_path: str | Path | None = None, *, busy_timeout_ms: int = 30_000):
-        raw_path = Path(db_path).expanduser() if db_path is not None else DEFAULT_DB_PATH
-        if str(raw_path) == ":memory:":
+        if db_path is not None and str(db_path) == ":memory:":
             raise InvalidJob("Use a file-backed database; ':memory:' is not process-shared")
+        raw_path = Path(db_path).expanduser() if db_path is not None else DEFAULT_DB_PATH
+        if (
+            not isinstance(busy_timeout_ms, int)
+            or isinstance(busy_timeout_ms, bool)
+            or not 1 <= busy_timeout_ms <= 120_000
+        ):
+            raise InvalidJob("busy_timeout_ms must be an integer between 1 and 120000")
         self.db_path = raw_path.resolve()
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
-        if busy_timeout_ms < 1:
-            raise InvalidJob("busy_timeout_ms must be positive")
-        self.busy_timeout_ms = int(busy_timeout_ms)
+        self.busy_timeout_ms = busy_timeout_ms
         self._initialize()
+        # Queue records may contain operational metadata. Restrict the DB file
+        # to its owner on POSIX; never alter directories provided by operators.
+        if os.name == "posix":
+            try:
+                os.chmod(self.db_path, 0o600)
+            except OSError as exc:
+                raise JobQueueError(f"Cannot restrict database file permissions: {exc}") from exc
 
     def _connect(self) -> sqlite3.Connection:
         connection = sqlite3.connect(
@@ -418,6 +438,8 @@ class JobQueue:
                 return None
             token = str(uuid.uuid4())
             expires = timestamp + float(lease_seconds)
+            if not math.isfinite(expires):
+                raise InvalidJob("lease expiry exceeds the supported timestamp range")
             connection.execute(
                 """
                 UPDATE jobs
@@ -565,6 +587,8 @@ class JobQueue:
             raise InvalidJob("error must be a non-empty string")
         if not math.isfinite(float(retry_delay)) or retry_delay < 0:
             raise InvalidJob("retry_delay must be a finite non-negative number")
+        if not isinstance(retryable, bool):
+            raise InvalidJob("retryable must be a boolean")
         timestamp = float(now if now is not None else time.time())
         if not math.isfinite(timestamp):
             raise InvalidJob("now must be a finite timestamp")
@@ -575,6 +599,8 @@ class JobQueue:
             retry = bool(retryable and row["attempts"] < row["max_attempts"])
             next_status = "queued" if retry else "failed"
             available = timestamp + float(retry_delay) if retry else timestamp
+            if not math.isfinite(available):
+                raise InvalidJob("retry availability exceeds the supported timestamp range")
             connection.execute(
                 """
                 UPDATE jobs SET status = ?, updated_at = ?, available_at = ?,
@@ -660,7 +686,7 @@ class JobQueue:
         ]
 
     def verify_audit_log(self) -> AuditVerification:
-        with self._connect() as connection:
+        with closing(self._connect()) as connection:
             rows = connection.execute(
                 "SELECT * FROM audit_events ORDER BY sequence"
             ).fetchall()
@@ -671,11 +697,14 @@ class JobQueue:
                 return AuditVerification(False, len(rows), previous_hash, "audit sequence gap")
             if row["previous_hash"] != previous_hash:
                 return AuditVerification(False, len(rows), previous_hash, "previous hash mismatch")
-            material = self._event_material(
-                row["sequence"], row["job_id"], row["event_type"], row["actor"],
-                row["occurred_at"], row["details_json"], row["previous_hash"],
-            )
-            digest = hashlib.sha256(_canonical_json(material).encode("utf-8")).hexdigest()
+            try:
+                material = self._event_material(
+                    row["sequence"], row["job_id"], row["event_type"], row["actor"],
+                    row["occurred_at"], row["details_json"], row["previous_hash"],
+                )
+                digest = hashlib.sha256(_canonical_json(material).encode("utf-8")).hexdigest()
+            except (json.JSONDecodeError, InvalidJob, TypeError, ValueError, UnicodeError):
+                return AuditVerification(False, len(rows), previous_hash, "invalid audit event data")
             if digest != row["event_hash"]:
                 return AuditVerification(False, len(rows), previous_hash, "event hash mismatch")
             previous_hash = digest
@@ -694,10 +723,17 @@ class JobQueue:
             ).fetchall()
         payload_hashes_valid = True
         result_hashes_valid = True
+        event_evidence_valid = True
         enqueue_hashes: dict[str, str] = {}
         success_hashes: dict[str, str] = {}
         for event in event_rows:
-            details = json.loads(event["details_json"])
+            try:
+                details = json.loads(event["details_json"])
+                if not isinstance(details, dict):
+                    raise ValueError("audit event details must be an object")
+            except (json.JSONDecodeError, ValueError, TypeError):
+                event_evidence_valid = False
+                continue
             if event["event_type"] == "job_enqueued":
                 enqueue_hashes[event["job_id"]] = details.get("payload_sha256", "")
             else:
@@ -721,12 +757,14 @@ class JobQueue:
             sqlite_result == "ok"
             and payload_hashes_valid
             and result_hashes_valid
+            and event_evidence_valid
             and audit.valid
         )
         return {
             "sqlite_integrity": sqlite_result,
             "payload_hashes_valid": payload_hashes_valid,
             "result_hashes_valid": result_hashes_valid,
+            "event_evidence_valid": event_evidence_valid,
             "audit_valid": audit.valid,
             "audit_event_count": audit.event_count,
             "audit_last_hash": audit.last_hash,
