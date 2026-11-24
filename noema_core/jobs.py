@@ -343,8 +343,9 @@ class JobQueue:
                 },
             )
             row = connection.execute("SELECT * FROM jobs WHERE job_id = ?", (job_id,)).fetchone()
+            job = _row_to_job(row)
             connection.commit()
-            return _row_to_job(row)
+            return job
         except Exception:
             connection.rollback()
             raise
@@ -437,8 +438,9 @@ class JobQueue:
             claimed = connection.execute(
                 "SELECT * FROM jobs WHERE job_id = ?", (row["job_id"],)
             ).fetchone()
+            job = _row_to_job(claimed)
             connection.commit()
-            return ClaimedJob(_row_to_job(claimed), token)
+            return ClaimedJob(job, token)
         except Exception:
             connection.rollback()
             raise
@@ -596,8 +598,9 @@ class JobQueue:
                 },
             )
             updated = connection.execute("SELECT * FROM jobs WHERE job_id = ?", (job_id,)).fetchone()
+            job = _row_to_job(updated)
             connection.commit()
-            return _row_to_job(updated)
+            return job
         except Exception:
             connection.rollback()
             raise
