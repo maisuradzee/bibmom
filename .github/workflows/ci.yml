@@ -178,6 +178,8 @@ jobs:
           PY
       - name: Reproduce NOEMA-005 sharded reduction simulation and compare frozen results
         run: |
+          python --version
+          python -c "import platform; print(platform.platform())"
           python scripts/simulate_noema005_parallel_reduction.py --output "$RUNNER_TEMP/noema005-parallel.json"
           python - "$RUNNER_TEMP/noema005-parallel.json" <<'PY'
           import json
