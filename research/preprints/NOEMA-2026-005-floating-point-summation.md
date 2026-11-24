@@ -61,6 +61,8 @@ NOEMA-ს წინადადებაა მცირე **summation contract
 ## გამეორებადობა და წყარო მონაცემები
 
 - სრული benchmark workflow: [GitHub Actions run #45283854718](https://github.com/maisuradzee/bibmom/actions/runs/45283854718).
+- გამოთვლის კოდი: [summation simulation](https://github.com/maisuradzee/bibmom/blob/main/scripts/simulate_noema005_summation.py) და [runtime/memory benchmark harness](https://github.com/maisuradzee/bibmom/blob/main/scripts/benchmark_noema005_summation.py).
+- ავტომატური შემოწმებები: [summation unit tests](https://github.com/maisuradzee/bibmom/blob/main/tests/test_noema005_summation.py) და [benchmark tests](https://github.com/maisuradzee/bibmom/blob/main/tests/test_benchmark_noema005_summation.py).
 - [Benchmark protocol](https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/benchmark-protocol.json)
 - [Full profile summary JSON](https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/benchmark-full-profile-summary-2026-11-24.json)
 - [Summation experiment result JSON](https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/floating-summation-results.json)
