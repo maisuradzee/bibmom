@@ -70,6 +70,7 @@ class SchedulerReport:
     fires_created: int
     fires_dispatched: int
     fires_skipped: int
+    fires_failed: int
     pending_fires: int
     failed_fires: int
     workflow_ids: tuple[str, ...]
@@ -732,6 +733,7 @@ class IntervalScheduler:
             fires_created=fires_created,
             fires_dispatched=dispatched,
             fires_skipped=skipped,
+            fires_failed=failed,
             pending_fires=pending_count,
             failed_fires=failed_count,
             workflow_ids=tuple(workflow_ids),
