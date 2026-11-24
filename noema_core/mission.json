@@ -59,7 +59,11 @@
       "create_internal_workflows",
       "advance_workflows",
       "validate_workflow_dependencies",
-      "block_failed_workflow_branches"
+      "block_failed_workflow_branches",
+      "create_interval_schedules",
+      "run_due_schedules",
+      "recover_pending_schedule_fires",
+      "apply_schedule_misfire_policy"
     ],
     "conditional_actions": {
       "publish_preliminary": "all_quality_gates_passed"
