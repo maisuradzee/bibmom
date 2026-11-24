@@ -20,6 +20,7 @@ class NoemaMissionCoreTests(unittest.TestCase):
         validate_mission_config(self.mission)
         self.assertEqual(self.mission["identity"]["name"], "NOEMA")
         self.assertGreaterEqual(len(self.mission["innovation_cycle"]), 5)
+        self.assertIn("without ongoing human assistance", self.mission["operational_independence"]["target"])
 
     def test_public_source_can_be_retrieved_without_granting_reuse(self) -> None:
         decision = source_access_decision("public")
