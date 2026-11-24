@@ -102,21 +102,22 @@ def main() -> int:
             idempotency_key="ci-workflow-smoke-v1",
             actor="ci",
         )
-        first = Worker(queue, "ci-workflow-worker", workflow_registry).run_once()
-        if first is None or first.outcome != "succeeded":
-            raise SystemExit("Workflow first-step smoke test failed")
-        workflow = workflow_engine.advance(workflow.workflow_id, actor="ci")
-        if {step.step_id: step.status for step in workflow.steps} != {
-            "fetch": "succeeded",
-            "validate": "queued",
-        }:
-            raise SystemExit(f"Workflow dependency dispatch failed: {workflow}")
-        second = Worker(queue, "ci-workflow-worker", workflow_registry).run_once()
-        if second is None or second.outcome != "succeeded":
-            raise SystemExit("Workflow second-step smoke test failed")
-        workflow = workflow_engine.advance(workflow.workflow_id, actor="ci")
-        if workflow.status != "succeeded":
-            raise SystemExit(f"Workflow did not reach succeeded: {workflow}")
+        workflow_report = WorkerSupervisor(
+            Worker(queue, "ci-workflow-worker", workflow_registry),
+            poll_interval_seconds=0.001,
+            workflow_engine=workflow_engine,
+        ).run(max_jobs=2)
+        workflow = workflow_engine.get(workflow.workflow_id)
+        if (
+            workflow_report.processed != 2
+            or workflow_report.succeeded != 2
+            or workflow_report.stop_reason != "max_jobs"
+            or workflow.status != "succeeded"
+        ):
+            raise SystemExit(
+                f"Automatic workflow/supervisor smoke test failed: "
+                f"report={workflow_report}, workflow={workflow}"
+            )
 
         result = queue.integrity_check()
         if not result["valid"]:
