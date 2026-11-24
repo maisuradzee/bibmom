@@ -42,13 +42,13 @@ Binary32/binary64-ში შედარებულია ექვსი მ�
 4. **IEEE Computer Society — IEEE Std 754-2019, “IEEE Standard for Floating-Point Arithmetic.”** Published: 22 July 2019; board approval: 13 June 2019. [IEEE Standards record](https://standards.ieee.org/ieee/754/6210/). Accessed: 2026-11-24.
    პირველადი სტანდარტი განსაზღვრავს binary/decimal ფორმატებსა და ოპერაციებს; ნორმატიული შედეგი დამოკიდებულია შეყვანებზე, ოპერაციების მიმდევრობასა და დანიშნულების ფორმატზე.
 
-5. **Python Software Foundation — Python 3.12.16 documentation, Built-in Functions: `sum()`.** Version release: 25 October 2026. [Official documentation](https://docs.python.org/3.12/library/functions.html#sum). Accessed: 2026-11-24.
+5. **Python Software Foundation — Python 3.12.16 documentation, Built-in Functions: `sum()`.** Version label: Python 3.12.16 documentation; page last updated: 26 October 2026 (15:00 UTC). No separate page-publication date is stated. [Official documentation](https://docs.python.org/3.12/library/functions.html#sum). Accessed: 2026-11-24.
    დოკუმენტაცია აღნიშნავს, რომ Python 3.12-დან float-ების `sum()` ალგორითმი შეიცვალა და უმეტეს build-ზე უფრო მაღალი სიზუსტე აქვს; ამიტომ კვლევის naive baseline ხელითაა განსაზღვრული.
 
-6. **Python Software Foundation — Python 3.12.16 documentation, `math.fsum()`.** Version release: 25 October 2026. [Official documentation](https://docs.python.org/3.12/library/math.html#math.fsum). Accessed: 2026-11-24.
+6. **Python Software Foundation — Python 3.12.16 documentation, `math.fsum()`.** Version label: Python 3.12.16 documentation; page last updated: 26 October 2026 (15:00 UTC). No separate page-publication date is stated. [Official documentation](https://docs.python.org/3.12/library/math.html#math.fsum). Accessed: 2026-11-24.
    აღწერს partial sums-ის შენარჩუნებას და აფრთხილებს ზოგიერთ პლატფორმაზე extended precision-ის გამო შესაძლო double-rounding-ს.
 
-7. **Python Software Foundation — Python 3.12.16 documentation, `decimal` module.** Version release: 25 October 2026. [Official documentation](https://docs.python.org/3.12/library/decimal.html). Accessed: 2026-11-24.
+7. **Python Software Foundation — Python 3.12.16 documentation, `decimal` module.** Version label: Python 3.12.16 documentation; page last updated: 26 October 2026 (15:00 UTC). No separate page-publication date is stated. [Official documentation](https://docs.python.org/3.12/library/decimal.html). Accessed: 2026-11-24.
    აღწერს Context-ის precision, rounding, exponent bounds და clamp პარამეტრებს, რომლებსაც decimal64/decimal128 ემულაცია ეყრდნობა.
 
 8. **National Institute of Standards and Technology — NIST Digital Library of Mathematical Functions, §3.1 “Arithmetics and Error Measures.”** DLMF released: 11 May 2010; current site version recorded as 1.2.8 (15 September 2026). [NIST DLMF](https://dlmf.nist.gov/3.1). Accessed: 2026-11-24.
@@ -441,6 +441,7 @@ NOEMA-ს კონტროლირებულმა ექსპერიმ
 
 ## ცვლილებების ისტორია
 
+- 2026-11-24 — Python 3.12 docs-ის წყაროს თარიღი დაზუსტდა: 2026-10-26 არის გვერდის last-updated timestamp და არა interpreter release date.
 - 2026-11-24 — დაემატა 330-კონფიგურაციანი sharded reduction სიმულაცია; scalar partial-ები შეადარდა Neumaier compensation state-ის გადაცემას. Input SHA-256 და case-matrix SHA-256 გაყინულია JSON-ში.
 
 - 2026-11-24 — წყაროებს დაემატა სრული ციტირება, ავტორები, გამოცემის თარიღი/ვერსია და წვდომის თარიღი; CPython 3.14.4-ის benchmark provenance ოფიციალურ Python.org release record-თან გადამოწმდა.
