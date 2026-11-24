@@ -72,10 +72,10 @@
           "citation": "Python Software Foundation. Python 3.12.16 documentation, Built-in Functions: sum().",
           "url": "https://docs.python.org/3.12/library/functions.html#sum",
           "type": "official-documentation",
-          "publication_date": "2026-10-25",
-          "publication_note": "Versioned documentation; date is the Python 3.12.16 release date, not a separately stated page-publication date.",
+          "publication_date": "2026-10-26",
+          "publication_note": "The versioned documentation page reports last updated 2026-10-26 (15:00 UTC); no separate page-publication date is stated. The 3.12.16 string is the documentation page label, not a claim that Python 3.12.16 was a released interpreter patch.",
           "accessed_at": "2026-11-24",
-          "version": "Python 3.12.16"
+          "version": "Python 3.12 documentation (page label 3.12.16)"
         },
         {
           "title": "Python 3.12 math.fsum()",
@@ -85,10 +85,10 @@
           "citation": "Python Software Foundation. Python 3.12.16 documentation, math — Mathematical functions: math.fsum().",
           "url": "https://docs.python.org/3.12/library/math.html#math.fsum",
           "type": "official-documentation",
-          "publication_date": "2026-10-25",
-          "publication_note": "Versioned documentation; date is the Python 3.12.16 release date, not a separately stated page-publication date.",
+          "publication_date": "2026-10-26",
+          "publication_note": "The versioned documentation page reports last updated 2026-10-26 (15:00 UTC); no separate page-publication date is stated. The 3.12.16 string is the documentation page label, not a claim that Python 3.12.16 was a released interpreter patch.",
           "accessed_at": "2026-11-24",
-          "version": "Python 3.12.16"
+          "version": "Python 3.12 documentation (page label 3.12.16)"
         },
         {
           "title": "Python 3.12 decimal — Decimal fixed-point and floating-point arithmetic",
@@ -98,10 +98,10 @@
           "citation": "Python Software Foundation. Python 3.12.16 documentation, decimal module.",
           "url": "https://docs.python.org/3.12/library/decimal.html",
           "type": "official-documentation",
-          "publication_date": "2026-10-25",
-          "publication_note": "Versioned documentation; date is the Python 3.12.16 release date, not a separately stated page-publication date.",
+          "publication_date": "2026-10-26",
+          "publication_note": "The versioned documentation page reports last updated 2026-10-26 (15:00 UTC); no separate page-publication date is stated. The 3.12.16 string is the documentation page label, not a claim that Python 3.12.16 was a released interpreter patch.",
           "accessed_at": "2026-11-24",
-          "version": "Python 3.12.16"
+          "version": "Python 3.12 documentation (page label 3.12.16)"
         },
         {
           "title": "NIST Digital Library of Mathematical Functions, §3.1 — Arithmetics and Error Measures",
