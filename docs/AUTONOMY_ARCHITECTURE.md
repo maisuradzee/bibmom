@@ -64,7 +64,9 @@ python -m noema_core.jobs_cli verify
 
 ყველა workflow transition ემატება საერთო queue audit hash-chain-ში. Workflow არ ატვირთავს handler-ს დინამიკურად: ყველა `job_type` წინასწარ უნდა იყოს რეგისტრირებული trusted `HandlerRegistry`-ში. Queue-ის retry/lease მექანიზმი იძლევა *at-least-once* შესრულების სემანტიკას; ამიტომ handler-მა გარე side effect-ები idempotent უნდა გახადოს. Exactly-once შესრულება არ არის გარანტირებული.
 
-`WorkflowEngine.advance(workflow_id)` ამოწმებს უკვე გაშვებულ job-ებს და dispatch-ს აკეთებს იმ ნაბიჯებზე, რომელთა წინაპირობებიც წარმატებით დასრულდა. ამ ვერსიაში advance-ის გამოძახება ხდება workflow runner/scheduler-ის მხრიდან; worker supervisor-ს workflow engine-თან მუდმივი ინტეგრაცია ჯერ არ აქვს. CI smoke-test ახორციელებს ორეტაპიან workflow-ს ბოლომდე.
+`WorkflowEngine.advance(workflow_id)` ამოწმებს უკვე გაშვებულ job-ებს და dispatch-ს აკეთებს იმ ნაბიჯებზე, რომელთა წინაპირობებიც წარმატებით დასრულდა. `advance_all()` ერთ შეზღუდულ ციკლში აახლებს ყველა აქტიურ workflow-ს. `WorkerSupervisor`-ს შეუძლია მიიღოს `workflow_engine` ობიექტი; ამ რეჟიმში ყოველი worker-ის ციკლის შემდეგ თავად იძახებს `advance_all()`-ს. შედეგად root ეტაპი სრულდება, მისი წარმატება ფიქსირდება, შემდეგი ეტაპი queue-ში გადადის და worker მას ავტომატურად იღებს — ხელით `advance()` გამოძახების გარეშე. Supervisor ამოწმებს, რომ workflow engine და worker ერთ DB-ს იყენებდნენ და worker-ს ყველა საჭირო allowlisted handler ჰქონდეს.
+
+CI smoke-test ორეტაპიან workflow-ს მთლიანად ასრულებს მხოლოდ `WorkerSupervisor.run()`-ით; გარე კოდი შუა ეტაპებს აღარ მართავს. განრიგი და რეალური OS service deployment ცალკე ფენებად რჩება.
 
 ## Worker Supervisor
 
@@ -79,7 +81,7 @@ Supervisor არ აყენებს process-wide signal handler-ებს �
 3. მონაცემთა ბაზა ამ ეტაპზე დაშიფრული არ არის. მასში არ უნდა ჩაიწეროს credentials, API tokens, პაროლები ან სენსიტიური პერსონალური ინფორმაცია. საიდუმლოებები უნდა ინახებოდეს ცალკე secret store-ში, ხოლო job payload-ში — მხოლოდ უსაფრთხო reference.
 4. Hash-chain არის ცვლილებების აღმოჩენის მექანიზმი; მასზე წვდომის მქონე მავნე ადმინისტრატორს შეუძლია მთელი ჯაჭვის ხელახლა გამოთვლა. ამიტომ საჭიროა შეზღუდული filesystem წვდომა და პერიოდული დამოუკიდებელი backup.
 5. Worker-ები მხოლოდ იმ ტიპებს ამუშავებენ, რომლებზეც handler წინასწარ არის რეგისტრირებული. უცნობი ტიპის job რიგში რჩება; ეს განზრახ fail-closed ქცევაა.
-6. Supervisor და durable workflow DAG engine კოდშია; რეალური OS service deployment, scheduler/cron და workflow engine-ის უწყვეტ supervisor integration, multi-host distributed execution და გარე source connectors ჯერ არ არის დამატებული.
+6. Supervisor და durable workflow DAG engine კოდშია და მათი პირდაპირი ინტეგრაციაც რეალიზებულია; რეალური OS service deployment, scheduler/cron integration, multi-host distributed execution და გარე source connectors ჯერ არ არის დამატებული.
 
 ## შემდეგი ტექნიკური ფენები — კვლევის დაწყების გარეშე
 
