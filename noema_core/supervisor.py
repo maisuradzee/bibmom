@@ -161,15 +161,16 @@ class WorkerSupervisor:
                         schedule_report.fires_created
                         or schedule_report.fires_dispatched
                         or schedule_report.fires_skipped
-                        or schedule_report.failed_fires
+                        or schedule_report.fires_failed
                     ):
                         LOGGER.info(
-                            "NOEMA scheduler tick worker=%s due=%s created=%s dispatched=%s skipped=%s pending=%s failed=%s",
+                            "NOEMA scheduler tick worker=%s due=%s created=%s dispatched=%s skipped=%s failed_this_tick=%s pending=%s failed_total=%s",
                             self.worker.worker_id,
                             schedule_report.due_schedules,
                             schedule_report.fires_created,
                             schedule_report.fires_dispatched,
                             schedule_report.fires_skipped,
+                            schedule_report.fires_failed,
                             schedule_report.pending_fires,
                             schedule_report.failed_fires,
                         )
