@@ -57,6 +57,16 @@ def validate_mission_config(config: Mapping[str, Any]) -> None:
         if not isinstance(value, str) or not value.strip():
             raise MissionConfigurationError(f"mission.{key} must be a non-empty string")
 
+    independence = config.get("operational_independence")
+    if not isinstance(independence, Mapping):
+        raise MissionConfigurationError("operational_independence must be an object")
+    for key in ("target", "principle", "boundary"):
+        value = independence.get(key)
+        if not isinstance(value, str) or not value.strip():
+            raise MissionConfigurationError(
+                f"operational_independence.{key} must be a non-empty string"
+            )
+
     access = config.get("knowledge_access")
     if not isinstance(access, Mapping):
         raise MissionConfigurationError("knowledge_access must be an object")
