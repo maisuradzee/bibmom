@@ -73,6 +73,16 @@ class NoemaMissionCoreTests(unittest.TestCase):
             with self.subTest(action=action):
                 self.assertEqual(autonomy_decision(action).mode, "autonomous")
 
+    def test_internal_workflow_orchestration_is_autonomous(self) -> None:
+        for action in (
+            "create_internal_workflows",
+            "advance_workflows",
+            "validate_workflow_dependencies",
+            "block_failed_workflow_branches",
+        ):
+            with self.subTest(action=action):
+                self.assertEqual(autonomy_decision(action).mode, "autonomous")
+
     def test_preliminary_publication_requires_all_quality_gates(self) -> None:
         self.assertEqual(autonomy_decision("publish_preliminary").mode, "blocked")
         self.assertEqual(
