@@ -508,6 +508,8 @@ class JobQueue:
         try:
             self._owned_live_job(connection, job_id, worker_id, lease_token, timestamp)
             expires = timestamp + float(lease_seconds)
+            if not math.isfinite(expires):
+                raise InvalidJob("lease expiry exceeds the supported timestamp range")
             connection.execute(
                 "UPDATE jobs SET lease_expires_at = ?, updated_at = ? WHERE job_id = ?",
                 (expires, timestamp, job_id),
