@@ -152,7 +152,9 @@
           "cases": 330,
           "input_sha256": "3a825f21d910a331c4ff4c3a796cacbc9ebb72e02db1686352447c4207fc1bc2",
           "case_matrix_sha256": "ad15ddf2119ac798e66ffa22bfe6854801a9b9d810283c03212c516c14008625",
-          "initial_environment": "CPython 3.13.5; Linux x86_64; simulation only"
+          "initial_environment": "CPython 3.13.5; Linux x86_64; simulation only",
+          "ci_reproduction_environment": "CPython 3.14.4; Linux x86_64; Actions run 45325226165",
+          "cross_version_reproduction": true
         }
       },
       "limitations": [
