@@ -688,15 +688,33 @@ class JobQueue:
             rows = connection.execute(
                 "SELECT job_id, payload_json, payload_sha256, result_json, result_sha256 FROM jobs"
             ).fetchall()
+            event_rows = connection.execute(
+                "SELECT job_id, event_type, details_json FROM audit_events "
+                "WHERE event_type IN ('job_enqueued', 'job_succeeded')"
+            ).fetchall()
         payload_hashes_valid = True
         result_hashes_valid = True
+        enqueue_hashes: dict[str, str] = {}
+        success_hashes: dict[str, str] = {}
+        for event in event_rows:
+            details = json.loads(event["details_json"])
+            if event["event_type"] == "job_enqueued":
+                enqueue_hashes[event["job_id"]] = details.get("payload_sha256", "")
+            else:
+                success_hashes[event["job_id"]] = details.get("result_sha256", "")
         for row in rows:
             actual_payload_hash = hashlib.sha256(row["payload_json"].encode("utf-8")).hexdigest()
-            if actual_payload_hash != row["payload_sha256"]:
+            if (
+                actual_payload_hash != row["payload_sha256"]
+                or enqueue_hashes.get(row["job_id"]) != row["payload_sha256"]
+            ):
                 payload_hashes_valid = False
             if row["result_json"] is not None:
                 actual_result_hash = hashlib.sha256(row["result_json"].encode("utf-8")).hexdigest()
-                if actual_result_hash != row["result_sha256"]:
+                if (
+                    actual_result_hash != row["result_sha256"]
+                    or success_hashes.get(row["job_id"]) != row["result_sha256"]
+                ):
                     result_hashes_valid = False
         audit = self.verify_audit_log()
         valid = (
