@@ -66,7 +66,27 @@ python -m noema_core.jobs_cli verify
 
 `WorkflowEngine.advance(workflow_id)` ამოწმებს უკვე გაშვებულ job-ებს და dispatch-ს აკეთებს იმ ნაბიჯებზე, რომელთა წინაპირობებიც წარმატებით დასრულდა. `advance_all()` ერთ შეზღუდულ ციკლში აახლებს ყველა აქტიურ workflow-ს. `WorkerSupervisor`-ს შეუძლია მიიღოს `workflow_engine` ობიექტი; ამ რეჟიმში ყოველი worker-ის ციკლის შემდეგ თავად იძახებს `advance_all()`-ს. შედეგად root ეტაპი სრულდება, მისი წარმატება ფიქსირდება, შემდეგი ეტაპი queue-ში გადადის და worker მას ავტომატურად იღებს — ხელით `advance()` გამოძახების გარეშე. Supervisor ამოწმებს, რომ workflow engine და worker ერთ DB-ს იყენებდნენ და worker-ს ყველა საჭირო allowlisted handler ჰქონდეს.
 
-CI smoke-test ორეტაპიან workflow-ს მთლიანად ასრულებს მხოლოდ `WorkerSupervisor.run()`-ით; გარე კოდი შუა ეტაპებს აღარ მართავს. განრიგი და რეალური OS service deployment ცალკე ფენებად რჩება.
+CI smoke-test ორეტაპიან workflow-ს მთლიანად ასრულებს მხოლოდ `WorkerSupervisor.run()`-ით; გარე კოდი შუა ეტაპებს აღარ მართავს.
+
+## Interval Scheduler
+
+`IntervalScheduler` ინახავს განრიგებსა და თითოეული გაშვების (`fire`) ჩანაწერს იმავე SQLite ბაზაში. განრიგი მიუთითებს ინტერვალს წამებში, workflow-ის template-ს, პირველ გაშვების დროს და misfire პოლიტიკას. მხარდაჭერილია `catch_up_once` — დაგვიანებისას გამოტოვებული რამდენიმე ინტერვალი ერთ გაშვებად გაერთიანდება — და `skip` — თუ scheduler ერთ სრულ ინტერვალზე მეტად დააგვიანდა, ძველი fire აღირიცხება გამოტოვებულად და workflow არ იქმნება.
+
+Due fire ჯერ ტრანზაქციულად ინახება, შემდეგ იქმნება workflow deterministically გამოთვლილი idempotency key-ით. თუ პროცესი შეწყდა fire-ის შენახვის შემდეგ, შემდეგი `run_due()` pending fire-ს აღადგენს; თუ workflow უკვე შეიქმნა, idempotency key იმავე workflow-ს აბრუნებს და ახალ job-ებს არ დუბლირებს. Dispatch-ის წარუმატებლობა ხუთამდე მცდელობით და exponential backoff-ით მეორდება, რის შემდეგ fire terminal `failed` მდგომარეობაში გადადის. `list_fires()` იძლევა გაშვების ისტორიას, ხოლო `last_run_at` მხოლოდ რეალურად dispatch-ებული workflow-ის timestamp-ს ასახავს, არა უბრალოდ დაგეგმილ ან გამოტოვებულ სლოტს.
+
+`WorkerSupervisor` იღებს optional `scheduler` ობიექტს. თითოეულ ციკლში თანმიმდევრობაა: due schedule-ების დამუშავება → ერთი ready job-ის შესრულება → აქტიური workflow-ების `advance_all()`. Supervisor ამოწმებს, რომ scheduler, workflow engine და worker ერთსა და იმავე SQLite ბაზას იყენებდნენ, ხოლო worker-ის allowlist ყველა workflow task type-ს მოიცავდეს. ამით ინტერვალურად დაგეგმილი DAG სრულდება ადამიანური ჩარევის გარეშე ჩვეულებრივ, წინასწარ ნებადართულ შიდა სამუშაოებში.
+
+ეს ვერსია მხარს უჭერს წამებით განსაზღვრულ ინტერვალებს 1 წამიდან 365 დღემდე. Cron/calendar expression-ები, timezone-aware wall-clock schedule-ები, OS service deployment/watchdog და multi-host scheduler ჯერ არ არის დამატებული.
+
+## Interval Scheduler
+
+`IntervalScheduler` ინახავს განრიგებსა და თითოეული გაშვების (`fire`) ჩანაწერს იმავე SQLite ბაზაში. განრიგი მიუთითებს ინტერვალს წამებში, workflow-ის template-ს, პირველ გაშვების დროს და misfire პოლიტიკას. მხარდაჭერილია `catch_up_once` — დაგვიანებისას გამოტოვებული რამდენიმე ინტერვალი ერთ გაშვებად გაერთიანდება — და `skip` — თუ scheduler ერთ სრულ ინტერვალზე მეტად დააგვიანდა, ძველი fire აღირიცხება გამოტოვებულად და workflow არ იქმნება.
+
+Due fire ჯერ ტრანზაქციულად ინახება, შემდეგ იქმნება workflow deterministically გამოთვლილი idempotency key-ით. თუ პროცესი შეწყდა fire-ის შენახვის შემდეგ, შემდეგი `run_due()` pending fire-ს აღადგენს; თუ workflow უკვე შეიქმნა, idempotency key იმავე workflow-ს აბრუნებს და ახალ job-ებს არ დუბლირებს. Dispatch-ის წარუმატებლობა ხუთამდე მცდელობით და exponential backoff-ით მეორდება, რის შემდეგ fire terminal `failed` მდგომარეობაში გადადის. განრიგის გამორთვა/ჩართვა ინარჩუნებს მომდევნო due timestamp-ს, ამიტომ აღდგენისას misfire policy კვლავ მოქმედებს.
+
+`WorkerSupervisor` იღებს optional `scheduler` ობიექტს. თითოეულ ციკლში თანმიმდევრობაა: due schedule-ების დამუშავება → ერთი ready job-ის შესრულება → აქტიური workflow-ების `advance_all()`. Supervisor ამოწმებს, რომ scheduler, workflow engine და worker ერთსა და იმავე SQLite ბაზას იყენებდნენ, ხოლო worker-ის allowlist ყველა workflow task type-ს მოიცავდეს. ამით ინტერვალურად დაგეგმილი DAG სრულდება ადამიანური ჩარევის გარეშე ჩვეულებრივ, წინასწარ ნებადართულ შიდა სამუშაოებში.
+
+ეს ვერსია მხარს უჭერს წამებით განსაზღვრულ ინტერვალებს 1 წამიდან 365 დღემდე. Cron/calendar expression-ები, timezone-aware wall-clock schedule-ები, OS service deployment/watchdog და multi-host scheduler ჯერ არ არის დამატებული.
 
 ## Worker Supervisor
 
@@ -81,14 +101,14 @@ Supervisor არ აყენებს process-wide signal handler-ებს �
 3. მონაცემთა ბაზა ამ ეტაპზე დაშიფრული არ არის. მასში არ უნდა ჩაიწეროს credentials, API tokens, პაროლები ან სენსიტიური პერსონალური ინფორმაცია. საიდუმლოებები უნდა ინახებოდეს ცალკე secret store-ში, ხოლო job payload-ში — მხოლოდ უსაფრთხო reference.
 4. Hash-chain არის ცვლილებების აღმოჩენის მექანიზმი; მასზე წვდომის მქონე მავნე ადმინისტრატორს შეუძლია მთელი ჯაჭვის ხელახლა გამოთვლა. ამიტომ საჭიროა შეზღუდული filesystem წვდომა და პერიოდული დამოუკიდებელი backup.
 5. Worker-ები მხოლოდ იმ ტიპებს ამუშავებენ, რომლებზეც handler წინასწარ არის რეგისტრირებული. უცნობი ტიპის job რიგში რჩება; ეს განზრახ fail-closed ქცევაა.
-6. Supervisor და durable workflow DAG engine კოდშია და მათი პირდაპირი ინტეგრაციაც რეალიზებულია; რეალური OS service deployment, scheduler/cron integration, multi-host distributed execution და გარე source connectors ჯერ არ არის დამატებული.
+6. Supervisor, durable workflow DAG engine და interval scheduler კოდშია და ერთმანეთთან ინტეგრირებულია; cron/calendar schedule-ები, timezone-aware wall-clock schedule-ები, რეალური OS service deployment, multi-host distributed execution და გარე source connectors ჯერ არ არის დამატებული.
 
 ## შემდეგი ტექნიკური ფენები — კვლევის დაწყების გარეშე
 
-- scheduler/cron integration და workflow engine-ის მუდმივი კავშირი WorkerSupervisor-თან;
-- service deployment, watchdog და restart policy;
+- cron/calendar schedule-ები და timezone-aware დაგეგმვა;
+- OS service deployment, watchdog და restart policy;
 - source connector registry, provenance, rate limits და per-source permission evidence;
-- scheduler, bounded concurrency, quotas და back-pressure;
+- bounded concurrency, quotas, back-pressure და schedule-level rate limiting;
 - metrics, structured logs, alerts, backup/restore და recovery drill;
 - უსაფრთხო secrets integration და კერძო drafts storage;
 - multi-host execution მხოლოდ მაშინ, როცა შესაბამისი სერვერი/ინფრასტრუქტურა რეალურად განისაზღვრება და ტესტირდება.

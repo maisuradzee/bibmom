@@ -13,6 +13,7 @@ import time
 from dataclasses import dataclass
 
 from .jobs import InvalidJob
+from .scheduler import IntervalScheduler
 from .worker import Worker
 from .workflows import WorkflowEngine
 
@@ -53,6 +54,7 @@ class WorkerSupervisor:
         error_backoff_max_seconds: float = 30.0,
         max_consecutive_errors: int = 10,
         workflow_engine: WorkflowEngine | None = None,
+        scheduler: IntervalScheduler | None = None,
     ) -> None:
         self._positive_finite(poll_interval_seconds, "poll_interval_seconds")
         self._positive_finite(error_backoff_initial_seconds, "error_backoff_initial_seconds")
@@ -66,6 +68,14 @@ class WorkerSupervisor:
             or max_consecutive_errors > 1_000
         ):
             raise InvalidJob("max_consecutive_errors must be an integer between 1 and 1000")
+        if scheduler is not None:
+            if not isinstance(scheduler, IntervalScheduler):
+                raise InvalidJob("scheduler must be an IntervalScheduler instance")
+            if scheduler.queue.db_path != worker.queue.db_path:
+                raise InvalidJob("scheduler must use the same JobQueue database as the worker")
+            if workflow_engine is not None and workflow_engine is not scheduler.workflow_engine:
+                raise InvalidJob("workflow_engine must match the scheduler's WorkflowEngine")
+            workflow_engine = scheduler.workflow_engine
         if workflow_engine is not None:
             if not isinstance(workflow_engine, WorkflowEngine):
                 raise InvalidJob("workflow_engine must be a WorkflowEngine instance")
@@ -77,6 +87,7 @@ class WorkerSupervisor:
                 )
         self.worker = worker
         self.workflow_engine = workflow_engine
+        self.scheduler = scheduler
         self.poll_interval_seconds = float(poll_interval_seconds)
         self.error_backoff_initial_seconds = float(error_backoff_initial_seconds)
         self.error_backoff_max_seconds = float(error_backoff_max_seconds)
@@ -142,6 +153,8 @@ class WorkerSupervisor:
                 break
 
             try:
+                if self.scheduler is not None:
+                    self.scheduler.run_due(actor=f"supervisor:{self.worker.worker_id}")
                 outcome = self.worker.run_once()
                 if self.workflow_engine is not None:
                     self.workflow_engine.advance_all(

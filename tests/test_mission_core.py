@@ -73,6 +73,16 @@ class NoemaMissionCoreTests(unittest.TestCase):
             with self.subTest(action=action):
                 self.assertEqual(autonomy_decision(action).mode, "autonomous")
 
+    def test_interval_scheduler_operations_are_autonomous(self) -> None:
+        for action in (
+            "create_interval_schedules",
+            "run_due_schedules",
+            "recover_pending_schedule_fires",
+            "apply_schedule_misfire_policy",
+        ):
+            with self.subTest(action=action):
+                self.assertEqual(autonomy_decision(action).mode, "autonomous")
+
     def test_internal_workflow_orchestration_is_autonomous(self) -> None:
         for action in (
             "create_internal_workflows",
