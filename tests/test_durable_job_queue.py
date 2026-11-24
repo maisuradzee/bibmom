@@ -9,6 +9,7 @@ from pathlib import Path
 from noema_core.jobs import (
     InvalidJob,
     JobQueue,
+    JobQueueError,
     LeaseLost,
 )
 
@@ -166,6 +167,17 @@ class DurableJobQueueTests(unittest.TestCase):
                 ('{"safe":false}',),
             )
         self.assertFalse(self.queue.verify_audit_log().valid)
+
+    def test_worker_claim_refuses_a_tampered_payload(self) -> None:
+        job = self.queue.enqueue("research.tamper", {"source": "original"})
+        with sqlite3.connect(self.database) as connection:
+            connection.execute(
+                "UPDATE jobs SET payload_json = ? WHERE job_id = ?",
+                ('{"source":"changed"}', job.job_id),
+            )
+        with self.assertRaises(JobQueueError):
+            self.queue.claim_next("worker-a")
+        self.assertEqual(self.queue.integrity_check()["valid"], False)
 
     def test_integrity_check_detects_job_payload_tampering(self) -> None:
         job = self.queue.enqueue("research.integrity", {"source": "trusted"})
