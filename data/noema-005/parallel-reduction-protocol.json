@@ -3,16 +3,45 @@
   "experiment_id": "NOEMA-2026-005-PARALLEL-001",
   "purpose": "Check whether a distributed reduction that returns only one rounded scalar per worker preserves cancellation information, compared with a worker state that carries both sum and compensation.",
   "data": {
-    "pattern": [1e+16, 1.0, -1e+16],
+    "pattern": [
+      10000000000000000,
+      1,
+      -10000000000000000
+    ],
     "repeat_count": 1000,
     "value_count": 3000,
     "exact_reference_fraction": "1000",
     "canonical_binary64_big_endian_sha256": "3a825f21d910a331c4ff4c3a796cacbc9ebb72e02db1686352447c4207fc1bc2"
   },
-  "partitions": ["round_robin", "contiguous"],
-  "input_orderings": ["original_triplets", "reversed", "ascending_value", "descending_value", "seeded_sha256_shuffle"],
-  "worker_counts": [2, 3, 4, 8, 16, 32, 64, 100, 256, 500, 1000],
-  "worker_merge_orderings": ["original", "reversed", "seeded_sha256_shuffle"],
+  "partitions": [
+    "round_robin",
+    "contiguous"
+  ],
+  "input_orderings": [
+    "original_triplets",
+    "reversed",
+    "ascending_value",
+    "descending_value",
+    "seeded_sha256_shuffle"
+  ],
+  "worker_counts": [
+    2,
+    3,
+    4,
+    8,
+    16,
+    32,
+    64,
+    100,
+    256,
+    500,
+    1000
+  ],
+  "worker_merge_orderings": [
+    "original",
+    "reversed",
+    "seeded_sha256_shuffle"
+  ],
   "input_permutation_seed": 20261124,
   "worker_permutation_seed_rule": "20261125 + worker_count",
   "methods": {
@@ -28,5 +57,12 @@
   "initial_reproduction_environment": {
     "python": "CPython 3.13.5",
     "platform": "Linux x86_64, glibc 2.41"
-  }
+  },
+  "ci_reproduction_environment": {
+    "python": "CPython 3.14.4",
+    "platform": "Linux-7.0.0-1020-azure-x86_64-with-glibc2.43",
+    "workflow_run": "https://github.com/maisuradzee/bibmom/actions/runs/45325226165",
+    "head_sha": "1694f317cc14d92eaf4fb1873237bca12ab36b73"
+  },
+  "cross_version_reproduction": "The same frozen 330-case summary and case-matrix SHA-256 were reproduced on CPython 3.13.5 and CPython 3.14.4; this is not a cross-architecture test."
 }
