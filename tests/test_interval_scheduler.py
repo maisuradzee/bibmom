@@ -76,6 +76,12 @@ class IntervalSchedulerTests(unittest.TestCase):
         first_payload = next(job for job in self.queue.list_jobs(limit=10) if job.status == "queued").payload
         self.assertEqual(first_payload["_noema_schedule"]["schedule_id"], "hourly-fire")
         self.assertEqual(first_payload["_noema_schedule"]["scheduled_for"], 1000)
+        schedule_after_dispatch = self.scheduler.get("hourly-fire")
+        self.assertEqual(schedule_after_dispatch.last_run_at, 1000)
+        fire_history = self.scheduler.list_fires(schedule_id="hourly-fire", statuses=("dispatched",))
+        self.assertEqual(len(fire_history), 1)
+        self.assertEqual(fire_history[0].status, "dispatched")
+        self.assertEqual(fire_history[0].workflow_id, report.workflow_ids[0])
 
     def test_repeated_scheduler_tick_does_not_duplicate_same_fire(self) -> None:
         self.scheduler.create_interval(
@@ -105,7 +111,12 @@ class IntervalSchedulerTests(unittest.TestCase):
         schedule = self.scheduler.get("catch-up")
         self.assertEqual(report.fires_dispatched, 1)
         self.assertEqual(schedule.next_run_at, 1240)
+        self.assertEqual(schedule.last_run_at, 1000)
         self.assertEqual(len(report.workflow_ids), 1)
+        history = self.scheduler.list_fires(schedule_id="catch-up")
+        self.assertEqual(len(history), 1)
+        self.assertEqual(history[0].status, "dispatched")
+        self.assertEqual(history[0].scheduled_for, 1000)
 
     def test_skip_policy_records_late_fire_without_creating_workflow(self) -> None:
         self.scheduler.create_interval(
@@ -121,7 +132,12 @@ class IntervalSchedulerTests(unittest.TestCase):
         self.assertEqual(report.fires_skipped, 1)
         self.assertEqual(report.fires_dispatched, 0)
         self.assertEqual(schedule.next_run_at, 1240)
+        self.assertIsNone(schedule.last_run_at)
         self.assertEqual(len(self.queue.list_jobs()), 0)
+        history = self.scheduler.list_fires(schedule_id="skip-late", statuses=("skipped",))
+        self.assertEqual(len(history), 1)
+        self.assertEqual(history[0].status, "skipped")
+        self.assertIsNone(history[0].workflow_id)
 
     def test_schedule_idempotency_and_definition_conflict(self) -> None:
         first = self.scheduler.create_interval(
@@ -193,6 +209,14 @@ class IntervalSchedulerTests(unittest.TestCase):
         self.assertEqual(report.fires_created, 0)
         self.assertEqual(report.fires_dispatched, 1)
         self.assertEqual(len(report.workflow_ids), 1)
+
+    def test_list_fires_validates_filters_and_limits(self) -> None:
+        with self.assertRaises(InvalidSchedule):
+            self.scheduler.list_fires(statuses=("unknown",))
+        with self.assertRaises(InvalidSchedule):
+            self.scheduler.list_fires(limit=0)
+        with self.assertRaises(InvalidSchedule):
+            self.scheduler.list_fires(schedule_id="bad id")
 
     def test_invalid_schedule_parameters_are_rejected(self) -> None:
         invalid_cases = (
