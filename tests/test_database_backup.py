@@ -23,6 +23,7 @@ class DatabaseBackupTests(unittest.TestCase):
             {"component": "backup", "revision": 1},
             idempotency_key="backup-test-job-v1",
             actor="test",
+            now=100.0,
         )
         claimed = self.queue.claim_next("backup-worker", now=100.0)
         assert claimed is not None
