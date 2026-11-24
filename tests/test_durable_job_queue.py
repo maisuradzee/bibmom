@@ -1,9 +1,11 @@
 from __future__ import annotations
 
+import multiprocessing
+import os
 import sqlite3
 import tempfile
 import unittest
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 from pathlib import Path
 
 from noema_core.jobs import (
@@ -14,12 +16,35 @@ from noema_core.jobs import (
 )
 
 
+def _claim_from_process(db_path: str, worker_id: str) -> str | None:
+    queue = JobQueue(db_path)
+    claimed = queue.claim_next(worker_id, lease_seconds=60)
+    return claimed.job.job_id if claimed is not None else None
+
+
 class DurableJobQueueTests(unittest.TestCase):
     def setUp(self) -> None:
         self.temporary = tempfile.TemporaryDirectory(prefix="noema-jobs-test-")
         self.addCleanup(self.temporary.cleanup)
         self.database = Path(self.temporary.name) / "state" / "jobs.sqlite3"
         self.queue = JobQueue(self.database)
+
+    def test_memory_database_is_rejected(self) -> None:
+        for path in (":memory:", Path(":memory:")):
+            with self.subTest(path=path):
+                with self.assertRaises(InvalidJob):
+                    JobQueue(path)
+
+    def test_busy_timeout_must_be_a_bounded_integer(self) -> None:
+        for value in (0, -1, True, 1.5, "1000", 120_001):
+            with self.subTest(value=value):
+                with self.assertRaises(InvalidJob):
+                    JobQueue(self.database, busy_timeout_ms=value)
+
+    def test_database_permissions_are_owner_only_on_posix(self) -> None:
+        self.assertTrue(self.queue.integrity_check()["valid"])
+        if os.name == "posix":
+            self.assertEqual(self.database.stat().st_mode & 0o777, 0o600)
 
     def test_enqueue_claim_and_complete_persists_state(self) -> None:
         created = self.queue.enqueue(
@@ -95,6 +120,19 @@ class DurableJobQueueTests(unittest.TestCase):
         self.assertIsNone(self.queue.claim_next("worker-b", lease_seconds=2, now=5.0))
         self.assertEqual(self.queue.get(job.job_id).status, "failed")
 
+    def test_fail_requires_boolean_retry_policy(self) -> None:
+        job = self.queue.enqueue("research.retry-policy", {"safe": True})
+        claimed = self.queue.claim_next("worker-a")
+        assert claimed is not None
+        with self.assertRaises(InvalidJob):
+            self.queue.fail(
+                job.job_id,
+                "worker-a",
+                claimed.lease_token,
+                "invalid retry policy",
+                retryable=1,
+            )
+
     def test_retryable_failure_requeues_until_attempt_limit(self) -> None:
         job = self.queue.enqueue("research.download", {"url": "https://example.invalid"}, max_attempts=2, now=1.0)
         first = self.queue.claim_next("worker-a", now=2.0)
@@ -151,6 +189,25 @@ class DurableJobQueueTests(unittest.TestCase):
         self.assertEqual(len(claims), 1)
         self.assertEqual(claims[0].job.job_id, job.job_id)
 
+    def test_multiple_processes_claim_distinct_jobs_from_shared_database(self) -> None:
+        jobs = [
+            self.queue.enqueue("research.process", {"index": index})
+            for index in range(4)
+        ]
+        context = multiprocessing.get_context("spawn")
+        with ProcessPoolExecutor(max_workers=4, mp_context=context) as executor:
+            outcomes = list(
+                executor.map(
+                    _claim_from_process,
+                    [str(self.database)] * 4,
+                    [f"process-worker-{index}" for index in range(4)],
+                )
+            )
+        claimed_ids = [job_id for job_id in outcomes if job_id is not None]
+        self.assertEqual(len(claimed_ids), 4)
+        self.assertEqual(len(set(claimed_ids)), 4)
+        self.assertEqual(set(claimed_ids), {job.job_id for job in jobs})
+
     def test_audit_log_chain_verifies_and_detects_tampering(self) -> None:
         job = self.queue.enqueue("research.audit", {"safe": True}, actor="test")
         claimed = self.queue.claim_next("worker-a")
@@ -190,6 +247,18 @@ class DurableJobQueueTests(unittest.TestCase):
         report = self.queue.integrity_check()
         self.assertFalse(report["valid"])
         self.assertFalse(report["payload_hashes_valid"])
+
+    def test_integrity_check_reports_malformed_audit_json_without_crashing(self) -> None:
+        self.queue.enqueue("research.malformed-audit", {"safe": True})
+        with sqlite3.connect(self.database) as connection:
+            connection.execute(
+                "UPDATE audit_events SET details_json = ? WHERE sequence = 1",
+                ("not-json",),
+            )
+        report = self.queue.integrity_check()
+        self.assertFalse(report["valid"])
+        self.assertFalse(report["event_evidence_valid"])
+        self.assertFalse(report["audit_valid"])
 
     def test_cli_and_list_api_do_not_need_to_expose_payloads(self) -> None:
         job = self.queue.enqueue("research.private", {"internal_note": "not printed"})
