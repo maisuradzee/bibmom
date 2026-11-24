@@ -120,7 +120,7 @@ def load_public_items(root: Path) -> list[dict[str, str]]:
     }
     data = json.loads(index_path.read_text(encoding="utf-8"))
 
-    if data.get("project") != "NOEMA" or data.get("schema_version") != 1:
+    if data.get("project") != "NOEMA" or data.get("schema_version") != 2:
         raise ValueError("research.json has an unsupported project/schema version")
     items = data.get("research")
     if not isinstance(items, list):
@@ -185,7 +185,7 @@ def build_site(root: Path, output: Path) -> dict[str, int]:
     source_index = json.loads((root / "data" / "research.json").read_text(encoding="utf-8"))
     public_index = {
         "project": "NOEMA",
-        "schema_version": 1,
+        "schema_version": source_index["schema_version"],
         "updated_at": source_index.get("updated_at"),
         "research": items,
     }
