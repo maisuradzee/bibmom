@@ -46,6 +46,22 @@ Binary32-ის fsum→binary32 არის უფრო მაღალი ს
 
 NOEMA-ს წინადადებაა მცირე **summation contract**: პროექტმა დოკუმენტურად განსაზღვროს დაგროვების ალგორითმი, input ordering/deterministic reduction tree, regression fixture, ეტალონთან შედარების წესი და დასაშვები შეცდომა. ეს ახალი შეკრების ალგორითმი არ არის; მისი რეალურ წარმოებით სისტემებში ეფექტიანობა ჯერ არ შემოწმებულა.
 
+## დამატებითი შედეგი — განაწილებული შეკრების სიმულაცია
+
+შემოწმდა, ინარჩუნებს თუ არა განაწილებული reduction მცირე რიცხვით კომპონენტებს, როცა თითო worker მხოლოდ ერთ float-ს აბრუნებს. გამოყენებულია `[1e16, 1, -1e16]` triplet 1,000-ჯერ; ზუსტი ჯამი 1,000-ია. ორი partition სტრატეგიის, ხუთი input ordering-ის, 11 worker count-ისა და სამი worker merge ordering-ის კომბინაციამ შექმნა 330 კონფიგურაცია.
+
+| Worker output / merge | ზუსტი დამთხვევა |
+|---|---:|
+| naive scalar + pairwise | 0/330 |
+| Kahan scalar + pairwise | 24/330 |
+| Neumaier scalar + pairwise | 114/330 |
+| math.fsum scalar + pairwise | 114/330 |
+| Neumaier `(sum, compensation)` state + compensated merge | **330/330** |
+
+ეს შედეგი აჩვენებს, რომ ამ კონკრეტულ fixture-ში worker-ის მხოლოდ ერთი scalar შედეგი correction ინფორმაციას კარგავს; compensation state-ის ცალკე გადაცემამ და გლობალურმა Neumaier merge-მა ყველა 330 კონფიგურაციაში 1,000 დააბრუნა. ეს არ არის უნივერსალური გარანტია.
+
+**მკაცრი შეზღუდვა:** ექსპერიმენტი არის დეტერმინისტული map/reduce სიმულაცია და არა რეალური მრავალნაკადიანი, GPU ან ქსელური distributed runtime-ის ტესტი. გამოყენებულია მხოლოდ ერთი synthetic cancellation dataset. რეალურ სისტემაში ეფექტიანობა, concurrency, communication cost და სხვა input distribution-ები ჯერ არ შემოწმებულა.
+
 ## შეზღუდვები
 
 - Benchmark runner-ზე დაფიქსირდა CPython 3.14.4 (გამოშვებულია 2026-04-07); ეს არ არის 2026-11-24-ის უახლესი patch release. სხვა ვერსიაზე გამეორება დარჩენილია.
@@ -56,6 +72,7 @@ NOEMA-ს წინადადებაა მცირე **summation contract
 - Decimal კვლევა იყენებს Python decimal.Context-ს მითითებული precision/exponent პარამეტრებით; ის არ ამოწმებს IEEE decimal interchange-ის BID/DPD byte-level კოდირებას.
 - Integer accumulator არის reference-oriented Python implementation და არა ოპტიმიზებული production ალგორითმი.
 - Synthetic stress-test-ები არ წარმოადგენს რეალური workload-ების შეცდომის სიხშირის შეფასებას.
+- sharded reduction არის სიმულაცია და არა რეალური threads/GPU/distributed runtime; გამოყენებულია ერთი synthetic input pattern.
 - სხვა Python ვერსიაზე/არქიტექტურაზე დამოუკიდებელი benchmark გამეორება და გარე რეცენზია დარჩენილია.
 
 ## გამეორებადობა და წყარო მონაცემები
@@ -66,6 +83,7 @@ NOEMA-ს წინადადებაა მცირე **summation contract
 - [Benchmark protocol](https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/benchmark-protocol.json)
 - [Full profile summary JSON](https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/benchmark-full-profile-summary-2026-11-24.json)
 - [Summation experiment result JSON](https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/floating-summation-results.json)
+- [Parallel reduction simulation code](https://github.com/maisuradzee/bibmom/blob/main/scripts/simulate_noema005_parallel_reduction.py), [tests](https://github.com/maisuradzee/bibmom/blob/main/tests/test_noema005_parallel_reduction.py), [protocol](https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/parallel-reduction-protocol.json) და [frozen summary JSON](https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/parallel-reduction-results.json)
 - [კვლევის სრული სამუშაო ჩანაწერი](https://github.com/maisuradzee/bibmom/blob/main/research/drafts/NOEMA-2026-005-floating-summation-order.md)
 
 ## წყაროები
@@ -84,7 +102,7 @@ NOEMA-ს წინადადებაა მცირე **summation contract
 
 1. სრული benchmark-ის გამეორება მინიმუმ სამ დამოუკიდებელ run-ზე და სხვა Python ვერსიასა/არქიტექტურაზე.
 2. integer accumulator-ის ოპტიმიზაცია ისე, რომ ზუსტი reference უცვლელი დარჩეს.
-3. deterministic და nondeterministic parallel reduction tree-ების შემოწმება.
+3. simulated sharded reduction-ის შემდეგ რეალური CPU threads, GPU და distributed framework-ის შემოწმება; scalar-only და compensation-state API-ების შედარება.
 4. რეალური სამეცნიერო მონაცემთა ნაკრების დამატება.
 5. დამოუკიდებელი მკვლევრის მიერ მეთოდოლოგიის, ტესტებისა და წყაროების გადამოწმება.
 
