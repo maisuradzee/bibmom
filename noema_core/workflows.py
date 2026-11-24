@@ -162,7 +162,14 @@ class WorkflowEngine:
             if not isinstance(step.payload, Mapping):
                 raise InvalidWorkflow(f"Payload for step '{step.step_id}' must be a JSON object")
             payload_json = _canonical_json(dict(step.payload))
-            dependencies = tuple(step.depends_on)
+            if isinstance(step.depends_on, (str, bytes)) or step.depends_on is None:
+                raise InvalidWorkflow(f"Dependencies for step '{step.step_id}' must be a sequence of step IDs")
+            try:
+                dependencies = tuple(step.depends_on)
+            except TypeError as exc:
+                raise InvalidWorkflow(
+                    f"Dependencies for step '{step.step_id}' must be iterable"
+                ) from exc
             if any(not isinstance(dep, str) or not _STEP_ID_RE.fullmatch(dep) for dep in dependencies):
                 raise InvalidWorkflow(f"Invalid dependency identifier in step '{step.step_id}'")
             if len(dependencies) != len(set(dependencies)):
