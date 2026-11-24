@@ -31,6 +31,7 @@ from .scheduler import (
     IntervalScheduler,
     InvalidSchedule,
     ScheduleNotFound,
+    SchedulerFire,
     SchedulerReport,
 )
 from .supervisor import SupervisorReport, WorkerSupervisor
@@ -71,6 +72,7 @@ __all__ = [
     "IntervalScheduler",
     "InvalidSchedule",
     "ScheduleNotFound",
+    "SchedulerFire",
     "SchedulerReport",
     "AccessDecision",
     "AutonomyDecision",
