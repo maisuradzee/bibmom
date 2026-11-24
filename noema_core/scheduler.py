@@ -50,6 +50,20 @@ class IntervalSchedule:
 
 
 @dataclass(frozen=True)
+class SchedulerFire:
+    fire_id: str
+    schedule_id: str
+    scheduled_for: float
+    status: str
+    workflow_id: str | None
+    attempts: int
+    next_attempt_at: float
+    created_at: float
+    updated_at: float
+    last_error: str | None
+
+
+@dataclass(frozen=True)
 class SchedulerReport:
     checked_at: float
     due_schedules: int
@@ -365,6 +379,56 @@ class IntervalScheduler:
             rows = connection.execute(sql, parameters).fetchall()
         return [self._row_to_schedule(row) for row in rows]
 
+    def list_fires(
+        self,
+        *,
+        schedule_id: str | None = None,
+        statuses: Iterable[str] | None = None,
+        limit: int = 100,
+    ) -> list[SchedulerFire]:
+        """Inspect recent schedule fires for recovery, monitoring and audit UI."""
+        if not isinstance(limit, int) or isinstance(limit, bool) or not 1 <= limit <= 10_000:
+            raise InvalidSchedule("limit must be an integer between 1 and 10000")
+        allowed_statuses = {"pending", "dispatched", "skipped", "failed"}
+        selected = tuple(dict.fromkeys(statuses or ()))
+        if any(status not in allowed_statuses for status in selected):
+            raise InvalidSchedule("Unknown scheduler fire status filter")
+        if schedule_id is not None and (
+            not isinstance(schedule_id, str) or not _SCHEDULE_ID_RE.fullmatch(schedule_id)
+        ):
+            raise InvalidSchedule("Invalid schedule_id filter")
+
+        sql = "SELECT * FROM scheduler_fires"
+        conditions: list[str] = []
+        parameters: list[Any] = []
+        if schedule_id is not None:
+            conditions.append("schedule_id = ?")
+            parameters.append(schedule_id)
+        if selected:
+            conditions.append("status IN (" + ",".join("?" for _ in selected) + ")")
+            parameters.extend(selected)
+        if conditions:
+            sql += " WHERE " + " AND ".join(conditions)
+        sql += " ORDER BY scheduled_for DESC, fire_id LIMIT ?"
+        parameters.append(limit)
+        with closing(self.queue._connect()) as connection:
+            rows = connection.execute(sql, parameters).fetchall()
+        return [
+            SchedulerFire(
+                fire_id=row["fire_id"],
+                schedule_id=row["schedule_id"],
+                scheduled_for=row["scheduled_for"],
+                status=row["status"],
+                workflow_id=row["workflow_id"],
+                attempts=row["attempts"],
+                next_attempt_at=row["next_attempt_at"],
+                created_at=row["created_at"],
+                updated_at=row["updated_at"],
+                last_error=row["last_error"],
+            )
+            for row in rows
+        ]
+
     def _create_due_fires(self, now: float, *, limit: int, actor: str) -> tuple[int, int, int]:
         created = skipped = due_count = 0
         connection = self.queue._transaction()
@@ -414,7 +478,7 @@ class IntervalScheduler:
                 connection.execute(
                     """
                     UPDATE scheduler_schedules
-                    SET next_run_at = ?, updated_at = ?, last_run_at = ?
+                    SET next_run_at = ?, updated_at = ?
                     WHERE schedule_id = ? AND next_run_at = ?
                     """,
                     (next_run_at, now, scheduled_for, row["schedule_id"], scheduled_for),
@@ -516,8 +580,8 @@ class IntervalScheduler:
                     did_mark_dispatched = cursor.rowcount == 1
                     if did_mark_dispatched:
                         connection.execute(
-                            "UPDATE scheduler_schedules SET last_error = NULL WHERE schedule_id = ?",
-                            (schedule_id,),
+                            "UPDATE scheduler_schedules SET last_error = NULL, last_run_at = ?, updated_at = ? WHERE schedule_id = ?",
+                            (scheduled_for, timestamp, schedule_id),
                         )
                         self.queue._append_event(
                             connection,
