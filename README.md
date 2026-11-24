@@ -16,7 +16,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 
 - `index.html` — მთავარი გვერდი.
 - `noema_core/mission.json` და `noema_core/mission.py` — მანქანურად წაკითხვადი მისია, ინფორმაციის წვდომის პოლიტიკა და ავტონომიური მოქმედებების წესები.
-- `noema_core/jobs.py`, `noema_core/worker.py` და `noema_core/jobs_cli.py` — SQLite-ზე დაფუძნებული მდგრადი დავალებების რიგი, worker lease-ები, retry/idempotency, allowlisted handler-ები და audit log.
+- `noema_core/jobs.py`, `noema_core/worker.py`, `noema_core/supervisor.py` და `noema_core/jobs_cli.py` — SQLite-ზე დაფუძნებული მდგრადი დავალებების რიგი, allowlisted worker, graceful supervisor loop, bounded recovery და audit log.
 - `assets/styles.css` და `assets/articles.css` — მთავარი გვერდისა და კვლევითი სტატიების ვიზუალური სტილები.
 - `data/research.json` — საჯარო, ვერსიაკონტროლირებადი კვლევების კატალოგი; `data/research.schema.json` განსაზღვრავს ჩანაწერების სტრუქტურას. ეს არის ამჟამინდელი სტატიკური კატალოგი და არა Supabase/სერვერული მონაცემთა ბაზა.
 - `data/noema-003/` — NOAA-ს ფიქსირებული მონაცემთა ამონარიდი, NASA/HadCRUT5/NOAA snapshot-ები, provenance metadata და გამეორებადი შედეგები.
