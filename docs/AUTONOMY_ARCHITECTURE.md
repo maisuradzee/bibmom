@@ -58,6 +58,12 @@ python -m noema_core.jobs_cli verify
 
 ნაგულისხმევი DB მდებარეობაა `~/.noema/noema-jobs.sqlite3`; მისი შეცვლა შესაძლებელია `NOEMA_JOBS_DB` გარემოს ცვლადით ან CLI-ის `--db` პარამეტრით. CLI არ ბეჭდავს job payload-ს `list` ბრძანებისას.
 
+## Worker Supervisor
+
+`WorkerSupervisor` უზრუნველყოფს მუდმივ სამუშაო ციკლს: `Worker.run_once()`-ის განმეორებით გამოძახებას, უმოქმედობისას ლოდინს, გარე `threading.Event`-ით graceful stop-ს, მაქსიმალური სამუშაოების/დროის/idle-ციკლების ლიმიტებს და transient შეცდომებზე ზრდად, მაგრამ შეზღუდულ backoff-ს. თანმიმდევრული ინფრასტრუქტურული შეცდომების ლიმიტის მიღწევისას supervisor უსაფრთხოდ ჩერდება და აბრუნებს შესრულების ანგარიშს (`SupervisorReport`). ხანგრძლივ handler-ს კვლავ თავად მოეთხოვება `context.heartbeat()`.
+
+Supervisor არ აყენებს process-wide signal handler-ებს და არ ირჩევს handler-ებს job payload-იდან. სერვისის bootstrap-მა უნდა დაარეგისტრიროს მხოლოდ trusted handler-ები, გაუზიაროს supervisor-ს stop event და SIGINT/SIGTERM-ზე მოითხოვოს graceful stop. Worker-ის გაჩერების შემდეგ მოუმთავრებელი job-ის lease-ის ვადის გასვლა აღდგება queue-ის მომდევნო claim-ზე.
+
 ## განზრახ შეზღუდვები
 
 1. ეს არის ერთი ჰოსტის SQLite რიგი და არა მრავალმანქანიანი distributed queue. SQLite WAL არ უნდა ჩაითვალოს მრავალრეგიონულ ან არასაიმედო network filesystem-ზე კოორდინაციის გარანტიად.
@@ -65,7 +71,7 @@ python -m noema_core.jobs_cli verify
 3. მონაცემთა ბაზა ამ ეტაპზე დაშიფრული არ არის. მასში არ უნდა ჩაიწეროს credentials, API tokens, პაროლები ან სენსიტიური პერსონალური ინფორმაცია. საიდუმლოებები უნდა ინახებოდეს ცალკე secret store-ში, ხოლო job payload-ში — მხოლოდ უსაფრთხო reference.
 4. Hash-chain არის ცვლილებების აღმოჩენის მექანიზმი; მასზე წვდომის მქონე მავნე ადმინისტრატორს შეუძლია მთელი ჯაჭვის ხელახლა გამოთვლა. ამიტომ საჭიროა შეზღუდული filesystem წვდომა და პერიოდული დამოუკიდებელი backup.
 5. Worker-ები მხოლოდ იმ ტიპებს ამუშავებენ, რომლებზეც handler წინასწარ არის რეგისტრირებული. უცნობი ტიპის job რიგში რჩება; ეს განზრახ fail-closed ქცევაა.
-6. Worker-ის მიმდინარე ვერსიას აქვს `run_once()` და handler-ის lease heartbeat; მუდმივად მომუშავე supervisor/service, scheduler, multi-host distributed execution და გარე source connectors ჯერ არ არის დამატებული.
+6. Supervisor-ის მუდმივი polling loop უკვე კოდშია; როგორც service-ის რეალური გაშვება, scheduler/cron integration, durable workflow DAG-ები, multi-host distributed execution და გარე source connectors ჯერ არ არის დამატებული.
 
 ## შემდეგი ტექნიკური ფენები — კვლევის დაწყების გარეშე
 
