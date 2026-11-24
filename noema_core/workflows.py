@@ -506,6 +506,8 @@ class WorkflowEngine:
         """Refresh job outcomes, block impossible branches, dispatch newly-ready steps."""
         if not isinstance(workflow_id, str) or not workflow_id.strip():
             raise WorkflowNotFound("workflow_id must be a non-empty string")
+        if not isinstance(actor, str) or not actor.strip():
+            raise InvalidWorkflow("actor must be a non-empty string")
         with closing(self.queue._connect()) as connection:
             exists = connection.execute(
                 "SELECT 1 FROM workflow_runs WHERE workflow_id = ?",
@@ -519,6 +521,32 @@ class WorkflowEngine:
         self._dispatch_ready_steps(workflow_id, actor=actor)
         self._update_workflow_status(workflow_id, actor=actor)
         return self.get(workflow_id)
+
+    def advance_all(
+        self,
+        *,
+        actor: str = "workflow-engine",
+        limit: int = 250,
+    ) -> list[WorkflowSnapshot]:
+        """Refresh and advance all active workflows, bounded per supervisor cycle."""
+        if not isinstance(actor, str) or not actor.strip():
+            raise InvalidWorkflow("actor must be a non-empty string")
+        if not isinstance(limit, int) or isinstance(limit, bool) or not 1 <= limit <= 1_000:
+            raise InvalidWorkflow("limit must be an integer between 1 and 1000")
+        with closing(self.queue._connect()) as connection:
+            rows = connection.execute(
+                """
+                SELECT workflow_id FROM workflow_runs
+                WHERE status IN ('queued', 'running')
+                ORDER BY updated_at, workflow_id
+                LIMIT ?
+                """,
+                (limit,),
+            ).fetchall()
+        return [
+            self.advance(row["workflow_id"], actor=actor)
+            for row in rows
+        ]
 
     def get(self, workflow_id: str) -> WorkflowSnapshot:
         with closing(self.queue._connect()) as connection:
