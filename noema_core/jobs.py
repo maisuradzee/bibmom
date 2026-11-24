@@ -718,10 +718,17 @@ class JobQueue:
             ).fetchall()
         payload_hashes_valid = True
         result_hashes_valid = True
+        event_evidence_valid = True
         enqueue_hashes: dict[str, str] = {}
         success_hashes: dict[str, str] = {}
         for event in event_rows:
-            details = json.loads(event["details_json"])
+            try:
+                details = json.loads(event["details_json"])
+                if not isinstance(details, dict):
+                    raise ValueError("audit event details must be an object")
+            except (json.JSONDecodeError, ValueError, TypeError):
+                event_evidence_valid = False
+                continue
             if event["event_type"] == "job_enqueued":
                 enqueue_hashes[event["job_id"]] = details.get("payload_sha256", "")
             else:
@@ -745,12 +752,14 @@ class JobQueue:
             sqlite_result == "ok"
             and payload_hashes_valid
             and result_hashes_valid
+            and event_evidence_valid
             and audit.valid
         )
         return {
             "sqlite_integrity": sqlite_result,
             "payload_hashes_valid": payload_hashes_valid,
             "result_hashes_valid": result_hashes_valid,
+            "event_evidence_valid": event_evidence_valid,
             "audit_valid": audit.valid,
             "audit_event_count": audit.event_count,
             "audit_last_hash": audit.last_hash,
