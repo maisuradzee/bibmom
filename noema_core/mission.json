@@ -51,7 +51,11 @@
       "draft_internal_reports",
       "create_internal_recommendations",
       "archive_verified_results",
-      "monitor_own_quality"
+      "monitor_own_quality",
+      "enqueue_internal_jobs",
+      "record_job_state",
+      "recover_expired_jobs",
+      "verify_job_audit_log"
     ],
     "conditional_actions": {
       "publish_preliminary": "all_quality_gates_passed"
