@@ -8,11 +8,13 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import re
 import sqlite3
 import time
 import uuid
-from dataclasses import asdict, dataclass
+from contextlib import closing
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Iterable, Mapping
 
@@ -140,7 +142,7 @@ class JobQueue:
         return connection
 
     def _initialize(self) -> None:
-        with self._connect() as connection:
+        with closing(self._connect()) as connection:
             connection.execute("PRAGMA journal_mode = WAL")
             connection.executescript(
                 """
@@ -200,8 +202,12 @@ class JobQueue:
 
     def _transaction(self):
         connection = self._connect()
-        connection.execute("BEGIN IMMEDIATE")
-        return connection
+        try:
+            connection.execute("BEGIN IMMEDIATE")
+            return connection
+        except Exception:
+            connection.close()
+            raise
 
     @staticmethod
     def _event_material(
@@ -281,6 +287,8 @@ class JobQueue:
         payload_json = _canonical_json(dict(payload))
         payload_hash = hashlib.sha256(payload_json.encode("utf-8")).hexdigest()
         timestamp = float(now if now is not None else time.time())
+        if not math.isfinite(timestamp):
+            raise InvalidJob("now must be a finite timestamp")
         job_id = str(uuid.uuid4())
         connection = self._transaction()
         try:
@@ -290,6 +298,14 @@ class JobQueue:
                     (idempotency_key,),
                 ).fetchone()
                 if existing:
+                    if (
+                        existing["job_type"] != job_type
+                        or existing["payload_sha256"] != payload_hash
+                        or existing["max_attempts"] != max_attempts
+                    ):
+                        raise InvalidJob(
+                            "idempotency_key already belongs to a different job definition"
+                        )
                     connection.commit()
                     return _row_to_job(existing)
             connection.execute(
@@ -368,13 +384,15 @@ class JobQueue:
     ) -> ClaimedJob | None:
         if not isinstance(worker_id, str) or not worker_id.strip() or len(worker_id) > 128:
             raise InvalidJob("worker_id must be a non-empty string up to 128 chars")
-        if lease_seconds <= 0:
-            raise InvalidJob("lease_seconds must be positive")
+        if not math.isfinite(float(lease_seconds)) or lease_seconds <= 0:
+            raise InvalidJob("lease_seconds must be a finite positive number")
         types = tuple(dict.fromkeys(job_types or ()))
         for item in types:
             if not isinstance(item, str) or not _JOB_TYPE_RE.fullmatch(item):
                 raise InvalidJob(f"Invalid job type filter: {item!r}")
         timestamp = float(now if now is not None else time.time())
+        if not math.isfinite(timestamp):
+            raise InvalidJob("now must be a finite timestamp")
         connection = self._transaction()
         try:
             self._recover_expired(connection, timestamp)
@@ -448,8 +466,8 @@ class JobQueue:
         lease_seconds: float = 120.0,
         now: float | None = None,
     ) -> float:
-        if lease_seconds <= 0:
-            raise InvalidJob("lease_seconds must be positive")
+        if not math.isfinite(float(lease_seconds)) or lease_seconds <= 0:
+            raise InvalidJob("lease_seconds must be a finite positive number")
         timestamp = float(now if now is not None else time.time())
         connection = self._transaction()
         try:
@@ -529,8 +547,8 @@ class JobQueue:
     ) -> Job:
         if not isinstance(error, str) or not error.strip():
             raise InvalidJob("error must be a non-empty string")
-        if retry_delay < 0:
-            raise InvalidJob("retry_delay cannot be negative")
+        if not math.isfinite(float(retry_delay)) or retry_delay < 0:
+            raise InvalidJob("retry_delay must be a finite non-negative number")
         timestamp = float(now if now is not None else time.time())
         safe_error = error.strip()[:MAX_ERROR_CHARS]
         connection = self._transaction()
@@ -572,7 +590,7 @@ class JobQueue:
             connection.close()
 
     def get(self, job_id: str) -> Job:
-        with self._connect() as connection:
+        with closing(self._connect()) as connection:
             row = connection.execute("SELECT * FROM jobs WHERE job_id = ?", (job_id,)).fetchone()
         if row is None:
             raise JobNotFound(job_id)
@@ -592,7 +610,7 @@ class JobQueue:
             params.extend(selected)
         sql += " ORDER BY created_at DESC, job_id LIMIT ?"
         params.append(limit)
-        with self._connect() as connection:
+        with closing(self._connect()) as connection:
             rows = connection.execute(sql, params).fetchall()
         return [_row_to_job(row) for row in rows]
 
@@ -606,7 +624,7 @@ class JobQueue:
             params.append(job_id)
         sql += " ORDER BY sequence DESC LIMIT ?"
         params.append(limit)
-        with self._connect() as connection:
+        with closing(self._connect()) as connection:
             rows = connection.execute(sql, params).fetchall()
         return [
             {
@@ -646,7 +664,7 @@ class JobQueue:
         return AuditVerification(True, len(rows), previous_hash)
 
     def integrity_check(self) -> dict[str, Any]:
-        with self._connect() as connection:
+        with closing(self._connect()) as connection:
             sqlite_result = connection.execute("PRAGMA integrity_check").fetchone()[0]
         audit = self.verify_audit_log()
         return {
