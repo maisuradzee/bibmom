@@ -28,6 +28,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - `scripts/validate_drafts.py` — დრაფტების მინიმალური სარედაქციო სისრულის ავტომატური შემოწმება.
 - `requirements-site.txt` — ფიქსირებული Markdown renderer ვერსია.
 - `.github/workflows/deploy.yml` — საჯარო ფაილების შერჩევა და Pages deployment.
+- `docs/DATABASE_ARCHITECTURE.md` — NOEMA-ს სამომავლო მონაცემთა ფენის არქიტექტურა; `database/noema_supabase_schema_proposal.sql` — RLS-ით დაცული SQL წინადადება, რომელიც ჯერ არ გაშვებულა.
 
 ## მიმდინარე კვლევა
 
