@@ -49,7 +49,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 
 ## ოპერაციული მართვა
 
-`python -m noema_core.jobs_cli --db PATH metrics` აჩვენებს queue counts-სა და მთლიანობის შემოწმებას. `backup --output PATH` ქმნის შემოწმებულ SQLite online snapshot-ს; `restore --source PATH --destination PATH` აღადგენს მას მხოლოდ ახალ destination-ში და არსებულ ფაილს არ გადაწერს. დეტალური უსაფრთხო backup/restore runbook აღწერილია [SERVICE_DEPLOYMENT.md](docs/SERVICE_DEPLOYMENT.md).
+`python -m noema_core.jobs_cli --db PATH metrics` აჩვენებს queue counts-სა და მთლიანობის შემოწმებას. `backup --output PATH` ქმნის შემოწმებულ SQLite online snapshot-ს; `restore --source PATH --destination PATH` აღადგენს მას მხოლოდ ახალ destination-ში და არსებულ ფაილს არ გადაწერს. `verify` ამოწმებს SQLite/foreign-key/audit integrity-ს. Backup არ არის დაშიფრული და არ ცვლის off-host ასლის საჭიროებას. დეტალური backup/restore runbook აღწერილია [SERVICE_DEPLOYMENT.md](docs/SERVICE_DEPLOYMENT.md).
 
 ## სერვისის გაშვება
 
