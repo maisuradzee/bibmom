@@ -1,6 +1,6 @@
 {
   "project": "NOEMA",
-  "schema_version": 1,
+  "schema_version": 2,
   "updated_at": "2026-11-24",
   "research": [
     {
@@ -11,37 +11,123 @@
       "summary": "კონტროლირებული ტესტები აჩვენებს, რომ შეკრების რიგითობამ შეიძლება შეცვალოს შედეგი. წარმოდგენილია ოთხი რიცხვითი ფორმატის accuracy stress-test და ერთ CPython/Linux გარემოში ჩატარებული runtime/memory პროფილი; ეს წინასწარი, არა რეცენზირებული შედეგია.",
       "file": "research/preprints/NOEMA-2026-005-floating-point-summation.md",
       "status": "preliminary",
-      "version": "1.0",
+      "version": "1.1",
       "sources": [
         {
-          "title": "Higham (1993), The accuracy of floating point summation",
+          "title": "The Accuracy of Floating Point Summation",
+          "authors": [
+            "Nicholas J. Higham"
+          ],
+          "citation": "Higham, N. J. (1993). The Accuracy of Floating Point Summation. SIAM Journal on Scientific Computing, 14(4), 783–799.",
           "url": "https://doi.org/10.1137/0914050",
-          "type": "peer-reviewed"
+          "type": "peer-reviewed",
+          "publication_date": "1993-07",
+          "publication_note": "Journal issue July 1993; submitted 1991-08-12 and accepted 1992-07-10.",
+          "accessed_at": "2026-11-24"
         },
         {
-          "title": "Ogita, Rump & Oishi (2005), Accurate Sum and Dot Product",
+          "title": "Accurate Sum and Dot Product",
+          "authors": [
+            "Takeshi Ogita",
+            "Siegfried M. Rump",
+            "Shin'ichi Oishi"
+          ],
+          "citation": "Ogita, T., Rump, S. M., & Oishi, S. (2005). Accurate Sum and Dot Product. SIAM Journal on Scientific Computing, 26(6), 1955–1988.",
           "url": "https://doi.org/10.1137/030601818",
-          "type": "peer-reviewed"
+          "type": "peer-reviewed",
+          "publication_date": "2005-01",
+          "publication_note": "Journal issue January 2005; publisher records online publication on 2006-07-25.",
+          "accessed_at": "2026-11-24"
         },
         {
-          "title": "Shewchuk (1997), Adaptive Precision Floating-Point Arithmetic",
+          "title": "Adaptive Precision Floating-Point Arithmetic and Fast Robust Geometric Predicates",
+          "authors": [
+            "Jonathan Richard Shewchuk"
+          ],
+          "citation": "Shewchuk, J. R. (1997). Adaptive Precision Floating-Point Arithmetic and Fast Robust Geometric Predicates. Discrete & Computational Geometry, 18(3), 305–363.",
           "url": "https://doi.org/10.1007/PL00009321",
-          "type": "peer-reviewed"
+          "type": "peer-reviewed",
+          "publication_date": "1997-10",
+          "publication_note": "Journal issue 18(3), October 1997, pp. 305–363.",
+          "accessed_at": "2026-11-24"
         },
         {
-          "title": "IEEE 754-2019",
+          "title": "IEEE Standard for Floating-Point Arithmetic (IEEE Std 754-2019)",
+          "authors": [
+            "IEEE Computer Society"
+          ],
+          "citation": "IEEE Computer Society. (2019). IEEE Std 754-2019: IEEE Standard for Floating-Point Arithmetic.",
           "url": "https://standards.ieee.org/ieee/754/6210/",
-          "type": "standard"
+          "type": "standard",
+          "publication_date": "2019-07-22",
+          "publication_note": "Board approval 2019-06-13; IEEE Standards Association lists publication on 2019-07-22.",
+          "accessed_at": "2026-11-24",
+          "version": "IEEE 754-2019"
         },
         {
-          "title": "Python math.fsum documentation",
+          "title": "Python 3.12 Built-in Functions — sum()",
+          "authors": [
+            "Python Software Foundation"
+          ],
+          "citation": "Python Software Foundation. Python 3.12.16 documentation, Built-in Functions: sum().",
+          "url": "https://docs.python.org/3.12/library/functions.html#sum",
+          "type": "official-documentation",
+          "publication_date": "2026-10-25",
+          "publication_note": "Versioned documentation; date is the Python 3.12.16 release date, not a separately stated page-publication date.",
+          "accessed_at": "2026-11-24",
+          "version": "Python 3.12.16"
+        },
+        {
+          "title": "Python 3.12 math.fsum()",
+          "authors": [
+            "Python Software Foundation"
+          ],
+          "citation": "Python Software Foundation. Python 3.12.16 documentation, math — Mathematical functions: math.fsum().",
           "url": "https://docs.python.org/3.12/library/math.html#math.fsum",
-          "type": "official-documentation"
+          "type": "official-documentation",
+          "publication_date": "2026-10-25",
+          "publication_note": "Versioned documentation; date is the Python 3.12.16 release date, not a separately stated page-publication date.",
+          "accessed_at": "2026-11-24",
+          "version": "Python 3.12.16"
         },
         {
-          "title": "NIST DLMF §3.1",
+          "title": "Python 3.12 decimal — Decimal fixed-point and floating-point arithmetic",
+          "authors": [
+            "Python Software Foundation"
+          ],
+          "citation": "Python Software Foundation. Python 3.12.16 documentation, decimal module.",
+          "url": "https://docs.python.org/3.12/library/decimal.html",
+          "type": "official-documentation",
+          "publication_date": "2026-10-25",
+          "publication_note": "Versioned documentation; date is the Python 3.12.16 release date, not a separately stated page-publication date.",
+          "accessed_at": "2026-11-24",
+          "version": "Python 3.12.16"
+        },
+        {
+          "title": "NIST Digital Library of Mathematical Functions, §3.1 — Arithmetics and Error Measures",
+          "authors": [
+            "NIST Digital Library of Mathematical Functions team"
+          ],
+          "citation": "NIST. (2010–2026). Digital Library of Mathematical Functions, §3.1: Arithmetics and Error Measures.",
           "url": "https://dlmf.nist.gov/3.1",
-          "type": "reference"
+          "type": "reference",
+          "publication_date": "2010-05-11",
+          "publication_note": "DLMF was released by NIST on 2010-05-11; the site reports version 1.2.8 on 2026-09-15.",
+          "accessed_at": "2026-11-24",
+          "version": "DLMF 1.2.8"
+        },
+        {
+          "title": "Python 3.14.4 release",
+          "authors": [
+            "Python Software Foundation"
+          ],
+          "citation": "Python Software Foundation. (2026-04-07). Python 3.14.4 release.",
+          "url": "https://www.python.org/downloads/release/python-3144/",
+          "type": "official-release",
+          "publication_date": "2026-04-07",
+          "publication_note": "The benchmark provenance reports CPython 3.14.4; this source records that exact interpreter release, not the latest patch release.",
+          "accessed_at": "2026-11-24",
+          "version": "CPython 3.14.4"
         }
       ],
       "methodology": {
