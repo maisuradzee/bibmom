@@ -72,6 +72,16 @@ CI smoke-test ორეტაპიან workflow-ს მთლიანად 
 
 `IntervalScheduler` ინახავს განრიგებსა და თითოეული გაშვების (`fire`) ჩანაწერს იმავე SQLite ბაზაში. განრიგი მიუთითებს ინტერვალს წამებში, workflow-ის template-ს, პირველ გაშვების დროს და misfire პოლიტიკას. მხარდაჭერილია `catch_up_once` — დაგვიანებისას გამოტოვებული რამდენიმე ინტერვალი ერთ გაშვებად გაერთიანდება — და `skip` — თუ scheduler ერთ სრულ ინტერვალზე მეტად დააგვიანდა, ძველი fire აღირიცხება გამოტოვებულად და workflow არ იქმნება.
 
+Due fire ჯერ ტრანზაქციულად ინახება, შემდეგ იქმნება workflow deterministically გამოთვლილი idempotency key-ით. თუ პროცესი შეწყდა fire-ის შენახვის შემდეგ, შემდეგი `run_due()` pending fire-ს აღადგენს; თუ workflow უკვე შეიქმნა, idempotency key იმავე workflow-ს აბრუნებს და ახალ job-ებს არ დუბლირებს. Dispatch-ის წარუმატებლობა ხუთამდე მცდელობით და exponential backoff-ით მეორდება, რის შემდეგ fire terminal `failed` მდგომარეობაში გადადის. `list_fires()` იძლევა გაშვების ისტორიას, ხოლო `last_run_at` მხოლოდ რეალურად dispatch-ებული workflow-ის timestamp-ს ასახავს, არა უბრალოდ დაგეგმილ ან გამოტოვებულ სლოტს.
+
+`WorkerSupervisor` იღებს optional `scheduler` ობიექტს. თითოეულ ციკლში თანმიმდევრობაა: due schedule-ების დამუშავება → ერთი ready job-ის შესრულება → აქტიური workflow-ების `advance_all()`. Supervisor ამოწმებს, რომ scheduler, workflow engine და worker ერთსა და იმავე SQLite ბაზას იყენებდნენ, ხოლო worker-ის allowlist ყველა workflow task type-ს მოიცავდეს. ამით ინტერვალურად დაგეგმილი DAG სრულდება ადამიანური ჩარევის გარეშე ჩვეულებრივ, წინასწარ ნებადართულ შიდა სამუშაოებში.
+
+ეს ვერსია მხარს უჭერს წამებით განსაზღვრულ ინტერვალებს 1 წამიდან 365 დღემდე. Cron/calendar expression-ები, timezone-aware wall-clock schedule-ები, OS service deployment/watchdog და multi-host scheduler ჯერ არ არის დამატებული.
+
+## Interval Scheduler
+
+`IntervalScheduler` ინახავს განრიგებსა და თითოეული გაშვების (`fire`) ჩანაწერს იმავე SQLite ბაზაში. განრიგი მიუთითებს ინტერვალს წამებში, workflow-ის template-ს, პირველ გაშვების დროს და misfire პოლიტიკას. მხარდაჭერილია `catch_up_once` — დაგვიანებისას გამოტოვებული რამდენიმე ინტერვალი ერთ გაშვებად გაერთიანდება — და `skip` — თუ scheduler ერთ სრულ ინტერვალზე მეტად დააგვიანდა, ძველი fire აღირიცხება გამოტოვებულად და workflow არ იქმნება.
+
 Due fire ჯერ ტრანზაქციულად ინახება, შემდეგ იქმნება workflow deterministically გამოთვლილი idempotency key-ით. თუ პროცესი შეწყდა fire-ის შენახვის შემდეგ, შემდეგი `run_due()` pending fire-ს აღადგენს; თუ workflow უკვე შეიქმნა, idempotency key იმავე workflow-ს აბრუნებს და ახალ job-ებს არ დუბლირებს. Dispatch-ის წარუმატებლობა ხუთამდე მცდელობით და exponential backoff-ით მეორდება, რის შემდეგ fire terminal `failed` მდგომარეობაში გადადის. განრიგის გამორთვა/ჩართვა ინარჩუნებს მომდევნო due timestamp-ს, ამიტომ აღდგენისას misfire policy კვლავ მოქმედებს.
 
 `WorkerSupervisor` იღებს optional `scheduler` ობიექტს. თითოეულ ციკლში თანმიმდევრობაა: due schedule-ების დამუშავება → ერთი ready job-ის შესრულება → აქტიური workflow-ების `advance_all()`. Supervisor ამოწმებს, რომ scheduler, workflow engine და worker ერთსა და იმავე SQLite ბაზას იყენებდნენ, ხოლო worker-ის allowlist ყველა workflow task type-ს მოიცავდეს. ამით ინტერვალურად დაგეგმილი DAG სრულდება ადამიანური ჩარევის გარეშე ჩვეულებრივ, წინასწარ ნებადართულ შიდა სამუშაოებში.
