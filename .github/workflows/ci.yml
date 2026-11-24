@@ -77,6 +77,8 @@ jobs:
           test -f noema_core/worker.py
           test -f noema_core/supervisor.py
           test -f noema_core/workflows.py
+          test -f noema_core/scheduler.py
+          test -f tests/test_interval_scheduler.py
           test -f tests/test_workflow_engine.py
           test -f tests/test_worker_supervisor.py
           test -f tests/test_noema_worker.py
