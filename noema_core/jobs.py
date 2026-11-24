@@ -783,6 +783,14 @@ class JobQueue:
         temporary = destination.parent / f".{destination.name}.{uuid.uuid4().hex}.tmp"
 
         try:
+            # Pre-create with owner-only permissions before SQLite writes any
+            # pages; do not leave an incomplete world-readable temp snapshot.
+            descriptor = os.open(
+                temporary,
+                os.O_CREAT | os.O_EXCL | os.O_WRONLY,
+                0o600,
+            )
+            os.close(descriptor)
             with closing(sqlite3.connect(str(source), timeout=busy_timeout_ms / 1000)) as source_conn:
                 source_conn.execute(f"PRAGMA busy_timeout = {busy_timeout_ms}")
                 with closing(sqlite3.connect(str(temporary), timeout=busy_timeout_ms / 1000)) as target_conn:
