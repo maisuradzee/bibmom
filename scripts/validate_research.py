@@ -37,7 +37,7 @@ def validate_index(root: Path = ROOT) -> int:
     data = json.loads(index_path.read_text(encoding="utf-8"))
     if data.get("project") != "NOEMA":
         raise ValueError("research.json: project must be NOEMA")
-    if data.get("schema_version") != 1:
+    if data.get("schema_version") != 2:
         raise ValueError("research.json: unsupported schema_version")
     if "updated_at" in data:
         if not isinstance(data["updated_at"], str):
@@ -50,7 +50,7 @@ def validate_index(root: Path = ROOT) -> int:
     schema = json.loads(schema_path.read_text(encoding="utf-8"))
     if schema.get("$schema") != "https://json-schema.org/draft/2020-12/schema":
         raise ValueError("research.schema.json: unsupported JSON Schema dialect")
-    if schema.get("properties", {}).get("schema_version", {}).get("const") != 1:
+    if schema.get("properties", {}).get("schema_version", {}).get("const") != 2:
         raise ValueError("research.schema.json: schema version contract mismatch")
     item_schema = schema.get("properties", {}).get("research", {}).get("items", {})
     item_properties = item_schema.get("properties", {})
@@ -121,15 +121,36 @@ def validate_index(root: Path = ROOT) -> int:
 
         if "sources" in item:
             if not isinstance(item["sources"], list):
-                raise ValueError(f"{item['id']}: sources must be an array")
+                raise ValueError("{}: sources must be an array".format(item["id"]))
+            source_schema = item_properties.get("sources", {}).get("items", {})
+            required_source_fields = set(source_schema.get("required", []))
+            expected_source_fields = {
+                "title", "authors", "citation", "url", "type", "publication_date", "accessed_at"
+            }
+            if not expected_source_fields.issubset(required_source_fields):
+                raise ValueError("research.schema.json: source metadata contract is incomplete")
             for source in item["sources"]:
-                if not isinstance(source, dict) or not all(
-                    isinstance(source.get(field), str) and source[field].strip()
-                    for field in ("title", "url", "type")
+                if not isinstance(source, dict):
+                    raise ValueError("{}: each source must be an object".format(item["id"]))
+                for field in ("title", "citation", "url", "type", "publication_date", "accessed_at"):
+                    if not isinstance(source.get(field), str) or not source[field].strip():
+                        raise ValueError("{}: source needs non-empty {}".format(item["id"], field))
+                authors = source.get("authors")
+                if not isinstance(authors, list) or not authors or not all(
+                    isinstance(author, str) and author.strip() for author in authors
                 ):
-                    raise ValueError(f"{item['id']}: each source needs title, url and type")
-                _valid_http_url(source["url"], f"{item['id']}.sources.url")
-
+                    raise ValueError("{}: each source needs at least one author or organization".format(item["id"]))
+                publication_date = source["publication_date"]
+                if not re.fullmatch(r"\d{4}(-\d{2}(-\d{2})?)?", publication_date):
+                    raise ValueError("{}: source publication_date must be YYYY, YYYY-MM or YYYY-MM-DD".format(item["id"]))
+                try:
+                    parts = publication_date.split("-")
+                    normalized_date = publication_date if len(parts) == 3 else publication_date + ("-01" if len(parts) == 2 else "-01-01")
+                    date.fromisoformat(normalized_date)
+                except ValueError as exc:
+                    raise ValueError("{}: invalid source publication_date".format(item["id"])) from exc
+                _valid_iso_date(source["accessed_at"], "{}.sources.accessed_at".format(item["id"]))
+                _valid_http_url(source["url"], "{}.sources.url".format(item["id"]))
         if "methodology" in item and not isinstance(item["methodology"], dict):
             raise ValueError(f"{item['id']}: methodology must be an object")
         if "limitations" in item:
