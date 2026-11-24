@@ -208,6 +208,17 @@ class WorkflowEngineTests(unittest.TestCase):
         with self.assertRaises(InvalidWorkflow):
             self.engine.advance_all(limit=True)
 
+    def test_workflow_status_counts_are_complete(self) -> None:
+        self.engine.start(
+            "metrics pipeline",
+            self._linear_steps(),
+            idempotency_key="pipeline-metrics",
+        )
+        counts = self.engine.count_workflows_by_status()
+        self.assertEqual(counts["running"], 1)
+        self.assertEqual(counts["succeeded"], 0)
+        self.assertEqual(sum(counts.values()), 1)
+
     def test_missing_workflow_raises_clear_error(self) -> None:
         with self.assertRaises(WorkflowNotFound):
             self.engine.get("missing-workflow")
