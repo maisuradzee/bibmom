@@ -16,9 +16,9 @@ class AquaSignalAnomalyEngineTests(unittest.TestCase):
         self.assertEqual(result["water_safety_status"], "NOT_ESTABLISHED")
 
     def test_large_deviation_triggers_review(self):
-        result = evaluate_reading(self.baseline, {"turbidity": 2.5})
+        result = evaluate_reading(self.baseline, {"turbidity": 2.5, "conductivity": 304.0})
         self.assertEqual(result["decision"], "REVIEW_REQUIRED")
-        self.assertEqual(result["findings"][0]["state"], "DEVIATION_REVIEW_REQUIRED")
+        self.assertEqual(result["findings"][1]["state"], "DEVIATION_REVIEW_REQUIRED")
 
     def test_insufficient_baseline_requires_review(self):
         result = evaluate_reading({"ph": [7.0, 7.1]}, {"ph": 7.2})
@@ -28,16 +28,21 @@ class AquaSignalAnomalyEngineTests(unittest.TestCase):
     def test_empty_sensor_packet_requires_review(self):
         result = evaluate_reading(self.baseline, {})
         self.assertEqual(result["decision"], "REVIEW_REQUIRED")
-        self.assertEqual(result["findings"][0]["state"], "NO_SENSOR_READINGS")
+        self.assertTrue(any(x["state"] == "MISSING_READING" for x in result["findings"]))
+
+    def test_partial_sensor_packet_requires_review(self):
+        result = evaluate_reading(self.baseline, {"turbidity": 1.04})
+        self.assertEqual(result["decision"], "REVIEW_REQUIRED")
+        self.assertTrue(any(x["parameter"] == "conductivity" and x["state"] == "MISSING_READING" for x in result["findings"]))
 
     def test_nan_is_rejected(self):
         with self.assertRaises(ValueError):
-            evaluate_reading(self.baseline, {"turbidity": float("nan")})
+            evaluate_reading(self.baseline, {"turbidity": float("nan"), "conductivity": 304.0})
 
     def test_zero_variance_baseline_change_is_flagged(self):
         result = evaluate_reading({"pressure": [2.0] * 30}, {"pressure": 1.9})
         self.assertEqual(result["decision"], "REVIEW_REQUIRED")
 
 
-if ( __name__ == "__main__" ):
+if __name__ == "__main__":
     unittest.main()
