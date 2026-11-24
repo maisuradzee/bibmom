@@ -65,6 +65,7 @@ jobs:
           test -f tests/test_noema005_summation.py
           test -f docs/RESEARCH_STANDARD.md
           test -f docs/CORE_MISSION.md
+          test -f docs/AUTONOMY_ARCHITECTURE.md
           test -f noema_core/__init__.py
           test -f noema_core/mission.py
           test -f noema_core/mission.json
