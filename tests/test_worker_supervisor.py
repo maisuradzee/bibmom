@@ -92,6 +92,7 @@ class WorkerSupervisorTests(unittest.TestCase):
         for kwargs in (
             {"max_jobs": 0},
             {"max_runtime_seconds": 0},
+            {"max_runtime_seconds": "1"},
             {"max_idle_polls": 0},
         ):
             with self.subTest(kwargs=kwargs):
@@ -102,6 +103,8 @@ class WorkerSupervisorTests(unittest.TestCase):
         worker = self._worker()
         with self.assertRaises(InvalidJob):
             WorkerSupervisor(worker, poll_interval_seconds=0)
+        with self.assertRaises(InvalidJob):
+            WorkerSupervisor(worker, poll_interval_seconds="0.5")
         with self.assertRaises(InvalidJob):
             WorkerSupervisor(
                 worker,
