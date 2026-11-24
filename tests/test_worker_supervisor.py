@@ -10,6 +10,7 @@ from unittest.mock import Mock
 from noema_core import (
     HandlerRegistry,
     IntervalScheduler,
+    IntervalScheduler,
     JobQueue,
     Worker,
     WorkerSupervisor,
@@ -107,6 +108,62 @@ class WorkerSupervisorTests(unittest.TestCase):
             with self.subTest(kwargs=kwargs):
                 with self.assertRaises(InvalidJob):
                     supervisor.run(**kwargs)
+
+    def test_supervisor_advances_interval_scheduled_workflow_automatically(self) -> None:
+        registry = HandlerRegistry()
+        registry.register(
+            "task.scheduled-first",
+            lambda payload, context: {"first": payload["value"]},
+        )
+        registry.register(
+            "task.scheduled-second",
+            lambda payload, context: {"second": payload["value"]},
+        )
+        engine = WorkflowEngine(self.queue, registry)
+        scheduler = IntervalScheduler(engine)
+        schedule = scheduler.create_interval(
+            "scheduled pipeline",
+            3600,
+            [
+                WorkflowStep("first", "task.scheduled-first", {"value": 1}),
+                WorkflowStep(
+                    "second",
+                    "task.scheduled-second",
+                    {"value": 2},
+                    ("first",),
+                ),
+            ],
+            schedule_id="supervisor-scheduled-pipeline",
+            first_run_at=time.time() - 1,
+        )
+        worker = Worker(self.queue, "scheduled-worker", registry, lease_seconds=30)
+        report = WorkerSupervisor(
+            worker,
+            poll_interval_seconds=0.001,
+            scheduler=scheduler,
+        ).run(max_jobs=2, max_runtime_seconds=5)
+
+        completed = [
+            workflow
+            for workflow in engine.list_workflows(statuses=("succeeded",), limit=10)
+            if workflow.idempotency_key.startswith("schedule:supervisor-scheduled-pipeline:")
+        ]
+        updated_schedule = scheduler.get(schedule.schedule_id)
+        self.assertEqual(report.processed, 2)
+        self.assertEqual(report.succeeded, 2)
+        self.assertEqual(report.stop_reason, "max_jobs")
+        self.assertEqual(len(completed), 1)
+        self.assertGreater(updated_schedule.next_run_at, time.time())
+
+    def test_supervisor_rejects_interval_scheduler_on_different_database(self) -> None:
+        registry = HandlerRegistry()
+        registry.register("task.scheduler-safe", lambda payload, context: {"ok": True})
+        other_queue = JobQueue(Path(self.temporary.name) / "scheduler-other.sqlite3")
+        engine = WorkflowEngine(other_queue, registry)
+        scheduler = IntervalScheduler(engine)
+        worker = Worker(self.queue, "scheduler-db-worker", registry)
+        with self.assertRaises(InvalidJob):
+            WorkerSupervisor(worker, scheduler=scheduler)
 
     def test_supervisor_advances_workflow_without_manual_intervention(self) -> None:
         registry = HandlerRegistry()
