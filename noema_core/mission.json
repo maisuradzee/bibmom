@@ -55,7 +55,11 @@
       "enqueue_internal_jobs",
       "record_job_state",
       "recover_expired_jobs",
-      "verify_job_audit_log"
+      "verify_job_audit_log",
+      "create_internal_workflows",
+      "advance_workflows",
+      "validate_workflow_dependencies",
+      "block_failed_workflow_branches"
     ],
     "conditional_actions": {
       "publish_preliminary": "all_quality_gates_passed"
