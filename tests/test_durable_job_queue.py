@@ -260,6 +260,19 @@ class DurableJobQueueTests(unittest.TestCase):
         self.assertFalse(report["event_evidence_valid"])
         self.assertFalse(report["audit_valid"])
 
+    def test_queue_status_counts_are_complete_and_not_list_limited(self) -> None:
+        first = self.queue.enqueue("research.count", {"n": 1}, now=1)
+        second = self.queue.enqueue("research.count", {"n": 2}, now=2)
+        claimed = self.queue.claim_next("worker-a", now=3)
+        assert claimed is not None
+        self.queue.complete(first.job_id, "worker-a", claimed.lease_token, {"ok": True}, now=4)
+
+        counts = self.queue.count_jobs_by_status()
+        self.assertEqual(counts["succeeded"], 1)
+        self.assertEqual(counts["queued"], 1)
+        self.assertEqual(counts["running"], 0)
+        self.assertEqual(sum(counts.values()), 2)
+
     def test_cli_and_list_api_do_not_need_to_expose_payloads(self) -> None:
         job = self.queue.enqueue("research.private", {"internal_note": "not printed"})
         listed = self.queue.list_jobs(limit=10)
