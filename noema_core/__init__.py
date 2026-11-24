@@ -17,6 +17,7 @@ from .worker import (
     RunOutcome,
     Worker,
 )
+from .supervisor import SupervisorReport, WorkerSupervisor
 from .mission import (
     AccessDecision,
     AutonomyDecision,
@@ -41,6 +42,8 @@ __all__ = [
     "NonRetryableJobError",
     "RunOutcome",
     "Worker",
+    "SupervisorReport",
+    "WorkerSupervisor",
     "AccessDecision",
     "AutonomyDecision",
     "MissionConfigurationError",
