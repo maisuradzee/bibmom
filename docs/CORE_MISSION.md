@@ -40,7 +40,7 @@ NOEMA-ს მიზანია დაუკავშირდეს ყვე�
 
 `WorkflowEngine` საშუალებას აძლევს NOEMA-ს ერთი სამუშაო დაყოს დამოკიდებულ ეტაპებად. ყველა ნაბიჯს აქვს trusted task type, JSON payload და prerequisite-ების სია. სისტემა ამოწმებს, რომ დამოკიდებულება არ მიუთითებდეს არარსებულ ნაბიჯზე და DAG არ შეიცავდეს ციკლს. მხოლოდ წარმატებით დასრულებული წინაპირობების შემდეგ იგზავნება შემდეგი ეტაპი; prerequisite-ის საბოლოო ჩავარდნა ქვედა ეტაპებს `blocked` სტატუსს ანიჭებს. Workflow-ისა და თითოეული ნაბიჯის მდგომარეობა მდგრადად ინახება SQLite-ში, ხოლო ცვლილებები საერთო audit log-ში აისახება.
 
-Workflow Engine-ის idempotency და deterministic step-job keys იცავს აღდგენისას დუბლირებული რიგის ჩანაწერებისგან. შესრულება კვლავ at-least-once სემანტიკისაა: გარე მოქმედების handler-ები თავად უნდა იყოს idempotent. Workflow-ის უწყვეტი განრიგი და Supervisor-თან ავტომატური advance ინტეგრაცია ჯერ შემდეგი ტექნიკური ფენებია.
+Workflow Engine-ის idempotency და deterministic step-job keys იცავს აღდგენისას დუბლირებული რიგის ჩანაწერებისგან. შესრულება კვლავ at-least-once სემანტიკისაა: გარე მოქმედების handler-ები თავად უნდა იყოს idempotent. `IntervalScheduler` ინტერვალით განსაზღვრულ workflow გაშვებებს ქმნის, ინახავს fire ჩანაწერებს, ამუშავებს გამოტოვებულ გაშვებებს `catch_up_once` ან `skip` პოლიტიკით და აღადგენს pending fire-ს crash-ის შემდეგ. `WorkerSupervisor` ამოწმებს due schedule-ებს, ასრულებს job-ებს და workflow DAG-ის შემდეგ ეტაპებს ავტომატურად ააქტიურებს. Cron/calendar და timezone-aware schedule-ები ჯერ არ არის დამატებული.
 
 ## სამუშაოების მართვა და აღდგენა
 
