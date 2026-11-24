@@ -469,6 +469,8 @@ class JobQueue:
         if not math.isfinite(float(lease_seconds)) or lease_seconds <= 0:
             raise InvalidJob("lease_seconds must be a finite positive number")
         timestamp = float(now if now is not None else time.time())
+        if not math.isfinite(timestamp):
+            raise InvalidJob("now must be a finite timestamp")
         connection = self._transaction()
         try:
             self._owned_live_job(connection, job_id, worker_id, lease_token, timestamp)
@@ -503,6 +505,8 @@ class JobQueue:
         now: float | None = None,
     ) -> Job:
         timestamp = float(now if now is not None else time.time())
+        if not math.isfinite(timestamp):
+            raise InvalidJob("now must be a finite timestamp")
         result_json = _canonical_json(result)
         result_hash = hashlib.sha256(result_json.encode("utf-8")).hexdigest()
         connection = self._transaction()
@@ -550,6 +554,8 @@ class JobQueue:
         if not math.isfinite(float(retry_delay)) or retry_delay < 0:
             raise InvalidJob("retry_delay must be a finite non-negative number")
         timestamp = float(now if now is not None else time.time())
+        if not math.isfinite(timestamp):
+            raise InvalidJob("now must be a finite timestamp")
         safe_error = error.strip()[:MAX_ERROR_CHARS]
         connection = self._transaction()
         try:
@@ -666,12 +672,34 @@ class JobQueue:
     def integrity_check(self) -> dict[str, Any]:
         with closing(self._connect()) as connection:
             sqlite_result = connection.execute("PRAGMA integrity_check").fetchone()[0]
+            rows = connection.execute(
+                "SELECT job_id, payload_json, payload_sha256, result_json, result_sha256 FROM jobs"
+            ).fetchall()
+        payload_hashes_valid = True
+        result_hashes_valid = True
+        for row in rows:
+            actual_payload_hash = hashlib.sha256(row["payload_json"].encode("utf-8")).hexdigest()
+            if actual_payload_hash != row["payload_sha256"]:
+                payload_hashes_valid = False
+            if row["result_json"] is not None:
+                actual_result_hash = hashlib.sha256(row["result_json"].encode("utf-8")).hexdigest()
+                if actual_result_hash != row["result_sha256"]:
+                    result_hashes_valid = False
         audit = self.verify_audit_log()
+        valid = (
+            sqlite_result == "ok"
+            and payload_hashes_valid
+            and result_hashes_valid
+            and audit.valid
+        )
         return {
             "sqlite_integrity": sqlite_result,
+            "payload_hashes_valid": payload_hashes_valid,
+            "result_hashes_valid": result_hashes_valid,
             "audit_valid": audit.valid,
             "audit_event_count": audit.event_count,
             "audit_last_hash": audit.last_hash,
             "audit_error": audit.error,
-            "valid": sqlite_result == "ok" and audit.valid,
+            "job_count": len(rows),
+            "valid": valid,
         }
