@@ -15,6 +15,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 ## სტრუქტურა
 
 - `index.html` — მთავარი გვერდი.
+- `noema_core/mission.json` და `noema_core/mission.py` — მანქანურად წაკითხვადი მისია, ინფორმაციის წვდომის პოლიტიკა და ავტონომიური მოქმედებების წესები.
 - `assets/styles.css` და `assets/articles.css` — მთავარი გვერდისა და კვლევითი სტატიების ვიზუალური სტილები.
 - `data/research.json` — საჯარო, ვერსიაკონტროლირებადი კვლევების კატალოგი; `data/research.schema.json` განსაზღვრავს ჩანაწერების სტრუქტურას. ეს არის ამჟამინდელი სტატიკური კატალოგი და არა Supabase/სერვერული მონაცემთა ბაზა.
 - `data/noema-003/` — NOAA-ს ფიქსირებული მონაცემთა ამონარიდი, NASA/HadCRUT5/NOAA snapshot-ები, provenance metadata და გამეორებადი შედეგები.
@@ -40,6 +41,10 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - მოკლე მიმდევრობების ენტროპიის სიმულაცია: `scripts/short_sequence_bias_simulation.py`.
 - NOEMA-003-ის NOAA ანალიზი: `scripts/analyze_noema003.py`; cross-dataset შედარება და HAC ლაგების 1–6 ტესტი: `scripts/compare_noema003_datasets.py`; მონაცემთა snapshot-ები, metadata და შედეგები: `data/noema-003/`.
 - NOEMA-005-ის ექსპერიმენტი: `scripts/simulate_noema005_summation.py`; runtime/memory benchmark: `scripts/benchmark_noema005_summation.py`; სრული პროფილის workflow: `.github/workflows/noema005-full-benchmark.yml`; ტესტები: `tests/test_noema005_summation.py` და `tests/test_benchmark_noema005_summation.py`; numerical შედეგები: `data/noema-005/floating-summation-results.json`; benchmark protocol: `data/noema-005/benchmark-protocol.json`; სრული benchmark-ის შეჯამება: `data/noema-005/benchmark-full-profile-summary-2026-11-24.json`.
+
+## ძირითადი მისია და ავტონომია
+
+NOEMA-ის დამფუძნებელი მიზანი, ინოვაციების ციკლი, კანონიერად ხელმისაწვდომი ინფორმაციის გამოყენების პრინციპები და ავტონომიური მოქმედებების საზღვრები აღწერილია [ძირითადი მისიის წესდებაში](docs/CORE_MISSION.md). მისიის კონფიგურაცია და მისი შემოწმებადი პოლიტიკა განთავსებულია `noema_core/` პაკეტში. უცნობი წყაროები და მოქმედებები უსაფრთხოების მიზნით იბლოკება; საჯარო წვდომა ავტომატურად არ ანიჭებს ხელახალი გამოყენების უფლებას.
 
 ## პროექტის მდგომარეობა
 
