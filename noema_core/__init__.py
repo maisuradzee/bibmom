@@ -18,6 +18,15 @@ from .worker import (
     Worker,
 )
 from .supervisor import SupervisorReport, WorkerSupervisor
+from .workflows import (
+    InvalidWorkflow,
+    WorkflowEngine,
+    WorkflowError,
+    WorkflowNotFound,
+    WorkflowSnapshot,
+    WorkflowStep,
+    WorkflowStepSnapshot,
+)
 from .mission import (
     AccessDecision,
     AutonomyDecision,
@@ -44,6 +53,13 @@ __all__ = [
     "Worker",
     "SupervisorReport",
     "WorkerSupervisor",
+    "InvalidWorkflow",
+    "WorkflowEngine",
+    "WorkflowError",
+    "WorkflowNotFound",
+    "WorkflowSnapshot",
+    "WorkflowStep",
+    "WorkflowStepSnapshot",
     "AccessDecision",
     "AutonomyDecision",
     "MissionConfigurationError",
