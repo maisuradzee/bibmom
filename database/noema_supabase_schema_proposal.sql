@@ -163,11 +163,17 @@ create policy "authors edit own drafts"
   using (created_by = (select auth.uid()) and status = 'draft')
   with check (created_by = (select auth.uid()) and status = 'draft');
 
-drop policy if exists "editors manage research" on public.research_entries;
-create policy "editors manage research"
-  on public.research_entries for all to authenticated
+drop policy if exists "editors update research" on public.research_entries;
+create policy "editors update research"
+  on public.research_entries for update to authenticated
   using (coalesce(((select auth.jwt())->'app_metadata'->>'noema_role')
     in ('editor', 'admin'), false))
+  with check (coalesce(((select auth.jwt())->'app_metadata'->>'noema_role')
+    in ('editor', 'admin'), false));
+
+drop policy if exists "editors insert research" on public.research_entries;
+create policy "editors insert research"
+  on public.research_entries for insert to authenticated
   with check (coalesce(((select auth.jwt())->'app_metadata'->>'noema_role')
     in ('editor', 'admin'), false));
 
@@ -310,17 +316,30 @@ security definer
 set search_path = ''
 as $function$
 begin
-  if new.status = 'published'
-     and (tg_op = 'INSERT' or old.status <> 'published' or new.version <> old.version)
-     and not exists (
-       select 1
-       from public.research_reviews r
-       where r.research_id = new.id
-         and r.reviewed_version = new.version
-         and r.decision = 'approve'
-         and r.reviewer_id <> new.created_by
-     ) then
-    raise exception 'Publishing requires an approved review for the exact current version by a non-author reviewer';
+  if new.status = 'published' then
+    if tg_op = 'INSERT' then
+      if not exists (
+        select 1
+        from public.research_reviews r
+        where r.research_id = new.id
+          and r.reviewed_version = new.version
+          and r.decision = 'approve'
+          and r.reviewer_id <> new.created_by
+      ) then
+        raise exception 'Publishing requires an approved review for the exact current version by a non-author reviewer';
+      end if;
+    elsif old.status <> 'published' or new.version <> old.version then
+      if not exists (
+        select 1
+        from public.research_reviews r
+        where r.research_id = new.id
+          and r.reviewed_version = new.version
+          and r.decision = 'approve'
+          and r.reviewer_id <> new.created_by
+      ) then
+        raise exception 'Publishing requires an approved review for the exact current version by a non-author reviewer';
+      end if;
+    end if;
   end if;
   return new;
 end;
