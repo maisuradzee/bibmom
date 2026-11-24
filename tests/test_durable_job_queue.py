@@ -167,6 +167,18 @@ class DurableJobQueueTests(unittest.TestCase):
             )
         self.assertFalse(self.queue.verify_audit_log().valid)
 
+    def test_integrity_check_detects_job_payload_tampering(self) -> None:
+        job = self.queue.enqueue("research.integrity", {"source": "trusted"})
+        self.assertTrue(self.queue.integrity_check()["valid"])
+        with sqlite3.connect(self.database) as connection:
+            connection.execute(
+                "UPDATE jobs SET payload_json = ? WHERE job_id = ?",
+                ('{"source":"altered"}', job.job_id),
+            )
+        report = self.queue.integrity_check()
+        self.assertFalse(report["valid"])
+        self.assertFalse(report["payload_hashes_valid"])
+
     def test_cli_and_list_api_do_not_need_to_expose_payloads(self) -> None:
         job = self.queue.enqueue("research.private", {"internal_note": "not printed"})
         listed = self.queue.list_jobs(limit=10)
