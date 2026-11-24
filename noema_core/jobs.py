@@ -439,6 +439,8 @@ class JobQueue:
                 return None
             token = str(uuid.uuid4())
             expires = timestamp + float(lease_seconds)
+            if not math.isfinite(expires):
+                raise InvalidJob("lease expiry exceeds the supported timestamp range")
             connection.execute(
                 """
                 UPDATE jobs
@@ -507,6 +509,8 @@ class JobQueue:
         try:
             self._owned_live_job(connection, job_id, worker_id, lease_token, timestamp)
             expires = timestamp + float(lease_seconds)
+            if not math.isfinite(expires):
+                raise InvalidJob("lease expiry exceeds the supported timestamp range")
             connection.execute(
                 "UPDATE jobs SET lease_expires_at = ?, updated_at = ? WHERE job_id = ?",
                 (expires, timestamp, job_id),
@@ -586,6 +590,8 @@ class JobQueue:
             raise InvalidJob("error must be a non-empty string")
         if not math.isfinite(float(retry_delay)) or retry_delay < 0:
             raise InvalidJob("retry_delay must be a finite non-negative number")
+        if not isinstance(retryable, bool):
+            raise InvalidJob("retryable must be a boolean")
         timestamp = float(now if now is not None else time.time())
         if not math.isfinite(timestamp):
             raise InvalidJob("now must be a finite timestamp")
@@ -596,6 +602,8 @@ class JobQueue:
             retry = bool(retryable and row["attempts"] < row["max_attempts"])
             next_status = "queued" if retry else "failed"
             available = timestamp + float(retry_delay) if retry else timestamp
+            if not math.isfinite(available):
+                raise InvalidJob("retry availability exceeds the supported timestamp range")
             connection.execute(
                 """
                 UPDATE jobs SET status = ?, updated_at = ?, available_at = ?,
