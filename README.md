@@ -45,7 +45,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 
 ## Workflow და ეტაპების ორკესტრაცია
 
-`noema_core/workflows.py` ინახავს workflow run-ებსა და step-ებს იმავე SQLite ბაზაში. თითოეულ workflow-ს აქვს იდempotency key, DAG ციკლების/არარსებული დამოკიდებულებების ვალიდაცია, მხოლოდ მზადყოფნაში მყოფი ნაბიჯების dispatch და ჩავარდნილი prerequisite-ის ქვედა ნაბიჯების `blocked` მდგომარეობაში გადაყვანა. ყველა task type უნდა ჰქონდეს trusted `HandlerRegistry`-ში რეგისტრირებული handler. `WorkflowEngine.advance()` აახლებს job-ების მდგომარეობას და შემდეგი ნაბიჯების dispatch-ს; scheduler/continuous orchestration ინტეგრაცია შემდეგი ფენაა.
+`noema_core/workflows.py` ინახავს workflow run-ებსა და step-ებს იმავე SQLite ბაზაში. თითოეულ workflow-ს აქვს იდempotency key, DAG ციკლების/არარსებული დამოკიდებულებების ვალიდაცია, მხოლოდ მზადყოფნაში მყოფი ნაბიჯების dispatch და ჩავარდნილი prerequisite-ის ქვედა ნაბიჯების `blocked` მდგომარეობაში გადაყვანა. ყველა task type-ს უნდა ჰქონდეს trusted `HandlerRegistry`-ში რეგისტრირებული handler. `WorkerSupervisor`-ის `workflow_engine` პარამეტრი აქტიურ workflow-ებს ყოველი worker ციკლის შემდეგ ავტომატურად აახლებს და შემდეგ ეტაპებს ხელით ჩარევის გარეშე აგზავნის რიგში. scheduler/OS service deployment შემდეგი ფენებია.
 
 ## ტექნიკური სამუშაოების მართვა
 
