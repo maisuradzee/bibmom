@@ -38,6 +38,10 @@ jobs:
           test -f scripts/reconstruct_hadcrut_coverage.py
           test -f scripts/simulate_noema005_summation.py
           test -f scripts/benchmark_noema005_summation.py
+          test -f scripts/simulate_noema005_parallel_reduction.py
+          test -f data/noema-005/parallel-reduction-protocol.json
+          test -f data/noema-005/parallel-reduction-results.json
+          test -f tests/test_noema005_parallel_reduction.py
           test -f data/noema-005/benchmark-protocol.json
           test -f tests/test_benchmark_noema005_summation.py
           test -f data/noema-005/floating-summation-results.json
@@ -171,6 +175,20 @@ jobs:
                   if method["median_runtime_ns"] <= 0 or method["peak_traced_python_bytes"] < 0:
                       raise SystemExit(f"Invalid benchmark measurement: {case['format']}/{method['method']}")
           print("NOEMA-005 runtime/memory benchmark smoke test OK")
+          PY
+      - name: Reproduce NOEMA-005 sharded reduction simulation and compare frozen results
+        run: |
+          python scripts/simulate_noema005_parallel_reduction.py --output "$RUNNER_TEMP/noema005-parallel.json"
+          python - "$RUNNER_TEMP/noema005-parallel.json" <<'PY'
+          import json
+          from pathlib import Path
+          import sys
+
+          expected = json.loads(Path("data/noema-005/parallel-reduction-results.json").read_text(encoding="utf-8"))
+          actual = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+          if actual != expected:
+              raise SystemExit("NOEMA-005 parallel reduction results differ from frozen summary")
+          print("NOEMA-005 parallel reduction simulation matches 330-case frozen summary")
           PY
       - name: Run finite-sample simulation smoke test
         run: python scripts/short_sequence_bias_simulation.py --trials 2000
