@@ -90,3 +90,68 @@ sudo systemctl restart noema.service
 - ერთი ჰოსტის SQLite queue არ არის multi-host distributed queue.
 - ამ build-ში მხოლოდ შიდა diagnostics სრულდება. ახალი task type-ის დამატება მოითხოვს trusted handler-ის პროგრამულ რეგისტრაციას; payload-იდან კოდის დინამიკური ჩატვირთვა აკრძალულია.
 - Pages deployment აქ არ ნიშნავს სერვისის ავტომატურ ჰოსტინგს. systemd unit უნდა დააყენო შენს მიერ მართულ Linux სერვერზე.
+
+
+## ოპერაციული მონიტორინგი
+
+სერვისის მიმდინარე მდგომარეობის შესამოწმებლად გამოიყენე:
+
+```bash
+sudo -u noema /opt/noema/.venv/bin/python -m noema_core.service \
+  --check --db /var/lib/noema/noema-jobs.sqlite3
+```
+
+Health report აჩვენებს SQLite/audit integrity-ს, queue-ის job counts-ს, workflow counts-ს, scheduler fire counts-ს, ბოლო fire-ებს და self-check schedule-ის მდგომარეობას. Supervisor journald-ში წერს scheduler tick-ის, job completion-ისა და workflow transition-ის შეჯამებას; job payload-ები ლოგში არ იწერება.
+
+Queue-ის დამოუკიდებელი მეტრიკები:
+
+```bash
+sudo -u noema /opt/noema/.venv/bin/python -m noema_core.jobs_cli \
+  --db /var/lib/noema/noema-jobs.sqlite3 metrics
+```
+
+## SQLite backup
+
+Backup იყენებს SQLite online backup API-ს, ამიტომ აქტიური WAL-ის უკვე დადასტურებული მონაცემებიც შედის ერთიან snapshot-ში. Snapshot-ის გამოქვეყნებამდე მოწმდება SQLite integrity, foreign keys, queue payload/result hashes და audit hash-chain. არსებული ფაილი არასოდეს გადაიწერება.
+
+```bash
+sudo install -d -o noema -g noema -m 0750 /var/lib/noema/backups
+sudo -u noema /opt/noema/.venv/bin/python -m noema_core.jobs_cli \
+  --db /var/lib/noema/noema-jobs.sqlite3 backup \
+  --output /var/lib/noema/backups/noema-$(date -u +%Y%m%dT%H%M%SZ).sqlite3
+```
+
+Backup-ის წარმატებისას CLI აბრუნებს path-ს, SHA-256-ს, byte length-ს, job count-ს და audit event count-ს. ცალკე backup ფაილები შეინახე სხვა დისკზე ან დაცულ off-host საცავში; იმავე ჰოსტზე არსებული ასლი არ იცავს დისკის დაკარგვისგან.
+
+## Backup-ის აღდგენა
+
+**ჯერ გააჩერე სერვისი.** მიმდინარე DB და მისი WAL/SHM sidecar-ები ცალკე შეინახე, შემდეგ აღადგინე backup ახალ, არარსებულ destination-ში:
+
+```bash
+sudo systemctl stop noema.service
+sudo mv /var/lib/noema/noema-jobs.sqlite3 \
+  /var/lib/noema/noema-jobs.sqlite3.before-restore
+for suffix in -wal -shm; do
+  file="/var/lib/noema/noema-jobs.sqlite3${suffix}"
+  if [ -e "$file" ]; then
+    sudo mv "$file" "${file}.before-restore"
+  fi
+done
+
+sudo -u noema /opt/noema/.venv/bin/python -m noema_core.jobs_cli restore \
+  --source /var/lib/noema/backups/SELECT-BACKUP.sqlite3 \
+  --destination /var/lib/noema/noema-jobs.sqlite3
+
+sudo -u noema /opt/noema/.venv/bin/python -m noema_core.service \
+  --check --db /var/lib/noema/noema-jobs.sqlite3
+sudo systemctl start noema.service
+```
+
+Restore უარყოფს დაზიანებულ audit chain-ს, foreign-key/integrity პრობლემებს და არსებულ destination-ს. Snapshot-ის აღდგენისას worker lease-ები და unfinished jobs-იც აღდგება; ვადაგასული lease შემდეგი claim-ისას queue-ში დაბრუნდება. Restore-ის შემდეგ რამდენიმე წამით ძველი worker lease-ის ვადის გასვლას შეიძლება დაელოდოს.
+
+## Backup-ის უსაფრთხოების საზღვრები
+
+- SQLite backup არ არის დაშიფრული. არ შეინახო credentials, API tokens ან სენსიტიური პერსონალური მონაცემები queue payload/result-ში.
+- POSIX სისტემებზე backup ფაილს ეძლევა owner-only `0600` რეჟიმი.
+- Audit hash-chain ცვლილებებს ამოიცნობს, მაგრამ ის ციფრული ხელმოწერა არ არის და თავად ვერ იცავს privileged filesystem attacker-ისგან.
+- ავტომატური off-host backup, encryption-at-rest, retention policy და პერიოდული restore drill ჯერ არ არის ჩართული.
