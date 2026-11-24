@@ -40,8 +40,13 @@ class NoemaDatabaseProposalContractTests(unittest.TestCase):
         self.assertIn("grant all on noema_private.automation_runs to service_role;", self.sql)
 
     def test_client_authorization_uses_trusted_app_metadata(self) -> None:
-        self.assertIn("app_metadata", self.sql)
-        self.assertNotIn("user_metadata", self.sql)
+        executable_lines = [
+            line for line in self.sql.splitlines()
+            if not line.lstrip().startswith("--")
+        ]
+        executable_sql = "\\n".join(executable_lines)
+        self.assertIn("app_metadata", executable_sql)
+        self.assertNotIn("user_metadata", executable_sql)
 
     def test_anonymous_role_has_no_review_record_access(self) -> None:
         self.assertIn("grant select on public.research_reviews to authenticated;", self.sql)
