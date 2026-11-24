@@ -48,6 +48,8 @@ NOEMA-ს წინადადებაა მცირე **summation contract
 
 ## შეზღუდვები
 
+- Benchmark runner-ზე დაფიქსირდა CPython 3.14.4 (გამოშვებულია 2026-04-07); ეს არ არის 2026-11-24-ის უახლესი patch release. სხვა ვერსიაზე გამეორება დარჩენილია.
+
 - სრული პროფილი შესრულდა ერთ CPython/Linux runner-ზე; სხვა ოპერაციულ სისტემასა და არქიტექტურაზე შედეგები შეიძლება განსხვავდებოდეს.
 - tracemalloc არ ზომავს სრულ პროცესულ RSS-ს და არ ასახავს ყველა native allocation-ს.
 - Binary32-ის native-სიმულაცია Python-ის დონეზე ამრგვალებს შუალედურ ოპერაციებს; მისი სიჩქარე hardware binary32 ოპერაციის სიჩქარეს არ წარმოადგენს.
@@ -66,14 +68,15 @@ NOEMA-ს წინადადებაა მცირე **summation contract
 
 ## წყაროები
 
-1. Higham, N. J. (1993), *The accuracy of floating point summation*, SIAM Journal on Scientific Computing. https://doi.org/10.1137/0914050
-2. Ogita, T., Rump, S. M., & Oishi, S. (2005), *Accurate Sum and Dot Product*. https://doi.org/10.1137/030601818
-3. Shewchuk, J. R. (1997), *Adaptive Precision Floating-Point Arithmetic and Fast Robust Geometric Predicates*. https://doi.org/10.1007/PL00009321
-4. IEEE 754-2019, *Standard for Floating-Point Arithmetic*. https://standards.ieee.org/ieee/754/6210/
-5. Python 3.12 documentation, sum(): https://docs.python.org/3.12/library/functions.html#sum
-6. Python 3.12 documentation, math.fsum(): https://docs.python.org/3.12/library/math.html#math.fsum
-7. Python documentation, decimal: https://docs.python.org/3/library/decimal.html
-8. NIST Digital Library of Mathematical Functions, §3.1: https://dlmf.nist.gov/3.1
+1. Higham, N. J. (1993, July). *The Accuracy of Floating Point Summation*. SIAM Journal on Scientific Computing, 14(4), 783–799. DOI: https://doi.org/10.1137/0914050. Accessed 2026-11-24.
+2. Ogita, T., Rump, S. M., & Oishi, S. (2005, January; online 2006-07-25). *Accurate Sum and Dot Product*. SIAM Journal on Scientific Computing, 26(6), 1955–1988. DOI: https://doi.org/10.1137/030601818. Accessed 2026-11-24.
+3. Shewchuk, J. R. (1997, October). *Adaptive Precision Floating-Point Arithmetic and Fast Robust Geometric Predicates*. Discrete & Computational Geometry, 18(3), 305–363. DOI: https://doi.org/10.1007/PL00009321. Accessed 2026-11-24.
+4. IEEE Computer Society. (2019-07-22). *IEEE Std 754-2019: IEEE Standard for Floating-Point Arithmetic*. https://standards.ieee.org/ieee/754/6210/. Accessed 2026-11-24.
+5. Python Software Foundation. (2026-10-25 release). *Python 3.12.16 documentation: Built-in Functions, sum()*; versioned documentation page. https://docs.python.org/3.12/library/functions.html#sum. Accessed 2026-11-24.
+6. Python Software Foundation. (2026-10-25 release). *Python 3.12.16 documentation: math.fsum()*; versioned documentation page. https://docs.python.org/3.12/library/math.html#math.fsum. Accessed 2026-11-24.
+7. Python Software Foundation. (2026-10-25 release). *Python 3.12.16 documentation: decimal module*; versioned documentation page. https://docs.python.org/3.12/library/decimal.html. Accessed 2026-11-24.
+8. NIST. (2010-05-11; site version 1.2.8 dated 2026-09-15). *Digital Library of Mathematical Functions, §3.1*. https://dlmf.nist.gov/3.1. Accessed 2026-11-24.
+9. Python Software Foundation. (2026-04-07). *Python 3.14.4 release*. https://www.python.org/downloads/release/python-3144/. Accessed 2026-11-24.
 
 ## შემდეგი ნაბიჯები
 
