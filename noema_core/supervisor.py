@@ -72,7 +72,12 @@ class WorkerSupervisor:
 
     @staticmethod
     def _positive_finite(value: float, name: str) -> None:
-        if not math.isfinite(float(value)) or float(value) <= 0:
+        if (
+            not isinstance(value, (int, float))
+            or isinstance(value, bool)
+            or not math.isfinite(float(value))
+            or float(value) <= 0
+        ):
             raise InvalidJob(f"{name} must be a finite positive number")
 
     def run(
