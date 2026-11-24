@@ -30,26 +30,32 @@ Binary32/binary64-ში შედარებულია ექვსი მ�
 
 ## არსებული ცოდნა და წყაროები
 
-1. **Higham, Nicholas J. (1993), “The Accuracy of Floating Point Summation”, SIAM Journal on Scientific Computing, 14(4), 783–799.** https://doi.org/10.1137/0914050  
-   რეცენზირებული ანალიზი ადარებს რამდენიმე შეკრების მეთოდს, რიგითობის გავლენასა და შეცდომის შეფასებებს. ავტორის მნიშვნელოვანი გაფრთხილებაა, რომ არც ერთი მეთოდი არ არის ყველა შემთხვევისთვის უნივერსალურად ყველაზე ზუსტი.
+1. **Nicholas J. Higham — “The Accuracy of Floating Point Summation.”** *SIAM Journal on Scientific Computing*, 14(4), 783–799, July 1993. DOI: [10.1137/0914050](https://doi.org/10.1137/0914050). Accessed: 2026-11-24.
+   რეცენზირებული ნაშრომი აანალიზებს შეკრების რამდენიმე მეთოდს, რიგითობასა და rounding error-ს; ავტორი პირდაპირ აღნიშნავს, რომ არც ერთი მეთოდი ყველა შემთხვევაში უნივერსალურად ყველაზე ზუსტი არ არის.
 
-2. **Ogita, Takeshi; Rump, Siegfried M.; Oishi, Shin’ichi (2005), “Accurate Sum and Dot Product”, SIAM Journal on Scientific Computing, 26(6), 1955–1988.** https://doi.org/10.1137/030601818  
-   წარმოგვიდგენს ზუსტი შეკრებისა და სკალარული ნამრავლის ალგორითმებს, მათ შორის error-free transformation-ზე დაფუძნებულ მიდგომებს.
+2. **Takeshi Ogita, Siegfried M. Rump & Shin’ichi Oishi — “Accurate Sum and Dot Product.”** *SIAM Journal on Scientific Computing*, 26(6), 1955–1988, January 2005; online publication: 25 July 2006. DOI: [10.1137/030601818](https://doi.org/10.1137/030601818). Accessed: 2026-11-24.
+   აღწერს error-free transformation-ზე დაფუძნებულ ზუსტ/მაღალი სიზუსტის შეკრებისა და dot-product ალგორითმებს.
 
-3. **Shewchuk, Jonathan Richard (1997), “Adaptive Precision Floating-Point Arithmetic and Fast Robust Geometric Predicates”, Discrete & Computational Geometry, 18, 305–363.** https://doi.org/10.1007/PL00009321  
-   აჩვენებს, რატომ არის ზოგიერთ გეომეტრიულ ამოცანაში საჭირო ადაპტიური სიზუსტე და შეცდომის გარანტიაზე დაფუძნებული გამოთვლა.
+3. **Jonathan Richard Shewchuk — “Adaptive Precision Floating-Point Arithmetic and Fast Robust Geometric Predicates.”** *Discrete & Computational Geometry*, 18(3), 305–363, October 1997. DOI: [10.1007/PL00009321](https://doi.org/10.1007/PL00009321). Accessed: 2026-11-24.
+   ავტორის პირველადი ნაშრომი აჩვენებს ადაპტიური სიზუსტის გამოყენებას და სანდო გეომეტრიული predicate-ების აგებას.
 
-4. **IEEE (2019), IEEE Std 754-2019 — IEEE Standard for Floating-Point Arithmetic.** https://standards.ieee.org/ieee/754/6210/  
-   პირველადი სტანდარტი განსაზღვრავს მცურავი წერტილის არითმეტიკის ფორმატებსა და ოპერაციებს; აქედან გამომდინარეობს, რომ ფორმატი და ოპერაციების მიმდევრობა რიცხვითი შედეგის ნაწილია.
+4. **IEEE Computer Society — IEEE Std 754-2019, “IEEE Standard for Floating-Point Arithmetic.”** Published: 22 July 2019; board approval: 13 June 2019. [IEEE Standards record](https://standards.ieee.org/ieee/754/6210/). Accessed: 2026-11-24.
+   პირველადი სტანდარტი განსაზღვრავს binary/decimal ფორმატებსა და ოპერაციებს; ნორმატიული შედეგი დამოკიდებულია შეყვანებზე, ოპერაციების მიმდევრობასა და დანიშნულების ფორმატზე.
 
-5. **Python 3.12 documentation, Built-in Functions — sum().** https://docs.python.org/3.12/library/functions.html#sum  
-   ოფიციალური დოკუმენტაცია აღნიშნავს, რომ Python 3.12-დან float-ების sum() უფრო მაღალი სიზუსტის მომცემ ალგორითმზე გადავიდა. ამიტომ ამ კვლევაში ჩვეულებრივი baseline ხელითაა განსაზღვრული, როგორც მარცხნიდან-მარჯვნივ დაგროვება; ჩაშენებული sum() მასთან არ არის გაიგივებული.
+5. **Python Software Foundation — Python 3.12.16 documentation, Built-in Functions: `sum()`.** Version release: 25 October 2026. [Official documentation](https://docs.python.org/3.12/library/functions.html#sum). Accessed: 2026-11-24.
+   დოკუმენტაცია აღნიშნავს, რომ Python 3.12-დან float-ების `sum()` ალგორითმი შეიცვალა და უმეტეს build-ზე უფრო მაღალი სიზუსტე აქვს; ამიტომ კვლევის naive baseline ხელითაა განსაზღვრული.
 
-6. **Python 3.12 documentation, math.fsum().** https://docs.python.org/3.12/library/math.html#math.fsum  
-   აღწერს partial sums-ის შენარჩუნებით უფრო ზუსტ შეკრებას და აღნიშნავს, რომ გარკვეულ პლატფორმებზე შუალედური გაფართოებული სიზუსტისა და ორმაგი დამრგვალების გამო ბოლო ბიტში განსხვავება შეიძლება გაჩნდეს.
+6. **Python Software Foundation — Python 3.12.16 documentation, `math.fsum()`.** Version release: 25 October 2026. [Official documentation](https://docs.python.org/3.12/library/math.html#math.fsum). Accessed: 2026-11-24.
+   აღწერს partial sums-ის შენარჩუნებას და აფრთხილებს ზოგიერთ პლატფორმაზე extended precision-ის გამო შესაძლო double-rounding-ს.
 
-7. **NIST Digital Library of Mathematical Functions, §3.1 — Arithmetics and Error Measures.** https://dlmf.nist.gov/3.1  
-   რიცხვითი არითმეტიკისა და შეცდომის გაზომვის მეთოდოლოგიური კონტექსტი; ასევე მიუთითებს IEEE 754-2019-ზე.
+7. **Python Software Foundation — Python 3.12.16 documentation, `decimal` module.** Version release: 25 October 2026. [Official documentation](https://docs.python.org/3.12/library/decimal.html). Accessed: 2026-11-24.
+   აღწერს Context-ის precision, rounding, exponent bounds და clamp პარამეტრებს, რომლებსაც decimal64/decimal128 ემულაცია ეყრდნობა.
+
+8. **National Institute of Standards and Technology — NIST Digital Library of Mathematical Functions, §3.1 “Arithmetics and Error Measures.”** DLMF released: 11 May 2010; current site version recorded as 1.2.8 (15 September 2026). [NIST DLMF](https://dlmf.nist.gov/3.1). Accessed: 2026-11-24.
+   რიცხვითი არითმეტიკისა და შეცდომის საზომების მეთოდოლოგიური საცნობარო წყარო.
+
+9. **Python Software Foundation — Python 3.14.4 release.** Released: 7 April 2026. [Python.org release record](https://www.python.org/downloads/release/python-3144/). Accessed: 2026-11-24.
+   ამ წყაროს მიზანია benchmark provenance-ში დაფიქსირებული CPython 3.14.4 ვერსიის გამოშვების თარიღის გადამოწმება; ის არ ნიშნავს, რომ ეს ვერსია 2026-11-24-ის უახლესი patch release იყო.
 
 ## მტკიცებულებები
 
@@ -358,15 +364,32 @@ NOEMA-ს კონტროლირებულმა ექსპერიმ
 
 ## წყაროები
 
-- Higham (1993): https://doi.org/10.1137/0914050
-- Ogita, Rump & Oishi (2005): https://doi.org/10.1137/030601818
-- Shewchuk (1997): https://doi.org/10.1007/PL00009321
-- IEEE 754-2019: https://standards.ieee.org/ieee/754/6210/
-- Python 3.12 sum(): https://docs.python.org/3.12/library/functions.html#sum
-- Python 3.12 math.fsum(): https://docs.python.org/3.12/library/math.html#math.fsum
-- NIST DLMF §3.1: https://dlmf.nist.gov/3.1
-- Python decimal — General Decimal Arithmetic and Context parameters (prec, rounding, Emin/Emax, clamp, Etiny/Etop): https://docs.python.org/3/library/decimal.html
-- IEEE 754-2019 — decimal floating-point formats, precision/exponent parameters: https://rtrb.org/FileTransfer/IEEE%20754-2019.pdf
+- **Nicholas J. Higham — “The Accuracy of Floating Point Summation.”** *SIAM Journal on Scientific Computing*, 14(4), 783–799, July 1993. DOI: [10.1137/0914050](https://doi.org/10.1137/0914050). Accessed: 2026-11-24.
+   რეცენზირებული ნაშრომი აანალიზებს შეკრების რამდენიმე მეთოდს, რიგითობასა და rounding error-ს; ავტორი პირდაპირ აღნიშნავს, რომ არც ერთი მეთოდი ყველა შემთხვევაში უნივერსალურად ყველაზე ზუსტი არ არის.
+
+- **Takeshi Ogita, Siegfried M. Rump & Shin’ichi Oishi — “Accurate Sum and Dot Product.”** *SIAM Journal on Scientific Computing*, 26(6), 1955–1988, January 2005; online publication: 25 July 2006. DOI: [10.1137/030601818](https://doi.org/10.1137/030601818). Accessed: 2026-11-24.
+   აღწერს error-free transformation-ზე დაფუძნებულ ზუსტ/მაღალი სიზუსტის შეკრებისა და dot-product ალგორითმებს.
+
+- **Jonathan Richard Shewchuk — “Adaptive Precision Floating-Point Arithmetic and Fast Robust Geometric Predicates.”** *Discrete & Computational Geometry*, 18(3), 305–363, October 1997. DOI: [10.1007/PL00009321](https://doi.org/10.1007/PL00009321). Accessed: 2026-11-24.
+   ავტორის პირველადი ნაშრომი აჩვენებს ადაპტიური სიზუსტის გამოყენებას და სანდო გეომეტრიული predicate-ების აგებას.
+
+- **IEEE Computer Society — IEEE Std 754-2019, “IEEE Standard for Floating-Point Arithmetic.”** Published: 22 July 2019; board approval: 13 June 2019. [IEEE Standards record](https://standards.ieee.org/ieee/754/6210/). Accessed: 2026-11-24.
+   პირველადი სტანდარტი განსაზღვრავს binary/decimal ფორმატებსა და ოპერაციებს; ნორმატიული შედეგი დამოკიდებულია შეყვანებზე, ოპერაციების მიმდევრობასა და დანიშნულების ფორმატზე.
+
+- **Python Software Foundation — Python 3.12.16 documentation, Built-in Functions: `sum()`.** Version release: 25 October 2026. [Official documentation](https://docs.python.org/3.12/library/functions.html#sum). Accessed: 2026-11-24.
+   დოკუმენტაცია აღნიშნავს, რომ Python 3.12-დან float-ების `sum()` ალგორითმი შეიცვალა და უმეტეს build-ზე უფრო მაღალი სიზუსტე აქვს; ამიტომ კვლევის naive baseline ხელითაა განსაზღვრული.
+
+- **Python Software Foundation — Python 3.12.16 documentation, `math.fsum()`.** Version release: 25 October 2026. [Official documentation](https://docs.python.org/3.12/library/math.html#math.fsum). Accessed: 2026-11-24.
+   აღწერს partial sums-ის შენარჩუნებას და აფრთხილებს ზოგიერთ პლატფორმაზე extended precision-ის გამო შესაძლო double-rounding-ს.
+
+- **Python Software Foundation — Python 3.12.16 documentation, `decimal` module.** Version release: 25 October 2026. [Official documentation](https://docs.python.org/3.12/library/decimal.html). Accessed: 2026-11-24.
+   აღწერს Context-ის precision, rounding, exponent bounds და clamp პარამეტრებს, რომლებსაც decimal64/decimal128 ემულაცია ეყრდნობა.
+
+- **National Institute of Standards and Technology — NIST Digital Library of Mathematical Functions, §3.1 “Arithmetics and Error Measures.”** DLMF released: 11 May 2010; current site version recorded as 1.2.8 (15 September 2026). [NIST DLMF](https://dlmf.nist.gov/3.1). Accessed: 2026-11-24.
+   რიცხვითი არითმეტიკისა და შეცდომის საზომების მეთოდოლოგიური საცნობარო წყარო.
+
+- **Python Software Foundation — Python 3.14.4 release.** Released: 7 April 2026. [Python.org release record](https://www.python.org/downloads/release/python-3144/). Accessed: 2026-11-24.
+   ამ წყაროს მიზანია benchmark provenance-ში დაფიქსირებული CPython 3.14.4 ვერსიის გამოშვების თარიღის გადამოწმება; ის არ ნიშნავს, რომ ეს ვერსია 2026-11-24-ის უახლესი patch release იყო.
 
 ## შემოწმების სტატუსი
 
@@ -388,6 +411,8 @@ NOEMA-ს კონტროლირებულმა ექსპერიმ
 - [ ] გამოქვეყნების მზადყოფნის დადასტურება.
 
 ## ცვლილებების ისტორია
+
+- 2026-11-24 — წყაროებს დაემატა სრული ციტირება, ავტორები, გამოცემის თარიღი/ვერსია და წვდომის თარიღი; CPython 3.14.4-ის benchmark provenance ოფიციალურ Python.org release record-თან გადამოწმდა.
 
 - 2026-11-23 — შეიქმნა NOEMA-2026-005 დრაფტი; დაემატა გამეორებადი binary64 summation ექსპერიმენტი, ზუსტი Fraction reference, შედეგების JSON და შვიდი ერთეული ტესტი.
 - 2026-11-24 — დაემატა 2⁻¹⁰⁷⁴-ზე მასშტაბირებული integer superaccumulator, სამი ახალი unit test და CI-ში გაყინული შედეგის ხელახალი გამოთვლის შემოწმება.
