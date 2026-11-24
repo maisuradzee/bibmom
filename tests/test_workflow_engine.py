@@ -186,6 +186,28 @@ class WorkflowEngineTests(unittest.TestCase):
                         idempotency_key=f"pipeline-invalid-{dependency_value}",
                     )
 
+    def test_advance_all_refreshes_active_workflows_and_dispatches_ready_steps(self) -> None:
+        run = self.engine.start(
+            "advance-all pipeline",
+            self._linear_steps(),
+            idempotency_key="pipeline-advance-all",
+        )
+        first = self.worker.run_once()
+        assert first is not None
+        advanced = self.engine.advance_all(actor="test-advance-all")
+        self.assertEqual(len(advanced), 1)
+        updated = self.engine.get(run.workflow_id)
+        status = {step.step_id: step.status for step in updated.steps}
+        self.assertEqual(status["fetch"], "succeeded")
+        self.assertEqual(status["parse"], "queued")
+        self.assertEqual(status["validate"], "pending")
+
+    def test_advance_all_rejects_invalid_limits(self) -> None:
+        with self.assertRaises(InvalidWorkflow):
+            self.engine.advance_all(limit=0)
+        with self.assertRaises(InvalidWorkflow):
+            self.engine.advance_all(limit=True)
+
     def test_missing_workflow_raises_clear_error(self) -> None:
         with self.assertRaises(WorkflowNotFound):
             self.engine.get("missing-workflow")
