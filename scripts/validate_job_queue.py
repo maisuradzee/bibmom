@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import sys
 import tempfile
+import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -13,6 +14,7 @@ if str(ROOT) not in sys.path:
 from noema_core.jobs import JobQueue
 from noema_core.worker import HandlerRegistry, Worker
 from noema_core.supervisor import WorkerSupervisor
+from noema_core.scheduler import IntervalScheduler
 from noema_core.workflows import WorkflowEngine, WorkflowStep
 
 
@@ -119,14 +121,52 @@ def main() -> int:
                 f"report={workflow_report}, workflow={workflow}"
             )
 
+        interval_scheduler = IntervalScheduler(workflow_engine)
+        scheduled = interval_scheduler.create_interval(
+            "CI interval scheduler smoke",
+            3600,
+            [
+                WorkflowStep("fetch", "system.workflow-fetch", {"source": "scheduled-v1"}),
+                WorkflowStep(
+                    "validate",
+                    "system.workflow-validate",
+                    {"snapshot": "scheduled-v1"},
+                    ("fetch",),
+                ),
+            ],
+            schedule_id="ci-interval-scheduler-smoke",
+            first_run_at=time.time() - 1,
+            actor="ci",
+        )
+        scheduled_report = WorkerSupervisor(
+            Worker(queue, "ci-scheduled-worker", workflow_registry),
+            poll_interval_seconds=0.001,
+            scheduler=interval_scheduler,
+        ).run(max_jobs=2, max_runtime_seconds=5)
+        scheduled_workflows = [
+            item for item in workflow_engine.list_workflows(statuses=("succeeded",), limit=20)
+            if item.idempotency_key.startswith("schedule:ci-interval-scheduler-smoke:")
+        ]
+        if (
+            scheduled_report.processed != 2
+            or scheduled_report.succeeded != 2
+            or len(scheduled_workflows) != 1
+            or interval_scheduler.get(scheduled.schedule_id).next_run_at <= time.time()
+        ):
+            raise SystemExit(
+                f"Automatic interval scheduler smoke test failed: "
+                f"report={scheduled_report}, workflows={scheduled_workflows}"
+            )
+
         result = queue.integrity_check()
         if not result["valid"]:
             raise SystemExit(f"Queue/workflow integrity validation failed: {result}")
         print(
-            "NOEMA queue, worker, supervisor and workflow engine: PASS "
+            "NOEMA queue, worker, supervisor, workflow engine and scheduler: PASS "
             f"(job={completed.job_id}, worker_job={worker_outcome.job.job_id}, "
             f"supervisor_processed={supervisor_report.processed}, "
-            f"workflow={workflow.workflow_id}, audit_events={result['audit_event_count']})"
+            f"workflow={workflow.workflow_id}, scheduled_workflows={len(scheduled_workflows)}, "
+            f"audit_events={result['audit_event_count']})"
         )
     return 0
 
