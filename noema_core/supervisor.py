@@ -14,6 +14,7 @@ from dataclasses import dataclass
 
 from .jobs import InvalidJob
 from .worker import Worker
+from .workflows import WorkflowEngine
 
 
 LOGGER = logging.getLogger(__name__)
@@ -51,6 +52,7 @@ class WorkerSupervisor:
         error_backoff_initial_seconds: float = 1.0,
         error_backoff_max_seconds: float = 30.0,
         max_consecutive_errors: int = 10,
+        workflow_engine: WorkflowEngine | None = None,
     ) -> None:
         self._positive_finite(poll_interval_seconds, "poll_interval_seconds")
         self._positive_finite(error_backoff_initial_seconds, "error_backoff_initial_seconds")
@@ -64,7 +66,17 @@ class WorkerSupervisor:
             or max_consecutive_errors > 1_000
         ):
             raise InvalidJob("max_consecutive_errors must be an integer between 1 and 1000")
+        if workflow_engine is not None:
+            if not isinstance(workflow_engine, WorkflowEngine):
+                raise InvalidJob("workflow_engine must be a WorkflowEngine instance")
+            if workflow_engine.queue.db_path != worker.queue.db_path:
+                raise InvalidJob("workflow_engine must use the same JobQueue database as the worker")
+            if not set(workflow_engine.registry.job_types) <= set(worker.registry.job_types):
+                raise InvalidJob(
+                    "worker registry must include every task type registered by workflow_engine"
+                )
         self.worker = worker
+        self.workflow_engine = workflow_engine
         self.poll_interval_seconds = float(poll_interval_seconds)
         self.error_backoff_initial_seconds = float(error_backoff_initial_seconds)
         self.error_backoff_max_seconds = float(error_backoff_max_seconds)
@@ -131,6 +143,10 @@ class WorkerSupervisor:
 
             try:
                 outcome = self.worker.run_once()
+                if self.workflow_engine is not None:
+                    self.workflow_engine.advance_all(
+                        actor=f"supervisor:{self.worker.worker_id}"
+                    )
             except Exception as exc:
                 transient_errors += 1
                 consecutive_errors += 1
