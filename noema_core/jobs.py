@@ -824,12 +824,8 @@ class JobQueue:
                     source_conn.backup(target_conn, pages=256, sleep=0.05)
                     target_conn.commit()
 
-            report = cls._verify_database_file(
-                temporary,
-                busy_timeout_ms=busy_timeout_ms,
-            )
-            # Make the snapshot self-contained (no WAL sidecar dependency)
-            # before hashing and publishing it.
+            # The source queue uses WAL. Normalize the copied pages into a
+            # standalone DELETE-journal artifact before read-only validation.
             with closing(sqlite3.connect(str(temporary), timeout=busy_timeout_ms / 1000)) as connection:
                 mode = connection.execute("PRAGMA journal_mode = DELETE").fetchone()[0]
                 if str(mode).lower() != "delete":
@@ -838,6 +834,11 @@ class JobQueue:
                 foreign_keys = connection.execute("PRAGMA foreign_key_check").fetchall()
             if integrity != "ok" or foreign_keys:
                 raise JobQueueError("Final snapshot integrity/foreign-key check failed")
+
+            report = cls._verify_database_file(
+                temporary,
+                busy_timeout_ms=busy_timeout_ms,
+            )
 
             if os.name == "posix":
                 os.chmod(temporary, 0o600)
