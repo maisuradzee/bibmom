@@ -14,10 +14,10 @@
 | NOEMA-002 SignBase აუდიტი | შესრულებულია | ფიქსირებული SignBase snapshot, provenance და JSON შედეგები |
 | NOEMA-003 კლიმატური ანალიზი | დრაფტი / გამეორებადი | სამი dataset-ის შედარება, HAC sensitivity, HadCRUT5 200-member ensemble და coverage consistency; ERA5 reconstruction validation gate ვერ გაიარა და საბოლოო დასკვნაში არ გამოიყენება |
 | NOEMA-005 summation კვლევა | review + public preliminary brief | სრული ექსპერიმენტი და benchmark დრაფტშია; მომხმარებლის მოკლე ანგარიში გამოყოფილია `research/preprints/`-ში |
-| საჯარო კვლევითი კატალოგი | 1 preliminary, 0 published — სამუშაო PR branch-ზე | `data/research.json`, `data/research.schema.json`; Pages build ქმნის 1 preliminary HTML გვერდს |
+| საჯარო კვლევითი კატალოგი | 1 preliminary, 0 published — სამუშაო PR branch-ზე | schema version 2; NOEMA-005-ის 9 წყაროს სრული ციტირება, ავტორები, გამოცემის თარიღი და წვდომის თარიღი; Pages build ქმნის 1 preliminary HTML გვერდს |
 | კვლევის ბარათები და სტატუსები | კოდში დამატებულია | მთავარი გვერდი აჩვენებს preliminary და published სტატუსებს ცალ-ცალკე |
 | ღია განხილვის რეჟიმი | კოდში დამატებულია | GitHub Issues feed, ახალი განხილვის ბმული და მომხმარებლის კომენტარები GitHub-ზე |
-| CI და საიტის build | PASS — წინა PR head-ზე; bibliographic schema v2 ცვლილებების CI pending | [CI run 45288343327](https://github.com/maisuradzee/bibmom/actions/runs/45288343327), head `5fa8464a688cc16dd6f578d8334c55b6b92af4c3`: ყველა 18 step წარმატებულია; შემდეგ დაემატა source publication/access-date validation და ახალი CI ჯერ ელოდება |
+| CI და საიტის build | PASS — schema v2 და source metadata ცვლილებებზე | [CI run 45323971875](https://github.com/maisuradzee/bibmom/actions/runs/45323971875), head `49c4123e09c3378964de07d1cd67e9d43b64f7ea`: 84 Python test და ყველა 18 step წარმატებულია; catalog validator, benchmark reproduction, site build და draft exclusion PASS |
 | GitHub Pages | წინა deployment წარმატებული | [deployment run 45169053640](https://github.com/maisuradzee/bibmom/actions/runs/45169053640); ამ PR-ის ახალი branch ცვლილებები ჯერ არ არის გამოქვეყნებული |
 | Supabase მონაცემთა ბაზა | ჯერ არ შექმნილა | ამჟამად გამოიყენება Git-ით ვერსიაკონტროლირებადი JSON კატალოგი; ეს არ არის სერვერული/ტრანზაქციული DB |
 | ვიზუალური AI ექსპერიმენტი | შეჩერებულია ნებართვამდე | SignBase-ის გამოსახულებებზე გამოყენების უფლება მოსაპოვებელია |
@@ -41,7 +41,8 @@
 
 ## ბოლო ტექნიკური შემოწმება
 
-- [CI run 45288343327](https://github.com/maisuradzee/bibmom/actions/runs/45288343327) — SUCCESS წინა PR head `5fa8464a688cc16dd6f578d8334c55b6b92af4c3`-ზე: ყველა 18 step PASS. ამის შემდეგ source metadata schema v2, წვდომის თარიღების ვალიდაცია და ორი ახალი unit test დაემატა; ამ განახლებულ head-ზე საბოლოო CI ჯერ pending-ია.
+- [CI run 45323971875](https://github.com/maisuradzee/bibmom/actions/runs/45323971875) — SUCCESS PR head `49c4123e09c3378964de07d1cd67e9d43b64f7ea`-ზე: 84 Python test, ყველა 18 workflow step, research schema v2, source publication/access-date validation, frozen result reproduction, benchmark smoke, site build და draft-exclusion boundary PASS.
+- შუალედურ run `45323886583`-ში აღმოჩნდა, რომ `build_site.py` ჯერ მხოლოდ schema v1-ს იღებდა; validator/schema contract გასწორდა და მიმდინარე head-ზე build წარმატებით დასრულდა.
 - [სრული NOEMA-005 benchmark run 45283854718](https://github.com/maisuradzee/bibmom/actions/runs/45283854718) — 12 format/size case და 66 method measurement.
 - [წინა Pages deployment run 45169053640](https://github.com/maisuradzee/bibmom/actions/runs/45169053640) — build და deploy წარმატებით დასრულდა. ეს არ ნიშნავს, რომ მიმდინარე PR-ის ცვლილებები უკვე საჯარო გვერდზეა.
 
