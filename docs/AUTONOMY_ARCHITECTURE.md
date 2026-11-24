@@ -94,6 +94,17 @@ Due fire ჯერ ტრანზაქციულად ინახება
 
 Supervisor არ აყენებს process-wide signal handler-ებს და არ ირჩევს handler-ებს job payload-იდან. სერვისის bootstrap-მა უნდა დაარეგისტრიროს მხოლოდ trusted handler-ები, გაუზიაროს supervisor-ს stop event და SIGINT/SIGTERM-ზე მოითხოვოს graceful stop. Worker-ის გაჩერების შემდეგ მოუმთავრებელი job-ის lease-ის ვადის გასვლა აღდგება queue-ის მომდევნო claim-ზე.
 
+## Observability, integrity and database recovery
+
+- WorkerSupervisor writes job outcomes without logging payloads; scheduler ticks and workflow completion/failure counts are emitted as service logs.
+- `NoemaService.health_report()` aggregates queue job counts, workflow counts, scheduler fire counts, recent fire failures, self-check schedule state, SQLite integrity, foreign-key integrity and audit-chain validity.
+- `JobQueue.backup_to()` uses SQLite's online backup API, so committed WAL contents are included in a consistent snapshot even while the service is active.
+- Backup is first created as a temporary file, then checked for SQLite integrity, foreign-key violations, payload/result SHA-256 consistency and audit-chain validity. Only a verified snapshot is atomically published; existing destinations are never overwritten.
+- `JobQueue.restore_from_backup()` verifies the source snapshot and restores to a new destination. Restore intentionally refuses to overwrite an existing database; stop the service and move the current DB and sidecars aside before recovery.
+- CLI operations: `python -m noema_core.jobs_cli --db PATH metrics`, `backup --output PATH`, `restore --source PATH --destination PATH`, and `verify`.
+
+Backups are not encrypted and local copies on the same host do not protect against disk loss. Off-host encrypted backup, retention/rotation policy, restore drills, signed audit checkpoints and external alerting remain operational follow-up work. Do not store credentials or sensitive personal data in job payloads/results.
+
 ## განზრახ შეზღუდვები
 
 1. ეს არის ერთი ჰოსტის SQLite რიგი და არა მრავალმანქანიანი distributed queue. SQLite WAL არ უნდა ჩაითვალოს მრავალრეგიონულ ან არასაიმედო network filesystem-ზე კოორდინაციის გარანტიად.
@@ -106,7 +117,8 @@ Supervisor არ აყენებს process-wide signal handler-ებს �
 ## შემდეგი ტექნიკური ფენები — კვლევის დაწყების გარეშე
 
 - cron/calendar schedule-ები და timezone-aware დაგეგმვა;
-- OS service deployment, watchdog და restart policy;
+- encrypted off-host backup, retention/rotation, restore drills და alerting;
+- OS service deployment, watchdog და restart policy-ის production host-ზე ინსტალაცია/შემოწმება;
 - source connector registry, provenance, rate limits და per-source permission evidence;
 - bounded concurrency, quotas, back-pressure და schedule-level rate limiting;
 - metrics, structured logs, alerts, backup/restore და recovery drill;
