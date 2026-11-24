@@ -18,13 +18,14 @@ class ValidateResearchTests(unittest.TestCase):
         schema = {
             "$schema": "https://json-schema.org/draft/2020-12/schema",
             "properties": {
-                "schema_version": {"const": 1},
+                "schema_version": {"const": 2},
                 "research": {
                     "items": {
                         "required": ["id", "title", "date", "category", "summary", "status"],
                         "properties": {
                             "status": {"enum": ["preliminary", "published"]},
                             "url": {"format": "uri-reference"},
+                            "sources": {"items": {"required": ["title", "authors", "citation", "url", "type", "publication_date", "accessed_at"]}},
                         },
                         "anyOf": [{"required": ["file"]}, {"required": ["url"]}],
                     }
@@ -54,7 +55,7 @@ class ValidateResearchTests(unittest.TestCase):
         (self.root / "data" / "research.json").write_text(
             json.dumps({
                 "project": "NOEMA",
-                "schema_version": 1,
+                "schema_version": 2,
                 "updated_at": "2026-11-24",
                 "research": items,
             }),
@@ -111,9 +112,24 @@ class ValidateResearchTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "file cannot be required"):
             validate_index(self.root)
 
+    def test_rejects_source_without_access_date(self) -> None:
+        item = self.item()
+        item["sources"] = [{"title": "test source", "authors": ["Test Organization"], "citation": "Test Organization. (2026). Test source.", "url": "https://example.org/source", "type": "test", "publication_date": "2026"}]
+        (self.root / item["file"]).write_text("# Source", encoding="utf-8")
+        self.write_index([item])
+        with self.assertRaisesRegex(ValueError, "accessed_at"):
+            validate_index(self.root)
+
+    def test_rejects_invalid_source_publication_date(self) -> None:
+        item = self.item()
+        item["sources"] = [{"title": "test source", "authors": ["Test Organization"], "citation": "Test Organization. (2026). Test source.", "url": "https://example.org/source", "type": "test", "publication_date": "20XX", "accessed_at": "2026-11-24"}]
+        (self.root / item["file"]).write_text("# Source", encoding="utf-8")
+        self.write_index([item])
+        with self.assertRaisesRegex(ValueError, "publication_date"):
+            validate_index(self.root)
     def test_rejects_non_http_source(self) -> None:
         item = self.item()
-        item["sources"] = [{"title": "bad", "url": "javascript:alert(1)", "type": "test"}]
+        item["sources"] = [{"title": "bad", "authors": ["Test Organization"], "citation": "Test Organization. (2026). Bad source.", "url": "javascript:alert(1)", "type": "test", "publication_date": "2026", "accessed_at": "2026-11-24"}]
         (self.root / item["file"]).write_text("# Source", encoding="utf-8")
         self.write_index([item])
         with self.assertRaisesRegex(ValueError, "absolute HTTP"):
