@@ -75,13 +75,20 @@ class DatabaseBackupTests(unittest.TestCase):
     def test_restore_creates_verified_new_database(self) -> None:
         job = self._completed_job()
         backup = self.root / "restore-source.sqlite3"
-        self.queue.backup_to(backup)
+        snapshot = self.queue.backup_to(backup)
+        backup_hash_before = hashlib.sha256(backup.read_bytes()).hexdigest()
+        with sqlite3.connect(backup) as connection:
+            backup_journal_mode = connection.execute("PRAGMA journal_mode").fetchone()[0]
+        self.assertEqual(backup_journal_mode.lower(), "delete")
 
         destination = self.root / "restored" / "noema.sqlite3"
         result = JobQueue.restore_from_backup(backup, destination)
         restored = JobQueue(destination)
+        backup_hash_after = hashlib.sha256(backup.read_bytes()).hexdigest()
 
         self.assertEqual(result.path, str(destination.resolve()))
+        self.assertEqual(snapshot.sha256, backup_hash_before)
+        self.assertEqual(backup_hash_before, backup_hash_after)
         self.assertEqual(restored.get(job.job_id).status, "succeeded")
         self.assertTrue(restored.integrity_check()["valid"])
 
@@ -94,6 +101,17 @@ class DatabaseBackupTests(unittest.TestCase):
         with self.assertRaises(InvalidJob):
             JobQueue.restore_from_backup(backup, destination)
         self.assertEqual(destination.read_text(encoding="utf-8"), "do not overwrite")
+
+    def test_restore_rejects_non_self_contained_wal_mode_snapshot(self) -> None:
+        backup = self.root / "wal-mode-backup.sqlite3"
+        self.queue.backup_to(backup)
+        with sqlite3.connect(backup) as connection:
+            connection.execute("PRAGMA journal_mode = WAL")
+        destination = self.root / "wal-restore.sqlite3"
+
+        with self.assertRaises(JobQueueError):
+            JobQueue.restore_from_backup(backup, destination)
+        self.assertFalse(destination.exists())
 
     def test_restore_rejects_tampered_audit_backup(self) -> None:
         self._completed_job()
