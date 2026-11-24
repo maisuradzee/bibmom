@@ -344,7 +344,7 @@ Binary32 ეტალონისთვის გამოყენებულ�
 - Decimal64/decimal128 ნაწილი იყენებს Python `decimal.Context`-ს შესაბამის precision, exponent, clamp და ROUND_HALF_EVEN პარამეტრებით. ის არ ამოწმებს IEEE decimal interchange-ის BID/DPD კოდირებას ან byte-level თავსებადობას.
 - Binary32-ის `math.fsum_then_round_binary32` არის ფართო სიზუსტის კონტროლი და არა binary32-native მეთოდი.
 - ზუსტი integer accumulator-ის დაგროვება სრულდება arbitrary-precision integer-ით; decimal-ში საერთო quantum შეყვანებიდან დინამიკურად განისაზღვრება. საბოლოო rounding იყენებს შესაბამისი ფორმატის Fraction/Context converter-ს. ეს არ არის დამოუკიდებელი hardware rounding implementation.
-- ოთხფორმატიანი accuracy და runtime/memory პროფილი შესრულდა ერთ CPython/Linux გარემოში. Sharded-reduction სიმულაციის საწყისი გაშვება შესრულდა CPython 3.13.5/Linux x86_64-ზე და CI-ში ცალკე უნდა განმეორდეს CPython 3.14-ზე; ეს ჯერ არ არის რეალური cross-platform ან hardware-parallel გამეორება.
+- ოთხფორმატიანი accuracy და runtime/memory პროფილი შესრულდა ერთ CPython/Linux გარემოში. Sharded-reduction სიმულაციის საწყისი გაშვება შესრულდა CPython 3.13.5/Linux x86_64-ზე; იგივე 330-case summary და case-matrix SHA-256 ხელახლა დადასტურდა [CI run 45325226165](https://github.com/maisuradzee/bibmom/actions/runs/45325226165)-ში, CPython 3.14.4/Linux x86_64/glibc 2.43-ზე. ეს არის cross-version გამეორება, მაგრამ არა cross-architecture ან hardware-parallel გამეორება.
 - Python 3.12-დან ჩაშენებული sum() float-ებისთვის გაუმჯობესებულ ალგორითმს იყენებს; აქ naive baseline ხელითაა განსაზღვრული, როგორც მარცხნიდან-მარჯვნივ დაგროვება.
 - დამატებულია runtime/memory benchmark harness; CI smoke-მა 8 format/size შემთხვევა და 44 method measurement შეასრულა, ხოლო სრული პროფილმა — 12 შემთხვევა და 66 გაზომვა ერთ CPython/Linux runner-ზე. ეს არ არის cross-platform გამეორება; `tracemalloc` ზომავს მხოლოდ Python-managed allocations-ს და არა სრულ RSS-ს. Thread/GPU parallel reduction მხოლოდ სიმულაციითაა წარმოდგენილი; რეალური thread scheduling, GPU kernel, network transport და distributed runtime ჯერ არ გამოკვლეულა.
 - ზუსტი reference ეხება მხოლოდ რეალურად წარმოდგენილ შეყვანებს; ის არ ამოწმებს შეყვანის წყაროს სიზუსტეს ან შემდგომი მოდელის სისწორეს.
@@ -441,6 +441,7 @@ NOEMA-ს კონტროლირებულმა ექსპერიმ
 
 ## ცვლილებების ისტორია
 
+- 2026-11-24 — sharded reduction-ის 330-case შედეგი ხელახლა დადასტურდა CPython 3.14.4-ზე; იგივე case-matrix SHA-256 დაემთხვა CPython 3.13.5-ის საწყის გაშვებას.
 - 2026-11-24 — Python 3.12 docs-ის წყაროს თარიღი დაზუსტდა: 2026-10-26 არის გვერდის last-updated timestamp და არა interpreter release date.
 - 2026-11-24 — დაემატა 330-კონფიგურაციანი sharded reduction სიმულაცია; scalar partial-ები შეადარდა Neumaier compensation state-ის გადაცემას. Input SHA-256 და case-matrix SHA-256 გაყინულია JSON-ში.
 
