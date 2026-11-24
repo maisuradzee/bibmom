@@ -16,7 +16,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 
 - `index.html` — მთავარი გვერდი.
 - `noema_core/mission.json` და `noema_core/mission.py` — მანქანურად წაკითხვადი მისია, ინფორმაციის წვდომის პოლიტიკა და ავტონომიური მოქმედებების წესები.
-- `noema_core/jobs.py`, `noema_core/worker.py`, `noema_core/supervisor.py`, `noema_core/workflows.py`, `noema_core/scheduler.py` და `noema_core/service.py` — მდგრადი დავალებების რიგი, allowlisted worker, supervisor loop, DAG workflow-ები, ინტერვალური განრიგი და გაშვებადი სერვისის bootstrap.
+- `noema_core/jobs.py`, `noema_core/worker.py`, `noema_core/supervisor.py`, `noema_core/workflows.py`, `noema_core/scheduler.py`, `noema_core/service.py` და `noema_core/jobs_cli.py` — მდგრადი queue/worker, supervisor loop, DAG workflow-ები, ინტერვალური განრიგი, გაშვებადი სერვისი და backup/restore CLI.
 - `assets/styles.css` და `assets/articles.css` — მთავარი გვერდისა და კვლევითი სტატიების ვიზუალური სტილები.
 - `data/research.json` — საჯარო, ვერსიაკონტროლირებადი კვლევების კატალოგი; `data/research.schema.json` განსაზღვრავს ჩანაწერების სტრუქტურას. ეს არის ამჟამინდელი სტატიკური კატალოგი და არა Supabase/სერვერული მონაცემთა ბაზა.
 - `data/noema-003/` — NOAA-ს ფიქსირებული მონაცემთა ამონარიდი, NASA/HadCRUT5/NOAA snapshot-ები, provenance metadata და გამეორებადი შედეგები.
@@ -46,6 +46,10 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 ## Workflow და ეტაპების ორკესტრაცია
 
 `noema_core/workflows.py` ინახავს workflow run-ებსა და step-ებს იმავე SQLite ბაზაში. თითოეულ workflow-ს აქვს იდempotency key, DAG ციკლების/არარსებული დამოკიდებულებების ვალიდაცია, მხოლოდ მზადყოფნაში მყოფი ნაბიჯების dispatch და ჩავარდნილი prerequisite-ის ქვედა ნაბიჯების `blocked` მდგომარეობაში გადაყვანა. ყველა task type-ს უნდა ჰქონდეს trusted `HandlerRegistry`-ში რეგისტრირებული handler. `IntervalScheduler` ქმნის განმეორებად workflow გაშვებებს ინტერვალის მიხედვით, ინახავს თითოეული დაგეგმილი fire-ის სტატუსს და იცავს დუბლირებული გაშვებისგან. გამოტოვებული გაშვებისთვის არსებობს `catch_up_once` და `skip` პოლიტიკა. `WorkerSupervisor`-ის `scheduler` პარამეტრი ყოველ ციკლზე ამოწმებს due schedule-ებს, ქმნის workflow-ს, ასრულებს job-ებს და ავტომატურად აახლებს DAG-ს. ეს არის ინტერვალური scheduler; cron/calendar expression-ები და OS service deployment ჯერ არ არის დამატებული.
+
+## ოპერაციული მართვა
+
+`python -m noema_core.jobs_cli --db PATH metrics` აჩვენებს queue counts-სა და მთლიანობის შემოწმებას. `backup --output PATH` ქმნის შემოწმებულ SQLite online snapshot-ს; `restore --source PATH --destination PATH` აღადგენს მას მხოლოდ ახალ destination-ში და არსებულ ფაილს არ გადაწერს. დეტალური უსაფრთხო backup/restore runbook აღწერილია [SERVICE_DEPLOYMENT.md](docs/SERVICE_DEPLOYMENT.md).
 
 ## სერვისის გაშვება
 
