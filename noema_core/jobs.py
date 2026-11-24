@@ -841,6 +841,12 @@ class JobQueue:
 
             if os.name == "posix":
                 os.chmod(temporary, 0o600)
+            # Flush the completed standalone snapshot before atomic publication.
+            snapshot_fd = os.open(temporary, os.O_RDONLY)
+            try:
+                os.fsync(snapshot_fd)
+            finally:
+                os.close(snapshot_fd)
             digest_hasher = hashlib.sha256()
             with temporary.open("rb") as snapshot_file:
                 for chunk in iter(lambda: snapshot_file.read(1024 * 1024), b""):
