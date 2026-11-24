@@ -2,6 +2,7 @@
 
 from .jobs import (
     AuditVerification,
+    DatabaseSnapshot,
     ClaimedJob,
     InvalidJob,
     Job,
@@ -47,6 +48,7 @@ from .mission import (
 
 __all__ = [
     "AuditVerification",
+    "DatabaseSnapshot",
     "ClaimedJob",
     "InvalidJob",
     "Job",
