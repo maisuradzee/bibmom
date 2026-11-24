@@ -11,6 +11,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from noema_core.jobs import JobQueue
+from noema_core.worker import HandlerRegistry, Worker
 
 
 def main() -> int:
@@ -39,9 +40,24 @@ def main() -> int:
         result = queue.integrity_check()
         if not result["valid"]:
             raise SystemExit(f"Queue integrity validation failed: {result}")
+        registry = HandlerRegistry()
+        registry.register("system.worker-smoke", lambda payload, context: {"echo": payload["probe"]})
+        queue.enqueue(
+            "system.worker-smoke",
+            {"probe": "ok"},
+            idempotency_key="ci-worker-smoke-v1",
+            actor="ci",
+        )
+        worker_outcome = Worker(queue, "ci-worker", registry).run_once()
+        if worker_outcome is None or worker_outcome.outcome != "succeeded":
+            raise SystemExit("Allowlisted worker smoke test failed")
+        result = queue.integrity_check()
+        if not result["valid"]:
+            raise SystemExit(f"Queue/worker integrity validation failed: {result}")
         print(
-            "NOEMA durable job queue: PASS "
-            f"(job={completed.job_id}, audit_events={result['audit_event_count']})"
+            "NOEMA durable queue and allowlisted worker: PASS "
+            f"(job={completed.job_id}, worker_job={worker_outcome.job.job_id}, "
+            f"audit_events={result['audit_event_count']})"
         )
     return 0
 
