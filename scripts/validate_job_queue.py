@@ -12,6 +12,7 @@ if str(ROOT) not in sys.path:
 
 from noema_core.jobs import JobQueue
 from noema_core.worker import HandlerRegistry, Worker
+from noema_core.supervisor import WorkerSupervisor
 
 
 def main() -> int:
@@ -54,10 +55,33 @@ def main() -> int:
         result = queue.integrity_check()
         if not result["valid"]:
             raise SystemExit(f"Queue/worker integrity validation failed: {result}")
+
+        for index in range(2):
+            queue.enqueue(
+                "system.supervisor-smoke",
+                {"index": index},
+                idempotency_key=f"ci-supervisor-smoke-v1-{index}",
+                actor="ci",
+            )
+        supervisor_registry = HandlerRegistry()
+        supervisor_registry.register(
+            "system.supervisor-smoke",
+            lambda payload, context: {"processed": payload["index"]},
+        )
+        report = WorkerSupervisor(
+            Worker(queue, "ci-supervisor", supervisor_registry),
+            poll_interval_seconds=0.001,
+        ).run(max_jobs=2)
+        if report.processed != 2 or report.succeeded != 2 or report.stop_reason != "max_jobs":
+            raise SystemExit(f"Worker Supervisor smoke test failed: {report}")
+
+        result = queue.integrity_check()
+        if not result["valid"]:
+            raise SystemExit(f"Queue/worker/supervisor integrity validation failed: {result}")
         print(
-            "NOEMA durable queue and allowlisted worker: PASS "
+            "NOEMA queue, allowlisted worker and supervisor: PASS "
             f"(job={completed.job_id}, worker_job={worker_outcome.job.job_id}, "
-            f"audit_events={result['audit_event_count']})"
+            f"supervisor_processed={report.processed}, audit_events={result['audit_event_count']})"
         )
     return 0
 
