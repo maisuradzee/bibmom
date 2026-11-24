@@ -168,6 +168,24 @@ class WorkflowEngineTests(unittest.TestCase):
         self.assertEqual(recovered.status, "running")
         self.assertEqual({step.step_id: step.status for step in recovered.steps}["fetch"], "queued")
 
+    def test_invalid_dependency_container_is_rejected(self) -> None:
+        for dependency_value in (None, "fetch"):
+            with self.subTest(dependency_value=dependency_value):
+                with self.assertRaises(InvalidWorkflow):
+                    self.engine.start(
+                        "invalid dependencies",
+                        [
+                            WorkflowStep("fetch", "task.fetch", {"source": "x"}),
+                            WorkflowStep(
+                                "parse",
+                                "task.parse",
+                                {"document": "x"},
+                                dependency_value,
+                            ),
+                        ],
+                        idempotency_key=f"pipeline-invalid-{dependency_value}",
+                    )
+
     def test_missing_workflow_raises_clear_error(self) -> None:
         with self.assertRaises(WorkflowNotFound):
             self.engine.get("missing-workflow")
