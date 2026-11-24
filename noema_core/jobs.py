@@ -169,16 +169,28 @@ class JobQueue:
             except OSError as exc:
                 raise JobQueueError(f"Cannot restrict database file permissions: {exc}") from exc
 
-    def _connect(self) -> sqlite3.Connection:
-        connection = sqlite3.connect(
-            self.db_path,
-            timeout=self.busy_timeout_ms / 1000,
-            isolation_level=None,
-        )
+    def _connect(self, *, readonly: bool = False) -> sqlite3.Connection:
+        if readonly:
+            # immutable=1 prevents SQLite from creating or changing WAL/SHM
+            # sidecars while verifying a standalone backup artifact.
+            uri = f"{self.db_path.as_uri()}?mode=ro&immutable=1"
+            connection = sqlite3.connect(
+                uri,
+                uri=True,
+                timeout=self.busy_timeout_ms / 1000,
+                isolation_level=None,
+            )
+        else:
+            connection = sqlite3.connect(
+                self.db_path,
+                timeout=self.busy_timeout_ms / 1000,
+                isolation_level=None,
+            )
         connection.row_factory = sqlite3.Row
         connection.execute("PRAGMA foreign_keys = ON")
         connection.execute(f"PRAGMA busy_timeout = {self.busy_timeout_ms}")
-        connection.execute("PRAGMA synchronous = FULL")
+        if not readonly:
+            connection.execute("PRAGMA synchronous = FULL")
         return connection
 
     def _initialize(self) -> None:
@@ -698,8 +710,8 @@ class JobQueue:
             for row in reversed(rows)
         ]
 
-    def verify_audit_log(self) -> AuditVerification:
-        with closing(self._connect()) as connection:
+    def verify_audit_log(self, *, readonly: bool = False) -> AuditVerification:
+        with closing(self._connect(readonly=readonly)) as connection:
             rows = connection.execute(
                 "SELECT * FROM audit_events ORDER BY sequence"
             ).fetchall()
@@ -742,8 +754,18 @@ class JobQueue:
     ) -> dict[str, Any]:
         if not path.is_file():
             raise JobQueueError(f"Database file does not exist: {path}")
-        with closing(sqlite3.connect(str(path), timeout=busy_timeout_ms / 1000)) as connection:
+        readonly_uri = f"{path.resolve().as_uri()}?mode=ro&immutable=1"
+        with closing(sqlite3.connect(
+            readonly_uri,
+            uri=True,
+            timeout=busy_timeout_ms / 1000,
+        )) as connection:
             connection.execute(f"PRAGMA busy_timeout = {busy_timeout_ms}")
+            journal_mode = connection.execute("PRAGMA journal_mode").fetchone()[0]
+            if str(journal_mode).lower() != "delete":
+                raise JobQueueError(
+                    "Backup must be a self-contained DELETE-journal SQLite snapshot"
+                )
             tables = {
                 row[0]
                 for row in connection.execute(
@@ -760,7 +782,7 @@ class JobQueue:
         queue = cls.__new__(cls)
         queue.db_path = path.resolve()
         queue.busy_timeout_ms = busy_timeout_ms
-        report = queue.integrity_check()
+        report = queue.integrity_check(readonly=True)
         if not report["valid"]:
             raise JobQueueError(
                 "Database integrity validation failed: "
@@ -910,8 +932,8 @@ class JobQueue:
         counts.update({row["status"]: row["count"] for row in rows})
         return counts
 
-    def integrity_check(self) -> dict[str, Any]:
-        with closing(self._connect()) as connection:
+    def integrity_check(self, *, readonly: bool = False) -> dict[str, Any]:
+        with closing(self._connect(readonly=readonly)) as connection:
             sqlite_result = connection.execute("PRAGMA integrity_check").fetchone()[0]
             foreign_key_rows = connection.execute("PRAGMA foreign_key_check").fetchall()
             job_count = connection.execute("SELECT COUNT(*) FROM jobs").fetchone()[0]
@@ -953,7 +975,7 @@ class JobQueue:
                     or success_hashes.get(row["job_id"]) != row["result_sha256"]
                 ):
                     result_hashes_valid = False
-        audit = self.verify_audit_log()
+        audit = self.verify_audit_log(readonly=readonly)
         valid = (
             sqlite_result == "ok"
             and not foreign_key_rows
@@ -964,7 +986,6 @@ class JobQueue:
         )
         return {
             "sqlite_integrity": sqlite_result,
-            "job_count": job_count,
             "foreign_key_violations": len(foreign_key_rows),
             "payload_hashes_valid": payload_hashes_valid,
             "result_hashes_valid": result_hashes_valid,
