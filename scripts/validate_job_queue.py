@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run a disposable end-to-end health check of the NOEMA job queue."""
+"""Run a disposable end-to-end health check of the NOEMA workflow engine."""
 from __future__ import annotations
 
 import sys
@@ -13,6 +13,7 @@ if str(ROOT) not in sys.path:
 from noema_core.jobs import JobQueue
 from noema_core.worker import HandlerRegistry, Worker
 from noema_core.supervisor import WorkerSupervisor
+from noema_core.workflows import WorkflowEngine, WorkflowStep
 
 
 def main() -> int:
@@ -41,6 +42,7 @@ def main() -> int:
         result = queue.integrity_check()
         if not result["valid"]:
             raise SystemExit(f"Queue integrity validation failed: {result}")
+
         registry = HandlerRegistry()
         registry.register("system.worker-smoke", lambda payload, context: {"echo": payload["probe"]})
         queue.enqueue(
@@ -52,10 +54,12 @@ def main() -> int:
         worker_outcome = Worker(queue, "ci-worker", registry).run_once()
         if worker_outcome is None or worker_outcome.outcome != "succeeded":
             raise SystemExit("Allowlisted worker smoke test failed")
-        result = queue.integrity_check()
-        if not result["valid"]:
-            raise SystemExit(f"Queue/worker integrity validation failed: {result}")
 
+        supervisor_registry = HandlerRegistry()
+        supervisor_registry.register(
+            "system.supervisor-smoke",
+            lambda payload, context: {"processed": payload["index"]},
+        )
         for index in range(2):
             queue.enqueue(
                 "system.supervisor-smoke",
@@ -63,25 +67,65 @@ def main() -> int:
                 idempotency_key=f"ci-supervisor-smoke-v1-{index}",
                 actor="ci",
             )
-        supervisor_registry = HandlerRegistry()
-        supervisor_registry.register(
-            "system.supervisor-smoke",
-            lambda payload, context: {"processed": payload["index"]},
-        )
-        report = WorkerSupervisor(
+        supervisor_report = WorkerSupervisor(
             Worker(queue, "ci-supervisor", supervisor_registry),
             poll_interval_seconds=0.001,
         ).run(max_jobs=2)
-        if report.processed != 2 or report.succeeded != 2 or report.stop_reason != "max_jobs":
-            raise SystemExit(f"Worker Supervisor smoke test failed: {report}")
+        if (
+            supervisor_report.processed != 2
+            or supervisor_report.succeeded != 2
+            or supervisor_report.stop_reason != "max_jobs"
+        ):
+            raise SystemExit(f"Worker Supervisor smoke test failed: {supervisor_report}")
+
+        workflow_registry = HandlerRegistry()
+        workflow_registry.register(
+            "system.workflow-fetch",
+            lambda payload, context: {"snapshot": payload["source"]},
+        )
+        workflow_registry.register(
+            "system.workflow-validate",
+            lambda payload, context: {"valid": payload["snapshot"] == "sample-v1"},
+        )
+        workflow_engine = WorkflowEngine(queue, workflow_registry)
+        workflow = workflow_engine.start(
+            "CI workflow smoke",
+            [
+                WorkflowStep("fetch", "system.workflow-fetch", {"source": "sample-v1"}),
+                WorkflowStep(
+                    "validate",
+                    "system.workflow-validate",
+                    {"snapshot": "sample-v1"},
+                    ("fetch",),
+                ),
+            ],
+            idempotency_key="ci-workflow-smoke-v1",
+            actor="ci",
+        )
+        first = Worker(queue, "ci-workflow-worker", workflow_registry).run_once()
+        if first is None or first.outcome != "succeeded":
+            raise SystemExit("Workflow first-step smoke test failed")
+        workflow = workflow_engine.advance(workflow.workflow_id, actor="ci")
+        if {step.step_id: step.status for step in workflow.steps} != {
+            "fetch": "succeeded",
+            "validate": "queued",
+        }:
+            raise SystemExit(f"Workflow dependency dispatch failed: {workflow}")
+        second = Worker(queue, "ci-workflow-worker", workflow_registry).run_once()
+        if second is None or second.outcome != "succeeded":
+            raise SystemExit("Workflow second-step smoke test failed")
+        workflow = workflow_engine.advance(workflow.workflow_id, actor="ci")
+        if workflow.status != "succeeded":
+            raise SystemExit(f"Workflow did not reach succeeded: {workflow}")
 
         result = queue.integrity_check()
         if not result["valid"]:
-            raise SystemExit(f"Queue/worker/supervisor integrity validation failed: {result}")
+            raise SystemExit(f"Queue/workflow integrity validation failed: {result}")
         print(
-            "NOEMA queue, allowlisted worker and supervisor: PASS "
+            "NOEMA queue, worker, supervisor and workflow engine: PASS "
             f"(job={completed.job_id}, worker_job={worker_outcome.job.job_id}, "
-            f"supervisor_processed={report.processed}, audit_events={result['audit_event_count']})"
+            f"supervisor_processed={supervisor_report.processed}, "
+            f"workflow={workflow.workflow_id}, audit_events={result['audit_event_count']})"
         )
     return 0
 

@@ -58,6 +58,14 @@ python -m noema_core.jobs_cli verify
 
 ნაგულისხმევი DB მდებარეობაა `~/.noema/noema-jobs.sqlite3`; მისი შეცვლა შესაძლებელია `NOEMA_JOBS_DB` გარემოს ცვლადით ან CLI-ის `--db` პარამეტრით. CLI არ ბეჭდავს job payload-ს `list` ბრძანებისას.
 
+## Durable workflow DAG Engine
+
+`WorkflowEngine` workflow-ის განსაზღვრებას, ნაბიჯებსა და დამოკიდებულებებს იმავე SQLite მონაცემთა ბაზაში ინახავს, სადაც სამუშაოების რიგია. თითოეულ ნაბიჯს აქვს უნიკალური ID, allowlisted `job_type`, JSON payload და prerequisite-ების სია. `start()` ჯერ ამოწმებს ყველა dependency-ს, უცნობ ნაბიჯებსა და ციკლებს; შემდეგ მხოლოდ root ნაბიჯებს აგზავნის რიგში. დასრულებული ნაბიჯის წარმატების შემდეგ `advance()` მის შვილ ნაბიჯებს ხდის ხელმისაწვდომს. თუ prerequisite საბოლოოდ ჩავარდა, მის ქვედა ნაბიჯებს ენიჭება `blocked` მდგომარეობა. Workflow-ის idempotency key ხელს უშლის ერთი და იმავე განსაზღვრების დუბლირებულ შექმნას, ხოლო თითოეული step-ის job enqueue იყენებს თავის deterministic idempotency key-ს, რათა crash-ის შემდეგ dispatch უსაფრთხოდ განმეორდეს.
+
+ყველა workflow transition ემატება საერთო queue audit hash-chain-ში. Workflow არ ატვირთავს handler-ს დინამიკურად: ყველა `job_type` წინასწარ უნდა იყოს რეგისტრირებული trusted `HandlerRegistry`-ში. Queue-ის retry/lease მექანიზმი იძლევა *at-least-once* შესრულების სემანტიკას; ამიტომ handler-მა გარე side effect-ები idempotent უნდა გახადოს. Exactly-once შესრულება არ არის გარანტირებული.
+
+`WorkflowEngine.advance(workflow_id)` ამოწმებს უკვე გაშვებულ job-ებს და dispatch-ს აკეთებს იმ ნაბიჯებზე, რომელთა წინაპირობებიც წარმატებით დასრულდა. ამ ვერსიაში advance-ის გამოძახება ხდება workflow runner/scheduler-ის მხრიდან; worker supervisor-ს workflow engine-თან მუდმივი ინტეგრაცია ჯერ არ აქვს. CI smoke-test ახორციელებს ორეტაპიან workflow-ს ბოლომდე.
+
 ## Worker Supervisor
 
 `WorkerSupervisor` უზრუნველყოფს მუდმივ სამუშაო ციკლს: `Worker.run_once()`-ის განმეორებით გამოძახებას, უმოქმედობისას ლოდინს, გარე `threading.Event`-ით graceful stop-ს, მაქსიმალური სამუშაოების/დროის/idle-ციკლების ლიმიტებს და transient შეცდომებზე ზრდად, მაგრამ შეზღუდულ backoff-ს. თანმიმდევრული ინფრასტრუქტურული შეცდომების ლიმიტის მიღწევისას supervisor უსაფრთხოდ ჩერდება და აბრუნებს შესრულების ანგარიშს (`SupervisorReport`). ხანგრძლივ handler-ს კვლავ თავად მოეთხოვება `context.heartbeat()`.
@@ -71,12 +79,12 @@ Supervisor არ აყენებს process-wide signal handler-ებს �
 3. მონაცემთა ბაზა ამ ეტაპზე დაშიფრული არ არის. მასში არ უნდა ჩაიწეროს credentials, API tokens, პაროლები ან სენსიტიური პერსონალური ინფორმაცია. საიდუმლოებები უნდა ინახებოდეს ცალკე secret store-ში, ხოლო job payload-ში — მხოლოდ უსაფრთხო reference.
 4. Hash-chain არის ცვლილებების აღმოჩენის მექანიზმი; მასზე წვდომის მქონე მავნე ადმინისტრატორს შეუძლია მთელი ჯაჭვის ხელახლა გამოთვლა. ამიტომ საჭიროა შეზღუდული filesystem წვდომა და პერიოდული დამოუკიდებელი backup.
 5. Worker-ები მხოლოდ იმ ტიპებს ამუშავებენ, რომლებზეც handler წინასწარ არის რეგისტრირებული. უცნობი ტიპის job რიგში რჩება; ეს განზრახ fail-closed ქცევაა.
-6. Supervisor-ის მუდმივი polling loop უკვე კოდშია; როგორც service-ის რეალური გაშვება, scheduler/cron integration, durable workflow DAG-ები, multi-host distributed execution და გარე source connectors ჯერ არ არის დამატებული.
+6. Supervisor და durable workflow DAG engine კოდშია; რეალური OS service deployment, scheduler/cron და workflow engine-ის უწყვეტ supervisor integration, multi-host distributed execution და გარე source connectors ჯერ არ არის დამატებული.
 
 ## შემდეგი ტექნიკური ფენები — კვლევის დაწყების გარეშე
 
-- durable workflow/DAG dependencies და ეტაპების მდგომარეობები;
-- worker supervisor: მუდმივი ციკლი, graceful shutdown, heartbeat და crash recovery;
+- scheduler/cron integration და workflow engine-ის მუდმივი კავშირი WorkerSupervisor-თან;
+- service deployment, watchdog და restart policy;
 - source connector registry, provenance, rate limits და per-source permission evidence;
 - scheduler, bounded concurrency, quotas და back-pressure;
 - metrics, structured logs, alerts, backup/restore და recovery drill;

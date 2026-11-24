@@ -16,7 +16,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 
 - `index.html` — მთავარი გვერდი.
 - `noema_core/mission.json` და `noema_core/mission.py` — მანქანურად წაკითხვადი მისია, ინფორმაციის წვდომის პოლიტიკა და ავტონომიური მოქმედებების წესები.
-- `noema_core/jobs.py`, `noema_core/worker.py` და `noema_core/jobs_cli.py` — SQLite-ზე დაფუძნებული მდგრადი დავალებების რიგი, worker lease-ები, retry/idempotency, allowlisted handler-ები და audit log.
+- `noema_core/jobs.py`, `noema_core/worker.py`, `noema_core/supervisor.py`, `noema_core/workflows.py` და `noema_core/jobs_cli.py` — მდგრადი დავალებების რიგი, allowlisted worker, supervisor loop და დამოკიდებულებებზე დაფუძნებული workflow-ები.
 - `assets/styles.css` და `assets/articles.css` — მთავარი გვერდისა და კვლევითი სტატიების ვიზუალური სტილები.
 - `data/research.json` — საჯარო, ვერსიაკონტროლირებადი კვლევების კატალოგი; `data/research.schema.json` განსაზღვრავს ჩანაწერების სტრუქტურას. ეს არის ამჟამინდელი სტატიკური კატალოგი და არა Supabase/სერვერული მონაცემთა ბაზა.
 - `data/noema-003/` — NOAA-ს ფიქსირებული მონაცემთა ამონარიდი, NASA/HadCRUT5/NOAA snapshot-ები, provenance metadata და გამეორებადი შედეგები.
@@ -42,6 +42,10 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - მოკლე მიმდევრობების ენტროპიის სიმულაცია: `scripts/short_sequence_bias_simulation.py`.
 - NOEMA-003-ის NOAA ანალიზი: `scripts/analyze_noema003.py`; cross-dataset შედარება და HAC ლაგების 1–6 ტესტი: `scripts/compare_noema003_datasets.py`; მონაცემთა snapshot-ები, metadata და შედეგები: `data/noema-003/`.
 - NOEMA-005-ის ექსპერიმენტი: `scripts/simulate_noema005_summation.py`; runtime/memory benchmark: `scripts/benchmark_noema005_summation.py`; სრული პროფილის workflow: `.github/workflows/noema005-full-benchmark.yml`; ტესტები: `tests/test_noema005_summation.py` და `tests/test_benchmark_noema005_summation.py`; numerical შედეგები: `data/noema-005/floating-summation-results.json`; benchmark protocol: `data/noema-005/benchmark-protocol.json`; სრული benchmark-ის შეჯამება: `data/noema-005/benchmark-full-profile-summary-2026-11-24.json`.
+
+## Workflow და ეტაპების ორკესტრაცია
+
+`noema_core/workflows.py` ინახავს workflow run-ებსა და step-ებს იმავე SQLite ბაზაში. თითოეულ workflow-ს აქვს იდempotency key, DAG ციკლების/არარსებული დამოკიდებულებების ვალიდაცია, მხოლოდ მზადყოფნაში მყოფი ნაბიჯების dispatch და ჩავარდნილი prerequisite-ის ქვედა ნაბიჯების `blocked` მდგომარეობაში გადაყვანა. ყველა task type უნდა ჰქონდეს trusted `HandlerRegistry`-ში რეგისტრირებული handler. `WorkflowEngine.advance()` აახლებს job-ების მდგომარეობას და შემდეგი ნაბიჯების dispatch-ს; scheduler/continuous orchestration ინტეგრაცია შემდეგი ფენაა.
 
 ## ტექნიკური სამუშაოების მართვა
 
