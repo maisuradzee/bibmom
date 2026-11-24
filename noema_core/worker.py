@@ -5,6 +5,7 @@ Job payloads are data, never executable instructions or dynamic import names.
 """
 from __future__ import annotations
 
+import math
 import re
 from dataclasses import dataclass
 from typing import Any, Callable, Mapping
@@ -97,10 +98,10 @@ class Worker:
     ) -> None:
         if not isinstance(worker_id, str) or not worker_id.strip():
             raise InvalidJob("worker_id must be a non-empty string")
-        if lease_seconds <= 0:
-            raise InvalidJob("lease_seconds must be positive")
-        if retry_delay < 0:
-            raise InvalidJob("retry_delay cannot be negative")
+        if not math.isfinite(float(lease_seconds)) or lease_seconds <= 0:
+            raise InvalidJob("lease_seconds must be a finite positive number")
+        if not math.isfinite(float(retry_delay)) or retry_delay < 0:
+            raise InvalidJob("retry_delay must be a finite non-negative number")
         self.queue = queue
         self.worker_id = worker_id
         self.registry = registry
