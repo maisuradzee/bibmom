@@ -32,6 +32,10 @@ class DurableJobQueueTests(unittest.TestCase):
         with self.assertRaises(InvalidJob):
             JobQueue(":memory:")
 
+    def test_path_object_for_memory_database_is_rejected(self) -> None:
+        with self.assertRaises(InvalidJob):
+            JobQueue(Path(":memory:"))
+
     def test_invalid_busy_timeout_is_rejected(self) -> None:
         for value in (0, -1, True, 1.5, "1000"):
             with self.subTest(value=value):
@@ -118,6 +122,19 @@ class DurableJobQueueTests(unittest.TestCase):
         assert claimed is not None
         self.assertIsNone(self.queue.claim_next("worker-b", lease_seconds=2, now=5.0))
         self.assertEqual(self.queue.get(job.job_id).status, "failed")
+
+    def test_fail_requires_boolean_retry_policy(self) -> None:
+        job = self.queue.enqueue("research.retry-policy", {"safe": True})
+        claimed = self.queue.claim_next("worker-a")
+        assert claimed is not None
+        with self.assertRaises(InvalidJob):
+            self.queue.fail(
+                job.job_id,
+                "worker-a",
+                claimed.lease_token,
+                "invalid retry policy",
+                retryable=1,
+            )
 
     def test_retryable_failure_requeues_until_attempt_limit(self) -> None:
         job = self.queue.enqueue("research.download", {"url": "https://example.invalid"}, max_attempts=2, now=1.0)
