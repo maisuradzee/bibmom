@@ -230,7 +230,7 @@ Binary32 ეტალონისთვის გამოყენებულ�
 
 ძლიერ გაუქმებად ჯამებში პროგრამული სისტემის გამეორებადობა გაუმჯობესდება, თუ სისტემა ერთდროულად აფიქსირებს (ა) შეყვანის მიმდევრობას ან შემცირების ხეს, (ბ) შეკრების ალგორითმს და (გ) ზუსტი/მაღალი სიზუსტის ეტალონთან შედარებულ შეცდომის ტესტს.
 
-ამ ჰიპოთეზის ვიწრო ნაწილი შემოწმდა: ერთნაირი მულტისეტის რამდენიმე დალაგებამ განსხვავებული შედეგი წარმოქმნა, ხოლო კომპენსირებულმა მეთოდებმა ამ კონკრეტულ ტესტებში შეცდომა შეამცირა.
+ამ ჰიპოთეზის ვიწრო ნაწილი შემოწმდა: ერთნაირი მულტისეტის რამდენიმე დალაგებამ განსხვავებული შედეგი წარმოქმნა. დამატებით, 330-კონფიგურაციან sharded-reduction სიმულაციაში Neumaier-ის სრული (sum, compensation) state 330/330 შემთხვევაში დაემთხვა ეტალონს, ხოლო scalar partial-ების მეთოდები სრულ დამთხვევას ვერ აღწევდა.
 
 ## კონკურენტი ახსნები
 
@@ -238,6 +238,7 @@ Binary32 ეტალონისთვის გამოყენებულ�
 2. **კომპენსირებული შეკრება ყოველთვის ზუსტია:** ჩვენი შედეგები ამას არ ამტკიცებს. Kahan-ის ჩავარდნა ერთ-ერთ ტესტში საპირისპირო მაგალითია; Neumaier-ის წარმატებაც მხოლოდ აგებულ შემთხვევებზე ვრცელდება.
 3. **წყვილური შეკრება ყოველთვის უკეთესია:** დაბალანსებული ხე ხშირად ამცირებს შეცდომის დაგროვებას, მაგრამ ჩვენი კონკრეტული cancellation მიმდევრობები აჩვენებს, რომ წყვილური ხეც შეიძლება მნიშვნელოვნად შეცდეს.
 4. **სწორი პასუხი მხოლოდ უფრო მაღალი precision-ით მიიღება:** Ogita–Rump–Oishi და Shewchuk აღწერენ იმავე precision-ის არითმეტიკით error-free transformation-სა და ადაპტიურ მიდგომებს; ამიტომ დამატებითი სიზუსტე ერთადერთი გამოსავალი არ არის.
+5. **თითო worker-ის ზუსტი scalar partial საკმარისია:** სიმულაციაში math.fsum-ის worker-local scalar-იც მხოლოდ 114/330 კონფიგურაციაში დაემთხვა გლობალურ ეტალონს; compensation-ის ცალკე გადაცემა ამ fixture-ზე უფრო გამძლე აღმოჩნდა.
 
 ## შემოწმების მეთოდი
 
@@ -248,6 +249,7 @@ Binary32 ეტალონისთვის გამოყენებულ�
 5. თითოეულ ფორმატში გამოყენებულია cancellation და half-ULP შემთხვევა; ორივე შემთხვევის ყველა დალაგება ერთსა და იმავე შეყვანის მულტისეტს ინარჩუნებს. Random shuffle იყენებს seed-ს 20261123.
 6. სწორად დამრგვალებულად ჩაითვალა მეთოდი, რომლის შედეგიც ემთხვევა შეყვანილი წარმოდგენილი მნიშვნელობების ზუსტ ჯამს შესაბამის ფორმატში დამრგვალებულ ეტალონს.
 7. შედეგები, პარამეტრები და გარემოს provenance ინახება `data/noema-005/floating-summation-results.json`-ში. გამეორებადი კოდი: `scripts/simulate_noema005_summation.py`; ტესტები: `tests/test_noema005_summation.py`.
+8. Sharded reduction სიმულაციაში გამოყენებულია ზემოთ აღწერილი 330 კონფიგურაცია; სრული case matrix-ის SHA-256, input SHA-256, seed-ები და partition/merge პარამეტრები ინახება `data/noema-005/parallel-reduction-results.json`-სა და `data/noema-005/parallel-reduction-protocol.json`-ში. გამეორებადი კოდი: `scripts/simulate_noema005_parallel_reduction.py`; ტესტები: `tests/test_noema005_parallel_reduction.py`.
 
 ### ავტომატური ტესტები
 
@@ -309,6 +311,32 @@ Binary32 ეტალონისთვის გამოყენებულ�
 
 სრული 66-გაზომვიანი report ინახება `data/noema-005/benchmark-full-profile-summary-2026-11-24.json`-ში. ორიგინალი report JSON-ის SHA-256: `cb902442026cfe4b74a506d01c568efdb6e009a27f38014ce0548c6bf36f4ce9`; Actions artifact ID `14870647841` (30-დღიანი retention).
 
+### REPRODUCED RESULT — simulated sharded reduction (2026-11-24)
+
+**საკითხი:** თუ თითო worker მხოლოდ ერთ დამრგვალებულ scalar partial-ს აბრუნებს, ინარჩუნებს თუ არა საერთო reduction მცირე კომპონენტებს? შედარებულია scalar partial-ები და worker-ის სრული Neumaier state `(sum, compensation)`.
+
+- შეყვანა: binary64 `[1e16, 1.0, -1e16]` triplet 1,000-ჯერ; სულ 3,000 მნიშვნელობა. შეყვანილი float-ების ზუსტი Fraction ჯამი არის 1,000; სწორად დამრგვალებული binary64 ეტალონიც 1,000.
+- მონაცემთა SHA-256 (canonical big-endian binary64): `3a825f21d910a331c4ff4c3a796cacbc9ebb72e02db1686352447c4207fc1bc2`.
+- დიზაინი: 2 partition strategy (round-robin, contiguous) × 5 input ordering × 11 worker count × 3 worker merge ordering = **330 კონფიგურაცია**. Seed-ები: input permutation 20261124; worker permutation `20261125 + worker_count`. SHA-256-key permutation სპეციალურადაა განსაზღვრული Python ვერსიებს შორის სტაბილურობისთვის.
+- თითო worker-ის scalar შედეგები pairwise tree-ით გაერთიანდა; state ვარიანტში თითო worker-მა გადასცა ორივე კომპონენტი და საბოლოო reducer-მა ყველა კომპონენტს Neumaier summation გაუკეთა.
+
+| Worker output / merge | სწორად დამრგვალებული შედეგი |
+|---|---:|
+| naive scalar + pairwise merge | 0/330 |
+| Kahan scalar + pairwise merge | 24/330 |
+| Neumaier total scalar + pairwise merge | 114/330 |
+| math.fsum scalar + pairwise merge | 114/330 |
+| Neumaier `(sum, compensation)` state + compensated global merge | **330/330** |
+
+- ყველა 330 state-merge შედეგი იყო 1,000; scalar partial მეთოდებმა სხვადასხვა კონფიგურაციაში დაკარგეს მცირე კომპონენტები ან მიიღეს სხვა შედეგი. მაქსიმალური scalar output ამ აგებულ ტესტში 1,216 იყო.
+- სრული 330-კონფიგურაციანი case matrix-ის SHA-256: `ad15ddf2119ac798e66ffa22bfe6854801a9b9d810283c03212c516c14008625`. შეჯამება ინახება `data/noema-005/parallel-reduction-results.json`-ში; პარამეტრები — `data/noema-005/parallel-reduction-protocol.json`-ში; კოდი — `scripts/simulate_noema005_parallel_reduction.py`.
+
+**მნიშვნელოვანი შეზღუდვა:** ეს არის დეტერმინისტული map/reduce სიმულაცია და არა რეალური threads, GPU, network/distributed runtime ან production workload. შედეგი ამტკიცებს მხოლოდ იმას, რომ ამ კონკრეტულ cancellation fixture-ში scalar partial-მა ინფორმაცია დაკარგა, ხოლო compensation state-ის გადაცემამ შეინარჩუნა. ის არ ამტკიცებს Neumaier state-ის უნივერსალურ სიზუსტეს ყველა მონაცემზე ან ყველა merge tree-ზე.
+
+**INFERENCE:** განაწილებულ ჯამში მხოლოდ worker-ის საბოლოო scalar-ის გადაცემა შეიძლება არასაკმარისი იყოს. კონტრაქტმა უნდა განსაზღვროს partial state-ის ფორმა და მისი გაერთიანების ალგორითმი; ალტერნატივაა ზუსტი accumulator state.
+
+**HYPOTHESIS:** რთულ cancellation workload-ებში worker compensation-ის შენარჩუნება და მისი კონტროლირებული global merge ზრდის სწორად დამრგვალებული შედეგის მიღების შანსს scalar-only reduction-თან შედარებით. ეს ჰიპოთეზა ამ fixture-ზე შემოწმდა, მაგრამ რეალურ პარალელურ სისტემაზე ჯერ არა.
+
 ## შეზღუდვები და გაურკვევლობები
 
 - ეს არის ხელოვნურად აგებული რიცხვითი სტრეს-ტესტები და არა რეალური ფინანსური, კლიმატური ან საინჟინრო მონაცემების აუდიტი.
@@ -316,9 +344,9 @@ Binary32 ეტალონისთვის გამოყენებულ�
 - Decimal64/decimal128 ნაწილი იყენებს Python `decimal.Context`-ს შესაბამის precision, exponent, clamp და ROUND_HALF_EVEN პარამეტრებით. ის არ ამოწმებს IEEE decimal interchange-ის BID/DPD კოდირებას ან byte-level თავსებადობას.
 - Binary32-ის `math.fsum_then_round_binary32` არის ფართო სიზუსტის კონტროლი და არა binary32-native მეთოდი.
 - ზუსტი integer accumulator-ის დაგროვება სრულდება arbitrary-precision integer-ით; decimal-ში საერთო quantum შეყვანებიდან დინამიკურად განისაზღვრება. საბოლოო rounding იყენებს შესაბამისი ფორმატის Fraction/Context converter-ს. ეს არ არის დამოუკიდებელი hardware rounding implementation.
-- გამოყენებულია ერთი CPython/OS გარემო. სხვა runtime-მა, compiler-მა ან არქიტექტურამ შეიძლება შედეგი ან ბოლო ბიტი შეცვალოს.
+- ოთხფორმატიანი accuracy და runtime/memory პროფილი შესრულდა ერთ CPython/Linux გარემოში. Sharded-reduction სიმულაციის საწყისი გაშვება შესრულდა CPython 3.13.5/Linux x86_64-ზე და CI-ში ცალკე უნდა განმეორდეს CPython 3.14-ზე; ეს ჯერ არ არის რეალური cross-platform ან hardware-parallel გამეორება.
 - Python 3.12-დან ჩაშენებული sum() float-ებისთვის გაუმჯობესებულ ალგორითმს იყენებს; აქ naive baseline ხელითაა განსაზღვრული, როგორც მარცხნიდან-მარჯვნივ დაგროვება.
-- დამატებულია runtime/memory benchmark harness; CI smoke-მა 8 format/size შემთხვევა და 44 method measurement შეასრულა, ხოლო სრული პროფილმა — 12 შემთხვევა და 66 გაზომვა ერთ CPython/Linux runner-ზე. ეს არ არის cross-platform გამეორება; `tracemalloc` ზომავს მხოლოდ Python-managed allocations-ს და არა სრულ RSS-ს. Thread/GPU parallel reduction ჯერ არ გამოკვლეულა.
+- დამატებულია runtime/memory benchmark harness; CI smoke-მა 8 format/size შემთხვევა და 44 method measurement შეასრულა, ხოლო სრული პროფილმა — 12 შემთხვევა და 66 გაზომვა ერთ CPython/Linux runner-ზე. ეს არ არის cross-platform გამეორება; `tracemalloc` ზომავს მხოლოდ Python-managed allocations-ს და არა სრულ RSS-ს. Thread/GPU parallel reduction მხოლოდ სიმულაციითაა წარმოდგენილი; რეალური thread scheduling, GPU kernel, network transport და distributed runtime ჯერ არ გამოკვლეულა.
 - ზუსტი reference ეხება მხოლოდ რეალურად წარმოდგენილ შეყვანებს; ის არ ამოწმებს შეყვანის წყაროს სიზუსტეს ან შემდგომი მოდელის სისწორეს.
 - შედეგები არ წარმოადგენს ყველა პლატფორმაზე method-ի უნივერსალურ გარანტიას ან წარმოების workload-ის error-rate შეფასებას.
 
@@ -330,7 +358,7 @@ Binary32 ეტალონისთვის გამოყენებულ�
 
 ამ კვლევაში შეკრების მიმდევრობამ ერთი და იმავე binary64 რიცხვების მულტისეტისთვის შედეგი შეცვალა; პირველ ტესტში naive და pairwise მეთოდების მაქსიმალური ფარდობითი შეცდომა 100% იყო. Kahan-ის კომპენსაცია ყველა შემთხვევას ვერ აგვარებდა, ხოლო Neumaier-მა, math.fsum-მა და ზუსტმა integer accumulator-მა ორივე აგებულ ტესტში ყველა შემოწმებულ დალაგებაზე სწორად დამრგვალებული შედეგი მიიღეს.
 
-მთავარი პრაქტიკული დასკვნაა: რიცხვითი პროგრამის გამეორებადობისთვის უნდა დაფიქსირდეს არა მხოლოდ მონაცემები, არამედ შეკრების ალგორითმი და რიგითობა/შემცირების ხეც. შედეგი არ ამტკიცებს უნივერსალურ ალგორითმს; იგი გვთავაზობს შემოწმების წესს, რომლითაც ასეთი შეცდომები კონკრეტულ პროექტში ადრეულ ეტაპზე გამოვლინდება.
+მთავარი პრაქტიკული დასკვნაა: რიცხვითი პროგრამის გამეორებადობისთვის უნდა დაფიქსირდეს არა მხოლოდ მონაცემები, არამედ შეკრების ალგორითმი, რიგითობა/შემცირების ხე და განაწილებულ გამოთვლაში worker partial state-ის ფორმა. შედეგი არ ამტკიცებს უნივერსალურ ალგორითმს; იგი გვთავაზობს შემოწმების წესს, რომლითაც ასეთი შეცდომები კონკრეტულ პროექტში ადრეულ ეტაპზე გამოვლინდება.
 
 ## ახალი იდეა — summation contract
 
@@ -340,7 +368,8 @@ NOEMA სთავაზობს რიცხვით პროექტებ
 - განსაზღვრონ input ordering ან deterministic reduction tree;
 - შეინახონ adversarial cancellation regression fixture;
 - შეადარონ შედეგი ზუსტ ან მაღალი სიზუსტის ეტალონს;
-- ჩაწერონ runtime, precision, rounding mode და შეცდომის დასაშვები ზღვარი.
+- ჩაწერონ runtime, precision, rounding mode და შეცდომის დასაშვები ზღვარი;
+- განაწილებულ გამოთვლაში განსაზღვრონ worker state: მხოლოდ scalar partial თუ compensation/exact accumulator state, და როგორ ხდება მისი გლობალური merge.
 
 ეს არ არის ახალი შეკრების ალგორითმი; ეს არის გამეორებადობისა და აუდიტის დიზაინ-წესი. მისი რეალურ პროექტებში ეფექტიანობა ჯერ არ შემოწმებულა.
 
@@ -348,7 +377,7 @@ NOEMA სთავაზობს რიცხვით პროექტებ
 
 1. განმეორდეს სრული benchmark სულ მცირე სამ დამოუკიდებელ run-ზე და სხვა Python ვერსიასა/არქიტექტურაზე; გაიმიჯნოს noise და runtime-specific შედეგები.
 2. დაიხვეწოს exact integer accumulator-ის ალგორითმი, განსაკუთრებით binary64/decimal-ში, და ხელახლა გაიზომოს დრო/მეხსიერება ისე, რომ ზუსტი ეტალონი უცვლელი დარჩეს.
-3. შემოწმდეს deterministic და nondeterministic parallel reduction trees.
+3. სიმულაციის შემდეგ შემოწმდეს რეალური CPU threads, GPU და მინიმუმ ერთი distributed framework; შეადარდეს scalar-only და compensation-state API-ები.
 4. დაემატოს რეალური სამეცნიერო მონაცემთა ნაკრები, რომლის შეყვანის სიზუსტე და provenance დამოუკიდებლად დოკუმენტირებულია.
 5. დამოუკიდებელმა მკვლევარმა გადაამოწმოს binary32 quantizer, decimal Context-ის პარამეტრები, exact accumulator, benchmark-ის მეთოდოლოგია, ტესტები და გამოყენებული წყაროები.
 
@@ -411,6 +440,8 @@ NOEMA-ს კონტროლირებულმა ექსპერიმ
 - [ ] გამოქვეყნების მზადყოფნის დადასტურება.
 
 ## ცვლილებების ისტორია
+
+- 2026-11-24 — დაემატა 330-კონფიგურაციანი sharded reduction სიმულაცია; scalar partial-ები შეადარდა Neumaier compensation state-ის გადაცემას. Input SHA-256 და case-matrix SHA-256 გაყინულია JSON-ში.
 
 - 2026-11-24 — წყაროებს დაემატა სრული ციტირება, ავტორები, გამოცემის თარიღი/ვერსია და წვდომის თარიღი; CPython 3.14.4-ის benchmark provenance ოფიციალურ Python.org release record-თან გადამოწმდა.
 
