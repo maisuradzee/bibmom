@@ -1,12 +1,17 @@
 from __future__ import annotations
 
+import hashlib
+import io
+import json
 import os
 import sqlite3
 import tempfile
 import unittest
+from contextlib import redirect_stdout
 from pathlib import Path
 
 from noema_core.jobs import InvalidJob, JobQueue, JobQueueError
+from noema_core.jobs_cli import main as jobs_cli_main
 
 
 class DatabaseBackupTests(unittest.TestCase):
@@ -127,6 +132,38 @@ class DatabaseBackupTests(unittest.TestCase):
         with self.assertRaises(JobQueueError):
             JobQueue.restore_from_backup(backup, destination)
         self.assertFalse(destination.exists())
+
+    def test_jobs_cli_backup_restore_and_metrics_commands(self) -> None:
+        job = self._completed_job()
+        backup = self.root / "cli-backup.sqlite3"
+        output = io.StringIO()
+        with redirect_stdout(output):
+            backup_code = jobs_cli_main(
+                ["--db", str(self.database), "backup", "--output", str(backup)]
+            )
+        backup_report = json.loads(output.getvalue())
+        self.assertEqual(backup_code, 0)
+        self.assertTrue(backup_report["backup_created"])
+        self.assertEqual(backup_report["job_count"], 1)
+
+        restored_path = self.root / "cli-restored.sqlite3"
+        output = io.StringIO()
+        with redirect_stdout(output):
+            restore_code = jobs_cli_main(
+                ["restore", "--source", str(backup), "--destination", str(restored_path)]
+            )
+        restore_report = json.loads(output.getvalue())
+        self.assertEqual(restore_code, 0)
+        self.assertTrue(restore_report["restored"])
+        self.assertEqual(JobQueue(restored_path).get(job.job_id).status, "succeeded")
+
+        output = io.StringIO()
+        with redirect_stdout(output):
+            metrics_code = jobs_cli_main(["--db", str(restored_path), "metrics"])
+        metrics = json.loads(output.getvalue())
+        self.assertEqual(metrics_code, 0)
+        self.assertEqual(metrics["queue_counts"]["succeeded"], 1)
+        self.assertTrue(metrics["integrity"]["valid"])
 
     def test_backup_refuses_non_database_source_during_restore(self) -> None:
         invalid = self.root / "not-a-database.sqlite3"
