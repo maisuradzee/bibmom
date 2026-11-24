@@ -16,7 +16,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 
 - `index.html` — მთავარი გვერდი.
 - `noema_core/mission.json` და `noema_core/mission.py` — მანქანურად წაკითხვადი მისია, ინფორმაციის წვდომის პოლიტიკა და ავტონომიური მოქმედებების წესები.
-- `noema_core/jobs.py`, `noema_core/worker.py`, `noema_core/supervisor.py`, `noema_core/workflows.py` და `noema_core/jobs_cli.py` — მდგრადი დავალებების რიგი, allowlisted worker, supervisor loop და დამოკიდებულებებზე დაფუძნებული workflow-ები.
+- `noema_core/jobs.py`, `noema_core/worker.py`, `noema_core/supervisor.py`, `noema_core/workflows.py`, `noema_core/scheduler.py` და `noema_core/jobs_cli.py` — მდგრადი დავალებების რიგი, allowlisted worker, supervisor loop, DAG workflow-ები და ინტერვალური განრიგი.
 - `assets/styles.css` და `assets/articles.css` — მთავარი გვერდისა და კვლევითი სტატიების ვიზუალური სტილები.
 - `data/research.json` — საჯარო, ვერსიაკონტროლირებადი კვლევების კატალოგი; `data/research.schema.json` განსაზღვრავს ჩანაწერების სტრუქტურას. ეს არის ამჟამინდელი სტატიკური კატალოგი და არა Supabase/სერვერული მონაცემთა ბაზა.
 - `data/noema-003/` — NOAA-ს ფიქსირებული მონაცემთა ამონარიდი, NASA/HadCRUT5/NOAA snapshot-ები, provenance metadata და გამეორებადი შედეგები.
@@ -45,7 +45,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 
 ## Workflow და ეტაპების ორკესტრაცია
 
-`noema_core/workflows.py` ინახავს workflow run-ებსა და step-ებს იმავე SQLite ბაზაში. თითოეულ workflow-ს აქვს იდempotency key, DAG ციკლების/არარსებული დამოკიდებულებების ვალიდაცია, მხოლოდ მზადყოფნაში მყოფი ნაბიჯების dispatch და ჩავარდნილი prerequisite-ის ქვედა ნაბიჯების `blocked` მდგომარეობაში გადაყვანა. ყველა task type-ს უნდა ჰქონდეს trusted `HandlerRegistry`-ში რეგისტრირებული handler. `WorkerSupervisor`-ის `workflow_engine` პარამეტრი აქტიურ workflow-ებს ყოველი worker ციკლის შემდეგ ავტომატურად აახლებს და შემდეგ ეტაპებს ხელით ჩარევის გარეშე აგზავნის რიგში. scheduler/OS service deployment შემდეგი ფენებია.
+`noema_core/workflows.py` ინახავს workflow run-ებსა და step-ებს იმავე SQLite ბაზაში. თითოეულ workflow-ს აქვს იდempotency key, DAG ციკლების/არარსებული დამოკიდებულებების ვალიდაცია, მხოლოდ მზადყოფნაში მყოფი ნაბიჯების dispatch და ჩავარდნილი prerequisite-ის ქვედა ნაბიჯების `blocked` მდგომარეობაში გადაყვანა. ყველა task type-ს უნდა ჰქონდეს trusted `HandlerRegistry`-ში რეგისტრირებული handler. `IntervalScheduler` ქმნის განმეორებად workflow გაშვებებს ინტერვალის მიხედვით, ინახავს თითოეული დაგეგმილი fire-ის სტატუსს და იცავს დუბლირებული გაშვებისგან. გამოტოვებული გაშვებისთვის არსებობს `catch_up_once` და `skip` პოლიტიკა. `WorkerSupervisor`-ის `scheduler` პარამეტრი ყოველ ციკლზე ამოწმებს due schedule-ებს, ქმნის workflow-ს, ასრულებს job-ებს და ავტომატურად აახლებს DAG-ს. ეს არის ინტერვალური scheduler; cron/calendar expression-ები და OS service deployment ჯერ არ არის დამატებული.
 
 ## ტექნიკური სამუშაოების მართვა
 
