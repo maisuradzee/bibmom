@@ -897,6 +897,7 @@ class JobQueue:
         with closing(self._connect()) as connection:
             sqlite_result = connection.execute("PRAGMA integrity_check").fetchone()[0]
             foreign_key_rows = connection.execute("PRAGMA foreign_key_check").fetchall()
+            job_count = connection.execute("SELECT COUNT(*) FROM jobs").fetchone()[0]
             rows = connection.execute(
                 "SELECT job_id, payload_json, payload_sha256, result_json, result_sha256 FROM jobs"
             ).fetchall()
@@ -946,6 +947,7 @@ class JobQueue:
         )
         return {
             "sqlite_integrity": sqlite_result,
+            "job_count": job_count,
             "foreign_key_violations": len(foreign_key_rows),
             "payload_hashes_valid": payload_hashes_valid,
             "result_hashes_valid": result_hashes_valid,
