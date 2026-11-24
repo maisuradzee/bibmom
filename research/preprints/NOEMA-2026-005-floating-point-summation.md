@@ -73,7 +73,7 @@ NOEMA-ს წინადადებაა მცირე **summation contract
 - Integer accumulator არის reference-oriented Python implementation და არა ოპტიმიზებული production ალგორითმი.
 - Synthetic stress-test-ები არ წარმოადგენს რეალური workload-ების შეცდომის სიხშირის შეფასებას.
 - sharded reduction არის სიმულაცია და არა რეალური threads/GPU/distributed runtime; გამოყენებულია ერთი synthetic input pattern.
-- სხვა Python ვერსიაზე/არქიტექტურაზე დამოუკიდებელი benchmark გამეორება და გარე რეცენზია დარჩენილია.
+- sharded-reduction სიმულაცია გამეორდა CPython 3.13.5-სა და CPython 3.14.4-ზე ერთნაირი case-matrix SHA-256-ით; სხვა არქიტექტურაზე performance benchmark და გარე რეცენზია დარჩენილია.
 
 ## გამეორებადობა და წყარო მონაცემები
 
