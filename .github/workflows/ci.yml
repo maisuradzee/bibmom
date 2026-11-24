@@ -72,6 +72,7 @@ jobs:
           test -f scripts/validate_mission.py
           test -f tests/test_mission_core.py
           test -f noema_core/jobs.py
+          test -f tests/test_database_backup.py
           test -f noema_core/jobs_cli.py
           test -f tests/test_database_backup.py
           test -f noema_core/jobs_cli.py
@@ -109,6 +110,7 @@ jobs:
           python -m noema_core.jobs_cli --db "$DB" backup --output "$BACKUP"
           python -m noema_core.jobs_cli restore --source "$BACKUP" --destination "$RESTORED"
           python -m noema_core.jobs_cli --db "$RESTORED" verify
+          python -m noema_core.jobs_cli --db "$RESTORED" metrics
       - name: Run Python unit tests
         run: python -m unittest discover -s tests -v
       - name: Reproduce NOEMA-003 trend analysis and compare frozen results
