@@ -743,6 +743,7 @@ class JobQueue:
         if not path.is_file():
             raise JobQueueError(f"Database file does not exist: {path}")
         with closing(sqlite3.connect(str(path), timeout=busy_timeout_ms / 1000)) as connection:
+            connection.execute(f"PRAGMA busy_timeout = {busy_timeout_ms}")
             tables = {
                 row[0]
                 for row in connection.execute(
@@ -754,7 +755,11 @@ class JobQueue:
             version = connection.execute("PRAGMA user_version").fetchone()[0]
             if version != 1:
                 raise JobQueueError(f"Unsupported NOEMA database schema version: {version}")
-        queue = cls(path, busy_timeout_ms=busy_timeout_ms)
+        # Avoid JobQueue.__init__ here: validation of an archived backup must
+        # not change its journal mode, file permissions or source bytes.
+        queue = cls.__new__(cls)
+        queue.db_path = path.resolve()
+        queue.busy_timeout_ms = busy_timeout_ms
         report = queue.integrity_check()
         if not report["valid"]:
             raise JobQueueError(
@@ -814,7 +819,11 @@ class JobQueue:
 
             if os.name == "posix":
                 os.chmod(temporary, 0o600)
-            digest = hashlib.sha256(temporary.read_bytes()).hexdigest()
+            digest_hasher = hashlib.sha256()
+            with temporary.open("rb") as snapshot_file:
+                for chunk in iter(lambda: snapshot_file.read(1024 * 1024), b""):
+                    digest_hasher.update(chunk)
+            digest = digest_hasher.hexdigest()
             byte_length = temporary.stat().st_size
             created_at = time.time()
 
