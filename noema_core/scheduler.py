@@ -481,7 +481,7 @@ class IntervalScheduler:
                     SET next_run_at = ?, updated_at = ?
                     WHERE schedule_id = ? AND next_run_at = ?
                     """,
-                    (next_run_at, now, scheduled_for, row["schedule_id"], scheduled_for),
+                    (next_run_at, now, row["schedule_id"], scheduled_for),
                 )
                 self.queue._append_event(
                     connection,
