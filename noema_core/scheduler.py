@@ -166,12 +166,12 @@ class IntervalScheduler:
         ):
             raise InvalidSchedule("interval_seconds must be between 1 second and 365 days")
         interval = float(interval_seconds)
-        if misfire_policy not in _MISFIRE_POLICIES:
+        if not isinstance(misfire_policy, str) or misfire_policy not in _MISFIRE_POLICIES:
             raise InvalidSchedule("misfire_policy must be 'catch_up_once' or 'skip'")
         if not isinstance(actor, str) or not actor.strip():
             raise InvalidSchedule("actor must be a non-empty string")
 
-        identifier = schedule_id or str(uuid.uuid4())
+        identifier = str(uuid.uuid4()) if schedule_id is None else schedule_id
         if not isinstance(identifier, str) or not _SCHEDULE_ID_RE.fullmatch(identifier):
             raise InvalidSchedule("schedule_id must contain 1-128 letters, digits, dots, underscores or hyphens")
 
@@ -502,8 +502,9 @@ class IntervalScheduler:
                     "SELECT status, attempts FROM scheduler_fires WHERE fire_id = ?",
                     (fire_id,),
                 ).fetchone()
+                did_mark_dispatched = False
                 if current is not None and current["status"] == "pending":
-                    connection.execute(
+                    cursor = connection.execute(
                         """
                         UPDATE scheduler_fires
                         SET status = 'dispatched', workflow_id = ?, attempts = attempts + 1,
@@ -512,30 +513,34 @@ class IntervalScheduler:
                         """,
                         (workflow.workflow_id, timestamp, fire_id),
                     )
-                    connection.execute(
-                        "UPDATE scheduler_schedules SET last_error = NULL WHERE schedule_id = ?",
-                        (schedule_id,),
-                    )
-                    self.queue._append_event(
-                        connection,
-                        job_id=None,
-                        event_type="schedule_fire_dispatched",
-                        actor=actor,
-                        occurred_at=timestamp,
-                        details={
-                            "schedule_id": schedule_id,
-                            "fire_id": fire_id,
-                            "workflow_id": workflow.workflow_id,
-                            "scheduled_for": scheduled_for,
-                        },
-                    )
+                    did_mark_dispatched = cursor.rowcount == 1
+                    if did_mark_dispatched:
+                        connection.execute(
+                            "UPDATE scheduler_schedules SET last_error = NULL WHERE schedule_id = ?",
+                            (schedule_id,),
+                        )
+                        self.queue._append_event(
+                            connection,
+                            job_id=None,
+                            event_type="schedule_fire_dispatched",
+                            actor=actor,
+                            occurred_at=timestamp,
+                            details={
+                                "schedule_id": schedule_id,
+                                "fire_id": fire_id,
+                                "workflow_id": workflow.workflow_id,
+                                "scheduled_for": scheduled_for,
+                            },
+                        )
+                else:
+                    did_mark_dispatched = False
                 connection.commit()
             except Exception:
                 connection.rollback()
                 raise
             finally:
                 connection.close()
-            return True, workflow.workflow_id, False
+            return did_mark_dispatched, workflow.workflow_id if did_mark_dispatched else None, False
         except Exception as exc:
             timestamp = time.time()
             connection = self.queue._transaction()
