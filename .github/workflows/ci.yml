@@ -75,6 +75,8 @@ jobs:
           test -f noema_core/jobs_cli.py
           test -f tests/test_durable_job_queue.py
           test -f noema_core/worker.py
+          test -f noema_core/supervisor.py
+          test -f tests/test_worker_supervisor.py
           test -f tests/test_noema_worker.py
           test -f scripts/validate_job_queue.py
           test -f research/protocols/NOEMA-002-blind-coding-protocol.md
