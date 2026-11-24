@@ -10,6 +10,13 @@ from .jobs import (
     JobQueueError,
     LeaseLost,
 )
+from .worker import (
+    HandlerRegistry,
+    JobContext,
+    NonRetryableJobError,
+    RunOutcome,
+    Worker,
+)
 from .mission import (
     AccessDecision,
     AutonomyDecision,
@@ -29,6 +36,11 @@ __all__ = [
     "JobQueue",
     "JobQueueError",
     "LeaseLost",
+    "HandlerRegistry",
+    "JobContext",
+    "NonRetryableJobError",
+    "RunOutcome",
+    "Worker",
     "AccessDecision",
     "AutonomyDecision",
     "MissionConfigurationError",
