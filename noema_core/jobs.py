@@ -92,11 +92,20 @@ def _canonical_json(value: Any) -> str:
 
 
 def _row_to_job(row: sqlite3.Row) -> Job:
+    payload_raw = row["payload_json"]
+    payload_hash = hashlib.sha256(payload_raw.encode("utf-8")).hexdigest()
+    if payload_hash != row["payload_sha256"]:
+        raise JobQueueError(f"Payload integrity check failed for job '{row['job_id']}'")
+    result_raw = row["result_json"]
+    if result_raw is not None:
+        result_hash = hashlib.sha256(result_raw.encode("utf-8")).hexdigest()
+        if result_hash != row["result_sha256"]:
+            raise JobQueueError(f"Result integrity check failed for job '{row['job_id']}'")
     return Job(
         job_id=row["job_id"],
         idempotency_key=row["idempotency_key"],
         job_type=row["job_type"],
-        payload=json.loads(row["payload_json"]),
+        payload=json.loads(payload_raw),
         status=row["status"],
         attempts=row["attempts"],
         max_attempts=row["max_attempts"],
@@ -106,7 +115,7 @@ def _row_to_job(row: sqlite3.Row) -> Job:
         lease_owner=row["lease_owner"],
         lease_expires_at=row["lease_expires_at"],
         last_error=row["last_error"],
-        result=json.loads(row["result_json"]) if row["result_json"] is not None else None,
+        result=json.loads(result_raw) if result_raw is not None else None,
     )
 
 
