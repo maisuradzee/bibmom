@@ -541,8 +541,9 @@ class JobQueue:
                 details={"result_sha256": result_hash},
             )
             row = connection.execute("SELECT * FROM jobs WHERE job_id = ?", (job_id,)).fetchone()
+            job = _row_to_job(row)
             connection.commit()
-            return _row_to_job(row)
+            return job
         except Exception:
             connection.rollback()
             raise
