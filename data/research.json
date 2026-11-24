@@ -1,5 +1,170 @@
 {
   "project": "NOEMA",
-  "schema_version": 1,
-  "research": []
+  "schema_version": 2,
+  "updated_at": "2026-11-24",
+  "research": [
+    {
+      "id": "NOEMA-2026-005",
+      "title": "მცურავი წერტილის ჯამის სიზუსტე: ალგორითმი და რიგითობა",
+      "date": "2026-11-24",
+      "category": "რიცხვითი ანალიზი",
+      "summary": "კონტროლირებული ტესტები აჩვენებს, რომ შეკრების რიგითობამ შეიძლება შეცვალოს შედეგი. კვლევა ადარებს binary32, binary64, decimal64 და decimal128 ფორმატებს და 330-კონფიგურაციან sharded-reduction სიმულაციაში compensation state-ის გადაცემამ 330/330 სწორად დამრგვალებული შედეგი შეინარჩუნა; scalar partial-ები სრულ დამთხვევას ვერ აღწევდა. წინასწარი, დამოუკიდებლად არარეცენზირებული შედეგია.",
+      "file": "research/preprints/NOEMA-2026-005-floating-point-summation.md",
+      "status": "preliminary",
+      "version": "1.2",
+      "sources": [
+        {
+          "title": "The Accuracy of Floating Point Summation",
+          "authors": [
+            "Nicholas J. Higham"
+          ],
+          "citation": "Higham, N. J. (1993). The Accuracy of Floating Point Summation. SIAM Journal on Scientific Computing, 14(4), 783–799.",
+          "url": "https://doi.org/10.1137/0914050",
+          "type": "peer-reviewed",
+          "publication_date": "1993-07",
+          "publication_note": "Journal issue July 1993; submitted 1991-08-12 and accepted 1992-07-10.",
+          "accessed_at": "2026-11-24"
+        },
+        {
+          "title": "Accurate Sum and Dot Product",
+          "authors": [
+            "Takeshi Ogita",
+            "Siegfried M. Rump",
+            "Shin'ichi Oishi"
+          ],
+          "citation": "Ogita, T., Rump, S. M., & Oishi, S. (2005). Accurate Sum and Dot Product. SIAM Journal on Scientific Computing, 26(6), 1955–1988.",
+          "url": "https://doi.org/10.1137/030601818",
+          "type": "peer-reviewed",
+          "publication_date": "2005-01",
+          "publication_note": "Journal issue January 2005; publisher records online publication on 2006-07-25.",
+          "accessed_at": "2026-11-24"
+        },
+        {
+          "title": "Adaptive Precision Floating-Point Arithmetic and Fast Robust Geometric Predicates",
+          "authors": [
+            "Jonathan Richard Shewchuk"
+          ],
+          "citation": "Shewchuk, J. R. (1997). Adaptive Precision Floating-Point Arithmetic and Fast Robust Geometric Predicates. Discrete & Computational Geometry, 18(3), 305–363.",
+          "url": "https://doi.org/10.1007/PL00009321",
+          "type": "peer-reviewed",
+          "publication_date": "1997-10",
+          "publication_note": "Journal issue 18(3), October 1997, pp. 305–363.",
+          "accessed_at": "2026-11-24"
+        },
+        {
+          "title": "IEEE Standard for Floating-Point Arithmetic (IEEE Std 754-2019)",
+          "authors": [
+            "IEEE Computer Society"
+          ],
+          "citation": "IEEE Computer Society. (2019). IEEE Std 754-2019: IEEE Standard for Floating-Point Arithmetic.",
+          "url": "https://standards.ieee.org/ieee/754/6210/",
+          "type": "standard",
+          "publication_date": "2019-07-22",
+          "publication_note": "Board approval 2019-06-13; IEEE Standards Association lists publication on 2019-07-22.",
+          "accessed_at": "2026-11-24",
+          "version": "IEEE 754-2019"
+        },
+        {
+          "title": "Python 3.12 Built-in Functions — sum()",
+          "authors": [
+            "Python Software Foundation"
+          ],
+          "citation": "Python Software Foundation. Python 3.12.16 documentation, Built-in Functions: sum().",
+          "url": "https://docs.python.org/3.12/library/functions.html#sum",
+          "type": "official-documentation",
+          "publication_date": "2026-10-26",
+          "publication_note": "The versioned documentation page reports last updated 2026-10-26 (15:00 UTC); no separate page-publication date is stated. The 3.12.16 string is the documentation page label, not a claim that Python 3.12.16 was a released interpreter patch.",
+          "accessed_at": "2026-11-24",
+          "version": "Python 3.12 documentation (page label 3.12.16)"
+        },
+        {
+          "title": "Python 3.12 math.fsum()",
+          "authors": [
+            "Python Software Foundation"
+          ],
+          "citation": "Python Software Foundation. Python 3.12.16 documentation, math — Mathematical functions: math.fsum().",
+          "url": "https://docs.python.org/3.12/library/math.html#math.fsum",
+          "type": "official-documentation",
+          "publication_date": "2026-10-26",
+          "publication_note": "The versioned documentation page reports last updated 2026-10-26 (15:00 UTC); no separate page-publication date is stated. The 3.12.16 string is the documentation page label, not a claim that Python 3.12.16 was a released interpreter patch.",
+          "accessed_at": "2026-11-24",
+          "version": "Python 3.12 documentation (page label 3.12.16)"
+        },
+        {
+          "title": "Python 3.12 decimal — Decimal fixed-point and floating-point arithmetic",
+          "authors": [
+            "Python Software Foundation"
+          ],
+          "citation": "Python Software Foundation. Python 3.12.16 documentation, decimal module.",
+          "url": "https://docs.python.org/3.12/library/decimal.html",
+          "type": "official-documentation",
+          "publication_date": "2026-10-26",
+          "publication_note": "The versioned documentation page reports last updated 2026-10-26 (15:00 UTC); no separate page-publication date is stated. The 3.12.16 string is the documentation page label, not a claim that Python 3.12.16 was a released interpreter patch.",
+          "accessed_at": "2026-11-24",
+          "version": "Python 3.12 documentation (page label 3.12.16)"
+        },
+        {
+          "title": "NIST Digital Library of Mathematical Functions, §3.1 — Arithmetics and Error Measures",
+          "authors": [
+            "NIST Digital Library of Mathematical Functions team"
+          ],
+          "citation": "NIST. (2010–2026). Digital Library of Mathematical Functions, §3.1: Arithmetics and Error Measures.",
+          "url": "https://dlmf.nist.gov/3.1",
+          "type": "reference",
+          "publication_date": "2010-05-11",
+          "publication_note": "DLMF was released by NIST on 2010-05-11; the site reports version 1.2.8 on 2026-09-15.",
+          "accessed_at": "2026-11-24",
+          "version": "DLMF 1.2.8"
+        },
+        {
+          "title": "Python 3.14.4 release",
+          "authors": [
+            "Python Software Foundation"
+          ],
+          "citation": "Python Software Foundation. (2026-04-07). Python 3.14.4 release.",
+          "url": "https://www.python.org/downloads/release/python-3144/",
+          "type": "official-release",
+          "publication_date": "2026-04-07",
+          "publication_note": "The benchmark provenance reports CPython 3.14.4; this source records that exact interpreter release, not the latest patch release.",
+          "accessed_at": "2026-11-24",
+          "version": "CPython 3.14.4"
+        }
+      ],
+      "methodology": {
+        "formats": [
+          "binary32",
+          "binary64",
+          "decimal64",
+          "decimal128"
+        ],
+        "benchmark_sizes": [
+          1024,
+          8192,
+          65536
+        ],
+        "warmups": 2,
+        "repetitions": 7,
+        "random_seed": 20261124,
+        "execution_environment": "CPython 3.14.4, Linux x86-64 (AWS runner)",
+        "full_profile_run": "https://github.com/maisuradzee/bibmom/actions/runs/45283854718",
+        "parallel_reduction": {
+          "experiment_id": "NOEMA-2026-005-PARALLEL-001",
+          "cases": 330,
+          "input_sha256": "3a825f21d910a331c4ff4c3a796cacbc9ebb72e02db1686352447c4207fc1bc2",
+          "case_matrix_sha256": "ad15ddf2119ac798e66ffa22bfe6854801a9b9d810283c03212c516c14008625",
+          "initial_environment": "CPython 3.13.5; Linux x86_64; simulation only",
+          "ci_reproduction_environment": "CPython 3.14.4; Linux x86_64; Actions run 45325226165",
+          "cross_version_reproduction": true
+        }
+      },
+      "limitations": [
+        "ერთი CPython/Linux runner; cross-platform განმეორება არ დასრულებულა",
+        "tracemalloc არ ზომავს სრულ RSS-ს ან ყველა native allocation-ს",
+        "binary32-ის ნაწილი Python-ში ემულირებულია და hardware-ის სიჩქარეს არ წარმოადგენს",
+        "integer accumulator არის reference implementation და არა production-ოპტიმიზაცია",
+        "დამოუკიდებელი გარე რეცენზია ჯერ არ დასრულებულა",
+        "განაწილებული reduction-ის შედეგი არის synthetic map/reduce სიმულაცია; რეალური threads, GPU ან distributed runtime არ შემოწმებულა."
+      ]
+    }
+  ]
 }

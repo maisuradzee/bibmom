@@ -15,6 +15,7 @@ class BuildSiteTests(unittest.TestCase):
         (self.root / "assets").mkdir()
         (self.root / "data").mkdir()
         (self.root / "research" / "published").mkdir(parents=True)
+        (self.root / "research" / "preprints").mkdir(parents=True)
         (self.root / "research" / "drafts").mkdir(parents=True)
         (self.root / "index.html").write_text("<!doctype html><html lang='ka'></html>", encoding="utf-8")
         (self.root / "assets" / "styles.css").write_text("body{color:black}", encoding="utf-8")
@@ -25,7 +26,7 @@ class BuildSiteTests(unittest.TestCase):
 
     def write_index(self, items: list[dict[str, str]]) -> None:
         (self.root / "data" / "research.json").write_text(
-            json.dumps({"project": "NOEMA", "schema_version": 1, "research": items}),
+            json.dumps({"project": "NOEMA", "schema_version": 2, "research": items}),
             encoding="utf-8",
         )
 
@@ -58,7 +59,11 @@ class BuildSiteTests(unittest.TestCase):
         output = self.root / "_site"
         result = build_site(self.root, output)
 
-        self.assertEqual(result, {"published_articles": 1, "generated_html_pages": 1})
+        self.assertEqual(result, {
+            "published_articles": 1,
+            "preliminary_articles": 0,
+            "generated_html_pages": 1,
+        })
         article = output / "research" / "articles" / "sample-study.html"
         self.assertTrue(article.is_file())
         article_html = article.read_text(encoding="utf-8")
@@ -67,6 +72,7 @@ class BuildSiteTests(unittest.TestCase):
         self.assertTrue((output / "assets" / "articles.css").is_file())
 
         public_index = json.loads((output / "data" / "research.json").read_text(encoding="utf-8"))
+        self.assertEqual(public_index["schema_version"], 2)
         self.assertEqual(public_index["research"][0]["url"], "./research/articles/sample-study.html")
         self.assertNotIn("file", public_index["research"][0])
         self.assertFalse((output / "research" / "published").exists())
@@ -85,8 +91,30 @@ class BuildSiteTests(unittest.TestCase):
         item["status"] = "review"
         (self.root / item["file"]).write_text("# Not public", encoding="utf-8")
         self.write_index([item])
-        with self.assertRaisesRegex(ValueError, "status=published"):
+        with self.assertRaisesRegex(ValueError, "public status must be preliminary or published"):
             load_public_items(self.root)
+
+    def test_preliminary_research_is_publicly_marked_as_preliminary(self) -> None:
+        item = self.published_item()
+        item["id"] = "NOEMA-TEST-002"
+        item["status"] = "preliminary"
+        item["file"] = "research/preprints/preliminary-study.md"
+        (self.root / item["file"]).write_text("# წინასწარი შედეგი", encoding="utf-8")
+        self.write_index([item])
+
+        output = self.root / "_site"
+        result = build_site(self.root, output)
+
+        self.assertEqual(result, {
+            "published_articles": 0,
+            "preliminary_articles": 1,
+            "generated_html_pages": 1,
+        })
+        article = output / "research" / "articles" / "preliminary-study.html"
+        self.assertTrue(article.is_file())
+        article_html = article.read_text(encoding="utf-8")
+        self.assertIn("წინასწარი კვლევა", article_html)
+        self.assertIn("დამოუკიდებელი რეცენზია არ დასრულებულა", article_html)
 
     def test_duplicate_article_slug_is_rejected(self) -> None:
         (self.root / "research" / "published" / "first.md").write_text("# First", encoding="utf-8")

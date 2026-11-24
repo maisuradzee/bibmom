@@ -2,7 +2,7 @@ name: NOEMA quality checks
 
 on:
   push:
-    branches: [main]
+    branches: [main, "research/**"]
   pull_request:
     branches: [main]
 
@@ -36,6 +36,16 @@ jobs:
           test -f scripts/compare_noema003_datasets.py
           test -f scripts/analyze_hadcrut_ensemble.py
           test -f scripts/reconstruct_hadcrut_coverage.py
+          test -f scripts/simulate_noema005_summation.py
+          test -f scripts/benchmark_noema005_summation.py
+          test -f scripts/simulate_noema005_parallel_reduction.py
+          test -f data/noema-005/parallel-reduction-protocol.json
+          test -f data/noema-005/parallel-reduction-results.json
+          test -f tests/test_noema005_parallel_reduction.py
+          test -f data/noema-005/benchmark-protocol.json
+          test -f tests/test_benchmark_noema005_summation.py
+          test -f data/noema-005/floating-summation-results.json
+          test -f research/drafts/NOEMA-2026-005-floating-summation-order.md
           test -f data/noema-003/cross-dataset-results-2026-11-23.json
           test -f data/noema-003/hadcrut5-5.2.0.0/HadCRUT.5.2.0.0.analysis.ensemble_series.global.annual.csv
           test -f data/noema-003/hadcrut5-5.2.0.0/HadCRUT.5.2.0.0.analysis.summary_series.global.annual.csv
@@ -52,6 +62,7 @@ jobs:
           test -f tests/test_compare_noema003_datasets.py
           test -f tests/test_analyze_hadcrut_ensemble.py
           test -f tests/test_reconstruct_hadcrut_coverage.py
+          test -f tests/test_noema005_summation.py
           test -f docs/RESEARCH_STANDARD.md
           test -f research/protocols/NOEMA-002-blind-coding-protocol.md
       - name: Validate draft completeness
@@ -116,6 +127,70 @@ jobs:
               print("\\n".join(difflib.unified_diff(expected_text, actual_text, fromfile="pinned", tofile="generated")))
               raise SystemExit("HadCRUT5 generated ensemble results differ from pinned results")
           print("HadCRUT5 5.2.0.0 source hashes and 200-member results match")
+          PY
+      - name: Reproduce NOEMA-005 summation experiment and compare frozen results
+        run: |
+          python scripts/simulate_noema005_summation.py --output "$RUNNER_TEMP/noema005-results.json"
+          python - "$RUNNER_TEMP/noema005-results.json" <<'PY'
+          import json
+          from pathlib import Path
+          import sys
+
+          expected = json.loads(Path("data/noema-005/floating-summation-results.json").read_text(encoding="utf-8"))
+          actual = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+          # Runtime/platform metadata is recorded for provenance but is not
+          # expected to match across independent CI runner images.
+          expected.pop("environment", None)
+          actual.pop("environment", None)
+          if actual != expected:
+              import difflib
+              expected_text = json.dumps(expected, ensure_ascii=False, indent=2, sort_keys=True).splitlines()
+              actual_text = json.dumps(actual, ensure_ascii=False, indent=2, sort_keys=True).splitlines()
+              print("\\n".join(difflib.unified_diff(
+                  expected_text, actual_text, fromfile="frozen", tofile="generated"
+              )))
+              raise SystemExit("NOEMA-005 generated summation results differ from frozen results")
+          print("NOEMA-005 summation results match the frozen snapshot")
+          PY
+      - name: Run NOEMA-005 runtime and memory benchmark smoke test
+        run: |
+          python scripts/benchmark_noema005_summation.py \
+            --sizes 128,512 --warmups 1 --repetitions 2 \
+            --output "$RUNNER_TEMP/noema005-benchmark.json"
+          python - "$RUNNER_TEMP/noema005-benchmark.json" <<'PY'
+          import json
+          from pathlib import Path
+          import sys
+
+          report = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+          expected_formats = {"binary32", "binary64", "decimal64", "decimal128"}
+          if {case["format"] for case in report["cases"]} != expected_formats:
+              raise SystemExit("NOEMA-005 benchmark format coverage mismatch")
+          if len(report["cases"]) != 8:
+              raise SystemExit("NOEMA-005 benchmark size/format case count mismatch")
+          for case in report["cases"]:
+              if not case["methods"]:
+                  raise SystemExit(f"No benchmark methods recorded for {case['format']}")
+              for method in case["methods"]:
+                  if method["median_runtime_ns"] <= 0 or method["peak_traced_python_bytes"] < 0:
+                      raise SystemExit(f"Invalid benchmark measurement: {case['format']}/{method['method']}")
+          print("NOEMA-005 runtime/memory benchmark smoke test OK")
+          PY
+      - name: Reproduce NOEMA-005 sharded reduction simulation and compare frozen results
+        run: |
+          python --version
+          python -c "import platform; print(platform.platform())"
+          python scripts/simulate_noema005_parallel_reduction.py --output "$RUNNER_TEMP/noema005-parallel.json"
+          python - "$RUNNER_TEMP/noema005-parallel.json" <<'PY'
+          import json
+          from pathlib import Path
+          import sys
+
+          expected = json.loads(Path("data/noema-005/parallel-reduction-results.json").read_text(encoding="utf-8"))
+          actual = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+          if actual != expected:
+              raise SystemExit("NOEMA-005 parallel reduction results differ from frozen summary")
+          print("NOEMA-005 parallel reduction simulation matches 330-case frozen summary")
           PY
       - name: Run finite-sample simulation smoke test
         run: python scripts/short_sequence_bias_simulation.py --trials 2000

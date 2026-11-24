@@ -114,10 +114,13 @@ def render_markdown(source: str) -> str:
 
 def load_public_items(root: Path) -> list[dict[str, str]]:
     index_path = root / "data" / "research.json"
-    published_root = (root / "research" / "published").resolve()
+    public_roots = {
+        "published": (root / "research" / "published").resolve(),
+        "preliminary": (root / "research" / "preprints").resolve(),
+    }
     data = json.loads(index_path.read_text(encoding="utf-8"))
 
-    if data.get("project") != "NOEMA" or data.get("schema_version") != 1:
+    if data.get("project") != "NOEMA" or data.get("schema_version") != 2:
         raise ValueError("research.json has an unsupported project/schema version")
     items = data.get("research")
     if not isinstance(items, list):
@@ -133,18 +136,21 @@ def load_public_items(root: Path) -> list[dict[str, str]]:
         for field in required:
             if not isinstance(item.get(field), str) or not item[field].strip():
                 raise ValueError(f"research.json: missing non-empty field {field!r}")
-        if item["status"] != "published":
-            raise ValueError(f"{item['id']}: only status=published can enter the public index")
+        status = item["status"]
+        if status not in {"preliminary", "published"}:
+            raise ValueError(f"{item['id']}: public status must be preliminary or published")
+        public_root = public_roots[status]
+        public_prefix = f"research/{'preprints' if status == 'preliminary' else 'published'}/"
         if item["id"] in seen_ids:
             raise ValueError(f"research.json: duplicate id {item['id']!r}")
         seen_ids.add(item["id"])
 
         relative = item["file"]
-        if "\\" in relative or not relative.startswith("research/published/") or not relative.endswith(".md"):
-            raise ValueError(f"{item['id']}: file must be a Markdown file inside research/published/")
+        if "\\" in relative or not relative.startswith(public_prefix) or not relative.endswith(".md"):
+            raise ValueError(f"{item['id']}: file must be a Markdown file inside {public_prefix}")
         source_path = (root / relative).resolve()
-        if published_root not in source_path.parents or not source_path.is_file():
-            raise ValueError(f"{item['id']}: source file is missing or escapes research/published/")
+        if public_root not in source_path.parents or not source_path.is_file():
+            raise ValueError(f"{item['id']}: source file is missing or escapes {public_prefix}")
 
         slug = source_path.stem
         if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,100}", slug):
@@ -176,15 +182,22 @@ def build_site(root: Path, output: Path) -> dict[str, int]:
     (output / "data").mkdir(parents=True)
     (output / "research" / "articles").mkdir(parents=True)
 
+    source_index = json.loads((root / "data" / "research.json").read_text(encoding="utf-8"))
     public_index = {
         "project": "NOEMA",
-        "schema_version": 1,
+        "schema_version": source_index["schema_version"],
+        "updated_at": source_index.get("updated_at"),
         "research": items,
     }
+    if public_index["updated_at"] is None:
+        public_index.pop("updated_at")
     (output / "data" / "research.json").write_text(
         json.dumps(public_index, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
+    schema_path = root / "data" / "research.schema.json"
+    if schema_path.is_file():
+        shutil.copy2(schema_path, output / "data" / "research.schema.json")
 
     for item in items:
         url = item["url"]
@@ -200,6 +213,12 @@ def build_site(root: Path, output: Path) -> dict[str, int]:
         description = html.escape(item["summary"][:280], quote=True)
         category = html.escape(item["category"], quote=True)
         date = html.escape(item["date"], quote=True)
+        if item["status"] == "preliminary":
+            status_label = "წინასწარი კვლევა · AI-ით დამუშავებული · დამოუკიდებელი რეცენზია არ დასრულებულა"
+            status_class = "preliminary"
+        else:
+            status_label = "გამოქვეყნებული კვლევა"
+            status_class = "published"
 
         page = f"""<!doctype html>
 <html lang="ka">
@@ -220,6 +239,7 @@ def build_site(root: Path, output: Path) -> dict[str, int]:
     <a class="article-back" href="../../index.html#research">კვლევების არქივი ↗</a>
   </header>
   <main class="article-main">
+    <div class="article-status article-status--{status_class}">{status_label}</div>
     <div class="article-meta">{category} <span>·</span> {date}</div>
     <article class="article-content">{content_html}</article>
     <div class="article-bottom"><a class="text-link" href="../../index.html#research">← დაბრუნება კვლევების არქივში</a></div>
@@ -231,7 +251,13 @@ def build_site(root: Path, output: Path) -> dict[str, int]:
         (output / "research" / "articles" / f"{slug}.html").write_text(page, encoding="utf-8")
 
     (output / ".nojekyll").write_text("", encoding="utf-8")
-    return {"published_articles": len(items), "generated_html_pages": len(items)}
+    published_count = sum(item["status"] == "published" for item in items)
+    preliminary_count = sum(item["status"] == "preliminary" for item in items)
+    return {
+        "published_articles": published_count,
+        "preliminary_articles": preliminary_count,
+        "generated_html_pages": len(items),
+    }
 
 
 def main() -> None:
@@ -242,8 +268,9 @@ def main() -> None:
     result = build_site(args.root, args.output)
     print(
         "NOEMA site build OK: "
-        f"{result['published_articles']} published article(s), "
-        f"{result['generated_html_pages']} HTML page(s)"
+        f"{result['published_articles']} published, "
+        f"{result['preliminary_articles']} preliminary, "
+        f"{result['generated_html_pages']} generated HTML page(s)"
     )
 
 

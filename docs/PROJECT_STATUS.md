@@ -1,57 +1,62 @@
 # NOEMA — მიმდინარე პროექტის მდგომარეობა
 
-- **განახლდა:** 2026-11-23 (უახლესი CI გადამოწმება)
+- **განახლდა:** 2026-11-24 (ავტომატიზაცია, საჯარო კვლევითი კატალოგი და განხილვის რეჟიმი)
 - **საცავი:** [maisuradzee/bibmom](https://github.com/maisuradzee/bibmom)
-- **ძირითადი branch:** `main`
+- **ძირითადი branch:** `main` — უცვლელია
+- **სამუშაო branch:** `research/noema-2026-005-mainline-2026-11-24`
+- **კვლევითი PR:** [#3 — Draft: NOEMA-2026-005](https://github.com/maisuradzee/bibmom/pull/3) — ღიაა, draft-ია და ჯერ არ გაერთიანებულა.
 
-## სტატუსი
+## მიმდინარე სტატუსი
 
 | კომპონენტი | მდგომარეობა | მტკიცებულება |
 |---|---|---|
-| GitHub საცავი და კოდის შენახვა | მზადაა | მთავარი branch და ფაილები ხელმისაწვდომია |
 | კვლევის სტანდარტი და შაბლონები | მზადაა | `docs/RESEARCH_STANDARD.md`, `research/TEMPLATE.md` |
-| მონაცემთა აუდიტი NOEMA-002 | შესრულებულია | ფიქსირებული SignBase snapshot და JSON შედეგი |
-| NOEMA-003 ტემპერატურის ტენდენციის ანალიზი | დრაფტი / გამეორებადი; HadCRUT5 ensemble და ოფიციალური coverage კომპონენტის cross-check შესრულებულია | სამი პროდუქტის snapshot, OLS/Theil–Sen და HAC 1–6; 200-member HadCRUT5 slope distribution; ოფიციალური coverage 1σ სერია summary-series-ის 95% საზღვრებთან/ensemble SD-თან RMSE 3.55×10⁻⁸°C-ით ემთხვევა; coverage slope-error RMS ზედა ზღვარი 0.0029339°C/ათწლეული; APCC ERA5 reconstruction ორჯერ სრულად გამოითვალა, მაგრამ ორივე გაშვებამ RMS gate ვერ გაიარა და მისი trajectory არ გამოიყენება |
-| Python ტესტები და მონაცემთა რეპროდუქცია | PASS | [CI run 45169053632](https://github.com/maisuradzee/bibmom/actions/runs/45169053632) წარმატებულია; **52 Python unit test**, სამი ტემპერატურული შედეგის reproducibility, HadCRUT source SHA-256 და 200-member frozen JSON შემოწმდა |
-| სტატიკური საიტის build | წარმატებულია | CI და Pages build job |
-| GitHub Pages deployment | PASS | [უახლესი deployment — run 45169053640](https://github.com/maisuradzee/bibmom/actions/runs/45169053640) წარმატებით დასრულდა |
-| საჯარო კვლევების ინდექსი | ცარიელია განზრახ | კვლევები ჯერ `draft/review` სტატუსშია |
-| ვიზუალური AI ექსპერიმენტი | დაწყებამდეა | SignBase-ის გამოსახულებებზე გამოყენების ნებართვა მოსაპოვებელია |
-| Supabase | გადადებულია | ამ ეტაპზე სტატიკურ JSON ინდექსს ვიყენებთ |
+| NOEMA-002 SignBase აუდიტი | შესრულებულია | ფიქსირებული SignBase snapshot, provenance და JSON შედეგები |
+| NOEMA-003 კლიმატური ანალიზი | დრაფტი / გამეორებადი | სამი dataset-ის შედარება, HAC sensitivity, HadCRUT5 200-member ensemble და coverage consistency; ERA5 reconstruction validation gate ვერ გაიარა და საბოლოო დასკვნაში არ გამოიყენება |
+| NOEMA-005 summation კვლევა | review + public preliminary brief | სრული ექსპერიმენტი და benchmark დრაფტშია; მომხმარებლის მოკლე ანგარიში გამოყოფილია `research/preprints/`-ში |
+| საჯარო კვლევითი კატალოგი | 1 preliminary, 0 published — სამუშაო PR branch-ზე | schema version 2; NOEMA-005-ის 9 წყაროს სრული ციტირება, ავტორები, გამოცემის თარიღი და წვდომის თარიღი; Pages build ქმნის 1 preliminary HTML გვერდს |
+| კვლევის ბარათები და სტატუსები | კოდში დამატებულია | მთავარი გვერდი აჩვენებს preliminary და published სტატუსებს ცალ-ცალკე |
+| ღია განხილვის რეჟიმი | კოდში დამატებულია | GitHub Issues feed, ახალი განხილვის ბმული და მომხმარებლის კომენტარები GitHub-ზე |
+| CI და საიტის build | PASS — schema v2, source metadata და sharded reduction simulation | [CI run 45324726883](https://github.com/maisuradzee/bibmom/actions/runs/45324726883), head `eafb239c526d8138a17b60c81c49f18b8d1e73db`: 87 Python test და ყველა workflow step წარმატებულია; 330-case simulation, catalogue validation, site build და draft exclusion PASS |
+| GitHub Pages | წინა deployment წარმატებული | [deployment run 45169053640](https://github.com/maisuradzee/bibmom/actions/runs/45169053640); ამ PR-ის ახალი branch ცვლილებები ჯერ არ არის გამოქვეყნებული |
+| Supabase მონაცემთა ბაზა | ჯერ არ შექმნილა | ამჟამად გამოიყენება Git-ით ვერსიაკონტროლირებადი JSON კატალოგი; ეს არ არის სერვერული/ტრანზაქციული DB |
+| ვიზუალური AI ექსპერიმენტი | შეჩერებულია ნებართვამდე | SignBase-ის გამოსახულებებზე გამოყენების უფლება მოსაპოვებელია |
+
+## ავტომატური კვლევითი ციკლი
+
+- **მდგომარეობა:** დროებით შეჩერებულია.
+- **ბოლო შესრულებული ციკლი:** 2026-11-24.
+- მიზეზი: საცავი GitHub-ზე public-ია; `research/drafts/` ფაილები branch/PR-ით ყველასთვის იკითხება, მიუხედავად იმისა, რომ Pages build მათ გამორიცხავს. მომხმარებლის მოთხოვნა კრძალავს draft/review ფაილების გასაჯაროებას. ახალი ავტომატური ციკლები არ უნდა გაეშვას, სანამ სრული დრაფტების კერძო შენახვის გზა არ განისაზღვრება.
+- ყოველ გაშვებაზე სისტემა აღადგენს საცავის/კვლევების კონტექსტს, აგრძელებს პრიორიტეტულ მიმდინარე სამუშაოს, ამოწმებს წყაროებსა და შედეგებს, აფიქსირებს კოდს/მონაცემებს, აახლებს PR-ს და კატალოგს მხოლოდ იმ შემთხვევაში, თუ წინასწარი შედეგის საჯარო ჩვენების კრიტერიუმები დაკმაყოფილებულია.
+- თუ სანდო ახალი შედეგი არ მიიღება, უნდა შესრულდეს არსებული მასალის აუდიტი ან დაფიქსირდეს no-update; ხელოვნური კვლევა არ იქმნება.
+- ეს არის **დაგეგმილი ყოველდღიური გაშვება და არა უწყვეტი 24/7 სამუშაო**. თითოეული ციკლი დამოუკიდებლად უნდა დასრულდეს; ავტომატიზაცია არ ნიშნავს, რომ ყველა შემდგომი ოპერაცია უპირობოდ წარმატებული იქნება. GitHub კავშირის/უფლების/CI-ის შეფერხება უნდა დაფიქსირდეს და არა დაიმალოს.
+
+## გამოქვეყნების უსაფრთხოების ბლოკერი
+
+GitHub საცავი public-ია. Pages build draft/review ფაილებს არ აკოპირებს, მაგრამ GitHub branch/PR ფაილებს მაინც საჯაროდ აჩვენებს. ამიტომ PR #3 განზრახ Draft-ად რჩება: main-ში merge და Pages deployment არ შესრულებულა. საჭიროა კერძო draft საცავი ან repository visibility-ის ცალკე, Pages-თან თავსებადი გადაწყვეტა.
+
+## მონაცემთა კატალოგი და მომხმარებლისთვის მიწოდება
+
+- `data/research.json` არის Git-ით ვერსიაკონტროლირებადი საჯარო კატალოგი; `data/research.schema.json` განსაზღვრავს წყარო/საიტის ჩანაწერის სტრუქტურას (schema version 2 მოითხოვს წყაროს სრულ ციტირებას, ავტორებს, გამოცემის თარიღსა და წვდომის თარიღს).
+- `preliminary` კვლევები ინახება `research/preprints/`-ში და მომხმარებლის გვერდზე მკაფიოდ არის მონიშნული როგორც წინასწარი, დამოუკიდებლად არარეცენზირებული.
+- `published` კვლევები ინახება `research/published/`-ში მხოლოდ სრული კვლევითი/სარედაქციო საკონტროლო სიის შემდეგ.
+- `draft` და `review` ჩანაწერები Pages არტეფაქტში არ ხვდება.
+- კატალოგი ამჟამად სტატიკური და ვერსიაკონტროლირებადია. რეალური მომხმარებლის ანგარიშები, ნამდვილი database transactions, უშუალო კომენტარები და რეალურ დროში ძიება მოითხოვს NOEMA-ს ცალკე Supabase პროექტს. სხვა პროექტების ბაზა არ გამოიყენება.
 
 ## ბოლო ტექნიკური შემოწმება
 
-- [CI run 45169053632](https://github.com/maisuradzee/bibmom/actions/runs/45169053632) — წარმატებული; **52 Python unit test** გაიარა. NOAA trend analysis, cross-dataset/HAC comparison და HadCRUT5 200-member analysis ხელახლა გამოითვალა; frozen JSON და წყაროების SHA-256 დაემთხვა; public build-ის დრაფტების გამორიცხვის კონტროლიც წარმატებულია.
-- [Pages deployment run 45169053640](https://github.com/maisuradzee/bibmom/actions/runs/45169053640) — build და deploy წარმატებულია.
-
-NOEMA-003-ის cross-dataset და HAC robustness განახლება თავდაპირველად დადასტურდა commit-ზე `653820747cc42f1074306cb7f5081bc956cc3116`:
-
-- [CI run 45137630834](https://github.com/maisuradzee/bibmom/actions/runs/45137630834) — წარმატებული; **34 Python unit test** გაიარა.
-- [Pages deployment run 45137630882](https://github.com/maisuradzee/bibmom/actions/runs/45137630882) — build და deploy წარმატებულია.
-- სამი წყაროს snapshot-ის SHA-256 ისევ ემთხვევა ფიქსირებულ manifest-ს.
-- 1979–2025 ფანჯარაში OLS დახრილობები: NASA GISTEMP 0.20556, HadCRUT5 0.20723, NOAA GlobalTemp 0.19848 °C/ათწლეულში.
-- სამივე პროდუქტის OLS დახრილობა დადებითია; მაქსიმალურ-მინიმალური განსხვავება დაახლოებით 4.41%-ია.
-- HAC Bartlett lag 1–6 sensitivity ყველა პროდუქტზე ხელახლა გამოითვალა; ყველა ლაგზე მიახლოებითი 95%-იანი ქვედა ზღვარი დადებითია.
-- HadCRUT5 v5.2.0.0-ის 200 realization ცალკე გაანალიზდა 1979–2025 წლების 47-წლიან ფანჯარაში: median slope 0.2072945°C/ათწლეული; 2.5–97.5 პროცენტილი 0.2012860–0.2129688°C/ათწლეული; 200/200 დადებითი. ეს არის ensemble-member trend distribution და არა frequentist confidence interval. Coverage uncertainty ცალკეა დაფიქსირებული და trend percentiles-ში არ არის გავრცელებული.
-- CI ადასტურებს ორივე გამოთვლითი სკრიპტის შედეგების JSON-თან შინაარსობრივ თანხვედრას.
-- დრაფტების ვალიდაციამ დაადასტურა 4 draft ფაილი; საჯარო ინდექსი კვლავ შეიცავს 0 გამოქვეყნებულ კვლევას. საიტის build წარმატებულია და დრაფტები Pages არტეფაქტში არ შედის.
-
-Pages deployment workflow ავტომატურად იშვება `main` branch-ზე push-ისას.
+- [CI run 45324726883](https://github.com/maisuradzee/bibmom/actions/runs/45324726883) — SUCCESS PR head `eafb239c526d8138a17b60c81c49f18b8d1e73db`-ზე: 87 Python test; research schema v2, source publication/access-date validation, all frozen result reproductions, 330-case parallel reduction simulation, benchmark smoke, site build და draft-exclusion boundary PASS.
+- შუალედურ run `45323886583`-ში აღმოჩნდა, რომ `build_site.py` ჯერ მხოლოდ schema v1-ს იღებდა; validator/schema contract გასწორდა და მიმდინარე head-ზე build წარმატებით დასრულდა.
+- [სრული NOEMA-005 benchmark run 45283854718](https://github.com/maisuradzee/bibmom/actions/runs/45283854718) — 12 format/size case და 66 method measurement.
+- [წინა Pages deployment run 45169053640](https://github.com/maisuradzee/bibmom/actions/runs/45169053640) — build და deploy წარმატებით დასრულდა. ეს არ ნიშნავს, რომ მიმდინარე PR-ის ცვლილებები უკვე საჯარო გვერდზეა.
 
 ## კვლევები
 
-- [NOEMA-2026-001](../research/drafts/2026-11-23-paleolithic-sign-systems.md) — პალეოლითური ნიშნების პირველადი კვლევა, მეთოდოლოგიური გადახედვით.
+- [NOEMA-2026-001](../research/drafts/2026-11-23-paleolithic-sign-systems.md) — პალეოლითური ნიშნების პირველადი კვლევა და მეთოდოლოგიური გადახედვა.
 - [NOEMA-2026-002](../research/drafts/2026-11-23-signbase-coding-audit.md) — SignBase 2.0-ის ტექსტური კოდირების აუდიტი.
-- [NOEMA-2026-003](../research/drafts/2026-11-23-noaa-globaltemp-trend-sensitivity.md) — NOAA GlobalTemp v6.1.0 მონაცემში დათბობის ხაზოვანი ტენდენციის საწყისი წლის მგრძნობელობა.
-- [NOEMA-002 blind coding protocol](../research/protocols/NOEMA-002-blind-coding-protocol.md) — მომავალი ექსპერტულ-ალგორითმული შედარების პროტოკოლი.
-
-ყველა კვლევა ამ ეტაპზე დრაფტად რჩება. საჯარო Pages ინდექსში მათი დამატება არ მომხდარა. NOEMA-003-ის cross-dataset შედარება, HAC lag robustness და HadCRUT5-ის 200-member trend distribution შესრულებულია; coverage uncertainty-ის სრული trend-level მოდელირება და დამოუკიდებელი სარედაქციო რეცენზია ჯერ დარჩენილია.
-
-## ავტომატიზაცია
-
-აქტიურია `NOEMA კვლევითი ციკლი` — ყოველდღიური გაშვება 09:00 საათზე, `Asia/Tbilisi` დროის სარტყელში. ინსტრუქცია განახლებულია ისე, რომ ყოველი ციკლი ჯერ არსებულ კვლევებს ამოწმებს, დუბლირებას ერიდება და GitHub write-access-ის არსებობისას ახალ კვლევას `research/drafts/`-ში ინახავს და ხელახლა ამოწმებს. ავტომატიზაცია არ აქვეყნებს კვლევებს და არ ცვლის საჯარო ინდექსს.
-
-**მნიშვნელოვანი:** დაგეგმილი კვლევითი ციკლი და GitHub Actions CI ორი სხვადასხვა მექანიზმია. CI კოდს ამოწმებს; კვლევითი ავტომატიზაცია ახალ კვლევით მასალას ამზადებს. მათი სრული უწყვეტი ინტეგრაცია ცალკე სამუშაო ეტაპია.
+- [NOEMA-2026-003](../research/drafts/2026-11-23-noaa-globaltemp-trend-sensitivity.md) — NOAA/NASA/HadCRUT5 მონაცემთა ტენდენციების კვლევა.
+- [NOEMA-2026-005 სამუშაო დრაფტი](../research/drafts/NOEMA-2026-005-floating-summation-order.md) — სრული ექსპერიმენტული ჟურნალი.
+- [NOEMA-2026-005 წინასწარი მომხმარებლის ანგარიში](../research/preprints/NOEMA-2026-005-floating-point-summation.md) — public preliminary brief სამუშაო branch-ზე.
 
 ## NOEMA-003 — HadCRUT5 ensemble trend analysis (2026-11-23)
 
@@ -72,3 +77,23 @@ Pages deployment workflow ავტომატურად იშვება `
 - ბოლო სრულმა workflow-მ 40-ივე საცნობარო წლის ჩამოტვირთვა, დამუშავება და 5° anomaly snapshot-ის შენახვა წარმატებით დაასრულა; ჩავარდა მხოლოდ ოფიციალურ წლიურ coverage sigma-სთან ვალიდაციის gate. სრული 5° anomaly snapshot და 40 საწყისი ფაილის SHA-256 სია დაცულია Actions artifact-ში [run 45167639382](https://github.com/maisuradzee/bibmom/actions/runs/45167639382), artifact ID 14815616537. თავად 40 ორიგინალი NetCDF ფაილი საცავში არ არის დაკომიტებული.
 - HadCRUT5-ის ოფიციალური annual coverage sigma ცალკე დოკუმენტირებულია; interannual covariance აქ არ არის აღდგენილი. ამიტომ არ ვაერთიანებთ coverage RMS ზედა ზღვარს 200-member percentile interval-თან ერთ საერთო 95%-იან დიაპაზონად.
 - დარჩენილია: ERA5-ის ორიგინალი 31 კმ-იანი reference realization-ის ან იმავე CDS source stream-ის იდენტური ასლის მიღება, provenance-ის გადამოწმება და დამოუკიდებელი მეთოდოლოგიური რეცენზია.
+
+
+## NOEMA-005 — summation accuracy across binary32, binary64, decimal64 and decimal128 (2026-11-24)
+
+- ძირითადი კვლევის სტატუსი: `review`; სრული კვლევითი ჟურნალი რჩება `research/drafts/NOEMA-2026-005-floating-summation-order.md`-ში. მომხმარებლისთვის მომზადებული მოკლე ანგარიში მოთავსებულია `research/preprints/NOEMA-2026-005-floating-point-summation.md`-ში და კატალოგში ჩანს მხოლოდ `preliminary` სტატუსით.
+- სამუშაო branch: `research/noema-2026-005-mainline-2026-11-24`, მიმდინარე `main`-ზე დაფუძნებული. ძველი branch, რომელიც main-ს 45 commit-ით ჩამორჩებოდა, არ გაერთიანებულა.
+- კვლევის მოცულობა: 4 ფორმატი; თითოეულში 2 synthetic stress case, სულ 48 input ordering. Binary32/binary64-ში თითო 6 method; decimal64/decimal128-ში თითო 5 method.
+- Binary32-ის oracle პირდაპირი rational-to-binary32 round-to-nearest ties-to-even quantizer-ია; native binary32 მეთოდებში ყოველი შუალედური არითმეტიკული ოპერაცია binary32-ში მრგვალდება. `math.fsum_then_round_binary32` ცალკე wider-precision comparison path-ია.
+- Decimal64/decimal128 გამოიყენებს Python `decimal.Context` arithmetic emulation-ს: precision 16/34, Emin/Emax −383/+384 და −6143/+6144, Etiny −398/−6176, clamp=1, ROUND_HALF_EVEN. ეს არ არის decimal interchange BID/DPD byte-level implementation.
+- ზუსტი integer accumulator-ები იყენებს binary32-ის (2^{-149}), binary64-ის (2^{-1074}) grid-ს; decimal-ში შეყვანებში არსებულ უმცირეს exponent-ს საერთო quantum-ად. Final rounding შესაბამისი Fraction/Context conversion-ით სრულდება; ეს დამოუკიდებელი hardware rounding implementation არ არის.
+- NOEMA-005 summation suite შეიცავს 20 unit test-ს; benchmark suite — 2 test-ს. სრული საცავის CI suite — **74 test**.
+- უახლესი სრული CI: [run 45283388439](https://github.com/maisuradzee/bibmom/actions/runs/45283388439) — SUCCESS. 74 ტესტი; NOEMA-003 trend/cross-dataset/HadCRUT5 200-member შედეგები და source SHA-256; NOEMA-005-ის ოთხივე ფორმატის frozen JSON reproduction; benchmark smoke; draft/index validation; site build; publication boundary; SignBase audit და HTML checks — PASS.
+- Benchmark harness: `scripts/benchmark_noema005_summation.py`; protocol: `data/noema-005/benchmark-protocol.json`; სრული პროფილის შეჯამება: `data/noema-005/benchmark-full-profile-summary-2026-11-24.json`. CI smoke profile-მა შეამოწმა 8 format/size შემთხვევა და 44 method measurement.
+- სრული benchmark run [45283854718](https://github.com/maisuradzee/bibmom/actions/runs/45283854718) წარმატებულია: 12 format/size შემთხვევა, 66 method measurement, sizes 1,024 / 8,192 / 65,536, 2 warmup, 7 repetitions, seed 20261124. გარემო: CPython 3.14.4, Linux x86-64 (AWS runner). Original JSON report SHA-256: `cb902442026cfe4b74a506d01c568efdb6e009a27f38014ce0548c6bf36f4ce9`; artifact ID `14870647841`, archive SHA-256 `0a6977db72fbc5a64bd7609b6d0d78c18c59276138e402928f06ccf1e2acef28`.
+- 65,536 input-ზე binary64 integer accumulator-ს ჰქონდა 60.835 ms median და 4,384 bytes peak traced memory; decimal64 integer accumulator-ს — 37.376 ms და 6,853,728 bytes; decimal128-ს — 37.210 ms და იგივე peak. ეს შედეგები ასახავს ამ კონკრეტულ Python reference implementation-ს და არა ალგორითმის აბსტრაქტულ ქვედა ზღვარს.
+- Binary32-ის native emulation ახორციელებს Python-level rounding-ს ყოველ ოპერაციაზე; ამიტომ მისი დროები hardware binary32-ის სიჩქარეს არ ასახავს. `math_fsum_then_round_binary32` wider precision comparison path-ია.
+- `tracemalloc` ზომავს Python-managed traced allocations-ს, არა სრულ RSS-ს და არა ყველა native allocation-ს. ერთი runner-ის შედეგები აღწერითია და უნივერსალურ performance ranking-ს არ ამტკიცებს.
+- შემდეგი ნაბიჯებია: სრული პროფილის განმეორება სხვა Python ვერსიაზე/არქიტექტურაზე და რამდენიმე run-ზე; ზუსტი integer accumulator-ის ოპტიმიზაცია; parallel reduction tree-ების კვლევა; რეალური მონაცემთა ნაკრების შერჩევა და დამოუკიდებელი მეთოდოლოგიური რეცენზია.
+- კვლევის ყველა ექსპერიმენტი synthetic stress case-ია; real workload error rate ან უნივერსალური method ranking არ დასტურდება. საჭიროა სხვა Python ვერსიაზე/არქიტექტურაზე გამეორება, parallel reduction tree-ების შეფასება, რეალური მონაცემთა ნაკრების კვლევა და დამოუკიდებელი მეთოდოლოგიური რეცენზია.
+- კატალოგში PR-ის ფილიალში 1 preliminary და 0 published item-ია. PR #3 კვლავ draft-ია; merge არ მომხდარა. საჯარო Pages deployment ამ branch-ის ცვლილებებს ჯერ არ შეიცავს.
