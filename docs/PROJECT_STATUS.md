@@ -3,7 +3,7 @@
 - **განახლდა:** 2026-11-25 — PR #21-ის merge, main CI და GitHub Pages deployment ხელახლა გადამოწმებულია.
 - **საცავი:** [maisuradzee/bibmom](https://github.com/maisuradzee/bibmom)
 - **ძირითადი branch:** `main` — კვლევითი merge commit `e84f2b9679c923c673319fc28fc6da5d1e021702`.
-- **მიმდინარე სამუშაო branch:** post-merge სტატუსის სინქრონიზაციის branch `research/noema005-postmerge-status-2026-11-25`; ახალი კვლევითი ექსპერიმენტი შემდეგ ცალკე branch-ზე დაიწყება.
+- **ბოლო სტატუს-სინქრონიზაციის branch:** `research/noema005-postmerge-status-2026-11-25` (PR #22, მხოლოდ დოკუმენტაციის გასწორება); ახალი კვლევითი ექსპერიმენტი ცალკე research branch-ზე დაიწყება.
 - **ბოლო კვლევითი merge:** [PR #21 — NOEMA-005 real CPU-thread benchmark](https://github.com/maisuradzee/bibmom/pull/21), squash-ით merged 2026-11-25; commit `e84f2b9679c923c673319fc28fc6da5d1e021702`.
 - **მიმდინარე NOEMA-005 კვლევითი PR:** არ არის — PR #21 merged-ია. კვლევის სტატუსი რჩება `preliminary`; დამოუკიდებელი გარე რეცენზია ჯერ არ დასრულებულა.
 
@@ -18,8 +18,8 @@
 | საჯარო კვლევითი კატალოგი | 1 preliminary, 0 published — main-ზე | Git JSON კატალოგი, schema version 2; არსებული NOEMA-2026-005 ჩანაწერი განახლდა, ახალი ID არ შექმნილა |
 | კვლევის ბარათები და სტატუსები | კოდში დამატებულია | მთავარი გვერდი აჩვენებს preliminary და published სტატუსებს ცალ-ცალკე |
 | ღია განხილვის რეჟიმი | კოდში დამატებულია | GitHub Issues feed, ახალი განხილვის ბმული და მომხმარებლის კომენტარები GitHub-ზე |
-| CI და საიტის build | <badge>SUCCESS</badge> main merge commit-ზე | [quality/site run 45551962844](https://github.com/maisuradzee/bibmom/actions/runs/45551962844) — 176 Python test, frozen-result reproduction, schema/catalog validation, site build და publication boundary PASS; [thread benchmark run 45551791998](https://github.com/maisuradzee/bibmom/actions/runs/45551791998) — GIL-enabled და free-threaded jobs PASS |
-| GitHub Pages | <badge color="success">DEPLOYED</badge> | [deployment run 45551962965](https://github.com/maisuradzee/bibmom/actions/runs/45551962965) წარმატებით დასრულდა main SHA `e84f2b9679c923c673319fc28fc6da5d1e021702`-ზე; [საიტი](https://maisuradzee.github.io/bibmom/) |
+| CI და საიტის build | SUCCESS — main merge commit-ზე | [quality/site run 45551962844](https://github.com/maisuradzee/bibmom/actions/runs/45551962844) — 176 Python test, frozen-result reproduction, schema/catalog validation, site build და publication boundary PASS; [thread benchmark run 45551791998](https://github.com/maisuradzee/bibmom/actions/runs/45551791998) — GIL-enabled და free-threaded jobs PASS |
+| GitHub Pages | DEPLOYED — წარმატება დადასტურებულია | [deployment run 45551962965](https://github.com/maisuradzee/bibmom/actions/runs/45551962965) წარმატებით დასრულდა main SHA `e84f2b9679c923c673319fc28fc6da5d1e021702`-ზე; [საიტი](https://maisuradzee.github.io/bibmom/) |
 | Supabase მონაცემთა ბაზა | ჯერ არ შექმნილა | ამჟამად გამოიყენება Git-ით ვერსიაკონტროლირებადი JSON კატალოგი; ეს არ არის სერვერული/ტრანზაქციული DB |
 | ვიზუალური AI ექსპერიმენტი | შეჩერებულია ნებართვამდე | SignBase-ის გამოსახულებებზე გამოყენების უფლება მოსაპოვებელია |
 

@@ -128,7 +128,7 @@ Free-threaded Neumaier-state median CPU-time/wall-time ratio worker count 1/2/4/
 - პირველი Actions attempt `45548429179`: benchmark source-ში JSON newline literal-ის syntax error აღმოჩნდა; სრული benchmark არ შესრულებულა. გასწორებულია.
 - პირველი repository CI attempt `45548429197`: draft validator-მა მოითხოვა ზუსტი headings `წყაროები`, `შემოწმების სტატუსი`, `შემდეგი ნაბიჯები`; დამატებულია.
 - საწყის კვლევით head `93bb712b889cc9ffb5624b647480abb3291264d8`-ზე repository quality/site CI run `45548551153` და thread benchmark run `45548551086` წარმატებით დასრულდა; ეს შედეგები შემდგომი საბოლოო head-ის შემოწმებას არ ანაცვლებს.
-- ორივე runtime-ის raw JSON artifact გადმოწერილია, SHA-256 შემოწმებულია და შეჯამებები repository branch-ზეა დამატებული. PR head `597d26b79ffbcd8eaf4a0249e189f3f63b2a0d83`-ზე quality/site CI run [45549762442](https://github.com/maisuradzee/bibmom/actions/runs/45549762442) წარმატებით დასრულდა: **176 Python test**, frozen-result reproduction, schema/catalog validation, site build და draft/publication boundary PASS. იმავე head-ის რეალური thread benchmark run [45549762459](https://github.com/maisuradzee/bibmom/actions/runs/45549762459)-მა ორივე runtime job წარმატებით დაასრულა. შემდგომი დოკუმენტაციის/trigger ცვლილებებისთვის ახალი head-ის შემოწმება სავალდებულოა; live სტატუსი PR #21-ის Checks ჩანართშია.
+- ორივე runtime-ის raw JSON artifact გადმოწერილია, SHA-256 შემოწმებულია და შეჯამებები repository branch-ზეა დამატებული. საბოლოო PR #21 head `00084792c6d3265b7b046e013ece362f76cf88f6`-ზე quality/site run [45551791989](https://github.com/maisuradzee/bibmom/actions/runs/45551791989) წარმატებით დასრულდა: **176 Python test**, frozen-result reproduction, schema/catalog validation, site build და draft/publication boundary PASS. იმავე head-ის actual CPU-thread run [45551791998](https://github.com/maisuradzee/bibmom/actions/runs/45551791998)-მა GIL-enabled და free-threaded ორივე job წარმატებით დაასრულა. squash merge commit `e84f2b9679c923c673319fc28fc6da5d1e021702`-ზე main quality run [45551962844](https://github.com/maisuradzee/bibmom/actions/runs/45551962844) ასევე SUCCESS იყო.
 - PR #21 squash-ით გაერთიანდა 2026-11-25; merge commit: `e84f2b9679c923c673319fc28fc6da5d1e021702`. მომხმარებლის preprint და კატალოგის ჩანაწერი კვლავ `preliminary` სტატუსითაა. Pages deployment run [45551962965](https://github.com/maisuradzee/bibmom/actions/runs/45551962965) წარმატებით დასრულდა; `published` სტატუსი არ გამოიყენება და დამოუკიდებელი გარე რეცენზია არ დასრულებულა.
 
 ## შეზღუდვები და გაურკვევლობები
@@ -155,7 +155,7 @@ Free-threaded Neumaier-state median CPU-time/wall-time ratio worker count 1/2/4/
 2. დაამატე დამოუკიდებელი ARM ან სხვა OS architecture run.
 3. შეადარე რეალური workload-ები და არა მხოლოდ cancellation microbenchmark; შეამოწმე native C/OpenMP ან სხვა შემცირების მექანიზმები.
 4. memory-ისთვის დაამატე RSS/native allocation საზომი და CPU quota-ის ზუსტი metadata.
-5. შედეგების, წყაროებისა და სარედაქციო checklist-ის შემდეგ განაახლე preliminary გვერდი და კატალოგი; published სტატუსი დამოუკიდებელი რეცენზიის გარეშე არ მიენიჭოს.
+5. უახლეს CPython patch/major და ARM/სხვა OS შედეგების შემდეგ განაახლე preliminary გვერდი და კატალოგი მხოლოდ მაშინ, თუ ახალი მტკიცებულება დასკვნას ცვლის; published სტატუსი დამოუკიდებელი რეცენზიის გარეშე არ მიენიჭოს.
 
 ## ცვლილებების ისტორია
 
