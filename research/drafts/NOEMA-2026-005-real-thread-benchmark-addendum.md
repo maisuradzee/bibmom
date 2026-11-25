@@ -48,7 +48,7 @@ NOEMA-005-ის წინა sharded reduction იყო დეტერმი�
 - `triplet_order`/contiguous შემთხვევაში Neumaier scalar და state ორივე 2/2 სწორად დამრგვალდა; naive scalar — 0/2.
 - `grouped_cancellation`/2 workers/contiguous შემთხვევაში Neumaier scalar — 0/2; Neumaier state — 2/2; naive scalar — 0/2.
 - CPU-time/wall-time ratio ყველა ამ ნაჩვენებ GIL-enabled configuration-ში 1-ზე დაბალი იყო (დაახლოებით 0.96–0.99), რაც CPU-bound Python კოდისთვის მრავალბირთვიან პარალელურ შესრულებას არ ადასტურებს.
-- სრული ადგილობრივი JSON: `data/noema-005/threaded-benchmark-local-cpython-3.13.5-gil.json`.
+- შერჩეული შედეგების JSON: `data/noema-005/threaded-benchmark-local-cpython-3.13.5-gil-summary.json`; სრული 36-configuration ანგარიში ინახება ცალკე raw JSON ფაილად, SHA-256 `d5ef839ad32d9515dc3c78555f33abc43e1eae3ccc8a3f0050dc13686bc65717`.
 
 ეს შედეგები არის ერთი გარემოს მცირე კონტროლი. ისინი არ ადასტურებს free-threaded შესრულებას და არ უნდა განზოგადდეს სხვა CPU/runtime-ზე.
 
