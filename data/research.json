@@ -1,17 +1,17 @@
 {
   "project": "NOEMA",
   "schema_version": 2,
-  "updated_at": "2026-11-24",
+  "updated_at": "2026-11-25",
   "research": [
     {
       "id": "NOEMA-2026-005",
       "title": "მცურავი წერტილის ჯამის სიზუსტე: ალგორითმი და რიგითობა",
-      "date": "2026-11-24",
+      "date": "2026-11-25",
       "category": "რიცხვითი ანალიზი",
-      "summary": "კონტროლირებული ტესტები აჩვენებს, რომ შეკრების რიგითობამ შეიძლება შეცვალოს შედეგი. კვლევა ადარებს binary32, binary64, decimal64 და decimal128 ფორმატებს და 330-კონფიგურაციან sharded-reduction სიმულაციაში compensation state-ის გადაცემამ 330/330 სწორად დამრგვალებული შედეგი შეინარჩუნა; scalar partial-ები სრულ დამთხვევას ვერ აღწევდა. წინასწარი, დამოუკიდებლად არარეცენზირებული შედეგია.",
+      "summary": "კონტროლირებული ტესტები აჩვენებს, რომ შეკრების რიგითობამ შეიძლება შედეგი შეცვალოს. 330-კონფიგურაციან sharded-reduction სიმულაციაში compensation state-მა 330/330 სწორი შედეგი შეინარჩუნა. რეალურ CPU threads-ზე CPython 3.14.4 GIL-enabled და 3.14.4t free-threaded რეჟიმებში Neumaier compensation-state merge-მა 48/48 configuration-ში სწორი შედეგი მიიღო; scalar partial-მა 42/48, ხოლო naive scalar-მა 0/48. Free-threaded რეჟიმში 108/144 CPU-time/wall-time ნიმუში 1.05-ს აჭარბებდა, თუმცა serial baseline-ზე wall-time speedup არ დაფიქსირდა. წინასწარი, დამოუკიდებლად არარეცენზირებული შედეგია.",
       "file": "research/preprints/NOEMA-2026-005-floating-point-summation.md",
       "status": "preliminary",
-      "version": "1.2",
+      "version": "1.3",
       "sources": [
         {
           "title": "The Accuracy of Floating Point Summation",
@@ -128,6 +128,96 @@
           "publication_note": "The benchmark provenance reports CPython 3.14.4; this source records that exact interpreter release, not the latest patch release.",
           "accessed_at": "2026-11-24",
           "version": "CPython 3.14.4"
+        },
+        {
+          "title": "PEP 703 — Making the Global Interpreter Lock Optional in CPython",
+          "authors": [
+            "Sam Gross"
+          ],
+          "citation": "Gross, S. (2023). PEP 703 — Making the Global Interpreter Lock Optional in CPython. Python Enhancement Proposals.",
+          "url": "https://peps.python.org/pep-0703/",
+          "type": "primary-specification",
+          "publication_date": "2023-01-09",
+          "publication_note": "Created 2023-01-09; Steering Council acceptance resolution 2023-10-24.",
+          "accessed_at": "2026-11-25"
+        },
+        {
+          "title": "PEP 779 — Criteria for supported status for free-threaded Python",
+          "authors": [
+            "Thomas Wouters",
+            "Matt Page",
+            "Sam Gross"
+          ],
+          "citation": "Wouters, T., Page, M., & Gross, S. (2025). PEP 779 — Criteria for supported status for free-threaded Python. Python Enhancement Proposals.",
+          "url": "https://peps.python.org/pep-0779/",
+          "type": "primary-specification",
+          "publication_date": "2025-03-13",
+          "publication_note": "Created 2025-03-13; Steering Council resolution 2025-06-16; establishes optional supported status for Python 3.14.",
+          "accessed_at": "2026-11-25"
+        },
+        {
+          "title": "Python 3.14.0 release",
+          "authors": [
+            "Python Software Foundation"
+          ],
+          "citation": "Python Software Foundation. (2025-10-07). Python 3.14.0 release.",
+          "url": "https://www.python.org/downloads/release/python-3140/",
+          "type": "official-release",
+          "publication_date": "2025-10-07",
+          "publication_note": "Official release record; Python 3.14 made the free-threaded build officially supported as an optional build.",
+          "accessed_at": "2026-11-25"
+        },
+        {
+          "title": "Python 3.14 free-threading HOWTO",
+          "authors": [
+            "Python Software Foundation"
+          ],
+          "citation": "Python Software Foundation. Python 3.14.10 documentation, HOWTO: Python support for free threading.",
+          "url": "https://docs.python.org/3.14/howto/free-threading-python.html",
+          "type": "official-documentation",
+          "publication_date": "2026-10-25",
+          "publication_note": "Python 3.14.10 documentation version released 2026-10-25; the individual page does not state a separate publication date.",
+          "accessed_at": "2026-11-25",
+          "version": "Python 3.14.10 documentation"
+        },
+        {
+          "title": "Python 3.14 threading library reference",
+          "authors": [
+            "Python Software Foundation"
+          ],
+          "citation": "Python Software Foundation. Python 3.14.10 documentation, Library Reference: threading.",
+          "url": "https://docs.python.org/3.14/library/threading.html",
+          "type": "official-documentation",
+          "publication_date": "2026-10-25",
+          "publication_note": "Python 3.14.10 documentation version released 2026-10-25; the individual page does not state a separate publication date.",
+          "accessed_at": "2026-11-25",
+          "version": "Python 3.14.10 documentation"
+        },
+        {
+          "title": "Python 3.14 time library reference",
+          "authors": [
+            "Python Software Foundation"
+          ],
+          "citation": "Python Software Foundation. Python 3.14.10 documentation, Library Reference: time.",
+          "url": "https://docs.python.org/3.14/library/time.html",
+          "type": "official-documentation",
+          "publication_date": "2026-10-25",
+          "publication_note": "Python 3.14.10 documentation version released 2026-10-25; the individual page does not state a separate publication date.",
+          "accessed_at": "2026-11-25",
+          "version": "Python 3.14.10 documentation"
+        },
+        {
+          "title": "Python 3.14 tracemalloc library reference",
+          "authors": [
+            "Python Software Foundation"
+          ],
+          "citation": "Python Software Foundation. Python 3.14.10 documentation, Library Reference: tracemalloc.",
+          "url": "https://docs.python.org/3.14/library/tracemalloc.html",
+          "type": "official-documentation",
+          "publication_date": "2026-10-25",
+          "publication_note": "Python 3.14.10 documentation version released 2026-10-25; the individual page does not state a separate publication date.",
+          "accessed_at": "2026-11-25",
+          "version": "Python 3.14.10 documentation"
         }
       ],
       "methodology": {
@@ -155,6 +245,73 @@
           "initial_environment": "CPython 3.13.5; Linux x86_64; simulation only",
           "ci_reproduction_environment": "CPython 3.14.4; Linux x86_64; Actions run 45325226165",
           "cross_version_reproduction": true
+        },
+        "real_thread_reduction": {
+          "experiment_id": "NOEMA-2026-005-REAL-THREADS-001",
+          "workflow_run": "https://github.com/maisuradzee/bibmom/actions/runs/45548551086",
+          "runtime_matrix": [
+            {
+              "python_version": "3.14.4",
+              "build": "GIL-enabled",
+              "gil_enabled": true,
+              "platform": "Ubuntu 24.04 x86_64",
+              "cpu_affinity": 4
+            },
+            {
+              "python_version": "3.14.4",
+              "build": "free-threaded",
+              "gil_enabled": false,
+              "platform": "Ubuntu 24.04 x86_64",
+              "cpu_affinity": 4
+            }
+          ],
+          "repeat_count": 65536,
+          "values_per_layout": 196608,
+          "exact_sum": 65536,
+          "input_sha256": {
+            "triplet_order": "e6cc4a627d55c476cb55e6f9789ceb39282e1f787d4b0a5fc040b30428085291",
+            "grouped_cancellation": "16ae80fed695b4d02f4a42a2e7c3f5b8a5eff96e97296273c3ddcacfb19090ee"
+          },
+          "workers": [
+            1,
+            2,
+            4,
+            8
+          ],
+          "partitions": [
+            "contiguous",
+            "round_robin"
+          ],
+          "methods": [
+            "threaded_naive_scalar",
+            "threaded_neumaier_scalar",
+            "threaded_neumaier_state"
+          ],
+          "warmups": 1,
+          "repetitions": 3,
+          "random_seed": null,
+          "configurations_per_runtime": 48,
+          "measured_runs_per_runtime": 144,
+          "native_thread_identity_verified": true,
+          "accuracy_per_runtime": {
+            "naive_scalar": "0/48",
+            "neumaier_scalar": "42/48",
+            "neumaier_compensation_state": "48/48"
+          },
+          "cpu_time_wall_ratio_above_1_05": {
+            "gil_enabled": "0/144",
+            "free_threaded": "108/144"
+          },
+          "maximum_threaded_speedup_vs_serial": {
+            "gil_enabled": 0.7769961086207059,
+            "free_threaded": 0.8025596577953469
+          },
+          "result_files": [
+            "data/noema-005/threaded-benchmark-gil-enabled-2026-11-25.json",
+            "data/noema-005/threaded-benchmark-free-threaded-2026-11-25.json"
+          ],
+          "protocol_file": "data/noema-005/threaded-benchmark-protocol.json",
+          "raw_artifact_retention_days": 30
         }
       },
       "limitations": [
@@ -163,7 +320,11 @@
         "binary32-ის ნაწილი Python-ში ემულირებულია და hardware-ის სიჩქარეს არ წარმოადგენს",
         "integer accumulator არის reference implementation და არა production-ოპტიმიზაცია",
         "დამოუკიდებელი გარე რეცენზია ჯერ არ დასრულებულა",
-        "განაწილებული reduction-ის შედეგი არის synthetic map/reduce სიმულაცია; რეალური threads, GPU ან distributed runtime არ შემოწმებულა."
+        "რეალური CPU threads შემოწმდა მხოლოდ Ubuntu 24.04 x86_64 runner-ებზე; ARM, Windows, macOS, GPU და network-distributed runtime არ შემოწმებულა",
+        "thread benchmark შესრულდა CPython 3.14.4/3.14.4t-ზე; 2026-11-25-ის უახლესი 3.14.10 და 3.15.2 ვერსიები არ შემოწმებულა",
+        "CPU-time/wall-time ratio ასახავს პროცესის aggregate CPU მოხმარებას და არ ნიშნავს wall-time speedup-ს; ამ benchmark-ში threaded wall-time serial baseline-ზე უკეთესი არ ყოფილა",
+        "tracemalloc ზომავს Python-traced allocation-ებს და არა სრულ RSS/native allocation-ს",
+        "free-threaded CPython ოფიციალურად მხარდაჭერილია Python 3.14-დან როგორც optional build; extension compatibility და workload-dependent performance კვლავ გასათვალისწინებელია"
       ]
     }
   ]
