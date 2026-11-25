@@ -4,8 +4,18 @@ on:
   push:
     branches:
       - research/noema005-real-thread-cpu-2026-11-25
+    paths:
+      - scripts/benchmark_noema005_threaded_reduction.py
+      - tests/test_benchmark_noema005_threaded_reduction.py
+      - data/noema-005/threaded-benchmark-protocol.json
+      - .github/workflows/noema005-threaded-benchmark.yml
   pull_request:
     branches: [main]
+    paths:
+      - scripts/benchmark_noema005_threaded_reduction.py
+      - tests/test_benchmark_noema005_threaded_reduction.py
+      - data/noema-005/threaded-benchmark-protocol.json
+      - .github/workflows/noema005-threaded-benchmark.yml
   workflow_dispatch:
 
 permissions:
