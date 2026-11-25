@@ -20,7 +20,7 @@ NOEMA-005-ის წინა sharded reduction იყო დეტერმი�
 
 წინა სიმულაციამ აჩვენა, რომ scalar partial-მა შეიძლება worker-ის შიდა კომპენსაცია დაკარგოს. რეალურ thread pool-ში ამას ემატება GIL-ის რეჟიმი, thread scheduling, CPU quota და runtime overhead. ამიტომ მხოლოდ შუალედური ჯამების მათემატიკური სიმულაცია საკმარისი არ არის შესრულების ან რეალური threading-ის დასადასტურებლად.
 
-## არსებული ცოდნა და წყაროები
+## წყაროები
 
 1. **Sam Gross — PEP 703, “Making the Global Interpreter Lock Optional in CPython.”** Python Enhancement Proposals, PEP 703. შეიქმნა 2023-01-09; Steering Council-ის მიღების გადაწყვეტილება 2023-10-24. https://peps.python.org/pep-0703/ — პირველადი ტექნიკური სპეციფიკაცია, რომელიც აღწერს GIL-ის შეზღუდვას და free-threaded build-ის მიზანს. წვდომა: 2026-11-25.
 2. **Python Software Foundation — Python 3.14 HOWTO, “Python support for free threading.”** გამოცემის ცალკე თარიღი გვერდზე მითითებული არ არის. https://docs.python.org/3.14/howto/free-threading-python.html — აღწერს free-threaded build-ს, `sys._is_gil_enabled()`-ს და იმ შემთხვევებს, როდესაც extension-მა შეიძლება GIL ხელახლა ჩართოს. წვდომა: 2026-11-25.
@@ -88,6 +88,15 @@ NOEMA-005-ის წინა sharded reduction იყო დეტერმი�
 - **PENDING:** GitHub Actions-ის 3.14.4 და 3.14.4t სრული benchmark; სანამ ორივე job არ დასრულდება, free-threaded დასკვნა არ კეთდება.
 - **INFERENCE:** scalar worker partial-ების შენახვა შეიძლება არ იყოს საკმარისი, რადგან worker-ის შიდა compensation იკარგება; state merge ამ ინფორმაციას ინარჩუნებს.
 
+## შემოწმების სტატუსი
+
+- ადგილობრივი CPython 3.13.5 GIL-enabled control: შესრულებულია; სრული raw JSON SHA-256 მითითებულია შედეგების შეჯამებაში.
+- ადგილობრივი unit tests: 5/5 PASS; მცირე smoke run: 24 configuration.
+- პირველი GitHub Actions attempt `45548429179`: ორივე runtime job-მა აღმოაჩინა benchmark script-ის JSON newline literal-ის syntax error; სრული benchmark არ გაშვებულა. შეცდომა გასწორებულია branch-ზე.
+- იმავე head-ის repository CI run `45548429197`: draft validator-მა მოითხოვა ზუსტი `წყაროები`, `შემოწმების სტატუსი` და `შემდეგი ნაბიჯები` headings. ეს headings დამატებულია.
+- შესწორებული head-ის სრული CI და free-threaded benchmark ჯერ ხელახლა გასაშვებია; ამ ეტაპზე free-threaded შედეგი არ არსებობს.
+- სტატუსი რჩება `draft`; კატალოგი, preliminary preprint და published არქივი ამ ცვლილებით არ განახლებულა.
+
 ## შეზღუდვები და გაურკვევლობები
 
 - მხოლოდ ხელოვნური cancellation მონაცემებია გამოყენებული; რეალური სამეცნიერო ან ფინანსური dataset არ გამოიყენება.
@@ -105,6 +114,14 @@ NOEMA-005-ის წინა sharded reduction იყო დეტერმი�
 ## დასკვნა
 
 რეალური native threads-ის კონტროლი შესრულდა GIL-enabled გარემოში. პირველადი შედეგი ადასტურებს, რომ thread-ების რაოდენობის გაზრდა თავისთავად CPU პარალელიზმს არ ნიშნავს. scalar Neumaier partial-ის ერთ კონკრეტულ დაყოფაში კომპენსაციის დაკარგვა დაფიქსირდა; state merge-მა ეს კონკრეტული შემთხვევა შეინარჩუნა. free-threaded benchmark ჯერ შესასრულებელია.
+
+## შემდეგი ნაბიჯები
+
+1. ხელახლა გაუშვი ორივე CPython 3.14.4 GIL-enabled და 3.14.4t free-threaded Actions job.
+2. შეინახე და შეამოწმე ორივე runtime-ის სრული JSON artifacts, input hashes, native thread IDs და CPU/wall ratios.
+3. შეადარე throughput, accuracy და traced memory; არ გამოიტანო speedup დასკვნა, თუ runner-ის CPU quota ამას არ ამყარებს.
+4. შემდეგ ციკლში დაამატე დამოუკიდებელი ARM ან სხვა OS architecture run, თუ runner ხელმისაწვდომია.
+5. მხოლოდ შედეგების, წყაროებისა და სარედაქციო შემოწმების შემდეგ განიხილე preprint-ის განახლება.
 
 ## ცვლილებების ისტორია
 
