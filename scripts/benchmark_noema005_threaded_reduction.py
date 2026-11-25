@@ -287,7 +287,7 @@ def main() -> None:
     report = run_benchmark(args.repeat_count, workers, args.warmups, args.repetitions,
                            args.expected_gil)
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2, sort_keys=True) + "\\n",
+    args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
                            encoding="utf-8")
     env = report["environment"]
     print(f"{EXPERIMENT_ID}: {len(report['threaded_cases'])} cases; "
