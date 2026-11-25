@@ -46,12 +46,16 @@ GitHub საცავი public-ია. Pages build draft/review ფაილ�
 
 ## 2026-11-25 — რეალური CPU-thread benchmark
 
-- მიმდინარე branch: `research/noema005-real-thread-cpu-2026-11-25`; საწყისი main SHA: `f777eb530443e5be33ce6d28591eeb75e2df0fd0`.
-- დაემატა `scripts/benchmark_noema005_threaded_reduction.py`, ახალი unit tests, GIL-enabled/free-threaded workflow, protocol JSON და უსაფრთხო synthetic draft addendum.
-- ადგილობრივი კონტროლი: CPython 3.13.5, Linux x86_64, GIL ჩართული; 36 ThreadPoolExecutor configuration, 1/2/4 worker, ორი partition. ყველა worker-ს ცალკე native thread ID ჰქონდა, მაგრამ CPU-time/wall-time 1-ს არ გადასცდენია.
-- კონკრეტულ grouped-cancellation, 2-worker contiguous შემთხვევაში Neumaier scalar partial-მა 0/2 სწორი შედეგი აჩვენა, ხოლო Neumaier state merge-მა 2/2. ეს არის მხოლოდ ამ synthetic კონფიგურაციის შედეგი.
-- სრული raw local report SHA-256: `d5ef839ad32d9515dc3c78555f33abc43e1eae3ccc8a3f0050dc13686bc65717`; repository-ში შენახულია შერჩეული შედეგების JSON და არა სრული thread-ID log.
-- free-threaded CPython 3.14.4t და GIL-enabled 3.14.4 სრული Actions benchmark ჯერ pending-ია; შედეგების გარეშე free-threaded speedup-ზე დასკვნა არ კეთდება.
+- მიმდინარე branch: `research/noema005-real-thread-cpu-2026-11-25`; საწყისი main SHA: `f777eb530443e5be33ce6d28591eeb75e2df0fd0`; მიმდინარე PR: [#20](https://github.com/maisuradzee/bibmom/pull/20), Draft.
+- დაემატა რეალური `ThreadPoolExecutor` benchmark, native thread ID verification, GIL-state detection, CPU/wall timers, tracemalloc peak, protocol, tests და CI workflow.
+- GitHub Actions run [45548551086](https://github.com/maisuradzee/bibmom/actions/runs/45548551086): CPython 3.14.4 GIL-enabled და 3.14.4t free-threaded; თითო runtime-ზე 48 configuration × 3 repetitions = 144 run; ორივე job SUCCESS.
+- ყველა worker-ს განსხვავებული native thread ID ჰქონდა. Neumaier compensation-state merge: 48/48 სწორად დამრგვალებული configuration ორივე runtime-ზე; Neumaier scalar partial: 42/48; naive scalar: 0/48.
+- CPU-time/wall-time >1.05: GIL-enabled 0/144; free-threaded 108/144 (2/4/8 worker-ების ყველა sample). მიუხედავად CPU concurrency-ისა, threaded wall-time serial baseline-ზე უკეთესი არ იყო; მაქსიმალური მედიანური speedup 0.777 და 0.803.
+- შედეგების JSON: `data/noema-005/threaded-benchmark-gil-enabled-2026-11-25.json` და `data/noema-005/threaded-benchmark-free-threaded-2026-11-25.json`; raw artifact SHA-256-ები ინახება ორივე ფაილში. სრული raw JSON artifacts ხელმისაწვდომია Actions run-ის artifact-ებში (30 დღე).
+- `research/preprints/NOEMA-2026-005-floating-point-summation.md` და `data/research.json` branch-ზე განახლებულია; კატალოგში სტატუსი რჩება `preliminary`, schema v2 უცვლელია. `main` ჯერ არ შეცვლილა.
+- free-threaded Python ოფიციალურად მხარდაჭერილია როგორც optional build Python 3.14-დან (PEP 779). ამ ციკლის pinned version იყო 3.14.4; 2026-11-25-ის უახლესი 3.14.10 და 3.15.2 არ შემოწმებულა.
+- Repository quality/site CI run [45548551153](https://github.com/maisuradzee/bibmom/actions/runs/45548551153) წარმატებული იყო head `93bb712b889cc9ffb5624b647480abb3291264d8`-ზე; შემდგომ დაემატა result summaries, preprint/catalog update და protocol metadata, ამიტომ მიმდინარე head `8718aa1ee254753fccfcac257ab2933e0bbc30d7`-ზე სრული CI ხელახლა უნდა დადასტურდეს.
+- Pages deployment ამ PR-ისთვის არ გაშვებულა; საიტი განახლებულად არ ითვლება.
 - PR #19 კვლავ Draft-ია; CI run [45400018018](https://github.com/maisuradzee/bibmom/actions/runs/45400018018) ჩავარდა ერთ ტესტზე: `test_restore_rejects_non_self_contained_wal_mode_snapshot` — მოსალოდნელი `JobQueueError` არ იქნა გაშვებული. სხვა unit tests და შემდგომი reproduction/build ნაბიჯები skip გახდა.
 - PR #5 (DB/RLS architecture) და PR #7 (cross-platform reproduction) კვლავ Draft-ებია და main-ის უფრო ძველ base SHA-ზე დგანან; არცერთი არ გაერთიანებულა.
 
@@ -93,8 +97,8 @@ GitHub საცავი public-ია. Pages build draft/review ფაილ�
 
 ## NOEMA-005 — summation accuracy across binary32, binary64, decimal64 and decimal128 (2026-11-24)
 
-- ძირითადი კვლევის სტატუსი: `review`; სრული კვლევითი ჟურნალი რჩება `research/drafts/NOEMA-2026-005-floating-summation-order.md`-ში. მომხმარებლისთვის მომზადებული მოკლე ანგარიში მოთავსებულია `research/preprints/NOEMA-2026-005-floating-point-summation.md`-ში და კატალოგში ჩანს მხოლოდ `preliminary` სტატუსით.
-- სამუშაო branch: `research/noema-2026-005-mainline-2026-11-24`, მიმდინარე `main`-ზე დაფუძნებული. ძველი branch, რომელიც main-ს 45 commit-ით ჩამორჩებოდა, არ გაერთიანებულა.
+- ძირითადი კვლევის სტატუსი: `preliminary` main-ზე (PR #3 merged); სრული კვლევითი ჟურნალი რჩება `research/drafts/NOEMA-2026-005-floating-summation-order.md`-ში. მომხმარებლისთვის მომზადებული მოკლე ანგარიში მოთავსებულია `research/preprints/NOEMA-2026-005-floating-point-summation.md`-ში და კატალოგში ჩანს მხოლოდ `preliminary` სტატუსით.
+- მიმდინარე გაგრძელების branch: `research/noema005-real-thread-cpu-2026-11-25`, დაფუძნებულია main SHA `f777eb530443e5be33ce6d28591eeb75e2df0fd0`-ზე. ძველი stale branch main-ში არ გაერთიანებულა.
 - კვლევის მოცულობა: 4 ფორმატი; თითოეულში 2 synthetic stress case, სულ 48 input ordering. Binary32/binary64-ში თითო 6 method; decimal64/decimal128-ში თითო 5 method.
 - Binary32-ის oracle პირდაპირი rational-to-binary32 round-to-nearest ties-to-even quantizer-ია; native binary32 მეთოდებში ყოველი შუალედური არითმეტიკული ოპერაცია binary32-ში მრგვალდება. `math.fsum_then_round_binary32` ცალკე wider-precision comparison path-ია.
 - Decimal64/decimal128 გამოიყენებს Python `decimal.Context` arithmetic emulation-ს: precision 16/34, Emin/Emax −383/+384 და −6143/+6144, Etiny −398/−6176, clamp=1, ROUND_HALF_EVEN. ეს არ არის decimal interchange BID/DPD byte-level implementation.
