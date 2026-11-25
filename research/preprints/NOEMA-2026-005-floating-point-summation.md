@@ -1,6 +1,6 @@
 # მცურავი წერტილის ჯამის სიზუსტე: ალგორითმი, რიგითობა და გამეორებადობა
 
-> **სტატუსი: წინასწარი კვლევა (preliminary).** ეს არის AI-ით მომზადებული და კოდით/ტესტებით ნაწილობრივ გამეორებული კვლევითი ანგარიში. დამოუკიდებელი გარე რეცენზია და სხვა არქიტექტურაზე გამეორება ჯერ არ დასრულებულა. შედეგები არ უნდა ჩაითვალოს უნივერსალურ სიჩქარის ან სიზუსტის გარანტიად.
+> **სტატუსი: წინასწარი კვლევა (preliminary).** ეს არის AI-ით მომზადებული და კოდით/ტესტებით გამეორებული წინასწარი კვლევითი ანგარიში. რეალური CPU-thread benchmark შესრულდა CPython 3.14.4 GIL-enabled და free-threaded რეჟიმებში; დამოუკიდებელი გარე რეცენზია, სხვა არქიტექტურაზე გამეორება და უახლეს Python patch-ებზე ტესტირება ჯერ არ დასრულებულა. შედეგები არ არის უნივერსალური სიჩქარის ან სიზუსტის გარანტია.
 
 ## კვლევის კითხვა
 
@@ -62,6 +62,50 @@ NOEMA-ს წინადადებაა მცირე **summation contract
 
 **მკაცრი შეზღუდვა:** ექსპერიმენტი არის დეტერმინისტული map/reduce სიმულაცია და არა რეალური მრავალნაკადიანი, GPU ან ქსელური distributed runtime-ის ტესტი. გამოყენებულია მხოლოდ ერთი synthetic cancellation dataset. რეალურ სისტემაში ეფექტიანობა, concurrency, communication cost და სხვა input distribution-ები ჯერ არ შემოწმებულა.
 
+## დამატებითი შედეგი — რეალური CPU threads და free-threaded CPython
+
+წინა 330-კონფიგურაციანი sharded reduction იყო სიმულაცია. ამ დამატებითმა ექსპერიმენტმა რეალურად გაუშვა `ThreadPoolExecutor` worker-ები ცალკე native OS threads-ზე და შეადარა CPython 3.14.4-ის ჩვეულებრივი GIL-enabled build და 3.14.4t free-threaded build. Python 3.14-ში free-threaded build ოფიციალურად მხარდაჭერილია, მაგრამ კვლავ არჩევითია; GIL-enabled build რჩება ჩვეულებრივ ნაგულისხმევ რეჟიმად.
+
+**მეთოდი:** თითო runtime-ზე ორი deterministic input layout, N=65,536 და თითო layout 196,608 binary64 მნიშვნელობა; ზუსტი ჯამი 65,536. შედარებულია naive scalar partial, Neumaier scalar partial და Neumaier `(sum, compensation)` state merge. Worker count: 1, 2, 4, 8; partition: contiguous და round-robin; warmup: 1; measured repetitions: 3. თითო runtime-ზე 48 configuration და 144 measured run. თითოეულ worker-ს ჰქონდა განსხვავებული native thread ID.
+
+**სიზუსტე — ორივე runtime-ზე იდენტური შედეგი:**
+
+| მეთოდი | Triplet order | Grouped cancellation | სულ |
+|---|---:|---:|---:|
+| Naive scalar partial | 0/24 | 0/24 | 0/48 |
+| Neumaier scalar partial | 24/24 | 18/24 | 42/48 |
+| Neumaier compensation-state merge | 24/24 | 24/24 | **48/48** |
+
+Neumaier scalar partial-ის ჩავარდნები დაფიქსირდა grouped-cancellation input-ის contiguous partition-ზე 2 და 8 worker-ის შემთხვევებში. Compensation-state merge-მა ყველა შემოწმებულ synthetic configuration-ში ზუსტი binary64 reference შეინარჩუნა.
+
+**რეალური CPU concurrency:**
+
+| მაჩვენებელი | GIL enabled | Free-threaded |
+|---|---:|---:|
+| CPU-time/wall-time > 1.05 | 0/144 | 108/144 |
+| 2 worker | 0/36 | 36/36 |
+| 4 worker | 0/36 | 36/36 |
+| 8 worker | 0/36 | 36/36 |
+
+Free-threaded Neumaier-state median CPU-time/wall-time ratio 1/2/4/8 worker-ზე იყო 0.99 / 1.95 / 3.52 / 3.47. ეს მიუთითებს მრავალბირთვიან CPU შესრულებაზე. თუმცა **threaded wall-time speedup serial baseline-თან შედარებით არც ერთ configuration-ში არ დაფიქსირებულა**: საუკეთესო მედიანური speedup იყო 0.777 GIL-enabled და 0.803 free-threaded რეჟიმში. ამ microbenchmark-ზე thread startup/scheduling და Python-level reduction overhead-მა პარალელიზმის სარგებელი გადაფარა.
+
+**Tracemalloc peak — Neumaier state, median bytes (არა RSS):**
+
+- GIL-enabled, 1/2/4/8 worker: 11,535 / 18,490 / 32,216 / 60,284.
+- Free-threaded, 1/2/4/8 worker: 95,149 / 185,878 / 366,372 / 731,384.
+
+შედეგები გარემოსა და CPU quota-ზეა დამოკიდებული. ორივე Actions runner იყო Ubuntu 24.04 x86_64, 4 CPU affinity-ით; ეს არ არის დამოუკიდებელი არქიტექტურული გამეორება. Python 3.14.4/3.14.4t ტესტი ზუსტად ფიქსირებული ვერსიის კონტროლია; 2026-11-25-ისთვის უახლესი 3.14 patch იყო 3.14.10, ხოლო უახლესი major — 3.15.2; ისინი ამ ციკლში არ შემოწმებულა.
+
+**მონაცემები და არტეფაქტები:**
+
+- [GIL-enabled result summary JSON](https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/threaded-benchmark-gil-enabled-2026-11-25.json)
+- [Free-threaded result summary JSON](https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/threaded-benchmark-free-threaded-2026-11-25.json)
+- [Threaded benchmark protocol](https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/threaded-benchmark-protocol.json)
+- [Benchmark script](https://github.com/maisuradzee/bibmom/blob/main/scripts/benchmark_noema005_threaded_reduction.py) და [unit tests](https://github.com/maisuradzee/bibmom/blob/main/tests/test_benchmark_noema005_threaded_reduction.py)
+- [GitHub Actions run #45548551086](https://github.com/maisuradzee/bibmom/actions/runs/45548551086) — ორივე runtime matrix job წარმატებით დასრულდა; raw JSON artifacts SHA-256-ით არის მიბმული summary ფაილებში.
+
+**დასკვნა:** real threads-ის არსებობა დადასტურდა. GIL-disabled რეჟიმში multi-worker CPU concurrency დაფიქსირდა, მაგრამ ამ synthetic Python workload-ზე wall-time speedup არ გამოვლინდა. Worker boundary-ზე compensation state-ის გადაცემა ამ ტესტებში scalar partial-ზე უფრო საიმედო აღმოჩნდა. ეს არის კონკრეტული synthetic fixture-ის შედეგი და არა ყველა floating-point reduction-ის უნივერსალური გარანტია.
+
 ## შეზღუდვები
 
 - Benchmark runner-ზე დაფიქსირდა CPython 3.14.4 (გამოშვებულია 2026-04-07); ეს არ არის 2026-11-24-ის უახლესი patch release. სხვა ვერსიაზე გამეორება დარჩენილია.
@@ -72,8 +116,10 @@ NOEMA-ს წინადადებაა მცირე **summation contract
 - Decimal კვლევა იყენებს Python decimal.Context-ს მითითებული precision/exponent პარამეტრებით; ის არ ამოწმებს IEEE decimal interchange-ის BID/DPD byte-level კოდირებას.
 - Integer accumulator არის reference-oriented Python implementation და არა ოპტიმიზებული production ალგორითმი.
 - Synthetic stress-test-ები არ წარმოადგენს რეალური workload-ების შეცდომის სიხშირის შეფასებას.
-- sharded reduction არის სიმულაცია და არა რეალური threads/GPU/distributed runtime; გამოყენებულია ერთი synthetic input pattern.
-- sharded-reduction სიმულაცია გამეორდა CPython 3.13.5-სა და CPython 3.14.4-ზე ერთნაირი case-matrix SHA-256-ით; სხვა არქიტექტურაზე performance benchmark და გარე რეცენზია დარჩენილია.
+- რეალური CPU threads შემოწმდა მხოლოდ Ubuntu 24.04 x86_64-ზე; ARM, Windows, macOS, GPU და network-distributed runtime არ შემოწმებულა.
+- sharded-reduction სიმულაცია გამეორდა CPython 3.13.5-სა და CPython 3.14.4-ზე ერთნაირი case-matrix SHA-256-ით; რეალური thread benchmark შესრულდა CPython 3.14.4/3.14.4t-ზე. უახლესი 3.14.10/3.15.2 patch/major ვერსიები და სხვა არქიტექტურა დარჩენილია.
+- process CPU-time/wall-time ratio აჩვენებს aggregate CPU utilization-ს და არა throughput speedup-ს; ამ კვლევაში threaded wall-time serial baseline-ზე უკეთესი არ იყო.
+- free-threaded CPython ოფიციალურად მხარდაჭერილია Python 3.14-დან როგორც optional build (PEP 779); მესამე მხარის extension-ებმა შეიძლება GIL ხელახლა ჩართონ.
 
 ## გამეორებადობა და წყარო მონაცემები
 
@@ -84,6 +130,7 @@ NOEMA-ს წინადადებაა მცირე **summation contract
 - [Full profile summary JSON](https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/benchmark-full-profile-summary-2026-11-24.json)
 - [Summation experiment result JSON](https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/floating-summation-results.json)
 - [Parallel reduction simulation code](https://github.com/maisuradzee/bibmom/blob/main/scripts/simulate_noema005_parallel_reduction.py), [tests](https://github.com/maisuradzee/bibmom/blob/main/tests/test_noema005_parallel_reduction.py), [protocol](https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/parallel-reduction-protocol.json) და [frozen summary JSON](https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/parallel-reduction-results.json)
+- [Real CPU-thread benchmark script](https://github.com/maisuradzee/bibmom/blob/main/scripts/benchmark_noema005_threaded_reduction.py), [tests](https://github.com/maisuradzee/bibmom/blob/main/tests/test_benchmark_noema005_threaded_reduction.py), [protocol](https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/threaded-benchmark-protocol.json), [GIL-enabled summary](https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/threaded-benchmark-gil-enabled-2026-11-25.json) და [free-threaded summary](https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/threaded-benchmark-free-threaded-2026-11-25.json).
 - [კვლევის სრული სამუშაო ჩანაწერი](https://github.com/maisuradzee/bibmom/blob/main/research/drafts/NOEMA-2026-005-floating-summation-order.md)
 
 ## წყაროები
@@ -97,6 +144,13 @@ NOEMA-ს წინადადებაა მცირე **summation contract
 7. Python Software Foundation. (documentation page last updated 2026-10-26 15:00 UTC; no separate page-publication date stated). *Python 3.12.16 documentation: decimal module*. https://docs.python.org/3.12/library/decimal.html. Accessed 2026-11-24.
 8. NIST. (2010-05-11; site version 1.2.8 dated 2026-09-15). *Digital Library of Mathematical Functions, §3.1*. https://dlmf.nist.gov/3.1. Accessed 2026-11-24.
 9. Python Software Foundation. (2026-04-07). *Python 3.14.4 release*. https://www.python.org/downloads/release/python-3144/. Accessed 2026-11-24.
+10. Gross, S. (2023-01-09; Steering Council acceptance 2023-10-24). *PEP 703 — Making the Global Interpreter Lock Optional in CPython*. https://peps.python.org/pep-0703/. Accessed 2026-11-25.
+11. Wouters, T., Page, M., & Gross, S. (2025-03-13; resolution 2025-06-16). *PEP 779 — Criteria for supported status for free-threaded Python*. https://peps.python.org/pep-0779/. Accessed 2026-11-25.
+12. Python Software Foundation. (2025-10-07). *Python 3.14.0 release*. https://www.python.org/downloads/release/python-3140/. Accessed 2026-11-25.
+13. Python Software Foundation. (documentation version 3.14.10 released 2026-10-25; individual page has no separate publication date). *Python 3.14 free-threading HOWTO*. https://docs.python.org/3.14/howto/free-threading-python.html. Accessed 2026-11-25.
+14. Python Software Foundation. (documentation version 3.14.10 released 2026-10-25; individual page has no separate publication date). *Python 3.14 threading library reference*. https://docs.python.org/3.14/library/threading.html. Accessed 2026-11-25.
+15. Python Software Foundation. (documentation version 3.14.10 released 2026-10-25; individual page has no separate publication date). *Python 3.14 time library reference*. https://docs.python.org/3.14/library/time.html. Accessed 2026-11-25.
+16. Python Software Foundation. (documentation version 3.14.10 released 2026-10-25; individual page has no separate publication date). *Python 3.14 tracemalloc library reference*. https://docs.python.org/3.14/library/tracemalloc.html. Accessed 2026-11-25.
 
 ## შემდეგი ნაბიჯები
 
