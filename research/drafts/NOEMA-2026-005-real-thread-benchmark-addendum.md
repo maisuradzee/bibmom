@@ -129,7 +129,7 @@ Free-threaded Neumaier-state median CPU-time/wall-time ratio worker count 1/2/4/
 - პირველი repository CI attempt `45548429197`: draft validator-მა მოითხოვა ზუსტი headings `წყაროები`, `შემოწმების სტატუსი`, `შემდეგი ნაბიჯები`; დამატებულია.
 - საწყის კვლევით head `93bb712b889cc9ffb5624b647480abb3291264d8`-ზე repository quality/site CI run `45548551153` და thread benchmark run `45548551086` წარმატებით დასრულდა; ეს შედეგები შემდგომი საბოლოო head-ის შემოწმებას არ ანაცვლებს.
 - ორივე runtime-ის raw JSON artifact გადმოწერილია, SHA-256 შემოწმებულია და შეჯამებები repository branch-ზეა დამატებული. PR head `597d26b79ffbcd8eaf4a0249e189f3f63b2a0d83`-ზე quality/site CI run [45549762442](https://github.com/maisuradzee/bibmom/actions/runs/45549762442) წარმატებით დასრულდა: **176 Python test**, frozen-result reproduction, schema/catalog validation, site build და draft/publication boundary PASS. იმავე head-ის რეალური thread benchmark run [45549762459](https://github.com/maisuradzee/bibmom/actions/runs/45549762459)-მა ორივე runtime job წარმატებით დაასრულა. შემდგომი დოკუმენტაციის/trigger ცვლილებებისთვის ახალი head-ის შემოწმება სავალდებულოა; live სტატუსი PR #21-ის Checks ჩანართშია.
-- PR #21 ამ ეტაპზე Draft-ია; კვლევის მომხმარებლის ანგარიში და კატალოგის ჩანაწერი `preliminary` სტატუსითაა, ხოლო სრული addendum რჩება სამუშაო კვლევით მასალად. `published` სტატუსი არ გამოიყენება; დამოუკიდებელი გარე რეცენზია არ დასრულებულა.
+- PR #21 squash-ით გაერთიანდა 2026-11-25; merge commit: `e84f2b9679c923c673319fc28fc6da5d1e021702`. მომხმარებლის preprint და კატალოგის ჩანაწერი კვლავ `preliminary` სტატუსითაა. Pages deployment run [45551962965](https://github.com/maisuradzee/bibmom/actions/runs/45551962965) წარმატებით დასრულდა; `published` სტატუსი არ გამოიყენება და დამოუკიდებელი გარე რეცენზია არ დასრულებულა.
 
 ## შეზღუდვები და გაურკვევლობები
 
@@ -160,4 +160,4 @@ Free-threaded Neumaier-state median CPU-time/wall-time ratio worker count 1/2/4/
 ## ცვლილებების ისტორია
 
 - 2026-11-25 — დაემატა რეალური ThreadPoolExecutor benchmark, GIL-mode detection, native thread ID verification, CPU/wall timing, memory tracing და GIL-enabled local control JSON.
-- 2026-11-25 — PR #21-ის საბოლოო head-ზე ორივე Actions workflow წარმატებით დადასტურდა; repository quality/site workflow-ში 176 ტესტი გაიარა. PR merge/deployment-ის სტატუსი ცალკე უნდა გადამოწმდეს.
+- 2026-11-25 — PR #21-ის head `00084792c6d3265b7b046e013ece362f76cf88f6`-ზე quality/site (176 tests) და actual CPU-thread benchmark workflows წარმატებით დასრულდა; PR squash-ით merged commit `e84f2b9679c923c673319fc28fc6da5d1e021702`-ში. Pages deployment run `45551962965` წარმატებით დასრულდა.
