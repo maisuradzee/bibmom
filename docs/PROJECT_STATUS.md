@@ -46,7 +46,7 @@ GitHub საცავი public-ია. Pages build draft/review ფაილ�
 
 ## 2026-11-25 — რეალური CPU-thread benchmark
 
-- მიმდინარე branch: `research/noema005-real-thread-cpu-2026-11-25`; საწყისი main SHA: `f777eb530443e5be33ce6d28591eeb75e2df0fd0`; მიმდინარე PR: [#20](https://github.com/maisuradzee/bibmom/pull/20), Draft.
+- მიმდინარე branch: `research/noema005-real-thread-cpu-2026-11-25`; საწყისი main SHA: `f777eb530443e5be33ce6d28591eeb75e2df0fd0`; საბოლოო verification branch: `research/noema005-final-verification-2026-11-25`; PR-ის Draft/CI სტატუსი ამ branch-ის გახსნის შემდეგ დადასტურდება.
 - დაემატა რეალური `ThreadPoolExecutor` benchmark, native thread ID verification, GIL-state detection, CPU/wall timers, tracemalloc peak, protocol, tests და CI workflow.
 - GitHub Actions run [45548551086](https://github.com/maisuradzee/bibmom/actions/runs/45548551086): CPython 3.14.4 GIL-enabled და 3.14.4t free-threaded; თითო runtime-ზე 48 configuration × 3 repetitions = 144 run; ორივე job SUCCESS.
 - ყველა worker-ს განსხვავებული native thread ID ჰქონდა. Neumaier compensation-state merge: 48/48 სწორად დამრგვალებული configuration ორივე runtime-ზე; Neumaier scalar partial: 42/48; naive scalar: 0/48.
