@@ -118,7 +118,7 @@ Free-threaded Neumaier-state median CPU-time/wall-time ratio worker count 1/2/4/
 ## შედეგები და ინტერპრეტაცია
 
 - **REPRODUCED RESULT:** ადგილობრივი GIL-enabled control run აღწერილია ზემოთ.
-- **PENDING:** GitHub Actions-ის 3.14.4 და 3.14.4t სრული benchmark; სანამ ორივე job არ დასრულდება, free-threaded დასკვნა არ კეთდება.
+- **REPRODUCED RESULT:** GitHub Actions-ის CPython 3.14.4 და 3.14.4t სრული benchmark დასრულდა; ორივე runtime-ზე 48 configuration × 3 repetitions შესრულდა და ყველა configured worker-ის native thread identity დადასტურდა.
 - **INFERENCE:** scalar worker partial-ების შენახვა შეიძლება არ იყოს საკმარისი, რადგან worker-ის შიდა compensation იკარგება; state merge ამ ინფორმაციას ინარჩუნებს.
 
 ## შემოწმების სტატუსი
@@ -127,9 +127,9 @@ Free-threaded Neumaier-state median CPU-time/wall-time ratio worker count 1/2/4/
 - ადგილობრივი unit tests: 5/5 PASS; მცირე smoke run: 24 configuration.
 - პირველი Actions attempt `45548429179`: benchmark source-ში JSON newline literal-ის syntax error აღმოჩნდა; სრული benchmark არ შესრულებულა. გასწორებულია.
 - პირველი repository CI attempt `45548429197`: draft validator-მა მოითხოვა ზუსტი headings `წყაროები`, `შემოწმების სტატუსი`, `შემდეგი ნაბიჯები`; დამატებულია.
-- შესწორებულ head `93bb712b889cc9ffb5624b647480abb3291264d8`-ზე repository quality/site CI run `45548551153` წარმატებით დასრულდა; thread benchmark run `45548551086`-ის ორივე matrix job-იც success-ია.
-- ორივე runtime-ის raw JSON artifact გადმოწერილია, SHA-256 შემოწმებულია და შეჯამებები repository branch-ზეა დამატებული. შედეგების სრული ახალი head-ის CI ხელახლა უნდა შესრულდეს ამ შეჯამებებისა და public preprint/catalogue ცვლილებების შემდეგ.
-- სტატუსი რჩება `draft` ამ PR-ში; public preprint განახლდება მხოლოდ სრული CI და publication-boundary შემოწმების შემდეგ. `published` არ გამოიყენება.
+- საწყის კვლევით head `93bb712b889cc9ffb5624b647480abb3291264d8`-ზე repository quality/site CI run `45548551153` და thread benchmark run `45548551086` წარმატებით დასრულდა; ეს შედეგები შემდგომი საბოლოო head-ის შემოწმებას არ ანაცვლებს.
+- ორივე runtime-ის raw JSON artifact გადმოწერილია, SHA-256 შემოწმებულია და შეჯამებები repository branch-ზეა დამატებული. საბოლოო PR head `597d26b79ffbcd8eaf4a0249e189f3f63b2a0d83`-ზე quality/site CI run [45549762442](https://github.com/maisuradzee/bibmom/actions/runs/45549762442) წარმატებით დასრულდა: **176 Python test**, frozen-result reproduction, schema/catalog validation, site build და draft/publication boundary PASS. იმავე head-ის რეალური thread benchmark run [45549762459](https://github.com/maisuradzee/bibmom/actions/runs/45549762459) — GIL-enabled და free-threaded ორივე job SUCCESS.
+- PR #21 ამ ეტაპზე Draft-ია; კვლევის მომხმარებლის ანგარიში და კატალოგის ჩანაწერი `preliminary` სტატუსითაა, ხოლო სრული addendum რჩება სამუშაო კვლევით მასალად. `published` სტატუსი არ გამოიყენება; დამოუკიდებელი გარე რეცენზია არ დასრულებულა.
 
 ## შეზღუდვები და გაურკვევლობები
 
@@ -160,4 +160,4 @@ Free-threaded Neumaier-state median CPU-time/wall-time ratio worker count 1/2/4/
 ## ცვლილებების ისტორია
 
 - 2026-11-25 — დაემატა რეალური ThreadPoolExecutor benchmark, GIL-mode detection, native thread ID verification, CPU/wall timing, memory tracing და GIL-enabled local control JSON.
-- შემდეგი ცვლილება — GitHub Actions free-threaded run-ის შედეგების დამატება და independent CPU architecture validation.
+- 2026-11-25 — PR #21-ის საბოლოო head-ზე ორივე Actions workflow წარმატებით დადასტურდა; repository quality/site workflow-ში 176 ტესტი გაიარა. PR merge/deployment-ის სტატუსი ცალკე უნდა გადამოწმდეს.
