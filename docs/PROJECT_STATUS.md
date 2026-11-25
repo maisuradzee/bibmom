@@ -1,11 +1,11 @@
 # NOEMA — მიმდინარე პროექტის მდგომარეობა
 
-- **განახლდა:** 2026-11-25 — მიმდინარე მდგომარეობა გადამოწმებულია GitHub main/PR/Actions მონაცემებით.
+- **განახლდა:** 2026-11-25 — PR #21-ის merge, main CI და GitHub Pages deployment ხელახლა გადამოწმებულია.
 - **საცავი:** [maisuradzee/bibmom](https://github.com/maisuradzee/bibmom)
-- **ძირითადი branch:** `main` — `f777eb530443e5be33ce6d28591eeb75e2df0fd0`.
-- **მიმდინარე სამუშაო branch:** PR #21-ის head `research/noema005-final-verification-2026-11-25` (კვლევის საწყისი branch: `research/noema005-real-thread-cpu-2026-11-25`).
-- **ბოლო კვლევითი merge:** [PR #3 — NOEMA-2026-005 preliminary](https://github.com/maisuradzee/bibmom/pull/3), merged 2026-11-24.
-- **მიმდინარე კვლევითი PR:** [#21 — NOEMA-005 real CPU-thread benchmark](https://github.com/maisuradzee/bibmom/pull/21) — ღიაა; PR-ის მიმდინარე head და მისი CI შედეგები იხილება PR-ის Checks ჩანართში. quality/site და threaded benchmark workflow-ები ახლა trigger-დება კვლევის კოდის, პროტოკოლის, შედეგების JSON-ის, preprint-ის, კატალოგისა და სტატუსის დოკუმენტაციის ცვლილებაზეც. PR ჯერ Draft-ია; merge და Pages deployment ჯერ არ შესრულებულა.
+- **ძირითადი branch:** `main` — კვლევითი merge commit `e84f2b9679c923c673319fc28fc6da5d1e021702`.
+- **ბოლო სტატუს-სინქრონიზაციის branch:** `research/noema005-postmerge-status-2026-11-25` (PR #22, მხოლოდ დოკუმენტაციის გასწორება); ახალი კვლევითი ექსპერიმენტი ცალკე research branch-ზე დაიწყება.
+- **ბოლო კვლევითი merge:** [PR #21 — NOEMA-005 real CPU-thread benchmark](https://github.com/maisuradzee/bibmom/pull/21), squash-ით merged 2026-11-25; commit `e84f2b9679c923c673319fc28fc6da5d1e021702`.
+- **მიმდინარე NOEMA-005 კვლევითი PR:** არ არის — PR #21 merged-ია. კვლევის სტატუსი რჩება `preliminary`; დამოუკიდებელი გარე რეცენზია ჯერ არ დასრულებულა.
 
 ## მიმდინარე სტატუსი
 
@@ -14,12 +14,12 @@
 | კვლევის სტანდარტი და შაბლონები | მზადაა | `docs/RESEARCH_STANDARD.md`, `research/TEMPLATE.md` |
 | NOEMA-002 SignBase აუდიტი | შესრულებულია | ფიქსირებული SignBase snapshot, provenance და JSON შედეგები |
 | NOEMA-003 კლიმატური ანალიზი | დრაფტი / გამეორებადი | სამი dataset-ის შედარება, HAC sensitivity, HadCRUT5 200-member ensemble და coverage consistency; ERA5 reconstruction validation gate ვერ გაიარა და საბოლოო დასკვნაში არ გამოიყენება |
-| NOEMA-005 summation კვლევა | preliminary public brief + რეალური CPU-thread გაგრძელება | საწყისი კვლევა main-ზეა preliminary სტატუსით; CPU-thread გაგრძელების განახლებული ანგარიში და კატალოგის ჩანაწერი PR #21 branch-ზეა preliminary სტატუსით; merge ჯერ არ მომხდარა |
-| საჯარო კვლევითი კატალოგი | main-ზე 1 preliminary, 0 published; PR #21 branch-ზე განახლებული preliminary ჩანაწერი | Git JSON კატალოგი, schema version 2; PR #21-ში იგივე NOEMA-005 ID განახლებულია და ახალი ID არ შექმნილა |
+| NOEMA-005 summation კვლევა | preliminary public brief + რეალური CPU-thread გაგრძელება | განახლებული preprint, ექსპერიმენტის კოდი, შედეგები და პროტოკოლი main-შია; დამოუკიდებელი გარე რეცენზია დარჩენილია |
+| საჯარო კვლევითი კატალოგი | 1 preliminary, 0 published — main-ზე | Git JSON კატალოგი, schema version 2; არსებული NOEMA-2026-005 ჩანაწერი განახლდა, ახალი ID არ შექმნილა |
 | კვლევის ბარათები და სტატუსები | კოდში დამატებულია | მთავარი გვერდი აჩვენებს preliminary და published სტატუსებს ცალ-ცალკე |
 | ღია განხილვის რეჟიმი | კოდში დამატებულია | GitHub Issues feed, ახალი განხილვის ბმული და მომხმარებლის კომენტარები GitHub-ზე |
-| CI და საიტის build | PR #21-ის live Checks ჩანართით მოწმდება | quality/site და threaded benchmark workflow-ები კვლევის კოდის, პროტოკოლის, შედეგების, preprint-ის, კატალოგისა და სტატუსის დოკუმენტაციის ცვლილებაზე trigger-დება; წარმატებული run უნდა ემთხვეოდეს მიმდინარე PR head-ს |
-| GitHub Pages | PR #21-ის ცვლილებები ჯერ არ გამოქვეყნებულა | PR ჯერ არ გაერთიანებულა; post-merge Pages deployment-ის წარმატება ამ ციკლში დასადასტურებელია |
+| CI და საიტის build | SUCCESS — main merge commit-ზე | [quality/site run 45551962844](https://github.com/maisuradzee/bibmom/actions/runs/45551962844) — 176 Python test, frozen-result reproduction, schema/catalog validation, site build და publication boundary PASS; [thread benchmark run 45551791998](https://github.com/maisuradzee/bibmom/actions/runs/45551791998) — GIL-enabled და free-threaded jobs PASS |
+| GitHub Pages | DEPLOYED — წარმატება დადასტურებულია | [deployment run 45551962965](https://github.com/maisuradzee/bibmom/actions/runs/45551962965) წარმატებით დასრულდა main SHA `e84f2b9679c923c673319fc28fc6da5d1e021702`-ზე; [საიტი](https://maisuradzee.github.io/bibmom/) |
 | Supabase მონაცემთა ბაზა | ჯერ არ შექმნილა | ამჟამად გამოიყენება Git-ით ვერსიაკონტროლირებადი JSON კატალოგი; ეს არ არის სერვერული/ტრანზაქციული DB |
 | ვიზუალური AI ექსპერიმენტი | შეჩერებულია ნებართვამდე | SignBase-ის გამოსახულებებზე გამოყენების უფლება მოსაპოვებელია |
 
@@ -34,7 +34,7 @@
 
 ## გამოქვეყნების უსაფრთხოების ბლოკერი
 
-GitHub საცავი public-ია. Pages build draft/review ფაილებს გამორიცხავს, მაგრამ branch/PR ფაილები GitHub-ზე მაინც საჯაროა. ამიტომ პირადი ან შეზღუდული კვლევითი მასალა აქ არ უნდა აიტვირთოს. მიმდინარე CPU-thread გაგრძელება იყენებს მხოლოდ სინთეზურ მონაცემებს, კოდს, საჯარო დოკუმენტაციასა და runtime metadata-ს. ის draft სტატუსში რჩება, სანამ CI, კვლევითი მეთოდი და სარედაქციო პირობები სრულად არ შემოწმდება.
+GitHub საცავი public-ია. Pages build draft/review ფაილებს გამორიცხავს, მაგრამ branch/PR ფაილები GitHub-ზე მაინც საჯაროა. ამიტომ პირადი ან შეზღუდული კვლევითი მასალა აქ არ უნდა აიტვირთოს. NOEMA-005-ის მიმდინარე გაგრძელება იყენებს მხოლოდ სინთეზურ მონაცემებს, კოდს, საჯარო დოკუმენტაციასა და runtime metadata-ს. მომხმარებლის გვერდზე კვლევა ჩანს მხოლოდ `preliminary` სტატუსით და დამოუკიდებელი რეცენზიის არქონის გაფრთხილებით.
 
 ## მონაცემთა კატალოგი და მომხმარებლისთვის მიწოდება
 
@@ -46,16 +46,16 @@ GitHub საცავი public-ია. Pages build draft/review ფაილ�
 
 ## 2026-11-25 — რეალური CPU-thread benchmark
 
-- კვლევის საწყისი branch: `research/noema005-real-thread-cpu-2026-11-25`; PR #21-ის verification branch: `research/noema005-final-verification-2026-11-25`; base main SHA: `f777eb530443e5be33ce6d28591eeb75e2df0fd0`; PR head: `597d26b79ffbcd8eaf4a0249e189f3f63b2a0d83`.
+- კვლევის საწყისი branch: `research/noema005-real-thread-cpu-2026-11-25`; PR #21 verification branch: `research/noema005-final-verification-2026-11-25`; PR head: `00084792c6d3265b7b046e013ece362f76cf88f6`; squash merge commit: `e84f2b9679c923c673319fc28fc6da5d1e021702`.
 - დაემატა რეალური `ThreadPoolExecutor` benchmark, native thread ID verification, GIL-state detection, CPU/wall timers, tracemalloc peak, protocol, tests და CI workflow.
 - GitHub Actions run [45548551086](https://github.com/maisuradzee/bibmom/actions/runs/45548551086): CPython 3.14.4 GIL-enabled და 3.14.4t free-threaded; თითო runtime-ზე 48 configuration × 3 repetitions = 144 run; ორივე job SUCCESS.
 - ყველა worker-ს განსხვავებული native thread ID ჰქონდა. Neumaier compensation-state merge: 48/48 სწორად დამრგვალებული configuration ორივე runtime-ზე; Neumaier scalar partial: 42/48; naive scalar: 0/48.
 - CPU-time/wall-time >1.05: GIL-enabled 0/144; free-threaded 108/144 (2/4/8 worker-ების ყველა sample). მიუხედავად CPU concurrency-ისა, threaded wall-time serial baseline-ზე უკეთესი არ იყო; მაქსიმალური მედიანური speedup 0.777 და 0.803.
 - შედეგების JSON: `data/noema-005/threaded-benchmark-gil-enabled-2026-11-25.json` და `data/noema-005/threaded-benchmark-free-threaded-2026-11-25.json`; raw artifact SHA-256-ები ინახება ორივე ფაილში. სრული raw JSON artifacts ხელმისაწვდომია Actions run-ის artifact-ებში (30 დღე).
-- `research/preprints/NOEMA-2026-005-floating-point-summation.md` და `data/research.json` branch-ზე განახლებულია; კატალოგში სტატუსი რჩება `preliminary`, schema v2 უცვლელია. `main` ჯერ არ შეცვლილა.
+- `research/preprints/NOEMA-2026-005-floating-point-summation.md` და `data/research.json` main-ში განახლებულია; კატალოგში სტატუსი რჩება `preliminary`, schema v2 უცვლელია.
 - free-threaded Python ოფიციალურად მხარდაჭერილია როგორც optional build Python 3.14-დან (PEP 779). ამ ციკლის pinned version იყო 3.14.4; 2026-11-25-ის უახლესი 3.14.10 და 3.15.2 არ შემოწმებულა.
-- მანამდე შემოწმებულ PR head `597d26b79ffbcd8eaf4a0249e189f3f63b2a0d83`-ზე quality/site run [45549762442](https://github.com/maisuradzee/bibmom/actions/runs/45549762442) წარმატებით დასრულდა 176 Python test-ით, ხოლო threaded benchmark run [45549762459](https://github.com/maisuradzee/bibmom/actions/runs/45549762459)-მა ორივე runtime job გაატარა. შემდეგ დაემატა მხოლოდ კვლევითი სტატუსის/verification ჩანაწერების გასწორება და workflow path-filter-ის გაფართოება; ამ ცვლილებების შემდეგ მიმდინარე PR head-ზე ახალი CI აუცილებელია და live შედეგები PR #21-ის Checks ჩანართში მოწმდება.
-- Pages deployment PR #21-ისთვის ჯერ არ გაშვებულა; საიტი განახლებულად არ ითვლება.
+- საბოლოო PR head `00084792c6d3265b7b046e013ece362f76cf88f6`-ზე [quality/site run 45551791989](https://github.com/maisuradzee/bibmom/actions/runs/45551791989) — SUCCESS, 176 ტესტი; [thread benchmark run 45551791998](https://github.com/maisuradzee/bibmom/actions/runs/45551791998) — ორივე runtime SUCCESS. squash merge commit `e84f2b9679c923c673319fc28fc6da5d1e021702`-ზე [main quality run 45551962844](https://github.com/maisuradzee/bibmom/actions/runs/45551962844) — SUCCESS, 176 ტესტი.
+- [GitHub Pages deployment run 45551962965](https://github.com/maisuradzee/bibmom/actions/runs/45551962965) — SUCCESS; deployment payload-ის `pages_build_version` ემთხვევა merge SHA `e84f2b9679c923c673319fc28fc6da5d1e021702`-ს. Pages environment URL: https://maisuradzee.github.io/bibmom/.
 - PR #19 კვლავ Draft-ია; CI run [45400018018](https://github.com/maisuradzee/bibmom/actions/runs/45400018018) ჩავარდა ერთ ტესტზე: `test_restore_rejects_non_self_contained_wal_mode_snapshot` — მოსალოდნელი `JobQueueError` არ იქნა გაშვებული. სხვა unit tests და შემდგომი reproduction/build ნაბიჯები skip გახდა.
 - PR #5 (DB/RLS architecture) და PR #7 (cross-platform reproduction) კვლავ Draft-ებია და main-ის უფრო ძველ base SHA-ზე დგანან; არცერთი არ გაერთიანებულა.
 
@@ -64,7 +64,7 @@ GitHub საცავი public-ია. Pages build draft/review ფაილ�
 - [CI run 45324726883](https://github.com/maisuradzee/bibmom/actions/runs/45324726883) — SUCCESS PR head `eafb239c526d8138a17b60c81c49f18b8d1e73db`-ზე: 87 Python test; research schema v2, source publication/access-date validation, all frozen result reproductions, 330-case parallel reduction simulation, benchmark smoke, site build და draft-exclusion boundary PASS.
 - შუალედურ run `45323886583`-ში აღმოჩნდა, რომ `build_site.py` ჯერ მხოლოდ schema v1-ს იღებდა; validator/schema contract გასწორდა და მიმდინარე head-ზე build წარმატებით დასრულდა.
 - [სრული NOEMA-005 benchmark run 45283854718](https://github.com/maisuradzee/bibmom/actions/runs/45283854718) — 12 format/size case და 66 method measurement.
-- [წინა Pages deployment run 45169053640](https://github.com/maisuradzee/bibmom/actions/runs/45169053640) — build და deploy წარმატებით დასრულდა. ეს არ ნიშნავს, რომ მიმდინარე PR-ის ცვლილებები უკვე საჯარო გვერდზეა.
+- [წინა Pages deployment run 45169053640](https://github.com/maisuradzee/bibmom/actions/runs/45169053640) — ისტორიული deployment; მიმდინარე NOEMA-005 განახლება ცალკე დადასტურებულია run 45551962965-ით.
 
 ## კვლევები
 
