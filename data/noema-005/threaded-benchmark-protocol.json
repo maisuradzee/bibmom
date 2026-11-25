@@ -1,0 +1,135 @@
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-005",
+  "experiment_id": "NOEMA-2026-005-REAL-THREADS-001",
+  "status": "draft_protocol",
+  "question": "Does retaining each worker's Neumaier (sum, compensation) state preserve a correctly rounded result under actual OS-thread scheduling, and how do wall time, aggregate process CPU time, and Python-traced peak memory differ between GIL-enabled and free-threaded CPython?",
+  "synthetic_input": {
+    "layouts": {
+      "triplet_order": "[1e16, 1.0, -1e16] repeated N times",
+      "grouped_cancellation": "[1e16] repeated N, then [1.0] repeated N, then [-1e16] repeated N"
+    },
+    "default_repeat_count": 65536,
+    "values_per_layout": 196608,
+    "exact_sum": "N",
+    "binary64_reference": "float of the exact rational sum of the represented binary64 inputs",
+    "random_seed": null,
+    "randomness": "none; deterministic synthetic values"
+  },
+  "execution": {
+    "runtime_matrix": [
+      {"python": "3.14.4", "expected_gil_enabled": true},
+      {"python": "3.14.4t", "expected_gil_enabled": false}
+    ],
+    "operating_system": "Ubuntu 24.04 GitHub-hosted runner",
+    "worker_counts": [1, 2, 4, 8],
+    "partition_strategies": ["contiguous", "round_robin"],
+    "methods": [
+      "threaded_naive_scalar",
+      "threaded_neumaier_scalar",
+      "threaded_neumaier_state"
+    ],
+    "serial_baselines": ["serial_naive", "serial_neumaier", "serial_math_fsum"],
+    "warmups": 1,
+    "measured_repetitions": 3,
+    "thread_identity": "threading.get_native_id; the run fails if configured workers do not execute on distinct native threads",
+    "gil_state": "sys._is_gil_enabled() plus sysconfig.get_config_var('Py_GIL_DISABLED'); requested mode is asserted before measurement"
+  },
+  "measurement": {
+    "wall_time": "median time.perf_counter_ns duration",
+    "cpu_time": "median time.process_time_ns duration; process-wide user and system CPU time",
+    "parallelism_indicator": "process CPU time divided by wall time; values above 1 can indicate aggregate CPU execution across threads but are not a portable speed guarantee",
+    "memory": "tracemalloc peak delta during one invocation; excludes untracked native allocations and is not RSS",
+    "speedup": "threaded median wall time compared with the matching serial algorithm baseline",
+    "accuracy": "exact rational reference from the constructed represented binary64 inputs; count of measured runs equal to its binary64 rounding"
+  },
+  "merge_rules": {
+    "scalar_partial": "each worker returns one float; scalar partials are merged with math.fsum",
+    "compensation_state": "each worker returns (sum, compensation); all components are merged with Neumaier compensation"
+  },
+  "validation": [
+    "assert GIL-enabled and free-threaded interpreter modes explicitly",
+    "record Python version, platform, architecture, CPU count and CPU affinity when available",
+    "record input SHA-256 for canonical big-endian binary64 values",
+    "require one distinct native thread per configured worker",
+    "run unit tests for exact reference, partitions, state merge and result metadata",
+    "do not impose universal performance thresholds"
+  ],
+  "limitations": [
+    "synthetic cancellation workloads only; no production scientific dataset",
+    "one Ubuntu x86_64 CI host family; no ARM or Windows/macOS threaded benchmark in this cycle",
+    "free-threaded CPython remains an evolving runtime mode and may have workload-dependent overhead",
+    "thread pool startup and scheduling are included in the measured operation",
+    "process CPU time is process-wide and can be affected by host scheduling and CPU quotas",
+    "tracemalloc measures Python-traced allocations, not total RSS or every native allocation",
+    "no GPU, NumPy/BLAS, OpenMP, process pool or network-distributed execution is tested"
+  ],
+  "sources": [
+    {
+      "title": "PEP 703 — Making the Global Interpreter Lock Optional in CPython",
+      "authors": ["Sam Gross"],
+      "citation": "Gross, S. (2023). PEP 703 — Making the Global Interpreter Lock Optional in CPython. Python Enhancement Proposals, PEP 703.",
+      "url": "https://peps.python.org/pep-0703/",
+      "type": "primary specification",
+      "publication_date": "2023-01-09",
+      "publication_note": "Created 9 January 2023; Steering Council acceptance resolution dated 24 October 2023.",
+      "accessed_at": "2026-11-25",
+      "supports": "Explains the GIL limitation and the optional free-threaded CPython build."
+    },
+    {
+      "title": "Python support for free threading — Python 3.14 documentation",
+      "authors": ["Python Software Foundation"],
+      "citation": "Python Software Foundation. Python 3.14 documentation, HOWTO: Python support for free threading.",
+      "url": "https://docs.python.org/3.14/howto/free-threading-python.html",
+      "type": "official documentation",
+      "publication_date": null,
+      "publication_note": "The documentation page does not state a separate publication date; accessed versioned Python 3.14 documentation.",
+      "accessed_at": "2026-11-25",
+      "supports": "Describes free-threaded CPython, GIL-state detection, automatic GIL re-enablement and runtime limitations."
+    },
+    {
+      "title": "threading — Thread-based parallelism — Python 3.14 documentation",
+      "authors": ["Python Software Foundation"],
+      "citation": "Python Software Foundation. Python 3.14 documentation, Library Reference: threading — Thread-based parallelism.",
+      "url": "https://docs.python.org/3.14/library/threading.html",
+      "type": "official documentation",
+      "publication_date": null,
+      "publication_note": "The documentation page does not state a separate publication date.",
+      "accessed_at": "2026-11-25",
+      "supports": "Documents ThreadPoolExecutor/threading use and the GIL's effect on CPU-bound Python bytecode."
+    },
+    {
+      "title": "time — Time access and conversions — Python 3.14 documentation",
+      "authors": ["Python Software Foundation"],
+      "citation": "Python Software Foundation. Python 3.14 documentation, Library Reference: time.",
+      "url": "https://docs.python.org/3.14/library/time.html",
+      "type": "official documentation",
+      "publication_date": null,
+      "publication_note": "The documentation page does not state a separate publication date.",
+      "accessed_at": "2026-11-25",
+      "supports": "Defines perf_counter_ns and process_time_ns, including process-wide CPU-time semantics."
+    },
+    {
+      "title": "tracemalloc — Trace memory allocations — Python 3.14 documentation",
+      "authors": ["Python Software Foundation"],
+      "citation": "Python Software Foundation. Python 3.14 documentation, Library Reference: tracemalloc.",
+      "url": "https://docs.python.org/3.14/library/tracemalloc.html",
+      "type": "official documentation",
+      "publication_date": null,
+      "publication_note": "The documentation page does not state a separate publication date.",
+      "accessed_at": "2026-11-25",
+      "supports": "Defines traced Python memory blocks and peak measurements; supports the explicit non-RSS limitation."
+    },
+    {
+      "title": "actions/setup-python — Advanced usage",
+      "authors": ["GitHub Actions setup-python maintainers"],
+      "citation": "GitHub Actions. actions/setup-python, Advanced usage documentation.",
+      "url": "https://github.com/actions/setup-python/blob/main/docs/advanced-usage.md",
+      "type": "official tooling documentation",
+      "publication_date": null,
+      "publication_note": "Living documentation; no separate publication date stated. Describes the t suffix for free-threaded Python versions.",
+      "accessed_at": "2026-11-25",
+      "supports": "Documents setup-python version selectors such as 3.14.4t."
+    }
+  ]
+}
