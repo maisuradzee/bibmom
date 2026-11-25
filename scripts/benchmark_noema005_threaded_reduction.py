@@ -268,7 +268,7 @@ def run_benchmark(repeat_count=DEFAULT_REPEAT_COUNT, workers=DEFAULT_WORKERS,
             "interpretation_guardrail": (
                 "Runner-, CPU-quota- and interpreter-specific synthetic measurements only. "
                 "CPU-time/wall-time above one is evidence of aggregate multi-thread CPU use, "
-                "not a portable speed guarantee; free-threaded CPython remains experimental.")}
+                "not a portable speed guarantee; free-threaded CPython is officially supported as an optional build since Python 3.14, while workload and extension compatibility remain relevant.")}
 
 
 def main() -> None:
