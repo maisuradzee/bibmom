@@ -1,1 +1,361 @@
-{"schema_version":1,"study_id":"NOEMA-2026-005","experiment_id":"NOEMA-2026-005-REAL-THREADS-001","runtime_mode":"gil-enabled","generated_at":"2026-11-25T04:42:32.080863+00:00","status":"measured_actions_summary","environment":{"cpu_affinity_count":4,"cpu_count_os":4,"cpu_count_process":4,"free_threaded_build":false,"gil_enabled":true,"machine":"x86_64","platform":"Linux-7.0.0-1017-azure-x86_64-with-glibc2.39","processor":"x86_64","py_gil_disabled_config":0,"python_build":["main","Apr 29 2026 14:14:57"],"python_implementation":"CPython","python_version":"3.14.4"},"protocol":{"cpu_timer":"time.process_time_ns (process-wide user+system CPU time)","expected_gil_mode":"enabled","memory_metric":"tracemalloc peak delta; Python allocations only, not RSS/native allocations","merge_policy":"scalar partials via math.fsum; compensation pairs via Neumaier","methods":["threaded_naive_scalar","threaded_neumaier_scalar","threaded_neumaier_state"],"partitions":["contiguous","round_robin"],"performance_threshold":null,"random_seed":null,"randomness":"none; deterministic constructed inputs","repeat_count":65536,"repetitions":3,"thread_identity":"threading.get_native_id; one distinct native thread per worker","wall_timer":"time.perf_counter_ns","warmups":1,"workers":[1,2,4,8]},"inputs":[{"canonical_binary64_big_endian_sha256":"e6cc4a627d55c476cb55e6f9789ceb39282e1f787d4b0a5fc040b30428085291","correctly_rounded_binary64_reference":65536.0,"exact_sum_fraction":"65536","layout":"triplet_order","repeat_count":65536,"value_count":196608},{"canonical_binary64_big_endian_sha256":"16ae80fed695b4d02f4a42a2e7c3f5b8a5eff96e97296273c3ddcacfb19090ee","correctly_rounded_binary64_reference":65536.0,"exact_sum_fraction":"65536","layout":"grouped_cancellation","repeat_count":65536,"value_count":196608}],"serial_baselines":[{"layout":"triplet_order","method":"serial_naive","median_wall_ns":2955078,"median_process_cpu_ns":2953633,"median_cpu_wall_ratio":0.9994890788937284,"peak_traced_python_bytes":520,"correctly_rounded_runs":0,"runs":3},{"layout":"triplet_order","method":"serial_neumaier","median_wall_ns":13906695,"median_process_cpu_ns":13902705,"median_cpu_wall_ratio":0.9997130878328747,"peak_traced_python_bytes":544,"correctly_rounded_runs":3,"runs":3},{"layout":"triplet_order","method":"serial_math_fsum","median_wall_ns":803236,"median_process_cpu_ns":802063,"median_cpu_wall_ratio":0.9985396570870827,"peak_traced_python_bytes":472,"correctly_rounded_runs":3,"runs":3},{"layout":"grouped_cancellation","method":"serial_naive","median_wall_ns":3004491,"median_process_cpu_ns":3002977,"median_cpu_wall_ratio":0.9996104293075612,"peak_traced_python_bytes":464,"correctly_rounded_runs":0,"runs":3},{"layout":"grouped_cancellation","method":"serial_neumaier","median_wall_ns":12932865,"median_process_cpu_ns":12929925,"median_cpu_wall_ratio":0.9997726721805261,"peak_traced_python_bytes":536,"correctly_rounded_runs":3,"runs":3},{"layout":"grouped_cancellation","method":"serial_math_fsum","median_wall_ns":849674,"median_process_cpu_ns":848433,"median_cpu_wall_ratio":0.998539439832218,"peak_traced_python_bytes":464,"correctly_rounded_runs":3,"runs":3}],"accuracy_by_layout_and_method":[{"layout":"triplet_order","method":"threaded_naive_scalar","correctly_rounded_runs":0,"total_runs":24},{"layout":"triplet_order","method":"threaded_neumaier_scalar","correctly_rounded_runs":24,"total_runs":24},{"layout":"triplet_order","method":"threaded_neumaier_state","correctly_rounded_runs":24,"total_runs":24},{"layout":"grouped_cancellation","method":"threaded_naive_scalar","correctly_rounded_runs":0,"total_runs":24},{"layout":"grouped_cancellation","method":"threaded_neumaier_scalar","correctly_rounded_runs":18,"total_runs":24},{"layout":"grouped_cancellation","method":"threaded_neumaier_state","correctly_rounded_runs":24,"total_runs":24}],"performance_by_method_and_worker_count":[{"method":"threaded_naive_scalar","worker_count":1,"median_wall_ns":5637078,"median_process_cpu_ns":5668835,"median_cpu_wall_ratio":1.004175047886609,"median_speedup_vs_matching_serial_baseline":0.5286055317262253,"median_peak_traced_python_bytes":11525,"correctly_rounded_runs":0,"total_runs":12,"distinct_native_threads_verified":true},{"method":"threaded_naive_scalar","worker_count":2,"median_wall_ns":5608200,"median_process_cpu_ns":5673471,"median_cpu_wall_ratio":1.0102247909354753,"median_speedup_vs_matching_serial_baseline":0.5269416106351312,"median_peak_traced_python_bytes":18322,"correctly_rounded_runs":0,"total_runs":12,"distinct_native_threads_verified":true},{"method":"threaded_naive_scalar","worker_count":4,"median_wall_ns":6027479,"median_process_cpu_ns":6170384,"median_cpu_wall_ratio":1.0210599465800705,"median_speedup_vs_matching_serial_baseline":0.49762673385613165,"median_peak_traced_python_bytes":32144,"correctly_rounded_runs":0,"total_runs":12,"distinct_native_threads_verified":true},{"method":"threaded_naive_scalar","worker_count":8,"median_wall_ns":6421771,"median_process_cpu_ns":6651912,"median_cpu_wall_ratio":1.0356429123483903,"median_speedup_vs_matching_serial_baseline":0.4663032415932467,"median_peak_traced_python_bytes":59832,"correctly_rounded_runs":0,"total_runs":12,"distinct_native_threads_verified":true},{"method":"threaded_neumaier_scalar","worker_count":1,"median_wall_ns":17776197,"median_process_cpu_ns":17808760,"median_cpu_wall_ratio":1.0018105945115452,"median_speedup_vs_matching_serial_baseline":0.7585047592311938,"median_peak_traced_python_bytes":11645,"correctly_rounded_runs":12,"total_runs":12,"distinct_native_threads_verified":true},{"method":"threaded_neumaier_scalar","worker_count":2,"median_wall_ns":18248881,"median_process_cpu_ns":18355803,"median_cpu_wall_ratio":1.0063548286298918,"median_speedup_vs_matching_serial_baseline":0.742341419092187,"median_peak_traced_python_bytes":18510,"correctly_rounded_runs":9,"total_runs":12,"distinct_native_threads_verified":true},{"method":"threaded_neumaier_scalar","worker_count":4,"median_wall_ns":18311304,"median_process_cpu_ns":18486857,"median_cpu_wall_ratio":1.0095261406278002,"median_speedup_vs_matching_serial_baseline":0.7356401752181286,"median_peak_traced_python_bytes":32296,"correctly_rounded_runs":12,"total_runs":12,"distinct_native_threads_verified":true},{"method":"threaded_neumaier_scalar","worker_count":8,"median_wall_ns":18862235,"median_process_cpu_ns":19175044,"median_cpu_wall_ratio":1.0171877177386457,"median_speedup_vs_matching_serial_baseline":0.7145407287029517,"median_peak_traced_python_bytes":60400,"correctly_rounded_runs":9,"total_runs":12,"distinct_native_threads_verified":true},{"method":"threaded_neumaier_state","worker_count":1,"median_wall_ns":17732828,"median_process_cpu_ns":17757345,"median_cpu_wall_ratio":1.0015404532485208,"median_speedup_vs_matching_serial_baseline":0.7575089024395917,"median_peak_traced_python_bytes":11535,"correctly_rounded_runs":12,"total_runs":12,"distinct_native_threads_verified":true},{"method":"threaded_neumaier_state","worker_count":2,"median_wall_ns":18115522,"median_process_cpu_ns":18234546,"median_cpu_wall_ratio":1.00636967436107,"median_speedup_vs_matching_serial_baseline":0.7256063466677565,"median_peak_traced_python_bytes":18490,"correctly_rounded_runs":12,"total_runs":12,"distinct_native_threads_verified":true},{"method":"threaded_neumaier_state","worker_count":4,"median_wall_ns":18253522,"median_process_cpu_ns":18447171,"median_cpu_wall_ratio":1.0094895741266332,"median_speedup_vs_matching_serial_baseline":0.7362972163023098,"median_peak_traced_python_bytes":32216,"correctly_rounded_runs":12,"total_runs":12,"distinct_native_threads_verified":true},{"method":"threaded_neumaier_state","worker_count":8,"median_wall_ns":18916054,"median_process_cpu_ns":19234397,"median_cpu_wall_ratio":1.0170698687768454,"median_speedup_vs_matching_serial_baseline":0.7100676235349439,"median_peak_traced_python_bytes":60284,"correctly_rounded_runs":12,"total_runs":12,"distinct_native_threads_verified":true}],"cpu_parallelism_by_worker_count":[{"worker_count":1,"cpu_wall_samples_above_1_05":0,"total_samples":36},{"worker_count":2,"cpu_wall_samples_above_1_05":0,"total_samples":36},{"worker_count":4,"cpu_wall_samples_above_1_05":0,"total_samples":36},{"worker_count":8,"cpu_wall_samples_above_1_05":0,"total_samples":36}],"aggregate":{"threaded_configurations":48,"measured_runs":144,"all_workers_used_distinct_native_threads":true,"state_merge_correctly_rounded_runs":48,"state_merge_total_runs":48,"cpu_wall_samples_above_1_05":0,"cpu_wall_samples_total":144,"maximum_threaded_speedup":0.7769961086207059},"actions_artifact":{"workflow_run_id":45548551086,"artifact_id":14992217331,"artifact_name":"noema005-threaded-gil-enabled","artifact_digest":"sha256:c6eb2a71969d9d69c1bff38f9769b09bfa88786d2c037fedccda509c19bdfcee","raw_json_filename":"noema005-threaded-gil-enabled.json","raw_json_bytes":56696,"raw_json_sha256":"abf11340570a1b251898cfe05bdf1c17bdf5a81e7f621454bef81dd6dd665dd9","retention_days":30},"interpretation_guardrail":"Runner-, CPU-quota- and interpreter-specific synthetic measurements only. CPU-time/wall-time above one is evidence of aggregate multi-thread CPU use, not a portable speed guarantee; free-threaded CPython is officially supported as an optional build since Python 3.14, while workload and extension compatibility remain relevant."}
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-005",
+  "experiment_id": "NOEMA-2026-005-REAL-THREADS-001",
+  "runtime_mode": "gil-enabled",
+  "generated_at": "2026-11-25T04:42:32.080863+00:00",
+  "status": "measured_actions_summary",
+  "environment": {
+    "cpu_affinity_count": 4,
+    "cpu_count_os": 4,
+    "cpu_count_process": 4,
+    "free_threaded_build": false,
+    "gil_enabled": true,
+    "machine": "x86_64",
+    "platform": "Linux-7.0.0-1017-azure-x86_64-with-glibc2.39",
+    "processor": "x86_64",
+    "py_gil_disabled_config": 0,
+    "python_build": [
+      "main",
+      "Apr 29 2026 14:14:57"
+    ],
+    "python_implementation": "CPython",
+    "python_version": "3.14.4"
+  },
+  "protocol": {
+    "cpu_timer": "time.process_time_ns (process-wide user+system CPU time)",
+    "expected_gil_mode": "enabled",
+    "memory_metric": "tracemalloc peak delta; Python allocations only, not RSS/native allocations",
+    "merge_policy": "scalar partials via math.fsum; compensation pairs via Neumaier",
+    "methods": [
+      "threaded_naive_scalar",
+      "threaded_neumaier_scalar",
+      "threaded_neumaier_state"
+    ],
+    "partitions": [
+      "contiguous",
+      "round_robin"
+    ],
+    "performance_threshold": null,
+    "random_seed": null,
+    "randomness": "none; deterministic constructed inputs",
+    "repeat_count": 65536,
+    "repetitions": 3,
+    "thread_identity": "threading.get_native_id; one distinct native thread per worker",
+    "wall_timer": "time.perf_counter_ns",
+    "warmups": 1,
+    "workers": [
+      1,
+      2,
+      4,
+      8
+    ]
+  },
+  "inputs": [
+    {
+      "canonical_binary64_big_endian_sha256": "e6cc4a627d55c476cb55e6f9789ceb39282e1f787d4b0a5fc040b30428085291",
+      "correctly_rounded_binary64_reference": 65536,
+      "exact_sum_fraction": "65536",
+      "layout": "triplet_order",
+      "repeat_count": 65536,
+      "value_count": 196608
+    },
+    {
+      "canonical_binary64_big_endian_sha256": "16ae80fed695b4d02f4a42a2e7c3f5b8a5eff96e97296273c3ddcacfb19090ee",
+      "correctly_rounded_binary64_reference": 65536,
+      "exact_sum_fraction": "65536",
+      "layout": "grouped_cancellation",
+      "repeat_count": 65536,
+      "value_count": 196608
+    }
+  ],
+  "serial_baselines": [
+    {
+      "layout": "triplet_order",
+      "method": "serial_naive",
+      "median_wall_ns": 2955078,
+      "median_process_cpu_ns": 2953633,
+      "median_cpu_wall_ratio": 0.9994890788937284,
+      "peak_traced_python_bytes": 520,
+      "correctly_rounded_runs": 0,
+      "runs": 3
+    },
+    {
+      "layout": "triplet_order",
+      "method": "serial_neumaier",
+      "median_wall_ns": 13906695,
+      "median_process_cpu_ns": 13902705,
+      "median_cpu_wall_ratio": 0.9997130878328747,
+      "peak_traced_python_bytes": 544,
+      "correctly_rounded_runs": 3,
+      "runs": 3
+    },
+    {
+      "layout": "triplet_order",
+      "method": "serial_math_fsum",
+      "median_wall_ns": 803236,
+      "median_process_cpu_ns": 802063,
+      "median_cpu_wall_ratio": 0.9985396570870827,
+      "peak_traced_python_bytes": 472,
+      "correctly_rounded_runs": 3,
+      "runs": 3
+    },
+    {
+      "layout": "grouped_cancellation",
+      "method": "serial_naive",
+      "median_wall_ns": 3004491,
+      "median_process_cpu_ns": 3002977,
+      "median_cpu_wall_ratio": 0.9996104293075612,
+      "peak_traced_python_bytes": 464,
+      "correctly_rounded_runs": 0,
+      "runs": 3
+    },
+    {
+      "layout": "grouped_cancellation",
+      "method": "serial_neumaier",
+      "median_wall_ns": 12932865,
+      "median_process_cpu_ns": 12929925,
+      "median_cpu_wall_ratio": 0.9997726721805261,
+      "peak_traced_python_bytes": 536,
+      "correctly_rounded_runs": 3,
+      "runs": 3
+    },
+    {
+      "layout": "grouped_cancellation",
+      "method": "serial_math_fsum",
+      "median_wall_ns": 849674,
+      "median_process_cpu_ns": 848433,
+      "median_cpu_wall_ratio": 0.998539439832218,
+      "peak_traced_python_bytes": 464,
+      "correctly_rounded_runs": 3,
+      "runs": 3
+    }
+  ],
+  "accuracy_by_layout_and_method": [
+    {
+      "layout": "triplet_order",
+      "method": "threaded_naive_scalar",
+      "correctly_rounded_runs": 0,
+      "total_runs": 24
+    },
+    {
+      "layout": "triplet_order",
+      "method": "threaded_neumaier_scalar",
+      "correctly_rounded_runs": 24,
+      "total_runs": 24
+    },
+    {
+      "layout": "triplet_order",
+      "method": "threaded_neumaier_state",
+      "correctly_rounded_runs": 24,
+      "total_runs": 24
+    },
+    {
+      "layout": "grouped_cancellation",
+      "method": "threaded_naive_scalar",
+      "correctly_rounded_runs": 0,
+      "total_runs": 24
+    },
+    {
+      "layout": "grouped_cancellation",
+      "method": "threaded_neumaier_scalar",
+      "correctly_rounded_runs": 18,
+      "total_runs": 24
+    },
+    {
+      "layout": "grouped_cancellation",
+      "method": "threaded_neumaier_state",
+      "correctly_rounded_runs": 24,
+      "total_runs": 24
+    }
+  ],
+  "performance_by_method_and_worker_count": [
+    {
+      "method": "threaded_naive_scalar",
+      "worker_count": 1,
+      "median_wall_ns": 5637078,
+      "median_process_cpu_ns": 5668835,
+      "median_cpu_wall_ratio": 1.004175047886609,
+      "median_speedup_vs_matching_serial_baseline": 0.5286055317262253,
+      "median_peak_traced_python_bytes": 11525,
+      "correctly_rounded_runs": 0,
+      "total_runs": 12,
+      "distinct_native_threads_verified": true
+    },
+    {
+      "method": "threaded_naive_scalar",
+      "worker_count": 2,
+      "median_wall_ns": 5608200,
+      "median_process_cpu_ns": 5673471,
+      "median_cpu_wall_ratio": 1.0102247909354753,
+      "median_speedup_vs_matching_serial_baseline": 0.5269416106351312,
+      "median_peak_traced_python_bytes": 18322,
+      "correctly_rounded_runs": 0,
+      "total_runs": 12,
+      "distinct_native_threads_verified": true
+    },
+    {
+      "method": "threaded_naive_scalar",
+      "worker_count": 4,
+      "median_wall_ns": 6027479,
+      "median_process_cpu_ns": 6170384,
+      "median_cpu_wall_ratio": 1.0210599465800705,
+      "median_speedup_vs_matching_serial_baseline": 0.49762673385613165,
+      "median_peak_traced_python_bytes": 32144,
+      "correctly_rounded_runs": 0,
+      "total_runs": 12,
+      "distinct_native_threads_verified": true
+    },
+    {
+      "method": "threaded_naive_scalar",
+      "worker_count": 8,
+      "median_wall_ns": 6421771,
+      "median_process_cpu_ns": 6651912,
+      "median_cpu_wall_ratio": 1.0356429123483903,
+      "median_speedup_vs_matching_serial_baseline": 0.4663032415932467,
+      "median_peak_traced_python_bytes": 59832,
+      "correctly_rounded_runs": 0,
+      "total_runs": 12,
+      "distinct_native_threads_verified": true
+    },
+    {
+      "method": "threaded_neumaier_scalar",
+      "worker_count": 1,
+      "median_wall_ns": 17776197,
+      "median_process_cpu_ns": 17808760,
+      "median_cpu_wall_ratio": 1.0018105945115452,
+      "median_speedup_vs_matching_serial_baseline": 0.7585047592311938,
+      "median_peak_traced_python_bytes": 11645,
+      "correctly_rounded_runs": 12,
+      "total_runs": 12,
+      "distinct_native_threads_verified": true
+    },
+    {
+      "method": "threaded_neumaier_scalar",
+      "worker_count": 2,
+      "median_wall_ns": 18248881,
+      "median_process_cpu_ns": 18355803,
+      "median_cpu_wall_ratio": 1.0063548286298918,
+      "median_speedup_vs_matching_serial_baseline": 0.742341419092187,
+      "median_peak_traced_python_bytes": 18510,
+      "correctly_rounded_runs": 9,
+      "total_runs": 12,
+      "distinct_native_threads_verified": true
+    },
+    {
+      "method": "threaded_neumaier_scalar",
+      "worker_count": 4,
+      "median_wall_ns": 18311304,
+      "median_process_cpu_ns": 18486857,
+      "median_cpu_wall_ratio": 1.0095261406278002,
+      "median_speedup_vs_matching_serial_baseline": 0.7356401752181286,
+      "median_peak_traced_python_bytes": 32296,
+      "correctly_rounded_runs": 12,
+      "total_runs": 12,
+      "distinct_native_threads_verified": true
+    },
+    {
+      "method": "threaded_neumaier_scalar",
+      "worker_count": 8,
+      "median_wall_ns": 18862235,
+      "median_process_cpu_ns": 19175044,
+      "median_cpu_wall_ratio": 1.0171877177386457,
+      "median_speedup_vs_matching_serial_baseline": 0.7145407287029517,
+      "median_peak_traced_python_bytes": 60400,
+      "correctly_rounded_runs": 9,
+      "total_runs": 12,
+      "distinct_native_threads_verified": true
+    },
+    {
+      "method": "threaded_neumaier_state",
+      "worker_count": 1,
+      "median_wall_ns": 17732828,
+      "median_process_cpu_ns": 17757345,
+      "median_cpu_wall_ratio": 1.0015404532485208,
+      "median_speedup_vs_matching_serial_baseline": 0.7575089024395917,
+      "median_peak_traced_python_bytes": 11535,
+      "correctly_rounded_runs": 12,
+      "total_runs": 12,
+      "distinct_native_threads_verified": true
+    },
+    {
+      "method": "threaded_neumaier_state",
+      "worker_count": 2,
+      "median_wall_ns": 18115522,
+      "median_process_cpu_ns": 18234546,
+      "median_cpu_wall_ratio": 1.00636967436107,
+      "median_speedup_vs_matching_serial_baseline": 0.7256063466677565,
+      "median_peak_traced_python_bytes": 18490,
+      "correctly_rounded_runs": 12,
+      "total_runs": 12,
+      "distinct_native_threads_verified": true
+    },
+    {
+      "method": "threaded_neumaier_state",
+      "worker_count": 4,
+      "median_wall_ns": 18253522,
+      "median_process_cpu_ns": 18447171,
+      "median_cpu_wall_ratio": 1.0094895741266332,
+      "median_speedup_vs_matching_serial_baseline": 0.7362972163023098,
+      "median_peak_traced_python_bytes": 32216,
+      "correctly_rounded_runs": 12,
+      "total_runs": 12,
+      "distinct_native_threads_verified": true
+    },
+    {
+      "method": "threaded_neumaier_state",
+      "worker_count": 8,
+      "median_wall_ns": 18916054,
+      "median_process_cpu_ns": 19234397,
+      "median_cpu_wall_ratio": 1.0170698687768454,
+      "median_speedup_vs_matching_serial_baseline": 0.7100676235349439,
+      "median_peak_traced_python_bytes": 60284,
+      "correctly_rounded_runs": 12,
+      "total_runs": 12,
+      "distinct_native_threads_verified": true
+    }
+  ],
+  "cpu_parallelism_by_worker_count": [
+    {
+      "worker_count": 1,
+      "cpu_wall_samples_above_1_05": 0,
+      "total_samples": 36
+    },
+    {
+      "worker_count": 2,
+      "cpu_wall_samples_above_1_05": 0,
+      "total_samples": 36
+    },
+    {
+      "worker_count": 4,
+      "cpu_wall_samples_above_1_05": 0,
+      "total_samples": 36
+    },
+    {
+      "worker_count": 8,
+      "cpu_wall_samples_above_1_05": 0,
+      "total_samples": 36
+    }
+  ],
+  "aggregate": {
+    "threaded_configurations": 48,
+    "measured_runs": 144,
+    "all_workers_used_distinct_native_threads": true,
+    "state_merge_correctly_rounded_runs": 48,
+    "state_merge_total_runs": 48,
+    "cpu_wall_samples_above_1_05": 0,
+    "cpu_wall_samples_total": 144,
+    "maximum_threaded_speedup": 0.7769961086207059
+  },
+  "actions_artifact": {
+    "workflow_run_id": 45548551086,
+    "artifact_id": 14992217331,
+    "artifact_name": "noema005-threaded-gil-enabled",
+    "artifact_digest": "sha256:c6eb2a71969d9d69c1bff38f9769b09bfa88786d2c037fedccda509c19bdfcee",
+    "raw_json_filename": "noema005-threaded-gil-enabled.json",
+    "raw_json_bytes": 56696,
+    "raw_json_sha256": "abf11340570a1b251898cfe05bdf1c17bdf5a81e7f621454bef81dd6dd665dd9",
+    "retention_days": 30
+  },
+  "interpretation_guardrail": "Runner-, CPU-quota- and interpreter-specific synthetic measurements only. CPU-time/wall-time above one is evidence of aggregate multi-thread CPU use, not a portable speed guarantee. Free-threaded CPython is officially supported as an optional build since Python 3.14; workload and extension compatibility remain relevant."
+}
