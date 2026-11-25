@@ -1,7 +1,7 @@
 # NOEMA-2026-005 — რეალური CPU threads-ის reduction benchmark
 
 - **ID:** NOEMA-2026-005 (კვლევის გაგრძელება; ახალი დამოუკიდებელი კვლევის ID არ იქმნება)
-- **სტატუსი:** draft — მეთოდი და ადგილობრივი GIL-control შედეგი; free-threaded CI გაშვება ჯერ pending
+- **სტატუსი:** draft — რეალური thread benchmark დასრულებულია CPython 3.14.4 GIL-enabled და 3.14.4t free-threaded რეჟიმებში; სხვა არქიტექტურის დამოუკიდებელი გამეორება დარჩენილია
 - **თარიღი:** 2026-11-25
 - **სფერო:** რიცხვითი ანალიზი, პარალელური გამოთვლები, პროგრამული სისტემები
 - **ავტორი/მომზადების სისტემა:** NOEMA research automation
@@ -14,7 +14,7 @@
 
 NOEMA-005-ის წინა sharded reduction იყო დეტერმინისტული სიმულაცია და არა რეალური thread benchmark. ამ დამატებაში გამოიყენება `ThreadPoolExecutor`, `threading.Barrier` და native thread ID-ები, რათა დადასტურდეს, რომ თითოეული worker ცალკე OS thread-ზე გაეშვა. შედარებულია naive scalar partial, Neumaier scalar partial და Neumaier `(sum, compensation)` state merge.
 
-ადგილობრივ CPython 3.13.5 GIL-enabled კონტროლში 36 threaded configuration შესრულდა. ყველა configured worker სხვადასხვა native thread-ზე გაეშვა, მაგრამ process CPU / wall-time ratio დაახლოებით 0.96–0.99 იყო — ამ გარემოში CPU-bound Python bytecode-ის რეალური მრავალბირთვიანი პარალელიზმი არ დაფიქსირებულა. `grouped_cancellation` შემთხვევაში 2-worker contiguous დაყოფაზე Neumaier scalar partial-მა 0/2 სწორად დამრგვალებული შედეგი აჩვენა, ხოლო compensation-state merge-მა 2/2. ეს ადგილობრივი, მცირე smoke-run-ია და არა სრული benchmark.
+GitHub Actions-ზე ორი ცალკე Ubuntu 24.04 x86_64 runner-ით შესრულდა CPython 3.14.4 GIL-enabled და 3.14.4t free-threaded benchmark. თითო runtime-ზე 48 configuration × 3 repetition (144 run) შესრულდა. ყველა worker-ის native thread ID განსხვავებული იყო. Neumaier compensation-state merge-მა 48/48 configuration-ში ზუსტი binary64 reference მიიღო ორივე რეჟიმში. Scalar Neumaier partial-მა 42/48, ხოლო naive scalar-მა 0/48. GIL-enabled რეჟიმში CPU-time/wall-time >1.05 შემთხვევა იყო 0/144; free-threaded რეჟიმში — 108/144, ყველა multi-worker configuration-ზე. მიუხედავად რეალური CPU პარალელიზმისა, არც ერთ threaded configuration-ს serial baseline-ზე wall-time speedup არ მიუღია; საუკეთესო მედიანური speedup იყო 0.777 GIL-enabled და 0.803 free-threaded რეჟიმში.
 
 ## რატომ არის ეს კითხვა მნიშვნელოვანი?
 
@@ -34,23 +34,54 @@ NOEMA-005-ის წინა sharded reduction იყო დეტერმი�
 ### FACT — დადასტურებული წყაროებით
 
 - CPython-ის ჩვეულებრივ GIL-enabled build-ში ერთდროულად მხოლოდ ერთი thread ასრულებს Python bytecode-ს; thread-ები მაინც ქმნის concurrency-ს და სასარგებლოა I/O-bound სამუშაოებისთვის.
-- CPython 3.13-დან ხელმისაწვდომია free-threaded build, რომელსაც GIL-ის გამორთვა შეუძლია. GIL-ის ფაქტობრივი მდგომარეობა უნდა შემოწმდეს გაშვებისას; build-ის მხარდაჭერა თავისთავად არ ნიშნავს, რომ GIL ნამდვილად გამორთულია.
+- CPython 3.13-დან ხელმისაწვდომია free-threaded build; Python 3.14-დან ის ოფიციალურად მხარდაჭერილი, მაგრამ არჩევითი build-ია (PEP 779). GIL-ის ფაქტობრივი მდგომარეობა მაინც უნდა შემოწმდეს გაშვებისას, რადგან build-ის მხარდაჭერა თავისთავად არ ნიშნავს, რომ GIL გამორთულია.
 - `process_time_ns()` ზომავს მიმდინარე პროცესის user/system CPU დროს, ხოლო `perf_counter_ns()` გამოიყენება elapsed wall time-ისთვის.
 - `tracemalloc` Python-ის მიერ ტრეკირებულ allocation-ებს ზომავს და არა სრულ process RSS-ს ან ყველა native allocation-ს.
 
-### REPRODUCED RESULT — ადგილობრივი GIL-enabled control run
+### REPRODUCED RESULT — GitHub Actions რეალური thread benchmark
 
-- გარემო: CPython 3.13.5, Linux 6.18.57, x86_64; CPU affinity: 5 CPU; GIL ჩართულია.
-- მონაცემები: ორი synthetic layout, თითოეულში N=16,384 და 49,152 binary64 მნიშვნელობა; ზუსტი ჯამი 16,384.
-- worker-ები: 1, 2, 4; partition: contiguous და round-robin; მეთოდები: naive scalar, Neumaier scalar, Neumaier state.
-- warmup: 1; გაზომილი გამეორება: 2; სულ 36 threaded configuration.
-- ყველა configuration-ში დაფიქსირდა მოთხოვნილი რაოდენობის განსხვავებული native thread ID.
-- `triplet_order`/contiguous შემთხვევაში Neumaier scalar და state ორივე 2/2 სწორად დამრგვალდა; naive scalar — 0/2.
-- `grouped_cancellation`/2 workers/contiguous შემთხვევაში Neumaier scalar — 0/2; Neumaier state — 2/2; naive scalar — 0/2.
-- CPU-time/wall-time ratio ყველა ამ ნაჩვენებ GIL-enabled configuration-ში 1-ზე დაბალი იყო (დაახლოებით 0.96–0.99), რაც CPU-bound Python კოდისთვის მრავალბირთვიან პარალელურ შესრულებას არ ადასტურებს.
-- შერჩეული შედეგების JSON: `data/noema-005/threaded-benchmark-local-cpython-3.13.5-gil-summary.json`; სრული 36-configuration ანგარიში ინახება ცალკე raw JSON ფაილად, SHA-256 `d5ef839ad32d9515dc3c78555f33abc43e1eae3ccc8a3f0050dc13686bc65717`.
+- **გარემო A:** CPython 3.14.4, GIL enabled; Ubuntu 24.04 runner, Linux x86_64, 4 CPU affinity.
+- **გარემო B:** CPython 3.14.4 free-threaded build, GIL disabled; Ubuntu 24.04 runner, Linux x86_64, 4 CPU affinity.
+- თითო runtime-ზე: N=65,536; თითო layout 196,608 binary64 მნიშვნელობა; ზუსტი ჯამი 65,536.
+- input SHA-256 ორივე runtime-ზე დაემთხვა: triplet order `e6cc4a627d55c476cb55e6f9789ceb39282e1f787d4b0a5fc040b30428085291`; grouped cancellation `16ae80fed695b4d02f4a42a2e7c3f5b8a5eff96e97296273c3ddcacfb19090ee`.
+- worker-ები: 1, 2, 4, 8; partition: contiguous და round-robin; 3 მეთოდი; warmup 1; measured repetitions 3.
+- თითო runtime-ზე 48 configuration და 144 measured run. ყველა run-ში configured worker-ების რაოდენობა ემთხვეოდა განსხვავებული native thread ID-ების რაოდენობას.
 
-ეს შედეგები არის ერთი გარემოს მცირე კონტროლი. ისინი არ ადასტურებს free-threaded შესრულებას და არ უნდა განზოგადდეს სხვა CPU/runtime-ზე.
+**სიზუსტე (თითო runtime):**
+
+| მეთოდი | Triplet order | Grouped cancellation | სულ |
+|---|---:|---:|---:|
+| Naive scalar partial | 0/24 | 0/24 | 0/48 |
+| Neumaier scalar partial | 24/24 | 18/24 | 42/48 |
+| Neumaier compensation state | 24/24 | 24/24 | **48/48** |
+
+Neumaier scalar partial-ის ჩავარდნები დაფიქსირდა grouped cancellation-ის contiguous partition-ზე 2 და 8 worker-ის კონფიგურაციებში. Compensation-state merge-მა ყველა ამ სინთეზურ კონფიგურაციაში სწორი შედეგი შეინარჩუნა.
+
+**CPU concurrency და wall time:**
+
+| მაჩვენებელი | GIL enabled | Free-threaded |
+|---|---:|---:|
+| CPU-time/wall-time > 1.05 | 0/144 | 108/144 |
+| 2 worker-ის samples > 1.05 | 0/36 | 36/36 |
+| 4 worker-ის samples > 1.05 | 0/36 | 36/36 |
+| 8 worker-ის samples > 1.05 | 0/36 | 36/36 |
+| საუკეთესო threaded/serial speedup | 0.777 | 0.803 |
+
+Free-threaded Neumaier-state median CPU-time/wall-time ratio worker count 1/2/4/8-ზე იყო 0.99 / 1.95 / 3.52 / 3.47. ეს მიუთითებს პროცესის შიგნით მრავალბირთვიან CPU შესრულებაზე, მაგრამ wall-time speedup არ დაფიქსირდა: ამ workload-ზე ThreadPoolExecutor-ის startup/scheduling და Python-level reduction overhead-მა სარგებელი გადაფარა.
+
+**Tracemalloc peak (Neumaier state, median bytes; არა RSS):**
+
+- GIL-enabled, 1/2/4/8 worker: 11,535 / 18,490 / 32,216 / 60,284.
+- Free-threaded, 1/2/4/8 worker: 95,149 / 185,878 / 366,372 / 731,384.
+
+**არტეფაქტები და provenance:**
+
+- Actions run: [45548551086](https://github.com/maisuradzee/bibmom/actions/runs/45548551086).
+- GIL-enabled artifact ID: `14992217331`; raw JSON SHA-256: `abf11340570a1b251898cfe05bdf1c17bdf5a81e7f621454bef81dd6dd665dd9`.
+- Free-threaded artifact ID: `14992547298`; raw JSON SHA-256: `8187a322e27e9ea4e24c970a7cb7677676a6d81fccc005144ee3d7147bf793db`.
+- შეჯამებები: `data/noema-005/threaded-benchmark-gil-enabled-2026-11-25.json` და `data/noema-005/threaded-benchmark-free-threaded-2026-11-25.json`.
+
+ეს არის ორი ცალკე runner-ის შედეგი, მაგრამ ორივე Ubuntu x86_64 და ერთნაირი 4-CPU affinity აქვს; ეს არ არის დამოუკიდებელი არქიტექტურული გამეორება.
 
 ## კონკურენტი ახსნები
 
@@ -61,7 +92,7 @@ NOEMA-005-ის წინა sharded reduction იყო დეტერმი�
 
 ## ჰიპოთეზა
 
-**HYPOTHESIS:** free-threaded CPython-ში Neumaier compensation-state merge შეინარჩუნებს ამ synthetic შემთხვევების სწორად დამრგვალებულ შედეგს ყველა worker count/partition-ზე, ხოლო CPU-time/wall-time ზოგ კონფიგურაციაში 1-ს გადააჭარბებს. სიჩქარის გაუმჯობესება გარანტირებული არ არის.
+**HYPOTHESIS — ამ მონაცემებზე მხარდაჭერილია:** free-threaded CPython-ში Neumaier compensation-state merge ინარჩუნებს სწორად დამრგვალებულ შედეგს ყველა შემოწმებულ worker count/partition-ზე; multi-worker შემთხვევაში process CPU time აღემატება wall time-ს. ეს არ ამტკიცებს უნივერსალურ სიზუსტეს ან wall-time speedup-ს სხვა workload-ებზე.
 
 ## შემოწმების მეთოდი
 
@@ -76,7 +107,7 @@ NOEMA-005-ის წინა sharded reduction იყო დეტერმი�
 - worker count: 1, 2, 4, 8; partition: contiguous და round-robin.
 - მეთოდები: naive scalar partial, Neumaier scalar partial, Neumaier state merge.
 - serial baseline: naive, Neumaier, math.fsum.
-- runtime matrix: CPython 3.14.4 GIL-enabled და CPython 3.14.4t free-threaded; ორივე Ubuntu 24.04 runner-ზე.
+- runtime matrix: CPython 3.14.4 GIL-enabled და CPython 3.14.4t free-threaded; ორივე Ubuntu 24.04 runner-ზე. Python 3.14 free-threaded build ოფიციალურად მხარდაჭერილია როგორც optional build (PEP 779).
 - warmup 1; measured repetitions 3; შემთხვევითი seed არ გამოიყენება, რადგან input deterministic-ია.
 - თითოეული worker-ის native thread ID ინახება; run ჩაიშლება, თუ worker-ები ცალკე native thread-ებზე არ გაეშვა.
 - იზომება median wall time, process CPU time, მათი შეფარდება და tracemalloc peak delta.
@@ -90,18 +121,19 @@ NOEMA-005-ის წინა sharded reduction იყო დეტერმი�
 
 ## შემოწმების სტატუსი
 
-- ადგილობრივი CPython 3.13.5 GIL-enabled control: შესრულებულია; სრული raw JSON SHA-256 მითითებულია შედეგების შეჯამებაში.
+- ადგილობრივი CPython 3.13.5 GIL-enabled control: შესრულებულია; 36 configuration, სრული raw JSON SHA-256 შეჯამებაშია.
 - ადგილობრივი unit tests: 5/5 PASS; მცირე smoke run: 24 configuration.
-- პირველი GitHub Actions attempt `45548429179`: ორივე runtime job-მა აღმოაჩინა benchmark script-ის JSON newline literal-ის syntax error; სრული benchmark არ გაშვებულა. შეცდომა გასწორებულია branch-ზე.
-- იმავე head-ის repository CI run `45548429197`: draft validator-მა მოითხოვა ზუსტი `წყაროები`, `შემოწმების სტატუსი` და `შემდეგი ნაბიჯები` headings. ეს headings დამატებულია.
-- შესწორებული head-ის სრული CI და free-threaded benchmark ჯერ ხელახლა გასაშვებია; ამ ეტაპზე free-threaded შედეგი არ არსებობს.
-- სტატუსი რჩება `draft`; კატალოგი, preliminary preprint და published არქივი ამ ცვლილებით არ განახლებულა.
+- პირველი Actions attempt `45548429179`: benchmark source-ში JSON newline literal-ის syntax error აღმოჩნდა; სრული benchmark არ შესრულებულა. გასწორებულია.
+- პირველი repository CI attempt `45548429197`: draft validator-მა მოითხოვა ზუსტი headings `წყაროები`, `შემოწმების სტატუსი`, `შემდეგი ნაბიჯები`; დამატებულია.
+- შესწორებულ head `93bb712b889cc9ffb5624b647480abb3291264d8`-ზე repository quality/site CI run `45548551153` წარმატებით დასრულდა; thread benchmark run `45548551086`-ის ორივე matrix job-იც success-ია.
+- ორივე runtime-ის raw JSON artifact გადმოწერილია, SHA-256 შემოწმებულია და შეჯამებები repository branch-ზეა დამატებული. შედეგების სრული ახალი head-ის CI ხელახლა უნდა შესრულდეს ამ შეჯამებებისა და public preprint/catalogue ცვლილებების შემდეგ.
+- სტატუსი რჩება `draft` ამ PR-ში; public preprint განახლდება მხოლოდ სრული CI და publication-boundary შემოწმების შემდეგ. `published` არ გამოიყენება.
 
 ## შეზღუდვები და გაურკვევლობები
 
 - მხოლოდ ხელოვნური cancellation მონაცემებია გამოყენებული; რეალური სამეცნიერო ან ფინანსური dataset არ გამოიყენება.
-- ამ ციკლის CI benchmark არის Ubuntu x86_64-ზე; ARM, Windows და macOS რეალური threaded benchmark არ ჩატარებულა.
-- free-threaded CPython-ის შედეგები დამოკიდებულია runtime ვერსიასა და CPU-ზე; free-threaded რეჟიმი ჯერ evolving ტექნოლოგიაა.
+- ამ ციკლის CI benchmark არის Ubuntu x86_64-ზე; ARM, Windows და macOS რეალური threaded benchmark არ ჩატარებულა. ორივე job CPython 3.14.4-ზე იყო; 2026-11-25-ისთვის უახლესი 3.14 patch 3.14.10 და უახლესი major 3.15.2 იყო, ამიტომ უახლეს patch/major-ზე გამეორება დარჩენილია.
+- free-threaded build ოფიციალურად მხარდაჭერილია Python 3.14-დან, მაგრამ მისი წარმადობა და მესამე მხარის extension-ების თავსებადობა workload-ზეა დამოკიდებული; GIL შეიძლება runtime-ზე ან extension-ის იმპორტისას ხელახლა ჩაირთოს.
 - thread pool-ის შექმნისა და scheduling-ის ხარჯი გაზომვაში შედის.
 - process CPU დრო პროცესის საერთო დროა და შეიძლება runner-ის scheduling/CPU quota-ით შეიცვალოს.
 - tracemalloc არ ზომავს მთლიან RSS-ს.
@@ -113,15 +145,15 @@ NOEMA-005-ის წინა sharded reduction იყო დეტერმი�
 
 ## დასკვნა
 
-რეალური native threads-ის კონტროლი შესრულდა GIL-enabled გარემოში. პირველადი შედეგი ადასტურებს, რომ thread-ების რაოდენობის გაზრდა თავისთავად CPU პარალელიზმს არ ნიშნავს. scalar Neumaier partial-ის ერთ კონკრეტულ დაყოფაში კომპენსაციის დაკარგვა დაფიქსირდა; state merge-მა ეს კონკრეტული შემთხვევა შეინარჩუნა. free-threaded benchmark ჯერ შესასრულებელია.
+რეალური native threads შემოწმდა GIL-enabled და free-threaded CPython-ში. GIL-enabled რეჟიმში CPU-bound Python loop-მა მრავალბირთვიანი CPU concurrency არ აჩვენა; free-threaded რეჟიმში 2/4/8 worker-ით CPU-time/wall-time 1.05-ს ყველა multi-worker configuration-ზე გადააჭარბა. მიუხედავად ამისა, threaded wall-time serial baseline-ზე უკეთესი არ გახდა. Neumaier compensation-state merge-მა 48/48 synthetic configuration-ში სწორი შედეგი შეინარჩუნა; scalar partial-მა grouped cancellation-ის ორ contiguous worker-count ჯგუფში ინფორმაცია დაკარგა. ეს არის კონკრეტული synthetic workload-ის შედეგი და არა უნივერსალური გარანტია.
 
 ## შემდეგი ნაბიჯები
 
-1. ხელახლა გაუშვი ორივე CPython 3.14.4 GIL-enabled და 3.14.4t free-threaded Actions job.
-2. შეინახე და შეამოწმე ორივე runtime-ის სრული JSON artifacts, input hashes, native thread IDs და CPU/wall ratios.
-3. შეადარე throughput, accuracy და traced memory; არ გამოიტანო speedup დასკვნა, თუ runner-ის CPU quota ამას არ ამყარებს.
-4. შემდეგ ციკლში დაამატე დამოუკიდებელი ARM ან სხვა OS architecture run, თუ runner ხელმისაწვდომია.
-5. მხოლოდ შედეგების, წყაროებისა და სარედაქციო შემოწმების შემდეგ განიხილე preprint-ის განახლება.
+1. იგივე პროტოკოლი გაუშვი უახლეს CPython 3.14.10/3.14.10t და 3.15.2/3.15.2t ვერსიებზე.
+2. დაამატე დამოუკიდებელი ARM ან სხვა OS architecture run.
+3. შეადარე რეალური workload-ები და არა მხოლოდ cancellation microbenchmark; შეამოწმე native C/OpenMP ან სხვა შემცირების მექანიზმები.
+4. memory-ისთვის დაამატე RSS/native allocation საზომი და CPU quota-ის ზუსტი metadata.
+5. შედეგების, წყაროებისა და სარედაქციო checklist-ის შემდეგ განაახლე preliminary გვერდი და კატალოგი; published სტატუსი დამოუკიდებელი რეცენზიის გარეშე არ მიენიჭოს.
 
 ## ცვლილებების ისტორია
 
