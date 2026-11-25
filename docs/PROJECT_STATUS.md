@@ -5,7 +5,7 @@
 - **ძირითადი branch:** `main` — `f777eb530443e5be33ce6d28591eeb75e2df0fd0`.
 - **მიმდინარე სამუშაო branch:** `research/noema005-real-thread-cpu-2026-11-25`.
 - **ბოლო კვლევითი merge:** [PR #3 — NOEMA-2026-005 preliminary](https://github.com/maisuradzee/bibmom/pull/3), merged 2026-11-24.
-- **მიმდინარე კვლევითი PR:** რეალური CPU-thread benchmark-ის branch-იდან გაიხსნება; სანამ PR და head CI არ დადასტურდება, merge არ იგეგმება.
+- **მიმდინარე კვლევითი PR:** [#20 — NOEMA-005 real CPU-thread benchmark](https://github.com/maisuradzee/bibmom/pull/20) — Draft; head `849f566c8db16a5a6e86d1843a50c50027948603`; CI-ის სრული შედეგი ჯერ დასადასტურებელია.
 
 ## მიმდინარე სტატუსი
 
@@ -68,7 +68,7 @@ GitHub საცავი public-ია. Pages build draft/review ფაილ�
 - [NOEMA-2026-002](../research/drafts/2026-11-23-signbase-coding-audit.md) — SignBase 2.0-ის ტექსტური კოდირების აუდიტი.
 - [NOEMA-2026-003](../research/drafts/2026-11-23-noaa-globaltemp-trend-sensitivity.md) — NOAA/NASA/HadCRUT5 მონაცემთა ტენდენციების კვლევა.
 - [NOEMA-2026-005 სამუშაო დრაფტი](../research/drafts/NOEMA-2026-005-floating-summation-order.md) — სრული ექსპერიმენტული ჟურნალი.
-- [NOEMA-2026-005 წინასწარი მომხმარებლის ანგარიში](../research/preprints/NOEMA-2026-005-floating-point-summation.md) — public preliminary brief სამუშაო branch-ზე.
+- [NOEMA-2026-005 წინასწარი მომხმარებლის ანგარიში](../research/preprints/NOEMA-2026-005-floating-point-summation.md) — public preliminary brief main-ზე; PR #3 merged.
 
 ## NOEMA-003 — HadCRUT5 ensemble trend analysis (2026-11-23)
 
@@ -108,4 +108,4 @@ GitHub საცავი public-ია. Pages build draft/review ფაილ�
 - `tracemalloc` ზომავს Python-managed traced allocations-ს, არა სრულ RSS-ს და არა ყველა native allocation-ს. ერთი runner-ის შედეგები აღწერითია და უნივერსალურ performance ranking-ს არ ამტკიცებს.
 - შემდეგი ნაბიჯებია: სრული პროფილის განმეორება სხვა Python ვერსიაზე/არქიტექტურაზე და რამდენიმე run-ზე; ზუსტი integer accumulator-ის ოპტიმიზაცია; parallel reduction tree-ების კვლევა; რეალური მონაცემთა ნაკრების შერჩევა და დამოუკიდებელი მეთოდოლოგიური რეცენზია.
 - კვლევის ყველა ექსპერიმენტი synthetic stress case-ია; real workload error rate ან უნივერსალური method ranking არ დასტურდება. საჭიროა სხვა Python ვერსიაზე/არქიტექტურაზე გამეორება, parallel reduction tree-ების შეფასება, რეალური მონაცემთა ნაკრების კვლევა და დამოუკიდებელი მეთოდოლოგიური რეცენზია.
-- კატალოგში PR-ის ფილიალში 1 preliminary და 0 published item-ია. PR #3 merged არის 2026-11-24; მისი post-merge Pages deployment ამ ციკლში დამოუკიდებლად არ გადამოწმებულა.
+- main-ის კატალოგში 1 preliminary და 0 published item-ია. PR #3 merged არის 2026-11-24; მისი post-merge Pages deployment ამ ციკლში დამოუკიდებლად არ გადამოწმებულა.
