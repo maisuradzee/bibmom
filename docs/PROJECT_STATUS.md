@@ -21,9 +21,10 @@
 | NOEMA-003 climate analysis | დრაფტი / გამეორებადი; ERA5 validation gate ვერ გაიარა და საბოლოო დასკვნაში არ გამოიყენება | data/noema-003, scripts და tests |
 | NOEMA-005 summation | preliminary; x86-64 და ARM64 რეალური CPU-thread ტესტები | 4 ARM64 batch; Neumaier state 768/768, scalar Neumaier 672/768, naive scalar 0/768; wall-time speedup არ დადასტურებულა |
 | NOEMA-006 AquaSignal | draft + software prototype; საველე ვალიდაცია არ ჩატარებულა | research/drafts/NOEMA-2026-006-aquasignal-water-early-warning.md, docs/AQUASIGNAL_MVP.md, noema_core/aquasignal.py |
+| NOEMA-007 Last-Mile Action Gap | draft / discovery; გლობალური 4-pillar gap და საქართველოს არსებული MHEWS ინფრასტრუქტურა დოკუმენტურად შემოწმებულია; ადგილობრივი last-mile ეფექტიანობა ჯერ არ გაზომილა | research/drafts/NOEMA-2026-007-global-early-warning-action-gap.md |
 | საჯარო კვლევითი კატალოგი | 1 preliminary, 0 published | data/research.json; schema version 2. NOEMA-006 draft კატალოგში არ არის |
-| GitHub Pages | ბოლო deployment წარმატებულია | run 45757333935 — build და deploy jobs SUCCESS; https://maisuradzee.github.io/bibmom/ |
-| Main quality CI | წარმატებულია | run 45757333992 — validate job SUCCESS |
+| GitHub Pages | ბოლო deployment წარმატებულია | run 45769302330 — build და deploy jobs SUCCESS; https://maisuradzee.github.io/bibmom/ |
+| Main quality CI | წარმატებულია | run 45769302290 — validate job SUCCESS |
 | Supabase | NOEMA-ს ცალკე მონაცემთა ბაზა არ შექმნილა | ამჟამად გამოიყენება Git-ით ვერსიაკონტროლირებადი JSON კატალოგი; სხვა პროექტის ბაზა არ გამოიყენება |
 
 ## ბოლო NOEMA-005 merge/deployment audit
@@ -40,7 +41,7 @@
 
 ## ღია Draft PR-ები
 
-- PR #19 — operational observability და SQLite backup/restore; issue body-ში აღწერილი ბოლო CI failure საჭიროებს ცალკე reproduction/fix-ს.
+- PR #19 — operational observability და SQLite backup/restore; WAL-mode regression fixture-ის გასწორება და CLI round-trip CI წარმატებულია exact head `0c4f456f17851918bf7f30af7ff4d3c369f6eec7`-ზე ([run 45774768045](https://github.com/maisuradzee/bibmom/actions/runs/45774768045)). თუმცა branch current main-თან diverged-ია: 32 commits ahead / 6 behind; საჭიროა refresh/rebase და ახალი exact-head CI.
 - PR #7 — 330-case deterministic simulation-ის cross-platform reproduction; ეს რეალურ multi-thread runtime-ს არ ამოწმებს.
 - PR #5 — მონაცემთა ბაზისა და RLS-ის არქიტექტურული წინადადება; რეალური PostgreSQL/Supabase ინტეგრაცია არ ჩატარებულა.
 
@@ -65,7 +66,27 @@ AquaSignal-ის პირველი ვერსია მხოლოდ �
 1. AquaSignal-ის სინთეზური unit tests და სრული CI წარმატებით დასრულდეს.
 2. მოიძებნოს ოფიციალური, ნებადართული data dictionary და ისტორიული paired sensor/lab მონაცემის ხელმისაწვდომობის დადასტურება.
 3. საველე პილოტამდე წინასწარ განისაზღვროს baseline, detection delay, sensitivity, positive predictive value და false-alert rate.
-4. პარალელურად ცალკე ციკლში გამოსწორდეს PR #19-ის backup/restore ტესტის failure.
+4. PR #19 განახლდეს current main-ზე; merge-მდე თავიდან გაეშვას სრული CI და restore drill. შემდეგი ინფრასტრუქტურული ეტაპია encrypted off-host backup, retention/rotation და scheduled restore drills.
 5. NOEMA-005 დარჩეს preliminary, სანამ დამოუკიდებელი გარე რეცენზია არ დასრულდება.
 
 **მნიშვნელოვანი:** NOEMA მუშაობს დაგეგმილი გაშვებებისას; ეს დოკუმენტი არ ამტკიცებს უწყვეტ 24/7 სამუშაოს.
+
+
+## NOEMA Research Portfolio — 2026-11-26
+
+ერთიანი პორტფელი: `data/research-portfolio.json`; schema: `data/research-portfolio.schema.json`; ავტომატური კონტრაქტის ტესტები: `tests/test_research_portfolio.py`.
+
+| ნაკადი | სტატუსი | მთავარი ბლოკერი / შემდეგი ნაბიჯი |
+|---|---|---|
+| NOEMA-2026-006 AquaSignal | active / prototype; PR #29 Draft/open | main-ში synthetic-tested rules engine; PR #29 exact-head CI SUCCESS (run 45780586227), სრული assessment evidence-ზე operator clearance; field validation/data access still blocked |
+| NOEMA-2026-005 numerical reduction | active / preliminary | native C/OpenMP და ალტერნატიული accumulator-ის შედარება; გარე რეცენზია |
+| NOEMA-2026-007 Last-Mile Action Gap | active / draft | საქართველოს ერთ აუზში საჯარო, არაპერსონალური workflow/data dictionary და სამი კონტექსტის შედარება |
+| NOEMA-INFRA-001 backup/provenance | active / engineering | PR #19-ის WAL-mode regression fix-ის exact-head CI |
+
+NOEMA-2026-005-ის ოთხ ARM64 batch-ში Neumaier compensation-state სწორად დაემთხვა reference-ს 768/768 run-ში; scalar Neumaier — 672/768; naive scalar — 0/768. Timing-ის შედეგები ზოგადი wall-time აჩქარების დასამტკიცებლად საკმარისი არ არის.
+
+NOEMA-2026-007-ის დოკუმენტურმა discovery-მ დაადასტურა, რომ საქართველოში უკვე ვითარდება მრავალსაფრთხიანი გაფრთხილების ICT, მონიტორინგის სადგურები და 11 მდინარის აუზის პროგნოზირების პლატფორმები. ამიტომ კვლევის ფოკუსია არა ახალი ოფიციალური alerting სისტემის დუბლირება, არამედ გაფრთხილებიდან მოქმედებამდე გაზომვადი ხარვეზის დადგენა.
+
+PR #19-ის წინა CI failure კონკრეტულად ეხებოდა WAL-mode backup-ის უარყოფის ტესტს: SQLite-ის immutable read-only რეჟიმი `PRAGMA journal_mode`-ს `delete`-ად აჩვენებდა, მიუხედავად იმისა, რომ ფაილის header WAL mode-ს ინახავდა. იმავე infrastructure branch-ზე დაემატა header byte 18/19-ის შემოწმება და გამკაცრებული regression fixture; ამ ცვლილების CI შედეგი ჯერ pending-ია.
+
+ეს პორტფელი ასახავს დაგეგმილ და დადასტურებულ სამუშაოს; ის არ ნიშნავს ერთდროულ რეალურ გამოთვლით შესრულებას ან უწყვეტ მუშაობას.

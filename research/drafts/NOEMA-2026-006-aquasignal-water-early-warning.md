@@ -108,12 +108,11 @@ AquaSignal-ის პირველი კოდის ნაწილი რ�
 
 ## წყაროები
 
-- WHO Drinking-water fact sheet, 19 November 2026 — https://www.who.int/news-room/fact-sheets/detail/drinking-water/
-- WHO/UNICEF JMP 2000–2024 report, 2025 — https://data.unicef.org/resources/jmp-report-2025/
-- National Environmental Agency of Georgia, 18 September 2025 — https://nea.gov.ge/En/News/2335
-- United Water Supply Company of Georgia, undated customer information — https://water.gov.ge/customer-info
-- WHO Guidelines for drinking-water quality, 2022 — https://www.ncbi.nlm.nih.gov/books/NBK579462/
-- WHO Water safety plan manual, second edition, 1 March 2023 — https://www.who.int/publications/i/item/9789240067691
+- WHO, *Guidelines for drinking-water quality: fourth edition incorporating the first, second and third addenda*, 17 June 2026 — https://www.who.int/publications/i/item/9789240121225 (accessed 26 November 2026)
+- WHO/UNICEF JMP, *Progress on household drinking water, sanitation and hygiene 2000–2024*, 2025 — https://data.unicef.org/resources/jmp-report-2025/ (accessed 26 November 2026)
+- National Environmental Agency of Georgia, *September 18 is World Water Monitoring Day*, 18 September 2025 — https://nea.gov.ge/En/News/2335 (accessed 26 November 2026)
+- United Water Supply Company of Georgia, customer information, undated — https://water.gov.ge/customer-info (accessed 26 November 2026)
+- WHO, *Water safety plan manual: step-by-step risk management for drinking-water suppliers*, second edition, 1 March 2023 — https://www.who.int/publications/i/item/9789240067691 (accessed 26 November 2026)
 
 ## შემდეგი ნაბიჯები
 
@@ -126,7 +125,7 @@ AquaSignal-ის პირველი კოდის ნაწილი რ�
 
 - წყაროების დოკუმენტური მიმოხილვა: შესრულებულია.
 - პროგრამული პროტოტიპი: შექმნილია.
-- სინთეზური unit tests: დამატებულია; CI ჯერ გასაშვებია.
+- სინთეზური unit tests: დამატებულია; main-ის quality CI წარმატებით დასრულდა, ხოლო operator-controlled incident lifecycle ცალკე Draft PR #29-ში მოწმდება.
 - რეალური სენსორის/ლაბორატორიის მონაცემები: არ არის.
 - საველე პილოტი: არ ჩატარებულა.
 - დამოუკიდებელი რეცენზია: არ ჩატარებულა.
@@ -135,3 +134,4 @@ AquaSignal-ის პირველი კოდის ნაწილი რ�
 ## ცვლილებების ისტორია
 
 - 2026-11-26 — საწყისი დოკუმენტური discovery, AquaSignal MVP წესების ძრავა და საველე ვალიდაციის გეგმა.
+- 2026-11-26 — WHO-ის 2022 წლის სახელმძღვანელოს მითითება განახლდა 2026 წლის მესამე addendum-ით განახლებულ ოფიციალურ გამოცემაზე; წყაროების წვდომის თარიღები დაემატა.
