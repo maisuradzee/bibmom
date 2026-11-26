@@ -1,64 +1,113 @@
-# NOEMA-2026-006 — Georgia water-monitoring network inventory
+# NOEMA-2026-006 — საქართველოს წყლის მონიტორინგის ქსელების ინვენტარი
 
-- **Date:** 2026-11-26
-- **Status:** draft / public-source inventory only; no sample-level laboratory data was obtained or imported
-- **Research stream:** AquaSignal
+- **ID:** NOEMA-2026-006
+- **სტატუსი:** draft
+- **თარიღი:** 2026-11-26
+- **სფერო:** საზოგადოებრივი ჯანმრთელობა · წყლის სისტემები · ადრეული სიგნალები
+- **მტკიცებულების ტიპი:** ოფიციალური საჯარო წყაროების ინვენტარი; sample-level ლაბორატორიული მონაცემი არ მოპოვებულა
 
-## Research question
+## საკვლევი კითხვა
 
-Which existing Georgian water-monitoring networks and official data sources could support AquaSignal's early-signal layer without duplicating or replacing the responsibilities of the National Environmental Agency, the water utility or accredited laboratories?
+რომელი არსებული ქართული წყლის მონიტორინგის ქსელები და ოფიციალური მონაცემთა წყაროები შეიძლება დაეხმაროს AquaSignal-ს ადრეული სიგნალების ფენაში ისე, რომ არ ჩაანაცვლოს გარემოს ეროვნული სააგენტოს, წყალმომარაგების კომპანიის ან აკრედიტებული ლაბორატორიების პასუხისმგებლობა?
 
-## FACT — official source disclosures
+## მოკლე შეჯამება
 
-1. **NEA surface and groundwater network (18 September 2025).** The National Environmental Agency reports surface-water monitoring at 238 locations throughout the year and groundwater monitoring at 72 water points. The same notice describes a separate Black Sea monitoring network of 12 locations and states that the agency's air, water and soil laboratory is ISO/IEC 17025 accredited. These are source-published network counts, not a downloadable sample dataset.
-2. **NEA Black Sea update (13 July 2026).** The agency reports monthly Black Sea monitoring at 14 points and lists hydrobiological and chemical parameters, including 13 heavy metals, total petroleum hydrocarbons, 16 polyaromatic hydrocarbons and other physicochemical parameters. Its statement that sampled coastal water was within norms is limited to that marine monitoring context and the samples considered in the notice; it is not a drinking-water or nationwide freshwater assessment.
-3. **United Water Supply Company laboratory network (undated public information page, accessed 26 November 2026).** The company describes 8 regional laboratories and 35 service-centre laboratories. It names regional locations in Bolnisi, Gori, Tskaltubo, Kutaisi, Ozurgeti, Poti, Akhaltsikhe and Telavi. The page says raw-source and treated-network water are monitored under technical regulations and an approved schedule, with organoleptic, chemical and microbiological analyses performed daily. The page does not expose a station-by-station sampling calendar or sample-level results.
-4. **NEA water-resources page (undated, accessed 26 November 2026).** It describes monitoring responsibilities across the agency's environmental-pollution, hydrometeorology and geology departments and distinguishes groundwater, surface and coastal waters.
+საქართველოში უკვე არსებობს წყლის მონიტორინგისა და ლაბორატორიული კონტროლის ინფრასტრუქტურა. გარემოს ეროვნული სააგენტო აქვეყნებს ზედაპირული, მიწისქვეშა და ზღვის წყლის მონიტორინგის ქსელების შესახებ ინფორმაციას; საქართველოს გაერთიანებული წყალმომარაგების კომპანია აღწერს რეგიონულ და სერვისცენტრების ლაბორატორიებსა და წყლის ხარისხის კონტროლის პროცესს.
 
-The counts above describe different networks and dates. They must not be added into a single national station total or interpreted as equivalent coverage.
+ეს წყაროები ადასტურებს ქსელებისა და პროცესების არსებობას, მაგრამ არ გვაწვდის sample-level მანქანურად წასაკითხ time series-ს, სრულ station registry-ს, data dictionary-ს, API კონტრაქტს ან ხელახალი გამოყენების პირობებს. ეს არის საჯარო წყაროებში აღმოჩენილი მონაცემთა ხელმისაწვდომობის ზღვარი და არა მტკიცებულება, რომ ასეთი მონაცემები უწყებების შიდა სისტემებში არ არსებობს.
 
-## INFERENCE — opportunity and gap
+AquaSignal-ის შესაძლო როლია უფლებამოსილი მონაცემების provenance-იანი შეკავშირება და ოპერატორისთვის ანომალიის დროული შემჩნევის დახმარება. პროტოტიპმა არ უნდა გასცეს დამოუკიდებელი დასკვნა წყლის სასმელად ვარგისიანობაზე.
 
-Georgia already has institutional monitoring infrastructure and accredited laboratory capacity. AquaSignal's potential role is therefore an evidence-linked early-signal and workflow layer that helps authorized operators notice anomalies and route them for confirmation; it must not duplicate regulatory testing or issue an independent declaration that water is safe.
+## რატომ არის ეს კითხვა მნიშვნელოვანი?
 
-The public pages inspected disclose network capacity, broad parameter classes and laboratory processes, but not a machine-readable sample-level time series, complete station registry, full data dictionary, API contract or explicit reuse terms. This is a source-access gap, not proof that no such data exists internally or elsewhere.
+სწორი ადრეული სიგნალი შეიძლება დაეხმაროს ოპერატორს, რომ დროულად შეამოწმოს სენსორის ან ლაბორატორიული მაჩვენებლის გადახრა. თუმცა ზედაპირული, მიწისქვეშა, ზღვის და სასმელი წყლის ქსელის მონაცემები სხვადასხვა მატრიცას აღწერს და მათთვის ერთი და იგივე ზღვრების გამოყენება დაუშვებელია. AquaSignal-მა უნდა შეავსოს არსებული ლაბორატორიული კონტროლი და არა ჩაანაცვლოს იგი.
 
-## HYPOTHESIS
+## არსებული ცოდნა და წყაროები
 
-If authorized sensor telemetry can be linked to timely, traceable laboratory samples and site-specific Water Safety Plan limits, AquaSignal may help reduce the time between an abnormal signal and a verified operator response. This has not been tested with Georgian operational data.
+1. **National Environmental Agency of Georgia.** *September 18 is World Water Monitoring Day*. 18 September 2025. https://nea.gov.ge/En/News/2335 — სააგენტო აცხადებს ზედაპირული წყლის 238 ლოკაციაზე, მიწისქვეშა წყლის 72 წერტილზე და შავი ზღვის 12 ლოკაციაზე მონიტორინგს; აღწერს ISO/IEC 17025 აკრედიტებულ ლაბორატორიას. წვდომა: 2026-11-26.
+2. **National Environmental Agency of Georgia.** *According to laboratory studies conducted by the agency so far, the quality of the Black Sea water along the entire perimeter of the Georgian coast is within the norm*. 13 July 2026. https://nea.gov.ge/En/News/2417 — ცალკე შავი ზღვის сүлжე: თვეში ერთხელ 14 წერტილზე; აღწერილია ჰიდრობიოლოგიური და ქიმიური პარამეტრები, მათ შორის 13 მძიმე მეტალი, ნავთობის ნახშირწყალბადები და 16 პოლიციკლური არომატული ნახშირწყალბადი. წვდომა: 2026-11-26.
+3. **საქართველოს გაერთიანებული წყალმომარაგების კომპანია.** *ინფორმაცია მომხმარებელს — წყლის ხარისხის კონტროლი*. გვერდზე გამოცემის თარიღი მითითებული არ არის. https://water.gov.ge/customer-info — აღწერილია 8 რეგიონული და 35 სერვისცენტრის ლაბორატორია, ნედლი და დამუშავებული წყლის მონიტორინგი და ყოველდღიური ორგანოლეპტიკური, ქიმიური და მიკრობიოლოგიური ანალიზები დამტკიცებული გეგმა-გრაფიკის შესაბამისად. წვდომა: 2026-11-26.
+4. **National Environmental Agency of Georgia.** *Water resources*. გვერდზე გამოცემის თარიღი მითითებული არ არის. https://nea.gov.ge/En/popular/6 — აღწერს სააგენტოს დეპარტამენტების როლს მიწისქვეშა, ზედაპირული და სანაპირო წყლის მონიტორინგში. წვდომა: 2026-11-26.
 
-## UNTESTED IDEA — data contract and pilot sequence
+## მტკიცებულებები
 
-Before building an ingestion adapter, obtain a documented data contract containing:
+### FACT
 
-- station ID, coordinates, sample ID and sample timestamp;
-- water matrix: raw source, treated network, surface water, groundwater or marine water;
-- analyte, result, unit, analytical method, LOD/LOQ and uncertainty where available;
-- laboratory identity, accreditation scope, QA/QC flags and sample custody;
-- applicable legal standard and the separately approved site Water Safety Plan limit;
-- publication/receipt timestamp, revision and correction history;
-- data ownership, access control, retention and written reuse permission.
+- NEA-ის 2025-09-18 ცნობით, ზედაპირული წყლის მონიტორინგი ტარდება 238 ლოკაციაზე, მიწისქვეშა წყლის — 72 წერტილზე; იმავე ცნობაში შავი ზღვის ცალკე ქსელი 12 ლოკაციით არის აღწერილი.
+- NEA-ის 2026-07-13 ცნობით, შავი ზღვის წყლის მონიტორინგი თვეში ერთხელ ტარდება 14 წერტილზე; ჩამოთვლილია მძიმე მეტალები, ნავთობის ნახშირწყალბადები, პოლიციკლური არომატული ნახშირწყალბადები და სხვა პარამეტრები.
+- წყალმომარაგების კომპანიის გვერდი აღწერს 8 რეგიონულ და 35 სერვისცენტრის ლაბორატორიას და წყლის ხარისხის კონტროლის პროცესს.
+- ეს წყაროები არ არის sample-level dataset და არ განსაზღვრავს თითოეული სადგურის ზუსტ სიხშირეს ან ყველა ნიმუშის შედეგს.
 
-A future pilot should remain in **shadow mode** until the data controller and site operator approve it. Pre-register detection delay, sensitivity, positive predictive value, false alerts per station-month, data completeness and sensor-calibration drift. Every alert must show source, sample age, parameter, unit, threshold provenance and uncertainty, and require laboratory/operator confirmation before action.
+### REPRODUCED RESULT
 
-## Safety and evidence limits
+- ამ ინვენტარში ახალი რიცხვითი გამოთვლა არ ჩატარებულა. წყაროსეული ქსელის რაოდენობები პირდაპირ გადმოტანილია ოფიციალური ცნობებიდან; ისინი დამოუკიდებლად გაზომილ შედეგებად არ არის წარმოდგენილი.
 
-- Surface-water, groundwater, marine-water and potable-network observations are different matrices and must never share thresholds without an approved technical basis.
-- The 2026 NEA Black Sea statement cannot be used to infer drinking-water safety or freshwater conditions.
-- A network count does not establish sampling frequency at each site, public data availability, representativeness or current compliance.
-- No thresholds, WHO guideline values or legal limits are copied into the prototype from these news summaries.
-- No sensor readings, laboratory results, personal data, operator telemetry, credentials or private documents were used.
+### INFERENCE
 
-## Next steps
+- საქართველოში არსებობს ინსტიტუციური მონიტორინგისა და ლაბორატორიული კონტროლის ქსელები. ამიტომ AquaSignal-ის პოტენციური ღირებულება შეიძლება იყოს ნებადართული მტკიცებულების შეკავშირება და ოპერატორის რეაგირების სამუშაო პროცესის გაუმჯობესება.
+- საჯარო გვერდებზე sample-level მონაცემის არქონა არ ამტკიცებს, რომ უწყებებს ასეთი მონაცემი არ გააჩნიათ.
 
-1. Search the agency's public water-resource reports and result publications for machine-readable sample records and their metadata.
-2. Obtain the official station registry, sampling schedule, analyte dictionary, analytical methods, QA/QC and reuse terms through an authorized public-information channel.
-3. Select one pilot water matrix and site only after a data controller and site operator approve the data and applicable Water Safety Plan limits.
-4. Run a retrospective paired sensor/lab evaluation, then a prospective shadow-mode pilot; do not make public water-safety claims from the prototype.
+## კონკურენტი ახსნები
 
-## Sources
+- უწყებებს შეიძლება ჰქონდეთ შიდა რეალურ დროში telemetry, ლაბორატორიული ბაზები ან API-ები, რომლებიც საჯარო გვერდებზე არ ჩანს.
+- არსებული ლაბორატორიული გეგმა და ოპერატორის პროცედურები შესაძლოა უკვე უზრუნველყოფდეს საჭირო რეაგირების სისწრაფეს; ამის შეფასება მხოლოდ ნებადართული ოპერაციული მონაცემით შეიძლება.
+- სხვადასხვა მონიტორინგის ქსელი შეიძლება განსხვავებულ მიზანს ემსახურებოდეს; მათი რაოდენობების ან პარამეტრების გაერთიანება საერთო დაფარვის საზომად არასწორი იქნება.
 
-1. National Environmental Agency of Georgia. (2025-09-18). *September 18 is World Water Monitoring Day*. https://nea.gov.ge/En/News/2335
-2. National Environmental Agency of Georgia. (2026-07-13). *According to laboratory studies conducted by the agency so far, the quality of the Black Sea water along the entire perimeter of the Georgian coast is within the norm*. https://nea.gov.ge/En/News/2417
-3. United Water Supply Company of Georgia. (undated; accessed 2026-11-26). *Customer information — water quality control*. https://water.gov.ge/customer-info
-4. National Environmental Agency of Georgia. (undated; accessed 2026-11-26). *Water resources*. https://nea.gov.ge/En/popular/6
+## ჰიპოთეზა
+
+თუ უფლებამოსილი სენსორული ტელემეტრია შეიძლება შეიკრას დროულ, provenance-იან ლაბორატორიულ ნიმუშებთან და ობიექტის დამტკიცებულ Water Safety Plan ზღვრებთან, AquaSignal-მა შესაძლოა შეამციროს ანომალიის აღმოჩენიდან ოპერატორის მიერ გადამოწმებამდე დრო. ეს ჰიპოთეზა ქართულ ოპერაციულ მონაცემებზე არ შემოწმებულა.
+
+## შემოწმების მეთოდი
+
+ნებისმიერი მომავალი ingestion adapter-ისთვის მოითხოვე:
+- station ID, კოორდინატები, sample ID და sample timestamp;
+- წყლის მატრიცა: raw source, treated network, surface, groundwater ან marine;
+- analyte, result, unit, analytical method, LOD/LOQ და uncertainty;
+- ლაბორატორია, აკრედიტაციის ფარგლები, QA/QC და sample custody;
+- შესაბამისი ტექნიკური რეგლამენტი და ობიექტის ცალკე დამტკიცებული Water Safety Plan ზღვარი;
+- მიღების/გამოქვეყნების დრო, revision/correction history და reuse permission.
+
+ნებისმიერი პილოტი დაიწყოს shadow mode-ით. წინასწარ განისაზღვროს detection delay, sensitivity, positive predictive value, false alerts per station-month, data completeness და sensor calibration drift. ყველა სიგნალს უნდა ახლდეს წყარო, ნიმუშის ასაკი, პარამეტრი, ერთეული, ზღვრის provenance და გაურკვევლობა. ოპერატორისა და ლაბორატორიის დადასტურებამდე საჯარო უსაფრთხოების გაფრთხილება დაუშვებელია.
+
+## შედეგები და ინტერპრეტაცია
+
+**აღმოჩენა:** არსებობს მონიტორინგის ქსელებისა და ლაბორატორიების საჯარო აღწერები; sample-level მანქანურად წასაკითხი მონაცემი და სრული data dictionary ამ გვერდებზე არ გამოქვეყნებულა.
+
+**ინოვაციური მიმართულება:** AquaSignal-ის შემდეგი ტექნიკური ნაბიჯი უნდა იყოს წყაროს/მატრიცის/პარამეტრის provenance-იანი adapter contract და shadow-mode შეფასება, არა ახალი ზღვრების თვითნებური შექმნა.
+
+## შეზღუდვები და გაურკვევლობები
+
+- ქსელის რაოდენობები სხვადასხვა თარიღსა და წყლის მატრიცას ეხება; მათი შეკრება ერთ ეროვნულ სადგურების რაოდენობად არ შეიძლება.
+- 2026 წლის NEA განცხადება შავი ზღვის ნიმუშებს ეხება და არ ადგენს სასმელი წყლის ან მთელი საქართველოს მტკნარი წყლის უსაფრთხოებას.
+- წყალმომარაგების კომპანიის გვერდი არ აჩვენებს სადგურების მიხედვით ნიმუშების კალენდარს, ყველა პარამეტრს, მეთოდს ან შედეგს.
+- არ მოპოვებულა ნედლი ლაბორატორიული შედეგები, სენსორის ჩანაწერები, API ან წერილობითი ხელახალი გამოყენების ნებართვა.
+- ზღვრები, ლაბორატორიული სტანდარტები და WHO-ის რეკომენდაციები ამ მოკლე ინვენტარიდან AquaSignal-ში არ გადატანილა.
+
+## დასკვნა
+
+საქართველოში არსებობს წყლის მონიტორინგისა და ლაბორატორიული კონტროლის ინფრასტრუქტურა, რომელთან თანამშრომლობა შეიძლება იყოს AquaSignal-ის უფრო უსაფრთხო საწყისი, ვიდრე პარალელური კონტროლის ქსელის შექმნა. შემდეგი რეალური ბლოკერია ოფიციალური station registry, sample-level data dictionary, შედეგების ხელმისაწვდომობა და წერილობითი reuse permission. ამ ეტაპზე წყლის უსაფრთხოების დასკვნა ან საველე ეფექტიანობის მტკიცება არ კეთდება.
+
+## წყაროები
+
+- National Environmental Agency of Georgia, 2025-09-18: https://nea.gov.ge/En/News/2335
+- National Environmental Agency of Georgia, 2026-07-13: https://nea.gov.ge/En/News/2417
+- United Water Supply Company of Georgia, undated: https://water.gov.ge/customer-info
+- National Environmental Agency of Georgia, undated: https://nea.gov.ge/En/popular/6
+
+## შემდეგი ნაბიჯები
+
+1. მოძებნე NEA-ის საჯარო წყლის რესურსების ანგარიშები და sample-level შედეგების პუბლიკაციები.
+2. მოიპოვე ოფიციალური station registry, sampling schedule, analyte dictionary, მეთოდები, QA/QC და reuse terms.
+3. შეარჩიე ერთი წყლის მატრიცა და საპილოტე ობიექტი მხოლოდ data controller-ისა და site operator-ის წერილობითი თანხმობის შემდეგ.
+4. ჩაატარე retrospective paired sensor/lab შეფასება და შემდეგ prospective shadow-mode პილოტი; პროტოტიპიდან საჯარო წყლის უსაფრთხოების განცხადება არ გააკეთო.
+
+## შემოწმების სტატუსი
+
+- ოფიციალური წყაროების ბმულები და თარიღები გადამოწმებულია 2026-11-26.
+- sample-level მონაცემი არ ჩამოტვირთულა და არ დამუშავებულა.
+- დამოუკიდებელი გარე რეცენზია, data-controller approval და საველე ვალიდაცია არ ჩატარებულა.
+- სტატუსი რჩება `draft`; `preliminary` ან `published` არ მინიჭებულა.
+
+## ცვლილებების ისტორია
+
+- 2026-11-26: შეიქმნა ოფიციალური ქართული წყლის მონიტორინგის ქსელების საჯარო წყაროების ინვენტარი.
