@@ -62,6 +62,18 @@ class AquaSignalSourceAccessInventoryTests(unittest.TestCase):
         source = next(item for item in self.instance["sources"] if item["id"] == "NEA_TIANETI_AUTO_STATIONS")
         self.assertEqual(source["access_status"], "official_field_process_notice_only")
         self.assertIs(source["sample_level_schema_verified"], False)
+    def test_official_2021_2025_rar_url_is_recorded_without_claiming_extraction(self):
+        source = next(item for item in self.instance["sources"] if item["id"] == "NEA_GW_2021_2025_RAR")
+        self.assertEqual(source["access_status"], "official_report_archive_linked_not_extracted")
+        self.assertEqual(source["observation_period"], "2021-2025")
+        self.assertIs(source["sample_level_schema_verified"], False)
+        self.assertIs(source["reuse_terms_verified"], False)
+        self.assertIn("retrieval from this execution environment failed", source["note"])
+
+    def test_source_ids_are_unique(self):
+        ids = [item["id"] for item in self.instance["sources"]]
+        self.assertEqual(len(ids), len(set(ids)))
+
     def test_registry_inventory_contains_no_owner_or_contact_data(self):
         source = next(item for item in self.instance["sources"] if item["id"] == "GEORGIA_WELL_REGISTRY_RULE_424")
         serialized = json.dumps(source, ensure_ascii=False).casefold()
