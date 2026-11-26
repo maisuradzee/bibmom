@@ -108,6 +108,8 @@ jobs:
           test -f tests/test_backup_manifest_runtime_validation.py
           test -f scripts/verify_noema_backup_artifacts.py
           test -f tests/test_backup_artifact_verification.py
+          test -f scripts/verify_noema_backup_manifest_signature.py
+          test -f tests/test_backup_manifest_signature.py
           test -f tests/test_offsite_backup_manifest_schema.py
           test -f noema_core/jobs_cli.py
           test -f tests/test_durable_job_queue.py
@@ -153,6 +155,8 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_backup_manifest_runtime_validation.py' -v
       - name: Verify backup artifact digests against manifest
         run: python -m unittest discover -s tests -p 'test_backup_artifact_verification.py' -v
+      - name: Verify detached Ed25519 backup manifest signature
+        run: python -m unittest discover -s tests -p 'test_backup_manifest_signature.py' -v
       - name: Validate SQLite backup and restore CLI
         run: |
           DB="$RUNNER_TEMP/noema-ops.sqlite3"
