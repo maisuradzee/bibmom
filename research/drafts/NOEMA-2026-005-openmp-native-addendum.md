@@ -21,7 +21,7 @@ Neumaier (1974) gives a rounding-error analysis comparing finite-sum algorithms,
 ## მტკიცებულებები
 
 - **FACT:** In binary64, (2^{53}), (1), and (-2^{53}) are exactly representable. For both generated input layouts, the exact mathematical sum is the configured repeat count.
-- **REPRODUCED RESULT:** The hosted Ubuntu 24.04 x86-64 CI run used GCC 13.3.0, four visible CPUs, 250,000 repeats per layout, one warmup, five measured repetitions and 20 cases. Serial Neumaier and OpenMP Neumaier-state matched the exact reference in 5/5 runs for both layouts and all tested worker counts. Serial naive and OpenMP scalar partial sums matched in 0/5 runs. The runtime observed the requested 1/2/4/8 OpenMP threads.
+- **REPRODUCED RESULT:** The exact PR-head hosted Ubuntu 24.04 x86-64 CI run used GCC 13.3.0, four visible CPUs, 250,000 repeats per layout, one warmup, five measured repetitions and 20 cases. Serial Neumaier and OpenMP Neumaier-state matched the exact reference in 5/5 runs for both layouts and all tested worker counts. Serial naive and OpenMP scalar partial sums matched in 0/5 runs. The runtime observed the requested 1/2/4/8 OpenMP threads.
 - **INFERENCE:** Retaining both sum and correction in each worker state preserves information that scalar partial sums lose on these two cancellation fixtures.
 - **HYPOTHESIS:** Native OpenMP may reduce Python thread-pool overhead, but thread startup, scheduling, CPU quota and oversubscription can still erase wall-time gains.
 - **UNTESTED IDEA:** Compare pairwise-tree merging, long-double partials and binned/exact accumulators on at least two independent hardware families.
@@ -41,15 +41,15 @@ It compares serial naive, serial Neumaier, OpenMP naive scalar partials and Open
 
 Wall time uses `CLOCK_MONOTONIC`. Process CPU time uses `CLOCK_PROCESS_CPUTIME_ID` and includes CPU consumed by all process threads. Speedup is the matching serial method's median wall time divided by the OpenMP method's median wall time. `ru_maxrss` is a process-wide high-water mark, not a per-method memory measurement.
 
-The default CI profile uses 250,000 repeats, worker counts 1/2/4/8, one warmup and five measured repetitions. The complete 20-case CI summary is stored at `data/noema-005/native-openmp-ci-summary-2026-11-26.json`. It records the uncompressed raw artifact SHA-256, GitHub artifact digest, run ID, source SHA and compiler/platform provenance. The raw report artifact is attached to [workflow run 45785996326](https://github.com/maisuradzee/bibmom/actions/runs/45785996326) (artifact retention is 30 days).
+The default CI profile uses 250,000 repeats, worker counts 1/2/4/8, one warmup and five measured repetitions. The complete 20-case CI summary is stored at `data/noema-005/native-openmp-ci-summary-2026-11-26.json`. It records the uncompressed raw artifact SHA-256, GitHub artifact digest, run ID, source SHA and compiler/platform provenance. The raw report artifact is attached to [exact PR-head workflow run 45790814359](https://github.com/maisuradzee/bibmom/actions/runs/45790814359), artifact digest `sha256:f66bdede97029752a600bdc0ce7e20a7a5f9f4d528da1e3b94e671facf63f511`; it expires on 2026-12-26 at 09:19 UTC.
 
 The earlier file `data/noema-005/native-openmp-local-linux-x86_64-2026-11-26.json` is retained as historical audit material but is **incomplete**: it contains 10 cases while declaring 20 expected. It is not a valid frozen result and is not used for the conclusions below.
 
 ## შედეგები და ინტერპრეტაცია
 
-In the hosted CI report, Neumaier-state median speedup versus serial Neumaier ranged from 0.995x to 3.591x across the two layouts and worker counts. The environment exposed four CPUs; eight workers are oversubscribed. The grouped-cancellation 1-worker case was marginally slower than serial Neumaier (0.995x), demonstrating that the compensated OpenMP wrapper does not guarantee a speedup.
+In the exact PR-head hosted CI report, Neumaier-state median speedup versus serial Neumaier ranged from 0.974x to 3.553x across the two layouts and worker counts. The grouped-cancellation 2-worker case was slower than serial Neumaier (0.974x). The environment exposed four CPUs; eight workers are oversubscribed. The compensated OpenMP wrapper therefore does not guarantee a speedup.
 
-These are medians from one hosted runner and five repetitions, not a general performance result. Raw timing samples contain scheduler outliers; the frozen repository summary retains per-case medians, while the full raw samples are in the time-limited CI artifact. This is not independent scientific replication.
+These are medians from one hosted runner and five repetitions, not a general performance result. Process CPU time is aggregate across threads and can exceed wall time; that ratio is not itself a wall-time speedup. The frozen repository summary retains per-case medians, while the full raw samples are in the time-limited CI artifact. This is not independent scientific replication.
 
 ## შეზღუდვები და გაურკვევლობები
 
@@ -83,8 +83,8 @@ The hosted experiment reproduces exact-reference accuracy for Neumaier-state mer
 ## შემოწმების სტატუსი
 
 - Local strict-warning compile and native smoke tests: passed on the original branch run.
-- Hosted native OpenMP matrix: 20/20 cases; exact Neumaier checks and actual 1/2/4/8 worker counts passed.
-- Frozen CI summary validator and mutation regression tests: added in this branch; exact-head repository CI pending.
+- Exact PR-head hosted native OpenMP matrix: 20/20 cases; exact Neumaier checks and actual 1/2/4/8 worker counts passed.
+- Frozen CI summary validator: six mutation/regression tests added; exact-head quality CI passed on the preceding summary version, and will rerun after this refresh.
 - Independent hardware replication: not completed.
 - Publication status: draft; not published.
 
@@ -92,3 +92,4 @@ The hosted experiment reproduces exact-reference accuracy for Neumaier-state mer
 
 - 2026-11-26: added native OpenMP protocol, local historical report, compiler-provenance runner and CI workflow.
 - 2026-11-26: added complete hosted CI summary and validator; explicitly invalidated the incomplete 10/20-case local report as a source of conclusions.
+- 2026-11-26: refreshed the frozen summary from the exact PR-head CI artifact (run 45790814359) and retained both raw artifact and uncompressed report digests.
