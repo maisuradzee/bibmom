@@ -41,7 +41,7 @@
 
 ## ღია Draft PR-ები
 
-- PR #19 — operational observability და SQLite backup/restore; issue body-ში აღწერილი ბოლო CI failure საჭიროებს ცალკე reproduction/fix-ს.
+- PR #19 — operational observability და SQLite backup/restore; WAL-mode regression fixture-ის გასწორება და CLI round-trip CI წარმატებულია exact head `0c4f456f17851918bf7f30af7ff4d3c369f6eec7`-ზე ([run 45774768045](https://github.com/maisuradzee/bibmom/actions/runs/45774768045)). თუმცა branch current main-თან diverged-ია: 32 commits ahead / 6 behind; საჭიროა refresh/rebase და ახალი exact-head CI.
 - PR #7 — 330-case deterministic simulation-ის cross-platform reproduction; ეს რეალურ multi-thread runtime-ს არ ამოწმებს.
 - PR #5 — მონაცემთა ბაზისა და RLS-ის არქიტექტურული წინადადება; რეალური PostgreSQL/Supabase ინტეგრაცია არ ჩატარებულა.
 
@@ -66,7 +66,7 @@ AquaSignal-ის პირველი ვერსია მხოლოდ �
 1. AquaSignal-ის სინთეზური unit tests და სრული CI წარმატებით დასრულდეს.
 2. მოიძებნოს ოფიციალური, ნებადართული data dictionary და ისტორიული paired sensor/lab მონაცემის ხელმისაწვდომობის დადასტურება.
 3. საველე პილოტამდე წინასწარ განისაზღვროს baseline, detection delay, sensitivity, positive predictive value და false-alert rate.
-4. პარალელურად ცალკე ციკლში გამოსწორდეს PR #19-ის backup/restore ტესტის failure.
+4. PR #19 განახლდეს current main-ზე; merge-მდე თავიდან გაეშვას სრული CI და restore drill. შემდეგი ინფრასტრუქტურული ეტაპია encrypted off-host backup, retention/rotation და scheduled restore drills.
 5. NOEMA-005 დარჩეს preliminary, სანამ დამოუკიდებელი გარე რეცენზია არ დასრულდება.
 
 **მნიშვნელოვანი:** NOEMA მუშაობს დაგეგმილი გაშვებებისას; ეს დოკუმენტი არ ამტკიცებს უწყვეტ 24/7 სამუშაოს.
