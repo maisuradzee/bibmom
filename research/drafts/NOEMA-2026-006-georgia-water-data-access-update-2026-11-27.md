@@ -1,8 +1,15 @@
 # NOEMA-2026-006 — Georgia water-data access update
 
-- **Date:** 2026-11-27
-- **Status:** discovery / documentary research; no raw monitoring data imported
+- **ID:** NOEMA-2026-006
+- **სტატუსი:** draft
+- **თარიღი:** 2026-11-27
+- **სფერო:** საზოგადოებრივი ჯანმრთელობა · წყლის მონიტორინგი · მონაცემთა წვდომა
+- **ავტორი/მომზადების სისტემა:** NOEMA research workflow
 - **Related work:** [Georgia monitoring-network inventory (2026-11-26)](NOEMA-2026-006-georgia-water-monitoring-inventory-2026-11-26.md)
+
+## საკვლევი კითხვა
+
+რომელი ახალი ოფიციალური წყაროები და ელექტრონული ანგარიშები იძლევა AquaSignal-ისთვის ნებადართული, provenance-იანი წყლის ხარისხის მონაცემების მიღების რეალურ შესაძლებლობას და რა მონაცემთა/უფლებების ბარიერები რჩება?
 
 ## Executive finding
 
@@ -75,7 +82,8 @@ If source documents can be transformed into a versioned, provenance-preserving s
 ### UNTESTED IDEA
 A first controlled pilot could compare groundwater nitrate field measurements with laboratory results at a small set of authorised points, while a separate potable-network workstream analyses microbiological compliance and corrective-action latency. These matrices and regulatory owners must never be merged into one score.
 
-## Innovation implications
+## შემოწმების მეთოდი
+
 
 1. Add source adapters for NEA groundwater bulletins/report archive, NEA surface-water monthly bulletins, and National Food Safety Agency drinking-water compliance records as separate source classes.
 2. Use a canonical sample contract with matrix, station/sample ID, coordinates (when authorised), collection and publication timestamps, analyte, value, unit, method, LOD/LOQ, laboratory/accreditation, QA/QC, revision history, applicable standard and source-page provenance.
@@ -83,7 +91,8 @@ A first controlled pilot could compare groundwater nitrate field measurements wi
 4. Keep the existing rules engine in shadow mode. No national thresholds, public safety status or automated intervention may be inferred from the aggregate report.
 5. Before any ingestion, verify archive contents, licensing/reuse terms, data-controller identity, station dictionary and site-specific operational limits.
 
-## Reproducibility and limitations
+## შემოწმების სტატუსი
+
 
 - No sample-level dataset or RAR archive was downloaded, parsed or hashed in this run.
 - No raw personal, operator, laboratory or telemetry data was added to the public repository.
@@ -92,7 +101,7 @@ A first controlled pilot could compare groundwater nitrate field measurements wi
 - The Hydromet map/table entry is a discovery lead only until its fields and downloadable content are inspected.
 - No sensitivity, specificity, positive predictive value, false-alert rate or detection delay was calculated.
 
-## Sources
+## წყაროები
 
 1. **National Environmental Agency of Georgia**, 2026-11-26, *2021–2025 groundwater monitoring results and field methodology announcement*: https://nea.gov.ge/ajs/News/3461
 2. **Government of Georgia**, 2025-04-01 submission, *Summary report under the Protocol on Water and Health*, especially pp. 26, 42, 51 and 56: https://unece.org/sites/default/files/2025-10/Georgia_summary_report_6th_cycle_1Apr25_ENG.pdf
@@ -101,7 +110,7 @@ A first controlled pilot could compare groundwater nitrate field measurements wi
 5. **Hydromet Georgia**, maps and water-quality-points table entry: https://www.hydromet.ge/maps/
 6. **National Environmental Agency of Georgia**, water-monitoring network announcement, 2025-09-18: https://nea.gov.ge/En/News/2335
 
-## Next steps
+## შემდეგი ნაბიჯები
 
 1. Obtain and inspect the official 2021–2025 RAR archive; record archive hash, internal filenames, page/table references and whether any structured data are included.
 2. Retrieve the 2022–2025 groundwater bulletins and monthly surface-water bulletins; determine whether their tables are machine-readable and revision-stable.
@@ -110,3 +119,7 @@ A first controlled pilot could compare groundwater nitrate field measurements wi
 5. Only after approval, select one matrix and one pilot operator for a preregistered retrospective/shadow-mode validation.
 
 - **Status:** draft; no promotion to preliminary or published.
+
+## ცვლილებების ისტორია
+
+- 2026-11-27: დაემატა UNECE/WHO-ის 2025 ანგარიშისა და NEA-ის 2026-11-26 განცხადების საფუძველზე მონაცემთა წვდომის განახლება; არქივის შიგთავსი ჯერ არ შემოწმებულა.
