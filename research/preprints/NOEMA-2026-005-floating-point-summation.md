@@ -188,7 +188,7 @@ x86-64 წინა შედეგებთან შედარება მ�
 - შედეგების შეჯამება: `data/noema-005/arm64-threaded-benchmark-summary-2026-11-26.json`.
 - workflow: [run 45752987940](https://github.com/maisuradzee/bibmom/actions/runs/45752987940).
 - quality/site CI: [run 45752987825](https://github.com/maisuradzee/bibmom/actions/runs/45752987825).
-- final PR head: `4fe358edd532d1861544951682e9125f67a4e156`.
+- benchmark run head: `4fe358edd532d1861544951682e9125f67a4e156`.
 - raw report JSON-ების SHA-256 და Actions artifact digest შეჯამების ფაილშია; raw artifacts 2026-12-26-მდე ინახება.
 - CI-მ ოთხივე ARM64 job, report validator, unit tests, schema/catalog validation, frozen-result reproduction და site build წარმატებით შეასრულა.
 
