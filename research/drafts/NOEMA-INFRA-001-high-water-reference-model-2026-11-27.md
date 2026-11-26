@@ -87,7 +87,8 @@ NIST SP 800-209 (2020) ხაზს უსვამს, რომ backup-ის 
 ## შემოწმების სტატუსი
 
 - ლოკალურ სატესტო გარემოში ახალი reference model-ის 10/10 unit test წარმატებით შესრულდა.
-- GitHub Actions-ის პირველმა quality run-მა დრაფტის validator-ზე შეაჩერა მუშაობა, რადგან შაბლონის ორი სავალდებულო სათაური აკლდა; სათაურები დაემატა და exact-head CI თავიდან მოწმდება.
+- პირველმა GitHub Actions quality run-მა draft validator-ზე შეაჩერა მუშაობა, რადგან შაბლონის ორი სავალდებულო ქართული სათაური აკლდა. სათაურები დაემატა; შემდგომმა exact-head quality CI run 45904140281 და CPU-thread workflow run 45904140275 ორივემ SUCCESS დააბრუნა commit `9c9a9f97eed68a38f450b70f3d43317fc77ec6bb`-ზე.
+- PR branch დაფუძნებულია main snapshot `8a69e6d91a6151f61ace784e1d3161833ce4c94b`-ზე და PR #92-ის merge-ის შემდეგ ერთი main commit-ით ჩამორჩება; ნებისმიერი merge-მდე საჭიროა refresh/revalidation.
 - არც provider adapter, არც external trust-domain service, არც რეალური backup/restore deployment არ შექმნილა.
 
 ## შემდეგი ნაბიჯები
