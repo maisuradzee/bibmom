@@ -20,7 +20,7 @@
 - **Service wiring:** trusted service grant is limited to `github.repo.metadata`; a metadata-only workflow is scheduled every 6 hours, with first execution delayed by one interval. Repository file reads and all writes remain disabled in the default service. OpenAPI adapter is registered as a reusable library component but no external API is configured or scheduled.
 - **Tests:** 264 Python tests pass on the current PR head. Coverage includes GitHub metadata execution, blocked ungranted file reads, OpenAPI operation discovery, parameter typing/constraints, HTTPS and fixed-server enforcement, redirect blocking, response limits, sensitive-key rejection and path/IP hardening. Full research reproductions, dataset hashes and public-site checks also pass.
 - **Review:** PR #27 remains Draft/open and is not merged into main.
-- **Latest quality CI:** run 45777571471 — SUCCESS, 264 Python tests.
+- **Latest quality CI:** run 45777684366 — SUCCESS, 264 Python tests.
 
 | კომპონენტი | მდგომარეობა | მტკიცებულება |
 |---|---|---|
