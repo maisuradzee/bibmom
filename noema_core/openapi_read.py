@@ -148,7 +148,7 @@ class OpenAPIReadAdapter:
         if (
             "%" in path or "\\" in path or "//" in path
             or any(x in {".", ".."} for x in path.split("/") if x)
-            or not re.fullmatch(r"/[A-Za-z0-9._~/-]*", path)
+            or (path and not re.fullmatch(r"/[A-Za-z0-9._~/-]*", path))
         ):
             raise OpenAPIReadAdapterError("base_url contains an unsafe path")
         return f"https://{parsed.netloc}{path}"
