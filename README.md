@@ -21,6 +21,8 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - `noema_core/mission.json` და `noema_core/mission.py` — მანქანურად წაკითხვადი მისია, ინფორმაციის წვდომის პოლიტიკა და ავტონომიური მოქმედებების წესები.
 - `noema_core/integrations.py` — ადაპტერებზე დაფუძნებული ინტეგრაციის ძრავა: discovery, capability validation, dry-run, scoped grants და არსებული worker-ების უსაფრთხო გაფართოება.
 - `noema_core/github_public.py` — GitHub-ის მხოლოდ წაკითხვის საჯარო repository adapter, შეზღუდული API scope-ითა და ფაილის ტექსტური ვალიდაციით.
+- `noema_core/openapi_read.py` — OpenAPI 3.0/3.1 JSON დოკუმენტიდან საჯარო GET ოპერაციების, პარამეტრებისა და სქემების ავტომატური აღმოჩენა.
+- `docs/OPENAPI_READ_ADAPTER.md` — schema-driven REST adapter-ის გამოყენებისა და შეზღუდვების ინსტრუქცია.
 - `docs/GITHUB_PUBLIC_ADAPTER.md` — პირველი რეალური adapter-ის გამოყენების ინსტრუქცია და უსაფრთხოების საზღვრები.
 - `docs/ADAPTIVE_INTEGRATION.md` — ინტეგრაციის კონტრაქტი, უფლებების მოდელი და გამოყენების ინსტრუქცია.
 - `noema_core/jobs.py`, `noema_core/worker.py`, `noema_core/supervisor.py`, `noema_core/workflows.py`, `noema_core/scheduler.py` და `noema_core/service.py` — მდგრადი დავალებების რიგი, allowlisted worker, supervisor loop, DAG workflow-ები, ინტერვალური განრიგი და გაშვებადი სერვისის bootstrap.
