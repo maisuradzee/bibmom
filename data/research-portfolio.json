@@ -463,7 +463,8 @@
         "Compare 2022–2026 country-reported MHEWS coverage with average pillar-quality scores; keep capability reporting separate from behavioural response and effectiveness outcomes.",
         "Freeze the official UNDRR MHEWS 2026 country-level counts and reproduce pillar percentages, all-four ratio and preparedness score difference with a standard-library script plus frozen-result tests.",
         "Freeze the WMO 2026 analysis of 35 government-validated roadmaps and reproduce only arithmetic from its published rounded aggregates; do not infer warning reach or protection.",
-        "Define and test an event/area aggregate-only action-readiness contract with separate endpoint and survey denominators, small-cell suppression and explicit release approvals."
+        "Define and test an event/area aggregate-only action-readiness contract with separate endpoint and survey denominators, small-cell suppression and explicit release approvals.",
+        "Freeze UNDRR/WMO source-reported 2025 anticipatory-action framework, activation, direct-reach and pre-arranged-financing aggregates; independently reproduce only the 154-to-262 framework growth arithmetic and preserve unit/causality limits."
       ],
       "sources": [
         {
@@ -633,6 +634,14 @@
           "url": "https://github.com/maisuradzee/bibmom/blob/main/data/noema-007/action-readiness-observation.schema.json",
           "type": "proposed_privacy_safe_data_contract",
           "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Early warning protection expands worldwide as powerful El Niño raises the stakes",
+          "publisher": "UNDRR with WMO",
+          "publication_date": "2026-11-11",
+          "url": "https://www.undrr.org/news/early-warning-protection-expands-worldwide-powerful-el-nino-raises-stakes",
+          "type": "official_global_update",
+          "accessed_at": "2026-11-26"
         }
       ],
       "data_needs": [
@@ -657,11 +666,12 @@
         "The LRF report's source-published reproduction has not been independently rerun by NOEMA; 37 findings require Gallup World Poll data outside the public release.",
         "Georgia's World Risk Poll warning base is 99 respondents, below the report's n>=100 threshold; no robust country ranking can be drawn.",
         "The WMO roadmap article publishes aggregate findings, not the underlying country-by-country roadmap dataset; NOEMA cannot independently reanalyse the 35 roadmaps from this source alone.",
-        "The aggregate action-readiness contract is unpiloted; the minimum cell-size floor of 10 is a prototype default, not a guarantee of anonymisation or a substitute for local privacy review."
+        "The aggregate action-readiness contract is unpiloted; the minimum cell-size floor of 10 is a prototype default, not a guarantee of anonymisation or a substitute for local privacy review.",
+        "The UNDRR/WMO release provides published aggregates rather than the underlying country/activation-level records; NOEMA cannot independently verify reach, comprehension, protective action or avoided loss from this snapshot."
       ],
       "status": "active",
       "status_detail": "PR #62 merged the UNDRR MHEWS 2026 country-level snapshot and arithmetic. PR #68 merged as f12a116c86514994ec40c4a953ba6a4f0a4656fc; exact-head quality CI 45849048113 succeeded. The new WMO 2026 roadmap snapshot reproduces 20/35 = 57.1429% of 35 government-validated roadmaps with clear budget allocations and approximately USD 69 million mean among those 20. An aggregate-only action-readiness validator and strict schema now keep endpoint receipts separate from survey-based receipt, comprehension, feasible action, self-reported action and verified action. Synthetic tests only; no field data, local effectiveness measurement or causal claim. Post-merge main CI 45850024686 passed 354 tests and Pages build/deploy 45850024682 succeeded.",
-      "next_step": "Seek the official Georgia basin/municipal data dictionary and explicit permission for aggregate event-level warning and after-action data; obtain local privacy review of the proposed small-cell rule before any pilot, then pre-register comprehension, feasible-action and verified-action denominators.",
+      "next_step": "Seek the official Georgia basin/municipal data dictionary and explicit permission for aggregate event-level warning and after-action data; obtain local privacy review of the proposed small-cell rule before any pilot, then pre-register comprehension, feasible-action and verified-action denominators. Do not treat global anticipatory-action counts as local effectiveness evidence.",
       "success_metrics": [
         "გაფრთხილების მიღწევის, სწორად გაგებისა და feasible action-ის წილი",
         "alert-to-acknowledgement და alert-to-action დრო",
