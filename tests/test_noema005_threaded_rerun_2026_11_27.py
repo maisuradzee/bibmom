@@ -20,21 +20,37 @@ from reproduce_noema005_threaded_rerun_2026_11_27 import (
 )
 
 SUMMARY_PATH = ROOT / "data/noema-005/threaded-rerun-2026-11-27.json"
+SECOND_SUMMARY_PATH = ROOT / "data/noema-005/threaded-rerun-2026-11-27b.json"
 SCHEMA_PATH = ROOT / "data/noema-005/threaded-rerun-2026-11-27.schema.json"
 
 
 class Noema005ThreadedRerun20261127Tests(unittest.TestCase):
     def test_summary_matches_closed_json_schema(self):
-        summary = json.loads(SUMMARY_PATH.read_text(encoding="utf-8"))
         schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
         Draft202012Validator.check_schema(schema)
-        errors = list(Draft202012Validator(schema, format_checker=FormatChecker()).iter_errors(summary))
-        self.assertEqual(errors, [])
+        for summary_path in (SUMMARY_PATH, SECOND_SUMMARY_PATH):
+            summary = json.loads(summary_path.read_text(encoding="utf-8"))
+            errors = list(Draft202012Validator(schema, format_checker=FormatChecker()).iter_errors(summary))
+            self.assertEqual(errors, [])
 
     def test_raw_reports_reproduce_frozen_summary(self):
         actual = reproduce(ROOT)
         self.assertEqual(actual["free_threaded"]["methods"]["threaded_neumaier_state"]["correct_runs"], 48)
         self.assertEqual(actual["gil_enabled"]["methods"]["threaded_neumaier_state"]["correct_runs"], 48)
+
+    def test_second_hosted_run_reproduces_same_accuracy_and_nearby_median_speedup(self):
+        first = reproduce(ROOT)
+        second = reproduce(ROOT, SECOND_SUMMARY_PATH)
+        for mode in ("free_threaded", "gil_enabled"):
+            self.assertEqual(first[mode]["methods"]["threaded_neumaier_state"]["correct_runs"], 48)
+            self.assertEqual(second[mode]["methods"]["threaded_neumaier_state"]["correct_runs"], 48)
+            self.assertEqual(first[mode]["methods"]["threaded_neumaier_scalar"]["correct_runs"], 42)
+            self.assertEqual(second[mode]["methods"]["threaded_neumaier_scalar"]["correct_runs"], 42)
+            self.assertLess(
+                abs(first[mode]["methods"]["threaded_neumaier_state"]["median_speedup"]
+                    - second[mode]["methods"]["threaded_neumaier_state"]["median_speedup"]),
+                0.01,
+            )
 
     def test_full_compensation_state_is_more_accurate_than_scalar_partial(self):
         actual = reproduce(ROOT)
