@@ -1,4 +1,4 @@
-# AquaSignal — ხელმოწერილი მონოტონური checkpoint-ის პროტოკოლი
+# NOEMA-2026-006 — AquaSignal ხელმოწერილი მონოტონური checkpoint-ის პროტოკოლი
 
 - **ID:** NOEMA-2026-006
 - **სტატუსი:** draft
