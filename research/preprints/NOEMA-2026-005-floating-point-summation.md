@@ -377,3 +377,48 @@ x86-64 წინა შედეგებთან შედარება მ�
 3. დაამატე process RSS/native allocation და memory-bandwidth გაზომვები.
 4. შეადარე pairwise, long-double და exact/superaccumulator ალგორითმები.
 5. მოითხოვე დამოუკიდებელი numerical-method review; Published სტატუსი არ მიენიჭოს ამ ეტაპზე.
+
+
+## 2026-11-27 third hosted real-thread rerun — run 45897707859
+
+### Method and provenance
+
+A third hosted rerun was executed by GitHub Actions on the exact tested head `b827c8cb4517311f7d441c336e1f44d6717f2cf5`. The run used CPython 3.14.4 and two separate four-CPU x86-64 hosted VMs: free-threaded CPython on an Azure VM and GIL-enabled CPython on an AWS VM. Each runtime ran 48 configurations (two deterministic cancellation layouts × two partition strategies × four worker counts × three reduction methods), with one warm-up and three measured repetitions per configuration.
+
+Both downloaded artifact ZIPs were checked against the GitHub artifact API SHA-256 values. The extracted JSON reports were independently hashed and archived as gzip+base64 files:
+- free-threaded archive SHA-256: `1a048a2c22e342a3adb15107363a2b36fdff9f8c26440f959d14858a4df7f910`; report SHA-256: `cec5b9de1fae8a3a8c1790a468e8a74bcb3a5566dc12721e645d61da63e785a1`;
+- GIL-enabled archive SHA-256: `9b865c09bb0388e60a3f4c51daddd615123de290768ad3c5bd39688dd86b2cb2`; report SHA-256: `8ebf2ca7fc53c528a8d8edfee18a5a281f482e4ba71a376aea63ae8d865eaa52`.
+
+Frozen aggregate: `data/noema-005/threaded-rerun-2026-11-27.json`. Reproduction: `scripts/reproduce_noema005_threaded_rerun_2026_11_27.py --check`.
+
+### REPRODUCED RESULT — accuracy and actual CPU use
+
+| Runtime | Method | Correctly rounded runs | Median speedup vs matching serial method | CPU/wall > 1.05 |
+|---|---|---:|---:|---:|
+| Free-threaded | Naive scalar | 0/48 | 0.4238× | 36/48 |
+| Free-threaded | Scalar Neumaier | 42/48 | 1.3086× | 36/48 |
+| Free-threaded | Neumaier state | 48/48 | 1.2589× | 36/48 |
+| GIL-enabled | Naive scalar | 0/48 | 0.5096× | 0/48 |
+| GIL-enabled | Scalar Neumaier | 42/48 | 0.7524× | 0/48 |
+| GIL-enabled | Neumaier state | 48/48 | 0.7576× | 0/48 |
+
+Native thread identity matched the configured worker count in all 16 method/layout/partition/worker cases per runtime. The free-threaded Neumaier-state median by worker count was 0.7733×, 1.2125×, 1.3546× and 1.3090× for 1, 2, 4 and 8 workers respectively. On a four-CPU runner, the eight-worker median was below the four-worker median.
+
+### INFERENCE — preserve the complete compensation state
+
+The scalar Neumaier partial merge lost correct rounding in 6/48 configurations, whereas merging the complete `(sum, correction)` state retained 48/48 on these fixtures. This strengthens the case for carrying the compensation term through partition merges rather than reducing each partition to one scalar.
+
+### Critical performance boundary
+
+The 1.2589× figure is a comparison against the matching serial Neumaier implementation, not against the fastest serial method. Serial `math.fsum` remained substantially faster: four-worker contiguous threaded Neumaier-state took 14.8–16.3 times the serial `math.fsum` wall time on the free-threaded fixtures. Thus the run demonstrates real CPU parallelism under free-threaded CPython for this synthetic Python workload, but it does **not** establish an overall algorithm speed advantage.
+
+### Limitations
+
+- One hosted run per runtime, three repetitions per configuration and two deterministic synthetic layouts only.
+- The GIL-enabled and free-threaded jobs used different hosted VM families (AWS and Azure), so direct cross-runtime timing comparisons are confounded.
+- `tracemalloc` captures Python-traced allocations, not RSS, native allocations or DRAM bandwidth.
+- No independent physical x86-64 or ARM64 replication, representative application workload, confidence intervals or independent numerical-method review has been completed.
+
+### Next step
+
+Run the same hashed inputs on independently controlled physical x86-64 and ARM64 hardware, with at least 20 repetitions per cell, RSS/native allocation and memory-bandwidth measurements, and an independently reviewed accuracy oracle. Keep the study preliminary until then.
