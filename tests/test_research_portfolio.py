@@ -60,7 +60,7 @@ class ResearchPortfolioTests(unittest.TestCase):
                 date.fromisoformat(source["accessed_at"])
                 publication_date = source["publication_date"]
                 if publication_date != "undated":
-                    self.assertRegex(publication_date, r"^\\d{4}(-\\d{2}(-\\d{2})?)?$")
+                    self.assertRegex(publication_date, r"^\d{4}(-\d{2}(-\d{2})?)?$")
                     if len(publication_date) == 4:
                         self.assertGreaterEqual(int(publication_date), 1000)
                     elif len(publication_date) == 7:
@@ -86,6 +86,8 @@ class ResearchPortfolioTests(unittest.TestCase):
         self.assertIn("risks", schema_required)
         self.assertIn("next_step", schema_required)
         self.assertIn("success_metrics", schema_required)
+        source_required = set(streams["items"]["properties"]["sources"]["items"]["required"])
+        self.assertIn("accessed_at", source_required)
 
 
 if __name__ == "__main__":
