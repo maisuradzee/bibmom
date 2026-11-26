@@ -4,7 +4,7 @@
 - **სტატუსი:** draft
 - **თარიღი:** 2026-11-26
 - **სფერო:** numerical analysis, C11/OpenMP, exact accumulation
-- **მტკიცებულების სტატუსი:** implementation submitted; exact-head CI pending
+- **მტკიცებულების სტატუსი:** REPRODUCED RESULT (hosted exact-head CI; preliminary, independent review pending)
 
 ## საკვლევი კითხვა
 
@@ -42,7 +42,7 @@ The boundary harness is deterministic and uses no external/private data.
 
 The implementation is included in scripts/noema005_native_accumulator_benchmark.c; the native boundary harness is tests/noema005_accumulator_overflow_harness.c; the Python runner is tests/test_noema005_accumulator_overflow.py.
 
-Exact-head CI is pending. The result remains unclassified as REPRODUCED RESULT until the harness and the full quality workflow pass on the current PR head.
+The implementation and boundary harness passed hosted exact-head CI on PR #58. The quality workflow ran 312 Python tests (one skipped); the native x86-64 and ARM64 workflow each validated 50 accumulator cases and completed the MPFR/Python oracle checks; the CPU-thread workflow passed both GIL-enabled and free-threaded jobs with 48 cases and three repetitions per runtime. These are hosted CI reproductions, not independent physical-hardware replications. See the current PR checks for the latest head.
 
 ## შეზღუდვები და გაურკვევლობები
 
@@ -54,7 +54,7 @@ Exact-head CI is pending. The result remains unclassified as REPRODUCED RESULT u
 
 ## დასკვნა
 
-The implementation is intended to fail closed on signed 2,560-bit overflow instead of accepting modular wrap. Its status remains draft until exact-head CI verifies the new boundary harness together with all frozen reproductions and the site/publication checks.
+The implementation fails closed on signed 2,560-bit overflow instead of accepting modular wrap. The tested boundary cases reject positive and negative overflow without mutating the prior accumulator value. The study remains preliminary: it is fixed-width checked arithmetic, not arbitrary precision, formal proof or an independently reviewed numerical method.
 
 ## წყაროები
 
@@ -72,9 +72,11 @@ The implementation is intended to fail closed on signed 2,560-bit overflow inste
 
 ## შემოწმების სტატუსი
 
-- PR #56: https://github.com/maisuradzee/bibmom/pull/56
-- Initial quality CI failed only because this draft did not match the repository's required Georgian metadata/headings; the validator failure was corrected in a follow-up commit.
-- The native x86-64/ARM64 workflow is running. The corrected exact-head quality CI must be rerun before any merge decision.
+- PR #58: https://github.com/maisuradzee/bibmom/pull/58
+- Quality CI: https://github.com/maisuradzee/bibmom/actions/runs/45828975744 — SUCCESS, 312 tests (one skipped).
+- Native x86-64/ARM64: https://github.com/maisuradzee/bibmom/actions/runs/45828975727 — both architecture jobs SUCCESS; each validated 50 native accumulator cases and ran the MPFR 4.2.1 and Python oracle checks.
+- Actual CPU-thread workflow: https://github.com/maisuradzee/bibmom/actions/runs/45828975620 — GIL-enabled and free-threaded jobs SUCCESS; each ran 48 cases with three repetitions and distinct native thread IDs.
+- The PR includes a follow-up metadata correction; consult its latest exact-head checks before merge. Independent numerical-method review remains outstanding.
 
 ## ცვლილებების ისტორია
 

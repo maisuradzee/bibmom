@@ -45,7 +45,7 @@ MPFR-ის ოფიციალური დოკუმენტაცია 
 - Hosted x86-64 და ARM64 CI არ არის დამოუკიდებელი ფიზიკური მოწყობილობების replication.
 - ტესტები synthetic integer-unit შემთხვევებია და არა რეალური სამეცნიერო workload-ები.
 - ეს არ არის ფორმალური მტკიცება ან დამოუკიდებელი გარე numerical-method review.
-- MPFR cross-check ეხება converter-ს და signed parser-ს; exact accumulator-ის add/merge ოპერაციები კვლავ fixed-width modular arithmetic-ს იყენებს. ამ helper-ების overflow guard ჯერ არ არის დამატებული.
+- MPFR cross-check ეხება converter-სა და signed parser-ს. Checked signed add/merge guard ცალკე დაემატა PR #58-ში; მისი boundary tests hosted exact-head CI-ში წარმატებით შესრულდა. ეს არ არის arbitrary-precision implementation ან formal proof.
 - არ გაკეთებულა performance ან memory-bandwidth დასკვნა.
 
 ## წყაროები
@@ -56,7 +56,7 @@ MPFR-ის ოფიციალური დოკუმენტაცია 
 
 ## შემდეგი ნაბიჯები
 
-1. exact accumulator-ის add/merge ოპერაციებს დაემატოს checked-overflow კონტრაქტი და შესაბამისი უარყოფითი ტესტები.
+1. PR #58-ის checked-overflow კონტრაქტი გაიაროს დამოუკიდებელი numerical-method review.
 2. pairwise, Neumaier და exact მეთოდები შეფასდეს წარმომადგენლობით memory-bandwidth-bound workload-ებზე.
 3. ექსპერიმენტი განმეორდეს დამოუკიდებლად შერჩეულ ფიზიკურ x86-64 და ARM64 მოწყობილობებზე, წინასწარ განსაზღვრული warm-up/repetition პროტოკოლით და uncertainty interval-ებით.
 4. შედეგები წარედგინოს დამოუკიდებელ numerical-method review-ს.
@@ -91,3 +91,8 @@ The result remains preliminary: hosted runners are not independent physical hard
 The exact PR #52 native workflow logs were re-audited. Both hosted jobs report `pkg-config --modversion mpfr` as **4.2.1** (not 4.2.2). The earlier draft, README and portfolio version label of 4.2.2 was incorrect and has been corrected. The workflow now asserts upstream MPFR version 4.2.1 so a future runner-image update cannot silently change the oracle library version.
 
 The previously reported 467/467 per-architecture comparison therefore refers to **MPFR 4.2.1**, the C converter and Python Decimal on hosted Ubuntu x86-64/ARM64. This correction changes the provenance label, not the observed bit-for-bit result. It remains hosted synthetic evidence, not physical-hardware replication or a formal proof.
+
+
+## Checked accumulator follow-up — 2026-11-26
+
+The signed add/merge guard and boundary harness are in [PR #58](https://github.com/maisuradzee/bibmom/pull/58). The hosted exact-head checks passed: [quality CI 45828975744](https://github.com/maisuradzee/bibmom/actions/runs/45828975744), [native x86-64/ARM64 45828975727](https://github.com/maisuradzee/bibmom/actions/runs/45828975727), and [GIL/free-threaded CPU-thread workflow 45828975620](https://github.com/maisuradzee/bibmom/actions/runs/45828975620). The checked arithmetic remains preliminary until independent review and representative workload validation.
