@@ -16,7 +16,7 @@ class NoemaServiceRuntimeTests(unittest.TestCase):
         self.addCleanup(self.temporary.cleanup)
         self.database = Path(self.temporary.name) / "noema.sqlite3"
 
-    def test_build_service_registers_only_internal_diagnostic_tasks(self) -> None:
+    def test_build_service_registers_internal_and_scoped_read_only_integration_tasks(self) -> None:
         service = build_service(
             db_path=self.database,
             worker_id="service-test-worker",
@@ -25,12 +25,19 @@ class NoemaServiceRuntimeTests(unittest.TestCase):
         self.assertEqual(
             service.registry.job_types,
             (
+                "integration.discover",
+                "integration.execute_read",
+                "integration.plan",
                 "system.selfcheck.mission",
                 "system.selfcheck.queue",
                 "system.selfcheck.runtime",
             ),
         )
         self.assertEqual(service.scheduler.get(SERVICE_SCHEDULE_ID).interval_seconds, 300)
+        github_schedule = service.scheduler.get("integration-github-metadata")
+        self.assertEqual(github_schedule.interval_seconds, 6 * 60 * 60)
+        self.assertGreater(github_schedule.next_run_at, 0)
+        self.assertEqual(service.integration_engine.adapters.adapter_ids, ("github.public_repository",))
         self.assertTrue(service.health_report()["healthy"])
 
     def test_service_runs_complete_scheduled_self_check_without_manual_steps(self) -> None:
@@ -64,7 +71,7 @@ class NoemaServiceRuntimeTests(unittest.TestCase):
             first.scheduler.get(SERVICE_SCHEDULE_ID).schedule_id,
             second.scheduler.get(SERVICE_SCHEDULE_ID).schedule_id,
         )
-        self.assertEqual(len(second.scheduler.list_schedules()), 1)
+        self.assertEqual(len(second.scheduler.list_schedules()), 2)
         self.assertTrue(second.health_report()["healthy"])
 
     def test_service_fails_closed_on_conflicting_builtin_schedule_definition(self) -> None:
@@ -85,6 +92,87 @@ class NoemaServiceRuntimeTests(unittest.TestCase):
         self.assertTrue(report["database_integrity"]["audit_valid"])
         self.assertEqual(report["self_check_schedule"]["schedule_id"], SERVICE_SCHEDULE_ID)
         self.assertTrue(report["self_check_schedule"]["enabled"])
+        self.assertEqual(
+            report["integrations"]["registered_adapters"],
+            ["github.public_repository"],
+        )
+        self.assertEqual(
+            report["integrations"]["github_public_repository"],
+            "maisuradzee/bibmom",
+        )
+        self.assertTrue(report["integrations"]["github_metadata_schedule"]["enabled"])
+
+    def test_service_executes_scoped_github_metadata_job(self) -> None:
+        requests = []
+
+        def transport(url, headers, timeout, max_bytes):
+            requests.append(url)
+            import json
+            body = json.dumps({
+                "full_name": "maisuradzee/bibmom",
+                "private": False,
+                "visibility": "public",
+                "default_branch": "main",
+                "html_url": "https://github.com/maisuradzee/bibmom",
+            }).encode("utf-8")
+            return 200, {"Content-Type": "application/json"}, body
+
+        service = build_service(
+            db_path=self.database,
+            worker_id="github-integration-test",
+            github_transport=transport,
+        )
+        job = service.queue.enqueue(
+            "integration.execute_read",
+            {
+                "adapter_id": "github.public_repository",
+                "operation_id": "github.repo.metadata",
+                "payload": {},
+            },
+            idempotency_key="service-github-metadata-test",
+        )
+        outcome = service.worker.run_once()
+        self.assertIsNotNone(outcome)
+        assert outcome is not None
+        self.assertEqual(outcome.outcome, "succeeded")
+        self.assertEqual(outcome.job.job_id, job.job_id)
+        self.assertEqual(
+            outcome.job.result["data"]["repository"]["full_name"],
+            "maisuradzee/bibmom",
+        )
+        self.assertEqual(
+            requests,
+            ["https://api.github.com/repos/maisuradzee/bibmom"],
+        )
+
+    def test_service_live_integration_grant_does_not_allow_github_file_reads(self) -> None:
+        requests = []
+
+        def transport(url, headers, timeout, max_bytes):
+            requests.append(url)
+            raise AssertionError("file read must be blocked before network access")
+
+        service = build_service(
+            db_path=self.database,
+            worker_id="github-grant-scope-test",
+            github_transport=transport,
+        )
+        job = service.queue.enqueue(
+            "integration.execute_read",
+            {
+                "adapter_id": "github.public_repository",
+                "operation_id": "github.repo.file.read",
+                "payload": {"path": "README.md"},
+            },
+            idempotency_key="service-github-file-read-denied",
+        )
+        outcome = service.worker.run_once()
+        self.assertIsNotNone(outcome)
+        assert outcome is not None
+        self.assertEqual(outcome.job.job_id, job.job_id)
+        self.assertEqual(outcome.outcome, "failed")
+        self.assertEqual(outcome.job.attempts, 1)
+        self.assertEqual(requests, [])
 
 
 if __name__ == "__main__":
