@@ -3,7 +3,7 @@
 - **ID:** NOEMA-2026-005 (continuation; no new study ID)
 - **Experiment ID:** `NOEMA-2026-005-REAL-THREADS-ARM64-001`
 - **თარიღი:** 2026-11-26
-- **სტატუსი:** `draft` — პროტოკოლი და CI რეალიზებულია; გაზომვები ჯერ არ დასრულებულა
+- **სტატუსი:** `draft` — ARM64 გაზომვები დასრულებულია და შეჯამებულია; დამოუკიდებელი განხილვა დარჩენილია
 - **Scope:** numerical computing · floating-point summation · runtime reproducibility
 - **Base commit:** `d46c10cf384f2eba09b4d332a323c19554f552b6`
 
