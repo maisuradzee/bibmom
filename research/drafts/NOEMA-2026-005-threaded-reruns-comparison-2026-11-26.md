@@ -194,3 +194,32 @@ Across the three hosted executions (45897707859, 45910119575 and 45910842404), c
 - GIL-enabled ZIP/report SHA-256: ea78b4344d91441631b4600a71d9c69cd159b56266c6057e687eec09c28eff85 / e11b337e316552a12caed4c231b5bd0ac2f8d3aa46b8968ae33b4488a5bac598
 - Both artifacts remain available until 2026-12-26 but are not yet mirrored in repository raw files.
 - Hosted x86-64 VMs only; AWS/Azure family mismatch between runtime modes; synthetic cancellation inputs; three repetitions; no physical x86-64/ARM64 replication, confidence intervals, RSS/native allocation/DRAM bandwidth or independent numerical-method review.
+
+
+## მეოთხე hosted verification — 2026-11-27 (GitHub Actions 45911225040)
+
+ეს run იგივე frozen input hashes-სა და protocol-ს იყენებდა; ორივე job წარმატებით დასრულდა.
+
+| Runtime | Method | Correct | Median speedup vs matching serial Neumaier | CPU/wall >1.05 |
+|---|---|---:|---:|---:|
+| Free-threaded | Naive scalar | 0/48 | 0.1652× | 12/16 cases |
+| Free-threaded | Scalar Neumaier | 42/48 | 0.7165× | 12/16 cases |
+| Free-threaded | Neumaier state | 48/48 | 0.7161× | 12/16 cases |
+| GIL-enabled | Naive scalar | 0/48 | 0.4988× | 0/16 cases |
+| GIL-enabled | Scalar Neumaier | 42/48 | 0.7564× | 0/16 cases |
+| GIL-enabled | Neumaier state | 48/48 | 0.7620× | 0/16 cases |
+
+Neumaier-state worker medians: free-threaded 0.6963×/0.6329×/0.7446×/0.7219× and GIL-enabled 0.7751×/0.7733×/0.7564×/0.7297× for 1/2/4/8 workers. Four-worker threaded Neumaier-state took 21.0–24.0× serial math.fsum wall time in free-threaded mode and 22.3–23.4× in GIL-enabled mode.
+
+### Updated conclusion
+
+The fourth run is a critical counterexample to any interpretation of the earlier free-threaded >1.0 medians as robust: on this hosted AWS x86-64 run the free-threaded Neumaier-state median fell to 0.7161× versus matching serial Neumaier. Across four hosted executions, the free-threaded median spans 0.7161×–1.2589×, while GIL-enabled stays 0.7576×–0.7620×. Correctness counts remain stable (48/48 state, 42/48 scalar, 0/48 naive). This is strong evidence that accuracy behavior is reproducible on these fixtures but timing is highly runner-dependent. No general performance advantage is established.
+
+### Provenance and limits
+
+- Workflow: https://github.com/maisuradzee/bibmom/actions/runs/45911225040
+- Tested head: d9687a7e171d7532cfa176fafd9a16a81b3060a7
+- Free-threaded ZIP/report SHA-256: 40d2aeaacc2824ea5c8291b42fa58ed03648d1ce88c20e17e68ce2bdc934c10f / 6c6764fc89e1af9522a11dbd9236cf832443008ee3b3b18118c0caa3ff86ca64
+- GIL-enabled ZIP/report SHA-256: 0bda4d0c709069f1253844539bb68710bdfc8efe9e3742560bc788ded2b58451 / 3e5beb460808df29de1be1cb21c5304652995ee0c07a6b0d9d7f402ac1b3292b
+- Artifacts 15159883448 and 15159968172 expire 2026-12-26; raw bytes are not yet mirrored in the repository.
+- The free-threaded job ran on an AWS x86-64 hosted VM, unlike the earlier Azure free-threaded runs; provider/host variation is a confound, not a causal explanation.
