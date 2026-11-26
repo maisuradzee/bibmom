@@ -517,7 +517,10 @@
         "Freeze the official UNDRR MHEWS 2026 country-level counts and reproduce pillar percentages, all-four ratio and preparedness score difference with a standard-library script plus frozen-result tests.",
         "Freeze the WMO 2026 analysis of 35 government-validated roadmaps and reproduce only arithmetic from its published rounded aggregates; do not infer warning reach or protection.",
         "Define and test an event/area aggregate-only action-readiness contract with separate endpoint and survey denominators, small-cell suppression and explicit release approvals.",
-        "Freeze UNDRR/WMO source-reported 2025 anticipatory-action framework, activation, direct-reach and pre-arranged-financing aggregates; independently reproduce only the 154-to-262 framework growth arithmetic and preserve unit/causality limits."
+        "Freeze UNDRR/WMO source-reported 2025 anticipatory-action framework, activation, direct-reach and pre-arranged-financing aggregates; independently reproduce only the 154-to-262 framework growth arithmetic and preserve unit/causality limits.",
+        "Audit the aggregate-only record contract for cross-release differencing; use synthetic overlapping-cohort counts to test whether individually valid records can reveal a below-threshold difference.",
+        "Design trusted query/cohort lineage and a restricted release ledger; evaluate batch differencing, complementary suppression and differential-privacy budget accounting before any public release.",
+        "Before considering differential privacy, define the privacy unit (user-level where feasible), contribution bounds, adjacency, sensitivity, ε/δ, utility/bias checks and cumulative composition accounting; keep identity linkage in a restricted private processing boundary."
       ],
       "sources": [
         {
@@ -695,6 +698,30 @@
           "url": "https://www.undrr.org/news/early-warning-protection-expands-worldwide-powerful-el-nino-raises-stakes",
           "type": "official_global_update",
           "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "De-Identifying Government Datasets: Techniques and Governance",
+          "publisher": "NIST",
+          "publication_date": "2023-09-14",
+          "url": "https://doi.org/10.6028/NIST.SP.800-188",
+          "type": "official_privacy_governance_standard",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Guidelines for Evaluating Differential Privacy Guarantees",
+          "publisher": "NIST",
+          "publication_date": "2025-03-06",
+          "url": "https://doi.org/10.6028/NIST.SP.800-226",
+          "type": "official_differential_privacy_guidance",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Revealing information while preserving privacy",
+          "publisher": "ACM PODS 2003",
+          "publication_date": "2003-06-09",
+          "url": "https://doi.org/10.1145/773153.773173",
+          "type": "peer_reviewed_statistical_database_reconstruction",
+          "accessed_at": "2026-11-26"
         }
       ],
       "data_needs": [
@@ -709,7 +736,9 @@
         "ცრუ სიზუსტე ან არასწორი ადგილობრივი risk mapping",
         "პერსონალური მონაცემის ზედმეტი შეგროვება ან მოწყვლადი ჯგუფების პროფილირება",
         "ციფრული არხების მიუწვდომლობა, ენობრივი/შეზღუდული შესაძლებლობის ბარიერები",
-        "გაფრთხილების მიღება მოქმედების შესაძლებლობას არ უდრის; მიზეზობრივი ეფექტის დადგენა რთულია"
+        "გაფრთხილების მიღება მოქმედების შესაძლებლობას არ უდრის; მიზეზობრივი ეფექტის დადგენა რთულია",
+        "Per-record minimum-cell suppression does not detect cross-release differencing or complementary suppression; the current schema has no trusted cohort lineage or release ledger.",
+        "Event-level privacy may protect individual event rows but under-protect a resident who contributes across multiple events or time windows; repeated releases compose."
       ],
       "blockers": [
         "საქართველოს მოქმედი მუნიციპალური emergency plan-ების და 2026 ICT სისტემის საჯარო data dictionary-ის სრული ვერსიები ჯერ არ არის მოპოვებული",
@@ -720,11 +749,13 @@
         "Georgia's World Risk Poll warning base is 99 respondents, below the report's n>=100 threshold; no robust country ranking can be drawn.",
         "The WMO roadmap article publishes aggregate findings, not the underlying country-by-country roadmap dataset; NOEMA cannot independently reanalyse the 35 roadmaps from this source alone.",
         "The aggregate action-readiness contract is unpiloted; the minimum cell-size floor of 10 is a prototype default, not a guarantee of anonymisation or a substitute for local privacy review.",
-        "The UNDRR/WMO release provides published aggregates rather than the underlying country/activation-level records; NOEMA cannot independently verify reach, comprehension, protective action or avoided loss from this snapshot."
+        "The UNDRR/WMO release provides published aggregates rather than the underlying country/activation-level records; NOEMA cannot independently verify reach, comprehension, protective action or avoided loss from this snapshot.",
+        "No trusted query/cohort lineage, release-history ledger, complementary-suppression planner, differential-privacy budget or independent privacy review is available; do not release real event/area aggregates until these controls are designed and approved.",
+        "No privacy unit, person-level contribution bound, ε/δ parameters, vetted differential-privacy mechanism or cumulative privacy accountant has been approved or implemented; no DP claim is permitted."
       ],
       "status": "active",
-      "status_detail": "PR #62 merged the UNDRR MHEWS 2026 country-level snapshot and arithmetic. PR #68 merged as f12a116c86514994ec40c4a953ba6a4f0a4656fc; exact-head quality CI 45849048113 succeeded. The new WMO 2026 roadmap snapshot reproduces 20/35 = 57.1429% of 35 government-validated roadmaps with clear budget allocations and approximately USD 69 million mean among those 20. An aggregate-only action-readiness validator and strict schema now keep endpoint receipts separate from survey-based receipt, comprehension, feasible action, self-reported action and verified action. Synthetic tests only; no field data, local effectiveness measurement or causal claim. Post-merge main CI 45850024686 passed 354 tests and Pages build/deploy 45850024682 succeeded.",
-      "next_step": "Seek the official Georgia basin/municipal data dictionary and explicit permission for aggregate event-level warning and after-action data; obtain local privacy review of the proposed small-cell rule before any pilot, then pre-register comprehension, feasible-action and verified-action denominators. Do not treat global anticipatory-action counts as local effectiveness evidence.",
+      "status_detail": "PR #62 merged the UNDRR MHEWS 2026 country-level snapshot and arithmetic. PR #68 merged as f12a116c86514994ec40c4a953ba6a4f0a4656fc; exact-head quality CI 45849048113 succeeded. The new WMO 2026 roadmap snapshot reproduces 20/35 = 57.1429% of 35 government-validated roadmaps with clear budget allocations and approximately USD 69 million mean among those 20. An aggregate-only action-readiness validator and strict schema now keep endpoint receipts separate from survey-based receipt, comprehension, feasible action, self-reported action and verified action. Synthetic tests only; no field data, local effectiveness measurement or causal claim. Post-merge main CI 45850024686 passed 354 tests and Pages build/deploy 45850024682 succeeded. A cross-release disclosure audit found a structural gap: the validator checks one record at a time, so two individually valid overlapping aggregates can expose a sub-threshold difference. A synthetic regression test and governance design are added; no real data or complete privacy guard is claimed. NIST SP 800-226 review now makes the privacy-unit requirement explicit: event-level privacy may under-protect repeat contributors, and privacy loss composes across releases. No DP mechanism or parameters are implemented or claimed.",
+      "next_step": "Design trusted query/cohort lineage and a restricted release ledger; specify the privacy unit (user-level where feasible), contribution bounds and cumulative release accounting; implement batch differencing/complementary-suppression checks and obtain independent privacy review before any public pilot data.",
       "success_metrics": [
         "გაფრთხილების მიღწევის, სწორად გაგებისა და feasible action-ის წილი",
         "alert-to-acknowledgement და alert-to-action დრო",
@@ -733,7 +764,10 @@
         "after-action review-ის completeness და corrective action closure rate",
         "Capability coverage/quality and operational effectiveness (delivery, comprehension, feasible action and outcomes) are reported as separate measures.",
         "Each reported delivery, comprehension and action metric states its own numerator, denominator and unit; endpoint receipts are never labelled as people reached.",
-        "No public aggregate is released without data-controller and privacy-reviewer approval and a documented small-cell suppression policy."
+        "No public aggregate is released without data-controller and privacy-reviewer approval and a documented small-cell suppression policy.",
+        "Synthetic tests demonstrate that individually valid aggregates can expose a below-threshold difference when cohorts overlap.",
+        "A future batch release planner rejects declared nested differences below the policy threshold and documents complementary-suppression paths.",
+        "No real data is published until trusted cohort lineage, release history, formal privacy assessment and authorized independent review are in place."
       ],
       "last_reviewed": "2026-11-26"
     },
