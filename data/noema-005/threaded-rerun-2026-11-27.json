@@ -1,0 +1,263 @@
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-005",
+  "experiment_id": "NOEMA-2026-005-REAL-THREADS-001",
+  "date": "2026-11-27",
+  "status": "preliminary",
+  "evidence_status": "REPRODUCED_RESULT",
+  "workflow_run": {
+    "id": 45897707859,
+    "url": "https://github.com/maisuradzee/bibmom/actions/runs/45897707859",
+    "tested_head_sha": "b827c8cb4517311f7d441c336e1f44d6717f2cf5",
+    "generated_at_utc": {
+      "free_threaded": "2026-11-26T21:23:09.794268+00:00",
+      "gil_enabled": "2026-11-26T21:23:04.138214+00:00"
+    }
+  },
+  "artifacts": {
+    "free_threaded": {
+      "id": 15154497127,
+      "archive_sha256": "1a048a2c22e342a3adb15107363a2b36fdff9f8c26440f959d14858a4df7f910",
+      "report_sha256": "cec5b9de1fae8a3a8c1790a468e8a74bcb3a5566dc12721e645d61da63e785a1",
+      "raw_report_path": "data/noema-005/raw/run-45897707859-free-threaded.json.gz.b64",
+      "artifact_url": "https://api.github.com/repos/maisuradzee/bibmom/actions/artifacts/15154497127"
+    },
+    "gil_enabled": {
+      "id": 15154178525,
+      "archive_sha256": "9b865c09bb0388e60a3f4c51daddd615123de290768ad3c5bd39688dd86b2cb2",
+      "report_sha256": "8ebf2ca7fc53c528a8d8edfee18a5a281f482e4ba71a376aea63ae8d865eaa52",
+      "raw_report_path": "data/noema-005/raw/run-45897707859-gil-enabled.json.gz.b64",
+      "artifact_url": "https://api.github.com/repos/maisuradzee/bibmom/actions/artifacts/15154178525"
+    }
+  },
+  "inputs": [
+    {
+      "layout": "triplet_order",
+      "value_count": 196608,
+      "repeat_count": 65536,
+      "exact_sum_fraction": "65536",
+      "sha256": "e6cc4a627d55c476cb55e6f9789ceb39282e1f787d4b0a5fc040b30428085291"
+    },
+    {
+      "layout": "grouped_cancellation",
+      "value_count": 196608,
+      "repeat_count": 65536,
+      "exact_sum_fraction": "65536",
+      "sha256": "16ae80fed695b4d02f4a42a2e7c3f5b8a5eff96e97296273c3ddcacfb19090ee"
+    }
+  ],
+  "protocol": {
+    "workers": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "partitions": [
+      "contiguous",
+      "round_robin"
+    ],
+    "methods": [
+      "threaded_naive_scalar",
+      "threaded_neumaier_scalar",
+      "threaded_neumaier_state"
+    ],
+    "warmups": 1,
+    "repetitions": 3,
+    "cases_per_runtime": 48,
+    "runs_per_runtime": 144
+  },
+  "environments": {
+    "free_threaded": {
+      "machine": "x86_64",
+      "platform": "Linux-7.0.0-1020-azure-x86_64-with-glibc2.39",
+      "cpu_affinity_count": 4,
+      "python_version": "3.14.4",
+      "gil_enabled": false
+    },
+    "gil_enabled": {
+      "machine": "x86_64",
+      "platform": "Linux-7.0.0-1018-aws-x86_64-with-glibc2.39",
+      "cpu_affinity_count": 4,
+      "python_version": "3.14.4",
+      "gil_enabled": true
+    }
+  },
+  "aggregates": {
+    "free_threaded": {
+      "threaded_naive_scalar": {
+        "correct_runs": 0,
+        "total_runs": 48,
+        "median_speedup": 0.4238,
+        "speedup_range": [
+          0.3735,
+          0.5555
+        ],
+        "median_cpu_wall": 2.251,
+        "median_peak_traced_bytes": 276057,
+        "parallel_runs": 36,
+        "identity_cases": 16
+      },
+      "threaded_neumaier_scalar": {
+        "correct_runs": 42,
+        "total_runs": 48,
+        "median_speedup": 1.3086,
+        "speedup_range": [
+          0.7492,
+          1.4919
+        ],
+        "median_cpu_wall": 2.554,
+        "median_peak_traced_bytes": 276657,
+        "parallel_runs": 36,
+        "identity_cases": 16
+      },
+      "threaded_neumaier_state": {
+        "correct_runs": 48,
+        "total_runs": 48,
+        "median_speedup": 1.2589,
+        "speedup_range": [
+          0.7637,
+          1.4846
+        ],
+        "median_cpu_wall": 2.418,
+        "median_peak_traced_bytes": 277669,
+        "parallel_runs": 36,
+        "identity_cases": 16
+      },
+      "neumaier_state_by_worker_count": {
+        "1": {
+          "median_speedup": 0.7733,
+          "correct_runs": 12,
+          "total_runs": 12,
+          "median_cpu_wall": 1.002
+        },
+        "2": {
+          "median_speedup": 1.2125,
+          "correct_runs": 12,
+          "total_runs": 12,
+          "median_cpu_wall": 1.982
+        },
+        "4": {
+          "median_speedup": 1.3546,
+          "correct_runs": 12,
+          "total_runs": 12,
+          "median_cpu_wall": 3.264
+        },
+        "8": {
+          "median_speedup": 1.309,
+          "correct_runs": 12,
+          "total_runs": 12,
+          "median_cpu_wall": 3.301
+        }
+      }
+    },
+    "gil_enabled": {
+      "threaded_naive_scalar": {
+        "correct_runs": 0,
+        "total_runs": 48,
+        "median_speedup": 0.5096,
+        "speedup_range": [
+          0.4499,
+          0.546
+        ],
+        "median_cpu_wall": 1.01,
+        "median_peak_traced_bytes": 25189,
+        "parallel_runs": 0,
+        "identity_cases": 16
+      },
+      "threaded_neumaier_scalar": {
+        "correct_runs": 42,
+        "total_runs": 48,
+        "median_speedup": 0.7524,
+        "speedup_range": [
+          0.6771,
+          0.7813
+        ],
+        "median_cpu_wall": 1.003,
+        "median_peak_traced_bytes": 25393,
+        "parallel_runs": 0,
+        "identity_cases": 16
+      },
+      "threaded_neumaier_state": {
+        "correct_runs": 48,
+        "total_runs": 48,
+        "median_speedup": 0.7576,
+        "speedup_range": [
+          0.7184,
+          0.7743
+        ],
+        "median_cpu_wall": 1.003,
+        "median_peak_traced_bytes": 25381,
+        "parallel_runs": 0,
+        "identity_cases": 16
+      },
+      "neumaier_state_by_worker_count": {
+        "1": {
+          "median_speedup": 0.7712,
+          "correct_runs": 12,
+          "total_runs": 12,
+          "median_cpu_wall": 0.996
+        },
+        "2": {
+          "median_speedup": 0.7656,
+          "correct_runs": 12,
+          "total_runs": 12,
+          "median_cpu_wall": 1.002
+        },
+        "4": {
+          "median_speedup": 0.7503,
+          "correct_runs": 12,
+          "total_runs": 12,
+          "median_cpu_wall": 1.006
+        },
+        "8": {
+          "median_speedup": 0.7255,
+          "correct_runs": 12,
+          "total_runs": 12,
+          "median_cpu_wall": 1.01
+        }
+      }
+    }
+  },
+  "serial_math_fsum_comparison": {
+    "free_threaded": {
+      "triplet_order": {
+        "serial_median_wall_ns": 1476151,
+        "threaded_state_4_worker_wall_ns": 24036284,
+        "ratio": 16.2831
+      },
+      "grouped_cancellation": {
+        "serial_median_wall_ns": 1467108,
+        "threaded_state_4_worker_wall_ns": 21782953,
+        "ratio": 14.8475
+      }
+    },
+    "gil_enabled": {
+      "triplet_order": {
+        "serial_median_wall_ns": 960327,
+        "threaded_state_4_worker_wall_ns": 21426006,
+        "ratio": 22.3112
+      },
+      "grouped_cancellation": {
+        "serial_median_wall_ns": 901001,
+        "threaded_state_4_worker_wall_ns": 20584677,
+        "ratio": 22.8465
+      }
+    }
+  },
+  "findings": [
+    "Neumaier-state correctly rounded 48/48 measured runs in both runtimes; scalar Neumaier 42/48; naive scalar 0/48.",
+    "Free-threaded mode had 36/48 measured runs with process-CPU/wall ratio above 1.05; GIL-enabled mode had 0/48. Native thread identity matched configured worker count in all 16 cases per runtime.",
+    "Free-threaded Neumaier-state median speedup was 1.2589x versus the matching serial Neumaier baseline; worker-count medians were 0.7733x, 1.2125x, 1.3546x and 1.3090x for 1/2/4/8 workers.",
+    "GIL-enabled Neumaier-state median speedup was 0.7576x versus the matching serial Neumaier baseline; median process-CPU/wall ratio was approximately 1.003.",
+    "Scalar Neumaier partial merge lost correct rounding in 6/48 cases, while merging the full (sum, correction) state retained 48/48.",
+    "Serial math.fsum was substantially faster than Python-threaded Neumaier-state on these fixtures; no overall algorithm speed advantage is claimed."
+  ],
+  "limitations": [
+    "One hosted run per runtime, three repetitions per configuration and two deterministic synthetic cancellation layouts only.",
+    "The GIL-enabled and free-threaded jobs ran on different hosted VM platform families (AWS versus Azure), so direct cross-runtime timing comparison is confounded.",
+    "Speedup is relative to matching serial Neumaier, not the fastest serial method; serial math.fsum was substantially faster.",
+    "tracemalloc reports Python-traced allocations only, not RSS, native allocations or hardware DRAM bandwidth.",
+    "No independent physical x86-64 or ARM64 replication, representative application workload, confidence interval or independent numerical-method review has been completed."
+  ]
+}
