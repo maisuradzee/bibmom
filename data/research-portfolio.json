@@ -278,7 +278,8 @@
         "საქართველოს NEA/UNDP/UN Georgia ოფიციალური პროექტებისა და მიმდინარე სისტემების mapping",
         "მინიმუმ სამი განსხვავებული სოციალური/კლიმატური კონტექსტის შედარება",
         "მონაცემთა უფლებებისა და privacy review-ის შემდეგ მხოლოდ აგრეგირებული/ანონიმიზებული warning-delivery და action-log მონაცემის შეფასება",
-        "პილოტისთვის წინასწარ რეგისტრირებული baseline და stepped-wedge ან matched-community შეფასების დიზაინი"
+        "პილოტისთვის წინასწარ რეგისტრირებული baseline და stepped-wedge ან matched-community შეფასების დიზაინი",
+        "Compare 2022–2026 country-reported MHEWS coverage with average pillar-quality scores; keep capability reporting separate from behavioural response and effectiveness outcomes."
       ],
       "sources": [
         {
@@ -422,19 +423,18 @@
         "არც alert-delivery, acknowledgement და action-completion აგრეგირებული ჩანაწერები და არც თემის საველე შეფასება არ არის ხელმისაწვდომი",
         "No current municipal alert-delivery, acknowledgement or action-completion dataset or field study is available.",
         "The LRF report's source-published reproduction has not been independently rerun by NOEMA; 37 findings require Gallup World Poll data outside the public release.",
-        "Georgia's World Risk Poll warning base is 99 respondents, below the report's n>=100 threshold; no robust country ranking can be drawn.",
-        "No current municipal alert-delivery, acknowledgement or action-completion dataset or field study is available.",
-        "The LRF report's source-published reproduction has not been independently rerun by NOEMA; 37 findings require Gallup World Poll data outside the public release."
+        "Georgia's World Risk Poll warning base is 99 respondents, below the report's n>=100 threshold; no robust country ranking can be drawn."
       ],
       "status": "active",
-      "status_detail": "PR #34 has been merged into main (merge commit 50a54227444ae52bdb5641b30e8c430ec7b8a722). Exact-head quality CI 45797079222 passed all steps. The new evidence is from Lloyd's Register Foundation's World Risk Poll 2025 / From alert to agency report (published 2026-10-13): 143,459 respondents in 140 countries; 80% of disaster-impacted respondents reported an advance warning, and 64% of warned respondents said they could act. Action rose from 37% with one warning channel to 51% with two and 64% with three; these are associations, not causal effects. Crucially, Georgia had only 99 respondents asked about warning channels (101 impacted); the 22.8% figure appears only under an alternative >=100 impacted threshold, and Georgia is excluded by the report's >=100 asked threshold. The source repository reports Python/R reproduction of 541 findings (487 exact match, 17 within tolerance, 37 Gallup-only); NOEMA has not independently rerun the microdata. The merged evidence record and privacy-preserving Action Readiness Ledger proposal contain no survey microdata or personal data. No Georgian municipal dataset or field validation exists.",
-      "next_step": "Select one Georgian river-basin/municipal workflow only after obtaining the current official data dictionary and explicit permission for aggregated alert-delivery, acknowledgement and action-completion records. Design a preregistered baseline and pilot evaluation; do not treat the small Georgia WRP sample as an operational estimate or duplicate official alerting.",
+      "status_detail": "The NOEMA-2026-007 draft now records a newly verified UNDRR 2026 quality signal: since 2022 around 20 more countries report on each MHEWS pillar, yet average scores barely moved and preparedness to respond fell from 0.74 to 0.70. This supports measuring effectiveness separately from system existence; it does not establish a Georgian municipal gap. Georgia NEA's 25 November update confirms consultations on seven river-basin plans. No local delivery, acknowledgement or action-completion dataset and no field validation are available.",
+      "next_step": "Obtain the current official data dictionary and explicit permission for aggregated alert-delivery, acknowledgement and action-completion records for one Georgian river-basin/municipal workflow. Pre-register a baseline and pilot that separates capability, delivery, comprehension, feasible action and outcomes; do not treat global country-level scores as local performance.",
       "success_metrics": [
         "გაფრთხილების მიღწევის, სწორად გაგებისა და feasible action-ის წილი",
         "alert-to-acknowledgement და alert-to-action დრო",
         "false/misdirected alert rate",
         "coverage gap ასაკის, ენის, შეზღუდული შესაძლებლობისა და კავშირის ხელმისაწვდომობის მიხედვით მხოლოდ აგრეგირებულ დონეზე",
-        "after-action review-ის completeness და corrective action closure rate"
+        "after-action review-ის completeness და corrective action closure rate",
+        "Capability coverage/quality and operational effectiveness (delivery, comprehension, feasible action and outcomes) are reported as separate measures."
       ],
       "last_reviewed": "2026-11-26"
     },
