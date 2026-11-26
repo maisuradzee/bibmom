@@ -44,7 +44,7 @@ def run(repeat_count: int) -> dict:
       "cgroup_cpu_max":optional_text("/sys/fs/cgroup/cpu.max"),
       "cgroup_cpuset_cpus":optional_text("/sys/fs/cgroup/cpuset.cpus.effective"),
       "github_run_id":os.environ.get("GITHUB_RUN_ID"),"github_run_attempt":os.environ.get("GITHUB_RUN_ATTEMPT"),
-      "github_sha":os.environ.get("GITHUB_SHA")}
+      "github_sha":os.environ.get("GITHUB_SHA"),"tested_head_sha":os.environ.get("NOEMA_TESTED_HEAD_SHA") or os.environ.get("GITHUB_SHA")}
     return report
 def main() -> int:
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument("--repeat-count",type=int,default=4194304);parser.add_argument("--output",type=Path);args=parser.parse_args()
