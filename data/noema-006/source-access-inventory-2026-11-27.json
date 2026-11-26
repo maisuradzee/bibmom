@@ -1,0 +1,169 @@
+{
+  "schema_version": 1,
+  "reviewed_on": "2026-11-27",
+  "evidence_boundary": "Public source metadata only; no raw sample-level or operational records imported.",
+  "sources": [
+    {
+      "id": "NEA_GW_2021_2025",
+      "publisher": "National Environmental Agency of Georgia",
+      "publication_date": "2026-11-26",
+      "url": "https://nea.gov.ge/ajs/News/3461",
+      "matrix": "groundwater",
+      "access_status": "official_report_archive_linked_not_extracted",
+      "observation_period": "2021-2025",
+      "sample_level_schema_verified": false,
+      "reuse_terms_verified": false,
+      "note": "Announcement describes monitoring results, automatic stations and historical data digitisation; linked RAR contents not inspected."
+    },
+    {
+      "id": "UNECE_GW_2024",
+      "publisher": "Government of Georgia via UNECE/WHO Protocol on Water and Health",
+      "publication_date": "2025-04-01",
+      "url": "https://unece.org/sites/default/files/2025-10/Georgia_summary_report_6th_cycle_1Apr25_ENG.pdf",
+      "matrix": "groundwater",
+      "access_status": "public_pdf_aggregate_and_process_facts",
+      "observation_period": "2024",
+      "sample_level_schema_verified": false,
+      "reuse_terms_verified": false,
+      "reported_counts": {
+        "monitoring_points": 72,
+        "laboratory_samples": 394,
+        "chemical_analyses": 142,
+        "microbiological_analyses": 137,
+        "heavy_metal_analyses": 100,
+        "petroleum_product_analyses": 15,
+        "nitrate_risk_field_points": 42,
+        "automatic_station_district_units": 11,
+        "automatic_station_regional_administrations": 8,
+        "information_bulletins": 12
+      },
+      "note": "Report says electronic groundwater results have been available since 2022; automatic stations were installed across 11 district units in 8 regional administrations; groundwater is described as generally good quality with isolated microbiological exceedances. No row-level export is supplied in the cited passage."
+    },
+    {
+      "id": "UNECE_SW_2024",
+      "publisher": "Government of Georgia via UNECE/WHO Protocol on Water and Health",
+      "publication_date": "2025-04-01",
+      "url": "https://unece.org/sites/default/files/2025-10/Georgia_summary_report_6th_cycle_1Apr25_ENG.pdf",
+      "matrix": "surface_water",
+      "access_status": "public_pdf_aggregate_and_process_facts",
+      "observation_period": "2022-2024",
+      "sample_level_schema_verified": false,
+      "reuse_terms_verified": false,
+      "reported_counts": {
+        "2022_points": 228,
+        "2022_water_bodies": 131,
+        "2023_points": 243,
+        "2023_water_bodies": 132,
+        "2024_points": 331,
+        "2024_water_bodies": 137,
+        "physicochemical_parameters_up_to": 60,
+        "microbiological_indicators": 4
+      },
+      "note": "Monthly bulletins are reported; surface water is not potable-network compliance."
+    },
+    {
+      "id": "UNECE_DRINKING_WATER_2024",
+      "publisher": "Government of Georgia via UNECE/WHO Protocol on Water and Health",
+      "publication_date": "2025-04-01",
+      "url": "https://unece.org/sites/default/files/2025-10/Georgia_summary_report_6th_cycle_1Apr25_ENG.pdf",
+      "matrix": "potable_network",
+      "access_status": "public_pdf_aggregate_only_denominator_not_in_table",
+      "observation_period": "2021-2024",
+      "sample_level_schema_verified": false,
+      "reuse_terms_verified": false,
+      "reported_counts": {
+        "narrative_e_coli_non_compliance_percent_2021_2022": 37,
+        "narrative_e_coli_non_compliance_percent_2023": 44.5,
+        "narrative_e_coli_non_compliance_percent_2024": 40.3,
+        "table_e_coli_baseline_percent_2005": 25,
+        "table_e_coli_previous_cycle_percent_2019": 34,
+        "table_e_coli_current_percent_2024": 40.3
+      },
+      "note": "Food Safety Agency is identified as drinking-water control body; small rural systems were included. The report narrative and table use different reference-year frames; sample denominator and urban/rural breakdown are blank. Percentages are not population coverage."
+    },
+    {
+      "id": "WIS_C10",
+      "publisher": "Water Information System of Georgia / MEPA",
+      "publication_date": "2020-06",
+      "url": "https://wis.mepa.gov.ge/Wis/C10?Id=2121",
+      "matrix": "surface_water",
+      "access_status": "public_historical_aggregate_table",
+      "observation_period": "2004-2018",
+      "sample_level_schema_verified": false,
+      "reuse_terms_verified": false,
+      "note": "Annual aggregate BOD5 and ammonium indicators; not a live feed."
+    },
+    {
+      "id": "WIS_C11",
+      "publisher": "Water Information System of Georgia / MEPA",
+      "publication_date": "2020-06",
+      "url": "https://wis.mepa.gov.ge/Wis/C11?Id=2122",
+      "matrix": "surface_and_groundwater",
+      "access_status": "public_historical_aggregate_table",
+      "observation_period": "2004-2018",
+      "sample_level_schema_verified": false,
+      "reuse_terms_verified": false,
+      "note": "Annual aggregate nitrate/phosphate indicators; not a live feed."
+    },
+    {
+      "id": "HYDROMET_WATER_QUALITY_POINTS",
+      "publisher": "Hydromet Georgia",
+      "publication_date": "undated",
+      "url": "https://www.hydromet.ge/maps/",
+      "matrix": "water_quality_station_registry",
+      "access_status": "public_map_and_table_entry_not_inspected",
+      "observation_period": "unknown",
+      "sample_level_schema_verified": false,
+      "reuse_terms_verified": false,
+      "note": "Map/table entry exists; station fields, export format and freshness are unverified."
+    },
+    {
+      "id": "GEORGIA_WELL_REGISTRY_RULE_424",
+      "publisher": "Government of Georgia / National Environmental Agency",
+      "publication_date": "2026-08-31",
+      "url": "https://matsne.gov.ge/ka/document/view/6991245",
+      "matrix": "groundwater_well_registry",
+      "access_status": "official_regulation_only_registry_access_unverified",
+      "observation_period": "from_2026-09-01",
+      "sample_level_schema_verified": false,
+      "reuse_terms_verified": false,
+      "note": "Resolution No.424 establishes a state accounting system for fresh drinking-water extraction wells deeper than 20 m drilled after the regulation takes effect; pre-existing wells and mineral/thermal/medicinal waters are outside the legal scope. NEA separately states that household wells are excluded. The required passport includes coordinates and owner identity/contact data; field/laboratory results are attached only when sampling was performed. The regulation requires an NEA hydrogeological database but no public API, public access terms or de-identified export was verified."
+    },
+    {
+      "id": "NEA_GW_STATION_CATALOGUE",
+      "publisher": "Ministry of Environmental Protection and Agriculture of Georgia",
+      "publication_date": "2026-03-06",
+      "url": "https://portal.mepa.gov.ge/En/User/data?Links-sort=ResponsiblePerson-asc",
+      "matrix": "water_quality_station_registry",
+      "access_status": "public_catalog_metadata_payload_not_retrieved",
+      "observation_period": "catalogue_metadata_only",
+      "sample_level_schema_verified": false,
+      "reuse_terms_verified": false,
+      "note": "Catalogue record NEA122 lists the point-geometry Groundwater monitoring layer Groundwtaer_Monitoring_Stations_NEA as public/free; the row lists SQL SDE server and personal-computer storage but no portal-placement URL. The layer payload, fields, coordinate reference system, active dates and reuse licence were not verified."
+    },
+    {
+      "id": "NEA_TIANETI_AUTO_STATIONS",
+      "publisher": "National Environmental Agency of Georgia",
+      "publication_date": "2026-06-09",
+      "url": "https://nea.gov.ge/En/News/2409",
+      "matrix": "groundwater",
+      "access_status": "official_field_process_notice_only",
+      "observation_period": "Tianeti_station_process_example",
+      "sample_level_schema_verified": false,
+      "reuse_terms_verified": false,
+      "note": "NEA describes automatic stations at monitored wells in Tianeti and field procedures for portable measurements, data registration, documentation and recording; no raw time series, station dictionary or reuse terms are published in the notice."
+    },
+    {
+      "id": "GEORGIA_WATER_LAW_ART32",
+      "publisher": "Legislative Herald of Georgia",
+      "publication_date": "2023",
+      "url": "https://matsne.gov.ge/ka/document/view/5846594",
+      "matrix": "surface_and_groundwater",
+      "access_status": "official_legal_data_access_framework",
+      "observation_period": "current_law_text_as_accessed_2026-11-27",
+      "sample_level_schema_verified": false,
+      "reuse_terms_verified": false,
+      "note": "Article 32 describes the state surface/groundwater monitoring system and states that NEA provides quantitative and qualitative observation data to interested parties on request; the law separately assigns state drinking-water quality control to the National Food Safety Agency."
+    }
+  ]
+}

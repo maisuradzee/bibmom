@@ -458,3 +458,72 @@ The backup manifest runtime validator verifies only Draft 2020-12 structure and 
 - **Safety:** marine, surface, groundwater and potable-network observations are not interchangeable. The NEA Black Sea 'within norm' statement is not a drinking-water or national freshwater assessment. No thresholds or safety claims were inferred.
 - **Files:** `research/drafts/NOEMA-2026-006-georgia-water-monitoring-inventory-2026-11-26.md`; `data/research-portfolio.json`; README link. The draft uses public source metadata only; no sample records or operator data were imported.
 - **Next step:** locate published sample-level results and obtain station registry, analyte dictionary, methods, QA/QC, sampling schedule and written reuse terms before any sensor/lab pairing.
+
+
+## Research cycle audit — 2026-11-27
+
+### აქტიური პორტფელი
+
+| ნაკადი | მდგომარეობა | ამ ციკლის დადასტურებული პროგრესი | დარჩენილი მთავარი ბლოკერი |
+|---|---|---|---|
+| NOEMA-2026-006 AquaSignal | Active / prototype | დაემატა UNECE/WHO-ის 2025 ანგარიშზე დაფუძნებული მონაცემთა წვდომის განახლება, NEA-ის 2026-11-26 groundwater-report lead და source-access inventory schema/tests; PR #92 | NEA-ის RAR არქივის შიგთავსი, 2022–2025 ბიულეტენების სტრუქტურა, sample denominator და წერილობითი reuse terms |
+| NOEMA-2026-005 | Active / preliminary | PR #87-ის 96 MiB memory-backed hosted benchmark, exact-head quality CI და CPU-thread workflow წარმატებულია | მეორე buffer size, წარმომადგენლობითი scientific workload, დამოუკიდებელი ფიზიკური x86-64/ARM64 გამეორება და გარე numerical-method review |
+| NOEMA-2026-007 | Active / draft | PR #88-ის synthetic nested-cohort disclosure audit; PR #91-ის fail-closed batch preflight, duplicate-ledger rejection და synthetic tests; PR #91 exact-head quality CI წარმატებულია | trusted cohort lineage, atomic persistent ledger, authenticated review, cumulative privacy model და დამოუკიდებელი privacy/security review |
+| NOEMA-INFRA-001 | Active / engineering | PR #85-ის provider-neutral high-water recovery architecture და exact-head quality/CPU CI წარმატებულია | trust-domain owner, independent security review, provider retention, production key custody, encryption/decryption და clean-host restore |
+
+### მიმდინარე main, CI და Pages
+
+- მიმდინარე main head: `8a69e6d91a6151f61ace784e1d3161833ce4c94b`.
+- Main quality CI runs [45890257008](https://github.com/maisuradzee/bibmom/actions/runs/45890257008) და [45890254001](https://github.com/maisuradzee/bibmom/actions/runs/45890254001): SUCCESS.
+- ამ main snapshot-ის Pages deployment [45883541060](https://github.com/maisuradzee/bibmom/actions/runs/45883541060): build/deploy SUCCESS. PR branch-ების ცვლილებები საიტზე არ გამოქვეყნებულა.
+- ამ ციკლში open issues არ დაფიქსირდა.
+
+### PR და backlog მდგომარეობა
+
+- #91 NOEMA-007 release-gate prototype: head `65892bf3330491b596d6748e69f9831dbfc8d869`, quality CI [45890862593](https://github.com/maisuradzee/bibmom/actions/runs/45890862593) SUCCESS; რჩება Draft.
+- #92 AquaSignal data-access update: latest exact head `91e1680857e2ccc9997f202e579ae3e90f4f11d6`, quality CI [45891329537](https://github.com/maisuradzee/bibmom/actions/runs/45891329537) SUCCESS. გაიარა draft completeness, portfolio/catalogue validation, source-access JSON Schema tests, full Python unit suite, frozen-result reproductions, public-site build და publication-boundary checks. PR-ში ასევე შესწორდა 2026-11-26 inventory-ის ზედმეტად ფართო data-access ფორმულირება და გაიმიჯნა E. coli narrative/table reference-year frames.
+- #85, #87 და #88-ის exact-head quality/სპეციალიზებული workflows წარმატებულია, მაგრამ მათი base snapshot-ები მიმდინარე main-ზე ძველია; merge-მდე საჭიროა refresh/revalidation.
+- Legacy draft PR-ები #5 (database/RLS proposal), #7 (cross-platform simulation CI), #27 (adaptive integration foundation) და #46 (security hardening) ამჟამინდელი ოთხნაკადიანი კვლევითი პორტფელის მიღმაა. #27 ამჟამად mergeable არ არის; დანარჩენები ძველ base snapshot-ებზეა. ამ ციკლში არცერთი არ გაერთიანებულა; საჭიროა ცალკე backlog triage და review.
+
+### მტკიცებულებისა და უსაფრთხოების საზღვარი
+
+- AquaSignal-ის 40.3% E. coli მაჩვენებელი არის მთავრობის მიერ წარმოდგენილ ანგარიშში მოცემული sample-compliance percentage; denominator და urban/rural breakdown ცხრილში ცარიელია. ეს არ არის მოსახლეობის რისკის პროცენტი.
+- იმავე ანგარიშში groundwater-ის წყაროების საერთო ხარისხი შეფასებულია როგორც კარგი, იზოლირებული microbiological exceedance-ებით; ეს source-reported summary-ია და არა დამოუკიდებელი re-analysis.
+- NOEMA-007-ის 80/79 nested-cohort მაგალითი synthetic-ია; რეალური disclosure incident არ დაფიქსირებულა.
+- NOEMA-007 preflight არ არის differential privacy და არ ამოწმებს რეალურ cohort overlap-ს. NOEMA-005-ის hosted synthetic შედეგები არ ამტკიცებს ზოგად speedup-ს. INFRA-001-ის დიზაინი არ უდრის production backup/recovery სერვისს.
+- მხოლოდ საჯარო წყაროების metadata, დოკუმენტაცია და synthetic fixtures გამოიყენეს. პირადი/ოპერატორული მონაცემი, credentials, signing keys ან ახალი Supabase პროექტი არ დამატებულა.
+- სამუშაო შესრულდა ამ დაგეგმილი ციკლის ფარგლებში; უწყვეტი background execution არ იგულისხმება.
+
+
+## NOEMA scheduled research run audit — 2026-11-27
+
+**Verified base:** main snapshot `8a69e6d91a6151f61ace784e1d3161833ce4c94b`. The required README, research standard, project status, research template, catalogue, portfolio, schemas, open PRs, issues and recent commit history were reviewed. Four active streams remain in the portfolio; no stream was added, paused or marked complete.
+
+### Work advanced in this run
+
+- **NOEMA-2026-006 AquaSignal:** added the primary legal source for Government Resolution No.424 (31 August 2026, effective 1 September 2026) to the source-access inventory. The record distinguishes the new prospective registry for fresh drinking-water extraction wells deeper than 20 m from pre-existing wells and household wells; records that the passport may contain owner identity/contact information; and makes clear that field/lab results are attached only where sampling was performed. Added a strict access state, regression tests, research interpretation, README link and portfolio update. No owner data, coordinates, sample records or credentials were copied.
+- **NOEMA-2026-007 Last-Mile Action Gap:** created separate Draft PR #93 with a machine-readable crosswalk to WMO's 2024 EW4All M&E Toolkit. It maps G-3, 3.2.1b, 4.2, 4.3.1, G-6 and 4.4, and specifies denominator and interpretation boundaries. The UNDRR COP31 4/5 and 1/3 statement is recorded as source-reported but method-unverified and is not used as a baseline.
+- **NOEMA-2026-005:** a third hosted real-thread rerun (run 45897707859) was downloaded, hash-verified and independently re-aggregated; its raw reports, frozen summary and reproduction tests are preserved in separate Draft PR #94. Neumaier-state was 48/48 correctly rounded in both runtimes; scalar Neumaier 42/48; naive 0/48. Free-threaded median speedup was 1.2589× versus matching serial Neumaier, while GIL-enabled median was 0.7576×. Serial math.fsum remained 14.8–16.3× faster than the four-worker threaded state on these fixtures; no overall algorithm speed advantage or physical-hardware replication is established.
+- **NOEMA-INFRA-001:** audit only this run; remains engineering. The high-water protocol in PR #85 is still a proposal; no production CAS authority, encryption/key custody, immutable off-host retention or clean-host restore was deployed.
+
+### Exact-head verification
+
+- AquaSignal PR #92 branch `research/aquasignal-data-access-2026-11-27`: head `399ba94741fc527514faa27b1ea1ef9803eeefde`; quality CI [45897403462](https://github.com/maisuradzee/bibmom/actions/runs/45897403462) SUCCESS; GIL-enabled and free-threaded CPU-thread workflow [45897403575](https://github.com/maisuradzee/bibmom/actions/runs/45897403575) SUCCESS.
+- NOEMA-007 PR #93 branch `research/noema007-ew4all-crosswalk-2026-11-27`: head `97665a8084c2c26564619763d2e8feb9ea6a7b02`; quality CI [45898533254](https://github.com/maisuradzee/bibmom/actions/runs/45898533254) SUCCESS.
+- PR #91 aggregate-release preflight remains Draft/open and its earlier exact-head CI [45890862593](https://github.com/maisuradzee/bibmom/actions/runs/45890862593) succeeded. PR #87 memory-backed benchmark and PR #85 high-water protocol remain Draft/open. Their evidence boundaries have not changed.
+- No PR was merged, no direct write to main occurred, and no new Pages deployment is claimed.
+
+### Discovery and limitations
+
+The new legal register is a prospective administrative source, not proof of complete groundwater-well coverage, a public API, a repeated sampling series or permission for secondary use. The 2021–2025 NEA RAR archive announced on 26 November remains unextracted; its binary could not be inspected in this run. The NOEMA-007 crosswalk is a measurement design only; no local warning event, survey or after-action data was available. No causal impact, operational alerting performance or local population coverage is claimed.
+
+### Next priorities
+
+1. Obtain the NEA archive through an inspectable official download path and verify its internal documents, hashes, metadata and reuse terms before extracting any public-safe facts.
+2. Request a privacy-reviewed data dictionary and de-identified coverage information for the new well register; keep household and pre-existing well coverage explicit.
+3. For NOEMA-007, obtain authorized warning/after-action aggregate data and preregister a local survey design with timely receipt, comprehension, feasible action and verification denominators.
+4. Continue NOEMA-005 only with representative memory-bandwidth workloads and independent physical x86-64/ARM64 replication.
+5. Keep INFRA-001 blocked at architecture level until a separately owned trust domain and recovery path are approved.
+
+
+- **NOEMA-005 third hosted rerun PR #94:** branch `research/noema005-real-threads-rerun-2026-11-27`, head `9ca5a8fe8ba941911e896cbef25c460371b71755`; quality CI [45898505436](https://github.com/maisuradzee/bibmom/actions/runs/45898505436) SUCCESS (415 tests, frozen raw-report reproduction, site build and publication-boundary checks); separate CPU-thread workflow [45898505440](https://github.com/maisuradzee/bibmom/actions/runs/45898505440) SUCCESS in both runtime jobs.

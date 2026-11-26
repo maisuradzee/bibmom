@@ -57,6 +57,9 @@ jobs:
           test -f scripts/reproduce_noema007_anticipatory_action.py
           test -f tests/test_noema007_anticipatory_action.py
           test -f tests/test_noema007_action_readiness.py
+          test -f data/noema-006/source-access-inventory.schema.json
+          test -f data/noema-006/source-access-inventory-2026-11-27.json
+          test -f tests/test_noema006_source_access_inventory.py
           test -f research/TEMPLATE.md
           test -f scripts/validate_research.py
           test -f scripts/validate_drafts.py
@@ -140,6 +143,8 @@ jobs:
         run: python scripts/reproduce_noema007_wmo_roadmaps.py --check
       - name: Reproduce NOEMA-007 anticipatory-action aggregates
         run: python scripts/reproduce_noema007_anticipatory_action.py --check
+      - name: Validate AquaSignal source-access inventory schema
+        run: python -m unittest discover -s tests -p 'test_noema006_source_access_inventory.py' -v
       - name: Validate NOEMA-007 action-readiness aggregate contract
         run: python -m unittest discover -s tests -p 'test_noema007_action_readiness.py' -v
       - name: Validate NOEMA mission and autonomy policy

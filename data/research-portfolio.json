@@ -1,7 +1,7 @@
 {
   "project": "NOEMA",
   "schema_version": 1,
-  "updated_at": "2026-11-26",
+  "updated_at": "2026-11-27",
   "streams": [
     {
       "id": "NOEMA-2026-006",
@@ -26,7 +26,18 @@
         "Inventory official Georgian water-monitoring networks without combining unlike domains: NEA surface water, groundwater, marine water and the utility's raw-source/treated-network drinking-water testing are separate data streams.",
         "Record only source-published network counts, monitoring frequency statements, parameter classes, laboratory accreditation claims and whether sample-level records/data dictionaries are publicly accessible; do not infer station-level frequency from a general news statement.",
         "Before any ingestion, require an authorized data dictionary covering station ID/coordinates, sample timestamp, water matrix, analyte, result, units, method, LOD/LOQ, lab, accreditation, QA/QC flags, applicable standard, approved site Water Safety Plan limit, publication delay and revision history.",
-        "Evaluate any future sensor/lab pairing in shadow mode with preregistered detection delay, sensitivity, positive predictive value, false alerts per station-month, calibration drift and data completeness; require human and laboratory confirmation before operational action."
+        "Evaluate any future sensor/lab pairing in shadow mode with preregistered detection delay, sensitivity, positive predictive value, false alerts per station-month, calibration drift and data completeness; require human and laboratory confirmation before operational action.",
+        "Review the 2025 Government of Georgia submission to the UNECE/WHO Protocol on Water and Health: keep NEA groundwater/surface-water monitoring separate from Food Safety Agency drinking-water compliance.",
+        "Inventory reported 2024 groundwater monitoring (72 points, 394 laboratory samples) and 2024 surface-water monitoring (331 points on 137 water bodies); preserve the report's aggregate/process evidence boundary.",
+        "Review the official 2026-11-26 NEA announcement of the 2021-2025 groundwater report and nitrate-risk field methodology; do not ingest the linked RAR archive until contents, schema and reuse terms are inspected.",
+        "Classify WIS C10/C11 as historical annual aggregates (2004-2018) and Hydromet's water-quality-points map/table as an unverified station-registry lead.",
+        "Treat 2024 E. coli non-compliance (40.3% source-reported) as a drinking-water sample statistic with missing denominator in the published table, not as population exposure.",
+        "Preserve countervailing source evidence: the UNECE/WHO government submission describes groundwater used as a drinking-water source as generally good quality, while noting isolated microbiological exceedances; do not infer a national groundwater crisis from the separate potable-network E. coli sample statistic.",
+        "Preserve the UNECE/WHO report's two E. coli reporting frames separately: narrative 2021-2022/2023/2024 and table baseline 2005/previous cycle 2019/current 2024; do not construct a continuous trend until definitions and denominators are reconciled.",
+        "Review Government of Georgia Resolution No.424 and NEA implementation notice; distinguish post-2026 wells >20 m from pre-existing and household wells, and treat the register as a prospective administrative metadata source rather than a sample-level monitoring feed.",
+        "Inspect the official MEPA GIS catalogue for groundwater station-layer metadata and distinguish a public/free catalogue classification from verified payload, download/API access, coordinate precision and reuse licence.",
+        "Keep the spatial station registry separate from sample-level analytical observations; require different adapters and schemas for station metadata, groundwater results and potable-network compliance.",
+        "Use Article 32 of Georgia's Law on Water Resources Management to distinguish NEA environmental-water monitoring data access from National Food Safety Agency drinking-water quality control."
       ],
       "sources": [
         {
@@ -108,6 +119,78 @@
           "url": "https://nea.gov.ge/En/popular/6",
           "type": "official_national_source",
           "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Summary report under Article 7 of the Protocol on Water and Health — Georgia",
+          "publisher": "Government of Georgia via UNECE/WHO",
+          "publication_date": "2025-04-01",
+          "url": "https://unece.org/sites/default/files/2025-10/Georgia_summary_report_6th_cycle_1Apr25_ENG.pdf",
+          "type": "government_submitted_international_report",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "2021-2025 groundwater monitoring results and field methodology announcement",
+          "publisher": "National Environmental Agency of Georgia",
+          "publication_date": "2026-11-26",
+          "url": "https://nea.gov.ge/ajs/News/3461",
+          "type": "official_national_announcement",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "C10 — BOD5 and ammonium concentrations in Georgian rivers",
+          "publisher": "Water Information System of Georgia / MEPA",
+          "publication_date": "2020-06",
+          "url": "https://wis.mepa.gov.ge/Wis/C10?Id=2121",
+          "type": "official_historical_indicator",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "C11 — Nutrients in freshwater of Georgia",
+          "publisher": "Water Information System of Georgia / MEPA",
+          "publication_date": "2020-06",
+          "url": "https://wis.mepa.gov.ge/Wis/C11?Id=2122",
+          "type": "official_historical_indicator",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "Water quality points map and table",
+          "publisher": "Hydromet Georgia",
+          "publication_date": "undated",
+          "url": "https://www.hydromet.ge/maps/",
+          "type": "official_station_map_discovery_lead",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "Technical Regulation — Rules for Accounting Wells for the Extraction of Fresh Drinking Groundwater (Government Resolution No.424)",
+          "publisher": "Government of Georgia / National Environmental Agency",
+          "publication_date": "2026-08-31",
+          "url": "https://matsne.gov.ge/ka/document/view/6991245",
+          "type": "primary_legal_source",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "Spatial data catalogue — NEA122 Groundwater monitoring",
+          "publisher": "Ministry of Environmental Protection and Agriculture of Georgia",
+          "publication_date": "2026-03-06",
+          "url": "https://portal.mepa.gov.ge/En/User/data?Links-sort=ResponsiblePerson-asc",
+          "type": "official_public_spatial_catalogue_metadata",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "Field-practical hydrogeological lecture for students",
+          "publisher": "National Environmental Agency of Georgia",
+          "publication_date": "2026-06-09",
+          "url": "https://nea.gov.ge/En/News/2409",
+          "type": "official_field_monitoring_process_notice",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "Law of Georgia on Water Resources Management",
+          "publisher": "Legislative Herald of Georgia",
+          "publication_date": "2023-05-25",
+          "url": "https://matsne.gov.ge/ka/document/view/5846594",
+          "type": "primary_legal_source",
+          "accessed_at": "2026-11-27"
         }
       ],
       "data_needs": [
@@ -118,7 +201,17 @@
         "Official machine-readable sample-level NEA/utility laboratory results, or a published endpoint and documented reuse terms.",
         "Station registry and data dictionary: station identifiers, coordinates, sample timestamps, water matrix, analytes, units, analytical methods, LOD/LOQ, laboratory, accreditation scope, QA/QC and revision/correction history.",
         "Applicable Georgian technical regulation and site-approved Water Safety Plan limits for the exact water matrix and sampling point.",
-        "Written authorization for paired sensor/laboratory data and any operational use; synthetic fixtures only until approval."
+        "Written authorization for paired sensor/laboratory data and any operational use; synthetic fixtures only until approval.",
+        "Inspect the official NEA 2021-2025 RAR archive and record internal filenames, table granularity, metadata, data dictionary and reuse terms before extracting any observations.",
+        "Obtain the denominator, geographic/system disaggregation and source microdata for the 2024 E. coli 40.3% drinking-water non-compliance statistic from the National Food Safety Agency.",
+        "Retrieve 2022-2025 NEA groundwater bulletins and monthly surface-water bulletins; verify whether tables are row-level, machine-readable and revision-stable.",
+        "Inspect Hydromet's water-quality-points table fields, station identifiers, coordinates, export format and update cadence.",
+        "Keep separate permissions and provenance for groundwater, surface-water, marine-water and potable-network datasets.",
+        "Reconcile the UNECE/WHO report's E. coli narrative (2021-2022, 2023, 2024) with table baseline/previous-cycle labels (2005, 2019, 2024), including sample denominators, sampling frame, method and coverage.",
+        "Written authorization and a privacy-reviewed, de-identified export of the post-2026 well registry, if the database is operational and access can lawfully be granted.",
+        "Clarification of registry coverage for wells drilled before 2026-09-01 and household wells, plus a data dictionary showing whether each record has field/laboratory sampling results.",
+        "For NEA catalogue record NEA122: authorised export/API URL, actual layer payload, station fields, coordinate reference system, active/inactive dates, update cadence and reuse licence.",
+        "Separate National Food Safety Agency drinking-water compliance data dictionary and denominator/geographic breakdown; do not merge potable-network records with environmental groundwater station points."
       ],
       "risks": [
         "ცრუ განგაში ან სენსორის drift-ის წყლის რეალურ ცვლილებად მიჩნევა",
@@ -132,18 +225,32 @@
         "The prototype has no production signer, key rotation/revocation, threshold signing, remote anchor, provider retention or alerting integration.",
         "NEA surface-water, groundwater and marine monitoring must not be conflated with drinking-water network compliance; Black Sea results cannot establish freshwater or tap-water safety.",
         "Published network counts and general statements such as 'within norm' are not sample-level evidence, a live feed, a station-specific result or an all-time safety guarantee.",
-        "The utility's public statement about daily analyses does not expose the sampling schedule for each station, exact parameters, methods or sample records."
+        "The utility's public statement about daily analyses does not expose the sampling schedule for each station, exact parameters, methods or sample records.",
+        "The 2024 E. coli non-compliance percentage is a source-reported sample statistic with no denominator or municipal breakdown in the cited table; it must not be presented as population exposure or a national unsafe-water rate.",
+        "NEA groundwater/surface-water monitoring and National Food Safety Agency potable-network compliance have different authorities, matrices, sampling frames and legal thresholds.",
+        "The new NEA 2021-2025 report is linked as a RAR archive, but its contents and machine-readable granularity have not yet been inspected.",
+        "The UNECE/WHO submission describes groundwater used as a drinking-water source as generally good quality with isolated microbiological exceedances; the 40.3% E. coli statistic concerns a separate drinking-water control sample set and must not be applied to groundwater monitoring.",
+        "The UNECE/WHO drinking-water E. coli narrative and table use different historical reference-year frames; absent sample denominators and blank urban/rural table fields prevent a defensible trend or population-risk estimate.",
+        "The legal well-registration scope excludes pre-existing wells and NEA says household wells are excluded; registry counts must not be used as total groundwater-well coverage.",
+        "Well passports request owner identity/contact data and coordinates; no personal or owner-level records may enter the public repository.",
+        "The NEA122 catalogue labels the groundwater point layer public/free but lists SQL SDE/local storage and no portal-placement URL; treating this as a directly downloadable open dataset would overstate access.",
+        "A station-location layer is not a sample-result time series; joining them without stable station IDs, water-matrix identity and provenance can create false matches."
       ],
       "blockers": [
         "Authorized paired sensor/laboratory data, a site data dictionary and approved Water Safety Plan limits remain unavailable under explicit reuse permission.",
         "No field validation or independent external review has been completed.",
         "The signed checkpoint verifier is a local software contract only; production signing-key custody and a separately administered atomic monotonic high-water service are not implemented.",
         "Encrypted/off-host backup, remote immutable checkpoint retention, clean-host restore and production access-control integration remain unavailable.",
-        "Public Georgian agency/utility pages disclose monitoring-network capacity and broad laboratory processes but no sample-level machine-readable time series, station registry, full data dictionary, API or explicit reuse terms were identified in this source inventory."
+        "The UNECE/WHO 2025 report confirms electronic groundwater results since 2022 and monthly surface-water bulletins, but no structured sample-level endpoint, full schema or reuse terms have yet been verified.",
+        "The NEA 2021-2025 groundwater report archive announced on 2026-11-26 is not yet extracted; its internal data granularity and licence/reuse conditions remain unknown.",
+        "The published 2024 E. coli non-compliance percentage lacks the sample denominator and municipal/system disaggregation needed for local prioritisation.",
+        "The existence of a legally required NEA hydrogeological database does not prove a public API or public reuse permission; no registry export, data dictionary or operational access policy has been verified.",
+        "The official NEA122 station-layer catalogue entry is public/free, but its actual payload, export/API path, fields, coordinate reference system and reuse licence have not been verified.",
+        "The NEA 2021–2025 groundwater report archive is linked by the Agency but its RAR contents could not be retrieved or inspected in this run."
       ],
       "status": "active",
-      "status_detail": "PR #82 merged into main as a19252bb4df28e2733b6b5180c8938792c040e63. Its exact-head quality CI 45875671834 and actual CPU-thread workflow 45875671867 both succeeded. The verifier checks a strict canonical checkpoint payload, detached Ed25519 signature against caller-supplied trusted keys, expected store identity, and local event-chain hash/count; it rejects lower generations and same-sequence equivocation and marks bootstrap-only verification explicitly when no trusted high-water state is supplied. The caller must atomically persist returned state outside the SQLite rollback domain. Post-merge main quality CI 45875861427 and Pages build/deploy 45875861440 succeeded. No production signer, external high-water authority, authorized sensor/lab dataset, site-approved Water Safety Plan limits or field validation exists. A public-source Georgia monitoring inventory found existing NEA surface-water (238 locations) and groundwater (72 points) monitoring disclosures, a separate monthly Black Sea network (14 points in the July 2026 update), and a utility laboratory network described as 8 regional plus 35 service-centre labs. These are source-reported network/process facts, not sample-level data or proof of drinking-water safety. No machine-readable sample dataset or data dictionary was identified in the pages inspected; no raw result was imported.",
-      "next_step": "Locate any public sample-level NEA/utility laboratory results and obtain the official station registry, data dictionary and reuse terms. Only after written authorization, pair sensor records with laboratory samples and site-approved Water Safety Plan limits in shadow mode; do not issue public safety claims.",
+      "status_detail": "PR #82 merged into main as a19252bb4df28e2733b6b5180c8938792c040e63. Its exact-head quality CI 45875671834 and actual CPU-thread workflow 45875671867 both succeeded. The verifier checks a strict canonical checkpoint payload, detached Ed25519 signature against caller-supplied trusted keys, expected store identity, and local event-chain hash/count; it rejects lower generations and same-sequence equivocation and marks bootstrap-only verification explicitly when no trusted high-water state is supplied. The caller must atomically persist returned state outside the SQLite rollback domain. Post-merge main quality CI 45875861427 and Pages build/deploy 45875861440 succeeded. No production signer, external high-water authority, authorized sensor/lab dataset, site-approved Water Safety Plan limits or field validation exists. A public-source Georgia monitoring inventory found existing NEA surface-water (238 locations) and groundwater (72 points) monitoring disclosures, a separate monthly Black Sea network (14 points in the July 2026 update), and a utility laboratory network described as 8 regional plus 35 service-centre labs. These are source-reported network/process facts, not sample-level data or proof of drinking-water safety. No machine-readable sample dataset or data dictionary was identified in the pages inspected; no raw result was imported. Discovery update 2026-11-27: the 2025 UNECE/WHO Georgia report states groundwater results have been available electronically since 2022, records 394 laboratory samples from 72 groundwater points in 2024, and reports 2024 surface-water sampling at 331 points on 137 water bodies. It separately reports 40.3% E. coli non-compliance in drinking-water samples for 2024, mainly microbiological, with rural small systems included; the table does not expose the denominator. NEA announced a 2021-2025 groundwater report and nitrate-risk field methodology on 2026-11-26 and linked a RAR archive that has not yet been inspected. WIS C10/C11 provide historical 2004-2018 aggregate indicators; Hydromet lists a water-quality-points map/table whose fields remain unverified. These discoveries narrow the earlier data-access blocker but do not establish a current sample-level API or reuse permission. No raw observations were imported. The UNECE/WHO submission also states that automatic groundwater stations were installed in 11 district units across 8 regional administrations during 2022-2024, 12 groundwater bulletins were published, and groundwater used as a drinking-water source was generally assessed as good quality with isolated microbiological exceedances. This countervailing source-reported evidence is recorded to avoid overstatement. The UNECE/WHO drinking-water section contains two distinct E. coli reference frames: narrative values for 2021-2022/2023/2024 and table values labelled 2005/2019/2024. They are not combined into one trend because the sample denominator and urban/rural breakdown are absent. A 2026-08-31 Government Resolution No.424 now provides a primary legal basis for a prospective well-registration source effective 2026-09-01, limited to fresh drinking-water extraction wells deeper than 20 m; pre-existing wells are outside the legal scope and NEA says household wells are excluded. The passport includes owner identity/contact data and optional field/lab result attachments, so only privacy-reviewed de-identified access can be considered. The register itself and public reuse terms remain unverified. 2026-11-27 update: MEPA's GIS catalogue exposes NEA122, a point-geometry groundwater monitoring layer classified public/free (catalogue date 2026-03-06), but its row lists SQL SDE/local storage and no portal URL; the payload and reuse licence remain unverified. NEA's 2026-06-09 notice describes automatic monitored-well stations and field data-registration/documentation procedures in Tianeti. Article 32 assigns environmental-water monitoring data to NEA and drinking-water quality state control to the National Food Safety Agency. No coordinates or sample rows were imported.",
+      "next_step": "Request or locate the NEA122 spatial-layer export and metadata dictionary, inspect the 2021–2025 report archive through an accessible official channel, and obtain the separate National Food Safety Agency potable-compliance data dictionary and denominator; ingest no real records until access and reuse are authorised.",
       "success_metrics": [
         "საველე ტესტში წინასწარ განსაზღვრულ reference labels-თან შედარებული sensitivity და positive predictive value",
         "false-alert rate და detection delay წინასწარ განსაზღვრულ baseline-თან შედარებით",
@@ -151,9 +258,12 @@
         "A valid detached Ed25519 signature, expected store identifier and exact local event-chain head are all required before checkpoint acceptance.",
         "A checkpoint sequence below external trusted state is rejected; same-sequence different payload is rejected; identical same-sequence replay is idempotent.",
         "No rollback-protection claim is made unless next_trusted_state is atomically persisted outside the event database in a separately trusted domain.",
-        "A source inventory must keep surface, groundwater, marine and potable-network observations distinct and identify whether sample-level provenance, method, units, QA/QC and reuse permission exist before ingestion."
+        "A source inventory must keep surface, groundwater, marine and potable-network observations distinct and identify whether sample-level provenance, method, units, QA/QC and reuse permission exist before ingestion.",
+        "Every future imported observation retains matrix, station/sample identity, collection and publication timestamps, analyte, unit, method, QA/QC, source-page provenance and reuse permission; records missing mandatory fields are blocked.",
+        "No surface-water, groundwater, marine-water or potable-network observation is merged into another matrix or evaluated against an unapproved threshold.",
+        "Any 2024 E. coli trend statement preserves the published denominator limitation and reports sample-level coverage only when the underlying counts are obtained."
       ],
-      "last_reviewed": "2026-11-26"
+      "last_reviewed": "2026-11-27"
     },
     {
       "id": "NOEMA-2026-005",
@@ -178,7 +288,8 @@
         "Deterministic full-width MPFR 4.2.1 oracle extension: 1,024 seeded signed values plus 1,044 tie-adjacent values; compare C output bitwise against MPFR_RNDN, Python integer and 1,200-digit Decimal references on hosted x86-64/ARM64.",
         "Run actual ThreadPoolExecutor native-thread experiment on CPython 3.14.4 GIL-enabled and free-threaded builds: 2 layouts × 4 worker counts × 2 partitions × 3 reduction methods × 3 repetitions, with native thread ID validation and process CPU/wall timing.",
         "Download the original GIL-enabled and free-threaded Actions artifact ZIPs, verify archive SHA-256 against the frozen summary, and independently recompute per-case accuracy and worker-count metric aggregates.",
-        "Second real CPU-thread run raw reports were archived as gzip/base64; workflow ZIP SHA-256 and decompressed raw-report SHA-256 were checked, then per-case accuracy and metric aggregates were recomputed by scripts/reproduce_noema005_threaded_reruns.py --check."
+        "Second real CPU-thread run raw reports were archived as gzip/base64; workflow ZIP SHA-256 and decompressed raw-report SHA-256 were checked, then per-case accuracy and metric aggregates were recomputed by scripts/reproduce_noema005_threaded_reruns.py --check.",
+        "Third hosted x86-64 rerun (GitHub Actions 45897707859): archive both GIL-enabled and free-threaded raw reports, verify ZIP hashes against GitHub artifact metadata, verify raw-report SHA-256 and independently reproduce per-method accuracy, median speedup, CPU/wall ratio, allocation and worker-count aggregates."
       ],
       "sources": [
         {
@@ -492,12 +603,22 @@
           "url": "https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/threaded-reruns-2026-11-26.json",
           "type": "frozen_raw_report_aggregate_and_provenance",
           "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA-005 third hosted real CPU-thread rerun and frozen raw-report summary",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-27",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45897707859",
+          "type": "reproducible_hosted_experiment",
+          "accessed_at": "2026-11-27"
         }
       ],
       "data_needs": [
         "შენახული synthetic input hashes და სრული benchmark protocol",
         "დამოუკიდებელი runtime-ების raw report-ები და არტეფაქტების SHA-256",
-        "შემდეგ ეტაპზე native C/OpenMP ან სხვა runtime-ის იდენტურ input-ზე შედარება"
+        "შემდეგ ეტაპზე native C/OpenMP ან სხვა runtime-ის იდენტურ input-ზე შედარება",
+        "Archived raw JSON reports and verified artifact ZIP hashes for run 45897707859.",
+        "Independent physical x86-64 and ARM64 replication with at least 20 repetitions per configuration, representative workloads, RSS/native-allocation and memory-bandwidth measurements."
       ],
       "risks": [
         "Hosted runner-ების CPU მოდელი, virtualization და host contention იცვლება",
@@ -507,15 +628,18 @@
         "Native long double precision and representation vary by ABI; this local x86-64 host reports 64 significand bits.",
         "The exact converter has a hosted MPFR 4.2.1 cross-check; the 2,560-bit accumulator now rejects signed overflow but remains fixed-width and is not arbitrary precision or formally verified.",
         "Pairwise reduction may be faster on a fixture while returning an incorrect result; timing is only meaningful after accuracy passes.",
-        "The second free-threaded run crossed the 1.0 median speedup threshold (0.9519x to 1.0181x), but its per-case range remained broad (0.7023x–1.135x) on the same hosted runner family; this is run-to-run sensitivity, not a robust or portable speedup."
+        "The second free-threaded run crossed the 1.0 median speedup threshold (0.9519x to 1.0181x), but its per-case range remained broad (0.7023x–1.135x) on the same hosted runner family; this is run-to-run sensitivity, not a robust or portable speedup.",
+        "The 2026-11-27 free-threaded and GIL-enabled jobs ran on different hosted VM families (Azure and AWS); direct cross-runtime timing comparison is confounded.",
+        "The 1.2589x free-threaded median is versus matching serial Neumaier only; serial math.fsum was 14.8–16.3x faster than four-worker threaded Neumaier-state on these fixtures."
       ],
       "blockers": [
         "The native experiment still uses two synthetic cancellation fixtures; representative application workloads and memory-bandwidth tests remain outstanding.",
-        "Hosted x86-64/ARM64 CI is not independent physical-hardware replication; external numerical-method review remains outstanding."
+        "Hosted x86-64/ARM64 CI is not independent physical-hardware replication; external numerical-method review remains outstanding.",
+        "No independent physical-hardware replication or representative memory-bandwidth-bound workload has been completed; external numerical-method review remains outstanding."
       ],
       "status": "active",
-      "status_detail": "PR #81 merged into main as a69c3f29a7dec0f25f3a30c60f2d9f4d671807c7. Its exact-head quality CI 45872887590 and actual CPU-thread workflow 45872887552 both succeeded. The archived second raw-report set from workflow 45867519546 was rechecked: archive hashes and decompressed report hashes matched the frozen metadata, and scripts/reproduce_noema005_threaded_reruns.py --check reproduced all per-case accuracy counts and aggregate ranges. In that archived run, Neumaier-state median speedup was 0.7744x (range 0.7225–0.7935) with GIL and 1.0181x (range 0.7023–1.135) on free-threaded CPython; the prior free-threaded run was 0.9519x. The crossing of 1.0 is run-to-run variability, not evidence of a robust speedup. Both archived runs used the same hosted x86-64 runner family with 4-CPU affinity and synthetic cancellation fixtures. The study remains preliminary; representative application workloads, independent physical hardware and external numerical-method review remain outstanding.",
-      "next_step": "Obtain independent numerical-method review of the checked signed accumulator and MPFR converter; then evaluate pairwise, Neumaier, long-double and exact methods on representative memory-bandwidth-bound workloads and repeat on independently selected physical x86-64/ARM64 systems with uncertainty intervals.",
+      "status_detail": "PR #81 merged into main as a69c3f29a7dec0f25f3a30c60f2d9f4d671807c7. Its exact-head quality CI 45872887590 and actual CPU-thread workflow 45872887552 both succeeded. The archived second raw-report set from workflow 45867519546 was rechecked: archive hashes and decompressed report hashes matched the frozen metadata, and scripts/reproduce_noema005_threaded_reruns.py --check reproduced all per-case accuracy counts and aggregate ranges. In that archived run, Neumaier-state median speedup was 0.7744x (range 0.7225–0.7935) with GIL and 1.0181x (range 0.7023–1.135) on free-threaded CPython; the prior free-threaded run was 0.9519x. The crossing of 1.0 is run-to-run variability, not evidence of a robust speedup. Both archived runs used the same hosted x86-64 runner family with 4-CPU affinity and synthetic cancellation fixtures. The study remains preliminary; representative application workloads, independent physical hardware and external numerical-method review remain outstanding. Scheduled-cycle audit 2026-11-27: PR #87 remains Draft on head 244761b6c44a2927345de4215b001bf909f8e662; exact-head quality CI 45883799154, 96-MiB memory-backed benchmark 45883799149 and actual CPU-thread workflow 45883799162 all succeeded. This is one hosted x86-64 runner family and a synthetic cancellation workload only; a second buffer size, representative workload and independent physical x86-64/ARM64 replication remain outstanding. Its base snapshot b97b30de is behind current main 8a69e6d9, so it needs refresh/revalidation before merge. Third hosted rerun (2026-11-27, Actions run 45897707859) was archived and independently reproduced in PR #94. Neumaier compensation-state merge was 48/48 correctly rounded in both runtimes; scalar Neumaier 42/48; naive 0/48. Free-threaded median speedup was 1.2589x versus matching serial Neumaier (worker medians 0.7733x/1.2125x/1.3546x/1.3090x for 1/2/4/8 workers), while GIL-enabled median was 0.7576x. CPU-time/wall-time exceeded 1.05 in 36/48 free-threaded runs and 0/48 GIL-enabled runs; native worker identity matched configured worker count in all 16 cases per runtime. Critical caveat: serial math.fsum remained 14.8–16.3x faster than the four-worker threaded Neumaier-state path on these fixtures. The two runtime modes used different hosted VM families, so cross-mode timing is confounded; this is not a general speedup claim.",
+      "next_step": "Replicate the same frozen inputs on independently controlled physical x86-64 and ARM64 hardware with at least 20 repetitions per configuration, confidence intervals, RSS/native-allocation and DRAM-bandwidth measurements; compare Neumaier-state against serial math.fsum, pairwise and exact accumulator on representative application workloads. Obtain independent numerical-method review.",
       "success_metrics": [
         "exact-reference accuracy თითოეული მეთოდისა და runtime-ის მიხედვით",
         "median wall-time და uncertainty interval წინასწარ განსაზღვრული repetition protocol-ით",
@@ -527,9 +651,12 @@
         "Actual CPU-thread experiment: 48/48 correct runs for Neumaier (sum, correction) state merge in both GIL-enabled and free-threaded CPython; raw artifacts and aggregate summary retained with SHA-256 provenance.",
         "Downloaded original artifact ZIP SHA-256 values match the frozen summary and raw per-case aggregate counts/ranges reproduce.",
         "Two-run raw-report reproduction verifies both archive SHA-256 values and recomputes 96 cases / 288 timed runs across GIL-enabled and free-threaded runtimes from frozen raw JSON reports.",
-        "Run-to-run median speedup deltas reproduce exactly; the free-threaded state-merge crossing of 1.0 is reported with its broad range and not interpreted as robust speedup."
+        "Run-to-run median speedup deltas reproduce exactly; the free-threaded state-merge crossing of 1.0 is reported with its broad range and not interpreted as robust speedup.",
+        "Third hosted rerun 45897707859: raw artifact archive and report SHA-256 values verify, and all 48 cases per runtime reproduce exactly from archived raw reports.",
+        "Neumaier-state retains 48/48 correctly rounded results while scalar partial merge remains explicitly tested for the six failing grouped-cancellation configurations.",
+        "Performance claims distinguish matching serial Neumaier from serial math.fsum and report CPU parallelism separately from wall-time speedup."
       ],
-      "last_reviewed": "2026-11-26"
+      "last_reviewed": "2026-11-27"
     },
     {
       "id": "NOEMA-2026-007",
@@ -554,7 +681,9 @@
         "Freeze the official UNDRR MHEWS 2026 country-level counts and reproduce pillar percentages, all-four ratio and preparedness score difference with a standard-library script plus frozen-result tests.",
         "Freeze the WMO 2026 analysis of 35 government-validated roadmaps and reproduce only arithmetic from its published rounded aggregates; do not infer warning reach or protection.",
         "Define and test an event/area aggregate-only action-readiness contract with separate endpoint and survey denominators, small-cell suppression and explicit release approvals.",
-        "Freeze UNDRR/WMO source-reported 2025 anticipatory-action framework, activation, direct-reach and pre-arranged-financing aggregates; independently reproduce only the 154-to-262 framework growth arithmetic and preserve unit/causality limits."
+        "Freeze UNDRR/WMO source-reported 2025 anticipatory-action framework, activation, direct-reach and pre-arranged-financing aggregates; independently reproduce only the 154-to-262 framework growth arithmetic and preserve unit/causality limits.",
+        "Crosswalk NOEMA-007 fields against WMO's August 2024 EW4All M&E Toolkit indicators G-3, 3.2.1b, 4.2, 4.3.1, G-6 and 4.4; keep endpoint, person, respondent, warning-event, plan/finance and exposed-population units separate.",
+        "Preserve UNDRR COP31's 4/5 warning-receipt and 1/3 unable-to-act statement as source-reported only because the underlying sample frame, denominator, weighting and uncertainty were not identified; do not use it as a baseline."
       ],
       "sources": [
         {
@@ -732,6 +861,30 @@
           "url": "https://www.undrr.org/news/early-warning-protection-expands-worldwide-powerful-el-nino-raises-stakes",
           "type": "official_global_update",
           "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Early Warnings for All: Toolkit for Monitoring & Evaluation (v1.0)",
+          "publisher": "WMO and Early Warnings for All partners",
+          "publication_date": "2024-08",
+          "url": "https://wmo.int/sites/default/files/2024-09/EW4ALL%20ME%20Toolkit_Final%20Version%201_August2024.pdf",
+          "type": "official_monitoring_evaluation_framework",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "Strengthening National Disaster Risk Management Systems through the Integration of Anticipatory Action",
+          "publisher": "IFRC",
+          "publication_date": "2025-09",
+          "url": "https://www.ifrc.org/sites/default/files/2025-09/Strengthening_National_Disaster_Risk_Management_Systems_through_integration_of_anticipatory_action.pdf",
+          "type": "official_research_report",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "COP31 leaders back a long-term future for Early Warnings for All",
+          "publisher": "UNDRR",
+          "publication_date": "2026-11-12",
+          "url": "https://www.undrr.org/news/cop31-leaders-back-long-term-future-early-warnings-all",
+          "type": "official_global_status_update",
+          "accessed_at": "2026-11-27"
         }
       ],
       "data_needs": [
@@ -739,14 +892,19 @@
         "მუნიციპალური/თემის emergency plan-ები და action playbook-ები",
         "aggregated delivery, acknowledgement და action completion დროები; პერსონალური იდენტიფიკატორების გარეშე",
         "risk maps, exposed-population aggregates და accessibility/language coverage",
-        "after-action review-ები და community feedback"
+        "after-action review-ები და community feedback",
+        "For any local pilot: permissioned warning-event and after-action aggregates with issue time, action deadline, hazard/geographic scope, unique event IDs and plan linkage.",
+        "A pre-registered last-mile survey sampling frame, invitations, completions, response rate, weighting, timely-receipt measure, comprehension instrument and feasibility/action outcomes.",
+        "Plan-level trigger and pre-arranged finance availability, activation/disbursement timestamps and evacuation-specific exposed-population denominator, if those indicators are evaluated."
       ],
       "risks": [
         "ოფიციალურ უწყებებთან დუბლირება ან გაფრთხილების წყაროს ავტორიტეტის დაბნევა",
         "ცრუ სიზუსტე ან არასწორი ადგილობრივი risk mapping",
         "პერსონალური მონაცემის ზედმეტი შეგროვება ან მოწყვლადი ჯგუფების პროფილირება",
         "ციფრული არხების მიუწვდომლობა, ენობრივი/შეზღუდული შესაძლებლობის ბარიერები",
-        "გაფრთხილების მიღება მოქმედების შესაძლებლობას არ უდრის; მიზეზობრივი ეფექტის დადგენა რთულია"
+        "გაფრთხილების მიღება მოქმედების შესაძლებლობას არ უდრის; მიზეზობრივი ეფექტის დადგენა რთულია",
+        "UNDRR COP31's 4/5 warning-receipt and 1/3 unable-to-act statement has no underlying method in the cited page and must not be treated as a calibrated global baseline.",
+        "Warning receipt, timely receipt, comprehension, feasibility, action and avoided loss are distinct stages; combining marginal rates or inferring causal impact would be invalid."
       ],
       "blockers": [
         "საქართველოს მოქმედი მუნიციპალური emergency plan-ების და 2026 ICT სისტემის საჯარო data dictionary-ის სრული ვერსიები ჯერ არ არის მოპოვებული",
@@ -757,11 +915,12 @@
         "Georgia's World Risk Poll warning base is 99 respondents, below the report's n>=100 threshold; no robust country ranking can be drawn.",
         "The WMO roadmap article publishes aggregate findings, not the underlying country-by-country roadmap dataset; NOEMA cannot independently reanalyse the 35 roadmaps from this source alone.",
         "The aggregate action-readiness contract is unpiloted; the minimum cell-size floor of 10 is a prototype default, not a guarantee of anonymisation or a substitute for local privacy review.",
-        "The UNDRR/WMO release provides published aggregates rather than the underlying country/activation-level records; NOEMA cannot independently verify reach, comprehension, protective action or avoided loss from this snapshot."
+        "The UNDRR/WMO release provides published aggregates rather than the underlying country/activation-level records; NOEMA cannot independently verify reach, comprehension, protective action or avoided loss from this snapshot.",
+        "No authorized Georgian event-level warning/after-action data, representative last-mile survey, financing activation records or evacuation-specific exposed-population denominator is available."
       ],
       "status": "active",
-      "status_detail": "PR #62 merged the UNDRR MHEWS 2026 country-level snapshot and arithmetic. PR #68 merged as f12a116c86514994ec40c4a953ba6a4f0a4656fc; exact-head quality CI 45849048113 succeeded. The new WMO 2026 roadmap snapshot reproduces 20/35 = 57.1429% of 35 government-validated roadmaps with clear budget allocations and approximately USD 69 million mean among those 20. An aggregate-only action-readiness validator and strict schema now keep endpoint receipts separate from survey-based receipt, comprehension, feasible action, self-reported action and verified action. Synthetic tests only; no field data, local effectiveness measurement or causal claim. Post-merge main CI 45850024686 passed 354 tests and Pages build/deploy 45850024682 succeeded.",
-      "next_step": "Seek the official Georgia basin/municipal data dictionary and explicit permission for aggregate event-level warning and after-action data; obtain local privacy review of the proposed small-cell rule before any pilot, then pre-register comprehension, feasible-action and verified-action denominators. Do not treat global anticipatory-action counts as local effectiveness evidence.",
+      "status_detail": "PR #62 merged the UNDRR MHEWS 2026 country-level snapshot and arithmetic. PR #68 merged as f12a116c86514994ec40c4a953ba6a4f0a4656fc; exact-head quality CI 45849048113 succeeded. The new WMO 2026 roadmap snapshot reproduces 20/35 = 57.1429% of 35 government-validated roadmaps with clear budget allocations and approximately USD 69 million mean among those 20. An aggregate-only action-readiness validator and strict schema now keep endpoint receipts separate from survey-based receipt, comprehension, feasible action, self-reported action and verified action. Synthetic tests only; no field data, local effectiveness measurement or causal claim. Post-merge main CI 45850024686 passed 354 tests and Pages build/deploy 45850024682 succeeded. Scheduled-cycle audit 2026-11-27: PR #88 synthetic cross-release disclosure audit remains Draft at head cdaff77b748801163701aef427ab215bccc4f587 with quality CI 45883830584 successful. Follow-up PR #91 adds a metadata-only fail-closed aggregate-batch preflight; latest exact-head 65892bf3330491b596d6748e69f9831dbfc8d869 passed quality CI 45890862593 including focused tests, full unit suite and publication-boundary build. Neither PR implements a trusted overlap detector, persistent atomic ledger, authentication or differential privacy. PR #88 is based on b97b30de, behind main; PR #91 is based on current main. Both remain Draft pending independent privacy/security review. Scheduled-cycle audit 2026-11-27: Draft PR #93 adds a machine-readable crosswalk to WMO's 2024 EW4All M&E Toolkit (G-3, 3.2.1b, 4.2, 4.3.1, G-6, 4.4), with denominator and interpretation boundaries. It identifies that endpoint counts are not people covered, respondent action counts are not warning-event rates, and generic verified action is not evacuation coverage. UNDRR's 4/5 and 1/3 COP31 statement is recorded as method-unverified and not used as a baseline. No local event or survey data was added; the crosswalk remains a measurement design pending independent DRR/privacy review.",
+      "next_step": "Obtain authorized Georgian warning-event and after-action aggregates, then pre-register a last-mile survey with a defined sampling frame, response/non-response handling, timely receipt, comprehension, feasibility and action denominators. Keep plan/finance and evacuation-specific metrics separate; do not infer causal impact from descriptive counts.",
       "success_metrics": [
         "გაფრთხილების მიღწევის, სწორად გაგებისა და feasible action-ის წილი",
         "alert-to-acknowledgement და alert-to-action დრო",
@@ -772,7 +931,7 @@
         "Each reported delivery, comprehension and action metric states its own numerator, denominator and unit; endpoint receipts are never labelled as people reached.",
         "No public aggregate is released without data-controller and privacy-reviewer approval and a documented small-cell suppression policy."
       ],
-      "last_reviewed": "2026-11-26"
+      "last_reviewed": "2026-11-27"
     },
     {
       "id": "NOEMA-INFRA-001",
@@ -1014,7 +1173,7 @@
         "Rollback-resistant high-water state, immutable object-version/retention verification, clean-host restore, approved RPO/RTO and production ACLs remain unimplemented; no operator-approved deployed/staging database has been used."
       ],
       "status": "active",
-      "status_detail": "Main contains local strict manifest/schema validation, streamed artifact digest/length checks and exact-byte Ed25519 verification using caller-supplied public keys. PR #85 is a separate draft architecture proposal for a provider-neutral linearizable compare-and-advance high-water authority and explicit restore lineage; its exact-head quality CI 45876372188 and CPU-thread workflow 45876372172 succeeded, but the PR is not merged and no service is deployed. Production anti-rollback, key custody, immutable object retention, off-host encryption and clean-host restore remain unimplemented.",
+      "status_detail": "Main contains local strict manifest/schema validation, streamed artifact digest/length checks and exact-byte Ed25519 verification using caller-supplied public keys. PR #85 is a separate draft architecture proposal for a provider-neutral linearizable compare-and-advance high-water authority and explicit restore lineage; its exact-head quality CI 45876372188 and CPU-thread workflow 45876372172 succeeded, but the PR is not merged and no service is deployed. Production anti-rollback, key custody, immutable object retention, off-host encryption and clean-host restore remain unimplemented. Scheduled-cycle audit 2026-11-27: PR #85 remains Draft at head 68e7385a798c19b807d75c3d41b27482ba0f402c; exact-head quality CI 45883729821 and actual CPU-thread workflow 45883729845 succeeded. The PR base a19252bb is behind current main 8a69e6d9. No external high-water service, production key custody, provider retention, encryption/decryption or clean-host restore is implemented; independent security review and trust-domain ownership remain blockers.",
       "next_step": "Obtain independent security/architecture review and an owner for the separate trust domain and recovery path. Only then implement a provider-neutral CAS interface with deterministic concurrent-writer, stale-state, timeout and point-in-time restore tests; choose provider, RPO/RTO and retention with explicit owner approval. Do not create a Supabase project or reuse another project's database.",
       "success_metrics": [
         "backup includes committed WAL data",
@@ -1034,7 +1193,7 @@
         "No claim of newest-backup or rollback protection until monotonic trusted state and freshness policy are independently persisted and tested.",
         "No production disaster-recovery readiness claim until encrypted off-host artifacts are restored on a clean host against approved RPO/RTO."
       ],
-      "last_reviewed": "2026-11-26"
+      "last_reviewed": "2026-11-27"
     }
   ]
 }
