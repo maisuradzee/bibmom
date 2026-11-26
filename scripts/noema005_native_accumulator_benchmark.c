@@ -77,61 +77,96 @@ static void neumaier_add(double x, double *sum, double *correction) {
     else *correction += (x - t) + *sum;
     *sum = t;
 }
-static void add_word(exact_accum_t *a, int index, uint64_t value) {
-    if (!value) return;
-    __uint128_t total = (__uint128_t)a->limb[index] + value;
-    a->limb[index] = (uint64_t)total;
-    uint64_t carry = (uint64_t)(total >> 64);
-    for (int i = index + 1; carry && i < EXACT_LIMBS; ++i) {
-        uint64_t old = a->limb[i]; a->limb[i] = old + 1;
-        carry = (a->limb[i] == 0);
-    }
-    /* Fixed-width two's-complement wrap is intentional for negative values. */
-}
-static void subtract_word(exact_accum_t *a, int index, uint64_t value) {
-    if (!value) return;
-    uint64_t old = a->limb[index]; a->limb[index] = old - value;
-    uint64_t borrow = old < value;
-    for (int i = index + 1; borrow && i < EXACT_LIMBS; ++i) {
-        old = a->limb[i]; a->limb[i] = old - 1;
-        borrow = (old == 0);
-    }
-    /* Borrow through the top limb forms the two's-complement negative value. */
-}
-static void exact_add_significand(exact_accum_t *a, uint64_t significand, int shift, int negative) {
-    if (!significand) return;
-    int index = shift / 64; int offset = shift % 64;
-    uint64_t low = significand << offset;
-    uint64_t high = offset ? significand >> (64 - offset) : 0;
-    if (negative) { subtract_word(a, index, low); if (high) subtract_word(a, index + 1, high); }
-    else { add_word(a, index, low); if (high) add_word(a, index + 1, high); }
-}
-static void exact_add_double(exact_accum_t *a, double value) {
-    uint64_t bits = 0; memcpy(&bits, &value, sizeof(bits));
-    uint64_t exponent = (bits >> 52) & 0x7ffu;
-    uint64_t fraction = bits & UINT64_C(0x000fffffffffffff);
-    if (exponent == 0x7ffu) { fprintf(stderr, "non-finite input to exact accumulator\n"); exit(3); }
-    uint64_t significand = exponent ? (UINT64_C(1) << 52) | fraction : fraction;
-    int shift = exponent ? (int)exponent - 1 : 0;
-    exact_add_significand(a, significand, shift, (int)(bits >> 63));
-}
-static void exact_merge(exact_accum_t *target, const exact_accum_t *source) {
-    uint64_t carry = 0;
+static void exact_negate(exact_accum_t *value) {
+    uint64_t carry = 1;
     for (int i = 0; i < EXACT_LIMBS; ++i) {
-        __uint128_t total = (__uint128_t)target->limb[i] + source->limb[i] + carry;
-        target->limb[i] = (uint64_t)total;
+        __uint128_t total = (__uint128_t)(~value->limb[i]) + carry;
+        value->limb[i] = (uint64_t)total;
         carry = (uint64_t)(total >> 64);
     }
-    /* The 2560-bit accumulator is modular; experiment bounds keep magnitude below its range. */
+}
+
+/* Add two signed 2560-bit two's-complement values. On overflow, leave target
+   unchanged and return 0; callers must never interpret modular wrap as a sum. */
+static int exact_add_accumulator_checked(exact_accum_t *target, const exact_accum_t *operand) {
+    int target_negative = (int)(target->limb[EXACT_LIMBS - 1] >> 63);
+    int operand_negative = (int)(operand->limb[EXACT_LIMBS - 1] >> 63);
+    exact_accum_t result = *target;
+    uint64_t carry = 0;
+    for (int i = 0; i < EXACT_LIMBS; ++i) {
+        __uint128_t total = (__uint128_t)result.limb[i] + operand->limb[i] + carry;
+        result.limb[i] = (uint64_t)total;
+        carry = (uint64_t)(total >> 64);
+    }
+    int result_negative = (int)(result.limb[EXACT_LIMBS - 1] >> 63);
+    if (target_negative == operand_negative && result_negative != target_negative) {
+        return 0;
+    }
+    *target = result;
+    return 1;
+}
+
+/* Add one signed binary64 significand expressed in units of 2^-1074. */
+static int exact_add_significand_checked(
+    exact_accum_t *target, uint64_t significand, int shift, int negative
+) {
+    if (!significand) return 1;
+    if (shift < 0) return 0;
+    int index = shift / 64;
+    int offset = shift % 64;
+    if (index >= EXACT_LIMBS) return 0;
+
+    exact_accum_t term = {{0}};
+    term.limb[index] = significand << offset;
+    uint64_t high = offset ? significand >> (64 - offset) : 0;
+    if (high) {
+        if (index + 1 >= EXACT_LIMBS) return 0;
+        term.limb[index + 1] = high;
+    }
+
+    /* The positive magnitude must fit the signed range. The one extra
+       negative value, -2^2559, is representable as the minimum signed value. */
+    if (term.limb[EXACT_LIMBS - 1] >> 63) {
+        if (!negative || term.limb[EXACT_LIMBS - 1] != (UINT64_C(1) << 63)) {
+            return 0;
+        }
+        for (int i = 0; i < EXACT_LIMBS - 1; ++i) {
+            if (term.limb[i] != 0) return 0;
+        }
+    }
+    if (negative) exact_negate(&term);
+    return exact_add_accumulator_checked(target, &term);
+}
+
+static int exact_add_double_checked(exact_accum_t *target, double value) {
+    uint64_t bits = 0;
+    memcpy(&bits, &value, sizeof(bits));
+    uint64_t exponent = (bits >> 52) & 0x7ffu;
+    uint64_t fraction = bits & UINT64_C(0x000fffffffffffff);
+    if (exponent == 0x7ffu) return 0;
+    uint64_t significand = exponent ? (UINT64_C(1) << 52) | fraction : fraction;
+    int shift = exponent ? (int)exponent - 1 : 0;
+    return exact_add_significand_checked(target, significand, shift, (int)(bits >> 63));
+}
+
+static void exact_add_double(exact_accum_t *target, double value) {
+    if (!exact_add_double_checked(target, value)) {
+        fprintf(stderr, "non-finite input or signed 2560-bit accumulator overflow\n");
+        exit(3);
+    }
+}
+
+static int exact_merge_checked(exact_accum_t *target, const exact_accum_t *source) {
+    return exact_add_accumulator_checked(target, source);
 }
 static int exact_equals_integer(const exact_accum_t *value, uint64_t expected) {
     exact_accum_t reference = {{0}};
-    exact_add_significand(&reference, expected, 1074, 0);
+    if (!exact_add_significand_checked(&reference, expected, 1074, 0)) return 0;
     return memcmp(value, &reference, sizeof(reference)) == 0;
 }
 static int exact_equals_double(const exact_accum_t *value, double expected) {
     exact_accum_t reference = {{0}};
-    exact_add_double(&reference, expected);
+    if (!exact_add_double_checked(&reference, expected)) return 0;
     return memcmp(value, &reference, sizeof(reference)) == 0;
 }
 
@@ -402,8 +437,14 @@ static int run_once(long long repeats, layout_t layout, method_t method, int req
         correct = sum + correction == (double)repeats;
     } else {
         exact_accum_t merged = {{0}};
-        for (int i = 0; i < actual; ++i) exact_merge(&merged, &exact_states[i]);
-        correct = exact_equals_integer(&merged, (uint64_t)repeats);
+        int merge_ok = 1;
+        for (int i = 0; i < actual; ++i) {
+            if (!exact_merge_checked(&merged, &exact_states[i])) {
+                merge_ok = 0;
+                break;
+            }
+        }
+        correct = merge_ok && exact_equals_integer(&merged, (uint64_t)repeats);
     }
     free(double_sums); free(corrections); free(long_sums); free(exact_states);
     return correct;
