@@ -211,6 +211,27 @@
           "publication_date": "undated",
           "url": "https://www.undp.org/georgia/projects/early-warning-climate-information",
           "type": "official_project_page"
+        },
+        {
+          "title": "A Holistic Approach to Early Warning Systems Using an Agent-Based Model",
+          "publisher": "International Journal of Disaster Risk Science (peer-reviewed)",
+          "publication_date": "2026-05-07",
+          "url": "https://doi.org/10.1007/s13753-026-00729-7",
+          "type": "peer_reviewed_agent_based_model"
+        },
+        {
+          "title": "Conceptualising risk communication barriers to household flood preparedness",
+          "publisher": "Urban Governance (peer-reviewed)",
+          "publication_date": "2023-06-01",
+          "url": "https://doi.org/10.1016/j.ugj.2023.02.001",
+          "type": "peer_reviewed_systematic_review"
+        },
+        {
+          "title": "Early warning protection expands worldwide",
+          "publisher": "World Meteorological Organization / UNDRR",
+          "publication_date": "2026-11-11",
+          "url": "https://public.wmo.int/media/news/early-warning-protection-expands-worldwide",
+          "type": "official_joint_press_release"
         }
       ],
       "data_needs": [
@@ -228,12 +249,13 @@
         "გაფრთხილების მიღება მოქმედების შესაძლებლობას არ უდრის; მიზეზობრივი ეფექტის დადგენა რთულია"
       ],
       "blockers": [
-        "საქართველოს მუნიციპალიტეტების მოქმედი emergency plan-ების და 2026 ICT სისტემის საჯარო data dictionary-ის სრული ვერსიები ჯერ არ არის მოპოვებული",
-        "ოფიციალურ საჯარო წყაროებში emergency plan-ის ექვსი მუნიციპალიტეტის ჩამონათვალი განსხვავდება; საჭიროა თარიღებისა და ვერსიების შეჯერება"
+        "საქართველოს მოქმედი მუნიციპალური emergency plan-ების და 2026 ICT სისტემის საჯარო data dictionary-ის სრული ვერსიები ჯერ არ არის მოპოვებული",
+        "ოფიციალურ საჯარო წყაროებში emergency plan-ის ექვსი მუნიციპალიტეტის ჩამონათვალი განსხვავდება; საჭიროა თარიღებისა და ვერსიების შეჯერება",
+        "არც alert-delivery, acknowledgement და action-completion აგრეგირებული ჩანაწერები და არც თემის საველე შეფასება არ არის ხელმისაწვდომი"
       ],
       "status": "active",
-      "status_detail": "წყაროებით გამყარებული discovery draft; საქართველოში არსებული early-warning ინვესტიციები დადასტურებულია, მაგრამ ბოლო-მილის ხარვეზი ჯერ კონკრეტულ თემში არ გაზომილა.",
-      "next_step": "შევადაროთ სულ მცირე სამი კონტექსტი და საქართველოს ერთ river-basin/municipal pilot-ზე მოვიპოვოთ საჯარო, არაპერსონალური workflow/data dictionary; არ დავიწყოთ ახალი alerting product-ის კოდირება მანამდე.",
+      "status_detail": "Discovery draft enriched with two peer-reviewed studies and verified 2026 UNDRR/WMO evidence; Georgia's system investments are documented, but a last-mile gap has not yet been measured in a specific community.",
+      "next_step": "შევადაროთ Fiji-ის peer-reviewed case და საქართველოს ერთ river-basin/municipal workflow; მოვიპოვოთ საჯარო, არაპერსონალური data dictionary და მხოლოდ უფლებამოსილი პარტნიორის თანხმობით დავარეგისტრიროთ alert-to-action შეფასება.",
       "success_metrics": [
         "გაფრთხილების მიღწევის, სწორად გაგებისა და feasible action-ის წილი",
         "alert-to-acknowledgement და alert-to-action დრო",
@@ -295,11 +317,12 @@
         "audit hash chain without signed external checkpoint does not prevent all tampering scenarios"
       ],
       "blockers": [
-        "PR #19's earlier CI run failed because immutable SQLite mode returned DELETE despite a WAL-mode file header; a header-based regression fix has been submitted and awaits CI."
+        "Backup snapshots are not encrypted or stored off-host; retention/rotation and scheduled restore drills are not yet implemented.",
+        "PR #19 is still Draft/open and needs an independent review of backup/restore safety before merge."
       ],
       "status": "active",
-      "status_detail": "PR #19 remains Draft/open; WAL-mode false-negative is reproduced and the raw file-header validation fix is submitted on the same infrastructure branch.",
-      "next_step": "Run PR #19's complete CI on the new exact head; if all required checks pass and the PR is mergeable, review and merge only that verified head SHA.",
+      "status_detail": "PR #19 remains Draft/open; exact head 0c4f456f17851918bf7f30af7ff4d3c369f6eec7 passed the full quality workflow (run 45774768045) and the CPU-thread workflow (run 45774768009). Independent review and merge are still pending.",
+      "next_step": "Review the exact PR #19 head and its current mergeability, verify backup/restore edge cases and public-safe content, then decide whether to mark ready and merge; separately design encrypted off-host retention and a scheduled restore drill.",
       "success_metrics": [
         "backup includes committed WAL data",
         "restore rejects WAL-mode header and corrupted audit data before destination creation",
