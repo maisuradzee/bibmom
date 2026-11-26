@@ -377,3 +377,14 @@ x86-64 წინა შედეგებთან შედარება მ�
 3. დაამატე process RSS/native allocation და memory-bandwidth გაზომვები.
 4. შეადარე pairwise, long-double და exact/superaccumulator ალგორითმები.
 5. მოითხოვე დამოუკიდებელი numerical-method review; Published სტატუსი არ მიენიჭოს ამ ეტაპზე.
+
+
+## Memory-backed native reduction experiment — 2026-11-26
+
+A separate native C/OpenMP experiment scans a 96 MiB aligned binary64 array allocated once and reused across serial/OpenMP naive, long-double and Neumaier methods. It tests 1, 2, 4 and 8 actual OpenMP threads, with one warm-up and five measured repetitions per case.
+
+The exact tested head was 6720fbdf57f33d28c6d1030ccd1d399d5aec1462 (workflow run 45880304260). On the hosted x86_64 runner (GCC 15.2.0, CPython 3.14.10, four available CPUs, reported L3 cache 48 MiB), Neumaier-state returned the exact mathematical result in 5/5 repetitions at 2, 4 and 8 requested workers. Median speedups against serial Neumaier were 1.644x, 2.351x and 2.264x respectively. The naive parallel control was 0/5 correct at every worker count; its faster timing is therefore not a useful accuracy-preserving result. Long-double parallel speedups were 1.519x, 3.008x and 2.509x for 2, 4 and 8 workers, with 5/5 correct.
+
+The 8-worker run used four available CPUs and is oversubscribed. The 96 MiB buffer exceeds the reported 48 MiB L3 cache, but no memory-controller counters were collected. Effective input throughput is a software-derived bytes/time measure, not DRAM bandwidth. The result is preliminary, synthetic and not an independent physical-hardware replication.
+
+Frozen report: data/noema-005/memory-bandwidth-2026-11-26.json. Provenance: data/noema-005/memory-bandwidth-provenance-2026-11-26.json. The report SHA-256 and downloaded artifact archive SHA-256 were verified at capture; the CI reproduction script rechecks the frozen report, exact head and report arithmetic.

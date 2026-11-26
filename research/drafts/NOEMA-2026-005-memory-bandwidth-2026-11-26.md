@@ -75,3 +75,34 @@ A memory-backed workload may narrow or reverse any apparent throughput advantage
 - The first hosted benchmark attempt failed during C compilation; compiler stderr is being surfaced for a precise correction.
 - Exact-head quality CI and benchmark artifact validation remain pending.
 - No performance result is claimed and no publication status is assigned.
+
+### REPRODUCED RESULT — hosted memory-backed run 2026-11-26
+
+A 96 MiB aligned binary64 array (12,582,912 values; 4,194,304 repetitions of [2^53, 1, -2^53]) was scanned by six serial/OpenMP methods, with 1/2/4/8 requested native threads and five measured repetitions after one warm-up. The exact mathematical sum is 4,194,304.
+
+| Method | Workers | Correct runs | Speedup vs matching serial |
+|---|---:|---:|---:|
+| Serial naive | 1 | 0/5 | 1.000x |
+| Serial long double | 1 | 5/5 | 1.000x |
+| Serial Neumaier | 1 | 5/5 | 1.000x |
+| OpenMP long double | 2 | 5/5 | 1.519x |
+| OpenMP long double | 4 | 5/5 | 3.008x |
+| OpenMP long double | 8 | 5/5 | 2.509x |
+| OpenMP Neumaier state | 2 | 5/5 | 1.644x |
+| OpenMP Neumaier state | 4 | 5/5 | 2.351x |
+| OpenMP Neumaier state | 8 | 5/5 | 2.264x |
+| OpenMP naive partials | 4 | 0/5 | 3.810x (incorrect negative control) |
+
+**Environment:** GCC 15.2.0, CPython 3.14.10, Ubuntu Azure x86_64, four available CPUs (cpuset 0–3), reported L3 cache 48 MiB, long-double mantissa 64 bits / storage 16 bytes. The 96 MiB input exceeds the reported L3 cache, but no hardware memory-controller counters were collected.
+
+**Interpretation:** the four-thread Neumaier-state run preserved the exact reference in all five repetitions and measured 2.351x speedup over serial Neumaier on this one hosted run. Eight requested workers ran on four available CPUs; their result is an oversubscribed case, not an eight-core scaling claim. Naive reductions were faster but wrong on the cancellation fixture. Effective input throughput is a software-derived bytes/time measure, not DRAM bandwidth.
+
+**Provenance:** workflow run 45880304260; exact tested head 6720fbdf57f33d28c6d1030ccd1d399d5aec1462; artifact SHA-256 40380a90550c8262f8b18b2170da0bf2b19859a16c399a6a25df621e5e2176c7; extracted report SHA-256 a96bb2c89afdace73264d72d245de2cc850a8ee0068a8e825886333e2ed17509. The downloaded ZIP and extracted report hashes were verified; the 15-case report validator and quality workflow passed. This is one hosted run, not independent physical-hardware replication.
+
+### Evidence classification
+
+- **FACT:** the mathematical sum of the deterministic triplet fixture is 4,194,304; the exact input and worker partition rules are recorded.
+- **REPRODUCED RESULT:** the hosted workflow run reproduced 15 cases, preserved raw timing samples, and passed report validation. Neumaier-state returned the exact result in all five repetitions for 2/4/8 requested workers.
+- **INFERENCE:** four-thread Neumaier scaling is promising on this one host but is not a general speedup claim. The eight-thread case is oversubscribed on a four-CPU runner.
+- **HYPOTHESIS:** the relative cost of compensated state may change with larger buffers, representative scientific distributions and different cache/memory architectures.
+- **UNTESTED IDEA:** hardware-counter collection and independent physical x86-64/ARM64 replication.

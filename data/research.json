@@ -8,7 +8,7 @@
       "title": "მცურავი წერტილის ჯამის სიზუსტე: ალგორითმი და რიგითობა",
       "date": "2026-11-26",
       "category": "რიცხვითი ანალიზი",
-      "summary": "კონტროლირებული ტესტები აჩვენებს, რომ შეკრების რიგითობამ შეიძლება შედეგი შეცვალოს. 330-კონფიგურაციან sharded-reduction სიმულაციაში compensation state-მა 330/330 სწორი შედეგი შეინარჩუნა. რეალურ CPU threads-ზე x86-64 და ARM64 გარემოებში Neumaier compensation-state merge-მა ყველა შემოწმებულ კონფიგურაციაში სწორად დამრგვალებული შედეგი მიიღო. ARM64-ზე ოთხ დამოუკიდებელ Actions batch-ში Neumaier-state შედეგი 768/768 იყო; scalar Neumaier — 672/768, naive scalar — 0/768. CPU-time/wall-time >1.05 threshold-ის რაოდენობა batch-ებს შორის იცვლებოდა (free-threaded 208/288→211/288→214/288→207/288; GIL-enabled 2/288→1/288→0/288→0/288), ამიტომ ეს მხოლოდ აღწერითი მაჩვენებელია. Timing შედეგები არასტაბილურია: ერთ batch-ში ერთი macOS free-threaded cell-ის median speedup 1.003 იყო, ხოლო საბოლოო PR-head batch-ში ოთხივე cell 1.0-ზე დაბლა დარჩა. ზოგადი wall-time აჩქარება არ დადასტურებულა. წინასწარი, დამოუკიდებლად არარეცენზირებული შედეგია. 2026-11-26-ის მეორე x86-64 hosted rerun-ზე Neumaier-state კვლავ 48/48 სწორი იყო ორივე runtime-ში. GIL-enabled median speedup 0.7744×, free-threaded — 1.0181×; წინა free-threaded median 0.9519× იყო. ერთი run-ის 1.0181× შედეგი run-to-run variability-ს ფონზე არ ადასტურებს ზოგად აჩქარებას; raw reports და reproduction script დაემატა.",
+      "summary": "კონტროლირებული ტესტები აჩვენებს, რომ შეკრების რიგითობამ შეიძლება შედეგი შეცვალოს. 330-კონფიგურაციან sharded-reduction სიმულაციაში compensation state-მა 330/330 სწორი შედეგი შეინარჩუნა. რეალურ CPU threads-ზე x86-64 და ARM64 გარემოებში Neumaier compensation-state merge-მა ყველა შემოწმებულ კონფიგურაციაში სწორად დამრგვალებული შედეგი მიიღო. ARM64-ზე ოთხ დამოუკიდებელ Actions batch-ში Neumaier-state შედეგი 768/768 იყო; scalar Neumaier — 672/768, naive scalar — 0/768. CPU-time/wall-time >1.05 threshold-ის რაოდენობა batch-ებს შორის იცვლებოდა (free-threaded 208/288→211/288→214/288→207/288; GIL-enabled 2/288→1/288→0/288→0/288), ამიტომ ეს მხოლოდ აღწერითი მაჩვენებელია. Timing შედეგები არასტაბილურია: ერთ batch-ში ერთი macOS free-threaded cell-ის median speedup 1.003 იყო, ხოლო საბოლოო PR-head batch-ში ოთხივე cell 1.0-ზე დაბლა დარჩა. ზოგადი wall-time აჩქარება არ დადასტურებულა. წინასწარი, დამოუკიდებლად არარეცენზირებული შედეგია. 2026-11-26-ის მეორე x86-64 hosted rerun-ზე Neumaier-state კვლავ 48/48 სწორი იყო ორივე runtime-ში. GIL-enabled median speedup 0.7744×, free-threaded — 1.0181×; წინა free-threaded median 0.9519× იყო. ერთი run-ის 1.0181× შედეგი run-to-run variability-ს ფონზე არ ადასტურებს ზოგად აჩქარებას; raw reports და reproduction script დაემატა. დამატებით, 2026-11-26-ის 96 MiB memory-backed OpenMP ექსპერიმენტში Neumaier-state მეთოდმა 2/4/8 workers-ზე 5/5 სწორი შედეგი შეინარჩუნა; ოთხ thread-ზე median speedup 2.351x იყო serial Neumaier baseline-თან შედარებით. Naive კონტროლი 0/5 სწორი იყო. ეს ერთი hosted x86_64 run-ია და არა დამოუკიდებელი hardware replication ან DRAM-bandwidth გაზომვა.",
       "file": "research/preprints/NOEMA-2026-005-floating-point-summation.md",
       "status": "preliminary",
       "version": "1.8",
@@ -254,6 +254,45 @@
           "publication_date": "2026-11-26",
           "publication_note": "Two CPython 3.14.4 runtime jobs on one hosted x86-64 runner with four available CPUs; archive and raw-report SHA-256 values were checked; results are preliminary and synthetic.",
           "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Numerical reproducibility for the parallel reduction on multi- and many-core architectures",
+          "authors": [
+            "Sylvain Collange",
+            "David Defour",
+            "Olivier Graillat",
+            "Sergiy Iakymchuk"
+          ],
+          "citation": "Collange, S., Defour, D., Graillat, O., & Iakymchuk, S. (2015). Numerical reproducibility for the parallel reduction on multi- and many-core architectures. Parallel Computing, 49, 83–97.",
+          "url": "https://doi.org/10.1016/j.parco.2015.09.001",
+          "type": "peer-reviewed",
+          "publication_date": "2015-11",
+          "publication_note": "Parallel Computing, volume 49, pages 83–97.",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "OpenMP API Specification 5.2",
+          "authors": [
+            "OpenMP Architecture Review Board"
+          ],
+          "citation": "OpenMP Architecture Review Board. (2021). OpenMP API Specification 5.2.",
+          "url": "https://www.openmp.org/spec-html/5.2/openmpsu50.html",
+          "type": "official-specification",
+          "publication_date": "2021",
+          "publication_note": "Specification reference for the OpenMP execution and reduction model.",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA-005 memory-backed reduction workflow run 45880304260",
+          "authors": [
+            "NOEMA research workflow"
+          ],
+          "citation": "NOEMA. (2026-11-26). Memory-backed native reduction benchmark, GitHub Actions run 45880304260; raw report and artifact hashes frozen.",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45880304260",
+          "type": "reproducible-computational-record",
+          "publication_date": "2026-11-26",
+          "publication_note": "15 cases, 96 MiB input, x86_64 hosted runner with four available CPUs; preliminary synthetic experiment.",
+          "accessed_at": "2026-11-26"
         }
       ],
       "methodology": {
@@ -425,6 +464,67 @@
           "reproduction_script": "scripts/reproduce_noema005_threaded_reruns.py",
           "summary_file": "data/noema-005/threaded-reruns-2026-11-26.json",
           "key_finding": "Neumaier-state accuracy was 48/48 in both runs and both runtime modes. GIL-enabled median speedup remained below 1.0 (0.7539x then 0.7744x). Free-threaded median moved from 0.9519x to 1.0181x, demonstrating run-to-run sensitivity rather than a robust speedup."
+        },
+        "memory_backed_reduction": {
+          "experiment_id": "NOEMA-2026-005-MEMORY-001",
+          "workflow_run": "https://github.com/maisuradzee/bibmom/actions/runs/45880304260",
+          "tested_head_sha": "6720fbdf57f33d28c6d1030ccd1d399d5aec1462",
+          "input_bytes": 100663296,
+          "elements": 12582912,
+          "repeat_count": 4194304,
+          "workers": [
+            1,
+            2,
+            4,
+            8
+          ],
+          "methods": [
+            "serial_naive",
+            "serial_long_double",
+            "serial_neumaier",
+            "openmp_naive_partials",
+            "openmp_long_double",
+            "openmp_neumaier_state"
+          ],
+          "warmups": 1,
+          "repetitions": 5,
+          "environment": {
+            "compiler": "GCC 15.2.0",
+            "python": "3.14.10",
+            "platform": "Ubuntu Azure x86_64",
+            "cpu_count": 4,
+            "cpuset": "0-3",
+            "l3_cache": "49152K",
+            "long_double_mantissa_bits": 64
+          },
+          "exact_accuracy": {
+            "serial_naive": "0/5",
+            "serial_long_double": "5/5",
+            "serial_neumaier": "5/5",
+            "openmp_neumaier_2_threads": "5/5",
+            "openmp_neumaier_4_threads": "5/5",
+            "openmp_neumaier_8_threads": "5/5",
+            "openmp_naive_4_threads": "0/5"
+          },
+          "median_speedup": {
+            "openmp_long_double_2_threads": 1.519,
+            "openmp_long_double_4_threads": 3.008,
+            "openmp_long_double_8_threads": 2.509,
+            "openmp_neumaier_2_threads": 1.644,
+            "openmp_neumaier_4_threads": 2.351,
+            "openmp_neumaier_8_threads": 2.264
+          },
+          "report_file": "data/noema-005/memory-bandwidth-2026-11-26.json",
+          "provenance_file": "data/noema-005/memory-bandwidth-provenance-2026-11-26.json",
+          "report_sha256": "a96bb2c89afdace73264d72d245de2cc850a8ee0068a8e825886333e2ed17509",
+          "artifact_sha256": "40380a90550c8262f8b18b2170da0bf2b19859a16c399a6a25df621e5e2176c7",
+          "limitations": [
+            "One hosted x86_64 run only",
+            "Synthetic cancellation fixture",
+            "Effective input throughput is not hardware DRAM bandwidth",
+            "Eight workers were requested on four available CPUs",
+            "No independent physical-hardware replication or independent review"
+          ]
         }
       },
       "limitations": [

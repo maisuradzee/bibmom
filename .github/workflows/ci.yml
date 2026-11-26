@@ -178,6 +178,10 @@ jobs:
           python -m noema_core.jobs_cli --db "$RESTORED" metrics
       - name: Test NOEMA-005 memory-backed report validation
         run: python -m unittest discover -s tests -p 'test_noema005_memory_bandwidth_report.py' -v
+      - name: Reproduce frozen NOEMA-005 memory-backed benchmark
+        run: python scripts/reproduce_noema005_memory_bandwidth_frozen.py
+      - name: Test frozen NOEMA-005 memory-backed benchmark
+        run: python -m unittest discover -s tests -p 'test_noema005_memory_bandwidth_frozen.py' -v
       - name: Run Python unit tests
         run: python -m unittest discover -s tests -v
       - name: Reproduce NOEMA-003 trend analysis and compare frozen results

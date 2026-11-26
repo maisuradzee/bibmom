@@ -126,3 +126,5 @@ A reproducible C/OpenMP benchmark for compensated reduction, exact synthetic ref
 ## NOEMA-005 — two-run real-thread comparison (2026-11-26)
 
 Two raw workflow reports from run `45867519546` are preserved as gzip+base64 files under `data/noema-005/raw/`. `scripts/reproduce_noema005_threaded_reruns.py --check` verifies raw report hashes and recomputes the aggregate comparison against run `45850716742`. The free-threaded Neumaier-state median crossed 1.0 only in the second run (0.9519× → 1.0181×); this is run-to-run sensitivity, not a robust speedup claim. The study remains preliminary.
+
+- Frozen NOEMA-005 memory-backed result: `data/noema-005/memory-bandwidth-2026-11-26.json` and `data/noema-005/memory-bandwidth-provenance-2026-11-26.json`; reproduced by `scripts/reproduce_noema005_memory_bandwidth_frozen.py`.

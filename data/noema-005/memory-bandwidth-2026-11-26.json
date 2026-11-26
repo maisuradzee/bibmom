@@ -1,0 +1,443 @@
+{
+  "cases": [
+    {
+      "actual_threads_max": 1,
+      "actual_threads_min": 1,
+      "bytes_read_per_run": 100663296,
+      "correct_runs": 0,
+      "effective_read_gb_s": 6.432202644,
+      "median_process_cpu_ns": 15652290,
+      "median_wall_ns": 15649895,
+      "method": "serial_naive",
+      "process_cpu_samples_ns": [
+        16052171,
+        15941043,
+        15636166,
+        15612626,
+        15652290
+      ],
+      "requested_workers": 1,
+      "runs": 5,
+      "speedup_vs_matching_serial": 1.0,
+      "wall_samples_ns": [
+        16049236,
+        15938270,
+        15634113,
+        15610249,
+        15649895
+      ]
+    },
+    {
+      "actual_threads_max": 1,
+      "actual_threads_min": 1,
+      "bytes_read_per_run": 100663296,
+      "correct_runs": 5,
+      "effective_read_gb_s": 8.095691707,
+      "median_process_cpu_ns": 12436664,
+      "median_wall_ns": 12434181,
+      "method": "serial_long_double",
+      "process_cpu_samples_ns": [
+        12648062,
+        12376441,
+        12362769,
+        12436664,
+        12475294
+      ],
+      "requested_workers": 1,
+      "runs": 5,
+      "speedup_vs_matching_serial": 1.0,
+      "wall_samples_ns": [
+        12645688,
+        12375082,
+        12360837,
+        12434181,
+        12473477
+      ]
+    },
+    {
+      "actual_threads_max": 1,
+      "actual_threads_min": 1,
+      "bytes_read_per_run": 100663296,
+      "correct_runs": 5,
+      "effective_read_gb_s": 4.904566574,
+      "median_process_cpu_ns": 20527012,
+      "median_wall_ns": 20524402,
+      "method": "serial_neumaier",
+      "process_cpu_samples_ns": [
+        20515882,
+        20551867,
+        20475807,
+        20527012,
+        20546084
+      ],
+      "requested_workers": 1,
+      "runs": 5,
+      "speedup_vs_matching_serial": 1.0,
+      "wall_samples_ns": [
+        20513306,
+        20550085,
+        20473972,
+        20524402,
+        20543510
+      ]
+    },
+    {
+      "actual_threads_max": 1,
+      "actual_threads_min": 1,
+      "bytes_read_per_run": 100663296,
+      "correct_runs": 5,
+      "effective_read_gb_s": 7.868603471,
+      "median_process_cpu_ns": 12795098,
+      "median_wall_ns": 12793032,
+      "method": "openmp_long_double",
+      "process_cpu_samples_ns": [
+        12795098,
+        12844866,
+        12786326,
+        12782641,
+        12839416
+      ],
+      "requested_workers": 1,
+      "runs": 5,
+      "speedup_vs_matching_serial": 0.971949496,
+      "wall_samples_ns": [
+        12793032,
+        12843562,
+        12785160,
+        12781601,
+        12838332
+      ]
+    },
+    {
+      "actual_threads_max": 1,
+      "actual_threads_min": 1,
+      "bytes_read_per_run": 100663296,
+      "correct_runs": 5,
+      "effective_read_gb_s": 4.93697718,
+      "median_process_cpu_ns": 20391395,
+      "median_wall_ns": 20389662,
+      "method": "openmp_neumaier_state",
+      "process_cpu_samples_ns": [
+        20406890,
+        20443271,
+        20334334,
+        20219170,
+        20391395
+      ],
+      "requested_workers": 1,
+      "runs": 5,
+      "speedup_vs_matching_serial": 1.006608251,
+      "wall_samples_ns": [
+        20412429,
+        20440247,
+        20333093,
+        20217916,
+        20389662
+      ]
+    },
+    {
+      "actual_threads_max": 2,
+      "actual_threads_min": 2,
+      "bytes_read_per_run": 100663296,
+      "correct_runs": 0,
+      "effective_read_gb_s": 12.266473776,
+      "median_process_cpu_ns": 16207234,
+      "median_wall_ns": 8206376,
+      "method": "openmp_naive_partials",
+      "process_cpu_samples_ns": [
+        16171714,
+        17262266,
+        16207234,
+        16199643,
+        16207691
+      ],
+      "requested_workers": 2,
+      "runs": 5,
+      "speedup_vs_matching_serial": 1.90704094,
+      "wall_samples_ns": [
+        8170319,
+        8260743,
+        8206507,
+        8198655,
+        8206376
+      ]
+    },
+     {
+      "actual_threads_max": 2,
+      "actual_threads_min": 2,
+      "bytes_read_per_run": 100663296,
+      "correct_runs": 5,
+      "effective_read_gb_s": 12.295325865,
+      "median_process_cpu_ns": 16175219,
+      "median_wall_ns": 8187119,
+      "method": "openmp_long_double",
+      "process_cpu_samples_ns": [
+        17251227,
+        16175219,
+        16160776,
+        16168976,
+        16192177
+      ],
+      "requested_workers": 2,
+      "runs": 5,
+      "speedup_vs_matching_serial": 1.518749269,
+      "wall_samples_ns": [
+        8261477,
+        8187119,
+        8158439,
+        8168325,
+        8190935
+      ]
+    },
+     {
+      "actual_threads_max": 2,
+      "actual_threads_min": 2,
+      "bytes_read_per_run": 100663296,
+      "correct_runs": 5,
+      "effective_read_gb_s": 8.064751117,
+      "median_process_cpu_ns": 24442378,
+      "median_wall_ns": 12481885,
+      "method": "openmp_neumaier_state",
+      "process_cpu_samples_ns": [
+        34462217,
+        35023244,
+        24442378,
+        21753433,
+        20034965
+      ],
+      "requested_workers": 2,
+      "runs": 5,
+      "speedup_vs_matching_serial": 1.64433513,
+      "wall_samples_ns": [
+        17460298,
+        18123766,
+        12481885,
+        10757659,
+        10033806
+      ]
+    },
+    {
+      "actual_threads_max": 4,
+      "actual_threads_min": 4,
+      "bytes_read_per_run": 100663296,
+      "correct_runs": 0,
+      "effective_read_gb_s": 24.507616808,
+      "median_process_cpu_ns": 16108382,
+      "median_wall_ns": 4107429,
+      "method": "openmp_naive_partials",
+      "process_cpu_samples_ns": [
+        16101968,
+        16098090,
+        16108382,
+        16133414,
+        19179037
+      ],
+      "requested_workers": 4,
+      "runs": 5,
+      "speedup_vs_matching_serial": 3.810143766,
+      "wall_samples_ns": [
+        4099910,
+        4096232,
+        4107429,
+        4131054,
+        4177340
+      ]
+    },
+     {
+      "actual_threads_max": 4,
+      "actual_threads_min": 4,
+      "bytes_read_per_run": 100663296,
+      "correct_runs": 5,
+      "effective_read_gb_s": 24.350625921,
+      "median_process_cpu_ns": 16133858,
+      "median_wall_ns": 4133910,
+      "method": "openmp_long_double",
+      "process_cpu_samples_ns": [
+        16133858,
+        16182731,
+        16142826,
+        16105414,
+        16105580
+      ],
+      "requested_workers": 4,
+      "runs": 5,
+      "speedup_vs_matching_serial": 3.007849953,
+      "wall_samples_ns": [
+        4133910,
+        4180296,
+        4141201,
+        4104733,
+        4124240
+      ]
+    },
+     {
+      "actual_threads_max": 4,
+      "actual_threads_min": 4,
+      "bytes_read_per_run": 100663296,
+      "correct_runs": 5,
+      "effective_read_gb_s": 11.530578113,
+      "median_process_cpu_ns": 35732093,
+      "median_wall_ns": 8730117,
+      "method": "openmp_neumaier_state",
+      "process_cpu_samples_ns": [
+        35712704,
+        35739759,
+        32720829,
+        35746350,
+        35732093
+      ],
+      "requested_workers": 4,
+      "runs": 5,
+      "speedup_vs_matching_serial": 2.350988194,
+      "wall_samples_ns": [
+        8711010,
+        8738835,
+        8719054,
+        8744538,
+        8730117
+      ]
+    },
+     {
+      "actual_threads_max": 8,
+      "actual_threads_min": 8,
+      "bytes_read_per_run": 100663296,
+      "correct_runs": 0,
+      "effective_read_gb_s": 16.245964827,
+      "median_process_cpu_ns": 16655603,
+      "median_wall_ns": 6196203,
+      "method": "openmp_naive_partials",
+      "process_cpu_samples_ns": [
+        16408211,
+        16476617,
+        16685451,
+        16655603,
+        16711474
+      ],
+      "requested_workers": 8,
+      "runs": 5,
+      "speedup_vs_matching_serial": 2.525723415,
+      "wall_samples_ns": [
+        6160363,
+        6200563,
+        6264295,
+        6196203,
+        4228479
+      ]
+    },
+     {
+      "actual_threads_max": 8,
+      "actual_threads_min": 8,
+      "bytes_read_per_run": 100663296,
+      "correct_runs": 5,
+      "effective_read_gb_s": 20.308547468,
+      "median_process_cpu_ns": 16531067,
+      "median_wall_ns": 4956696,
+      "method": "openmp_long_double",
+      "process_cpu_samples_ns": [
+        15988609,
+        15665539,
+        16787817,
+        16531067,
+        16628600
+      ],
+      "requested_workers": 8,
+      "runs": 5,
+      "speedup_vs_matching_serial": 2.508562357,
+      "wall_samples_ns": [
+        5693257,
+        5158596,
+        4291898,
+        4816285,
+        4956696
+      ]
+    },
+     {
+      "actual_threads_max": 8,
+      "actual_threads_min": 8,
+      "bytes_read_per_run": 100663296,
+      "correct_runs": 5,
+      "effective_read_gb_s": 11.104395105,
+      "median_process_cpu_ns": 33911834,
+      "median_wall_ns": 9065176,
+      "method": "openmp_neumaier_state",
+      "process_cpu_samples_ns": [
+        33911834,
+        33600895,
+        33540806,
+        35084540,
+        35120314
+      ],
+      "requested_workers": 8,
+      "runs": 5,
+      "speedup_vs_matching_serial": 2.264093052,
+      "wall_samples_ns": [
+        9065176,
+        9275697,
+        9238538,
+        8834536,
+        8861793
+      ]
+    }
+  ],
+  "cases_expected": 15,
+  "environment": {
+    "double_mant_dig": 53,
+    "long_double_mant_dig": 64,
+    "openmp_version": 201511,
+    "processors": 4,
+    "sizeof_double": 8,
+    "sizeof_long_double": 16
+  },
+  "experiment_id": "NOEMA-2026-005-MEMORY-001",
+  "input": {
+    "alignment_bytes": 64,
+    "bytes": 100663296,
+    "elements": 12582912,
+    "exact_sum": 4194304,
+    "pattern": [
+      "2^53",
+      "1",
+      "-2^53"
+    ],
+    "repeat_count": 4194304
+  },
+  "methodology": "One aligned binary64 array is allocated once and reused. Effective input throughput includes algorithm and runtime overhead and is not a hardware DRAM-bandwidth claim.",
+  "process_peak_rss_platform_units": 100368,
+  "provenance": {
+    "captured_at_utc": "2026-11-26T19:00:26.257943+00:00",
+    "cgroup_cpu_max": null,
+    "cgroup_cpuset_cpus": "0-3",
+    "compile_command": "gcc -std=c11 -O2 -fopenmp -Wall -Wextra -Werror scripts/noema005_memory_bandwidth_benchmark.c -lm -o '<temporary-binary>'",
+    "compile_flags": [
+      "-std=c11",
+      "-O2",
+      "-fopenmp",
+      "-Wall",
+      "-Wextra",
+      "-Werror"
+    ],
+    "compiler_path": "/usr/bin/gcc",
+    "compiler_version": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+    "cpu_count": 4,
+    "github_run_attempt": "1",
+    "githtub_run_id": "45880304260",
+    "github_sha": "c7aabb7a13e3feaa580307cd8aa17fc62cb567c5",
+    "l3_cache_size": "49152K",
+    "machine": "x86_64",
+    "platform": "Linux-7.0.0-1020-azure-x86_64-with-glibc2.43",
+    "python_version": "3.14.10",
+    "source_path": "scripts/noema005_memory_bandwidth_benchmark.c",
+    "source_sha256": "dd62d21e579c8baf6e1e13587362b48ef9e015d259ae8d90c6264200d56f34ac",
+    "tested_head_sha": "6720fbdf57f33d28c6d1030ccd1d399d5aec1462"
+  },
+  "repetitions": 5,
+  "status": "synthetic_memory_backed_reduction",
+  "study_id": "NOEMA-2026-005",
+  "warmups": 1,
+  "workers": [
+    1,
+    2,
+    4,
+    8
+  ]
+}
