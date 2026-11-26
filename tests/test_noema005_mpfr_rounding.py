@@ -60,7 +60,7 @@ class Noema005MpfrRoundingTests(unittest.TestCase):
 
         completed = subprocess.run(
             [str(self.binary)],
-            input="".join(f"{value}\\n" for value in values),
+            input="".join(f"{value}\n" for value in values),
             check=True,
             capture_output=True,
             text=True,
@@ -76,7 +76,7 @@ class Noema005MpfrRoundingTests(unittest.TestCase):
             with self.subTest(value=value):
                 completed = subprocess.run(
                     [str(self.binary)],
-                    input=f"{value}\\n",
+                    input=f"{value}\n",
                     check=False,
                     capture_output=True,
                     text=True,
