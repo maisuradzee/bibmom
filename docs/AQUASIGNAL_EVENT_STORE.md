@@ -65,14 +65,27 @@ The verifier:
 - verifies the signature only against caller-supplied public keys that must be
   pinned through a separate trusted channel;
 - checks the checkpoint store identifier and matches its event count and final
-  hash against the locally replay-verified SQLite chain;
+  hash against the locally replay-verified SQLite chain. The store identifier
+  is a caller-supplied binding: AquaSignalStore does not persist a unique store
+  ID, so the caller must obtain expected_store_id from separately trusted
+  configuration explicitly associated with the database being opened;
 - rejects a sequence lower than the caller-supplied trusted high-water mark and
   rejects different checkpoint bytes at the same sequence; an identical
   checkpoint at the same sequence is idempotent;
-- returns a proposed next high-water state for the caller to persist.
+- returns a proposed next high-water state for the caller to persist;
+- reports rollback_protected: false and bootstrap_required: true when no
+  prior trusted state is supplied. In that mode the signature and local chain
+  are checked, but checkpoint freshness / rollback is not established. First
+  use requires a separately approved bootstrap checkpoint or pinned genesis
+  state before subsequent high-water comparisons can be trusted.
 
 The returned high-water state **must be atomically stored outside the SQLite
-database in a separately administered, rollback-resistant trust domain**. If
+database in a separately administered, rollback-resistant trust domain**.
+When trusted_state is omitted, the result explicitly marks itself as
+bootstrap-only (rollback_protected: false); callers must not treat a valid
+signature and matching local chain as proof that the checkpoint is the newest.
+The first accepted checkpoint needs an independently approved bootstrap
+decision, after which the persisted state is supplied on every verification. If
 the caller stores it beside the database, restores it from the same backup, or
 does not update it atomically after successful verification, rollback
 protection is not established. The module does not create a production signing

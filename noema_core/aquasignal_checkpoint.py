@@ -154,9 +154,11 @@ def verify_signed_checkpoint(
     """Verify signature, store-chain head and caller-supplied anti-rollback state.
 
     The public key mapping and trusted_state must come from a separately
-    authenticated trust domain. After success, the caller must atomically
-    persist next_trusted_state there. Keeping it only beside the SQLite file
-    does not provide rollback protection.
+    authenticated trust domain. If trusted_state is None, this is bootstrap /
+    signature-and-chain verification only and must not be described as
+    rollback-protected. After success, the caller must atomically persist
+    next_trusted_state there. Keeping it only beside the SQLite file does not
+    provide rollback protection.
     """
     document = _parse_checkpoint_payload(checkpoint_bytes)
     if not isinstance(expected_store_id, str) or not _STORE_ID.fullmatch(expected_store_id):
@@ -220,6 +222,8 @@ def verify_signed_checkpoint(
         "signing_key_id": key_id,
         "checkpoint_sha256": checkpoint_digest,
         "idempotent": idempotent,
+        "rollback_protected": trusted_state is not None,
+        "bootstrap_required": trusted_state is None,
         "next_trusted_state": {
             "store_id": document["store_id"],
             "sequence": sequence,

@@ -77,6 +77,8 @@ class AquaSignalSignedCheckpointTests(unittest.TestCase):
         self.assertEqual(result["event_count"], self.local["event_count"])
         self.assertEqual(result["last_hash"], self.local["last_hash"])
         self.assertEqual(result["next_trusted_state"]["checkpoint_sha256"], hashlib.sha256(payload).hexdigest())
+        self.assertFalse(result["rollback_protected"])
+        self.assertTrue(result["bootstrap_required"])
 
     def test_checkpoint_signature_cannot_be_reused_after_payload_change(self):
         payload, signature = self.make_signed()
@@ -122,12 +124,16 @@ class AquaSignalSignedCheckpointTests(unittest.TestCase):
         state = TrustedCheckpointState(STORE_ID, 9, hashlib.sha256(payload).hexdigest())
         result = self.verify(payload, signature, trusted_state=state)
         self.assertTrue(result["idempotent"])
+        self.assertTrue(result["rollback_protected"])
+        self.assertFalse(result["bootstrap_required"])
 
     def test_higher_sequence_advances_external_high_water_state(self):
         payload, signature = self.make_signed(sequence=10)
         state = TrustedCheckpointState(STORE_ID, 9, "0" * 64)
         result = self.verify(payload, signature, trusted_state=state)
         self.assertEqual(result["next_trusted_state"]["sequence"], 10)
+        self.assertTrue(result["rollback_protected"])
+        self.assertFalse(result["bootstrap_required"])
 
     def test_duplicate_json_keys_are_rejected(self):
         payload, signature = self.make_signed()
@@ -147,6 +153,11 @@ class AquaSignalSignedCheckpointTests(unittest.TestCase):
         payload, _ = self.make_signed()
         document = json.loads(payload)
         Draft202012Validator(schema, format_checker=FormatChecker()).validate(document)
+
+    def test_signed_checkpoint_must_match_local_event_count(self):
+        payload, signature = self.make_signed(event_count=self.local["event_count"] + 1)
+        with self.assertRaisesRegex(ValueError, "external checkpoint event count mismatch"):
+            self.verify(payload, signature)
 
     def test_invalid_boolean_sequence_is_not_accepted_as_integer(self):
         payload, _ = self.make_signed()
