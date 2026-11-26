@@ -226,5 +226,42 @@ class AquaSignalStoreTests(unittest.TestCase):
             AquaSignalStore(":memory:")
 
 
+
+    def test_out_of_band_checkpoint_matches_verified_chain_tail(self):
+        self.complete_lifecycle()
+        report = self.store.verify()
+        checkpoint = self.store.verify_checkpoint(
+            expected_last_hash=report["last_hash"],
+            expected_event_count=report["event_count"],
+        )
+        self.assertTrue(checkpoint["valid"], checkpoint["error"])
+        self.assertTrue(checkpoint["checkpoint_valid"])
+
+    def test_out_of_band_checkpoint_rejects_changed_hash_or_event_count(self):
+        self.complete_lifecycle()
+        report = self.store.verify()
+        wrong_hash = self.store.verify_checkpoint(
+            expected_last_hash="f" * 64,
+            expected_event_count=report["event_count"],
+        )
+        self.assertFalse(wrong_hash["checkpoint_valid"])
+        self.assertEqual(wrong_hash["error"], "external checkpoint hash mismatch")
+        wrong_count = self.store.verify_checkpoint(
+            expected_last_hash=report["last_hash"],
+            expected_event_count=report["event_count"] + 1,
+        )
+        self.assertFalse(wrong_count["checkpoint_valid"])
+        self.assertEqual(wrong_count["error"], "external checkpoint event count mismatch")
+
+    def test_out_of_band_checkpoint_rejects_malformed_inputs(self):
+        with self.assertRaisesRegex(IncidentStoreError, "lowercase SHA-256"):
+            self.store.verify_checkpoint(
+                expected_last_hash="A" * 64, expected_event_count=0
+            )
+        with self.assertRaisesRegex(IncidentStoreError, "non-negative integer"):
+            self.store.verify_checkpoint(
+                expected_last_hash="0" * 64, expected_event_count=True
+            )
+
 if __name__ == "__main__":
     unittest.main()
