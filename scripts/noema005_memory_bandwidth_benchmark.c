@@ -2,6 +2,7 @@
 #include <errno.h>
 #include <float.h>
 #include <math.h>
+#include <limits.h>
 #include <omp.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -23,7 +24,7 @@ static const char *name_of(method_t m) {
 static void add_neumaier(double x,double *s,double *c){double t=*s+x;if(fabs(*s)>=fabs(x))*c+=(*s-t)+x;else *c+=(x-t)+*s;*s=t;}
 static double now_ns(clockid_t id){struct timespec ts;if(clock_gettime(id,&ts)!=0){perror("clock_gettime");exit(2);}return (double)ts.tv_sec*1e9+(double)ts.tv_nsec;}
 static int cmp(const void *a,const void *b){double x=*(const double*)a,y=*(const double*)b;return (x>y)-(x<y);}
-static double median(const double *v){double c[REP];memcpy(c,v,sizeof(c));qsort(c,REP,sizeof(double),cmp);return (c[2]+c[3])/2.0;}
+static double median(const double *v){double c[REP];memcpy(c,v,sizeof(c));qsort(c,REP,sizeof(double),cmp);return c[REP/2];}
 static double serial_sum(const double *v,long long n,method_t m){
     if(m==S_LONG){long double s=0.0L;for(long long i=0;i<n;++i)s+=(long double)v[i];return (double)s;}
     double s=0.0,c=0.0;for(long long i=0;i<n;++i){if(m==S_NEUMAIER)add_neumaier(v[i],&s,&c);else s+=v[i];}
@@ -45,7 +46,9 @@ static double parallel_sum(const double *v,long long n,method_t m,int requested,
     double result=0.0,correction=0.0;long double long_result=0.0L;
     for(int i=0;i<*actual;++i){if(m==P_NEUMAIER){add_neumaier(sums[i],&result,&correction);add_neumaier(corr[i],&result,&correction);}else if(m==P_LONG)long_result+=longs[i];else result+=sums[i];}
     free(sums);free(corr);free(longs);
-    if(m==P_NEUMAIER)return result+correction;if(m==P_LONG)return (double)long_result;return result;
+    if(m==P_NEUMAIER) return result+correction;
+    if(m==P_LONG) return (double)long_result;
+    return result;
 }
 static double run_once(const double *v,long long n,method_t m,int workers,int *actual){if(m<=S_NEUMAIER){*actual=1;return serial_sum(v,n,m);}return parallel_sum(v,n,m,workers,actual);}
 static result_t measure(const double *v,long long n,size_t bytes,long long expected,method_t m,int workers,double baseline){
@@ -56,8 +59,10 @@ static result_t measure(const double *v,long long n,size_t bytes,long long expec
 }
 static void print_case(const result_t *r,int first){
     printf("%s{\"method\":\"%s\",\"requested_workers\":%d,\"actual_threads_min\":%d,\"actual_threads_max\":%d,\"correct_runs\":%d,\"runs\":%d,\"median_wall_ns\":%.0f,\"median_process_cpu_ns\":%.0f,\"speedup_vs_matching_serial\":%.9f,\"effective_read_gb_s\":%.9f,\"bytes_read_per_run\":%zu,\"wall_samples_ns\":[",first?"":",",r->name,r->workers,r->actual_min,r->actual_max,r->correct,REP,r->mw,r->mc,r->speedup,r->throughput,r->bytes);
-    for(int i=0;i<REP;++i)printf("%s%.0f",i?",":"",r->wall[i]);printf("],\"process_cpu_samples_ns\":[");
-    for(int i=0;i<REP;++i)printf("%s%.0f",i?",":"",r->cpu[i]);printf("]}");
+    for(int i=0;i<REP;++i) printf("%s%.0f",i?",":"",r->wall[i]);
+    printf("],\"process_cpu_samples_ns\":[");
+    for(int i=0;i<REP;++i) printf("%s%.0f",i?",":"",r->cpu[i]);
+    printf("]}");
 }
 int main(int argc,char **argv){
     long long repeat=4194304LL;
