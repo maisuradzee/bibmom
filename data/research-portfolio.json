@@ -436,7 +436,8 @@
         "SQLite official file-format და WAL documentation-ის მიხედვით file header-ის byte 18/19 შემოწმება",
         "synthetic database backup/restore round-trip, WAL-mode negative case, tampered audit და no-overwrite regression tests",
         "GitHub Actions-ის exact-head CI და mergeability verification",
-        "შემდგომ ეტაპზე encrypted off-host backup, retention/rotation და scheduled restore drills"
+        "შემდგომ ეტაპზე encrypted off-host backup, retention/rotation და scheduled restore drills",
+        "On POSIX, stage each local SQLite snapshot in a newly created 0700 directory with a 0600 temporary database file; verify permissions at the atomic no-overwrite publication boundary."
       ],
       "sources": [
         {
@@ -529,7 +530,8 @@
         "immutable=1 SQLite connection may mask the stored WAL journal mode",
         "same-host backup does not protect against host/disk loss",
         "backup is currently unencrypted and has no off-host retention automation",
-        "audit hash chain without signed external checkpoint does not prevent all tampering scenarios"
+        "audit hash chain without signed external checkpoint does not prevent all tampering scenarios",
+        "The private staging-directory guarantee is POSIX-specific; non-POSIX ACLs remain host-managed, and the final backup parent can still expose the completed artifact if its access policy is too broad."
       ],
       "blockers": [
         "Backup encryption, off-host storage, retention/rotation and scheduled restore drills remain unimplemented.",
@@ -537,8 +539,8 @@
         "Encrypted/off-host backup, signed manifest, retention/rotation, provider integration and scheduled restore drills are not implemented; no storage provider, key custodian, RPO/RTO or retention policy has been selected."
       ],
       "status": "active",
-      "status_detail": "PR #44 was merged into main at 70099355579eef8b4767149c5611c711eb222887. Exact-head quality CI 45811367125 passed 303 Python tests, the backup/restore CLI smoke, frozen research reproductions, site build and publication-boundary checks; CPU-thread workflow 45811367483 passed both GIL-enabled and free-threaded jobs. Local verified SQLite online backup/restore, metrics CLI, service health reporting, payload-free supervisor logs and symlink-destination rejection are now in main. The implementation is local and unencrypted; no off-host provider or keys are configured.",
-      "next_step": "Run an operator-approved restore drill and measure recovery time/data loss. Then select provider, key custodian, RPO/RTO and retention policy before implementing age encryption, signed manifests, off-host object versions, key rotation and scheduled restore verification.",
+      "status_detail": "PR #50 proposes a local backup hardening change: create the temporary SQLite snapshot inside a private 0700 POSIX staging directory, keep the file at 0600, and publish by atomic no-overwrite hard link. A regression test inspects both modes immediately before publication even when the final parent is 0755. The change is Draft and exact-head CI is pending; off-host encryption, signed manifests, retention/rotation and restore drills remain unimplemented.",
+      "next_step": "Validate the private staging change on the exact PR head, then run an operator-approved restore drill and measure recovery time/data loss. Select provider, key custodian, RPO/RTO and retention policy before implementing encrypted off-host storage and signed manifests.",
       "success_metrics": [
         "backup includes committed WAL data",
         "restore rejects WAL-mode header and corrupted audit data before destination creation",
