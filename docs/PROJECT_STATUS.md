@@ -5,7 +5,7 @@
 - **ძირითადი branch:** `main` — მიმდინარე base commit `d46c10cf384f2eba09b4d332a323c19554f552b6`; PR #23-ის ცვლილებები ჯერ branch-ზეა.
 - **მიმდინარე კვლევითი branch:** `research/noema005-arm64-replication-2026-11-26` (PR #23, მხოლოდ NOEMA-005 კვლევა, კოდი, მონაცემები, ტესტები და workflow).
 - **ბოლო კვლევითი merge:** [PR #21 — NOEMA-005 real CPU-thread benchmark](https://github.com/maisuradzee/bibmom/pull/21), squash-ით merged 2026-11-25; commit `e84f2b9679c923c673319fc28fc6da5d1e021702`.
-- **მიმდინარე NOEMA-005 კვლევითი PR:** [PR #23 — ARM64 real-thread replication](https://github.com/maisuradzee/bibmom/pull/23), Draft; final head `4fe358edd532d1861544951682e9125f67a4e156`. ოთხივე ARM64 job და quality/site CI წარმატებულია. კვლევის სტატუსი რჩება `preliminary`; დამოუკიდებელი გარე რეცენზია ჯერ არ დასრულებულა.
+- **მიმდინარე NOEMA-005 კვლევითი PR:** [PR #23 — ARM64 real-thread replication](https://github.com/maisuradzee/bibmom/pull/23), Draft; benchmark run head `4fe358edd532d1861544951682e9125f67a4e156`. ოთხივე ARM64 job და quality/site CI წარმატებულია. კვლევის სტატუსი რჩება `preliminary`; დამოუკიდებელი გარე რეცენზია ჯერ არ დასრულებულა.
 
 ## მიმდინარე სტატუსი
 
@@ -118,7 +118,7 @@ GitHub საცავი public-ია. Pages build draft/review ფაილ�
 ## 2026-11-26 — NOEMA-005 ARM64 replication
 
 - **საკვლევი branch/PR:** `research/noema005-arm64-replication-2026-11-26`, [PR #23](https://github.com/maisuradzee/bibmom/pull/23).
-- **შემოწმებული head:** `4fe358edd532d1861544951682e9125f67a4e156`.
+- **ARM64 benchmark-ის შემოწმებული head:** `4fe358edd532d1861544951682e9125f67a4e156`.
 - **ახალი ექსპერიმენტი:** Ubuntu 24.04 ARM64 და macOS 15 ARM64; თითოეულზე CPython 3.14.4 GIL-enabled და free-threaded; 48 configuration × 3 repetition თითო runtime-ზე.
 - **მიგნება:** Neumaier compensation-state reduction 192/192 სწორად დამრგვალებული შედეგით; scalar Neumaier 168/192; naive scalar 0/192. Free-threaded რეჟიმში CPU/wall ratio >1.05 დაფიქსირდა 208/288 sample-ში, GIL-enabled რეჟიმში 2/288-ში. ეს CPU-ის პარალელურ გამოყენებას ასახავს და არა wall-time speedup-ს.
 - **შედეგების ფაილი:** `data/noema-005/arm64-threaded-benchmark-summary-2026-11-26.json`; raw report SHA-256 და Actions artifact digest შენახულია.
