@@ -494,6 +494,30 @@
           "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock.html",
           "type": "official_cloud_documentation",
           "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA PR #44 — verified local SQLite backup and restore",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/pull/44",
+          "type": "internal_engineering_change",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA quality CI for PR #44 exact head",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45811367125",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA CPU-thread workflow for PR #44 exact head",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45811367483",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26"
         }
       ],
       "data_needs": [
@@ -509,11 +533,12 @@
       ],
       "blockers": [
         "Backup encryption, off-host storage, retention/rotation and scheduled restore drills remain unimplemented.",
-        "Encrypted/off-host backup, signed manifest, retention/rotation, provider integration and scheduled restore drills are design-only; no storage provider, key custodian, RPO/RTO or retention policy has been selected."
+        "Encrypted/off-host backup, signed manifest, retention/rotation, provider integration and scheduled restore drills are design-only; no storage provider, key custodian, RPO/RTO or retention policy has been selected.",
+        "Encrypted/off-host backup, signed manifest, retention/rotation, provider integration and scheduled restore drills are not implemented; no storage provider, key custodian, RPO/RTO or retention policy has been selected."
       ],
       "status": "active",
-      "status_detail": "A clean branch based on current main selectively ports the previously verified local SQLite online backup/restore, CLI, queue/workflow/scheduler counts and payload-free supervisor observability from the divergent PR #19. The port also rejects symlink backup/restore destinations and adds a regression test. Exact-head CI and the complete restore drill are pending. The current implementation remains local and unencrypted; no off-host storage provider or keys are configured.",
-      "next_step": "Run exact-head quality CI and a restore drill covering WAL inclusion, source immutability, owner-only file mode, no-overwrite and symlink rejection, corrupt audit data and service health. Then choose a storage provider, key custodian, RPO/RTO and retention policy before implementing age encryption, signed manifests and off-host immutable object versions.",
+      "status_detail": "PR #44 was merged into main at 70099355579eef8b4767149c5611c711eb222887. Exact-head quality CI 45811367125 passed 303 Python tests, the backup/restore CLI smoke, frozen research reproductions, site build and publication-boundary checks; CPU-thread workflow 45811367483 passed both GIL-enabled and free-threaded jobs. Local verified SQLite online backup/restore, metrics CLI, service health reporting, payload-free supervisor logs and symlink-destination rejection are now in main. The implementation is local and unencrypted; no off-host provider or keys are configured.",
+      "next_step": "Run an operator-approved restore drill and measure recovery time/data loss. Then select provider, key custodian, RPO/RTO and retention policy before implementing age encryption, signed manifests, off-host object versions, key rotation and scheduled restore verification.",
       "success_metrics": [
         "backup includes committed WAL data",
         "restore rejects WAL-mode header and corrupted audit data before destination creation",

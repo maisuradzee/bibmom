@@ -283,3 +283,19 @@ NOEMA progresses during scheduled runs only; this audit does not claim continuou
 - No main Pages deployment for merge commit ed3cffa was confirmed during this audit; do not claim the live site includes PR #43 until a successful deployment job is observed.
 - Only public documentation, source links, synthetic fixtures and software tests were added. No operator telemetry, private laboratory data, credentials, secret keys, new Supabase project or external database was added.
 - NOEMA operates during scheduled runs only; this audit does not claim continuous background execution.
+
+
+## Final state after run 7 — 2026-11-26
+
+- **Current main:** 70099355579eef8b4767149c5611c711eb222887.
+- **PR #44 — verified local backup/restore:** merged as 70099355579eef8b4767149c5611c711eb222887 after exact-head quality CI 45811367125 and CPU-thread workflow 45811367483 succeeded. The quality job ran 303 Python tests, the backup/restore CLI smoke test, frozen NOEMA-003/005 reproductions, site build and publication-boundary checks. The CPU-thread workflow passed both GIL-enabled and free-threaded jobs.
+- **PR #19:** closed as superseded by PR #44; old branch history remains available and was not merged.
+- **PR #42 / #43:** merged; the exact binary64 converter and 275-input integer/Decimal oracle regression suite are now in main. MPFR/SoftFloat and physical-hardware validation remain outstanding.
+- **PR #29:** merged; AquaSignal event lifecycle remains a synthetic prototype with operator-controlled actions and no field validation.
+- **PR #27:** still Draft/open, 37 commits ahead / 63 behind; credential normalization and capability-policy review findings remain unresolved. Do not merge without a clean refresh and security review.
+- **PR #5:** still Draft/open, 7 commits ahead / 77 behind; database/RLS SQL remains explicitly unexecuted. No Supabase project was created.
+- **PR #7:** still Draft/open, 3 commits ahead / 77 behind; Windows/macOS cross-platform simulation coverage is optional follow-up, not merged.
+- **Active portfolio:** AquaSignal (synthetic prototype); NOEMA-005 (preliminary, 275/275 converter-oracle matches on hosted x86-64 and ARM64); NOEMA-007 (discovery draft, no new local aggregate dataset); NOEMA-INFRA-001 (local verified backup/restore merged, off-host encryption not implemented).
+- **Publication:** public catalogue remains 1 preliminary / 0 published. No independent review was claimed.
+- **Deployment:** the PR quality CI built the site and verified the publication boundary, but no successful main-branch Pages deployment for merge SHA 70099355579eef8b4767149c5611c711eb222887 was confirmed in this audit. Do not claim the live Pages site contains this merge yet.
+- **Privacy boundary:** no operator telemetry, private lab data, credentials, signing keys, new Supabase project or external database was added. NOEMA progresses during scheduled runs only, not continuously between them.
