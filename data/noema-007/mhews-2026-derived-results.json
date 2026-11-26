@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-007",
+  "source_url": "https://www.undrr.org/reports/global-status-mhews-2026",
+  "source_accessed_at": "2026-11-26",
+  "denominator_countries": 136,
+  "denominator_definition": "countries reporting MHEWS in the 2026 source snapshot",
+  "pillar_percentages": {
+    "disaster_risk_knowledge": 52.9412,
+    "detection_monitoring_forecasting": 75,
+    "warning_dissemination_communication": 90.4412,
+    "preparedness_to_respond": 81.6176
+  },
+  "all_four_pillars": {
+    "count": 64,
+    "percent": 47.0588
+  },
+  "preparedness_average_score_change": {
+    "from_year": 2022,
+    "to_year": 2026,
+    "from": 0.74,
+    "to": 0.7,
+    "absolute_change": -0.04
+  },
+  "interpretation_boundary": "Counts and scores are country-level reported MHEWS capabilities. They are not population coverage, individual alert receipt, comprehension, protective action, or causal impact estimates."
+}
