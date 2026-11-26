@@ -140,7 +140,8 @@
         "Independent MPFR 4.2.1 oracle: represent the exact signed integer in 2,624-bit precision, divide by 2^1074 exactly, then convert with MPFR_RNDN; compare bit patterns against the C converter and Python Decimal on hosted x86-64 and ARM64. The native workflow asserts pkg-config reports MPFR 4.2.1.",
         "Deterministic full-width MPFR 4.2.1 oracle extension: 1,024 seeded signed values plus 1,044 tie-adjacent values; compare C output bitwise against MPFR_RNDN, Python integer and 1,200-digit Decimal references on hosted x86-64/ARM64.",
         "Run actual ThreadPoolExecutor native-thread experiment on CPython 3.14.4 GIL-enabled and free-threaded builds: 2 layouts × 4 worker counts × 2 partitions × 3 reduction methods × 3 repetitions, with native thread ID validation and process CPU/wall timing.",
-        "Download the original GIL-enabled and free-threaded Actions artifact ZIPs, verify archive SHA-256 against the frozen summary, and independently recompute per-case accuracy and worker-count metric aggregates."
+        "Download the original GIL-enabled and free-threaded Actions artifact ZIPs, verify archive SHA-256 against the frozen summary, and independently recompute per-case accuracy and worker-count metric aggregates.",
+        "Second real CPU-thread run raw reports were archived as gzip/base64; workflow ZIP SHA-256 and decompressed raw-report SHA-256 were checked, then per-case accuracy and metric aggregates were recomputed by scripts/reproduce_noema005_threaded_reruns.py --check."
       ],
       "sources": [
         {
@@ -430,6 +431,30 @@
           "url": "https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/threaded-artifact-provenance-audit-2026-11-26.json",
           "type": "frozen_artifact_provenance_audit",
           "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA-005 two-run raw-report reproduction and exact-head quality CI",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45872887590",
+          "type": "internal_reproducibility_ci_result",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA-005 actual CPU-thread benchmark exact-head workflow",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45872887552",
+          "type": "internal_cpu_thread_benchmark_ci",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA-005 archived second GIL-enabled and free-threaded raw reports",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/threaded-reruns-2026-11-26.json",
+          "type": "frozen_raw_report_aggregate_and_provenance",
+          "accessed_at": "2026-11-26"
         }
       ],
       "data_needs": [
@@ -444,14 +469,15 @@
         "სამი repetition timing-ის მაღალი სიმძლავრის სტატისტიკურ დასკვნას არ იძლევა",
         "Native long double precision and representation vary by ABI; this local x86-64 host reports 64 significand bits.",
         "The exact converter has a hosted MPFR 4.2.1 cross-check; the 2,560-bit accumulator now rejects signed overflow but remains fixed-width and is not arbitrary precision or formally verified.",
-        "Pairwise reduction may be faster on a fixture while returning an incorrect result; timing is only meaningful after accuracy passes."
+        "Pairwise reduction may be faster on a fixture while returning an incorrect result; timing is only meaningful after accuracy passes.",
+        "The second free-threaded run crossed the 1.0 median speedup threshold (0.9519x to 1.0181x), but its per-case range remained broad (0.7023x–1.135x) on the same hosted runner family; this is run-to-run sensitivity, not a robust or portable speedup."
       ],
       "blockers": [
         "The native experiment still uses two synthetic cancellation fixtures; representative application workloads and memory-bandwidth tests remain outstanding.",
         "Hosted x86-64/ARM64 CI is not independent physical-hardware replication; external numerical-method review remains outstanding."
       ],
       "status": "active",
-      "status_detail": "PR #63 merged into main as c89725743a98252da0bfba1ce0bb51472f758e44. Its exact-head quality CI 45841469603, GIL-enabled/free-threaded CPU-thread workflow 45841469605 and native MPFR 4.2.1 x86-64/ARM64 workflow 45841469616 all succeeded. The full-width/tie-adjacent suite matched MPFR_RNDN, Python integer and Decimal references for 2,068/2,068 deterministic inputs on each hosted architecture. The actual-thread experiment recorded 48/48 correct runs for preserved Neumaier (sum, correction) state, 42/48 for scalarized Neumaier and 0/48 for naive partial sums; threaded wall-time speedup remained below 1 on the synthetic workload. Main post-merge quality CI 45842391678, native x86-64/ARM64 workflow 45842391826 and Pages build/deploy 45842391666 succeeded. This is hosted reproducible software evidence, not formal proof or independent physical-hardware replication; representative scientific workloads and independent numerical review remain outstanding. The study remains preliminary. A post-hoc independent provenance audit downloaded both original workflow ZIP artifacts and recomputed SHA-256 over the archive bytes: GIL-enabled 99e8f5970a73d55dcf6dff0aa3c37dc44312b0112add16404f303343af30775c (7,620 bytes) and free-threaded 95e5d83563404c1e0de979991e5b71bd852f43af9c3ee05d0e5c8f6475a7fcd9 (7,830 bytes). Both matched the frozen summary; reaggregation of the raw 48-case JSON reports reproduced the stored accuracy counts and metric ranges. This verifies artifact integrity and summary arithmetic, not a second benchmark execution. PR #66 merged into main as 45f9511ca1552a9ef680b7d52a3d560bc858a485. Exact-head quality CI 45844362485 passed 334 tests and CPU-thread workflow 45844363177 passed both runtime jobs; post-merge main quality CI 45844512093 passed 334 tests and Pages build/deploy 45844512448 succeeded.",
+      "status_detail": "PR #81 merged into main as a69c3f29a7dec0f25f3a30c60f2d9f4d671807c7. Its exact-head quality CI 45872887590 and actual CPU-thread workflow 45872887552 both succeeded. The archived second raw-report set from workflow 45867519546 was rechecked: archive hashes and decompressed report hashes matched the frozen metadata, and scripts/reproduce_noema005_threaded_reruns.py --check reproduced all per-case accuracy counts and aggregate ranges. In that archived run, Neumaier-state median speedup was 0.7744x (range 0.7225–0.7935) with GIL and 1.0181x (range 0.7023–1.135) on free-threaded CPython; the prior free-threaded run was 0.9519x. The crossing of 1.0 is run-to-run variability, not evidence of a robust speedup. Both archived runs used the same hosted x86-64 runner family with 4-CPU affinity and synthetic cancellation fixtures. The study remains preliminary; representative application workloads, independent physical hardware and external numerical-method review remain outstanding.",
       "next_step": "Obtain independent numerical-method review of the checked signed accumulator and MPFR converter; then evaluate pairwise, Neumaier, long-double and exact methods on representative memory-bandwidth-bound workloads and repeat on independently selected physical x86-64/ARM64 systems with uncertainty intervals.",
       "success_metrics": [
         "exact-reference accuracy თითოეული მეთოდისა და runtime-ის მიხედვით",
@@ -462,7 +488,9 @@
         "MPFR 4.2.1 version is asserted in native x86-64/ARM64 CI and converter output matches MPFR_RNDN plus Python Decimal on the frozen synthetic suite",
         "Full-width MPFR oracle: 2,068/2,068 bitwise matches on each hosted x86-64 and ARM64 job, with MPFR 4.2.1 pinned.",
         "Actual CPU-thread experiment: 48/48 correct runs for Neumaier (sum, correction) state merge in both GIL-enabled and free-threaded CPython; raw artifacts and aggregate summary retained with SHA-256 provenance.",
-        "Downloaded original artifact ZIP SHA-256 values match the frozen summary and raw per-case aggregate counts/ranges reproduce."
+        "Downloaded original artifact ZIP SHA-256 values match the frozen summary and raw per-case aggregate counts/ranges reproduce.",
+        "Two-run raw-report reproduction verifies both archive SHA-256 values and recomputes 96 cases / 288 timed runs across GIL-enabled and free-threaded runtimes from frozen raw JSON reports.",
+        "Run-to-run median speedup deltas reproduce exactly; the free-threaded state-merge crossing of 1.0 is reported with its broad range and not interpreted as robust speedup."
       ],
       "last_reviewed": "2026-11-26"
     },
