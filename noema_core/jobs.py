@@ -12,6 +12,7 @@ import math
 import os
 import re
 import sqlite3
+import tempfile
 import time
 import uuid
 from contextlib import closing
@@ -830,9 +831,17 @@ class JobQueue:
         if not source.is_file():
             raise JobQueueError(f"Snapshot source does not exist: {source}")
         destination.parent.mkdir(parents=True, exist_ok=True)
-        temporary = destination.parent / f".{destination.name}.{uuid.uuid4().hex}.tmp"
+        # Stage inside a private directory even when the final backup parent is
+        # shared. This prevents other users of that parent from replacing the
+        # temporary pathname between pre-creation and SQLite's path-based open.
+        temporary_directory = Path(
+            tempfile.mkdtemp(prefix=f".{destination.name}.", dir=destination.parent)
+        )
+        temporary = temporary_directory / "snapshot.sqlite3"
 
         try:
+            if os.name == "posix":
+                os.chmod(temporary_directory, 0o700)
             # Pre-create with owner-only permissions before SQLite writes any
             # pages; do not leave an incomplete world-readable temp snapshot.
             descriptor = os.open(
@@ -893,6 +902,7 @@ class JobQueue:
                     os.close(directory_fd)
             temporary.unlink()
             cls._remove_sqlite_sidecars(temporary)
+            temporary_directory.rmdir()
 
             return DatabaseSnapshot(
                 path=str(destination),
@@ -909,6 +919,10 @@ class JobQueue:
             except FileNotFoundError:
                 pass
             cls._remove_sqlite_sidecars(temporary)
+            try:
+                temporary_directory.rmdir()
+            except OSError:
+                pass
             raise
 
     def backup_to(self, destination_path: str | Path) -> DatabaseSnapshot:
