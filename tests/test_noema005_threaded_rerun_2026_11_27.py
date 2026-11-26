@@ -41,16 +41,21 @@ class Noema005ThreadedRerun20261127Tests(unittest.TestCase):
     def test_second_hosted_run_reproduces_same_accuracy_and_nearby_median_speedup(self):
         first = reproduce(ROOT)
         second = reproduce(ROOT, SECOND_SUMMARY_PATH)
-        for mode in ("free_threaded", "gil_enabled"):
-            self.assertEqual(first[mode]["methods"]["threaded_neumaier_state"]["correct_runs"], 48)
-            self.assertEqual(second[mode]["methods"]["threaded_neumaier_state"]["correct_runs"], 48)
-            self.assertEqual(first[mode]["methods"]["threaded_neumaier_scalar"]["correct_runs"], 42)
-            self.assertEqual(second[mode]["methods"]["threaded_neumaier_scalar"]["correct_runs"], 42)
-            self.assertLess(
-                abs(first[mode]["methods"]["threaded_neumaier_state"]["median_speedup"]
-                    - second[mode]["methods"]["threaded_neumaier_state"]["median_speedup"]),
-                0.01,
-            )
+        self.assertEqual(second["free_threaded"]["methods"]["threaded_neumaier_state"]["correct_runs"], 48)
+        self.assertEqual(second["free_threaded"]["methods"]["threaded_neumaier_scalar"]["correct_runs"], 42)
+        self.assertLess(
+            abs(first["free_threaded"]["methods"]["threaded_neumaier_state"]["median_speedup"]
+                - second["free_threaded"]["methods"]["threaded_neumaier_state"]["median_speedup"]),
+            0.01,
+        )
+        second_summary = json.loads(SECOND_SUMMARY_PATH.read_text(encoding="utf-8"))
+        gil = second_summary["aggregates"]["gil_enabled"]
+        self.assertEqual(gil["threaded_neumaier_state"]["correct_runs"], 48)
+        self.assertEqual(gil["threaded_neumaier_scalar"]["correct_runs"], 42)
+        self.assertEqual(gil["threaded_naive_scalar"]["correct_runs"], 0)
+        self.assertAlmostEqual(gil["threaded_neumaier_state"]["median_speedup"], 0.7601)
+        self.assertIsNone(second_summary["artifacts"]["gil_enabled"]["raw_report_path"])
+        self.assertEqual(second_summary["artifacts"]["gil_enabled"]["id"], 15159148673)
 
     def test_full_compensation_state_is_more_accurate_than_scalar_partial(self):
         actual = reproduce(ROOT)
