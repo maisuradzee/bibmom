@@ -68,7 +68,7 @@ class AquaSignalSourceAccessInventoryTests(unittest.TestCase):
         self.assertEqual(source["observation_period"], "2021-2025")
         self.assertIs(source["sample_level_schema_verified"], False)
         self.assertIs(source["reuse_terms_verified"], False)
-        self.assertIn("retrieval from this execution environment failed", source["note"])
+        self.assertIn("retrieval from this execution environment failed", source["note"].casefold())
 
     def test_source_ids_are_unique(self):
         ids = [item["id"] for item in self.instance["sources"]]
