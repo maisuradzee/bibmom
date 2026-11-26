@@ -90,3 +90,33 @@ NOEMA-2026-007-ის დოკუმენტურმა discovery-მ და�
 PR #19-ის წინა CI failure კონკრეტულად ეხებოდა WAL-mode backup-ის უარყოფის ტესტს: SQLite-ის immutable read-only რეჟიმი `PRAGMA journal_mode`-ს `delete`-ად აჩვენებდა, მიუხედავად იმისა, რომ ფაილის header WAL mode-ს ინახავდა. იმავე infrastructure branch-ზე დაემატა header byte 18/19-ის შემოწმება და გამკაცრებული regression fixture; ამ ცვლილების CI შედეგი ჯერ pending-ია.
 
 ეს პორტფელი ასახავს დაგეგმილ და დადასტურებულ სამუშაოს; ის არ ნიშნავს ერთდროულ რეალურ გამოთვლით შესრულებას ან უწყვეტ მუშაობას.
+
+
+## NOEMA run audit — 2026-11-26 (after portfolio merge)
+
+- **Current main:** `062574f7ca5c6671a7a2cb6bcccd99aa5e64b3e1`; PR #28 (four-stream Research Portfolio and NOEMA-007 discovery) was merged after exact-head quality and CPU-thread checks passed.
+- **Main quality CI:** [run 45786199787](https://github.com/maisuradzee/bibmom/actions/runs/45786199787) — SUCCESS.
+- **GitHub Pages:** [run 45786199915](https://github.com/maisuradzee/bibmom/actions/runs/45786199915) — build and deploy jobs SUCCESS; deployment API reported success for commit `062574f7ca5c6671a7a2cb6bcccd99aa5e64b3e1`.
+- **Research portfolio:** `data/research-portfolio.json` contains four active streams. The separate public research catalogue remains 1 preliminary / 0 published; no study was promoted to Published.
+
+### Active stream audit
+
+| Stream | Current evidence | Blocker / next step |
+|---|---|---|
+| NOEMA-2026-006 AquaSignal | PR #29 adds complete `SignalAssessment` clearance binding and chronology protection: closure cannot predate operator acknowledgement. Exact-head quality CI [45786118869](https://github.com/maisuradzee/bibmom/actions/runs/45786118869) passed (240 Python tests plus frozen research/site checks). | PR #29 is 8 commits ahead / 1 behind current main after PR #28; refresh and rerun. No authorized paired sensor/lab data or field validation. |
+| NOEMA-2026-005 numerical reduction | PR #30 exact-head quality [45785996364](https://github.com/maisuradzee/bibmom/actions/runs/45785996364), native OpenMP [45785996326](https://github.com/maisuradzee/bibmom/actions/runs/45785996326), and GIL/free-threaded matrix [45785998339](https://github.com/maisuradzee/bibmom/actions/runs/45785998339) passed. Native workflow validated 20 generated cases and observed 1/2/4/8 OpenMP workers. | Audit found the committed local report has 10 cases while declaring 20 expected; do not use it as a frozen result. Repair and add frozen-report validation. PR #30 is 4 ahead / 1 behind current main. No independent hardware replication. |
+| NOEMA-2026-007 warning-to-action gap | Discovery draft and portfolio merged via PR #28. Official UNDRR/WMO and Georgian NEA sources document existing systems and a possible last-mile measurement gap. | No municipal alert-delivery/acknowledgement/action aggregate data or field study; do not duplicate official alerting. |
+| NOEMA-INFRA-001 reliability | PR #19's prior WAL-header/backup-restore CI passed on its older branch head. | PR #19 is 32 ahead / 7 behind current main and `mergeable=false`; refresh/rebase and rerun full CI/restore drill. Encryption, off-host storage, retention and scheduled restore drills remain absent. |
+
+### Other open engineering PRs
+
+- PR #27 (adaptive integration engine): previous quality and CPU-thread CI passed on its earlier head; after PR #28 merged it is 37 commits ahead / 1 behind and GitHub reports `mergeable=false`. Refresh and rerun exact-head CI before merge.
+- PR #30: initial exact-head CI failed due to C syntax and Python test syntax defects; both were repaired. The corrected exact head passed all three workflows. The frozen-result completeness issue remains open as noted above.
+- PR #29: two new regression tests protect acknowledgement/closure chronology; exact-head quality passed. Branch refresh remains required.
+
+### Public-data and publication boundary
+
+- Only public-source research text and synthetic fixtures are committed. No operator telemetry, private laboratory records, credentials, or personal data were added.
+- No new Supabase project or external database was created.
+- Drafts remain drafts. No independent external review has been completed for these new studies; Published status was not assigned.
+- NOEMA advances during scheduled runs only; this status does not claim continuous background execution.
