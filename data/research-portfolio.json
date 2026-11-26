@@ -1,7 +1,7 @@
 {
   "project": "NOEMA",
   "schema_version": 1,
-  "updated_at": "2026-11-26",
+  "updated_at": "2026-11-27",
   "streams": [
     {
       "id": "NOEMA-2026-006",
@@ -795,7 +795,9 @@
         "Define a strict JSON Schema 2020-12 metadata envelope for future off-host backups; tests enforce closed object boundaries and exclude secret/credential fields.",
         "Validate proposed backup manifests with an executable JSON Schema Draft 2020-12 validator and strict format checking; keep cryptographic and provider checks explicitly out of scope.",
         "Validate the strict manifest schema, then stream plaintext and ciphertext artifacts through SHA-256 and byte-length checks using one file descriptor; reject non-regular files, symlinks where O_NOFOLLOW exists, and obvious file mutation during hashing.",
-        "Runtime exact-byte Ed25519 detached-signature verification against caller-supplied trusted public keys, followed by streamed plaintext/ciphertext SHA-256 and byte-length checks; synthetic ephemeral-key tests only."
+        "Runtime exact-byte Ed25519 detached-signature verification against caller-supplied trusted public keys, followed by streamed plaintext/ciphertext SHA-256 and byte-length checks; synthetic ephemeral-key tests only.",
+        "Implement a local SQLite reference model for compare-and-advance using BEGIN IMMEDIATE and a complete expected-state tuple; keep it explicitly separate from a production external trust authority.",
+        "Exercise genesis, monotonic next-generation, previous-manifest binding, stale-state rejection, rollback/equivocation rejection, idempotent retry, independent stream isolation and two concurrent writers."
       ],
       "sources": [
         {
@@ -989,6 +991,22 @@
           "url": "https://theupdateframework.github.io/specification/v1.0.36/",
           "type": "security_protocol_specification",
           "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NIST SP 800-209: Security Guidelines for Storage Infrastructure",
+          "publisher": "National Institute of Standards and Technology",
+          "publication_date": "2020-10",
+          "url": "https://doi.org/10.6028/NIST.SP.800-209",
+          "type": "official_storage_security_guideline",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "The Update Framework Specification v1.0.36",
+          "publisher": "The Update Framework",
+          "publication_date": "undated",
+          "url": "https://theupdateframework.github.io/specification/v1.0.36/",
+          "type": "security_protocol_specification",
+          "accessed_at": "2026-11-27"
         }
       ],
       "data_needs": [
@@ -1006,16 +1024,20 @@
         "The restore-drill CLI validates a same-host temporary filesystem round-trip only; it does not validate encrypted off-host storage, provider object versions, key recovery or clean-host disaster recovery.",
         "A matching unsigned manifest and matching artifact hashes do not authenticate provenance; an attacker able to replace both files and the manifest can recompute the hashes.",
         "A valid detached signature does not prove that a signed backup is the newest; rollback/freeze protection requires separately trusted monotonic state and freshness policy.",
-        "The local verifier authenticates exact manifest bytes only when the caller's public key is independently trusted; key compromise, revocation and rotation are not managed here."
+        "The local verifier authenticates exact manifest bytes only when the caller's public key is independently trusted; key compromise, revocation and rotation are not managed here.",
+        "The SQLite high-water reference model stores authority state in the same local trust domain; database rollback or privileged rewrite also rolls back the model state.",
+        "Two-thread/two-connection tests on one host do not prove distributed linearizability, multi-region durability, or resistance to host compromise."
       ],
       "blockers": [
         "No production backup encryption/decryption pipeline or off-host storage provider is configured.",
         "Signing-key custody, rotation/revocation, threshold policy and independently trusted public-key provisioning remain unapproved and undeployed.",
-        "Rollback-resistant high-water state, immutable object-version/retention verification, clean-host restore, approved RPO/RTO and production ACLs remain unimplemented; no operator-approved deployed/staging database has been used."
+        "Rollback-resistant high-water state, immutable object-version/retention verification, clean-host restore, approved RPO/RTO and production ACLs remain unimplemented; no operator-approved deployed/staging database has been used.",
+        "The reference model is not an independently administered high-water service; an owner, trust-domain separation, provider, durability semantics and security review remain unapproved.",
+        "No multi-process/network-partition failure-injection test, real immutable object-version adapter, key custody or clean-host restore has been performed."
       ],
       "status": "active",
-      "status_detail": "Main contains local strict manifest/schema validation, streamed artifact digest/length checks and exact-byte Ed25519 verification using caller-supplied public keys. PR #85 is a separate draft architecture proposal for a provider-neutral linearizable compare-and-advance high-water authority and explicit restore lineage; its exact-head quality CI 45876372188 and CPU-thread workflow 45876372172 succeeded, but the PR is not merged and no service is deployed. Production anti-rollback, key custody, immutable object retention, off-host encryption and clean-host restore remain unimplemented.",
-      "next_step": "Obtain independent security/architecture review and an owner for the separate trust domain and recovery path. Only then implement a provider-neutral CAS interface with deterministic concurrent-writer, stale-state, timeout and point-in-time restore tests; choose provider, RPO/RTO and retention with explicit owner approval. Do not create a Supabase project or reuse another project's database.",
+      "status_detail": "Main contains local strict manifest/schema validation, streamed artifact digest/length checks and exact-byte Ed25519 verification using caller-supplied public keys. PR #85 is a separate draft architecture proposal for a provider-neutral linearizable compare-and-advance high-water authority and explicit restore lineage; its exact-head quality CI 45876372188 and CPU-thread workflow 45876372172 succeeded, but the PR is not merged and no service is deployed. Production anti-rollback, key custody, immutable object retention, off-host encryption and clean-host restore remain unimplemented. 2026-11-27 update: added noema_core/high_water_reference.py, a local SQLite BEGIN IMMEDIATE compare-and-advance reference model, and 10 unit tests including two concurrent writers. Local test execution passed 10/10. This validates only one-file SQLite behavior; it is not an external trust authority, production anti-rollback service or distributed linearizability proof. Exact-head CI is pending.",
+      "next_step": "Use the local model as a conformance harness only after an owner approves a separately administered trust domain; then implement a provider-specific compare-and-advance adapter with multi-process, timeout/unknown-commit, crash-recovery and partition tests. Keep the current model out of production and do not select a provider or database without approval.",
       "success_metrics": [
         "backup includes committed WAL data",
         "restore rejects WAL-mode header and corrupted audit data before destination creation",
@@ -1032,9 +1054,11 @@
         "A synthetic manifest signature verifies only against an independently supplied trusted public key and exact manifest bytes; tampering, unknown signer and duplicate JSON keys fail closed.",
         "Both local artifact hashes and byte lengths match the signed manifest before verification succeeds.",
         "No claim of newest-backup or rollback protection until monotonic trusted state and freshness policy are independently persisted and tested.",
-        "No production disaster-recovery readiness claim until encrypted off-host artifacts are restored on a clean host against approved RPO/RTO."
+        "No production disaster-recovery readiness claim until encrypted off-host artifacts are restored on a clean host against approved RPO/RTO.",
+        "The local reference model rejects stale expected-state writes, rollback, same-generation equivocation, skipped generations and incorrect previous-manifest digests without mutating the accepted state.",
+        "Two concurrent local writers using the same expected state produce exactly one committed candidate and one stale-state rejection; exact retries are idempotent."
       ],
-      "last_reviewed": "2026-11-26"
+      "last_reviewed": "2026-11-27"
     }
   ]
 }
