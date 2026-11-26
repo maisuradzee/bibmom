@@ -348,11 +348,11 @@
         "audit hash chain without signed external checkpoint does not prevent all tampering scenarios"
       ],
       "blockers": [
-        "PR #19 is 32 commits ahead / 46 behind current main and mergeable=false; a careful merge/rebase and new exact-head CI are required.",
+        "PR #19 is 32 commits ahead / 49 behind current main and mergeable=false; a careful merge/rebase and new exact-head CI are required.",
         "Backups are not encrypted or stored off-host; retention/rotation and scheduled restore drills are not implemented."
       ],
       "status": "active",
-      "status_detail": "PR #19 remains an older, divergent backup/observability branch. Against current main it is 32 commits ahead / 46 behind and mergeable=false. Its earlier WAL-header/backup-restore CI is not current-main merge evidence. Backups remain local and unencrypted; off-host retention and scheduled restore drills are not implemented.",
+      "status_detail": "PR #19 remains an older, divergent backup/observability branch. Against current main it is 32 commits ahead / 49 behind and mergeable=false. Its earlier WAL-header/backup-restore CI is not current-main merge evidence. Backups remain local and unencrypted; off-host retention and scheduled restore drills are not implemented.",
       "next_step": "Carefully refresh PR #19 onto current main without losing its existing backup/observability work; rerun exact-head quality checks and a restore drill. Then implement encrypted off-host backup, retention/rotation, integrity verification and scheduled restore exercises.",
       "success_metrics": [
         "backup includes committed WAL data",
