@@ -1,7 +1,7 @@
 {
   "project": "NOEMA",
   "schema_version": 1,
-  "updated_at": "2026-11-26",
+  "updated_at": "2026-11-27",
   "streams": [
     {
       "id": "NOEMA-2026-006",
@@ -26,7 +26,12 @@
         "Inventory official Georgian water-monitoring networks without combining unlike domains: NEA surface water, groundwater, marine water and the utility's raw-source/treated-network drinking-water testing are separate data streams.",
         "Record only source-published network counts, monitoring frequency statements, parameter classes, laboratory accreditation claims and whether sample-level records/data dictionaries are publicly accessible; do not infer station-level frequency from a general news statement.",
         "Before any ingestion, require an authorized data dictionary covering station ID/coordinates, sample timestamp, water matrix, analyte, result, units, method, LOD/LOQ, lab, accreditation, QA/QC flags, applicable standard, approved site Water Safety Plan limit, publication delay and revision history.",
-        "Evaluate any future sensor/lab pairing in shadow mode with preregistered detection delay, sensitivity, positive predictive value, false alerts per station-month, calibration drift and data completeness; require human and laboratory confirmation before operational action."
+        "Evaluate any future sensor/lab pairing in shadow mode with preregistered detection delay, sensitivity, positive predictive value, false alerts per station-month, calibration drift and data completeness; require human and laboratory confirmation before operational action.",
+        "Review the 2025 Government of Georgia submission to the UNECE/WHO Protocol on Water and Health: keep NEA groundwater/surface-water monitoring separate from Food Safety Agency drinking-water compliance.",
+        "Inventory reported 2024 groundwater monitoring (72 points, 394 laboratory samples) and 2024 surface-water monitoring (331 points on 137 water bodies); preserve the report's aggregate/process evidence boundary.",
+        "Review the official 2026-11-26 NEA announcement of the 2021-2025 groundwater report and nitrate-risk field methodology; do not ingest the linked RAR archive until contents, schema and reuse terms are inspected.",
+        "Classify WIS C10/C11 as historical annual aggregates (2004-2018) and Hydromet's water-quality-points map/table as an unverified station-registry lead.",
+        "Treat 2024 E. coli non-compliance (40.3% source-reported) as a drinking-water sample statistic with missing denominator in the published table, not as population exposure."
       ],
       "sources": [
         {
@@ -108,6 +113,46 @@
           "url": "https://nea.gov.ge/En/popular/6",
           "type": "official_national_source",
           "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Summary report under Article 7 of the Protocol on Water and Health — Georgia",
+          "publisher": "Government of Georgia via UNECE/WHO",
+          "publication_date": "2025-04-01",
+          "url": "https://unece.org/sites/default/files/2025-10/Georgia_summary_report_6th_cycle_1Apr25_ENG.pdf",
+          "type": "government_submitted_international_report",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "2021-2025 groundwater monitoring results and field methodology announcement",
+          "publisher": "National Environmental Agency of Georgia",
+          "publication_date": "2026-11-26",
+          "url": "https://nea.gov.ge/ajs/News/3461",
+          "type": "official_national_announcement",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "C10 — BOD5 and ammonium concentrations in Georgian rivers",
+          "publisher": "Water Information System of Georgia / MEPA",
+          "publication_date": "2020-06",
+          "url": "https://wis.mepa.gov.ge/Wis/C10?Id=2121",
+          "type": "official_historical_indicator",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "C11 — Nutrients in freshwater of Georgia",
+          "publisher": "Water Information System of Georgia / MEPA",
+          "publication_date": "2020-06",
+          "url": "https://wis.mepa.gov.ge/Wis/C11?Id=2122",
+          "type": "official_historical_indicator",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "Water quality points map and table",
+          "publisher": "Hydromet Georgia",
+          "publication_date": "undated",
+          "url": "https://www.hydromet.ge/maps/",
+          "type": "official_station_map_discovery_lead",
+          "accessed_at": "2026-11-27"
         }
       ],
       "data_needs": [
@@ -118,7 +163,12 @@
         "Official machine-readable sample-level NEA/utility laboratory results, or a published endpoint and documented reuse terms.",
         "Station registry and data dictionary: station identifiers, coordinates, sample timestamps, water matrix, analytes, units, analytical methods, LOD/LOQ, laboratory, accreditation scope, QA/QC and revision/correction history.",
         "Applicable Georgian technical regulation and site-approved Water Safety Plan limits for the exact water matrix and sampling point.",
-        "Written authorization for paired sensor/laboratory data and any operational use; synthetic fixtures only until approval."
+        "Written authorization for paired sensor/laboratory data and any operational use; synthetic fixtures only until approval.",
+        "Inspect the official NEA 2021-2025 RAR archive and record internal filenames, table granularity, metadata, data dictionary and reuse terms before extracting any observations.",
+        "Obtain the denominator, geographic/system disaggregation and source microdata for the 2024 E. coli 40.3% drinking-water non-compliance statistic from the National Food Safety Agency.",
+        "Retrieve 2022-2025 NEA groundwater bulletins and monthly surface-water bulletins; verify whether tables are row-level, machine-readable and revision-stable.",
+        "Inspect Hydromet's water-quality-points table fields, station identifiers, coordinates, export format and update cadence.",
+        "Keep separate permissions and provenance for groundwater, surface-water, marine-water and potable-network datasets."
       ],
       "risks": [
         "ცრუ განგაში ან სენსორის drift-ის წყლის რეალურ ცვლილებად მიჩნევა",
@@ -132,18 +182,23 @@
         "The prototype has no production signer, key rotation/revocation, threshold signing, remote anchor, provider retention or alerting integration.",
         "NEA surface-water, groundwater and marine monitoring must not be conflated with drinking-water network compliance; Black Sea results cannot establish freshwater or tap-water safety.",
         "Published network counts and general statements such as 'within norm' are not sample-level evidence, a live feed, a station-specific result or an all-time safety guarantee.",
-        "The utility's public statement about daily analyses does not expose the sampling schedule for each station, exact parameters, methods or sample records."
+        "The utility's public statement about daily analyses does not expose the sampling schedule for each station, exact parameters, methods or sample records.",
+        "The 2024 E. coli non-compliance percentage is a source-reported sample statistic with no denominator or municipal breakdown in the cited table; it must not be presented as population exposure or a national unsafe-water rate.",
+        "NEA groundwater/surface-water monitoring and National Food Safety Agency potable-network compliance have different authorities, matrices, sampling frames and legal thresholds.",
+        "The new NEA 2021-2025 report is linked as a RAR archive, but its contents and machine-readable granularity have not yet been inspected."
       ],
       "blockers": [
         "Authorized paired sensor/laboratory data, a site data dictionary and approved Water Safety Plan limits remain unavailable under explicit reuse permission.",
         "No field validation or independent external review has been completed.",
         "The signed checkpoint verifier is a local software contract only; production signing-key custody and a separately administered atomic monotonic high-water service are not implemented.",
         "Encrypted/off-host backup, remote immutable checkpoint retention, clean-host restore and production access-control integration remain unavailable.",
-        "Public Georgian agency/utility pages disclose monitoring-network capacity and broad laboratory processes but no sample-level machine-readable time series, station registry, full data dictionary, API or explicit reuse terms were identified in this source inventory."
+        "The UNECE/WHO 2025 report confirms electronic groundwater results since 2022 and monthly surface-water bulletins, but no structured sample-level endpoint, full schema or reuse terms have yet been verified.",
+        "The NEA 2021-2025 groundwater report archive announced on 2026-11-26 is not yet extracted; its internal data granularity and licence/reuse conditions remain unknown.",
+        "The published 2024 E. coli non-compliance percentage lacks the sample denominator and municipal/system disaggregation needed for local prioritisation."
       ],
       "status": "active",
-      "status_detail": "PR #82 merged into main as a19252bb4df28e2733b6b5180c8938792c040e63. Its exact-head quality CI 45875671834 and actual CPU-thread workflow 45875671867 both succeeded. The verifier checks a strict canonical checkpoint payload, detached Ed25519 signature against caller-supplied trusted keys, expected store identity, and local event-chain hash/count; it rejects lower generations and same-sequence equivocation and marks bootstrap-only verification explicitly when no trusted high-water state is supplied. The caller must atomically persist returned state outside the SQLite rollback domain. Post-merge main quality CI 45875861427 and Pages build/deploy 45875861440 succeeded. No production signer, external high-water authority, authorized sensor/lab dataset, site-approved Water Safety Plan limits or field validation exists. A public-source Georgia monitoring inventory found existing NEA surface-water (238 locations) and groundwater (72 points) monitoring disclosures, a separate monthly Black Sea network (14 points in the July 2026 update), and a utility laboratory network described as 8 regional plus 35 service-centre labs. These are source-reported network/process facts, not sample-level data or proof of drinking-water safety. No machine-readable sample dataset or data dictionary was identified in the pages inspected; no raw result was imported.",
-      "next_step": "Locate any public sample-level NEA/utility laboratory results and obtain the official station registry, data dictionary and reuse terms. Only after written authorization, pair sensor records with laboratory samples and site-approved Water Safety Plan limits in shadow mode; do not issue public safety claims.",
+      "status_detail": "PR #82 merged into main as a19252bb4df28e2733b6b5180c8938792c040e63. Its exact-head quality CI 45875671834 and actual CPU-thread workflow 45875671867 both succeeded. The verifier checks a strict canonical checkpoint payload, detached Ed25519 signature against caller-supplied trusted keys, expected store identity, and local event-chain hash/count; it rejects lower generations and same-sequence equivocation and marks bootstrap-only verification explicitly when no trusted high-water state is supplied. The caller must atomically persist returned state outside the SQLite rollback domain. Post-merge main quality CI 45875861427 and Pages build/deploy 45875861440 succeeded. No production signer, external high-water authority, authorized sensor/lab dataset, site-approved Water Safety Plan limits or field validation exists. A public-source Georgia monitoring inventory found existing NEA surface-water (238 locations) and groundwater (72 points) monitoring disclosures, a separate monthly Black Sea network (14 points in the July 2026 update), and a utility laboratory network described as 8 regional plus 35 service-centre labs. These are source-reported network/process facts, not sample-level data or proof of drinking-water safety. No machine-readable sample dataset or data dictionary was identified in the pages inspected; no raw result was imported. Discovery update 2026-11-27: the 2025 UNECE/WHO Georgia report states groundwater results have been available electronically since 2022, records 394 laboratory samples from 72 groundwater points in 2024, and reports 2024 surface-water sampling at 331 points on 137 water bodies. It separately reports 40.3% E. coli non-compliance in drinking-water samples for 2024, mainly microbiological, with rural small systems included; the table does not expose the denominator. NEA announced a 2021-2025 groundwater report and nitrate-risk field methodology on 2026-11-26 and linked a RAR archive that has not yet been inspected. WIS C10/C11 provide historical 2004-2018 aggregate indicators; Hydromet lists a water-quality-points map/table whose fields remain unverified. These discoveries narrow the earlier data-access blocker but do not establish a current sample-level API or reuse permission. No raw observations were imported.",
+      "next_step": "Inspect the official NEA 2021-2025 RAR archive and retrieve the 2022-2025 groundwater and monthly surface-water bulletins; verify sample-level fields, station registry, revision history and reuse terms. In parallel, request the denominator and municipality/system breakdown for the 2024 E. coli 40.3% statistic from the National Food Safety Agency. Do not merge potable-network compliance with NEA groundwater/surface-water data.",
       "success_metrics": [
         "საველე ტესტში წინასწარ განსაზღვრულ reference labels-თან შედარებული sensitivity და positive predictive value",
         "false-alert rate და detection delay წინასწარ განსაზღვრულ baseline-თან შედარებით",
@@ -151,9 +206,12 @@
         "A valid detached Ed25519 signature, expected store identifier and exact local event-chain head are all required before checkpoint acceptance.",
         "A checkpoint sequence below external trusted state is rejected; same-sequence different payload is rejected; identical same-sequence replay is idempotent.",
         "No rollback-protection claim is made unless next_trusted_state is atomically persisted outside the event database in a separately trusted domain.",
-        "A source inventory must keep surface, groundwater, marine and potable-network observations distinct and identify whether sample-level provenance, method, units, QA/QC and reuse permission exist before ingestion."
+        "A source inventory must keep surface, groundwater, marine and potable-network observations distinct and identify whether sample-level provenance, method, units, QA/QC and reuse permission exist before ingestion.",
+        "Every future imported observation retains matrix, station/sample identity, collection and publication timestamps, analyte, unit, method, QA/QC, source-page provenance and reuse permission; records missing mandatory fields are blocked.",
+        "No surface-water, groundwater, marine-water or potable-network observation is merged into another matrix or evaluated against an unapproved threshold.",
+        "Any 2024 E. coli trend statement preserves the published denominator limitation and reports sample-level coverage only when the underlying counts are obtained."
       ],
-      "last_reviewed": "2026-11-26"
+      "last_reviewed": "2026-11-27"
     },
     {
       "id": "NOEMA-2026-005",
