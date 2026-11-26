@@ -167,10 +167,27 @@ class AquaSignalStoreTests(unittest.TestCase):
         self.assertEqual(report["event_count"], 2)
         self.assertEqual(report["incident_count"], 2)
 
-    def test_store_file_is_owner_only_on_posix(self):
+    def test_store_file_and_parent_directory_are_owner_only_on_posix(self):
         self.store.append(self.open_incident())
         if os.name == "posix":
             self.assertEqual(self.database.stat().st_mode & 0o777, 0o600)
+            self.assertEqual(self.database.parent.stat().st_mode & 0o777, 0o700)
+
+    @unittest.skipUnless(os.name == "posix", "POSIX permission contract")
+    def test_store_rejects_group_or_world_accessible_parent_directory(self):
+        shared = self.root / "shared"
+        shared.mkdir(mode=0o755)
+        with self.assertRaisesRegex(IncidentStoreError, "private directory"):
+            AquaSignalStore(shared / "aquasignal.sqlite3")
+
+    @unittest.skipUnless(os.name == "posix", "POSIX no-follow contract")
+    def test_store_rejects_symlink_database_path(self):
+        target = self.root / "target.sqlite3"
+        target.write_bytes(b"not a database")
+        link = self.root / "private" / "linked.sqlite3"
+        link.symlink_to(target)
+        with self.assertRaisesRegex(IncidentStoreError, "symbolic link"):
+            AquaSignalStore(link)
 
     def test_private_store_requires_a_file_backed_path(self):
         with self.assertRaises(IncidentStoreError):
