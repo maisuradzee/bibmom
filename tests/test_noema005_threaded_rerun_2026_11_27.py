@@ -3,7 +3,13 @@ from __future__ import annotations
 import copy
 import json
 import unittest
+import sys
 from pathlib import Path
+
+from jsonschema import Draft202012Validator, FormatChecker
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
 
 from reproduce_noema005_threaded_rerun_2026_11_27 import (
     ROOT,
@@ -14,9 +20,17 @@ from reproduce_noema005_threaded_rerun_2026_11_27 import (
 )
 
 SUMMARY_PATH = ROOT / "data/noema-005/threaded-rerun-2026-11-27.json"
+SCHEMA_PATH = ROOT / "data/noema-005/threaded-rerun-2026-11-27.schema.json"
 
 
 class Noema005ThreadedRerun20261127Tests(unittest.TestCase):
+    def test_summary_matches_closed_json_schema(self):
+        summary = json.loads(SUMMARY_PATH.read_text(encoding="utf-8"))
+        schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
+        Draft202012Validator.check_schema(schema)
+        errors = list(Draft202012Validator(schema, format_checker=FormatChecker()).iter_errors(summary))
+        self.assertEqual(errors, [])
+
     def test_raw_reports_reproduce_frozen_summary(self):
         actual = reproduce(ROOT)
         self.assertEqual(actual["free_threaded"]["methods"]["threaded_neumaier_state"]["correct_runs"], 48)
