@@ -1,15 +1,15 @@
 # NOEMA-2026-005 — native accumulator and OpenMP comparison
 
 - **ID:** NOEMA-2026-005
-- **Status:** draft
-- **Date:** 2026-11-26
+- **სტატუსი:** draft
+- **თარიღი:** 2026-11-26
 - **Evidence class:** deterministic synthetic native benchmark + one local x86-64 run; independent ARM64 CI replication pending
 
-## Research question
+## საკვლევი კითხვა
 
 How do native double, long double, recursive pairwise reduction, Neumaier compensation and a fixed-width exact superaccumulator compare for accuracy, wall time and process CPU time when the same cancellation-sensitive input is reduced serially and across actual OpenMP threads?
 
-## Method
+## მეთოდი ან ექსპერიმენტის გეგმა
 
 The C11/GCC OpenMP benchmark generates values without storing the input vector:
 
@@ -77,13 +77,13 @@ The pairwise tree sometimes showed attractive wall-time ratios at 4/8 workers, b
 - Add a general exact-to-binary64 round-to-nearest-even conversion, then compare binned, long-accumulator and error-free-transformation implementations.
 - Evaluate realistic vector sizes and memory-bandwidth-bound inputs, including NUMA placement and reproducibility across compiler/runtime versions.
 
-## Sources
+## წყაროები
 
 1. Nicholas J. Higham, “The Accuracy of Floating Point Summation,” SIAM Journal on Scientific Computing, 14(4), 783–799 (1993), DOI: [10.1137/0914050](https://doi.org/10.1137/0914050). The paper analyzes several summation methods and does not identify one uniformly best method. Accessed 2026-11-26.
 2. Takeshi Ogita, Siegfried M. Rump and Shin'ichi Oishi, “Accurate Sum and Dot Product,” SIAM Journal on Scientific Computing, 26(6), 1955–1988 (2005), DOI: [10.1137/030601818](https://doi.org/10.1137/030601818). The paper presents error-free-transformation-based accurate summation and dot-product algorithms. Accessed 2026-11-26.
 3. IEEE Computer Society, IEEE Std 754-2019, [standard record](https://standards.ieee.org/ieee/754/6210/). Used as the binary floating-point format reference. Accessed 2026-11-26.
 
-## Limitations and next steps
+## შემდეგი ნაბიჯები
 
 - Only two deliberately ill-conditioned synthetic fixtures were tested. They do not represent a distribution of production workloads.
 - The local timing run used one x86-64 environment and is not an independent replication. CPU scheduling, container quotas, OpenMP runtime and compiler details can change timing.
@@ -91,3 +91,10 @@ The pairwise tree sometimes showed attractive wall-time ratios at 4/8 workers, b
 - The exact accumulator is an exact integer-domain comparator for the known fixtures; it does not yet expose a general correctly-rounded floating-point result.
 - The first independent replication is scheduled in the PR workflow on x86-64 and ARM64. After that, benchmark realistic data sizes, memory bandwidth and independent compiler/runtime combinations.
 - Status remains draft; no independent scientific review has occurred and the result is not promoted to preliminary or published.
+
+## შემოწმების სტატუსი
+
+- Local exploratory C/OpenMP run: completed on one Linux x86-64 environment.
+- Exact-head x86-64 and ARM64 CI: workflow running; no independent result is claimed until both reports validate.
+- Draft completeness, source-hash and timing-report validators: pending final quality CI.
+- Independent numerical-method review: not performed.
