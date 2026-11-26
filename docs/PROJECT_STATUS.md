@@ -18,7 +18,7 @@
 - **Branch:** `feature/noema-adaptive-integration-engine-v0.1`.
 - **Scope:** generic adapter registry, capability validation, dry-run planning, operation-scoped grants and first concrete read-only GitHub public repository adapter.
 - **Service wiring:** trusted service grant is limited to `github.repo.metadata`; a metadata-only workflow is scheduled every 6 hours, with first execution delayed by one interval. Repository file reads and all writes remain disabled in the default service.
-- **Tests:** 245 tests passed on the framework + adapter snapshot before runtime wiring. Runtime job wiring and its tests are now added; final CI verification is pending for the current head.
+- **Tests:** 247 Python tests pass with the service runtime wiring, including successful metadata GET execution and explicit denial of ungranted file reads before network access. The service delays its first scheduled metadata request until after the initial six-hour interval.
 - **Review:** PR #27 remains Draft/open and is not merged into main.
 
 | კომპონენტი | მდგომარეობა | მტკიცებულება |
