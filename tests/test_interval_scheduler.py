@@ -210,6 +210,21 @@ class IntervalSchedulerTests(unittest.TestCase):
         self.assertEqual(report.fires_dispatched, 1)
         self.assertEqual(len(report.workflow_ids), 1)
 
+    def test_fire_status_counts_cover_pending_and_dispatched_states(self) -> None:
+        self.scheduler.create_interval(
+            "fire metrics",
+            60,
+            self._steps(),
+            schedule_id="fire-metrics",
+            first_run_at=1000,
+        )
+        before = self.scheduler.count_fires_by_status()
+        self.assertEqual(before["pending"], 0)
+        self.scheduler.run_due(now=1000)
+        after = self.scheduler.count_fires_by_status()
+        self.assertEqual(after["dispatched"], 1)
+        self.assertEqual(sum(after.values()), 1)
+
     def test_list_fires_validates_filters_and_limits(self) -> None:
         with self.assertRaises(InvalidSchedule):
             self.scheduler.list_fires(statuses=("unknown",))
