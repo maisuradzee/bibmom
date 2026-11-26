@@ -20,6 +20,8 @@ from pathlib import Path
 from typing import Any
 
 from .jobs import DEFAULT_DB_PATH, JobQueue
+from .github_public import GitHubPublicRepositoryAdapter
+from .integrations import AdapterRegistry, IntegrationEngine, IntegrationGrant
 from .mission import load_mission
 from .scheduler import IntervalScheduler
 from .supervisor import SupervisorReport, WorkerSupervisor
@@ -30,6 +32,9 @@ from .workflows import WorkflowEngine, WorkflowStep
 LOGGER = logging.getLogger("noema.service")
 SERVICE_SCHEDULE_ID = "system-self-check"
 SERVICE_WORKFLOW_NAME = "NOEMA internal integrity check"
+GITHUB_METADATA_SCHEDULE_ID = "integration-github-metadata"
+GITHUB_METADATA_WORKFLOW_NAME = "NOEMA public GitHub repository metadata sync"
+DEFAULT_GITHUB_METADATA_INTERVAL_SECONDS = 6 * 60 * 60
 
 
 @dataclass(frozen=True)
@@ -39,6 +44,8 @@ class NoemaService:
     queue: JobQueue
     registry: HandlerRegistry
     workflow_engine: WorkflowEngine
+    integration_engine: IntegrationEngine
+    github_adapter: GitHubPublicRepositoryAdapter
     scheduler: IntervalScheduler
     worker: Worker
     supervisor: WorkerSupervisor
@@ -48,6 +55,7 @@ class NoemaService:
         mission = load_mission()
         integrity = self.queue.integrity_check()
         schedule = self.scheduler.get(SERVICE_SCHEDULE_ID)
+        github_schedule = self.scheduler.get(GITHUB_METADATA_SCHEDULE_ID)
         return {
             "service": "NOEMA",
             "mission_schema_version": mission["schema_version"],
@@ -55,6 +63,18 @@ class NoemaService:
             "database": str(self.queue.db_path),
             "database_integrity": integrity,
             "registered_job_types": list(self.registry.job_types),
+            "integrations": {
+                "registered_adapters": list(self.integration_engine.adapters.adapter_ids),
+                "github_public_repository": f"{self.github_adapter.owner}/{self.github_adapter.repository}",
+                "github_metadata_schedule": {
+                    "schedule_id": github_schedule.schedule_id,
+                    "enabled": github_schedule.enabled,
+                    "interval_seconds": github_schedule.interval_seconds,
+                    "next_run_at": github_schedule.next_run_at,
+                    "last_run_at": github_schedule.last_run_at,
+                    "last_error": github_schedule.last_error,
+                },
+            },
             "self_check_schedule": {
                 "schedule_id": schedule.schedule_id,
                 "enabled": schedule.enabled,
@@ -134,6 +154,10 @@ def build_service(
     worker_id: str | None = None,
     poll_interval_seconds: float = 1.0,
     self_check_interval_seconds: float = 300.0,
+    github_metadata_interval_seconds: float = DEFAULT_GITHUB_METADATA_INTERVAL_SECONDS,
+    github_owner: str = "maisuradzee",
+    github_repository: str = "bibmom",
+    github_transport: Any | None = None,
     lease_seconds: float = 120.0,
     error_backoff_initial_seconds: float = 1.0,
     error_backoff_max_seconds: float = 30.0,
@@ -143,6 +167,27 @@ def build_service(
     queue = JobQueue(db_path)
     registry = HandlerRegistry()
     _register_builtin_handlers(registry, queue)
+
+    github_adapter = GitHubPublicRepositoryAdapter(
+        github_owner,
+        github_repository,
+        transport=github_transport,
+        max_response_bytes=500_000,
+        max_file_bytes=250_000,
+    )
+    adapter_registry = AdapterRegistry()
+    adapter_registry.register(github_adapter.adapter_id, github_adapter)
+    integration_engine = IntegrationEngine(adapter_registry)
+    # The service's live integration grant is deliberately metadata-only.
+    # File reads remain available to separately configured trusted hosts.
+    github_read_grant = IntegrationGrant(
+        github_adapter.adapter_id,
+        frozenset({"github.repo.metadata"}),
+    )
+    integration_engine.register_job_handlers(
+        registry,
+        live_grants={github_adapter.adapter_id: github_read_grant},
+    )
 
     workflow_engine = WorkflowEngine(queue, registry)
     scheduler = IntervalScheduler(workflow_engine)
@@ -165,6 +210,25 @@ def build_service(
             ),
         ],
         schedule_id=SERVICE_SCHEDULE_ID,
+        misfire_policy="catch_up_once",
+        actor="service-bootstrap",
+    )
+    scheduler.create_interval(
+        GITHUB_METADATA_WORKFLOW_NAME,
+        github_metadata_interval_seconds,
+        [
+            WorkflowStep(
+                "repository-metadata",
+                "integration.execute_read",
+                {
+                    "adapter_id": github_adapter.adapter_id,
+                    "operation_id": "github.repo.metadata",
+                    "payload": {},
+                },
+            ),
+        ],
+        schedule_id=GITHUB_METADATA_SCHEDULE_ID,
+        first_run_at=time.time() + float(github_metadata_interval_seconds),
         misfire_policy="catch_up_once",
         actor="service-bootstrap",
     )
@@ -191,6 +255,8 @@ def build_service(
         queue=queue,
         registry=registry,
         workflow_engine=workflow_engine,
+        integration_engine=integration_engine,
+        github_adapter=github_adapter,
         scheduler=scheduler,
         worker=worker,
         supervisor=supervisor,
@@ -275,8 +341,10 @@ def main(argv: list[str] | None = None) -> int:
         ", ".join(service.registry.job_types),
     )
     LOGGER.info(
-        "External information connectors are not configured in this service build; "
-        "only built-in local diagnostics will run."
+        "Read-only GitHub public repository metadata sync is scheduled every %ss for %s/%s.",
+        service.scheduler.get(GITHUB_METADATA_SCHEDULE_ID).interval_seconds,
+        service.github_adapter.owner,
+        service.github_adapter.repository,
     )
 
     try:
