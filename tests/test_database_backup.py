@@ -111,7 +111,13 @@ class DatabaseBackupTests(unittest.TestCase):
         backup = self.root / "wal-mode-backup.sqlite3"
         self.queue.backup_to(backup)
         with sqlite3.connect(backup) as connection:
-            connection.execute("PRAGMA journal_mode = WAL")
+            mode = connection.execute("PRAGMA journal_mode = WAL").fetchone()[0]
+        self.assertEqual(mode.lower(), "wal")
+        # SQLite stores WAL mode in the main database header at bytes 18/19.
+        # This assertion prevents an ineffective fixture from masking a
+        # regression in immutable/read-only validation.
+        header = backup.read_bytes()[:100]
+        self.assertEqual((header[18], header[19]), (2, 2))
         destination = self.root / "wal-restore.sqlite3"
 
         with self.assertRaises(JobQueueError):
