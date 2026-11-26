@@ -527,6 +527,38 @@
           "url": "https://docs.python.org/3/library/tempfile.html#tempfile.mkdtemp",
           "type": "official_documentation",
           "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA PR #51 — private POSIX backup staging hardening",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/pull/51",
+          "type": "engineering_change_record",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA exact-head quality CI for private backup staging",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45823405171",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA main quality CI after private backup staging merge",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45823674080",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA Pages deployment after private backup staging merge",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45823674172",
+          "type": "internal_deployment_result",
+          "accessed_at": "2026-11-26"
         }
       ],
       "data_needs": [
@@ -547,8 +579,8 @@
         "Encrypted/off-host backup, signed manifest, retention/rotation, provider integration and scheduled restore drills are not implemented; no storage provider, key custodian, RPO/RTO or retention policy has been selected."
       ],
       "status": "active",
-      "status_detail": "A clean-base engineering change stages the verified SQLite snapshot in a fresh private directory under the destination parent; on POSIX the directory is 0700 and the temporary database is 0600 before SQLite opens it. A regression test observes both modes at the no-overwrite publication boundary while the final parent is 0777. This reduces temporary-path replacement risk only; it does not encrypt the artifact or protect it from an overly permissive final-parent ACL. Exact-head CI and restore checks are pending.",
-      "next_step": "Verify the clean-base private-staging change on its exact PR head, then run an operator-approved restore drill and measure recovery time/data loss. Select provider, key custodian, RPO/RTO and retention policy before implementing encrypted off-host storage and signed manifests.",
+      "status_detail": "PR #51 was merged into main at 2908637906c6ac3491ed766e3a8e7519c68bb196. Exact-head quality CI 45823405171 passed the SQLite backup/restore CLI, all Python tests, frozen research reproductions, site build and publication-boundary checks. Main quality CI 45823674080 and Pages deployment 45823674172 also succeeded for the merge commit. On POSIX, local snapshots are staged in a 0700 directory with a 0600 SQLite file before no-overwrite publication. This is local staging hardening only; it does not encrypt or move backups off-host.",
+      "next_step": "Run an operator-approved restore drill and measure recovery time/data loss. Then select provider, key custodian, RPO/RTO and retention policy before implementing age encryption, signed manifests, off-host object versions, key rotation and scheduled restore verification.",
       "success_metrics": [
         "backup includes committed WAL data",
         "restore rejects WAL-mode header and corrupted audit data before destination creation",
