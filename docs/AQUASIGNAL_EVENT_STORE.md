@@ -50,3 +50,22 @@ tests/test_aquasignal_store.py uses synthetic fixtures only. It covers:
 - rejection of in-memory persistence.
 
 Passing these tests validates software invariants only. It does not establish operational suitability, water quality, regulatory compliance or field performance.
+
+## Trusted external checkpoint comparison
+
+`AquaSignalStore.verify_checkpoint()` now compares the locally verified event count
+and final chain hash with values supplied by the caller. The checkpoint is useful
+only when obtained from an independently protected system or authenticated
+operator channel; storing it beside the SQLite file does not create an independent
+trust anchor.
+
+This comparison is deliberately **not** a signature verifier. It does not create
+or authenticate checkpoints, provide anti-rollback protection, or prove that an
+external store is immutable. A production deployment must separately define a
+signed checkpoint envelope, monotonic checkpoint sequence, key custody, remote
+retention and clean-host restore procedure. A stale checkpoint or an attacker-
+controlled checkpoint must never be treated as proof of current history.
+
+The synthetic tests verify exact hash/count matching and reject malformed or
+mismatched values. They do not simulate a production key service or remote
+checkpoint provider.
