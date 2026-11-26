@@ -70,3 +70,17 @@ MPFR-ის ოფიციალური დოკუმენტაცია 
 ## ცვლილებების ისტორია
 
 - 2026-11-26: დაემატა MPFR 4.2.2 cross-check harness, Python test, x86-64/ARM64 CI ნაბიჯი და signed 2,560-bit input range regression.
+
+## Clean-base exact-head verification — 2026-11-26
+
+The MPFR work was ported to current main in [PR #52](https://github.com/maisuradzee/bibmom/pull/52), merged as `8b52e349c1acdab10412e84c294b188eac6cd084`.
+
+Exact branch head: `506ebfabb63fd1bc1f1633bdc9767ae3c61d268e`.
+
+- Quality CI: [45824791797](https://github.com/maisuradzee/bibmom/actions/runs/45824791797) — SUCCESS.
+- Actual CPU-thread workflow: [45824791997](https://github.com/maisuradzee/bibmom/actions/runs/45824791997) — GIL-enabled and free-threaded jobs SUCCESS.
+- Native x86-64/ARM64 workflow: [45824791814](https://github.com/maisuradzee/bibmom/actions/runs/45824791814) — both architecture jobs SUCCESS; MPFR and Python integer/Decimal oracle steps passed.
+
+Each hosted architecture checked 467 valid synthetic signed inputs. The signed-range regression was corrected to send real newline-terminated values; the earlier draft test used a literal backslash-n and only exercised malformed-input rejection.
+
+The result remains preliminary: hosted runners are not independent physical hardware, inputs are synthetic, no representative application workload or performance result is established, and the exact accumulator's add/merge operations still need checked-overflow detection.
