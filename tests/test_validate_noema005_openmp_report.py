@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import copy
-import hashlib
 import json
 import unittest
 from pathlib import Path
@@ -52,7 +51,7 @@ class Noema005OpenMPFrozenSummaryTests(unittest.TestCase):
 
     def test_raw_sample_median_must_reproduce(self):
         raw = copy.deepcopy(self.raw)
-        raw["cases"][0]["wall_samples_ns"][0] += 100000
+        raw["cases"][0]["wall_samples_ns"] = [1, 1, 1, 1, 1]
         self.assertTrue(any("wall median does not reproduce" in e for e in self.validate(raw=raw, raw_bytes=b"tampered")))
 
     def test_summary_case_must_match_raw_case(self):
