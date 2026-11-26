@@ -47,6 +47,10 @@ All boundaries, freshness windows, consecutive-count requirements and gaps are s
 
 A single assessment accepts readings from one sensor and one source only. Mixing sensors or units is rejected. Missing or stale data cannot be interpreted as normal. The engine keeps the operator-review requirement true for every state.
 
+## State lifecycle limitation
+
+The current rule engine is stateless: it classifies the supplied reading window but does not persist an incident or implement acknowledgement/clearance. A production pilot must add incident latching and operator-confirmed clearance; one in-range reading must never automatically close an existing incident.
+
 ## Safety and security controls
 
 - No automatic valve operation, dosing change, shutdown or public notification.
