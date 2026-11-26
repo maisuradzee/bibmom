@@ -7,6 +7,7 @@ import os
 import sqlite3
 import tempfile
 import unittest
+from unittest.mock import patch
 from contextlib import redirect_stdout
 from pathlib import Path
 
@@ -55,6 +56,31 @@ class DatabaseBackupTests(unittest.TestCase):
         self.assertTrue(JobQueue(destination).integrity_check()["valid"])
         if os.name == "posix":
             self.assertEqual(destination.stat().st_mode & 0o777, 0o600)
+
+    @unittest.skipUnless(os.name == "posix", "POSIX private staging permissions")
+    def test_backup_stages_snapshot_in_private_directory_under_shared_parent(self) -> None:
+        destination_parent = self.root / "shared-backups"
+        destination_parent.mkdir(mode=0o700)
+        os.chmod(destination_parent, 0o777)
+        destination = destination_parent / "snapshot.sqlite3"
+        original_link = os.link
+        observed_modes: list[tuple[int, int]] = []
+
+        def inspect_link(source, target, *args, **kwargs):
+            source_path = Path(source)
+            observed_modes.append((
+                source_path.parent.stat().st_mode & 0o777,
+                source_path.stat().st_mode & 0o777,
+            ))
+            return original_link(source, target, *args, **kwargs)
+
+        with patch("noema_core.jobs.os.link", side_effect=inspect_link):
+            snapshot = self.queue.backup_to(destination)
+
+        self.assertTrue(destination.is_file())
+        self.assertEqual(snapshot.path, str(destination.resolve()))
+        self.assertEqual(destination_parent.stat().st_mode & 0o777, 0o777)
+        self.assertEqual(observed_modes, [(0o700, 0o600)])
 
     def test_backup_includes_committed_wal_data(self) -> None:
         job = self.queue.enqueue(
