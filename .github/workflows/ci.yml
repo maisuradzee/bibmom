@@ -29,6 +29,9 @@ jobs:
           test -f requirements-test.txt
           test -f data/research.json
           test -f data/noema-005/real-cpu-thread-summary-2026-11-26.json
+          test -f data/noema-005/threaded-rerun-2026-11-26.json
+          test -f scripts/validate_noema005_threaded_rerun.py
+          test -f tests/test_noema005_threaded_rerun.py
           test -f data/noema-005/threaded-artifact-provenance-audit-2026-11-26.json
           test -f research/drafts/NOEMA-2026-005-thread-artifact-provenance-audit-2026-11-26.md
           test -f tests/test_noema005_thread_artifact_audit.py
