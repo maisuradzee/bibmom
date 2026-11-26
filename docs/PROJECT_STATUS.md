@@ -19,7 +19,7 @@
 | DISCOVERY · RESEARCH · INNOVATION მოდელი | PR #25-ით main-შია | docs/NOEMA_OPERATING_MODEL.md |
 | NOEMA-002 SignBase audit | შესრულებული კვლევითი ჩანაწერი | data/audits და research archive |
 | NOEMA-003 climate analysis | დრაფტი / გამეორებადი; ERA5 validation gate ვერ გაიარა და საბოლოო დასკვნაში არ გამოიყენება | data/noema-003, scripts და tests |
-| NOEMA-005 summation | preliminary; full-width MPFR oracle, CPU-thread results და artifact provenance audit main-შია | 2,068/2,068 MPFR matches თითო hosted x86-64/ARM64-ზე; artifact ZIP SHA-256 და 48-case aggregate-ები გადამოწმებულია; Neumaier-state 48/48, scalar 42/48, naive 0/48; speedup არ დადასტურებულა |
+| NOEMA-005 summation | preliminary; MPFR oracle, CPU-thread results and artifact provenance audit main-შია; PR #94 remains Draft | Hosted synthetic runs support the full Neumaier-state accuracy advantage on tested fixtures, but general speedup is not established; physical-hardware replication and external numerical review remain open |
 | NOEMA-006 AquaSignal | draft + software prototype; საველე ვალიდაცია არ ჩატარებულა | PR #92 merged: NEA122 public/free groundwater station-layer catalogue metadata identified, but payload/API/reuse terms unverified; separate groundwater, station-registry and potable-network source classes; research/drafts/NOEMA-2026-006-georgia-water-data-access-update-2026-11-27.md |
 | NOEMA-INFRA-001 reliability | active / engineering; local high-water compare-and-advance reference model is in Draft PR #95 | PR #95 adds SQLite BEGIN IMMEDIATE reference model and 10 unit tests; exact-head quality/CPU workflows passed. This is not an external trust domain or production anti-rollback service; provider, key custody, off-host durability and clean-host restore remain unapproved |
 | NOEMA-007 Last-Mile Action Gap | draft / discovery + aggregate-only prototype; PR #93 EW4All crosswalk and PR #91 aggregate release gate remain Draft | Published global aggregates are source-reported only; Georgia's last-mile action is not measured; local warning-event/after-action data and privacy review are still missing |
@@ -53,7 +53,7 @@ At this snapshot there are 11 open Draft PRs and 0 open Issues. PR #92 is merged
 - კვლევის ოთხ ARM64 batch-ში Neumaier compensation-state-ის შედეგი 768/768 იყო; scalar Neumaier 672/768; naive scalar 0/768. ოთხივე final-head runtime-cell median wall-time speedup 1-ზე ნაკლები იყო. Timing-ის ზოგადი აჩქარება არ დადასტურებულა.
 - დამოუკიდებელი გარე რეცენზია არ ჩატარებულა; published სტატუსი არ მინიჭებულა.
 
-## მიმდინარე ღია Draft PR-ები
+## Historical open Draft PRs — run 13
 
 - PR #71 — NOEMA-005 real-thread rerun and artifact provenance; Draft/open; exact-head quality run 45850716864 and CPU-thread run 45850716742 passed, but the branch is now two commits behind current main and must be refreshed/revalidated before any merge.
 - PR #46 — adaptive integration core capability-binding security hardening; Draft/open; exact-head CI run 45813255101 was successful on its earlier head, but the PR has not been revalidated against the latest main and remains unmerged.
