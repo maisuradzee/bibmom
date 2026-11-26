@@ -1,0 +1,198 @@
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-005",
+  "experiment_id": "NOEMA-2026-005-ACCUM-001",
+  "status": "frozen_local_accuracy_result",
+  "method": {
+    "reference": "sum(Fraction.from_float(x)) rounded once to binary64",
+    "input_generation": "deterministic in-memory fixtures; fixed PRNG seed for arbitrary finite binary64 mixture",
+    "decimal_precision": 1200,
+    "limitations": [
+      "Synthetic fixtures do not establish accuracy for every possible input distribution.",
+      "The adjacent-pair tree is one deterministic tree shape; other trees may differ.",
+      "decimal_1200_digit is an arbitrary-precision decimal baseline, not C long double.",
+      "No threading, runtime, memory-bandwidth or hardware-performance claim is made."
+    ]
+  },
+  "environment": {
+    "python_implementation": "CPython",
+    "python_version": "3.13.5",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "machine": "x86_64",
+    "binary64_radix": 2,
+    "binary64_mant_dig": 53,
+    "binary64_max_exp": 1024
+  },
+  "generator": {
+    "seed": 1313817933,
+    "random_values": 2048
+  },
+  "script_sha256": "f0bc6a12b22a1ead2aeef72e130792c335d1bd40e37560cfa269a6391ee61811",
+  "fixtures": [
+    {
+      "name": "triplet_order",
+      "n": 3072,
+      "input_sha256": "b631354125d08f71a41423b818780572119a04f302158aa122f9815757888154",
+      "reference_binary64": "0x1.0000000000000p+10",
+      "algorithms": {
+        "decimal_1200_digit": {
+          "value": "0x1.0000000000000p+10",
+          "exact_match": true,
+          "ulp_distance": 0
+        },
+        "math_fsum": {
+          "value": "0x1.0000000000000p+10",
+          "exact_match": true,
+          "ulp_distance": 0
+        },
+        "naive_left_to_right": {
+          "value": "0x0.0p+0",
+          "exact_match": false,
+          "ulp_distance": 4652218415073722000
+        },
+        "neumaier_compensated": {
+          "value": "0x1.0000000000000p+10",
+          "exact_match": true,
+          "ulp_distance": 0
+        },
+        "pairwise_adjacent_tree": {
+          "value": "0x1.3b00000000000p+8",
+          "exact_match": false,
+          "ulp_distance": 7969260278120448
+        }
+      }
+    },
+    {
+      "name": "grouped_cancellation",
+      "n": 3072,
+      "input_sha256": "370bfd57bfc857db898c9865453def7bed31721dc3bcc4b5bc7f129b2cdbeac1",
+      "reference_binary64": "0x1.0000000000000p+10",
+      "algorithms": {
+        "decimal_1200_digit": {
+          "value": "0x1.0000000000000p+10",
+          "exact_match": true,
+          "ulp_distance": 0
+        },
+        "math_fsum": {
+          "value": "0x1.0000000000000p+10",
+          "exact_match": true,
+          "ulp_distance": 0
+        },
+        "naive_left_to_right": {
+          "value": "0x0.0p+0",
+          "exact_match": false,
+          "ulp_distance": 4652218415073722000
+        },
+        "neumaier_compensated": {
+          "value": "0x1.0000000000000p+10",
+          "exact_match": true,
+          "ulp_distance": 0
+        },
+        "pairwise_adjacent_tree": {
+          "value": "0x0.0p+0",
+          "exact_match": false,
+          "ulp_distance": 4652218415073722000
+        }
+      }
+    },
+    {
+      "name": "multi_exponent_residuals",
+      "n": 3072,
+      "input_sha256": "adcb80ce6e438ff842956e0a87519a06e09a386f6b49a5d876ee01076afc324f",
+      "reference_binary64": "0x1.0000000000000p+10",
+      "algorithms": {
+        "decimal_1200_digit": {
+          "value": "0x1.0000000000000p+10",
+          "exact_match": true,
+          "ulp_distance": 0
+        },
+        "math_fsum": {
+          "value": "0x1.0000000000000p+10",
+          "exact_match": true,
+          "ulp_distance": 0
+        },
+        "naive_left_to_right": {
+          "value": "0x0.0p+0",
+          "exact_match": false,
+          "ulp_distance": 4652218415073722000
+        },
+        "neumaier_compensated": {
+          "value": "0x1.0000000000000p+10",
+          "exact_match": true,
+          "ulp_distance": 0
+        },
+        "pairwise_adjacent_tree": {
+          "value": "0x1.0000000000000p+500",
+          "exact_match": false,
+          "ulp_distance": 2206763817411543000
+        }
+      }
+    },
+    {
+      "name": "subnormal_residual",
+      "n": 4095,
+      "input_sha256": "b2148c409a675c260e35869c32dd12fe45ff3c4a428563222898be0896065ce3",
+      "reference_binary64": "0x0.0000000000001p-1022",
+      "algorithms": {
+        "decimal_1200_digit": {
+          "value": "0x0.0000000000001p-1022",
+          "exact_match": true,
+          "ulp_distance": 0
+        },
+        "math_fsum": {
+          "value": "0x0.0000000000001p-1022",
+          "exact_match": true,
+          "ulp_distance": 0
+        },
+        "naive_left_to_right": {
+          "value": "0x0.0000000000001p-1022",
+          "exact_match": true,
+          "ulp_distance": 0
+        },
+        "neumaier_compensated": {
+          "value": "0x0.0000000000001p-1022",
+          "exact_match": true,
+          "ulp_distance": 0
+        },
+        "pairwise_adjacent_tree": {
+          "value": "0x0.0000000000001p-1022",
+          "exact_match": true,
+          "ulp_distance": 0
+        }
+      }
+    },
+    {
+      "name": "seeded_binary64_mixture",
+      "n": 2048,
+      "input_sha256": "96219326fee8eba32079decf855ba6ce03a5e9d83218649ea395097321dc8c66",
+      "reference_binary64": "0x1.a94f21327b404p+1021",
+      "algorithms": {
+        "decimal_1200_digit": {
+          "value": "0x1.a94f21327b404p+1021",
+          "exact_match": true,
+          "ulp_distance": 0
+        },
+        "math_fsum": {
+          "value": "0x1.a94f21327b404p+1021",
+          "exact_match": true,
+          "ulp_distance": 0
+        },
+        "naive_left_to_right": {
+          "value": "0x1.a94f21327b407p+1021",
+          "exact_match": false,
+          "ulp_distance": 3
+        },
+        "neumaier_compensated": {
+          "value": "0x1.a94f21327b404p+1021",
+          "exact_match": true,
+          "ulp_distance": 0
+        },
+        "pairwise_adjacent_tree": {
+          "value": "0x1.a94f21327b405p+1021",
+          "exact_match": false,
+          "ulp_distance": 1
+        }
+      }
+    }
+  ]
+}
