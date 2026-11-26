@@ -62,6 +62,12 @@ WHO/Europe-ის 2026 წლის მეორე გამოცემა *He
 - იმავე ანგარიშში ჩამოთვლილია ექვსი მუნიციპალიტეტის მიერ მიღებული Emergency Management Plans. UNDP-ის პროექტის საჯარო გვერდზე მოცემული ექვსი მუნიციპალიტეტის სია განსხვავდება. ეს არის **ოფიციალურ წყაროებს შორის ვერსიის/თარიღის შესაჯერებელი შეუსაბამობა**; არც ერთი სია არ უნდა ჩაითვალოს ამ კვლევით საბოლოოდ დადასტურებულ მიმდინარე მდგომარეობად.
 
 ## 4. შეფასება და ინტერპრეტაცია
+### რეცენზირებული კვლევითი ლიტერატურა
+
+- **FACT — Anshuka et al. (2026):** Fiji-ის Ba catchment-ის მცირე peri-urban თემისთვის აგენტებზე დაფუძნებულმა მოდელმა აჩვენა, რომ გაფრთხილების დრო, ნდობა, გადაადგილების უნარი და წყალდიდობის სიჩქარე ერთმანეთთან ურთიერთქმედებს. ავტორები აღწერენ, რომ დროული გაფრთხილება და თემის ტრენინგი შეიძლება აუმჯობესებდეს მოდელირებულ რეაგირებას, თუმცა rapid-onset წყალდიდობისას დროის სიმცირე და შეზღუდული მობილობა შედეგს კვლავ ზღუდავს. ეს არის კონკრეტულ კონტექსტზე დაფუძნებული მოდელირება და არა საქართველოს საველე მტკიცებულება ან უნივერსალური causal effect.
+- **FACT — Forsyth, Roberts & Brewer (2023):** ოჯახების წყალდიდობისთვის მზადყოფნის სისტემატურმა მიმოხილვამ გამოავლინა ხარვეზები სამიზნე ქცევის, შეტყობინების შინაარსის/მიწოდებისა და საგანმანათლებლო ინტერვენციების შეფასების მიმართულებით; ადგილობრივ კონტექსტზე მორგებული, უწყებებსა და თემებს შორის თანაშექმნილი კომუნიკაცია მნიშვნელოვან მიმართულებად არის განხილული. მიმოხილვა ასევე აღნიშნავს არსებული კვლევების მეთოდოლოგიურ შეზღუდვებს.
+- **INFERENCE:** ეს ლიტერატურა ამყარებს არა ახალი შეტყობინების არხის ავტომატურ საჭიროებას, არამედ გაფრთხილების მიღების, ნდობის, მოქმედების შესაძლებლობისა და შემდგომი შეფასების ერთიანად გაზომვის საჭიროებას. კონკრეტული მუნიციპალიტეტის პრობლემის არსებობა ჯერ ადგილობრივ მონაცემზე უნდა შემოწმდეს.
+
 
 **INFERENCE:** გლობალური ხარვეზი მხოლოდ სენსორის, პროგნოზის ან SMS-ის არქონა არ არის. ყველაზე ღირებული შესასწავლი საკითხია, უკავშირდება თუ არა კონკრეტული გაფრთხილება:
 - ზუსტად განსაზღვრულ რისკის არეალსა და ადამიანთა ჯგუფს;
@@ -129,7 +135,7 @@ WHO/Europe-ის 2026 წლის მეორე გამოცემა *He
 - პირადი მონაცემების შეგროვება არ არის აუცილებელი პირველი პროტოტიპისთვის და არ უნდა დაიწყოს privacy/legal review-ის გარეშე.
 - არსებული alerting/dispatch სისტემების დუბლირება ზრდის დაბნეულობისა და პასუხისმგებლობის რისკს.
 
-## 8. დასკვნა და შემდეგი ნაბიჯი
+## 8. დასკვნა
 
 **პრიორიტეტი: მაღალი ადამიანური პოტენციალი, მაგრამ პროდუქტის შექმნამდე საჭიროა ხარვეზის ადგილობრივი ვალიდაცია.**
 
@@ -137,7 +143,26 @@ NOEMA-ს ყველაზე დასაბუთებული შემ�
 
 **სტატუსი:** draft / discovery. არ არის საველე შედეგი, დამოუკიდებელი რეცენზია ან დადასტურებული პროდუქტი.
 
-## 9. წყაროები
+## 9. შემდეგი ნაბიჯები
+
+1. შეადარე Fiji-ის peer-reviewed case და საქართველოს ერთ მდინარის აუზში არსებული ოფიციალური workflow ისე, რომ კონტექსტები ერთმანეთში არ აირიოს.
+2. მოიპოვე საქართველოს მოქმედი მუნიციპალური გეგმების ვერსიები, 2026 ICT სისტემის საჯარო data dictionary და ოფიციალური alert lifecycle-ის დოკუმენტაცია.
+3. მხოლოდ უფლებამოსილი პარტნიორის თანხმობის შემდეგ შეაგროვე არაპერსონალური/აგრეგირებული timestamp-ები: alert issued, delivered, acknowledged, action started/completed და after-action review.
+4. წინასწარ განსაზღვრე baseline, inclusion/accessibility measures, false/misdirected alert-ები და stop criteria; სანამ ეს მონაცემები არ არსებობს, Action Bridge დარჩეს არქიტექტურულ ჰიპოთეზად.
+
+## 10. შემოწმების სტატუსი
+
+- **FACT:** UNDRR/WMO-ის 2026 წლის ანგარიშში 136 ქვეყანა იუწყება MHEWS შესაძლებლობას; 64-ს აქვს ოთხივე pillar-ის შესაძლებლობა; risk knowledge ყველაზე სუსტი pillar-ია. წყარო: UNDRR report page და WMO publication.
+- **FACT:** WMO/UNDRR აღწერს 6.1-ჯერ დაბალ disaster mortality-ს და 3.2-ჯერ ნაკლებ დაზარალებულ ადამიანს უფრო ყოვლისმომცველი სისტემების მქონე ქვეყნებში; ეს არის ქვეყნებს შორის ასოციაცია და არა მარტო early-warning სისტემის მიზეზობრივი ეფექტი.
+- **FACT:** საქართველოს NEA აღწერს ICT სისტემას და შვიდ მდინარის აუზზე multi-hazard risk assessment-ის ვალიდაციას; UN Georgia 2025 report აღწერს 144 ოპერაციულ ჰიდრომეტეოროლოგიურ სადგურს, 11 აუზის forecasting platforms-ს, 16 მაღალი რისკის თემში 32 ღონისძიებას და 55,188 ბენეფიციარს.
+- **FACT:** UN Georgia Annual Report 2025 და UNDP-ის მიმდინარე პროექტის გვერდი ექვსი მუნიციპალური გეგმის განსხვავებულ ჩამონათვალს ასახელებს; ეს არის წყაროებს შორის შეუსაბამობა, რომლის მიზეზი/განახლების თარიღი ამ ეტაპზე გადაწყვეტილი არ არის.
+- **REPRODUCED RESULT:** 64 ÷ 136 × 100 = 47.0588…%, დამრგვალებით 47.1%. ეს არის ქვეყნების ანგარიშგების არითმეტიკული წილი და არა მოსახლეობის დაფარვა.
+- **INFERENCE:** გაფრთხილების არსებობა თავისთავად არ ადასტურებს მის მიღებას, გაგებას ან მოქმედებას; ბოლო-მილის შედეგების ადგილობრივი გაზომვა საჭიროა.
+- **HYPOTHESIS:** ოფიციალურ alert-ზე მიბმულ, წინასწარ დამტკიცებულ action playbook-სა და acknowledgement/action audit-ს შეუძლია გააუმჯობესოს რეაგირების მიკვლევადობა; ეფექტი ჯერ შეუმოწმებელია.
+- **UNTESTED IDEA:** NOEMA Last-Mile Action Bridge — მხოლოდ ოფიციალური სისტემების დამხმარე, privacy-preserving readiness layer; ახალი საჯარო alerting არხი ან ავტომატური ბრძანების სისტემა არ იგეგმება.
+- **განმეორებადობა:** ამ ეტაპზე ჩატარებულია მხოლოდ 64/136 არითმეტიკული გამოთვლა. საველე მონაცემი, მომხმარებელთა კვლევა, causal evaluation და NOEMA-ს პროგრამული პროტოტიპი არ ჩატარებულა.
+
+## 11. წყაროები
 
 1. UNDRR, *Global Status of Multi-Hazard Early Warning Systems 2026*, 11 November 2026 — https://www.undrr.org/reports/global-status-mhews-2026
 2. WMO, *Global Status of Multi-Hazard Early Warning Systems 2026*, 11 November 2026 — https://wmo.int/resources/publication-series/global-status-of-multi-hazard-early-warning-systems/gsmhews-2026
@@ -145,8 +170,11 @@ NOEMA-ს ყველაზე დასაბუთებული შემ�
 4. National Environmental Agency of Georgia, *A working meeting on the new ICT system*, 10 July 2026 — https://nea.gov.ge/En/News/2416
 5. National Environmental Agency of Georgia, *A consultative meeting ... seven river basins*, 2 April 2026 — https://nea.gov.ge/En/News/2381
 6. United Nations in Georgia, *UN in Georgia Annual Report 2025*, published 2026 — https://georgia.un.org/sites/default/files/2026-04/UN%20Georgia%20Annual%20Report%202025_2.pdf
-7. UNDP Georgia, *Scaling-up Multi-Hazard Early Warning System and the Use of Climate Information in Georgia*, undated project page — https://www.undp.org/georgia/projects/early-warning-climate-information
+7. UNDP Georgia, *Scaling-up Multi-Hazard Early Warning System and the Use of Climate Information in Georgia*, undated project page (accessed 26 November 2026) — https://www.undp.org/georgia/projects/early-warning-climate-information
+8. Anshuka, A. et al., *A Holistic Approach to Early Warning Systems Using an Agent-Based Model*, International Journal of Disaster Risk Science 17, 439–455 (7 May 2026), https://doi.org/10.1007/s13753-026-00729-7
+9. Forsyth, W., Roberts, T. & Brewer, G., *Conceptualising risk communication barriers to household flood preparedness*, Urban Governance (first published 1 June 2023), https://doi.org/10.1016/j.ugj.2023.02.001
+10. WMO/UNDRR, *Early warning protection expands worldwide*, 11 November 2026 — https://public.wmo.int/media/news/early-warning-protection-expands-worldwide
 
-## 10. ცვლილებების ისტორია
+## 12. ცვლილებების ისტორია
 
-- 2026-11-26 — განახლდა 2026 წლის UNDRR/WMO გლობალური ანგარიში, საქართველოს NEA/UN/UNDP მიმდინარე სისტემების აღწერა და ოფიციალურ წყაროებს შორის მუნიციპალიტეტების გეგმების ჩამონათვალის შეუსაბამობა; Action Bridge დარჩა შეუმოწმებელ იდეად.
+- 2026-11-26 — დაემატა 2026 წლის UNDRR/WMO წყაროს cross-check, ორი რეცენზირებული კვლევის მეთოდოლოგიური შეზღუდვები, მტკიცებულების კლასიფიკაცია და შემდეგი შემოწმების კრიტერიუმები; Action Bridge დარჩა შეუმოწმებელ იდეად.
