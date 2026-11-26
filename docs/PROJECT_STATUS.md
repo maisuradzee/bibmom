@@ -179,3 +179,15 @@ This section supersedes earlier status snapshots in this file where the current 
 | NOEMA-2026-005 numerical reduction | Preliminary; PR #33 Draft, exact-head CI pending | Finish cross-runtime CI, then native C/OpenMP long-double and binned/exact comparison |
 | NOEMA-2026-007 Last-Mile Action Gap | Draft; PR #34 exact-head CI success | Obtain authorized municipal aggregate delivery/acknowledgement/action data; Georgia WRP sample is too small |
 | NOEMA-INFRA-001 reliability | Engineering; PR #19 divergent | Port backup/restore to a clean branch from current main and run a restore drill |
+
+
+### Post-merge verification — 2026-11-26
+
+The two independent research PRs were merged only after their exact-head quality CI passed, their branch comparisons showed no behind commits, and the public-data boundary was checked:
+
+- **PR #33 / NOEMA-005** — exact head `9cb8438f6ea1a23cfb244231bba6c6da3164f7fc`; PR quality CI [45796534709](https://github.com/maisuradzee/bibmom/actions/runs/45796534709) SUCCESS; squash merge commit `590b6f7de140356d0eb2188fd82ce6161be96330). Main push quality [45796919557](https://github.com/maisuradzee/bibmom/actions/runs/45796919557) SUCCESS and Pages deployment [45796919732](https://github.com/maisuradzee/bibmom/actions/runs/45796919732) SUCCESS.
+- **PR #34 / NOEMA-2026-007** — after merging current main into the branch, exact head `ef6bae6e5792d969753aeffe338203699e9944de`; PR quality CI [45797079222](https://github.com/maisuradzee/bibmom/actions/runs/45797079222) SUCCESS; squash merge commit `50a54227444ae52bdb5641b30e8c430ec7b8a722). Main push quality [45797225139](https://github.com/maisuradzee/bibmom/actions/runs/45797225139) SUCCESS and Pages deployment [45797225190](https://github.com/maisuradzee/bibmom/actions/runs/45797225190) SUCCESS.
+- **Current main after both merges:** `50a54227444ae52bdb5641b30e8c430ec7b8a722`. The GitHub Pages deployment for this exact commit completed successfully; the site now includes the merged public-safe research drafts and evidence metadata.
+- **Publication boundary:** the public research catalogue remains 1 preliminary / 0 published. The new accumulator comparison and World Risk Poll analysis remain draft research records; merge into the repository did not promote either to Published.
+- **Portfolio sync PR #35:** still open as a draft; its branch is being refreshed against the two merged research changes before final exact-head CI.
+
