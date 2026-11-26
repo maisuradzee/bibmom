@@ -4,7 +4,6 @@
   "experiment_id": "NOEMA-2026-005-REAL-THREADS-ARM64-001",
   "date": "2026-11-26",
   "base_commit": "d46c10cf384f2eba09b4d332a323c19554f552b6",
-  "run_head_sha": "4fe358edd532d1861544951682e9125f67a4e156",
   "pull_request": 23,
   "workflow_run": {
     "id": 45752987940,
@@ -364,5 +363,7 @@
     "Synthetic cancellation fixtures are adversarial and do not represent typical scientific workloads.",
     "tracemalloc measures Python allocations, not process RSS or all native allocations.",
     "Raw Actions artifacts expire after 30 days; this summary preserves aggregate metrics and SHA-256 provenance."
-  ]
+  ],
+  "benchmark_run_head_sha": "4fe358edd532d1861544951682e9125f67a4e156",
+  "benchmark_run_head_note": "Exact PR head that produced workflow run 45752987940 and its four ARM64 JSON artifacts. Subsequent commits in this same PR archive the verified results and update the public preprint/catalogue; those later commits are checked by a separate final CI run."
 }
