@@ -1,0 +1,25 @@
+{
+  "source": {
+    "title": "Early warning protection expands worldwide as powerful El Niño raises the stakes",
+    "publisher": "United Nations Office for Disaster Risk Reduction (UNDRR), with World Meteorological Organization (WMO)",
+    "publication_date": "2026-11-11",
+    "url": "https://www.undrr.org/news/early-warning-protection-expands-worldwide-powerful-el-nino-raises-stakes",
+    "accessed_at": "2026-11-26"
+  },
+  "reported_aggregates": {
+    "active_anticipatory_action_frameworks_2024": 154,
+    "active_anticipatory_action_frameworks_2025": 262,
+    "countries_with_active_frameworks_2025": 75,
+    "activations_2025": 146,
+    "countries_with_activations_2025": 54,
+    "people_directly_reached_2025": 9600000,
+    "prearranged_financing_usd_2025": 119900000
+  },
+  "interpretation_boundary": [
+    "These values are aggregates reported by UNDRR/WMO; NOEMA has not obtained the underlying country-level or activation-level records.",
+    "The framework growth percentage is arithmetic over the two source-reported counts and does not independently validate the source's framework inventory.",
+    "The 9.6 million figure is reported direct reach; it is not a measured count of comprehension, feasible protective action, independently verified behaviour, or avoided loss.",
+    "The USD 119.9 million figure is pre-arranged financing, not necessarily disbursed expenditure and not a per-person cost estimate.",
+    "Active frameworks, activation events, countries and people reached are different units; they must not be divided or conflated to infer effectiveness."
+  ]
+}
