@@ -745,9 +745,9 @@
       ],
       "stage": "engineering",
       "problem": "კვლევითი ჩანაწერების, job queue-ისა და audit trail-ის სანდოობა დამოკიდებულია მიკვლევადობაზე, უსაფრთხო backup-ზე და რეალურად შემოწმებულ restore-ზე; backup-ის წარმატებული შექმნა თავისთავად აღდგენადობას არ ადასტურებს.",
-      "research_question": "შეუძლია თუ არა NOEMA-ს local SQLite runtime-ს შექმნას თვითმყოფადი, integrity-შემოწმებული backup და უსაფრთხოდ აღადგინოს ის ისე, რომ WAL-only state, audit tampering ან არსებული database-ის overwrite არ მოხდეს?",
+      "research_question": "Can NOEMA create integrity-checked local snapshots and bind signed off-host backup generations to an independent monotonic high-water state, while restoring safely without WAL-only state, silent rollback or overwriting an existing database?",
       "human_benefit": "კვლევის ისტორიისა და სამუშაოების დაკარგვის რისკის შემცირება და შედეგების წარმომავლობის შენარჩუნება.",
-      "hypothesis": "SQLite file header-ის journal-version-ის პირდაპირი შემოწმება immutable read-only validation-თან ერთად სწორად უარყოფს WAL-mode backup-ს ისე, რომ source file არ შეიცვალოს.",
+      "hypothesis": "Combining SQLite/application integrity checks with an exact-byte signed manifest and an external atomic compare-and-advance authority should reject stale or conflicting backup generations, provided the authority and object retention are independently trusted.",
       "methodology": [
         "SQLite official file-format და WAL documentation-ის მიხედვით file header-ის byte 18/19 შემოწმება",
         "synthetic database backup/restore round-trip, WAL-mode negative case, tampered audit და no-overwrite regression tests",
@@ -965,7 +965,7 @@
         {
           "title": "PostgreSQL 16 Transaction Isolation",
           "publisher": "PostgreSQL Global Development Group",
-          "publication_date": "2026-11",
+          "publication_date": "undated",
           "url": "https://www.postgresql.org/docs/16/transaction-iso.html",
           "type": "official_transaction_semantics_documentation",
           "accessed_at": "2026-11-26"
@@ -976,6 +976,14 @@
           "publication_date": "undated",
           "url": "https://theupdateframework.github.io/specification/v1.0.36/",
           "type": "security_protocol_specification",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Edwards-Curve Digital Signature Algorithm (EdDSA), RFC 8032",
+          "publisher": "Internet Engineering Task Force",
+          "publication_date": "2017-01",
+          "url": "https://www.rfc-editor.org/rfc/rfc8032.html",
+          "type": "cryptographic_standard",
           "accessed_at": "2026-11-26"
         }
       ],
@@ -1007,8 +1015,8 @@
         "No independent recovery/audit authority exists for the high-water state; production rollback protection cannot be claimed."
       ],
       "status": "active",
-      "status_detail": "Main already contains a strict Draft 2020-12 manifest schema, runtime schema validator, exact-byte Ed25519 detached-signature verifier (`verify_backup_manifest_signature` / `verify_signed_backup_artifacts`) and streamed local plaintext/ciphertext digest/length verification. Synthetic tests use ephemeral keys and reject modified manifests, wrong/unknown signers, duplicate JSON keys, invalid key/signature lengths and changed artifacts. This is local verification code only: no production signer/key custody, encryption/decryption pipeline, off-host provider, anti-rollback high-water service, object retention or clean-host restore is deployed. This run adds a provider-neutral high-water architecture proposal and failure matrix only; it does not implement a CAS service or production anti-rollback guarantee.",
-      "next_step": "Implement a small provider-neutral CAS contract and deterministic concurrency/failure tests only after independent trust-domain ownership and recovery semantics are approved; then select a provider and RPO/RTO with the owner. Do not create a Supabase project or reuse another project's database.",
+      "status_detail": "Main already contains a strict Draft 2020-12 manifest schema, runtime schema validator, exact-byte Ed25519 detached-signature verifier (`verify_backup_manifest_signature` / `verify_signed_backup_artifacts`) and streamed local plaintext/ciphertext digest/length verification. Synthetic tests use ephemeral keys and reject modified manifests, wrong/unknown signers, duplicate JSON keys, invalid key/signature lengths and changed artifacts. This is local verification code only: no production signer/key custody, encryption/decryption pipeline, off-host provider, anti-rollback high-water service, object retention or clean-host restore is deployed. This run adds a provider-neutral high-water architecture proposal and failure matrix only; it does not implement a CAS service or production anti-rollback guarantee. The protocol proposal is documented in docs/MONOTONIC_HIGH_WATER_PROTOCOL.md; the design is grounded in TUF rollback/freeze checks and the peer-reviewed linearizability model, but no production CAS service or provider integration exists.",
+      "next_step": "Build a provider-neutral CAS interface and deterministic concurrency/failure tests only after independent trust-domain ownership, bootstrap, audit recovery and restore semantics are approved; then select a provider and RPO/RTO with the owner. Do not create a Supabase project or reuse another project's database.",
       "success_metrics": [
         "backup includes committed WAL data",
         "restore rejects WAL-mode header and corrupted audit data before destination creation",
