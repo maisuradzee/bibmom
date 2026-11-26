@@ -112,7 +112,9 @@
         "accuracy, CPU-time/wall-time და tracemalloc ცალ-ცალკე შეფასება; CPU-time/wall-time არ განიმარტოს როგორც wall-time speedup",
         "Native C11/OpenMP comparison of serial and 1/2/4/8-thread naive, long-double, recursive pairwise, Neumaier-state and fixed-width exact-superaccumulator reductions on two frozen cancellation layouts",
         "One warm-up and five timed repetitions per case; record actual native thread counts, monotonic wall time, process CPU time, process peak RSS and compiler/runtime provenance",
-        "Independent MPFR 4.2.1 oracle: represent the exact signed integer in 2,624-bit precision, divide by 2^1074 exactly, then convert with MPFR_RNDN; compare bit patterns against the C converter and Python Decimal on hosted x86-64 and ARM64. The native workflow asserts pkg-config reports MPFR 4.2.1."
+        "Independent MPFR 4.2.1 oracle: represent the exact signed integer in 2,624-bit precision, divide by 2^1074 exactly, then convert with MPFR_RNDN; compare bit patterns against the C converter and Python Decimal on hosted x86-64 and ARM64. The native workflow asserts pkg-config reports MPFR 4.2.1.",
+        "Deterministic full-width MPFR 4.2.1 oracle extension: 1,024 seeded signed values plus 1,044 tie-adjacent values; compare C output bitwise against MPFR_RNDN, Python integer and 1,200-digit Decimal references on hosted x86-64/ARM64.",
+        "Run actual ThreadPoolExecutor native-thread experiment on CPython 3.14.4 GIL-enabled and free-threaded builds: 2 layouts × 4 worker counts × 2 partitions × 3 reduction methods × 3 repetitions, with native thread ID validation and process CPU/wall timing."
       ],
       "sources": [
         {
@@ -314,6 +316,78 @@
           "url": "https://github.com/maisuradzee/bibmom/actions/runs/45830240214",
           "type": "internal_deployment_result",
           "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA-005 full-width MPFR oracle extension",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/blob/main/research/drafts/NOEMA-2026-005-mpfr-full-width-oracle-2026-11-26.md",
+          "type": "internal_validation_protocol_and_result",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA-005 full-width MPFR native x86-64 and ARM64 workflow",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45839155039",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA-005 full-width quality CI",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45839154986",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA-005 clean-base full-width MPFR native x86-64 and ARM64 workflow",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45839837589",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA-005 clean-base quality CI for full-width MPFR oracle",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45839774795",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA-005 real CPU-thread experiment draft",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/blob/main/research/drafts/NOEMA-2026-005-real-cpu-threads-2026-11-26.md",
+          "type": "internal_experiment_report",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA-005 real CPU-thread aggregate summary",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/real-cpu-thread-summary-2026-11-26.json",
+          "type": "frozen_aggregate_result",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA-005 actual CPU-thread benchmark workflow",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45840219895",
+          "type": "internal_ci_experiment",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA-005 CPU-thread summary validation CI",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45840219937",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26"
         }
       ],
       "data_needs": [
@@ -335,7 +409,7 @@
         "Hosted x86-64/ARM64 CI is not independent physical-hardware replication; external numerical-method review remains outstanding."
       ],
       "status": "active",
-      "status_detail": "PR #52 MPFR converter cross-check and PR #58 checked signed add/merge guard are merged into main (PR #58 merge commit 54758dbd3f60298cc1440d30fe44f6f5531f647a). The hosted MPFR version was re-audited: both Ubuntu architectures report 4.2.1, not 4.2.2; the workflow now asserts 4.2.1. Each hosted architecture matched 467 synthetic signed inputs against MPFR_RNDN and Python Decimal, and the native accumulator workflow validated 50 cases per architecture. PR #58 exact-head quality CI 45829393835 passed 312 Python tests (one skipped); native x86-64/ARM64 workflow 45829393564 and actual GIL-enabled/free-threaded CPU-thread workflow 45829393656 both passed. Each CPU-thread runtime ran 48 cases with three repetitions and distinct native thread IDs. These are hosted reproducible tests, not independent physical-hardware replication, formal proof or a performance claim. The study remains preliminary pending independent review and representative workloads. After merge, main quality CI 45829643821, native x86-64/ARM64 workflow 45829643815 and Pages deployment 45829643782 all succeeded for the merge commit. The subsequent portfolio/status sync PR #59 merged as b4e5f1fe78843a196adece7190fd65b9a7ae90ba; its exact-head quality CI 45830093428 passed 312 tests and the main Pages deployment 45830240214 succeeded.",
+      "status_detail": "The clean-base full-width MPFR 4.2.1 oracle extension passed on exact head 9e980ac1d74ae3b4de10074456afc8829813036d (317 Python tests; hosted x86-64 and ARM64 MPFR jobs). On exact head b4df9c9c1f7d2142c8d48e487a73977be70b9966, the actual CPU-thread workflow 45840219895 passed both GIL-enabled and free-threaded jobs: each ran 48 cases × 3 repetitions with distinct native thread IDs. Naive partial sums were correct in 0/48 runs; Neumaier scalar partials in 42/48; preserving each worker's (sum, correction) pair through merge was correct in 48/48. The scalar variant failed grouped-cancellation with 2 workers/contiguous and 8 workers/contiguous in both runtimes. For 2–8 workers, process CPU/wall ratio was 1.004–1.031 in GIL-enabled CPython and 1.880–3.922 in free-threaded CPython, but the hosted runners differ in provider/platform and are not a controlled causal comparison. Threaded Neumaier-state speedup remained below 1 in both runs (0.667–0.961 and 0.579–0.798 respectively): no speedup was observed for this synthetic workload. Quality CI 45840219937 and native MPFR x86-64/ARM64 workflow 45840219897 passed on the same head. This is hosted reproducible software evidence, not physical-hardware replication, representative application performance or formal proof. NOEMA-005 remains preliminary.",
       "next_step": "Obtain independent numerical-method review of the checked signed accumulator and MPFR converter; then evaluate pairwise, Neumaier, long-double and exact methods on representative memory-bandwidth-bound workloads and repeat on independently selected physical x86-64/ARM64 systems with uncertainty intervals.",
       "success_metrics": [
         "exact-reference accuracy თითოეული მეთოდისა და runtime-ის მიხედვით",
@@ -343,7 +417,9 @@
         "peak RSS და traced Python allocation ცალ-ცალკე",
         "independent replication-ის შედეგების თანხვედრა",
         "positive and negative signed 2,560-bit overflow are rejected without mutating the prior accumulator state",
-        "MPFR 4.2.1 version is asserted in native x86-64/ARM64 CI and converter output matches MPFR_RNDN plus Python Decimal on the frozen synthetic suite"
+        "MPFR 4.2.1 version is asserted in native x86-64/ARM64 CI and converter output matches MPFR_RNDN plus Python Decimal on the frozen synthetic suite",
+        "Full-width MPFR oracle: 2,068/2,068 bitwise matches on each hosted x86-64 and ARM64 job, with MPFR 4.2.1 pinned.",
+        "Actual CPU-thread experiment: 48/48 correct runs for Neumaier (sum, correction) state merge in both GIL-enabled and free-threaded CPython; raw artifacts and aggregate summary retained with SHA-256 provenance."
       ],
       "last_reviewed": "2026-11-26"
     },
@@ -366,7 +442,8 @@
         "მინიმუმ სამი განსხვავებული სოციალური/კლიმატური კონტექსტის შედარება",
         "მონაცემთა უფლებებისა და privacy review-ის შემდეგ მხოლოდ აგრეგირებული/ანონიმიზებული warning-delivery და action-log მონაცემის შეფასება",
         "პილოტისთვის წინასწარ რეგისტრირებული baseline და stepped-wedge ან matched-community შეფასების დიზაინი",
-        "Compare 2022–2026 country-reported MHEWS coverage with average pillar-quality scores; keep capability reporting separate from behavioural response and effectiveness outcomes."
+        "Compare 2022–2026 country-reported MHEWS coverage with average pillar-quality scores; keep capability reporting separate from behavioural response and effectiveness outcomes.",
+        "Freeze the official UNDRR MHEWS 2026 country-level counts and reproduce pillar percentages, all-four ratio and preparedness score difference with a standard-library script plus frozen-result tests."
       ],
       "sources": [
         {
@@ -488,6 +565,30 @@
           "url": "https://github.com/lrfoundation/world_risk_poll_data/blob/main/reports/WRP_2025/core_from_alert_to_agency/RESULTS.md",
           "type": "reproduced_report_results",
           "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA-007 MHEWS 2026 source snapshot",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/blob/main/data/noema-007/mhews-2026-source-snapshot.json",
+          "type": "frozen_source_snapshot",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA-007 MHEWS 2026 derived results",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/blob/main/data/noema-007/mhews-2026-derived-results.json",
+          "type": "reproduced_arithmetic_result",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA-007 source snapshot reproduction CI",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45839056275",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26"
         }
       ],
       "data_needs": [
@@ -513,7 +614,7 @@
         "Georgia's World Risk Poll warning base is 99 respondents, below the report's n>=100 threshold; no robust country ranking can be drawn."
       ],
       "status": "active",
-      "status_detail": "The NOEMA-2026-007 draft now records a newly verified UNDRR 2026 quality signal: since 2022 around 20 more countries report on each MHEWS pillar, yet average scores barely moved and preparedness to respond fell from 0.74 to 0.70. This supports measuring effectiveness separately from system existence; it does not establish a Georgian municipal gap. Georgia NEA's 25 November update confirms consultations on seven river-basin plans. No local delivery, acknowledgement or action-completion dataset and no field validation are available.",
+      "status_detail": "PR #62 merged into main as 09b7f0c28c8edebed9d72fc7d264418bd08a8a5f. It adds a frozen UNDRR MHEWS 2026 source snapshot and deterministic arithmetic reproduction: 64/136 = 47.0588% of reporting countries have all four pillars; preparedness average score changed from 0.74 to 0.70 (absolute difference −0.04). Quality CI 45839056275 passed the full test suite, frozen research reproductions, site build and publication-boundary checks. Main quality CI 45839308722 and Pages build/deploy 45839308765 succeeded for the merge commit. NEA's 25 November 2026 update confirms consultations on plans for seven Georgian river basins, but no local alert-delivery, acknowledgement or action-completion dataset or field validation is available. The country-level percentages are not population coverage or causal estimates.",
       "next_step": "Obtain the current official data dictionary and explicit permission for aggregated alert-delivery, acknowledgement and action-completion records for one Georgian river-basin/municipal workflow. Pre-register a baseline and pilot that separates capability, delivery, comprehension, feasible action and outcomes; do not treat global country-level scores as local performance.",
       "success_metrics": [
         "გაფრთხილების მიღწევის, სწორად გაგებისა და feasible action-ის წილი",
