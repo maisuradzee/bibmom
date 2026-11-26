@@ -334,3 +334,28 @@ Source: National Environmental Agency of Georgia, 25 November 2026, https://nea.
 Source: UNDRR & WMO, 11 November 2026, https://www.undrr.org/news/early-warning-protection-expands-worldwide-powerful-el-nino-raises-stakes. Source-reported 2025 anticipatory-action aggregates are frozen in `data/noema-007/anticipatory-action-2025-source-snapshot.json`; only the framework growth percentage is independently recomputed.
 
 **Evidence classification:** source counts and scores are FACT; the percentages and −0.04 difference are REPRODUCED RESULT from the frozen source snapshot; the need to measure operational effectiveness separately is INFERENCE. A Georgia-specific last-mile gap remains HYPOTHESIS until permissioned local workflow data and field evaluation exist.
+
+
+## Cross-release disclosure-control audit — 2026-11-26
+
+### FACT — current prototype boundary
+
+The current NOEMA-007 aggregate validator checks one event/area record at a time. It applies a minimum cell threshold of at least 10 and rejects non-zero cells below that threshold, but the record schema does not carry a trusted query fingerprint, cohort lineage, overlap graph, release-history identifier, complementary-suppression state or differential-privacy budget. Caller-supplied approval booleans are not proof of an independently signed review.
+
+### REPRODUCED RESULT — synthetic counterexample
+
+A new regression test constructs two synthetic, individually valid records for the same event/area and warning context, with received-warning counts 80 and 79. Both counts exceed the configured threshold of 10. If the two released cohorts are nested, subtraction reveals a difference of 1. The schema cannot represent or verify that relationship. This is a synthetic disclosure-risk demonstration, not a real dataset or an observed privacy incident.
+
+### INFERENCE
+
+Per-record small-cell suppression is not a complete cross-release privacy guarantee. Before public release, NOEMA-007 needs a trusted query/cohort lineage model, a release ledger, batch-level differencing/complementary-suppression checks, and independent privacy governance. For repeated public query access, a formally specified differential-privacy mechanism with composition-aware budget accounting should be evaluated rather than assumed.
+
+### უსაფრთხოების საზღვარი
+
+No personal, message-level, device-level or operational data was added. The public prototype remains aggregate-only. The new test demonstrates a limitation; it does not implement a complete disclosure-control system and must not be presented as anonymization or differential privacy.
+
+### Sources
+
+- NIST SP 800-188 (2023): https://doi.org/10.6028/NIST.SP.800-188
+- NIST SP 800-226 (2025): https://doi.org/10.6028/NIST.SP.800-226
+- Dinur & Nissim (PODS 2003): https://doi.org/10.1145/773153.773173
