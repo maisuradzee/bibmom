@@ -74,7 +74,10 @@
               "public_pdf_aggregate_only_denominator_not_in_table",
               "public_historical_aggregate_table",
               "public_map_and_table_entry_not_inspected",
-              "official_regulation_only_registry_access_unverified"
+              "official_regulation_only_registry_access_unverified",
+              "public_catalog_metadata_payload_not_retrieved",
+              "official_field_process_notice_only",
+              "official_legal_data_access_framework"
             ]
           },
           "observation_period": {
