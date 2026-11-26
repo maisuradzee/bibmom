@@ -1,24 +1,24 @@
 # NOEMA-005 — დამოუკიდებელი CPU-thread artifact provenance audit
 
-- **ID:** NOEMA-2026-005-REAL-THREADS-ARTIFACT-AUDIT-001
+- **ID:** NOEMA-2026-005-ARTIFACT-AUDIT-001
 - **თარიღი:** 2026-11-26
 - **სტატუსი:** draft / provenance verification
-- **წყარო workflow:** [45840219895](https://github.com/maisuradzee/bibmom/actions/runs/45840219895)
-- **წყარო commit:** `b4df9c9c1f7d2142c8d48e487a73977be70b9966`
+- **სფერო:** რიცხვითი სიზუსტე, რეალური CPU threads და frozen-result provenance
 
-## მიზანი
+## საკვლევი კითხვა
 
-გადამოწმდეს, ემთხვევა თუ არა NOEMA-005-ის frozen CPU-thread summary-ში ჩაწერილი GitHub Actions artifact SHA-256-ები რეალურად ჩამოტვირთული ZIP-ების bytes-ს და ხელახლა მიიღება თუ არა ძირითადი accuracy/CPU-time/wall-time აგრეგატები თითოეული JSON report-იდან.
+ემთხვევა თუ არა NOEMA-005-ის frozen CPU-thread summary-ში ჩაწერილი GitHub Actions artifact SHA-256-ები რეალურად ჩამოტვირთული ZIP-ების bytes-ს და ხელახლა მიიღება თუ არა ძირითადი accuracy/CPU-time/wall-time აგრეგატები თითოეული JSON report-იდან?
 
 ეს არის **artifact integrity და aggregate reproduction audit**; იგი არ იმეორებს benchmark-ის შესრულებას.
 
-## მეთოდოლოგია
+## მეთოდი ან ექსპერიმენტის გეგმა
 
-1. GitHub Actions workflow 45840219895-დან ჩამოიტვირთა ორი ორიგინალური artifact ZIP: GIL-enabled და free-threaded.
+1. GitHub Actions workflow [45840219895](https://github.com/maisuradzee/bibmom/actions/runs/45840219895)-დან ჩამოიტვირთა ორი ორიგინალური artifact ZIP: GIL-enabled და free-threaded.
 2. Python standard library-ის `hashlib`-ით გამოითვალა SHA-256 მთელ ZIP byte stream-ზე; `zipfile`-ით ამოიღო ერთი JSON report თითო არქივიდან.
 3. თითოეულ report-ში დადასტურდა 48 case და თითო case-ზე 3 repetition.
 4. 48 case-ის მიხედვით დამოუკიდებლად დაჯამდა თითოეული მეთოდის correctly-rounded run-ები, სრულად სწორი/ნულოვანი case-ები და 2–8 worker-ის CPU/wall და Neumaier-state speedup დიაპაზონები.
 5. შედეგები შედარდა `data/noema-005/real-cpu-thread-summary-2026-11-26.json`-ში შენახულ artifact SHA-ებსა და აგრეგატებთან.
+6. გამოთვლები შეინახა `data/noema-005/threaded-artifact-provenance-audit-2026-11-26.json`-ში; CI ტესტი ამოწმებს audit ჩანაწერის თანხვედრას frozen summary-სთან.
 
 ## შედეგები
 
@@ -73,8 +73,23 @@
 
 - [NOEMA-005 actual CPU-thread workflow 45840219895](https://github.com/maisuradzee/bibmom/actions/runs/45840219895)
 - [Frozen aggregate summary](../../data/noema-005/real-cpu-thread-summary-2026-11-26.json)
+- [Structured artifact provenance audit](../../data/noema-005/threaded-artifact-provenance-audit-2026-11-26.json)
 - [Threaded benchmark implementation](../../scripts/benchmark_noema005_threaded_reduction.py)
 
-## დასკვნა
+## შემდეგი ნაბიჯები
 
-Artifact provenance და aggregate arithmetic გადამოწმდა ორიგინალური GitHub Actions ZIP-ებიდან. ეს ზრდის NOEMA-005-ის შენახული შედეგების მიკვლევადობას, მაგრამ არ ცვლის კვლევის სტატუსს: NOEMA-005 რჩება **preliminary** და არ იძლევა ზოგადი performance advantage-ის ან ყველა input-ზე ფორმალური სიზუსტის მტკიცებას.
+1. შეინარჩუნე frozen summary და audit JSON; GitHub Actions raw ZIP-ები ხელმისაწვდომია მხოლოდ 30-დღიანი retention-ის ფარგლებში.
+2. გაიმეორე benchmark დამოუკიდებლად შერჩეულ ფიზიკურ x86-64 და ARM64 სისტემებზე.
+3. დაამატე pairwise tree, long double და exact accumulator იმავე worker/partition matrix-ში.
+4. შეაფასე representative scientific და memory-bandwidth-bound workloads; მოითხოვე დამოუკიდებელი numerical-method review.
+
+## შემოწმების სტატუსი
+
+- **Artifact download:** შესრულებულია ორივე original ZIP-ზე; SHA-256 ემთხვევა frozen summary-ს.
+- **Aggregate reproduction:** 48 case თითო runtime-ზე; per-method counts და metric ranges ემთხვევა frozen summary-ს.
+- **CI:** structured audit regression tests დამატებულია; exact-head CI ჯერ არ არის გაშვებული.
+- **Publication:** draft; NOEMA-005 რჩება preliminary და საჯარო კატალოგში არ იცვლება.
+
+## ცვლილებების ისტორია
+
+- 2026-11-26 — ორიგინალური GIL-enabled და free-threaded GitHub Actions artifact ZIP-ების SHA-256 და per-case aggregate-ები დამოუკიდებლად გადამოწმდა.
