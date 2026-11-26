@@ -125,3 +125,49 @@ A first controlled pilot could compare groundwater nitrate field measurements wi
 ## ცვლილებების ისტორია
 
 - 2026-11-27: დაემატა UNECE/WHO-ის 2025 ანგარიშისა და NEA-ის 2026-11-26 განცხადების საფუძველზე მონაცემთა წვდომის განახლება; არქივის შიგთავსი ჯერ არ შემოწმებულა.
+
+
+## 6. New well-registration system — Government Resolution No. 424
+
+### FACT — legal scope and required data
+
+Government of Georgia Resolution No. 424 was adopted on 31 August 2026 and took effect on 1 September 2026. It establishes a state accounting procedure for wells drilled to extract fresh drinking water where the well depth exceeds 20 metres. The legal text excludes mineral, thermal and medicinal/balneological groundwater and wells drilled before the regulation took effect. NEA's public notice additionally states that household wells on citizens' household plots are excluded, whether built before or after 1 September 2026.
+
+The regulation requires NEA to create and periodically update a hydrogeological database from submitted well passports. The driller must submit the passport within 15 working days after drilling is completed; NEA must notify the driller about inclusion in the database within 10 working days after receiving the data. NEA may also conduct field monitoring and laboratory sampling where location and hydrogeological conditions warrant it.
+
+The passport fields include coarse and precise location data (including UTM coordinates and, where available, cadastral code), owner identity and contact details, drilling date, well construction, geology/hydrogeology, static/dynamic water levels and yield. Field-test and laboratory-analysis results are attached **if sampling/analysis was performed**; the regulation does not establish that every registered well necessarily has a laboratory result.
+
+### INFERENCE — what this changes for AquaSignal
+
+This is a new prospective administrative data source, not evidence of a complete national well inventory or a public water-quality time series. It does not cover pre-existing wells under the legal text, and NEA says household wells are outside the rule. A registration passport can contain useful hydrogeological metadata, but its existence alone does not imply repeated sampling, public access, a live API, or permission for secondary use.
+
+AquaSignal must therefore maintain separate source classes:
+1. NEA groundwater monitoring stations and sample results;
+2. the new post-1 September 2026 well-registration database;
+3. household and pre-existing wells outside the stated registration scope;
+4. potable-network compliance sampling owned by the competent drinking-water control authorities.
+
+These classes must not be merged into one coverage denominator or one water-safety score.
+
+### PRIVACY AND PUBLICATION BOUNDARY
+
+The legal annex explicitly requests personal identity and contact information for well owners and drillers, alongside well coordinates. No such records, identifiers, coordinates or owner details were accessed or copied. The public repository contains only the legal source URL, scope metadata and a description of the data categories.
+
+Any future access must use a written authorization and a privacy-reviewed, purpose-limited export. Prefer aggregated or de-identified records; do not mirror the administrative register into the public repository. The legal text and NEA announcement do not establish that the database or its records are publicly downloadable.
+
+### HYPOTHESIS
+
+If NEA can provide an authorized, de-identified well-register extract with stable well IDs, hydrogeological attributes and optional laboratory-result provenance, it may help prioritise monitoring gaps and nitrate-risk field follow-up. It cannot replace routine sampling or establish potable safety without representative laboratory evidence.
+
+### UNTESTED IDEA
+
+A registry-to-monitoring crosswalk could identify which newly registered wells have no recent field or laboratory sample and support a transparent, operator-approved sampling-priority list. This requires a lawful registry export, a data dictionary, sampling history, and an agreed definition of a monitoring gap.
+
+### New source
+
+- Government of Georgia, Resolution No. 424, 31 August 2026, *Technical Regulation — Rules for Accounting Wells for the Extraction of Fresh Drinking Groundwater*, effective 1 September 2026: https://matsne.gov.ge/ka/document/view/6991245
+- National Environmental Agency, *New state accounting regulation for fresh drinking-water wells entered into force on 1 September*, 1 September 2026: https://nea.gov.ge/En/News/2430
+
+### Verification status
+
+The legal text and NEA notice were inspected. The registry itself, its operational database, data dictionary, API, public access policy, historical coverage and sample-level records were not inspected. The 2021–2025 NEA RAR archive announced on 26 November also remains unextracted. No field validation or water-quality model result is claimed.
