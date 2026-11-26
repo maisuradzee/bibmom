@@ -26,3 +26,10 @@ The module does not define water-quality limits, certify potability, detect path
 ## Verification
 
 `tests/test_aquasignal_incidents.py` uses synthetic values only. It covers incident opening, escalation without de-escalation, data-quality holds, non-automatic closure, acknowledgement, operator clearance, idempotent replay, event-ID collision, monotonic event timestamps, direct-construction invariant bypass attempts and reopening. Passing these tests validates software transition rules only; it does not validate AquaSignal in a live water network.
+
+
+## Durable event-store prototype
+
+The lifecycle now has a separate local persistence implementation in `noema_core/aquasignal_store.py`. It stores one transition event per row, replays the pure lifecycle functions, rejects stale state snapshots and conflicting event IDs, and verifies a global SHA-256 chain before appending. SQLite triggers prevent ordinary UPDATE/DELETE operations, and POSIX database files are restricted to owner-only mode. The detailed storage contract and trust boundary are documented in [AQUASIGNAL_EVENT_STORE.md](AQUASIGNAL_EVENT_STORE.md).
+
+This does not yet provide encrypted/off-host backups, retention, signed external checkpoints, production access control or field validation. Hash chaining is tamper-evident, not a digital signature.
