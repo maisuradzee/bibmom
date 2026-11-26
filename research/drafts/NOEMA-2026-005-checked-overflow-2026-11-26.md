@@ -58,7 +58,7 @@ The implementation is intended to fail closed on signed 2,560-bit overflow inste
 
 ## წყაროები
 
-1. GNU MPFR 4.2.2 Manual, rounding modes and correctly rounded operations: https://mpfr.loria.fr/mpfr-current/mpfr.html (accessed 2026-11-26).
+1. GNU MPFR Manual (hosted library version 4.2.1), rounding modes and correctly rounded operations: https://mpfr.loria.fr/mpfr-current/mpfr.html (accessed 2026-11-26).
 2. GNU MP 6.3.0 Manual, Integer Import and Export: https://gmplib.org/manual/Integer-Import-and-Export (accessed 2026-11-26).
 3. IEEE Std 754-2019, IEEE Standard for Floating-Point Arithmetic: https://standards.ieee.org/ieee/754/6210/ (accessed 2026-11-26).
 
