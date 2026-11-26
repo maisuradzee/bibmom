@@ -1,6 +1,6 @@
 # AquaSignal — durable incident event store
 
-**Status:** local SQLite engineering prototype; synthetic-only tests; not field validated.
+**Status:** local SQLite engineering prototype with a signed-checkpoint verification contract; synthetic-only tests; not field validated.
 
 ## Purpose
 
@@ -51,21 +51,56 @@ tests/test_aquasignal_store.py uses synthetic fixtures only. It covers:
 
 Passing these tests validates software invariants only. It does not establish operational suitability, water quality, regulatory compliance or field performance.
 
-## Trusted external checkpoint comparison
+## Signed monotonic checkpoint verification prototype
 
-`AquaSignalStore.verify_checkpoint()` now compares the locally verified event count
-and final chain hash with values supplied by the caller. The checkpoint is useful
-only when obtained from an independently protected system or authenticated
-operator channel; storing it beside the SQLite file does not create an independent
-trust anchor.
+`noema_core/aquasignal_checkpoint.py` adds a separate verification layer above
+`AquaSignalStore.verify_checkpoint()`. Its payload is strict canonical UTF-8
+JSON with a store identifier, monotonically increasing checkpoint sequence,
+creation timestamp, event count, chain-tail hash and non-secret signing-key ID.
+The detached Ed25519 signature covers the exact payload bytes.
 
-This comparison is deliberately **not** a signature verifier. It does not create
-or authenticate checkpoints, provide anti-rollback protection, or prove that an
-external store is immutable. A production deployment must separately define a
-signed checkpoint envelope, monotonic checkpoint sequence, key custody, remote
-retention and clean-host restore procedure. A stale checkpoint or an attacker-
-controlled checkpoint must never be treated as proof of current history.
+The verifier:
+- rejects duplicate JSON keys, non-standard constants, unknown fields and
+  non-canonical encodings;
+- verifies the signature only against caller-supplied public keys that must be
+  pinned through a separate trusted channel;
+- checks the checkpoint store identifier and matches its event count and final
+  hash against the locally replay-verified SQLite chain;
+- rejects a sequence lower than the caller-supplied trusted high-water mark and
+  rejects different checkpoint bytes at the same sequence; an identical
+  checkpoint at the same sequence is idempotent;
+- returns a proposed next high-water state for the caller to persist.
 
-The synthetic tests verify exact hash/count matching and reject malformed or
-mismatched values. They do not simulate a production key service or remote
-checkpoint provider.
+The returned high-water state **must be atomically stored outside the SQLite
+database in a separately administered, rollback-resistant trust domain**. If
+the caller stores it beside the database, restores it from the same backup, or
+does not update it atomically after successful verification, rollback
+protection is not established. The module does not create a production signing
+service, manage or rotate keys, provide threshold signatures, contact a remote
+anchor, or prove provider retention.
+
+`data/aquasignal-checkpoint.schema.json` defines the public metadata contract.
+`tests/test_aquasignal_signed_checkpoint.py` uses ephemeral synthetic keys and
+synthetic incidents only. No private key, live event, operator identity or
+production store identifier is committed. Passing the tests will validate the
+software contract only, not deployment security or water safety.
+
+The design follows the detached-signature encoding defined by
+[RFC 8032](https://www.rfc-editor.org/rfc/rfc8032.html) and borrows the
+version/high-water rollback principle from
+[The Update Framework specification](https://theupdateframework.github.io/specification/v1.0.36/).
+This small prototype is not a TUF implementation and does not implement its
+threshold roles, metadata expiration, root rotation or complete update protocol.
+
+### Remaining acceptance gates
+
+- independently administered signing-key custody, revocation and rotation;
+- an external monotonic high-water service with atomic compare-and-advance;
+- remote immutable checkpoint retention and alerting on failed verification;
+- clean-host backup/restore and a documented recovery drill;
+- operator-approved access control and security review;
+- authorized paired sensor/laboratory data, site-approved limits and field
+  validation before any water-quality effectiveness claim.
+
+The checkpoint tests do not simulate a production key service or remote
+checkpoint provider. AquaSignal remains a decision-support prototype only.
