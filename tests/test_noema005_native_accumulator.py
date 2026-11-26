@@ -16,7 +16,7 @@ class Noema005NativeAccumulatorTests(unittest.TestCase):
             repeat_count=128, workers="1,2,4", warmups=0, repetitions=2
         )
 
-    def test_exact_superaccumulator_handles_cancellation_sign_and_subnormal(self):
+    def test_exact_superaccumulator_and_binary64_rounding_boundaries(self):
         self.assertTrue(self.report["exact_accumulator_self_test_passed"])
         exact_cases = [
             case for case in self.report["cases"]
