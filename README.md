@@ -119,3 +119,8 @@ GitHub Pages-ის არტეფაქტში შედის `index.html`,
 ## NOEMA-005 native OpenMP experiment
 
 A reproducible C/OpenMP benchmark for compensated reduction, exact synthetic references, wall/process-CPU timing and provenance is available in [`scripts/noema005_openmp_benchmark.c`](scripts/noema005_openmp_benchmark.c). The hosted 20-case result summary, full raw timing report and strict validator are `data/noema-005/native-openmp-ci-summary-2026-11-26.json`, `data/noema-005/native-openmp-raw-report-2026-11-26.json`, `scripts/validate_noema005_openmp_report.py` and `tests/test_validate_noema005_openmp_report.py`. The earlier local report is retained but invalidated because it contains only 10 of 20 expected cases. Methodology and limitations are documented in [`research/drafts/NOEMA-2026-005-openmp-native-addendum.md`](research/drafts/NOEMA-2026-005-openmp-native-addendum.md).
+
+
+## NOEMA-005 — two-run real-thread comparison (2026-11-26)
+
+Two raw workflow reports from run `45867519546` are preserved as gzip+base64 files under `data/noema-005/raw/`. `scripts/reproduce_noema005_threaded_reruns.py --check` verifies raw report hashes and recomputes the aggregate comparison against run `45850716742`. The free-threaded Neumaier-state median crossed 1.0 only in the second run (0.9519× → 1.0181×); this is run-to-run sensitivity, not a robust speedup claim. The study remains preliminary.
