@@ -3,12 +3,13 @@
 - **განახლდა:** 2026-11-26
 - **საცავი:** https://github.com/maisuradzee/bibmom
 - **ძირითადი branch:** main
-- **ბოლო დადასტურებული engineering merge:** PR #69 — commit 990ba166c7422257291ba2abfc9278ea7099c654; PR #68 (NOEMA-007) merged immediately before it.
+- **მიმდინარე main:** `7d9a7e8aef633b3d3ac371e62522fcd0be0b151d` (PR #72 merge)
+- **ბოლო დადასტურებული engineering merge:** PR #72 — AquaSignal external checkpoint comparison; მანამდე PR #70 status sync და PR #68/#69 (NOEMA-007 / backup manifest runtime validator) merged.
 - **NOEMA-005:** PR #63-ით დაემატა 2,068-case full-width/tie-adjacent MPFR 4.2.1 oracle; hosted x86-64 და ARM64 თითოეულზე 2,068/2,068 bitwise match. PR #66-ით ორიგინალური CPU-thread artifact ZIP-ების SHA-256 და raw report aggregates დამოუკიდებლად გადამოწმდა. Neumaier state merge 48/48, scalar Neumaier 42/48, naive 0/48; wall-time speedup არ დადასტურებულა. კვლევა preliminary რჩება.
 - **NOEMA-INFRA-001:** PR #57 same-host restore-drill, PR #64 strict non-secret manifest schema და PR #69 executable Draft 2020-12 runtime validator main-შია; off-host encryption, detached signature verification, key custody, provider retention და clean-host recovery ჯერ არ განხორციელებულა.
-- **Latest main quality CI:** run 45850024686 — SUCCESS, 354 Python tests.
-- **Latest verified CPU-thread workflow:** PR #66 exact head, run 45844363177 — GIL-enabled და free-threaded ორივე SUCCESS.
-- **Latest main Pages deployment:** run 45850024682 — build და deploy SUCCESS for main `990ba166c7422257291ba2abfc9278ea7099c654`.
+- **Latest verified quality CI:** PR #72 exact head, run 45853277201 — SUCCESS; ყველა unit/reproduction/site-build/publication-boundary step წარმატებულია. Main post-merge quality run for `7d9a7e8` ამ audit-ში ჯერ არ დადასტურებულა.
+- **Latest verified CPU-thread workflow:** PR #71 exact head, run 45850716742 — GIL-enabled და free-threaded ორივე SUCCESS; PR #73-ის დამატებითი CPU-thread workflow run 45853281867-იც ორივე job-ით SUCCESS.
+- **Latest confirmed Pages deployment:** run 45850024682 — build და deploy SUCCESS for `990ba166c7422257291ba2abfc9278ea7099c654`; deployment for current main `7d9a7e8` ამ audit-ში ჯერ არ დადასტურებულა.
 
 ## მიმდინარე მდგომარეობა
 
@@ -369,3 +370,20 @@ The action-readiness contract separates endpoint delivery receipts from survey-b
 
 The backup manifest runtime validator verifies only Draft 2020-12 structure and declared formats. It does not verify signatures, ciphertext, provider retention or restored database contents.
 
+
+## NOEMA run audit — 2026-11-26 (after PR #72)
+
+- **Current main:** `7d9a7e8aef633b3d3ac371e62522fcd0be0b151d`; PR #72 merged after exact-head quality CI run 45853277201 passed. Its tests cover the existing full AquaSignal lifecycle plus external checkpoint matching, mismatch and input validation.
+- **AquaSignal trust boundary:** `AquaSignalStore.verify_checkpoint()` compares the verified local event count and final SHA-256 chain hash with values supplied by a caller. It does not sign or authenticate the checkpoint, prevent rollback, or configure remote storage.
+- **NOEMA-007:** PR #73 adds the 2025 UNDRR/WMO anticipatory-action source snapshot and reproducible framework-growth arithmetic. Exact-head quality CI 45853282017 passed, including the new frozen-result reproduction, Python suite, site build and publication-boundary check. CPU-thread workflow 45853281867 passed both GIL-enabled and free-threaded jobs. The PR is 8 commits ahead / 1 behind main after PR #72; GitHub reports mergeable=false, so it was not merged.
+- **NOEMA-005:** PR #71 remains Draft/open. Exact-head quality run 45850716864 and real-thread run 45850716742 passed. The new rerun reports 48/48 Neumaier-state accuracy in both modes, but median wall-time speedup is 0.7539× (GIL) and 0.9519× (free-threaded), both below 1. The benchmark remains one hosted x86-64 VM with synthetic fixtures; it is not independent physical-hardware replication.
+- **NOEMA-INFRA-001:** PR #69 runtime manifest metadata validator is merged; no real encrypted off-host backup, detached signature verification, key custody, provider retention or clean-host recovery is claimed.
+- **Public-safety boundary:** no operator telemetry, laboratory records, personal data, real backup manifest, credentials, signing keys, new Supabase project or external database was added.
+- **Deployment:** current-main Pages deployment after PR #72 was not verified in this audit; the last confirmed deployment remains run 45850024682 for commit `990ba166c7422257291ba2abfc9278ea7099c654`.
+
+### Next priorities
+
+1. Refresh PR #73 onto current main and rerun exact-head quality/CPU-thread workflows before considering merge.
+2. Refresh PR #71 only after reviewing the new artifact summary; retain Draft and preliminary status until independent numerical review and representative physical x86-64/ARM64 workloads exist.
+3. For AquaSignal, define a signed, monotonic external checkpoint protocol and separately administered trust anchor; obtain authorized paired sensor/lab data before any field-performance claim.
+4. For NOEMA-INFRA-001, require operator-approved RPO/RTO, provider, key custody and retention before implementing off-host backup.
