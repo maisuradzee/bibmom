@@ -154,12 +154,50 @@ class WorkerSupervisor:
 
             try:
                 if self.scheduler is not None:
-                    self.scheduler.run_due(actor=f"supervisor:{self.worker.worker_id}")
-                outcome = self.worker.run_once()
-                if self.workflow_engine is not None:
-                    self.workflow_engine.advance_all(
+                    schedule_report = self.scheduler.run_due(
                         actor=f"supervisor:{self.worker.worker_id}"
                     )
+                    if (
+                        schedule_report.fires_created
+                        or schedule_report.fires_dispatched
+                        or schedule_report.fires_skipped
+                        or schedule_report.fires_failed
+                    ):
+                        LOGGER.info(
+                            "NOEMA scheduler tick worker=%s due=%s created=%s dispatched=%s skipped=%s failed_this_tick=%s pending=%s failed_total=%s",
+                            self.worker.worker_id,
+                            schedule_report.due_schedules,
+                            schedule_report.fires_created,
+                            schedule_report.fires_dispatched,
+                            schedule_report.fires_skipped,
+                            schedule_report.fires_failed,
+                            schedule_report.pending_fires,
+                            schedule_report.failed_fires,
+                        )
+                outcome = self.worker.run_once()
+                if outcome is not None:
+                    LOGGER.info(
+                        "NOEMA job outcome worker=%s job_id=%s job_type=%s outcome=%s attempt=%s",
+                        self.worker.worker_id,
+                        outcome.job.job_id,
+                        outcome.job.job_type,
+                        outcome.outcome,
+                        outcome.job.attempts,
+                    )
+                if self.workflow_engine is not None:
+                    advanced = self.workflow_engine.advance_all(
+                        actor=f"supervisor:{self.worker.worker_id}"
+                    )
+                    completed = sum(workflow.status == "succeeded" for workflow in advanced)
+                    failed_workflows = sum(workflow.status == "failed" for workflow in advanced)
+                    if completed or failed_workflows:
+                        LOGGER.info(
+                            "NOEMA workflow advancement worker=%s completed=%s failed=%s checked=%s",
+                            self.worker.worker_id,
+                            completed,
+                            failed_workflows,
+                            len(advanced),
+                        )
             except Exception as exc:
                 transient_errors += 1
                 consecutive_errors += 1

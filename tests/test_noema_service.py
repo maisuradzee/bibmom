@@ -85,6 +85,10 @@ class NoemaServiceRuntimeTests(unittest.TestCase):
         self.assertTrue(report["database_integrity"]["audit_valid"])
         self.assertEqual(report["self_check_schedule"]["schedule_id"], SERVICE_SCHEDULE_ID)
         self.assertTrue(report["self_check_schedule"]["enabled"])
+        self.assertEqual(report["queue_counts"]["queued"], 0)
+        self.assertEqual(report["workflow_counts"]["running"], 0)
+        self.assertEqual(report["schedule_fire_counts"]["pending"], 0)
+        self.assertIsInstance(report["recent_schedule_fires"], list)
 
 
 if __name__ == "__main__":

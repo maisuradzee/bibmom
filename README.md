@@ -18,10 +18,11 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - `docs/NOEMA_OPERATING_MODEL.md` — DISCOVERY · RESEARCH · INNOVATION-ის ერთიანი სამუშაო მოდელი.
 - `docs/AQUASIGNAL_MVP.md` — წყლის ხარისხის ოპერატორული ადრეული სიგნალის პროტოტიპის არქიტექტურა.
 - `docs/AQUASIGNAL_EVENT_STORE.md` — ინციდენტების კერძო, append-only SQLite event store-ის უსაფრთხოების საზღვრები და აღდგენის შეზღუდვები.
+- `docs/OFFSITE_BACKUP_ARCHITECTURE.md` — დაშიფრული off-host backup-ისა და ხელმოწერილი recovery manifest-ის ჯერ მხოლოდ არქიტექტურული წინადადება.
 - `noema_core/aquasignal.py` — AquaSignal-ის დეტერმინისტული, მხოლოდ გადაწყვეტილების მხარდამჭერი წესების ძრავა.
 - `noema_core/aquasignal_store.py` — ინციდენტების replay-ზე დაფუძნებული SQLite persistence და SHA-256 audit chain.
 - `noema_core/mission.json` და `noema_core/mission.py` — მანქანურად წაკითხვადი მისია, ინფორმაციის წვდომის პოლიტიკა და ავტონომიური მოქმედებების წესები.
-- `noema_core/jobs.py`, `noema_core/worker.py`, `noema_core/supervisor.py`, `noema_core/workflows.py`, `noema_core/scheduler.py` და `noema_core/service.py` — მდგრადი დავალებების რიგი, allowlisted worker, supervisor loop, DAG workflow-ები, ინტერვალური განრიგი და გაშვებადი სერვისის bootstrap.
+- `noema_core/jobs.py`, `noema_core/jobs_cli.py`, `noema_core/worker.py`, `noema_core/supervisor.py`, `noema_core/workflows.py`, `noema_core/scheduler.py` და `noema_core/service.py` — მდგრადი queue/worker, metrics და verified SQLite backup/restore CLI.
 - `assets/styles.css` და `assets/articles.css` — მთავარი გვერდისა და კვლევითი სტატიების ვიზუალური სტილები.
 - `data/research.json` — საჯარო, ვერსიაკონტროლირებადი კვლევების კატალოგი; `data/research.schema.json` განსაზღვრავს ჩანაწერების სტრუქტურას. ეს არის ამჟამინდელი სტატიკური კატალოგი და არა Supabase/სერვერული მონაცემთა ბაზა.
 - `data/research-portfolio.json` და `data/research-portfolio.schema.json` — 3–5 აქტიური კვლევითი ნაკადის საერთო პორტფელი, თითოეული ნაკადის კითხვით, მეთოდით, წყაროებით, რისკებით, სტატუსითა და შემდეგი ნაბიჯით.

@@ -74,6 +74,8 @@ jobs:
           test -f tests/test_aquasignal.py
           test -f tests/test_mission_core.py
           test -f noema_core/jobs.py
+          test -f tests/test_database_backup.py
+          test -f docs/OFFSITE_BACKUP_ARCHITECTURE.md
           test -f noema_core/jobs_cli.py
           test -f tests/test_durable_job_queue.py
           test -f noema_core/worker.py
@@ -100,6 +102,16 @@ jobs:
         run: python scripts/validate_job_queue.py
       - name: Validate runnable NOEMA service entrypoint
         run: python -m noema_core.service --check --db "$RUNNER_TEMP/noema-service-check.sqlite3"
+      - name: Validate SQLite backup and restore CLI
+        run: |
+          DB="$RUNNER_TEMP/noema-ops.sqlite3"
+          BACKUP="$RUNNER_TEMP/noema-ops-backup.sqlite3"
+          RESTORED="$RUNNER_TEMP/noema-ops-restored.sqlite3"
+          python -m noema_core.jobs_cli --db "$DB" metrics
+          python -m noema_core.jobs_cli --db "$DB" backup --output "$BACKUP"
+          python -m noema_core.jobs_cli restore --source "$BACKUP" --destination "$RESTORED"
+          python -m noema_core.jobs_cli --db "$RESTORED" verify
+          python -m noema_core.jobs_cli --db "$RESTORED" metrics
       - name: Run Python unit tests
         run: python -m unittest discover -s tests -v
       - name: Reproduce NOEMA-003 trend analysis and compare frozen results

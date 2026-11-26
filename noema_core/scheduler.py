@@ -70,6 +70,7 @@ class SchedulerReport:
     fires_created: int
     fires_dispatched: int
     fires_skipped: int
+    fires_failed: int
     pending_fires: int
     failed_fires: int
     workflow_ids: tuple[str, ...]
@@ -378,6 +379,17 @@ class IntervalScheduler:
         with closing(self.queue._connect()) as connection:
             rows = connection.execute(sql, parameters).fetchall()
         return [self._row_to_schedule(row) for row in rows]
+
+    def count_fires_by_status(self) -> dict[str, int]:
+        """Return complete scheduler-fire counts grouped by status."""
+        statuses = ("pending", "dispatched", "skipped", "failed")
+        with closing(self.queue._connect()) as connection:
+            rows = connection.execute(
+                "SELECT status, COUNT(*) AS count FROM scheduler_fires GROUP BY status"
+            ).fetchall()
+        counts = {status: 0 for status in statuses}
+        counts.update({row["status"]: row["count"] for row in rows})
+        return counts
 
     def list_fires(
         self,
@@ -721,6 +733,7 @@ class IntervalScheduler:
             fires_created=fires_created,
             fires_dispatched=dispatched,
             fires_skipped=skipped,
+            fires_failed=failed,
             pending_fires=pending_count,
             failed_fires=failed_count,
             workflow_ids=tuple(workflow_ids),

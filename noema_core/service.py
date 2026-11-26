@@ -48,12 +48,28 @@ class NoemaService:
         mission = load_mission()
         integrity = self.queue.integrity_check()
         schedule = self.scheduler.get(SERVICE_SCHEDULE_ID)
+        recent_fires = self.scheduler.list_fires(limit=10)
         return {
             "service": "NOEMA",
             "mission_schema_version": mission["schema_version"],
             "worker_id": self.worker.worker_id,
             "database": str(self.queue.db_path),
             "database_integrity": integrity,
+            "queue_counts": self.queue.count_jobs_by_status(),
+            "workflow_counts": self.workflow_engine.count_workflows_by_status(),
+            "schedule_fire_counts": self.scheduler.count_fires_by_status(),
+            "recent_schedule_fires": [
+                {
+                    "fire_id": fire.fire_id,
+                    "schedule_id": fire.schedule_id,
+                    "scheduled_for": fire.scheduled_for,
+                    "status": fire.status,
+                    "workflow_id": fire.workflow_id,
+                    "attempts": fire.attempts,
+                    "last_error": fire.last_error,
+                }
+                for fire in recent_fires
+            ],
             "registered_job_types": list(self.registry.job_types),
             "self_check_schedule": {
                 "schedule_id": schedule.schedule_id,

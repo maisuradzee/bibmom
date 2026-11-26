@@ -76,6 +76,17 @@ class AuditVerification:
     error: str | None = None
 
 
+@dataclass(frozen=True)
+class DatabaseSnapshot:
+    path: str
+    sha256: str
+    byte_length: int
+    job_count: int
+    audit_event_count: int
+    audit_last_hash: str
+    created_at: float
+
+
 def _canonical_json(value: Any) -> str:
     try:
         encoded = json.dumps(
@@ -158,16 +169,28 @@ class JobQueue:
             except OSError as exc:
                 raise JobQueueError(f"Cannot restrict database file permissions: {exc}") from exc
 
-    def _connect(self) -> sqlite3.Connection:
-        connection = sqlite3.connect(
-            self.db_path,
-            timeout=self.busy_timeout_ms / 1000,
-            isolation_level=None,
-        )
+    def _connect(self, *, readonly: bool = False) -> sqlite3.Connection:
+        if readonly:
+            # immutable=1 prevents SQLite from creating or changing WAL/SHM
+            # sidecars while verifying a standalone backup artifact.
+            uri = f"{self.db_path.as_uri()}?mode=ro&immutable=1"
+            connection = sqlite3.connect(
+                uri,
+                uri=True,
+                timeout=self.busy_timeout_ms / 1000,
+                isolation_level=None,
+            )
+        else:
+            connection = sqlite3.connect(
+                self.db_path,
+                timeout=self.busy_timeout_ms / 1000,
+                isolation_level=None,
+            )
         connection.row_factory = sqlite3.Row
         connection.execute("PRAGMA foreign_keys = ON")
         connection.execute(f"PRAGMA busy_timeout = {self.busy_timeout_ms}")
-        connection.execute("PRAGMA synchronous = FULL")
+        if not readonly:
+            connection.execute("PRAGMA synchronous = FULL")
         return connection
 
     def _initialize(self) -> None:
@@ -687,8 +710,8 @@ class JobQueue:
             for row in reversed(rows)
         ]
 
-    def verify_audit_log(self) -> AuditVerification:
-        with closing(self._connect()) as connection:
+    def verify_audit_log(self, *, readonly: bool = False) -> AuditVerification:
+        with closing(self._connect(readonly=readonly)) as connection:
             rows = connection.execute(
                 "SELECT * FROM audit_events ORDER BY sequence"
             ).fetchall()
@@ -713,9 +736,237 @@ class JobQueue:
             expected_sequence += 1
         return AuditVerification(True, len(rows), previous_hash)
 
-    def integrity_check(self) -> dict[str, Any]:
+    @staticmethod
+    def _remove_sqlite_sidecars(path: Path) -> None:
+        for suffix in ("-wal", "-shm", "-journal"):
+            sidecar = Path(str(path) + suffix)
+            try:
+                sidecar.unlink()
+            except FileNotFoundError:
+                pass
+
+    @classmethod
+    def _verify_database_file(
+        cls,
+        path: Path,
+        *,
+        busy_timeout_ms: int = 30_000,
+    ) -> dict[str, Any]:
+        if not path.is_file():
+            raise JobQueueError(f"Database file does not exist: {path}")
+        # immutable=1 intentionally hides WAL sidecars and can report
+        # "delete" even when the on-disk database header is in WAL format.
+        # Inspect the SQLite file-format bytes directly before opening it
+        # immutably; offsets 18 and 19 are the write/read format versions
+        # (1 = rollback journal, 2 = WAL).
+        try:
+            with path.open("rb") as handle:
+                header = handle.read(100)
+        except OSError as exc:
+            raise JobQueueError(f"Cannot read backup database header: {exc}") from exc
+        if len(header) < 100 or header[:16] != b"SQLite format 3\x00":
+            raise JobQueueError("Backup is not a valid SQLite database file")
+        if (header[18], header[19]) != (1, 1):
+            raise JobQueueError(
+                "Backup must be a self-contained DELETE-journal SQLite snapshot"
+            )
+
+        readonly_uri = f"{path.resolve().as_uri()}?mode=ro&immutable=1"
+        with closing(sqlite3.connect(
+            readonly_uri,
+            uri=True,
+            timeout=busy_timeout_ms / 1000,
+        )) as connection:
+            connection.execute(f"PRAGMA busy_timeout = {busy_timeout_ms}")
+            tables = {
+                row[0]
+                for row in connection.execute(
+                    "SELECT name FROM sqlite_master WHERE type = 'table'"
+                ).fetchall()
+            }
+            if not {"jobs", "audit_events"} <= tables:
+                raise JobQueueError("Database is missing required NOEMA queue tables")
+            version = connection.execute("PRAGMA user_version").fetchone()[0]
+            if version != 1:
+                raise JobQueueError(f"Unsupported NOEMA database schema version: {version}")
+        # Avoid JobQueue.__init__ here: validation of an archived backup must
+        # not change its journal mode, file permissions or source bytes.
+        queue = cls.__new__(cls)
+        queue.db_path = path.resolve()
+        queue.busy_timeout_ms = busy_timeout_ms
+        report = queue.integrity_check(readonly=True)
+        if not report["valid"]:
+            raise JobQueueError(
+                "Database integrity validation failed: "
+                + json.dumps(report, ensure_ascii=False, sort_keys=True)
+            )
+        return report
+
+    @staticmethod
+    def _new_destination_path(destination_path: str | Path) -> Path:
+        """Normalize a new output path without following a final-component symlink."""
+        raw = Path(destination_path).expanduser()
+        if raw.is_symlink():
+            raise InvalidJob("Snapshot destination must not be a symlink")
+        if not raw.name:
+            raise InvalidJob("Snapshot destination must name a file")
+        destination = raw.parent.resolve() / raw.name
+        if destination.exists() or destination.is_symlink():
+            raise InvalidJob(f"Snapshot destination already exists: {destination}")
+        return destination
+
+    @classmethod
+    def _create_verified_snapshot(
+        cls,
+        source_path: Path,
+        destination_path: str | Path,
+        *,
+        busy_timeout_ms: int = 30_000,
+    ) -> DatabaseSnapshot:
+        source = source_path.expanduser().resolve()
+        destination = cls._new_destination_path(destination_path)
+        if source == destination:
+            raise InvalidJob("Snapshot source and destination must be different files")
+        if not source.is_file():
+            raise JobQueueError(f"Snapshot source does not exist: {source}")
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        temporary = destination.parent / f".{destination.name}.{uuid.uuid4().hex}.tmp"
+
+        try:
+            # Pre-create with owner-only permissions before SQLite writes any
+            # pages; do not leave an incomplete world-readable temp snapshot.
+            descriptor = os.open(
+                temporary,
+                os.O_CREAT | os.O_EXCL | os.O_WRONLY,
+                0o600,
+            )
+            os.close(descriptor)
+            with closing(sqlite3.connect(str(source), timeout=busy_timeout_ms / 1000)) as source_conn:
+                source_conn.execute(f"PRAGMA busy_timeout = {busy_timeout_ms}")
+                with closing(sqlite3.connect(str(temporary), timeout=busy_timeout_ms / 1000)) as target_conn:
+                    source_conn.backup(target_conn, pages=256, sleep=0.05)
+                    target_conn.commit()
+
+            # The source queue uses WAL. Normalize the copied pages into a
+            # standalone DELETE-journal artifact before read-only validation.
+            with closing(sqlite3.connect(str(temporary), timeout=busy_timeout_ms / 1000)) as connection:
+                mode = connection.execute("PRAGMA journal_mode = DELETE").fetchone()[0]
+                if str(mode).lower() != "delete":
+                    raise JobQueueError("Could not finalize database snapshot journal")
+                integrity = connection.execute("PRAGMA integrity_check").fetchone()[0]
+                foreign_keys = connection.execute("PRAGMA foreign_key_check").fetchall()
+            if integrity != "ok" or foreign_keys:
+                raise JobQueueError("Final snapshot integrity/foreign-key check failed")
+
+            report = cls._verify_database_file(
+                temporary,
+                busy_timeout_ms=busy_timeout_ms,
+            )
+
+            if os.name == "posix":
+                os.chmod(temporary, 0o600)
+            # Flush the completed standalone snapshot before atomic publication.
+            snapshot_fd = os.open(temporary, os.O_RDONLY)
+            try:
+                os.fsync(snapshot_fd)
+            finally:
+                os.close(snapshot_fd)
+            digest_hasher = hashlib.sha256()
+            with temporary.open("rb") as snapshot_file:
+                for chunk in iter(lambda: snapshot_file.read(1024 * 1024), b""):
+                    digest_hasher.update(chunk)
+            digest = digest_hasher.hexdigest()
+            byte_length = temporary.stat().st_size
+            created_at = time.time()
+
+            # Hard-link publication is atomic and fails rather than replacing
+            # an existing backup on POSIX and NTFS filesystems.
+            try:
+                os.link(temporary, destination)
+            except FileExistsError as exc:
+                raise InvalidJob(f"Snapshot destination already exists: {destination}") from exc
+            if os.name == "posix":
+                directory_fd = os.open(destination.parent, os.O_RDONLY)
+                try:
+                    os.fsync(directory_fd)
+                finally:
+                    os.close(directory_fd)
+            temporary.unlink()
+            cls._remove_sqlite_sidecars(temporary)
+
+            return DatabaseSnapshot(
+                path=str(destination),
+                sha256=digest,
+                byte_length=byte_length,
+                job_count=report["job_count"],
+                audit_event_count=report["audit_event_count"],
+                audit_last_hash=report["audit_last_hash"],
+                created_at=created_at,
+            )
+        except Exception:
+            try:
+                temporary.unlink()
+            except FileNotFoundError:
+                pass
+            cls._remove_sqlite_sidecars(temporary)
+            raise
+
+    def backup_to(self, destination_path: str | Path) -> DatabaseSnapshot:
+        """Create an online, verified SQLite snapshot without overwriting files.
+
+        SQLite's online backup API includes committed WAL content, so the
+        service may continue running while the snapshot is created.
+        """
+        return self._create_verified_snapshot(
+            self.db_path,
+            destination_path,
+            busy_timeout_ms=self.busy_timeout_ms,
+        )
+
+    @classmethod
+    def restore_from_backup(
+        cls,
+        backup_path: str | Path,
+        destination_path: str | Path,
+        *,
+        busy_timeout_ms: int = 30_000,
+    ) -> DatabaseSnapshot:
+        """Restore a verified backup into a new database file.
+
+        The destination must not exist. Stop the service and move the current
+        database/WAL files aside before restoring to the configured path.
+        """
+        if not isinstance(busy_timeout_ms, int) or isinstance(busy_timeout_ms, bool):
+            raise InvalidJob("busy_timeout_ms must be an integer")
+        if not 1 <= busy_timeout_ms <= 120_000:
+            raise InvalidJob("busy_timeout_ms must be between 1 and 120000")
+        source = Path(backup_path).expanduser().resolve()
+        destination = cls._new_destination_path(destination_path)
+        if source == destination:
+            raise InvalidJob("Restore source and destination must be different files")
+        cls._verify_database_file(source, busy_timeout_ms=busy_timeout_ms)
+        return cls._create_verified_snapshot(
+            source,
+            destination,
+            busy_timeout_ms=busy_timeout_ms,
+        )
+
+    def count_jobs_by_status(self) -> dict[str, int]:
+        """Return complete queue status counts without truncating to list limits."""
+        statuses = ("queued", "running", "succeeded", "failed", "blocked")
         with closing(self._connect()) as connection:
+            rows = connection.execute(
+                "SELECT status, COUNT(*) AS count FROM jobs GROUP BY status"
+            ).fetchall()
+        counts = {status: 0 for status in statuses}
+        counts.update({row["status"]: row["count"] for row in rows})
+        return counts
+
+    def integrity_check(self, *, readonly: bool = False) -> dict[str, Any]:
+        with closing(self._connect(readonly=readonly)) as connection:
             sqlite_result = connection.execute("PRAGMA integrity_check").fetchone()[0]
+            foreign_key_rows = connection.execute("PRAGMA foreign_key_check").fetchall()
+            job_count = connection.execute("SELECT COUNT(*) FROM jobs").fetchone()[0]
             rows = connection.execute(
                 "SELECT job_id, payload_json, payload_sha256, result_json, result_sha256 FROM jobs"
             ).fetchall()
@@ -754,9 +1005,10 @@ class JobQueue:
                     or success_hashes.get(row["job_id"]) != row["result_sha256"]
                 ):
                     result_hashes_valid = False
-        audit = self.verify_audit_log()
+        audit = self.verify_audit_log(readonly=readonly)
         valid = (
             sqlite_result == "ok"
+            and not foreign_key_rows
             and payload_hashes_valid
             and result_hashes_valid
             and event_evidence_valid
@@ -764,6 +1016,7 @@ class JobQueue:
         )
         return {
             "sqlite_integrity": sqlite_result,
+            "foreign_key_violations": len(foreign_key_rows),
             "payload_hashes_valid": payload_hashes_valid,
             "result_hashes_valid": result_hashes_valid,
             "event_evidence_valid": event_evidence_valid,
