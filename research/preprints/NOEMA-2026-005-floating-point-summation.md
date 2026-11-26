@@ -237,6 +237,28 @@ x86-64 წინა შედეგებთან შედარება მ�
 ---
 **NOEMA სტატუსი:** preliminary · წინასწარი შედეგი · დამოუკიდებელი გარე რეცენზია არ დასრულებულა.
 
-17. GitHub. (documentation snapshot accessed 2026-11-26; page does not state a publication date). *GitHub-hosted runners reference*. https://docs.github.com/en/actions/reference/runners/github-hosted-runners. Accessed 2026-11-26.
-18. GitHub. (2025-01-16). *Linux arm64 hosted runners now available for free in public repositories (Public Preview)*. https://github.blog/changelog/2025-01-16-linux-arm64-hosted-runners-now-available-for-free-in-public-repositories-public-preview/. Accessed 2026-11-26.
-19. Python Software Foundation. (documentation version 3.14.10 released 2026-10-25; individual page has no separate publication date). *Python 3.14 free-threading HOWTO*. https://docs.python.org/3.14/howto/free-threading-python.html. Accessed 2026-11-26.
+## ARM64-ის დამოუკიდებელი მეორე გამეორება — 2026-11-26
+
+**REPRODUCED RESULT:** PR #23-ის მეორე ARM64 workflow run-მა `45754595646` ოთხივე runner/runtime უჯრედში იგივე სინთეზური input hash-ები გამოიყენა და 48 configuration × 3 repetition შეასრულა თითო უჯრედში. Neumaier `(sum, compensation)` state-მა კვლავ მიიღო 192/192 სწორად დამრგვალებული შედეგი; scalar Neumaier — 168/192; naive scalar — 0/192. პირველ batch-თან შედარებით ზუსტი შედეგი უცვლელად განმეორდა: ორ batch-ზე Neumaier-state 384/384, scalar Neumaier 336/384 და naive scalar 0/384.
+
+| ARM64 runtime cell | Neumaier-state accuracy | CPU/wall >1.05 | Median state speedup |
+|---|---:|---:|---:|
+| Ubuntu 24.04 ARM64, GIL enabled | 48/48 | 0/144 | 0.737 |
+| Ubuntu 24.04 ARM64, free-threaded | 48/48 | 108/144 | 0.704 |
+| macOS 15 ARM64, GIL enabled | 48/48 | 1/144 (naive scalar sample) | 0.896 |
+| macOS 15 ARM64, free-threaded | 48/48 | 103/144 | 0.676 |
+
+**INFERENCE:** ზუსტი რიცხვითი შედეგი ამ ორ ARM64 batch-ში გამეორდა. ამავე დროს, CPU-time/wall-time 1.05 threshold-ის გადაკვეთის რაოდენობა შეიცვალა: free-threaded 208/288-დან 211/288-მდე, GIL-enabled 2/288-დან 1/288-მდე. ამიტომ ეს threshold-count მგრძნობიარეა კონკრეტული გაშვების პირობებზე და არ უნდა განვიხილოთ როგორც სტაბილური პარალელიზმის ან წარმადობის საზომი.
+
+მეორე batch-ის ოთხივე runtime cell-ში Neumaier-state median wall-time speedup 1.0-ზე ნაკლები იყო. CPU-ის aggregate დროის ზრდა არ ნიშნავს მოკლე დასრულების დროს. Python-ის ოფიციალური დოკუმენტაცია ასევე აფრთხილებს, რომ free-threaded build-ის შესრულება workload-სა და hardware-ზეა დამოკიდებული და დამატებითი single-thread/memory overhead შეიძლება ჰქონდეს.
+
+**FACT:** Python 3.14 free-threading HOWTO აღწერს `sys._is_gil_enabled()`-ით მიმდინარე GIL მდგომარეობის შემოწმებას და აღნიშნავს, რომ free-threaded რეჟიმი ყველა workload-ს ავტომატურად არ აჩქარებს. GitHub-ის runner reference ასახელებს Ubuntu ARM64 runner-ს 4 CPU-ით და macOS 15 ARM64 M1 runner-ს 3 CPU-ით.
+
+**UNTESTED IDEA:** იგივე პროტოკოლის Windows ARM64-ზე ან სხვა დამოუკიდებელ ARM64 გარემოში გამეორება; native C/OpenMP reduction-ის შედარება; მინიმუმ 20 measured repetition და RSS/native allocation გაზომვა.
+
+**მონაცემები და provenance:** [მეორე batch-ის სრული aggregate/provenance JSON](../data/noema-005/arm64-repeat-validation-2026-11-26.json); [ARM64 workflow run 45754595646](https://github.com/maisuradzee/bibmom/actions/runs/45754595646); [quality/site run 45754595614](https://github.com/maisuradzee/bibmom/actions/runs/45754595614). ოთხივე raw report ZIP ჩამოიტვირთა და შემოწმდა; SHA-256, byte length, artifact ID და archive SHA-256 ინახება JSON-ში. GitHub Actions raw artifacts ინახება 30 დღე; JSON-ში ჩაწერილი hash-ები მათ მუდმივ არქივად არ აქცევს.
+
+**შეზღუდვები:** hosted VM-ები კონტროლირებული ლაბორატორიული აპარატურა არ არის; Ubuntu და macOS CPU/OS/core count-ით განსხვავდება; თითო უჯრედში მხოლოდ სამი გაზომილი გამეორებაა; მონაცემები ხელოვნური cancellation fixture-ებია; `tracemalloc` არ ზომავს სრულ RSS-ს ან ყველა native allocation-ს. დამოუკიდებელი გარე რეცენზია არ ჩატარებულა.
+
+---
+**NOEMA სტატუსი:** preliminary · წინასწარი შედეგი · დამოუკიდებელი გარე რეცენზია არ დასრულებულა.

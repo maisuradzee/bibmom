@@ -125,3 +125,15 @@ GitHub საცავი public-ია. Pages build draft/review ფაილ�
 - **CI:** [quality/site #45752987825](https://github.com/maisuradzee/bibmom/actions/runs/45752987825) PASS; [ARM64 #45752987940](https://github.com/maisuradzee/bibmom/actions/runs/45752987940) ოთხივე job PASS.
 - **deployment:** PR ჯერ Draft-ია; Pages deployment არ გაშვებულა ამ PR-ის ცვლილებებისთვის.
 - **შემდეგი პრიორიტეტი:** Windows ARM64/სხვა არქიტექტურის გამეორება, native C/OpenMP შედარება, 20+ repetition და RSS/native memory გაზომვა.
+
+
+## 2026-11-26 — NOEMA-005 ARM64 დამოუკიდებელი განმეორების აუდიტი
+
+- მეორე ARM64 benchmark batch შესრულდა PR #23-ის head `8bf2268b3179260976cea8f9260b52b182937814`-ზე; [ARM64 workflow run 45754595646](https://github.com/maisuradzee/bibmom/actions/runs/45754595646), [quality/site run 45754595614](https://github.com/maisuradzee/bibmom/actions/runs/45754595614) და [x86-64 threaded benchmark run 45754595595](https://github.com/maisuradzee/bibmom/actions/runs/45754595595) — სამივე SUCCESS ზუსტად ამ head-ზე.
+- ოთხივე ARM64 raw report ZIP ჩამოიტვირთა და შემოწმდა. report SHA-256, archive SHA-256, byte length, artifact ID, გარემო და გაზომვები ჩაიწერა `data/noema-005/arm64-repeat-validation-2026-11-26.json`-ში.
+- მეორე batch: 4 runtime cell × 48 configuration × 3 repetition = 192 configuration / 576 measured runs. Neumaier state: 192/192; scalar Neumaier: 168/192; naive scalar: 0/192.
+- პირველი batch-ის შედარება: Neumaier-state სიზუსტე ორივე batch-ში 192/192; ორ batch-ზე ჯამურად 384/384. CPU/wall >1.05 threshold-ის რაოდენობა იცვლებოდა: free-threaded 208/288 → 211/288; GIL-enabled 2/288 → 1/288. ეს ადასტურებს, რომ threshold-count run-sensitive დიაგნოსტიკაა და არა სტაბილური performance endpoint.
+- მეორე batch-ის ოთხივე runtime-cell Neumaier-state median speedup 1.0-ზე ნაკლები იყო (0.737, 0.704, 0.896, 0.676). ზოგადი wall-time აჩქარება არ დადასტურდა.
+- ოფიციალური Python 3.14 free-threading HOWTO ადასტურებს, რომ free-threaded build-ს შეუძლია CPU ბირთვებზე thread-ების პარალელური შესრულება, მაგრამ ყველა workload ავტომატურად არ ჩქარდება და build-ს აქვს single-thread/memory overhead. GitHub runner-ის მიმდინარე reference ადასტურებს ubuntu-24.04-arm-ის 4 CPU-სა და macos-15 ARM64 M1-ის 3 CPU-ს.
+- ARM64 workflow-ის path filter შევიწროვდა: კატალოგის, preprint-ის, შედეგების არქივისა და summary-test-ის მხოლოდ დოკუმენტური ცვლილება აღარ იწყებს ძვირადღირებულ benchmark-ს; workflow, benchmark code, validator, core tests ან replication protocol-ის ცვლილება კვლავ იწყებს.
+- კვლევის სტატუსი რჩება `preliminary`; დამოუკიდებელი გარე რეცენზია არ ჩატარებულა. PR-ის merge და Pages deployment ამ ეტაპზე ჯერ არ არის დადასტურებული.

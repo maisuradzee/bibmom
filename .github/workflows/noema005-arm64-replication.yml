@@ -10,10 +10,6 @@ on:
       - tests/test_benchmark_noema005_threaded_reduction.py
       - tests/test_validate_noema005_arm64_report.py
       - research/drafts/NOEMA-2026-005-arm64-replication-protocol.md
-      - research/preprints/NOEMA-2026-005-floating-point-summation.md
-      - data/noema-005/arm64-threaded-benchmark-summary-2026-11-26.json
-      - data/research.json
-      - tests/test_noema005_arm64_summary.py
   workflow_dispatch:
 
 permissions:
