@@ -461,7 +461,9 @@
         "მონაცემთა უფლებებისა და privacy review-ის შემდეგ მხოლოდ აგრეგირებული/ანონიმიზებული warning-delivery და action-log მონაცემის შეფასება",
         "პილოტისთვის წინასწარ რეგისტრირებული baseline და stepped-wedge ან matched-community შეფასების დიზაინი",
         "Compare 2022–2026 country-reported MHEWS coverage with average pillar-quality scores; keep capability reporting separate from behavioural response and effectiveness outcomes.",
-        "Freeze the official UNDRR MHEWS 2026 country-level counts and reproduce pillar percentages, all-four ratio and preparedness score difference with a standard-library script plus frozen-result tests."
+        "Freeze the official UNDRR MHEWS 2026 country-level counts and reproduce pillar percentages, all-four ratio and preparedness score difference with a standard-library script plus frozen-result tests.",
+        "Freeze the WMO 2026 analysis of 35 government-validated roadmaps and reproduce only arithmetic from its published rounded aggregates; do not infer warning reach or protection.",
+        "Define and test an event/area aggregate-only action-readiness contract with separate endpoint and survey denominators, small-cell suppression and explicit release approvals."
       ],
       "sources": [
         {
@@ -607,6 +609,30 @@
           "url": "https://github.com/maisuradzee/bibmom/actions/runs/45839056275",
           "type": "internal_ci_result",
           "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "From Global Ambition into National Action: Take Aways from 35 EW4All Roadmaps",
+          "publisher": "World Meteorological Organization",
+          "publication_date": "2026-10-29",
+          "url": "https://wmo.int/media/update/from-global-ambition-national-action-take-aways-from-35-ew4all-roadmaps",
+          "type": "official_global_roadmap_analysis",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA-007 WMO 2026 roadmap source snapshot",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/blob/main/data/noema-007/wmo-roadmaps-2026-source-snapshot.json",
+          "type": "frozen_official_aggregate_snapshot",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA-007 aggregate action-readiness schema",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/blob/main/data/noema-007/action-readiness-observation.schema.json",
+          "type": "proposed_privacy_safe_data_contract",
+          "accessed_at": "2026-11-26"
         }
       ],
       "data_needs": [
@@ -629,18 +655,22 @@
         "არც alert-delivery, acknowledgement და action-completion აგრეგირებული ჩანაწერები და არც თემის საველე შეფასება არ არის ხელმისაწვდომი",
         "No current municipal alert-delivery, acknowledgement or action-completion dataset or field study is available.",
         "The LRF report's source-published reproduction has not been independently rerun by NOEMA; 37 findings require Gallup World Poll data outside the public release.",
-        "Georgia's World Risk Poll warning base is 99 respondents, below the report's n>=100 threshold; no robust country ranking can be drawn."
+        "Georgia's World Risk Poll warning base is 99 respondents, below the report's n>=100 threshold; no robust country ranking can be drawn.",
+        "The WMO roadmap article publishes aggregate findings, not the underlying country-by-country roadmap dataset; NOEMA cannot independently reanalyse the 35 roadmaps from this source alone.",
+        "The aggregate action-readiness contract is unpiloted; the minimum cell-size floor of 10 is a prototype default, not a guarantee of anonymisation or a substitute for local privacy review."
       ],
       "status": "active",
-      "status_detail": "PR #62 merged into main as 09b7f0c28c8edebed9d72fc7d264418bd08a8a5f. It adds a frozen UNDRR MHEWS 2026 source snapshot and deterministic arithmetic reproduction: 64/136 = 47.0588% of reporting countries have all four pillars; preparedness average score changed from 0.74 to 0.70 (absolute difference −0.04). Quality CI 45839056275 passed the full test suite, frozen research reproductions, site build and publication-boundary checks. Main quality CI 45839308722 and Pages build/deploy 45839308765 succeeded for the merge commit. NEA's 25 November 2026 update confirms consultations on plans for seven Georgian river basins, but no local alert-delivery, acknowledgement or action-completion dataset or field validation is available. The country-level percentages are not population coverage or causal estimates.",
-      "next_step": "Obtain the current official data dictionary and explicit permission for aggregated alert-delivery, acknowledgement and action-completion records for one Georgian river-basin/municipal workflow. Pre-register a baseline and pilot that separates capability, delivery, comprehension, feasible action and outcomes; do not treat global country-level scores as local performance.",
+      "status_detail": "PR #62 merged into main as 09b7f0c28c8edebed9d72fc7d264418bd08a8a5f. It adds a frozen UNDRR MHEWS 2026 source snapshot and deterministic arithmetic reproduction: 64/136 = 47.0588% of reporting countries have all four pillars; preparedness average score changed from 0.74 to 0.70 (absolute difference −0.04). Quality CI 45839056275 passed the full test suite, frozen research reproductions, site build and publication-boundary checks. Main quality CI 45839308722 and Pages build/deploy 45839308765 succeeded for the merge commit. NEA's 25 November 2026 update confirms consultations on plans for seven Georgian river basins, but no local alert-delivery, acknowledgement or action-completion dataset or field validation is available. The country-level percentages are not population coverage or causal estimates. A new research branch freezes WMO's 2026 analysis of 35 government-validated roadmaps and reproduces arithmetic only (20/35 = 57.1429% with clear budget allocations; approximately USD 69 million mean among those 20). It also adds a proposed aggregate-only event-to-action data contract with explicit endpoint/respondent denominators, small-cell controls and release approvals; tests use synthetic fixtures only. No field data or independent reanalysis of the underlying 35 roadmaps is claimed.",
+      "next_step": "Seek the official Georgia basin/municipal data dictionary and explicit permission for aggregate event-level warning and after-action data; obtain local privacy review of the proposed small-cell rule before any pilot, then pre-register comprehension, feasible-action and verified-action denominators.",
       "success_metrics": [
         "გაფრთხილების მიღწევის, სწორად გაგებისა და feasible action-ის წილი",
         "alert-to-acknowledgement და alert-to-action დრო",
         "false/misdirected alert rate",
         "coverage gap ასაკის, ენის, შეზღუდული შესაძლებლობისა და კავშირის ხელმისაწვდომობის მიხედვით მხოლოდ აგრეგირებულ დონეზე",
         "after-action review-ის completeness და corrective action closure rate",
-        "Capability coverage/quality and operational effectiveness (delivery, comprehension, feasible action and outcomes) are reported as separate measures."
+        "Capability coverage/quality and operational effectiveness (delivery, comprehension, feasible action and outcomes) are reported as separate measures.",
+        "Each reported delivery, comprehension and action metric states its own numerator, denominator and unit; endpoint receipts are never labelled as people reached.",
+        "No public aggregate is released without data-controller and privacy-reviewer approval and a documented small-cell suppression policy."
       ],
       "last_reviewed": "2026-11-26"
     },
