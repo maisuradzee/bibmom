@@ -22,7 +22,11 @@
         "შემდეგ ეტაპზე მხოლოდ უფლებამოსილი ოპერატორის მიერ ნებადართული paired sensor/laboratory მონაცემის წინასწარ რეგისტრირებული შეფასება",
         "ლოკალური append-only SQLite event store: canonical transition replay, WAL, immediate write transaction, SHA-256 hash chain და synthetic concurrency/tamper/replay tests",
         "Compare the locally verified AquaSignal event-chain tail hash and event count with caller-supplied trusted out-of-band checkpoint values; this comparison does not authenticate the checkpoint or prevent rollback.",
-        "Detached Ed25519 checkpoint verification over canonical UTF-8 payload bytes, with local event-chain tail matching and a caller-managed monotonic high-water state; synthetic ephemeral-key tests only."
+        "Detached Ed25519 checkpoint verification over canonical UTF-8 payload bytes, with local event-chain tail matching and a caller-managed monotonic high-water state; synthetic ephemeral-key tests only.",
+        "Inventory official Georgian water-monitoring networks without combining unlike domains: NEA surface water, groundwater, marine water and the utility's raw-source/treated-network drinking-water testing are separate data streams.",
+        "Record only source-published network counts, monitoring frequency statements, parameter classes, laboratory accreditation claims and whether sample-level records/data dictionaries are publicly accessible; do not infer station-level frequency from a general news statement.",
+        "Before any ingestion, require an authorized data dictionary covering station ID/coordinates, sample timestamp, water matrix, analyte, result, units, method, LOD/LOQ, lab, accreditation, QA/QC flags, applicable standard, approved site Water Safety Plan limit, publication delay and revision history.",
+        "Evaluate any future sensor/lab pairing in shadow mode with preregistered detection delay, sensitivity, positive predictive value, false alerts per station-month, calibration drift and data completeness; require human and laboratory confirmation before operational action."
       ],
       "sources": [
         {
@@ -80,13 +84,41 @@
           "url": "https://theupdateframework.github.io/specification/v1.0.36/",
           "type": "security_protocol_specification",
           "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Black Sea water monitoring at 14 monthly points",
+          "publisher": "National Environmental Agency of Georgia",
+          "publication_date": "2026-07-13",
+          "url": "https://nea.gov.ge/En/News/2417",
+          "type": "official_national_monitoring_source",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Water quality control — laboratory network and sampling schedule",
+          "publisher": "United Water Supply Company of Georgia",
+          "publication_date": "undated",
+          "url": "https://water.gov.ge/customer-info",
+          "type": "official_utility_information",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Water resources — monitoring responsibilities and context",
+          "publisher": "National Environmental Agency of Georgia",
+          "publication_date": "undated",
+          "url": "https://nea.gov.ge/En/popular/6",
+          "type": "official_national_source",
+          "accessed_at": "2026-11-26"
         }
       ],
       "data_needs": [
         "უფლებამოსილი ოპერატორის data dictionary და პარამეტრების ერთეულები",
         "ობიექტის დამტკიცებული Water Safety Plan და site-specific operational limits",
         "ნებადართული ისტორიული paired sensor/laboratory ჩანაწერები, sample provenance და calibration logs",
-        "მონაცემის გამოყენებისა და ხელახალი გამოქვეყნების წერილობითი ნებართვა"
+        "მონაცემის გამოყენებისა და ხელახალი გამოქვეყნების წერილობითი ნებართვა",
+        "Official machine-readable sample-level NEA/utility laboratory results, or a published endpoint and documented reuse terms.",
+        "Station registry and data dictionary: station identifiers, coordinates, sample timestamps, water matrix, analytes, units, analytical methods, LOD/LOQ, laboratory, accreditation scope, QA/QC and revision/correction history.",
+        "Applicable Georgian technical regulation and site-approved Water Safety Plan limits for the exact water matrix and sampling point.",
+        "Written authorization for paired sensor/laboratory data and any operational use; synthetic fixtures only until approval."
       ],
       "risks": [
         "ცრუ განგაში ან სენსორის drift-ის წყლის რეალურ ცვლილებად მიჩნევა",
@@ -97,24 +129,29 @@
         "The event store has no encrypted/off-host backup, retention policy, external signed checkpoint or production access-control integration.",
         "The external checkpoint comparison authenticates neither the checkpoint nor its freshness; a stale or attacker-controlled checkpoint can validate a rolled-back database.",
         "A signed sequence detects rollback only if the highest accepted sequence and digest are atomically held outside the SQLite database in a separately trusted, rollback-resistant service.",
-        "The prototype has no production signer, key rotation/revocation, threshold signing, remote anchor, provider retention or alerting integration."
+        "The prototype has no production signer, key rotation/revocation, threshold signing, remote anchor, provider retention or alerting integration.",
+        "NEA surface-water, groundwater and marine monitoring must not be conflated with drinking-water network compliance; Black Sea results cannot establish freshwater or tap-water safety.",
+        "Published network counts and general statements such as 'within norm' are not sample-level evidence, a live feed, a station-specific result or an all-time safety guarantee.",
+        "The utility's public statement about daily analyses does not expose the sampling schedule for each station, exact parameters, methods or sample records."
       ],
       "blockers": [
         "Authorized paired sensor/laboratory data, a site data dictionary and approved Water Safety Plan limits remain unavailable under explicit reuse permission.",
         "No field validation or independent external review has been completed.",
         "The signed checkpoint verifier is a local software contract only; production signing-key custody and a separately administered atomic monotonic high-water service are not implemented.",
-        "Encrypted/off-host backup, remote immutable checkpoint retention, clean-host restore and production access-control integration remain unavailable."
+        "Encrypted/off-host backup, remote immutable checkpoint retention, clean-host restore and production access-control integration remain unavailable.",
+        "Public Georgian agency/utility pages disclose monitoring-network capacity and broad laboratory processes but no sample-level machine-readable time series, station registry, full data dictionary, API or explicit reuse terms were identified in this source inventory."
       ],
       "status": "active",
-      "status_detail": "PR #82 merged into main as a19252bb4df28e2733b6b5180c8938792c040e63. Its exact-head quality CI 45875671834 and actual CPU-thread workflow 45875671867 both succeeded. The verifier checks a strict canonical checkpoint payload, detached Ed25519 signature against caller-supplied trusted keys, expected store identity, and local event-chain hash/count; it rejects lower generations and same-sequence equivocation and marks bootstrap-only verification explicitly when no trusted high-water state is supplied. The caller must atomically persist returned state outside the SQLite rollback domain. Post-merge main quality CI 45875861427 and Pages build/deploy 45875861440 succeeded. No production signer, external high-water authority, authorized sensor/lab dataset, site-approved Water Safety Plan limits or field validation exists.",
-      "next_step": "Obtain independent security review of the signed checkpoint protocol and bootstrap/store-identity binding; then design an atomic high-water adapter only within a separately administered trust domain. In parallel, seek explicitly authorized paired sensor/laboratory data and site-approved Water Safety Plan limits before any preregistered field evaluation.",
+      "status_detail": "PR #82 merged into main as a19252bb4df28e2733b6b5180c8938792c040e63. Its exact-head quality CI 45875671834 and actual CPU-thread workflow 45875671867 both succeeded. The verifier checks a strict canonical checkpoint payload, detached Ed25519 signature against caller-supplied trusted keys, expected store identity, and local event-chain hash/count; it rejects lower generations and same-sequence equivocation and marks bootstrap-only verification explicitly when no trusted high-water state is supplied. The caller must atomically persist returned state outside the SQLite rollback domain. Post-merge main quality CI 45875861427 and Pages build/deploy 45875861440 succeeded. No production signer, external high-water authority, authorized sensor/lab dataset, site-approved Water Safety Plan limits or field validation exists. A public-source Georgia monitoring inventory found existing NEA surface-water (238 locations) and groundwater (72 points) monitoring disclosures, a separate monthly Black Sea network (14 points in the July 2026 update), and a utility laboratory network described as 8 regional plus 35 service-centre labs. These are source-reported network/process facts, not sample-level data or proof of drinking-water safety. No machine-readable sample dataset or data dictionary was identified in the pages inspected; no raw result was imported.",
+      "next_step": "Locate any public sample-level NEA/utility laboratory results and obtain the official station registry, data dictionary and reuse terms. Only after written authorization, pair sensor records with laboratory samples and site-approved Water Safety Plan limits in shadow mode; do not issue public safety claims.",
       "success_metrics": [
         "საველე ტესტში წინასწარ განსაზღვრულ reference labels-თან შედარებული sensitivity და positive predictive value",
         "false-alert rate და detection delay წინასწარ განსაზღვრულ baseline-თან შედარებით",
         "ყველა სიგნალზე წყაროს, freshness-ის, calibration-ისა და წესის ვერსიის მიკვლევადობა",
         "A valid detached Ed25519 signature, expected store identifier and exact local event-chain head are all required before checkpoint acceptance.",
         "A checkpoint sequence below external trusted state is rejected; same-sequence different payload is rejected; identical same-sequence replay is idempotent.",
-        "No rollback-protection claim is made unless next_trusted_state is atomically persisted outside the event database in a separately trusted domain."
+        "No rollback-protection claim is made unless next_trusted_state is atomically persisted outside the event database in a separately trusted domain.",
+        "A source inventory must keep surface, groundwater, marine and potable-network observations distinct and identify whether sample-level provenance, method, units, QA/QC and reuse permission exist before ingestion."
       ],
       "last_reviewed": "2026-11-26"
     },

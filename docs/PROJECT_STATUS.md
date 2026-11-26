@@ -450,3 +450,11 @@ The backup manifest runtime validator verifies only Draft 2020-12 structure and 
 2. Obtain independent security review and a named owner for the INFRA high-water trust domain before implementing any service or selecting storage.
 3. Complete NOEMA-007 query/cohort lineage and cumulative release-ledger design; obtain privacy review and data-controller approval before any real aggregate release.
 4. For AquaSignal, obtain authorized paired sensor/lab data and site-approved operational limits before field evaluation.
+
+## AquaSignal discovery update — Georgia monitoring network inventory (2026-11-26)
+
+- **FACT:** NEA reports 238 surface-water monitoring locations and 72 groundwater points (2025-09-18); a separate July 2026 notice describes monthly Black Sea sampling at 14 points. The United Water Supply Company describes 8 regional and 35 service-centre laboratories and daily organoleptic, chemical and microbiological analyses under its approved schedule.
+- **INFERENCE:** Georgia already has relevant monitoring and laboratory infrastructure; AquaSignal should integrate authorized evidence and operator workflow rather than replace official laboratories. The public pages inspected disclose network/process information, not a sample-level machine-readable dataset or full data dictionary.
+- **Safety:** marine, surface, groundwater and potable-network observations are not interchangeable. The NEA Black Sea 'within norm' statement is not a drinking-water or national freshwater assessment. No thresholds or safety claims were inferred.
+- **Files:** `research/drafts/NOEMA-2026-006-georgia-water-monitoring-inventory-2026-11-26.md`; `data/research-portfolio.json`; README link. The draft uses public source metadata only; no sample records or operator data were imported.
+- **Next step:** locate published sample-level results and obtain station registry, analyte dictionary, methods, QA/QC, sampling schedule and written reuse terms before any sensor/lab pairing.

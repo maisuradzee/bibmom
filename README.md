@@ -45,6 +45,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 ## მიმდინარე კვლევა
 
 - [NOEMA-2026-006 AquaSignal](research/drafts/NOEMA-2026-006-aquasignal-water-early-warning.md) — სასმელი წყლის მონიტორინგის მონაცემების ადრეული სიგნალები; დოკუმენტური discovery, სინთეზური წესების ძრავა და ადგილობრივი event-store პროტოტიპი, საველე ვალიდაციის გარეშე.
+- [AquaSignal — საქართველოს წყლის მონიტორინგის ქსელების ინვენტარი](research/drafts/NOEMA-2026-006-georgia-water-monitoring-inventory-2026-11-26.md) — ოფიციალური ქსელების მასშტაბი და მონაცემთა ხელმისაწვდომობის ზღვარი; sample-level მონაცემი ჯერ არ არის მოპოვებული.
 
 - [NOEMA-2026-001](research/drafts/2026-11-23-paleolithic-sign-systems.md) — პალეოლითური ნიშნები; მეთოდოლოგიური გადახედვა: [დამატება A](research/drafts/2026-11-23-methodological-reassessment.md).
 - [NOEMA-2026-002](research/drafts/2026-11-23-signbase-coding-audit.md) — SignBase 2.0-ის ტექსტური კოდირების აუდიტი და საბაზისო heuristic-ის ტესტი.
