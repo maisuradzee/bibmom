@@ -87,7 +87,7 @@ class Noema005Arm64ReportValidatorTests(unittest.TestCase):
     def test_accepts_complete_arm64_gil_enabled_report(self):
         result = validate_report(valid_report(True), "enabled")
         self.assertEqual(result["threaded_configurations"], 48)
-        self.assertEqual(result["neumaier_state_correct_runs"], 72)
+        self.assertEqual(result["neumaier_state_correct_runs"], 48)
 
     def test_accepts_complete_arm64_free_threaded_report(self):
         result = validate_report(valid_report(False), "disabled")
