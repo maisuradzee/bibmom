@@ -78,7 +78,7 @@
       },
       "artifact": {
         "id": 15127921081,
-        "sha256": "99e8f5970a73d55dcf6dff0aa3c37dc44312b0112add16404f303af30775c",
+        "sha256": "99e8f5970a73d55dcf6dff0aa3c37dc44312b0112add16404f303343af30775c",
         "retention_days": 30
       }
     },
