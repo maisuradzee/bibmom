@@ -97,8 +97,14 @@ class AggregateReleaseGateTests(unittest.TestCase):
             preflight_aggregate_batch(synthetic_plan(), None)
 
     def test_malformed_ledger_fails_closed(self):
+        malformed = {
+            "release_batch_id": "batch_20261127_02",
+            "protected_population_family_id": "family_georgia_01",
+            "plan_sha256": "9" * 64,
+            "secret": "no",
+        }
         with self.assertRaisesRegex(AggregateReleaseGateError, "unapproved fields"):
-            preflight_aggregate_batch(synthetic_plan(), [{"release_batch_id": "batch_20261127_01", "secret": "no"}])
+            preflight_aggregate_batch(synthetic_plan(), [malformed])
 
     def test_release_batch_id_cannot_be_reused_for_another_family(self):
         plan = synthetic_plan()
