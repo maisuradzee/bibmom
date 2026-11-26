@@ -421,11 +421,12 @@
       "blockers": [
         "PR #19 is 32 commits ahead / 46 behind current main and mergeable=false; a careful merge/rebase and new exact-head CI are required.",
         "Backups are not encrypted or stored off-host; retention/rotation and scheduled restore drills are not implemented.",
-        "PR #19 is 32 commits ahead / 49 behind current main and mergeable=false; do not merge the divergent branch blindly.",
+        "Backup encryption, off-host storage, retention/rotation and scheduled restore drills remain unimplemented.",
+        "PR #19 is 32 commits ahead / 52 behind current main and must not be merged blindly.",
         "Backup encryption, off-host storage, retention/rotation and scheduled restore drills remain unimplemented."
       ],
       "status": "active",
-      "status_detail": "PR #19 remains open but is materially divergent from current main: 32 commits ahead / 49 behind, merge base f777eb530443e5be33ce6d28591eeb75e2df0fd0. Audit confirms its backup_to()/restore_from_backup() implementation and CLI are not present in current main's JobQueue; the older branch's passing CI is not current-main evidence. A review comment now recommends a clean branch from current main and selective porting rather than a blind rebase. Backups remain local and unencrypted; off-host retention/rotation and scheduled restore drills are absent.",
+      "status_detail": "PR #19 remains open but is materially divergent from current main: 32 commits ahead / 52 behind, merge base f777eb530443e5be33ce6d28591eeb75e2df0fd0. Audit confirms its backup_to()/restore_from_backup() implementation and CLI are not present in current main's JobQueue; the older branch's passing CI is not current-main evidence. Follow-up review comment records the updated divergence and recommends a clean branch from current main with selective porting rather than a blind rebase. Backups remain local and unencrypted; off-host retention/rotation and scheduled restore drills are absent.",
       "next_step": "Create a clean branch from current main and selectively port the verified SQLite online backup/restore implementation and CLI; rerun all exact-head CI and a restore drill that verifies WAL inclusion, source immutability, owner-only permissions, no-overwrite behavior and integrity checks. Then implement encrypted off-host storage, retention/rotation and scheduled restore exercises.",
       "success_metrics": [
         "backup includes committed WAL data",
