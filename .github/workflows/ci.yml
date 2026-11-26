@@ -72,6 +72,9 @@ jobs:
           test -f noema_core/mission.json
           test -f noema_core/integrations.py
           test -f noema_core/github_public.py
+          test -f noema_core/openapi_read.py
+          test -f tests/test_openapi_read_adapter.py
+          test -f docs/OPENAPI_READ_ADAPTER.md
           test -f tests/test_github_public_adapter.py
           test -f docs/GITHUB_PUBLIC_ADAPTER.md
           test -f tests/test_integrations.py
