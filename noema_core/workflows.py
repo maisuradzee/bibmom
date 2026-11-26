@@ -578,6 +578,17 @@ class WorkflowEngine:
             last_error=run["last_error"],
         )
 
+    def count_workflows_by_status(self) -> dict[str, int]:
+        """Return complete workflow counts grouped by status."""
+        statuses = ("queued", "running", "succeeded", "failed")
+        with closing(self.queue._connect()) as connection:
+            rows = connection.execute(
+                "SELECT status, COUNT(*) AS count FROM workflow_runs GROUP BY status"
+            ).fetchall()
+        counts = {status: 0 for status in statuses}
+        counts.update({row["status"]: row["count"] for row in rows})
+        return counts
+
     def list_workflows(
         self,
         *,
