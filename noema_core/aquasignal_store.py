@@ -9,6 +9,7 @@ import hashlib
 import json
 import os
 import sqlite3
+import stat
 from contextlib import closing
 from dataclasses import dataclass
 from datetime import datetime
@@ -221,30 +222,57 @@ class AquaSignalStore:
         raw_path = Path(db_path).expanduser()
         if raw_path.is_symlink():
             raise IncidentStoreError("event-store path must not be a symbolic link")
-        self.db_path = raw_path.resolve()
-        self.db_path.parent.mkdir(parents=True, exist_ok=True)
+        absolute_path = Path(os.path.abspath(raw_path))
+        try:
+            absolute_path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
+            # Resolve the parent once, then use that canonical directory for
+            # SQLite and its WAL/SHM sidecars.
+            private_parent = absolute_path.parent.resolve(strict=True)
+        except OSError as exc:
+            raise IncidentStoreError(f"Cannot prepare the event-store directory: {exc}") from exc
+        self.db_path = private_parent / absolute_path.name
         self.busy_timeout_ms = busy_timeout_ms
         if os.name == "posix":
             try:
-                if self.db_path.exists():
-                    os.chmod(self.db_path, 0o600)
-                else:
+                parent_info = private_parent.stat()
+                parent_mode = stat.S_IMODE(parent_info.st_mode)
+                if (
+                    not stat.S_ISDIR(parent_info.st_mode)
+                    or parent_info.st_uid != os.geteuid()
+                    or parent_mode & 0o077
+                    or parent_mode & 0o700 != 0o700
+                ):
+                    raise IncidentStoreError(
+                        "event-store parent must be an owner-owned private directory (mode 0700)"
+                    )
+                no_follow = getattr(os, "O_NOFOLLOW", 0)
+                if not no_follow:
+                    raise IncidentStoreError(
+                        "this POSIX platform does not provide O_NOFOLLOW for safe database opening"
+                    )
+                flags = os.O_RDWR | no_follow | getattr(os, "O_CLOEXEC", 0)
+                try:
                     descriptor = os.open(
                         self.db_path,
-                        os.O_CREAT | os.O_EXCL | os.O_RDWR,
+                        flags | os.O_CREAT | os.O_EXCL,
                         0o600,
                     )
+                except FileExistsError:
+                    descriptor = os.open(self.db_path, flags)
+                try:
+                    file_info = os.fstat(descriptor)
+                    if not stat.S_ISREG(file_info.st_mode):
+                        raise IncidentStoreError("event-store path must be a regular file")
+                    if file_info.st_uid != os.geteuid():
+                        raise IncidentStoreError("event-store file must be owned by the current user")
+                    os.fchmod(descriptor, 0o600)
+                finally:
                     os.close(descriptor)
-            except FileExistsError:
-                os.chmod(self.db_path, 0o600)
+            except IncidentStoreError:
+                raise
             except OSError as exc:
-                raise IncidentStoreError(f"Cannot create a private event-store file: {exc}") from exc
+                raise IncidentStoreError(f"Cannot safely open a private event-store file: {exc}") from exc
         self._initialize()
-        if os.name == "posix":
-            try:
-                os.chmod(self.db_path, 0o600)
-            except OSError as exc:
-                raise IncidentStoreError(f"Cannot restrict event-store permissions: {exc}") from exc
 
     def _connect(self) -> sqlite3.Connection:
         connection = sqlite3.connect(
