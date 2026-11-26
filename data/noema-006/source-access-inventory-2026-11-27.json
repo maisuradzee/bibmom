@@ -164,6 +164,18 @@
       "sample_level_schema_verified": false,
       "reuse_terms_verified": false,
       "note": "Article 32 describes the state surface/groundwater monitoring system and states that NEA provides quantitative and qualitative observation data to interested parties on request; the law separately assigns state drinking-water quality control to the National Food Safety Agency."
+    },
+    {
+      "id": "NEA_GW_2021_2025_RAR",
+      "publisher": "National Environmental Agency of Georgia",
+      "publication_date": "2026-11-26",
+      "url": "https://ftp.mepa.gov.ge/Public/NEA/%E1%83%B0%E1%83%98%E1%83%93%E1%83%A0%E1%83%9D%E1%83%92%E1%83%94%E1%83%9A%E1%83%9D%E1%83%92%E1%83%98%E1%83%A3%E1%83%A0%E1%83%98%20%E1%83%90%E1%83%9C%E1%83%92%E1%83%90%E1%83%A0%E1%83%98%E1%83%A8%E1%83%98%20-%202026%20-%20%E1%83%94%E1%83%9A-%E1%83%95%E1%83%94%E1%83%A0%E1%83%A1%E1%83%98%E1%83%94%E1%83%91%E1%83%98.rar",
+      "matrix": "groundwater",
+      "access_status": "official_report_archive_linked_not_extracted",
+      "observation_period": "2021-2025",
+      "sample_level_schema_verified": false,
+      "reuse_terms_verified": false,
+      "note": "Direct RAR URL linked from NEA's 2026-11-26 announcement. Retrieval from this execution environment failed; archive contents, internal files, data dictionary, archive hash and reuse terms remain unverified. A failed retrieval here does not establish that the official server is generally unavailable."
     }
   ]
 }
