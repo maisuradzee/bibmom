@@ -68,12 +68,12 @@
         "პროტოტიპის ლაბორატორიულ ან რეგულატორულ შეფასებად აღქმა"
       ],
       "blockers": [
-        "Real paired sensor/laboratory data, data dictionary and site-approved Water Safety Plan limits are not yet available under an explicit reuse permission.",
-        "PR #29 is diverged from current main (8 commits ahead / 1 behind) after PR #28 merged; refresh, rerun exact-head CI and obtain independent review before integration."
+        "Authorized paired sensor/laboratory data, a site data dictionary and approved Water Safety Plan limits are not available under explicit reuse permission.",
+        "No field validation, independent external review or production durable event store exists."
       ],
       "status": "active",
-      "status_detail": "PR #29 now includes complete SignalAssessment evidence binding and a chronology invariant: a CLOSED incident cannot predate operator acknowledgement. Exact-head quality CI passed on e71353f (240 Python tests plus frozen research/site checks). No real sensor/laboratory data or field validation is available; PR #29 is 8 commits ahead and 1 behind current main after PR #28 merged, so it requires refresh and another exact-head run.",
-      "next_step": "Obtain an authorized operator data dictionary and permitted paired sensor/laboratory records; preregister baseline, sensitivity, PPV, false-alert rate and detection delay before any field pilot.",
+      "status_detail": "PR #29 merged into main at 5b0f8ea791ca9eee1ff5bc96cbc811ebfe88b960. Exact-head quality CI run 45791736630 passed 252 Python tests. The immutable WaterIncident model now checks monotonic event history, complete assessment-to-event binding, severity consistency, and matching acknowledgement/closure audit events; new assessments cannot be backdated before the last event, while identical acknowledgement replay remains idempotent. This is still a synthetic in-memory prototype; no paired sensor/laboratory data or field validation exists.",
+      "next_step": "Obtain an authorized operator data dictionary and permitted paired sensor/laboratory records; preregister baseline, sensitivity, PPV, false-alert rate and detection-delay metrics before any field pilot. Design a durable append-only event store with access control and recovery tests.",
       "success_metrics": [
         "საველე ტესტში წინასწარ განსაზღვრულ reference labels-თან შედარებული sensitivity და positive predictive value",
         "false-alert rate და detection delay წინასწარ განსაზღვრულ baseline-თან შედარებით",
@@ -137,13 +137,13 @@
         "სამი repetition timing-ის მაღალი სიმძლავრის სტატისტიკურ დასკვნას არ იძლევა"
       ],
       "blockers": [
-        "The checked-in native OpenMP report has 10 cases while cases_expected is 20; replace it with a complete provenance-backed report and add a regression test before merge.",
-        "PR #30 is diverged from current main (4 commits ahead / 1 behind) after PR #28 merged; refresh and rerun exact-head CI.",
-        "Independent hardware replication and external numerical-method review are still outstanding."
+        "Native C/OpenMP evidence is from one hosted x86-64 runner; independent native hardware replication is not complete.",
+        "Five repetitions and synthetic cancellation fixtures do not establish general accuracy or performance.",
+        "External numerical-method review remains outstanding."
       ],
       "status": "active",
-      "status_detail": "Preliminary. Existing ARM64 CPU-thread batches: Neumaier compensation-state 768/768, scalar Neumaier 672/768, naive scalar 0/768; no general wall-time speedup was established. PR #30 adds native C/OpenMP and exact-head CI passed: 20 cases, real 1/2/4/8 worker counts, Neumaier-state exact in all 5 repetitions per layout/worker. One Ubuntu 24.04 x86-64 runner showed exploratory median speedups from 0.995x to 3.591x; this is not independent hardware replication or a general performance claim. The committed local JSON currently contains only 10 of 20 expected cases and must not be used as a frozen result.",
-      "next_step": "Repair or retire the incomplete frozen local JSON, add a frozen-report validator, refresh PR #30 onto current main and rerun exact-head CI; then compare pairwise-tree, long-double and binned/exact accumulators and obtain independent hardware replication.",
+      "status_detail": "PR #30 merged into main at 8bb91db62105a83391986d06e88f198b5c7d1670. Exact-head quality CI passed 264 Python tests; native OpenMP CI passed 20 cases with actual 1/2/4/8 worker counts; GIL-enabled and free-threaded CPU-thread jobs passed. The archived raw report and frozen summary are now in data/noema-005/; the validator reproduces all sample medians, CPU/wall ratios and speedups, compares summary-to-raw cases, and verifies the C source SHA-256 and archived Git blob SHA-1. On one Ubuntu 24.04 x86-64/GCC 13.3 runner, Neumaier-state was exact in 5/5 runs per case and naive methods 0/5; observed median speedups ranged 0.999x–3.614x and are run-sensitive. The historical local 10/20-case report is explicitly invalidated.",
+      "next_step": "Compare pairwise-tree, long-double and binned/exact accumulators; add an input-buffer/memory-bandwidth workload; repeat native OpenMP on independent ARM64 and x86-64 hardware with preregistered repetitions; obtain independent numerical-method review.",
       "success_metrics": [
         "exact-reference accuracy თითოეული მეთოდისა და runtime-ის მიხედვით",
         "median wall-time და uncertainty interval წინასწარ განსაზღვრული repetition protocol-ით",
@@ -282,8 +282,8 @@
         "არც alert-delivery, acknowledgement და action-completion აგრეგირებული ჩანაწერები და არც თემის საველე შეფასება არ არის ხელმისაწვდომი"
       ],
       "status": "active",
-      "status_detail": "Discovery draft enriched with peer-reviewed studies and verified 2026 UNDRR/WMO evidence. NEA's 25 November 2026 update confirms consultations on plans for seven river basins; it does not establish municipal adoption or local warning-to-action performance.",
-      "next_step": "შევადაროთ Fiji-ის peer-reviewed case და საქართველოს ერთ river-basin/municipal workflow; მოვიპოვოთ საჯარო, არაპერსონალური data dictionary და მხოლოდ უფლებამოსილი პარტნიორის თანხმობით დავარეგისტრიროთ alert-to-action შეფასება.",
+      "status_detail": "Discovery draft remains active. Existing evidence documents mature UNDRR/WMO and Georgian NEA early-warning infrastructure; the unresolved research question is whether warnings reach residents and result in protective action, not whether NOEMA should duplicate official alerting. No new municipal delivery/acknowledgement/action dataset or field observation was obtained in this cycle.",
+      "next_step": "Select one Georgian river-basin/municipal workflow; obtain its public data dictionary and, only with authorized partner consent, aggregate alert-delivery, acknowledgement and action-completion records. Compare with peer-reviewed last-mile warning-to-action studies.",
       "success_metrics": [
         "გაფრთხილების მიღწევის, სწორად გაგებისა და feasible action-ის წილი",
         "alert-to-acknowledgement და alert-to-action დრო",
@@ -348,12 +348,12 @@
         "audit hash chain without signed external checkpoint does not prevent all tampering scenarios"
       ],
       "blockers": [
-        "PR #19 is diverged from current main (32 commits ahead / 7 behind) and mergeable=false; a careful refresh/rebase and new exact-head CI are required.",
+        "PR #19 is 32 commits ahead / 46 behind current main and mergeable=false; a careful merge/rebase and new exact-head CI are required.",
         "Backups are not encrypted or stored off-host; retention/rotation and scheduled restore drills are not implemented."
       ],
       "status": "active",
-      "status_detail": "PR #19's WAL-header regression fixture and backup/restore CLI passed quality CI on its older head. After PR #28 merged, the branch is 32 commits ahead / 7 behind current main and GitHub reports mergeable=false; its previous CI is not current-main merge evidence. Backups remain local and unencrypted.",
-      "next_step": "Refresh PR #19 onto current main without losing the existing backup/observability work; rerun the full exact-head quality suite and restore drill, then design encrypted off-host backup, retention/rotation and scheduled restore verification.",
+      "status_detail": "PR #19 remains an older, divergent backup/observability branch. Against current main it is 32 commits ahead / 46 behind and mergeable=false. Its earlier WAL-header/backup-restore CI is not current-main merge evidence. Backups remain local and unencrypted; off-host retention and scheduled restore drills are not implemented.",
+      "next_step": "Carefully refresh PR #19 onto current main without losing its existing backup/observability work; rerun exact-head quality checks and a restore drill. Then implement encrypted off-host backup, retention/rotation, integrity verification and scheduled restore exercises.",
       "success_metrics": [
         "backup includes committed WAL data",
         "restore rejects WAL-mode header and corrupted audit data before destination creation",
