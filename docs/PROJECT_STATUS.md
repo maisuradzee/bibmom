@@ -458,3 +458,38 @@ The backup manifest runtime validator verifies only Draft 2020-12 structure and 
 - **Safety:** marine, surface, groundwater and potable-network observations are not interchangeable. The NEA Black Sea 'within norm' statement is not a drinking-water or national freshwater assessment. No thresholds or safety claims were inferred.
 - **Files:** `research/drafts/NOEMA-2026-006-georgia-water-monitoring-inventory-2026-11-26.md`; `data/research-portfolio.json`; README link. The draft uses public source metadata only; no sample records or operator data were imported.
 - **Next step:** locate published sample-level results and obtain station registry, analyte dictionary, methods, QA/QC, sampling schedule and written reuse terms before any sensor/lab pairing.
+
+
+## Research cycle audit — 2026-11-27
+
+### აქტიური პორტფელი
+
+| ნაკადი | მდგომარეობა | ამ ციკლის დადასტურებული პროგრესი | დარჩენილი მთავარი ბლოკერი |
+|---|---|---|---|
+| NOEMA-2026-006 AquaSignal | Active / prototype | დაემატა UNECE/WHO-ის 2025 ანგარიშზე დაფუძნებული მონაცემთა წვდომის განახლება, NEA-ის 2026-11-26 groundwater-report lead და source-access inventory schema/tests; PR #92 | NEA-ის RAR არქივის შიგთავსი, 2022–2025 ბიულეტენების სტრუქტურა, sample denominator და წერილობითი reuse terms |
+| NOEMA-2026-005 | Active / preliminary | PR #87-ის 96 MiB memory-backed hosted benchmark, exact-head quality CI და CPU-thread workflow წარმატებულია | მეორე buffer size, წარმომადგენლობითი scientific workload, დამოუკიდებელი ფიზიკური x86-64/ARM64 გამეორება და გარე numerical-method review |
+| NOEMA-2026-007 | Active / draft | PR #88-ის synthetic nested-cohort disclosure audit; PR #91-ის fail-closed batch preflight, duplicate-ledger rejection და synthetic tests; PR #91 exact-head quality CI წარმატებულია | trusted cohort lineage, atomic persistent ledger, authenticated review, cumulative privacy model და დამოუკიდებელი privacy/security review |
+| NOEMA-INFRA-001 | Active / engineering | PR #85-ის provider-neutral high-water recovery architecture და exact-head quality/CPU CI წარმატებულია | trust-domain owner, independent security review, provider retention, production key custody, encryption/decryption და clean-host restore |
+
+### მიმდინარე main, CI და Pages
+
+- მიმდინარე main head: `8a69e6d91a6151f61ace784e1d3161833ce4c94b`.
+- Main quality CI runs [45890257008](https://github.com/maisuradzee/bibmom/actions/runs/45890257008) და [45890254001](https://github.com/maisuradzee/bibmom/actions/runs/45890254001): SUCCESS.
+- ამ main snapshot-ის Pages deployment [45883541060](https://github.com/maisuradzee/bibmom/actions/runs/45883541060): build/deploy SUCCESS. PR branch-ების ცვლილებები საიტზე არ გამოქვეყნებულა.
+- ამ ციკლში open issues არ დაფიქსირდა.
+
+### PR და backlog მდგომარეობა
+
+- #91 NOEMA-007 release-gate prototype: head `65892bf3330491b596d6748e69f9831dbfc8d869`, quality CI [45890862593](https://github.com/maisuradzee/bibmom/actions/runs/45890862593) SUCCESS; რჩება Draft.
+- #92 AquaSignal data-access update: წინა validator-compliant head `05d99a015f00eca34d7b9df631c4b25d0ffe038b` quality CI [45890781095](https://github.com/maisuradzee/bibmom/actions/runs/45890781095) SUCCESS. შემდგომ დაემატა დაბალანსებული groundwater evidence, source inventory schema/test და ოთხივე ნაკადის portfolio audit; ამ უახლეს head-ზე CI-ის საბოლოო დასკვნა ცალკე უნდა გადამოწმდეს.
+- #85, #87 და #88-ის exact-head quality/სპეციალიზებული workflows წარმატებულია, მაგრამ მათი base snapshot-ები მიმდინარე main-ზე ძველია; merge-მდე საჭიროა refresh/revalidation.
+- Legacy draft PR-ები #5 (database/RLS proposal), #7 (cross-platform simulation CI), #27 (adaptive integration foundation) და #46 (security hardening) ამჟამინდელი ოთხნაკადიანი კვლევითი პორტფელის მიღმაა. #27 ამჟამად mergeable არ არის; დანარჩენები ძველ base snapshot-ებზეა. ამ ციკლში არცერთი არ გაერთიანებულა; საჭიროა ცალკე backlog triage და review.
+
+### მტკიცებულებისა და უსაფრთხოების საზღვარი
+
+- AquaSignal-ის 40.3% E. coli მაჩვენებელი არის მთავრობის მიერ წარმოდგენილ ანგარიშში მოცემული sample-compliance percentage; denominator და urban/rural breakdown ცხრილში ცარიელია. ეს არ არის მოსახლეობის რისკის პროცენტი.
+- იმავე ანგარიშში groundwater-ის წყაროების საერთო ხარისხი შეფასებულია როგორც კარგი, იზოლირებული microbiological exceedance-ებით; ეს source-reported summary-ია და არა დამოუკიდებელი re-analysis.
+- NOEMA-007-ის 80/79 nested-cohort მაგალითი synthetic-ია; რეალური disclosure incident არ დაფიქსირებულა.
+- NOEMA-007 preflight არ არის differential privacy და არ ამოწმებს რეალურ cohort overlap-ს. NOEMA-005-ის hosted synthetic შედეგები არ ამტკიცებს ზოგად speedup-ს. INFRA-001-ის დიზაინი არ უდრის production backup/recovery სერვისს.
+- მხოლოდ საჯარო წყაროების metadata, დოკუმენტაცია და synthetic fixtures გამოიყენეს. პირადი/ოპერატორული მონაცემი, credentials, signing keys ან ახალი Supabase პროექტი არ დამატებულა.
+- სამუშაო შესრულდა ამ დაგეგმილი ციკლის ფარგლებში; უწყვეტი background execution არ იგულისხმება.
