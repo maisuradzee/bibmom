@@ -754,6 +754,23 @@ class JobQueue:
     ) -> dict[str, Any]:
         if not path.is_file():
             raise JobQueueError(f"Database file does not exist: {path}")
+        # immutable=1 intentionally hides WAL sidecars and can report
+        # "delete" even when the on-disk database header is in WAL format.
+        # Inspect the SQLite file-format bytes directly before opening it
+        # immutably; offsets 18 and 19 are the write/read format versions
+        # (1 = rollback journal, 2 = WAL).
+        try:
+            with path.open("rb") as handle:
+                header = handle.read(100)
+        except OSError as exc:
+            raise JobQueueError(f"Cannot read backup database header: {exc}") from exc
+        if len(header) < 100 or header[:16] != b"SQLite format 3\\x00":
+            raise JobQueueError("Backup is not a valid SQLite database file")
+        if (header[18], header[19]) != (1, 1):
+            raise JobQueueError(
+                "Backup must be a self-contained DELETE-journal SQLite snapshot"
+            )
+
         readonly_uri = f"{path.resolve().as_uri()}?mode=ro&immutable=1"
         with closing(sqlite3.connect(
             readonly_uri,
@@ -761,11 +778,6 @@ class JobQueue:
             timeout=busy_timeout_ms / 1000,
         )) as connection:
             connection.execute(f"PRAGMA busy_timeout = {busy_timeout_ms}")
-            journal_mode = connection.execute("PRAGMA journal_mode").fetchone()[0]
-            if str(journal_mode).lower() != "delete":
-                raise JobQueueError(
-                    "Backup must be a self-contained DELETE-journal SQLite snapshot"
-                )
             tables = {
                 row[0]
                 for row in connection.execute(
