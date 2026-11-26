@@ -85,3 +85,34 @@ Native reduction ან უფრო დიდი memory-bandwidth-bound workloa
 3. დამოუკიდებელი physical x86-64 და ARM64 გამეორება.
 4. Wall time, process CPU time, RSS და memory bandwidth ცალ-ცალკე გაზომვა.
 5. Published სტატუსი არ მიენიჭოს დამოუკიდებელი რეცენზიისა და ყველა publication gate-ის დასრულებამდე.
+
+
+## Third hosted rerun — 2026-11-26, workflow 45876372172
+
+A separate CI invocation on the INFRA proposal branch ran the same actual CPU-thread benchmark. The GIL-enabled and free-threaded jobs both passed. The raw reports were downloaded from artifacts 15144913096 and 15143614730; the ZIP hashes below matched the GitHub artifact digests, and the decompressed report hashes were independently computed before aggregation.
+
+### REPRODUCED RESULT — third run
+
+| Runtime | Method | Correct runs | Median wall-time speedup | Speedup range | Median process-CPU / wall |
+|---|---|---:|---:|---:|---:|
+| GIL enabled | Naive scalar | 0/48 | 0.4984× | 0.4410–0.5242 | 1.014 |
+| GIL enabled | Scalar Neumaier | 42/48 | 0.7597× | 0.7182–0.7817 | 1.004 |
+| GIL enabled | Neumaier state merge | 48/48 | 0.7593× | 0.7232–0.7819 | 1.005 |
+| Free-threaded | Naive scalar | 0/48 | 0.1713× | 0.1259–0.4949 | 2.630 |
+| Free-threaded | Scalar Neumaier | 42/48 | 0.7165× | 0.5675–0.8197 | 2.621 |
+| Free-threaded | Neumaier state merge | 48/48 | 0.7144× | 0.5705–0.7589 | 2.582 |
+
+Both runtimes used CPython 3.14.4 and four-CPU affinity. The runner platform was Linux x86-64 AWS virtual infrastructure. Each runtime executed 48 configurations × 3 measured repetitions; each configured worker was represented by a distinct native thread ID.
+
+### Provenance
+
+- GIL-enabled artifact ID 15144913096; ZIP SHA-256 `c6d0af0f76109b36a58ed74ad4768c28737cce72a770efd3e28cdd084cd6a2c5`; raw JSON SHA-256 `534e2db427a9ec0cb247c7faaef8dea4eb62ce2e3a70c467cf97b05b320a5827`.
+- Free-threaded artifact ID 15143614730; ZIP SHA-256 `57027cffa4326bc833975af0912dc6f49023fdeac9bc7295c93dcf7feee64698`; raw JSON SHA-256 `3d03785c2fe68fa3a9e1da20f93447d399ae0cca52ee1f36434d08ea008f30c4`.
+- Both ZIPs expire 2026-12-26; raw JSON reports are preserved under `data/noema-005/raw/run-45876372172-*.json.gz.b64`.
+- Exact tested workflow head: `821582d173951550bb854164fa24a6cb3a7cce11`.
+
+### INFERENCE and limitations
+
+The third run's Neumaier-state method remained 48/48 correct in both runtimes, but median wall-time speedup was below 1 in both modes. The free-threaded process-CPU/wall ratio and 36/48 cases above 1.05 show parallel CPU consumption in this synthetic run, not end-to-end acceleration. Across three runs, GIL-enabled medians stayed below 1 (0.7539×, 0.7744×, 0.7593×); free-threaded medians varied (0.9519×, 1.0181×, 0.7144×). The one value above 1 did not repeat.
+
+The third run used AWS-hosted virtual runners while the first two used Azure-hosted virtual runners, but all had four available CPUs and none was independently selected physical hardware. The experiment still uses only two synthetic cancellation layouts and three measured repetitions. This remains a preliminary reproducibility observation, not a portable performance claim.

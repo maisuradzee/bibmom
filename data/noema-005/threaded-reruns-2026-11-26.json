@@ -4,7 +4,7 @@
   "date": "2026-11-26",
   "status": "preliminary",
   "evidence_status": "REPRODUCED_RESULT",
-  "method": "Aggregate recomputation from raw per-case JSON reports downloaded from GitHub Actions; report SHA-256 values checked before parsing. The archive SHA-256 values were independently checked against downloaded ZIP bytes in this run.",
+  "method": "Aggregate recomputation from raw per-case JSON reports downloaded from GitHub Actions; each decompressed report SHA-256 was checked before parsing. For the third run, both original ZIP SHA-256 values were independently matched to GitHub artifact metadata and both raw reports were independently reaggregated.",
   "new_run": {
     "workflow_run_id": 45867519546,
     "workflow_url": "https://github.com/maisuradzee/bibmom/actions/runs/45867519546",
@@ -216,10 +216,166 @@
     "interpretation": "The second free-threaded state-merge run crossed 1.0 (1.0181x) after the first was below 1.0 (0.9519x). The range remains broad and both runs use the same hosted runner family; this is run-to-run sensitivity, not evidence of a robust or portable speedup."
   },
   "limitations": [
-    "Both runs used hosted x86_64 Azure virtual runners with four available CPUs; no independent physical hardware or ARM64 replication is included in this comparison.",
+    "The first two runs used hosted x86_64 Azure virtual runners and the third used AWS-hosted x86_64 virtual runners; all had four available CPUs. No independently selected physical hardware or ARM64 replication is included.",
     "Only two synthetic cancellation fixtures and three measured repetitions per configuration were used.",
     "tracemalloc reports traced Python allocations, not process RSS or all native allocations.",
-    "A median speedup just above 1.0 in one free-threaded run does not establish a general performance benefit.",
-    "Raw reports are stored as gzip+base64 text in the repository; the original GitHub Actions ZIP artifacts expire after 30 days, while their archive hashes are preserved."
-  ]
+    "All three GIL-enabled Neumaier-state medians were below 1.0; free-threaded medians varied across runs and the third run was 0.7144x. No general wall-time speedup is established.",
+    "Raw reports are stored as gzip+base64 text in the repository. Original GitHub Actions ZIP artifacts expire after 30 days; archive hashes and raw-report hashes are preserved."
+  ],
+  "third_run": {
+    "workflow_run_id": 45876372172,
+    "workflow_url": "https://github.com/maisuradzee/bibmom/actions/runs/45876372172",
+    "tested_head_sha": "821582d173951550bb854164fa24a6cb3a7cce11",
+    "generated_at_utc": {
+      "gil_enabled": "2026-11-26T18:30:11.979909+00:00",
+      "free_threaded": "2026-11-26T18:30:24.630161+00:00"
+    },
+    "runner": {
+      "machine": "x86_64",
+      "platform_family": "Linux AWS-hosted virtual runners",
+      "cpu_affinity_count": 4,
+      "cpu_count_os": 4,
+      "cpu_count_process": 4,
+      "python_implementation": "CPython",
+      "python_version": "3.14.4"
+    },
+    "protocol": {
+      "fixtures": [
+        "triplet_order",
+        "grouped_cancellation"
+      ],
+      "input_value_count_per_fixture": 196608,
+      "repeat_count": 65536,
+      "workers": [
+        1,
+        2,
+        4,
+        8
+      ],
+      "partitions": [
+        "contiguous",
+        "round_robin"
+      ],
+      "methods": [
+        "threaded_naive_scalar",
+        "threaded_neumaier_scalar",
+        "threaded_neumaier_state"
+      ],
+      "warmups": 1,
+      "repetitions": 3,
+      "cases_per_runtime": 48,
+      "runs_per_runtime": 144,
+      "native_thread_identity": "Each measured run reported one distinct native thread ID per configured worker."
+    },
+    "artifacts": {
+      "gil_enabled": {
+        "id": 15144913096,
+        "name": "noema005-threaded-gil-enabled",
+        "size_in_bytes": 7624,
+        "expires_at_utc": "2026-12-26T18:30:12Z",
+        "archive_sha256": "c6d0af0f76109b36a58ed74ad4768c28737cce72a770efd3e28cdd084cd6a2c5",
+        "report_sha256": "534e2db427a9ec0cb247c7faaef8dea4eb62ce2e3a70c467cf97b05b320a5827",
+        "raw_report_path": "data/noema-005/raw/run-45876372172-gil-enabled.json.gz.b64"
+      },
+      "free_threaded": {
+        "id": 15143614730,
+        "name": "noema005-threaded-free-threaded",
+        "size_in_bytes": 7784,
+        "expires_at_utc": "2026-12-26T18:30:24Z",
+        "archive_sha256": "57027cffa4326bc833975af0912dc6f49023fdeac9bc7295c93dcf7feee64698",
+        "report_sha256": "3d03785c2fe68fa3a9e1da20f93447d399ae0cca52ee1f36434d08ea008f30c4",
+        "raw_report_path": "data/noema-005/raw/run-45876372172-free-threaded.json.gz.b64"
+      }
+    },
+    "aggregates": {
+      "gil_enabled": {
+        "threaded_naive_scalar": {
+          "correct_runs": 0,
+          "total_runs": 48,
+          "median_speedup_vs_matching_serial": 0.4984,
+          "speedup_range": [
+            0.441,
+            0.5242
+          ],
+          "median_process_cpu_to_wall_ratio": 1.014,
+          "median_peak_traced_python_bytes": 25181,
+          "cpu_parallelism_runs_above_1_05": 0,
+          "native_thread_identity_validated_cases": 16
+        },
+        "threaded_neumaier_scalar": {
+          "correct_runs": 42,
+          "total_runs": 48,
+          "median_speedup_vs_matching_serial": 0.7597,
+          "speedup_range": [
+            0.7182,
+            0.7817
+          ],
+          "median_process_cpu_to_wall_ratio": 1.004,
+          "median_peak_traced_python_bytes": 25493,
+          "cpu_parallelism_runs_above_1_05": 0,
+          "native_thread_identity_validated_cases": 16
+        },
+        "threaded_neumaier_state": {
+          "correct_runs": 48,
+          "total_runs": 48,
+          "median_speedup_vs_matching_serial": 0.7593,
+          "speedup_range": [
+            0.7232,
+            0.7819
+          ],
+          "median_process_cpu_to_wall_ratio": 1.005,
+          "median_peak_traced_python_bytes": 25441,
+          "cpu_parallelism_runs_above_1_05": 0,
+          "native_thread_identity_validated_cases": 16
+        }
+      },
+      "free_threaded": {
+        "threaded_naive_scalar": {
+          "correct_runs": 0,
+          "total_runs": 48,
+          "median_speedup_vs_matching_serial": 0.1713,
+          "speedup_range": [
+            0.1259,
+            0.4949
+          ],
+          "median_process_cpu_to_wall_ratio": 2.63,
+          "median_peak_traced_python_bytes": 276041,
+          "cpu_parallelism_runs_above_1_05": 36,
+          "native_thread_identity_validated_cases": 16
+        },
+        "threaded_neumaier_scalar": {
+          "correct_runs": 42,
+          "total_runs": 48,
+          "median_speedup_vs_matching_serial": 0.7165,
+          "speedup_range": [
+            0.5675,
+            0.8197
+          ],
+          "median_process_cpu_to_wall_ratio": 2.621,
+          "median_peak_traced_python_bytes": 276881,
+          "cpu_parallelism_runs_above_1_05": 36,
+          "native_thread_identity_validated_cases": 16
+        },
+        "threaded_neumaier_state": {
+          "correct_runs": 48,
+          "total_runs": 48,
+          "median_speedup_vs_matching_serial": 0.7144,
+          "speedup_range": [
+            0.5705,
+            0.7589
+          ],
+          "median_process_cpu_to_wall_ratio": 2.582,
+          "median_peak_traced_python_bytes": 276861,
+          "cpu_parallelism_runs_above_1_05": 36,
+          "native_thread_identity_validated_cases": 16
+        }
+      }
+    }
+  },
+  "third_run_comparison": {
+    "gil_enabled_neumaier_state_median_speedup_delta_vs_second": -0.0151,
+    "free_threaded_neumaier_state_median_speedup_delta_vs_second": -0.3037,
+    "free_threaded_state_median_crossed_below_one_between_runs": true,
+    "interpretation": "Across three hosted runs, GIL-enabled Neumaier-state median speedups remained below 1 (0.7539x, 0.7744x, 0.7593x). Free-threaded medians varied from 0.9519x to 1.0181x to 0.7144x. The third AWS-hosted virtual-run median was below 1 in both modes. This is run/runner sensitivity, not evidence of a robust or portable speedup."
+  }
 }

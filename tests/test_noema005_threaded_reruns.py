@@ -17,6 +17,10 @@ class Noema005ThreadedRerunComparisonTests(unittest.TestCase):
         self.assertEqual(result["gil_enabled"]["threaded_neumaier_state"]["correct_runs"], 48)
         self.assertEqual(result["free_threaded"]["threaded_neumaier_state"]["correct_runs"], 48)
         self.assertEqual(result["free_threaded"]["threaded_neumaier_state"]["median_speedup_vs_matching_serial"], 1.0181)
+        self.assertEqual(result["third_run"]["gil_enabled"]["threaded_neumaier_state"]["correct_runs"], 48)
+        self.assertEqual(result["third_run"]["free_threaded"]["threaded_neumaier_state"]["correct_runs"], 48)
+        self.assertEqual(result["third_run"]["gil_enabled"]["threaded_neumaier_state"]["median_speedup_vs_matching_serial"], 0.7593)
+        self.assertEqual(result["third_run"]["free_threaded"]["threaded_neumaier_state"]["median_speedup_vs_matching_serial"], 0.7144)
 
     def test_report_hash_mismatch_is_rejected(self):
         path = ROOT / "data/noema-005/raw/run-45867519546-gil-enabled.json.gz.b64"
@@ -46,6 +50,20 @@ class Noema005ThreadedRerunComparisonTests(unittest.TestCase):
             self.assertNotEqual(actual, summary["new_run"]["aggregates"]["free_threaded"])
         finally:
             self.assertTrue(original)
+
+    def test_third_run_raw_report_hash_mismatch_is_rejected(self):
+        summary = json.loads((ROOT / "data/noema-005/threaded-reruns-2026-11-26.json").read_text())
+        artifact = summary["third_run"]["artifacts"]["free_threaded"]
+        with self.assertRaisesRegex(ValueError, "SHA-256 mismatch"):
+            _load_raw_report(ROOT / artifact["raw_report_path"], "0" * 64)
+
+    def test_third_run_frozen_aggregate_mutation_is_detected(self):
+        summary = json.loads((ROOT / "data/noema-005/threaded-reruns-2026-11-26.json").read_text())
+        summary["third_run"]["aggregates"]["free_threaded"]["threaded_neumaier_state"]["median_speedup_vs_matching_serial"] = 1.1
+        artifact = summary["third_run"]["artifacts"]["free_threaded"]
+        report = _load_raw_report(ROOT / artifact["raw_report_path"], artifact["report_sha256"])
+        actual = aggregate_report(report, "free_threaded")
+        self.assertNotEqual(actual, summary["third_run"]["aggregates"]["free_threaded"])
 
     def test_cli_check(self):
         import subprocess

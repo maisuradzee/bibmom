@@ -152,9 +152,9 @@ jobs:
         run: python scripts/validate_noema005_cpu_thread_summary.py
       - name: Validate NOEMA-005 2026-11-26 threaded rerun summary
         run: python scripts/validate_noema005_threaded_rerun.py
-      - name: Reproduce NOEMA-005 two-run threaded raw reports
+      - name: Reproduce NOEMA-005 three-run threaded raw reports
         run: python scripts/reproduce_noema005_threaded_reruns.py --check
-      - name: Test NOEMA-005 two-run threaded raw-report reproduction
+      - name: Test NOEMA-005 three-run threaded raw-report reproduction
         run: python -m unittest discover -s tests -p 'test_noema005_threaded_reruns.py' -v
       - name: Validate runnable NOEMA service entrypoint
         run: python -m noema_core.service --check --db "$RUNNER_TEMP/noema-service-check.sqlite3"

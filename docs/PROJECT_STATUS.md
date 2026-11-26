@@ -409,3 +409,13 @@ The backup manifest runtime validator verifies only Draft 2020-12 structure and 
 3. Acquire explicitly authorized paired sensor/laboratory data and site-approved Water Safety Plan limits before AquaSignal field claims.
 4. Obtain official Georgia municipal/basin warning-to-action data dictionary and privacy approval before NOEMA-007 pilot.
 5. For NOEMA-005, prioritize independent physical x86-64/ARM64 replication and representative memory-bandwidth workloads; do not infer general speedup from hosted synthetic timing.
+
+
+## NOEMA-005 — third real CPU-thread rerun and raw-report reproduction (2026-11-26)
+
+- **Workflow:** [45876372172](https://github.com/maisuradzee/bibmom/actions/runs/45876372172), exact tested head `821582d173951550bb854164fa24a6cb3a7cce11`. Both GIL-enabled and free-threaded CPython 3.14.4 jobs succeeded.
+- **Artifacts:** GIL artifact 15144913096, ZIP SHA-256 `c6d0af0f76109b36a58ed74ad4768c28737cce72a770efd3e28cdd084cd6a2c5`; free-threaded artifact 15143614730, ZIP SHA-256 `57027cffa4326bc833975af0912dc6f49023fdeac9bc7295c93dcf7feee64698`. Both matched GitHub artifact metadata. Decompressed report SHA-256 values are frozen in the comparison JSON and checked by the reproduction script.
+- **REPRODUCED RESULT:** Neumaier state merge remained 48/48 correct in both runtimes. Median wall-time speedup was 0.7593× (GIL) and 0.7144× (free-threaded), both below 1. Free-threaded process-CPU/wall median was 2.582, and 36/48 measured runs exceeded 1.05; this indicates parallel CPU consumption, not end-to-end acceleration.
+- **Three-run interpretation:** GIL-enabled state-merge medians were 0.7539×, 0.7744× and 0.7593×. Free-threaded medians were 0.9519×, 1.0181× and 0.7144×. The single result above 1 did not repeat. The third run used AWS-hosted virtual x86-64 runners; earlier runs used Azure-hosted virtual runners. None is independent physical-hardware replication.
+- **Frozen reproduction:** raw reports are preserved as gzip+base64 text; the reproduction script now validates three runs and recomputes the third run's 96 cases / 288 measured runs. The study remains preliminary; no general speedup claim is made.
+- **Next:** independent physical x86-64/ARM64 replication, representative memory-bandwidth-bound workloads, RSS/native-allocation measurement and independent numerical-method review remain outstanding.

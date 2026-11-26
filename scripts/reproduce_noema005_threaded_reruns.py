@@ -186,6 +186,74 @@ def reproduce(root: Path = ROOT) -> dict[str, Any]:
         previous_free < 1.0 <= current_free
     ):
         raise ValueError("free-threaded threshold-crossing interpretation does not reproduce")
+
+    third_run = summary.get("third_run")
+    if not isinstance(third_run, dict) or third_run.get("workflow_run_id") != 45876372172:
+        raise ValueError("unexpected third workflow run ID")
+    if third_run.get("tested_head_sha") != "821582d173951550bb854164fa24a6cb3a7cce11":
+        raise ValueError("unexpected third-run tested head SHA")
+    runner = third_run.get("runner", {})
+    if (
+        runner.get("machine") != "x86_64"
+        or runner.get("platform_family") != "Linux AWS-hosted virtual runners"
+        or runner.get("cpu_affinity_count") != 4
+        or runner.get("python_implementation") != "CPython"
+        or runner.get("python_version") != "3.14.4"
+    ):
+        raise ValueError("unexpected third-run runner metadata")
+    protocol = third_run.get("protocol", {})
+    if (
+        protocol.get("cases_per_runtime") != 48
+        or protocol.get("runs_per_runtime") != 144
+        or protocol.get("workers") != EXPECTED_WORKERS
+        or protocol.get("partitions") != EXPECTED_PARTITIONS
+        or protocol.get("methods") != EXPECTED_METHODS
+        or protocol.get("warmups") != 1
+        or protocol.get("repetitions") != 3
+    ):
+        raise ValueError("unexpected third-run protocol")
+    expected_artifacts = {
+        "gil_enabled": {
+            "id": 15144913096,
+            "archive_sha256": "c6d0af0f76109b36a58ed74ad4768c28737cce72a770efd3e28cdd084cd6a2c5",
+            "report_sha256": "534e2db427a9ec0cb247c7faaef8dea4eb62ce2e3a70c467cf97b05b320a5827",
+        },
+        "free_threaded": {
+            "id": 15143614730,
+            "archive_sha256": "57027cffa4326bc833975af0912dc6f49023fdeac9bc7295c93dcf7feee64698",
+            "report_sha256": "3d03785c2fe68fa3a9e1da20f93447d399ae0cca52ee1f36434d08ea008f30c4",
+        },
+    }
+    third_actual: dict[str, Any] = {}
+    for mode, expected_artifact in expected_artifacts.items():
+        artifact = third_run.get("artifacts", {}).get(mode, {})
+        for key, expected in expected_artifact.items():
+            if artifact.get(key) != expected:
+                raise ValueError(f"third-run frozen artifact metadata changed for {mode}/{key}")
+        raw_path = root / artifact["raw_report_path"]
+        report = _load_raw_report(raw_path, artifact["report_sha256"])
+        if "aws" not in report.get("environment", {}).get("platform", "").lower():
+            raise ValueError(f"third-run platform mismatch for {mode}")
+        third_actual[mode] = aggregate_report(report, mode)
+        if third_actual[mode] != third_run["aggregates"][mode]:
+            raise ValueError(f"third-run frozen aggregates do not match raw report for {mode}")
+
+    third_comparison = summary["third_run_comparison"]
+    second_gil = actual["gil_enabled"]["threaded_neumaier_state"]["median_speedup_vs_matching_serial"]
+    second_free = actual["free_threaded"]["threaded_neumaier_state"]["median_speedup_vs_matching_serial"]
+    third_gil = third_actual["gil_enabled"]["threaded_neumaier_state"]["median_speedup_vs_matching_serial"]
+    third_free = third_actual["free_threaded"]["threaded_neumaier_state"]["median_speedup_vs_matching_serial"]
+    if third_comparison["gil_enabled_neumaier_state_median_speedup_delta_vs_second"] != round(third_gil - second_gil, 4):
+        raise ValueError("third-run GIL speedup delta does not reproduce")
+    if third_comparison["free_threaded_neumaier_state_median_speedup_delta_vs_second"] != round(third_free - second_free, 4):
+        raise ValueError("third-run free-threaded speedup delta does not reproduce")
+    if third_comparison["free_threaded_state_median_crossed_below_one_between_runs"] is not (
+        second_free >= 1.0 > third_free
+    ):
+        raise ValueError("third-run threshold-crossing interpretation does not reproduce")
+    if third_gil >= 1.0 or third_free >= 1.0:
+        raise ValueError("third run must not be described as a median wall-time speedup")
+    actual["third_run"] = third_actual
     return actual
 
 
@@ -195,7 +263,7 @@ def main() -> None:
     parser.add_argument("--check", action="store_true", help="verify raw reports against frozen aggregates")
     args = parser.parse_args()
     reproduce(args.root)
-    print("NOEMA-005 two-run raw-report reproduction: PASS")
+    print("NOEMA-005 three-run raw-report reproduction: PASS")
 
 
 if __name__ == "__main__":
