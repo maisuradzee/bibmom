@@ -21,7 +21,8 @@
         "დეტერმინისტული წესების ძრავისა და სინთეზური unit tests-ის გამოყენება",
         "შემდეგ ეტაპზე მხოლოდ უფლებამოსილი ოპერატორის მიერ ნებადართული paired sensor/laboratory მონაცემის წინასწარ რეგისტრირებული შეფასება",
         "ლოკალური append-only SQLite event store: canonical transition replay, WAL, immediate write transaction, SHA-256 hash chain და synthetic concurrency/tamper/replay tests",
-        "Compare the locally verified AquaSignal event-chain tail hash and event count with caller-supplied trusted out-of-band checkpoint values; this comparison does not authenticate the checkpoint or prevent rollback."
+        "Compare the locally verified AquaSignal event-chain tail hash and event count with caller-supplied trusted out-of-band checkpoint values; this comparison does not authenticate the checkpoint or prevent rollback.",
+        "Detached Ed25519 checkpoint verification over canonical UTF-8 payload bytes, with local event-chain tail matching and a caller-managed monotonic high-water state; synthetic ephemeral-key tests only."
       ],
       "sources": [
         {
@@ -63,6 +64,22 @@
           "url": "https://www.sqlite.org/wal.html",
           "type": "official_technical_documentation",
           "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Edwards-Curve Digital Signature Algorithm (EdDSA)",
+          "publisher": "IETF",
+          "publication_date": "2017-01",
+          "url": "https://www.rfc-editor.org/rfc/rfc8032.html",
+          "type": "cryptographic_standard",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "The Update Framework Specification v1.0.36",
+          "publisher": "The Update Framework",
+          "publication_date": "undated",
+          "url": "https://theupdateframework.github.io/specification/v1.0.36/",
+          "type": "security_protocol_specification",
+          "accessed_at": "2026-11-26"
         }
       ],
       "data_needs": [
@@ -78,21 +95,26 @@
         "პროტოტიპის ლაბორატორიულ ან რეგულატორულ შეფასებად აღქმა",
         "The local hash chain is tamper-evident but not signed; a privileged attacker able to rewrite and rehash the database may alter history.",
         "The event store has no encrypted/off-host backup, retention policy, external signed checkpoint or production access-control integration.",
-        "The external checkpoint comparison authenticates neither the checkpoint nor its freshness; a stale or attacker-controlled checkpoint can validate a rolled-back database."
+        "The external checkpoint comparison authenticates neither the checkpoint nor its freshness; a stale or attacker-controlled checkpoint can validate a rolled-back database.",
+        "A signed sequence detects rollback only if the highest accepted sequence and digest are atomically held outside the SQLite database in a separately trusted, rollback-resistant service.",
+        "The prototype has no production signer, key rotation/revocation, threshold signing, remote anchor, provider retention or alerting integration."
       ],
       "blockers": [
         "Authorized paired sensor/laboratory data, a site data dictionary and approved Water Safety Plan limits remain unavailable under explicit reuse permission.",
         "No field validation or independent external review has been completed.",
-        "The event store remains local only: encrypted/off-host backup, retention/rotation, signed external checkpoints, restore drills and production access control are not implemented.",
-        "PR #72 adds only local hash/count comparison; signed checkpoint creation/verification, a protected remote anchor, monotonic anti-rollback state and production key custody remain unimplemented."
+        "The signed checkpoint verifier is a local software contract only; production signing-key custody and a separately administered atomic monotonic high-water service are not implemented.",
+        "Encrypted/off-host backup, remote immutable checkpoint retention, clean-host restore and production access-control integration remain unavailable."
       ],
       "status": "active",
-      "status_detail": "PR #40 was merged into main at fa0e9ce16392c90340becc4194818eb615a93697. Exact-head quality CI 45806582839 passed 288 Python tests, including 11 AquaSignal event-store tests, frozen research reproductions, site build and publication-boundary checks; CPU-thread workflow 45806582809 passed both GIL-enabled and free-threaded jobs. The local SQLite event store now enforces a current-user-owned POSIX 0700 parent, O_NOFOLLOW open, regular-file/current-user ownership and 0600 file mode. This remains a local synthetic prototype: no authorized sensor/laboratory data, field validation, encrypted off-host backup or production ACL integration.",
-      "next_step": "Implement a signed checkpoint envelope with a monotonic sequence in a separately administered trust domain, then test key custody, remote retention and clean-host restore. In parallel, obtain explicitly authorized paired sensor/laboratory data and site-approved Water Safety Plan limits for a preregistered field evaluation.",
+      "status_detail": "The main branch already contains a local append-only SQLite event store and unsigned hash/count comparison. This research branch adds a separate signed checkpoint verifier: strict canonical payload parsing, caller-supplied Ed25519 public-key verification, store-ID and event-chain-head matching, and caller-managed monotonic sequence/equivocation checks. Tests use ephemeral synthetic keys and synthetic incidents only; exact-head CI is pending. No production signer, external high-water service, authorized sensor/laboratory data or field validation is present.",
+      "next_step": "After exact-head tests pass, review the protocol independently and design an atomic high-water compare-and-advance adapter in a separately administered trust domain. Separately obtain authorized paired sensor/laboratory data and site-approved Water Safety Plan limits before a preregistered field evaluation.",
       "success_metrics": [
         "საველე ტესტში წინასწარ განსაზღვრულ reference labels-თან შედარებული sensitivity და positive predictive value",
         "false-alert rate და detection delay წინასწარ განსაზღვრულ baseline-თან შედარებით",
-        "ყველა სიგნალზე წყაროს, freshness-ის, calibration-ისა და წესის ვერსიის მიკვლევადობა"
+        "ყველა სიგნალზე წყაროს, freshness-ის, calibration-ისა და წესის ვერსიის მიკვლევადობა",
+        "A valid detached Ed25519 signature, expected store identifier and exact local event-chain head are all required before checkpoint acceptance.",
+        "A checkpoint sequence below external trusted state is rejected; same-sequence different payload is rejected; identical same-sequence replay is idempotent.",
+        "No rollback-protection claim is made unless next_trusted_state is atomically persisted outside the event database in a separately trusted domain."
       ],
       "last_reviewed": "2026-11-26"
     },
