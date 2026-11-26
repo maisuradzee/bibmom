@@ -6,7 +6,7 @@
 - **ბოლო დადასტურებული engineering merge:** PR #69 — commit 990ba166c7422257291ba2abfc9278ea7099c654; PR #68 (NOEMA-007) merged immediately before it.
 - **NOEMA-005:** PR #63-ით დაემატა 2,068-case full-width/tie-adjacent MPFR 4.2.1 oracle; hosted x86-64 და ARM64 თითოეულზე 2,068/2,068 bitwise match. PR #66-ით ორიგინალური CPU-thread artifact ZIP-ების SHA-256 და raw report aggregates დამოუკიდებლად გადამოწმდა. Neumaier state merge 48/48, scalar Neumaier 42/48, naive 0/48; wall-time speedup არ დადასტურებულა. კვლევა preliminary რჩება.
 - **NOEMA-INFRA-001:** PR #57 same-host restore-drill, PR #64 strict non-secret manifest schema და PR #69 executable Draft 2020-12 runtime validator main-შია; off-host encryption, detached signature verification, key custody, provider retention და clean-host recovery ჯერ არ განხორციელებულა.
-- **Latest main quality CI:** run 45850024686 — SUCCESS, 341 Python tests.
+- **Latest main quality CI:** run 45850024686 — SUCCESS, 354 Python tests.
 - **Latest verified CPU-thread workflow:** PR #66 exact head, run 45844363177 — GIL-enabled და free-threaded ორივე SUCCESS.
 - **Latest main Pages deployment:** run 45850024682 — build და deploy SUCCESS for main `990ba166c7422257291ba2abfc9278ea7099c654`.
 
