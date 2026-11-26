@@ -123,6 +123,38 @@
           "url": "https://docs.python.org/3/library/threading.html",
           "type": "official_runtime_documentation",
           "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA-005 accumulator comparison experiment",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/blob/main/research/drafts/NOEMA-2026-005-accumulator-comparison-2026-11-26.md",
+          "type": "internal_preliminary_experiment",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Python math.fsum documentation",
+          "publisher": "Python Software Foundation",
+          "publication_date": "undated",
+          "url": "https://docs.python.org/3/library/math.html#math.fsum",
+          "type": "official_runtime_documentation",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Python fractions.Fraction.from_float documentation",
+          "publisher": "Python Software Foundation",
+          "publication_date": "undated",
+          "url": "https://docs.python.org/3/library/fractions.html#fractions.Fraction.from_float",
+          "type": "official_runtime_documentation",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Python decimal documentation",
+          "publisher": "Python Software Foundation",
+          "publication_date": "undated",
+          "url": "https://docs.python.org/3/library/decimal.html",
+          "type": "official_runtime_documentation",
+          "accessed_at": "2026-11-26"
         }
       ],
       "data_needs": [
@@ -139,11 +171,14 @@
       "blockers": [
         "Native C/OpenMP evidence is from one hosted x86-64 runner; independent native hardware replication is not complete.",
         "Five repetitions and synthetic cancellation fixtures do not establish general accuracy or performance.",
-        "External numerical-method review remains outstanding."
+        "External numerical-method review remains outstanding.",
+        "No native C long-double or binned/exact implementation has been compared in this subexperiment.",
+        "The Python-only fixture study has no threaded/runtime/memory benchmark and no independent hardware replication.",
+        "Draft PR #33 exact-head GitHub CI is not yet green."
       ],
       "status": "active",
-      "status_detail": "PR #30 merged into main at 8bb91db62105a83391986d06e88f198b5c7d1670. Exact-head quality CI passed 264 Python tests; native OpenMP CI passed 20 cases with actual 1/2/4/8 worker counts; GIL-enabled and free-threaded CPU-thread jobs passed. The archived raw report and frozen summary are now in data/noema-005/; the validator reproduces all sample medians, CPU/wall ratios and speedups, compares summary-to-raw cases, and verifies the C source SHA-256 and archived Git blob SHA-1. On one Ubuntu 24.04 x86-64/GCC 13.3 runner, Neumaier-state was exact in 5/5 runs per case and naive methods 0/5; observed median speedups ranged 0.999x–3.614x and are run-sensitive. The historical local 10/20-case report is explicitly invalidated.",
-      "next_step": "Compare pairwise-tree, long-double and binned/exact accumulators; add an input-buffer/memory-bandwidth workload; repeat native OpenMP on independent ARM64 and x86-64 hardware with preregistered repetitions; obtain independent numerical-method review.",
+      "status_detail": "A new deterministic algorithm-accuracy experiment is proposed in Draft PR #33. Five synthetic fixtures (15,359 binary64 values) were evaluated locally against an exact Fraction reference. Neumaier, math.fsum and a 1,200-digit Decimal baseline matched 5/5; a strict left-to-right loop and one adjacent-pair tree matched 1/5 each. The committed frozen snapshot records CPython 3.13.5/x86_64. Local tests passed 5/5. GitHub CI first exposed missing draft-template metadata; that was fixed, then a cross-runtime test mismatch appeared on the Python 3.14 runner. The test now compares stable input hashes, exact references and accuracy classifications rather than requiring every ULP snapshot to be identical across runtimes; exact-head CI is pending. No runtime/thread/memory claim is made by this subexperiment.",
+      "next_step": "Verify PR #33 exact-head CI; then add native C/OpenMP long-double, alternative pairwise partitioning and binned/exact accumulator implementations against the same frozen fixtures. Measure runtime/memory separately and repeat on independent ARM64/x86-64 hardware.",
       "success_metrics": [
         "exact-reference accuracy თითოეული მეთოდისა და runtime-ის მიხედვით",
         "median wall-time და uncertainty interval წინასწარ განსაზღვრული repetition protocol-ით",
@@ -260,6 +295,38 @@
           "url": "https://nea.gov.ge/En/News/3459",
           "type": "official_national_update",
           "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "From alert to agency: What turns warnings into action?",
+          "publisher": "Lloyd's Register Foundation",
+          "publication_date": "2026-10-13",
+          "url": "https://doi.org/10.60743/yx1k-t541",
+          "type": "official_global_survey_report",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "World Risk Poll Data (WRP_2025)",
+          "publisher": "Lloyd's Register Foundation",
+          "publication_date": "undated",
+          "url": "https://github.com/lrfoundation/world_risk_poll_data",
+          "type": "public_dataset_CC_BY_SA_4_0",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "From alert to agency reproduction README",
+          "publisher": "Lloyd's Register Foundation",
+          "publication_date": "2026-10-13",
+          "url": "https://github.com/lrfoundation/world_risk_poll_data/blob/main/reports/WRP_2025/core_from_alert_to_agency/README.md",
+          "type": "reproducibility_documentation",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "From alert to agency reproduction results",
+          "publisher": "Lloyd's Register Foundation",
+          "publication_date": "2026-10-13",
+          "url": "https://github.com/lrfoundation/world_risk_poll_data/blob/main/reports/WRP_2025/core_from_alert_to_agency/RESULTS.md",
+          "type": "reproduced_report_results",
+          "accessed_at": "2026-11-26"
         }
       ],
       "data_needs": [
@@ -279,11 +346,14 @@
       "blockers": [
         "საქართველოს მოქმედი მუნიციპალური emergency plan-ების და 2026 ICT სისტემის საჯარო data dictionary-ის სრული ვერსიები ჯერ არ არის მოპოვებული",
         "ოფიციალურ საჯარო წყაროებში emergency plan-ის ექვსი მუნიციპალიტეტის ჩამონათვალი განსხვავდება; საჭიროა თარიღებისა და ვერსიების შეჯერება",
-        "არც alert-delivery, acknowledgement და action-completion აგრეგირებული ჩანაწერები და არც თემის საველე შეფასება არ არის ხელმისაწვდომი"
+        "არც alert-delivery, acknowledgement და action-completion აგრეგირებული ჩანაწერები და არც თემის საველე შეფასება არ არის ხელმისაწვდომი",
+        "Georgia's World Risk Poll warning base is 99 respondents, below the report's n>=100 threshold; no robust country ranking can be drawn.",
+        "No current municipal alert-delivery, acknowledgement or action-completion dataset or field study is available.",
+        "The LRF report's source-published reproduction has not been independently rerun by NOEMA; 37 findings require Gallup World Poll data outside the public release."
       ],
       "status": "active",
-      "status_detail": "Discovery draft remains active. Existing evidence documents mature UNDRR/WMO and Georgian NEA early-warning infrastructure; the unresolved research question is whether warnings reach residents and result in protective action, not whether NOEMA should duplicate official alerting. No new municipal delivery/acknowledgement/action dataset or field observation was obtained in this cycle.",
-      "next_step": "Select one Georgian river-basin/municipal workflow; obtain its public data dictionary and, only with authorized partner consent, aggregate alert-delivery, acknowledgement and action-completion records. Compare with peer-reviewed last-mile warning-to-action studies.",
+      "status_detail": "New primary evidence was added from Lloyd's Register Foundation's World Risk Poll 2025 / From alert to agency report (published 2026-10-13): 143,459 respondents in 140 countries; 80% of disaster-impacted respondents reported an advance warning, and 64% of warned respondents said they could act. Action rose from 37% with one warning channel to 51% with two and 64% with three; these are associations, not causal effects. Crucially, Georgia had only 99 respondents asked about warning channels (101 impacted); the 22.8% figure appears only under an alternative >=100 impacted threshold, and Georgia is excluded by the report's >=100 asked threshold. The source repository reports Python/R reproduction of 541 findings (487 match, 17 within tolerance, 37 Gallup-only); NOEMA has not independently rerun the microdata. Draft PR #34 adds a machine-readable evidence summary, methodology caveats and a privacy-preserving Action Readiness Ledger concept; exact-head CI passed all quality, schema, test, frozen-result, site-build and publication-boundary steps. No Georgian municipal dataset or field validation exists.",
+      "next_step": "Select one Georgian river-basin/municipal workflow only after obtaining the current official data dictionary and explicit permission for aggregated alert-delivery, acknowledgement and action-completion records. Design a preregistered baseline and pilot evaluation; do not treat the small Georgia WRP sample as an operational estimate or duplicate official alerting.",
       "success_metrics": [
         "გაფრთხილების მიღწევის, სწორად გაგებისა და feasible action-ის წილი",
         "alert-to-acknowledgement და alert-to-action დრო",
@@ -349,11 +419,13 @@
       ],
       "blockers": [
         "PR #19 is 32 commits ahead / 46 behind current main and mergeable=false; a careful merge/rebase and new exact-head CI are required.",
-        "Backups are not encrypted or stored off-host; retention/rotation and scheduled restore drills are not implemented."
+        "Backups are not encrypted or stored off-host; retention/rotation and scheduled restore drills are not implemented.",
+        "PR #19 is 32 commits ahead / 49 behind current main and mergeable=false; do not merge the divergent branch blindly.",
+        "Backup encryption, off-host storage, retention/rotation and scheduled restore drills remain unimplemented."
       ],
       "status": "active",
-      "status_detail": "PR #19 remains an older, divergent backup/observability branch. Against current main it is 32 commits ahead / 46 behind and mergeable=false. Its earlier WAL-header/backup-restore CI is not current-main merge evidence. Backups remain local and unencrypted; off-host retention and scheduled restore drills are not implemented.",
-      "next_step": "Carefully refresh PR #19 onto current main without losing its existing backup/observability work; rerun exact-head quality checks and a restore drill. Then implement encrypted off-host backup, retention/rotation, integrity verification and scheduled restore exercises.",
+      "status_detail": "PR #19 remains open but is materially divergent from current main: 32 commits ahead / 49 behind, merge base f777eb530443e5be33ce6d28591eeb75e2df0fd0. Audit confirms its backup_to()/restore_from_backup() implementation and CLI are not present in current main's JobQueue; the older branch's passing CI is not current-main evidence. A review comment now recommends a clean branch from current main and selective porting rather than a blind rebase. Backups remain local and unencrypted; off-host retention/rotation and scheduled restore drills are absent.",
+      "next_step": "Create a clean branch from current main and selectively port the verified SQLite online backup/restore implementation and CLI; rerun all exact-head CI and a restore drill that verifies WAL inclusion, source immutability, owner-only permissions, no-overwrite behavior and integrity checks. Then implement encrypted off-host storage, retention/rotation and scheduled restore exercises.",
       "success_metrics": [
         "backup includes committed WAL data",
         "restore rejects WAL-mode header and corrupted audit data before destination creation",
