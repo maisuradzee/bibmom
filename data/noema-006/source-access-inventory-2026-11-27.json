@@ -116,6 +116,18 @@
       "sample_level_schema_verified": false,
       "reuse_terms_verified": false,
       "note": "Map/table entry exists; station fields, export format and freshness are unverified."
+    },
+    {
+      "id": "GEORGIA_WELL_REGISTRY_RULE_424",
+      "publisher": "Government of Georgia / National Environmental Agency",
+      "publication_date": "2026-08-31",
+      "url": "https://matsne.gov.ge/ka/document/view/6991245",
+      "matrix": "groundwater_well_registry",
+      "access_status": "official_regulation_only_registry_access_unverified",
+      "observation_period": "from_2026-09-01",
+      "sample_level_schema_verified": false,
+      "reuse_terms_verified": false,
+      "note": "Resolution No.424 establishes a state accounting system for fresh drinking-water extraction wells deeper than 20 m drilled after the regulation takes effect; pre-existing wells and mineral/thermal/medicinal waters are outside the legal scope. NEA separately states that household wells are excluded. The required passport includes coordinates and owner identity/contact data; field/laboratory results are attached only when sampling was performed. The regulation requires an NEA hydrogeological database but no public API, public access terms or de-identified export was verified."
     }
   ]
 }
