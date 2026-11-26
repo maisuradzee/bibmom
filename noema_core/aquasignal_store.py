@@ -492,6 +492,49 @@ class AquaSignalStore:
                 "error": f"{type(exc).__name__}: {exc}",
             }
 
+    def verify_checkpoint(
+        self, *, expected_last_hash: str, expected_event_count: int
+    ) -> dict[str, Any]:
+        """Compare the verified local chain with a trusted out-of-band checkpoint.
+
+        The caller must obtain the checkpoint through a separately protected
+        channel. This method does not authenticate the checkpoint or prevent
+        rollback to an older checkpoint.
+        """
+        if (
+            not isinstance(expected_last_hash, str)
+            or len(expected_last_hash) != 64
+            or any(character not in "0123456789abcdef" for character in expected_last_hash)
+        ):
+            raise IncidentStoreError(
+                "expected_last_hash must be a lowercase SHA-256 digest"
+            )
+        if (
+            isinstance(expected_event_count, bool)
+            or not isinstance(expected_event_count, int)
+            or expected_event_count < 0
+        ):
+            raise IncidentStoreError(
+                "expected_event_count must be a non-negative integer"
+            )
+
+        report = self.verify()
+        if not report["valid"]:
+            return {**report, "checkpoint_valid": False}
+        if report["event_count"] != expected_event_count:
+            return {
+                **report,
+                "checkpoint_valid": False,
+                "error": "external checkpoint event count mismatch",
+            }
+        if report["last_hash"] != expected_last_hash:
+            return {
+                **report,
+                "checkpoint_valid": False,
+                "error": "external checkpoint hash mismatch",
+            }
+        return {**report, "checkpoint_valid": True, "error": None}
+
     def count_events(self) -> int:
         with closing(self._connect()) as connection:
             return int(
