@@ -159,7 +159,9 @@ def preflight_aggregate_batch(
     family_id = root["protected_population_family_id"]
     batch_id = root["release_batch_id"]
 
-    family_entry: Mapping[str, Any] | None = None
+    validated_entries: list[Mapping[str, Any]] = []
+    seen_batch_ids: set[str] = set()
+    seen_family_ids: set[str] = set()
     for index, raw_entry in enumerate(ledger):
         entry = _closed_object(raw_entry, f"ledger[{index}]", _LEDGER_FIELDS)
         for field in ("release_batch_id", "protected_population_family_id"):
@@ -167,7 +169,16 @@ def preflight_aggregate_batch(
             if not isinstance(value, str) or not _OPAQUE_ID.fullmatch(value):
                 raise AggregateReleaseGateError(f"ledger[{index}].{field} is invalid")
         _digest(entry["plan_sha256"], f"ledger[{index}].plan_sha256")
+        if entry["release_batch_id"] in seen_batch_ids:
+            raise AggregateReleaseGateError("release ledger contains a duplicate release_batch_id")
+        if entry["protected_population_family_id"] in seen_family_ids:
+            raise AggregateReleaseGateError("release ledger contains a duplicate protected population family")
+        seen_batch_ids.add(entry["release_batch_id"])
+        seen_family_ids.add(entry["protected_population_family_id"])
+        validated_entries.append(entry)
 
+    family_entry: Mapping[str, Any] | None = None
+    for entry in validated_entries:
         if entry["release_batch_id"] == batch_id:
             if (
                 entry["protected_population_family_id"] == family_id
