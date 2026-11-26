@@ -21,6 +21,8 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - `docs/OFFSITE_BACKUP_ARCHITECTURE.md` — დაშიფრული off-host backup-ისა და ხელმოწერილი recovery manifest-ის ჯერ მხოლოდ არქიტექტურული წინადადება; `data/noema-backup-manifest.schema.json` განსაზღვრავს მკაცრ, საიდუმლო მასალის არმქონე metadata contract-ს.
 - `noema_core/aquasignal.py` — AquaSignal-ის დეტერმინისტული, მხოლოდ გადაწყვეტილების მხარდამჭერი წესების ძრავა.
 - `noema_core/aquasignal_store.py` — ინციდენტების replay-ზე დაფუძნებული SQLite persistence და SHA-256 audit chain.
+- `noema_core/action_readiness.py` — NOEMA-007-ის event/area aggregate-only warning-to-action metrics validator; endpoint receipts და survey denominators განცალკევებულია.
+- `noema_core/backup_manifest.py` — მომავალი off-host backup manifest-ის JSON Schema Draft 2020-12 runtime validator; არ ამოწმებს ხელმოწერას, დაშიფვრას ან storage-ს.
 - `noema_core/mission.json` და `noema_core/mission.py` — მანქანურად წაკითხვადი მისია, ინფორმაციის წვდომის პოლიტიკა და ავტონომიური მოქმედებების წესები.
 - `noema_core/jobs.py`, `noema_core/jobs_cli.py`, `noema_core/worker.py`, `noema_core/supervisor.py`, `noema_core/workflows.py`, `noema_core/scheduler.py` და `noema_core/service.py` — მდგრადი queue/worker, metrics და verified SQLite backup/restore CLI.
 - `assets/styles.css` და `assets/articles.css` — მთავარი გვერდისა და კვლევითი სტატიების ვიზუალური სტილები.
@@ -28,6 +30,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - `data/research-portfolio.json` და `data/research-portfolio.schema.json` — 3–5 აქტიური კვლევითი ნაკადის საერთო პორტფელი, თითოეული ნაკადის კითხვით, მეთოდით, წყაროებით, რისკებით, სტატუსითა და შემდეგი ნაბიჯით.
 - `data/noema-003/` — NOAA-ს ფიქსირებული მონაცემთა ამონარიდი, NASA/HadCRUT5/NOAA snapshot-ები, provenance metadata და გამეორებადი შედეგები.
 - `data/noema-005/` — binary64 ჯამის რიგითობის ექსპერიმენტის გაყინული შედეგები, ზუსტი reference შედარება და runtime/CPU-thread benchmark არტეფაქტები.
+- `data/noema-007/` — UNDRR/WMO 2026 early-warning aggregate snapshots, reproducible arithmetic და privacy-safe action-readiness schema; რეალური event-level მონაცემი ჯერ არ არსებობს.
 - `research/drafts/` — სამუშაო ჩანაწერები; Pages არტეფაქტში არ შედის, თუმცა საჯარო GitHub საცავში იკითხება.
 - `research/preprints/` — წინასწარი, მომხმარებლისთვის მკაფიო გაფრთხილებით გამოჩენილი კვლევები.
 - `research/published/` — სრული გამოქვეყნების საკონტროლო სიის გამვლელი კვლევები.
@@ -51,6 +54,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - მოკლე მიმდევრობების ენტროპიის სიმულაცია: `scripts/short_sequence_bias_simulation.py`.
 - NOEMA-003-ის NOAA ანალიზი: `scripts/analyze_noema003.py`; cross-dataset შედარება და HAC ლაგების 1–6 ტესტი: `scripts/compare_noema003_datasets.py`; მონაცემთა snapshot-ები, metadata და შედეგები: `data/noema-003/`.
 - NOEMA-005-ის ექსპერიმენტი: `scripts/simulate_noema005_summation.py`; runtime/memory benchmark: `scripts/benchmark_noema005_summation.py`; სრული პროფილის workflow: `.github/workflows/noema005-full-benchmark.yml`; ტესტები: `tests/test_noema005_summation.py` და `tests/test_benchmark_noema005_summation.py`; numerical შედეგები: `data/noema-005/floating-summation-results.json`; benchmark protocol: `data/noema-005/benchmark-protocol.json`; სრული benchmark-ის შეჯამება: `data/noema-005/benchmark-full-profile-summary-2026-11-24.json`.
+- NOEMA-007-ის WMO roadmap snapshot და aggregate-only action-readiness პროტოტიპი: `data/noema-007/wmo-roadmaps-2026-source-snapshot.json`, `data/noema-007/wmo-roadmaps-2026-derived-results.json`, `scripts/reproduce_noema007_wmo_roadmaps.py`, `data/noema-007/action-readiness-observation.schema.json`, `noema_core/action_readiness.py`; synthetic-only tests `tests/test_noema007_wmo_roadmaps.py` და `tests/test_noema007_action_readiness.py`. WMO-ს 35 validated roadmap-ის published aggregates-იდან 20/35 = 57.1429% შეიცავს მკაფიო budget allocation-ს; USD 1.38bn / 20 = დაახლოებით USD 69m თითო budgeted roadmap-ზე. ეს არ არის warning reach ან protection measure და underlying country-level data დამოუკიდებლად არ გადაგვიმუშავებია.
 - NOEMA-005-ის რეალური CPU-thread გაგრძელება: `scripts/benchmark_noema005_threaded_reduction.py`; ტესტები: `tests/test_benchmark_noema005_threaded_reduction.py`; GIL/free-threaded CI: `.github/workflows/noema005-threaded-benchmark.yml`; პროტოკოლი: `data/noema-005/threaded-benchmark-protocol.json`; ადგილობრივი GIL-control შეჯამება: `data/noema-005/threaded-benchmark-local-cpython-3.13.5-gil-summary.json`; სრული მეთოდოლოგიური დამატება: `research/drafts/NOEMA-2026-005-real-thread-benchmark-addendum.md`. შედეგების შეჯამებები: `data/noema-005/threaded-benchmark-gil-enabled-2026-11-25.json` და `data/noema-005/threaded-benchmark-free-threaded-2026-11-25.json`; preliminary გვერდი განახლებულია real-thread შედეგებით.
 - NOEMA-005-ის native C/OpenMP accumulator comparison: `scripts/noema005_native_accumulator_benchmark.c`; runner `scripts/run_noema005_native_accumulator_benchmark.py`; report validator `scripts/validate_noema005_native_accumulator_report.py`; tests `tests/test_noema005_native_accumulator.py`; x86-64/ARM64 workflow `.github/workflows/noema005-native-accumulator.yml`; draft `research/drafts/NOEMA-2026-005-native-accumulator-2026-11-26.md`. Exact-head x86-64 and ARM64 CI reports are stored as workflow artifacts; the sub-experiment remains draft.
 - NOEMA-005-ის დამოუკიდებელი MPFR 4.2.1 cross-check (hosted Ubuntu package): `tests/noema005_mpfr_rounding_harness.c`; ტესტი `tests/test_noema005_mpfr_rounding.py`; signed-range regression `tests/test_noema005_exact_rounding.py`; x86-64/ARM64 workflow `.github/workflows/noema005-native-accumulator.yml`; მეთოდოლოგია `research/drafts/NOEMA-2026-005-mpfr-crosscheck-2026-11-26.md`. 467 synthetic signed inputs თითოეულ hosted architecture-ზე მოწმდება MPFR_RNDN-ის წინააღმდეგ; შედეგი რჩება preliminary და არ წარმოადგენს physical-hardware replication-ს ან formal proof-ს.
@@ -68,6 +72,8 @@ NOEMA-ს ერთჰოსტიანი runtime ირთვება ბრ
 ## ტექნიკური სამუშაოების მართვა
 
 NOEMA-ს შიდა სამუშაოების მართვის პირველი ბირთვი ინახავს დავალებებს მომხმარებლის ლოკალურ `~/.noema/noema-jobs.sqlite3` ბაზაში (ან `NOEMA_JOBS_DB` გარემოს ცვლადით მითითებულ მისამართზე). მას აქვს idempotency key, worker lease და ვადის გასვლის შემდეგ აღდგენა, შეზღუდული retry, შედეგის hash და SHA-256-ით დაკავშირებული audit events. Queue არ ასრულებს თვითნებურ კოდს; სამუშაოს შესრულება მომავალ ეტაპზე მხოლოდ წინასწარ რეგისტრირებულ handler-ებს გადაეცემა. CLI: `python -m noema_core.jobs_cli --help`.
+
+Off-host backup manifest metadata-ს შემოწმება: `python scripts/validate_noema_backup_manifest.py /path/to/manifest.json` (მხოლოდ schema/format validation; არა signature, encryption ან provider verification). 
 
 დავალებების რიგისა და worker execution-ის დეტალები აღწერილია [ავტონომიური მართვის არქიტექტურაში](docs/AUTONOMY_ARCHITECTURE.md).
 
