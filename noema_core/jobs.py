@@ -764,7 +764,7 @@ class JobQueue:
                 header = handle.read(100)
         except OSError as exc:
             raise JobQueueError(f"Cannot read backup database header: {exc}") from exc
-        if len(header) < 100 or header[:16] != b"SQLite format 3\\x00":
+        if len(header) < 100 or header[:16] != b"SQLite format 3\x00":
             raise JobQueueError("Backup is not a valid SQLite database file")
         if (header[18], header[19]) != (1, 1):
             raise JobQueueError(
