@@ -346,10 +346,34 @@ class IntegrationEngine:
         return IntegrationResult("succeeded", plan.adapter_id, plan.operation_id, plan.plan_id,
                                  plan.payload_sha256, result=safe_result)
 
-    def register_job_handlers(self, registry: HandlerRegistry) -> None:
-        """Register only metadata discovery and DRY_RUN planning handlers."""
+    def register_job_handlers(
+        self,
+        registry: HandlerRegistry,
+        *,
+        live_grants: Mapping[str, IntegrationGrant] | None = None,
+    ) -> None:
+        """Register discovery/planning plus optionally grant-scoped READ jobs.
+
+        live_grants must be supplied by trusted host code, never from a job
+        payload or manifest. The optional live handler refuses every operation
+        that is not explicitly declared with the READ effect.
+        """
         if not isinstance(registry, HandlerRegistry):
             raise IntegrationError("registry must be a HandlerRegistry")
+
+        trusted_grants: dict[str, IntegrationGrant] = {}
+        if live_grants is not None:
+            if not isinstance(live_grants, Mapping):
+                raise IntegrationError("live_grants must be a trusted mapping")
+            for adapter_id, grant in live_grants.items():
+                if (
+                    not isinstance(adapter_id, str)
+                    or not _ID.fullmatch(adapter_id)
+                    or not isinstance(grant, IntegrationGrant)
+                    or grant.adapter_id != adapter_id
+                ):
+                    raise IntegrationError("live_grants contains an invalid or mismatched grant")
+                trusted_grants[adapter_id] = grant
 
         def discover_job(payload: Mapping[str, Any], context: JobContext) -> dict[str, Any]:
             try:
@@ -384,3 +408,57 @@ class IntegrationEngine:
 
         registry.register("integration.discover", discover_job)
         registry.register("integration.plan", plan_job)
+
+        if trusted_grants:
+            def execute_read_job(payload: Mapping[str, Any], context: JobContext) -> dict[str, Any]:
+                adapter_id = payload.get("adapter_id")
+                operation_id = payload.get("operation_id")
+                grant = trusted_grants.get(adapter_id) if isinstance(adapter_id, str) else None
+                if grant is None:
+                    raise NonRetryableJobError("No trusted live-read grant is configured for this adapter")
+                if not isinstance(operation_id, str):
+                    raise NonRetryableJobError("operation_id must be a string")
+                try:
+                    descriptor = self.discover(adapter_id)
+                except IntegrationError as exc:
+                    raise NonRetryableJobError(str(exc)) from exc
+                capability = next(
+                    (item for item in descriptor.capabilities if item.operation_id == operation_id),
+                    None,
+                )
+                if capability is None or capability.effect != IntegrationEffect.READ:
+                    raise NonRetryableJobError("Live job handler permits READ capabilities only")
+                operation_payload = payload.get("payload", {})
+                try:
+                    plan = self.prepare(
+                        adapter_id,
+                        operation_id,
+                        operation_payload,
+                        idempotency_key=context.job_id,
+                        mode=ExecutionMode.LIVE,
+                    )
+                    outcome = self.execute(plan, grant=grant)
+                except IntegrationError as exc:
+                    raise NonRetryableJobError(str(exc)) from exc
+                if outcome.status != "succeeded" or not isinstance(outcome.result, Mapping):
+                    raise NonRetryableJobError(outcome.reason or "Read operation was blocked")
+                try:
+                    safe_result, _ = _canonical_payload(outcome.result)
+                    encoded_result = json.dumps(
+                        safe_result, ensure_ascii=False, sort_keys=True,
+                        separators=(",", ":"), allow_nan=False,
+                    ).encode("utf-8")
+                except (IntegrationError, TypeError, ValueError) as exc:
+                    raise NonRetryableJobError(f"Read result failed safe serialization: {exc}") from exc
+                # Leave headroom below JobQueue.MAX_JSON_BYTES for the wrapper.
+                if len(encoded_result) > 900_000:
+                    raise NonRetryableJobError("Read result exceeds the safe queue-result size limit")
+                return {
+                    "status": outcome.status,
+                    "adapter_id": adapter_id,
+                    "operation_id": operation_id,
+                    "payload_sha256": plan.payload_sha256,
+                    "data": safe_result,
+                }
+
+            registry.register("integration.execute_read", execute_read_job)
