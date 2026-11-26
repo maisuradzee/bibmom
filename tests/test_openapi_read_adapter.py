@@ -250,5 +250,92 @@ class OpenAPIReadAdapterTests(unittest.TestCase):
         self.assertEqual(result.result["data"], [{"id": 1}, {"id": 2}])
 
 
+    def test_root_base_url_without_a_path_is_supported(self):
+        spec = {
+            "openapi": "3.1.0",
+            "servers": [{"url": "https://api.example.test"}],
+            "paths": {
+                "/health": {
+                    "get": {
+                        "operationId": "getHealth",
+                        "security": [],
+                        "responses": {
+                            "200": {
+                                "description": "OK",
+                                "content": {"application/json": {"schema": {"type": "object"}}},
+                            }
+                        },
+                    }
+                }
+            },
+        }
+        adapter = OpenAPIReadAdapter(
+            "example.health", "Example Health API", "https://api.example.test",
+            spec, transport=self.transport,
+        )
+        self.responses.append(self.response({"status": "ok"}))
+        result = adapter.execute("gethealth", {}, idempotency_key="health-check")
+        self.assertEqual(result["status"], "ok")
+        self.assertEqual(urlsplit(self.requests[0][0]).path, "/health")
+
+    def test_private_ip_literal_base_urls_are_rejected(self):
+        spec = {
+            "openapi": "3.1.0",
+            "paths": {
+                "/health": {
+                    "get": {
+                        "operationId": "getHealth",
+                        "security": [],
+                        "responses": {"200": {"description": "OK", "content": {"application/json": {}}}},
+                    }
+                }
+            },
+        }
+        for host in ("127.0.0.1", "10.0.0.2", "[::1]"):
+            with self.subTest(host=host):
+                with self.assertRaisesRegex(OpenAPIReadAdapterError, "IP literals"):
+                    OpenAPIReadAdapter(
+                        "example.health", "Example", f"https://{host}", spec
+                    )
+
+    def test_credential_like_parameter_names_are_not_discovered(self):
+        spec = {
+            "openapi": "3.1.0",
+            "servers": [{"url": "https://api.example.test"}],
+            "paths": {
+                "/records": {
+                    "get": {
+                        "operationId": "listRecords",
+                        "security": [],
+                        "parameters": [{
+                            "name": "accessToken",
+                            "in": "query",
+                            "required": True,
+                            "schema": {"type": "string"},
+                        }],
+                        "responses": {"200": {"description": "OK", "content": {"application/json": {}}}},
+                    }
+                }
+            },
+        }
+        with self.assertRaisesRegex(OpenAPIReadAdapterError, "No safe"):
+            OpenAPIReadAdapter(
+                "example.records", "Example Records", "https://api.example.test",
+                spec, transport=self.transport,
+            )
+
+    def test_hard_string_and_url_limits_are_enforced_before_network(self):
+        plan = self.engine.prepare(
+            self.adapter.adapter_id, "getitem",
+            {"itemId": 7, "expand": "x" * 2049},
+            idempotency_key="oversized-string",
+            mode=ExecutionMode.LIVE,
+        )
+        grant = IntegrationGrant(self.adapter.adapter_id, frozenset({"getitem"}))
+        self.assertEqual(self.engine.execute(plan, grant=grant).status, "blocked")
+        self.assertEqual(self.requests, [])
+
+
+
 if __name__ == "__main__":
     unittest.main()
