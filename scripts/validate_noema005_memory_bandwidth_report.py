@@ -50,7 +50,10 @@ def validate_report(report:dict[str,Any])->None:
             if case is None: raise ValueError("missing OpenMP case")
             expected=indexed[(b,1)]["median_wall_ns"]/case["median_wall_ns"]
             if not math.isclose(case.get("speedup_vs_matching_serial",0),expected,rel_tol=1e-6): raise ValueError("speedup does not reproduce")
-    digest=report.get("provenance",{}).get("source_sha256")
+    provenance=report.get("provenance",{})
+    head=provenance.get("tested_head_sha")
+    if not isinstance(head,str) or len(head)!=40 or any(ch not in "0123456789abcdef" for ch in head): raise ValueError("exact tested head SHA provenance missing")
+    digest=provenance.get("source_sha256")
     if not isinstance(digest,str) or len(digest)!=64 or any(ch not in "0123456789abcdef" for ch in digest): raise ValueError("source SHA-256 provenance missing")
 def main()->int:
     p=argparse.ArgumentParser(description=__doc__);p.add_argument("--report",type=Path,required=True);a=p.parse_args()
