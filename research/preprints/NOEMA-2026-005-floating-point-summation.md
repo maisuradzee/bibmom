@@ -422,3 +422,14 @@ The 1.2589× figure is a comparison against the matching serial Neumaier impleme
 ### Next step
 
 Run the same hashed inputs on independently controlled physical x86-64 and ARM64 hardware, with at least 20 repetitions per cell, RSS/native allocation and memory-bandwidth measurements, and an independently reviewed accuracy oracle. Keep the study preliminary until then.
+
+
+## დამატებითი hosted repeats — 2026-11-27
+
+ორი შემდგომი GitHub Actions run (45910119575 და 45910842404) იმავე frozen input hashes-სა და protocol-ს იყენებდა. ორივე run-ში სრული Neumaier compensation-state merge კვლავ 48/48 სწორად დამრგვალდა, scalar Neumaier — 42/48, naive scalar — 0/48 თითო runtime-ზე.
+
+Free-threaded Neumaier-state median speedup matching serial Neumaier baseline-თან იყო 1.2565× და 1.1718×; GIL-enabled — 0.7601× და 0.7604×. შესაბამისად, სამი hosted run-ის free-threaded median დიაპაზონია 1.1718×–1.2589×. ეს მიანიშნებს timing/runner variability-ზე და არა სტაბილურ, პორტატულ აჩქარებაზე. GIL-enabled threaded შედეგები კვლავ serial Neumaier-ზე ნელია.
+
+მნიშვნელოვანი შეზღუდვა უცვლელია: serial math.fsum ოთხ-worker threaded Neumaier-state-ზე დაახლოებით 14.4–16.3-ჯერ სწრაფი იყო free-threaded fixture-ებზე და 22.5–23.8-ჯერ GIL-enabled fixture-ებზე. ყველა run შესრულდა hosted x86-64 VM-ებზე, synthetic cancellation inputs-ით და სამი repetition-ით. ეს არ არის დამოუკიდებელი physical x86-64/ARM64 replication, არც representative scientific workload. Run 459108-ის არტეფაქტები SHA-256-ით გადამოწმდა, მაგრამ მათი raw bytes ჯერ არ არის repository-ში შენახული; GitHub Actions retention იწურება 2026-12-26.
+
+კვლევა რჩება preliminary; Published სტატუსი და ზოგადი speedup მტკიცება არ გამოიყენება დამოუკიდებელ რეცენზიამდე და ფიზიკურ მოწყობილობებზე გამეორებამდე.
