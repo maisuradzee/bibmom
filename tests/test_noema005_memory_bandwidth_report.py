@@ -9,7 +9,7 @@ def fixture():
         for m,b,c in (("openmp_naive_partials","serial_naive",0),("openmp_long_double","serial_long_double",3),("openmp_neumaier_state","serial_neumaier",3)):
             wall=serial[b]/w;cpu=wall*w
             cases.append({"method":m,"requested_workers":w,"actual_threads_min":w,"actual_threads_max":w,"correct_runs":c,"runs":3,"median_wall_ns":wall,"median_process_cpu_ns":cpu,"speedup_vs_matching_serial":serial[b]/wall,"effective_read_gb_s":size/wall,"bytes_read_per_run":size,"wall_samples_ns":[wall-1,wall,wall+1],"process_cpu_samples_ns":[cpu-1,cpu,cpu+1]})
-    return {"study_id":"NOEMA-2026-005","experiment_id":"NOEMA-2026-005-MEMORY-001","status":"synthetic_memory_backed_reduction","input":{"pattern":["2^53","1","-2^53"],"repeat_count":repeat,"elements":repeat*3,"bytes":size,"exact_sum":repeat},"workers":[1,2,4,8],"warmups":1,"repetitions":3,"cases_expected":15,"cases":cases,"provenance":{"source_sha256":"a"*64}}
+    return {"study_id":"NOEMA-2026-005","experiment_id":"NOEMA-2026-005-MEMORY-001","status":"synthetic_memory_backed_reduction","input":{"pattern":["2^53","1","-2^53"],"repeat_count":repeat,"elements":repeat*3,"bytes":size,"exact_sum":repeat},"workers":[1,2,4,8],"warmups":1,"repetitions":3,"cases_expected":15,"cases":cases,"provenance":{"source_sha256":"a"*64,"tested_head_sha":"b"*40}}
 class MemoryBackedReportTests(unittest.TestCase):
     def test_valid_fixture(self):validate_report(fixture())
     def test_incomplete_matrix_rejected(self):
