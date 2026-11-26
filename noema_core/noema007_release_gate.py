@@ -98,7 +98,7 @@ def release_scope_sha256(plan: Mapping[str, Any]) -> str:
 
 def _validate_plan(plan: Mapping[str, Any]) -> tuple[Mapping[str, Any], str, str]:
     root = _closed_object(plan, "plan", _PLAN_FIELDS)
-    if root["schema_version"] != 1:
+    if type(root["schema_version"]) is not int or root["schema_version"] != 1:
         raise AggregateReleaseGateError("schema_version must be 1")
 
     for field in ("release_batch_id", "protected_population_family_id"):
@@ -114,12 +114,12 @@ def _validate_plan(plan: Mapping[str, Any]) -> tuple[Mapping[str, Any], str, str
     ):
         _digest(root[field], field)
 
-    if root["privacy_unit"] not in {"person", "event"}:
+    if not isinstance(root["privacy_unit"], str) or root["privacy_unit"] not in {"person", "event"}:
         raise AggregateReleaseGateError("privacy_unit must be explicitly person or event")
     _nonempty_text(root["privacy_unit_rationale"], "privacy_unit_rationale", 500)
     if type(root["contribution_bound"]) is not int or root["contribution_bound"] < 1:
         raise AggregateReleaseGateError("contribution_bound must be a positive integer")
-    if root["adjacency"] not in {"add_remove", "replace_one"}:
+    if not isinstance(root["adjacency"], str) or root["adjacency"] not in {"add_remove", "replace_one"}:
         raise AggregateReleaseGateError("adjacency must be explicitly add_remove or replace_one")
     if root["differential_privacy_claimed"] is not False:
         raise AggregateReleaseGateError(
