@@ -165,3 +165,32 @@ Neumaier-state median speedup changed only from 1.2589× to 1.2565× in free-thr
 ### Limitations
 
 The two runs use hosted x86-64 CI VMs, not independently controlled physical machines. The GIL-enabled and free-threaded jobs use different provider families (AWS/Azure), and their CPU models/host contention are not controlled. The fixtures remain synthetic, repetitions are three, and tracemalloc does not measure RSS/native allocations or DRAM bandwidth. Independent physical x86-64/ARM64 replication and external numerical-method review remain open. The study remains preliminary.
+
+
+## მესამე hosted repeat — 2026-11-27 (GitHub Actions 45910842404)
+
+ეს run იმავე input SHA-256-ებსა და იმავე protocol-ს იყენებდა. ორივე runtime job წარმატებით დასრულდა.
+
+| Runtime | Method | Correct | Median speedup vs matching serial Neumaier | CPU/wall >1.05 |
+|---|---|---:|---:|---:|
+| Free-threaded | Naive scalar | 0/48 | 0.3072× | 12/16 cases |
+| Free-threaded | Scalar Neumaier | 42/48 | 1.1771× | 12/16 cases |
+| Free-threaded | Neumaier state | 48/48 | 1.1718× | 12/16 cases |
+| GIL-enabled | Naive scalar | 0/48 | 0.4952× | 0/16 cases |
+| GIL-enabled | Scalar Neumaier | 42/48 | 0.7587× | 0/16 cases |
+| GIL-enabled | Neumaier state | 48/48 | 0.7604× | 0/16 cases |
+
+Neumaier-state worker medians were 0.7691×, 1.1212×, 1.2861× and 1.1825× for 1/2/4/8 workers in free-threaded mode; GIL-enabled medians were 0.7645×, 0.7648×, 0.7597× and 0.7310×. Four-worker threaded Neumaier-state still took 14.4–15.1× serial math.fsum wall time in free-threaded mode and 22.5–23.0× in GIL-enabled mode.
+
+### Three-run interpretation
+
+Across the three hosted executions (45897707859, 45910119575 and 45910842404), correctness counts remained identical: Neumaier-state 48/48, scalar Neumaier 42/48 and naive scalar 0/48 in both runtimes. Free-threaded median speedup versus matching serial Neumaier varied from 1.1718× to 1.2589×; GIL-enabled remained 0.7576×–0.7604×. The spread in free-threaded timing is material and reinforces that the >1.0 result is workload/runner-specific, not a robust general speedup. Serial math.fsum remained substantially faster than the threaded path in all measured fixtures.
+
+### Provenance and limits
+
+- Workflow: https://github.com/maisuradzee/bibmom/actions/runs/45910842404
+- Tested head: d3da8974f7b1871fbd83bfdac9eee7ce41559f57
+- Free-threaded ZIP/report SHA-256: 1d1ff6cee26100bfac801ff0eeb53c82f1dc4327dbc8774903121f278b39f3c9 / ecb198ab88b45c00b7d05cb65be5735456d296f9bb0200e60bc67fb82e1c0141
+- GIL-enabled ZIP/report SHA-256: ea78b4344d91441631b4600a71d9c69cd159b56266c6057e687eec09c28eff85 / e11b337e316552a12caed4c231b5bd0ac2f8d3aa46b8968ae33b4488a5bac598
+- Both artifacts remain available until 2026-12-26 but are not yet mirrored in repository raw files.
+- Hosted x86-64 VMs only; AWS/Azure family mismatch between runtime modes; synthetic cancellation inputs; three repetitions; no physical x86-64/ARM64 replication, confidence intervals, RSS/native allocation/DRAM bandwidth or independent numerical-method review.
