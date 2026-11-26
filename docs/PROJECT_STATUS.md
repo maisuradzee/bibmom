@@ -120,3 +120,38 @@ PR #19-ის წინა CI failure კონკრეტულად ეხ�
 - No new Supabase project or external database was created.
 - Drafts remain drafts. No independent external review has been completed for these new studies; Published status was not assigned.
 - NOEMA advances during scheduled runs only; this status does not claim continuous background execution.
+
+
+## NOEMA run audit — 2026-11-26 (AquaSignal lifecycle + native OpenMP)
+
+This section supersedes earlier status snapshots in this file where PR #29 or PR #30 are still described as open/diverged.
+
+- **Current main:** `8bb91db62105a83391986d06e88f198b5c7d1670`.
+- **PR #29 AquaSignal incident lifecycle:** merged at `5b0f8ea791ca9eee1ff5bc96cbc811ebfe88b960`. Exact-head quality CI [45791736630](https://github.com/maisuradzee/bibmom/actions/runs/45791736630) passed 252 Python tests. A first CI run exposed an acknowledgement-replay ordering regression; it was fixed by checking exact idempotent replay before enforcing monotonic timestamps for new events.
+- **PR #30 native OpenMP:** merged at `8bb91db62105a83391986d06e88f198b5c7d1670`. Exact-head quality CI [45792697056](https://github.com/maisuradzee/bibmom/actions/runs/45792697056) passed 264 Python tests; native OpenMP [45792697063](https://github.com/maisuradzee/bibmom/actions/runs/45792697063) passed 20 cases and observed 1/2/4/8 workers; GIL-enabled/free-threaded CPU matrix [45792697098](https://github.com/maisuradzee/bibmom/actions/runs/45792697098) passed.
+- **Main quality CI:** [45792961744](https://github.com/maisuradzee/bibmom/actions/runs/45792961744) — SUCCESS, 264 Python tests plus schema, frozen-result, site-build and publication-boundary checks.
+- **GitHub Pages:** [45792961703](https://github.com/maisuradzee/bibmom/actions/runs/45792961703) — build and deploy jobs SUCCESS for main commit `8bb91db62105a83391986d06e88f198b5c7d1670`.
+- **Research catalogue:** remains 1 preliminary / 0 published. The native OpenMP extension remains a draft addendum; no independent hardware replication or external numerical-method review has been completed.
+- **Research portfolio:** four active streams; current statuses are in `data/research-portfolio.json`.
+
+### Active stream status
+
+| Stream | Confirmed progress | Blocker / next step |
+|---|---|---|
+| NOEMA-2026-006 AquaSignal | PR #29 merged. Immutable incident state validates event chronology, full assessment binding, severity history and acknowledgement/closure audit events. Backdated post-ack assessments are rejected; identical acknowledgement replay remains idempotent. | Synthetic in-memory prototype only. Obtain authorized paired sensor/lab data and site-approved Water Safety Plan limits; then preregister a field evaluation. |
+| NOEMA-2026-005 numerical reduction | PR #30 merged. Full raw OpenMP samples archived in `data/noema-005/native-openmp-raw-report-2026-11-26.json`; summary validator reproduces medians, CPU/wall ratios and speedups and checks source/blob provenance. | Native OpenMP evidence is from one hosted x86-64 runner. Add pairwise-tree, long-double and binned/exact baselines; run independent native ARM64/x86-64 replications and seek external review. |
+| NOEMA-2026-007 Last-Mile Action Gap | Existing discovery draft retains official UNDRR/WMO and Georgian NEA evidence; no new local dataset was obtained this cycle. | No municipal alert-delivery, acknowledgement or action-completion aggregates; select one basin/municipal workflow and obtain authorized aggregate data without duplicating official alerting. |
+| NOEMA-INFRA-001 reliability | Portfolio audit completed; no new backup/restore code was merged this cycle. | PR #19 is 32 commits ahead / 46 behind current main and `mergeable=false`. Refresh carefully, rerun exact-head CI and restore drill; encrypted off-host backup, retention/rotation and scheduled restore exercises remain absent. |
+
+### Other open engineering PRs
+
+- PR #27 (Adaptive Integration Engine) remains Draft/open, 37 commits ahead / 40 behind current main and `mergeable=false`. Earlier credential-normalization and capability-fingerprint review findings remain unresolved; refresh and rerun exact-head CI before integration.
+- PR #19 remains Draft/open and divergent as described above. Its older successful CI is not evidence for current main.
+
+### Public-data and publication boundary
+
+- The OpenMP input and AquaSignal fixtures are synthetic; no operator telemetry, private laboratory records, credentials or personal data were committed.
+- The archived OpenMP report retains generated timing samples only. The incomplete historical 10/20-case local report remains explicitly invalidated and is not used as evidence.
+- No new Supabase project or external database was created.
+- No study was promoted to Published. The AquaSignal field study and native OpenMP independent replication remain unvalidated.
+- This report records work completed during a scheduled run; it does not claim continuous background execution.
