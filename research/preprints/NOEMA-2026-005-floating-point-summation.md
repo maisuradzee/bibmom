@@ -433,3 +433,12 @@ Free-threaded Neumaier-state median speedup matching serial Neumaier baseline-�
 მნიშვნელოვანი შეზღუდვა უცვლელია: serial math.fsum ოთხ-worker threaded Neumaier-state-ზე დაახლოებით 14.4–16.3-ჯერ სწრაფი იყო free-threaded fixture-ებზე და 22.5–23.8-ჯერ GIL-enabled fixture-ებზე. ყველა run შესრულდა hosted x86-64 VM-ებზე, synthetic cancellation inputs-ით და სამი repetition-ით. ეს არ არის დამოუკიდებელი physical x86-64/ARM64 replication, არც representative scientific workload. Run 459108-ის არტეფაქტები SHA-256-ით გადამოწმდა, მაგრამ მათი raw bytes ჯერ არ არის repository-ში შენახული; GitHub Actions retention იწურება 2026-12-26.
 
 კვლევა რჩება preliminary; Published სტატუსი და ზოგადი speedup მტკიცება არ გამოიყენება დამოუკიდებელ რეცენზიამდე და ფიზიკურ მოწყობილობებზე გამეორებამდე.
+
+
+## მეოთხე hosted verification — 2026-11-27
+
+GitHub Actions run 45911225040 repeated the same deterministic inputs and protocol. Accuracy counts remained 48/48 for the full Neumaier compensation-state merge, 42/48 for scalar Neumaier and 0/48 for naive scalar in both runtime modes. However, the free-threaded Neumaier-state median speedup fell to 0.7161× versus matching serial Neumaier; the GIL-enabled median was 0.7620×. The four-worker free-threaded median was 0.7446×, and eight workers were lower at 0.7219×.
+
+This fourth hosted run is a critical negative result: earlier free-threaded medians above 1.0 are not robust across hosted runner instances. Across four hosted runs, free-threaded median speedup ranges from 0.7161× to 1.2589×; GIL-enabled remains about 0.758×–0.762×. The exact accuracy behavior is stable on the synthetic fixtures, but timing is strongly runner-dependent. Serial math.fsum remains about 21.0–24.0× faster than the four-worker threaded Neumaier-state path in this run. The study therefore establishes no general wall-time speed advantage.
+
+The fourth run's artifacts were downloaded and SHA-256 verified, but raw report bytes are not yet archived in the repository and GitHub artifact retention expires 2026-12-26. The free-threaded job ran on an AWS x86-64 hosted VM, whereas earlier free-threaded jobs ran on Azure; this platform difference is a confound and not proof of causation. The study remains preliminary pending independent physical hardware, representative workloads, at least 20 repetitions, RSS/native allocation and DRAM-bandwidth measurement, and independent numerical-method review.
