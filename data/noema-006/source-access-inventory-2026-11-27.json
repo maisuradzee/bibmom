@@ -32,9 +32,12 @@
         "microbiological_analyses": 137,
         "heavy_metal_analyses": 100,
         "petroleum_product_analyses": 15,
-        "nitrate_risk_field_points": 42
+        "nitrate_risk_field_points": 42,
+        "automatic_station_district_units": 11,
+        "automatic_station_regional_administrations": 8,
+        "information_bulletins": 12
       },
-      "note": "Report says electronic groundwater results have been available since 2022; no row-level export is supplied in the cited passage."
+      "note": "Report says electronic groundwater results have been available since 2022; automatic stations were installed across 11 district units in 8 regional administrations; groundwater is described as generally good quality with isolated microbiological exceedances. No row-level export is supplied in the cited passage."
     },
     {
       "id": "UNECE_SW_2024",
