@@ -39,8 +39,8 @@ class Noema005OpenMPBenchmarkTests(unittest.TestCase):
         report = json.loads(completed.stdout)
         self.assertEqual(report["study_id"], "NOEMA-2026-005")
         self.assertEqual(report["input"]["exact_sum"], 257)
-        self.assertEqual(len(report["cases"]), report["cases_expected]])
-        self.assertEqual(report["cases_expected]], 16)
+        self.assertEqual(len(report["cases"]), report["cases_expected"])
+        self.assertEqual(report["cases_expected"], 16)
         self.assertGreaterEqual(report["process_peak_rss_kib"], 0)
 
         cases = {(item["layout"], item["method"], item["requested_workers"]): item
