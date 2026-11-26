@@ -758,7 +758,8 @@
         "Define a strict JSON Schema 2020-12 metadata envelope for future off-host backups; tests enforce closed object boundaries and exclude secret/credential fields.",
         "Validate proposed backup manifests with an executable JSON Schema Draft 2020-12 validator and strict format checking; keep cryptographic and provider checks explicitly out of scope.",
         "Validate the strict manifest schema, then stream plaintext and ciphertext artifacts through SHA-256 and byte-length checks using one file descriptor; reject non-regular files, symlinks where O_NOFOLLOW exists, and obvious file mutation during hashing.",
-        "Runtime exact-byte Ed25519 detached-signature verification against caller-supplied trusted public keys, followed by streamed plaintext/ciphertext SHA-256 and byte-length checks; synthetic ephemeral-key tests only."
+        "Runtime exact-byte Ed25519 detached-signature verification against caller-supplied trusted public keys, followed by streamed plaintext/ciphertext SHA-256 and byte-length checks; synthetic ephemeral-key tests only.",
+        "Define a provider-neutral, linearizable compare-and-advance protocol for signed backup generations; bind sequence, predecessor digest, exact manifest digest and immutable object-version ID, then enumerate concurrency, timeout, rollback, freeze and point-in-time restore failure cases. This is a design review only; no service is deployed."
       ],
       "sources": [
         {
@@ -952,6 +953,30 @@
           "url": "https://theupdateframework.github.io/specification/v1.0.36/",
           "type": "security_protocol_specification",
           "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Linearizability: A Correctness Condition for Concurrent Objects",
+          "publisher": "ACM Transactions on Programming Languages and Systems",
+          "publication_date": "1990-07",
+          "url": "https://doi.org/10.1145/78969.78972",
+          "type": "peer_reviewed_concurrency_theory",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "PostgreSQL 16 Transaction Isolation",
+          "publisher": "PostgreSQL Global Development Group",
+          "publication_date": "2026-11",
+          "url": "https://www.postgresql.org/docs/16/transaction-iso.html",
+          "type": "official_transaction_semantics_documentation",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "The Update Framework Specification v1.0.36",
+          "publisher": "The Update Framework",
+          "publication_date": "undated",
+          "url": "https://theupdateframework.github.io/specification/v1.0.36/",
+          "type": "security_protocol_specification",
+          "accessed_at": "2026-11-26"
         }
       ],
       "data_needs": [
@@ -969,16 +994,21 @@
         "The restore-drill CLI validates a same-host temporary filesystem round-trip only; it does not validate encrypted off-host storage, provider object versions, key recovery or clean-host disaster recovery.",
         "A matching unsigned manifest and matching artifact hashes do not authenticate provenance; an attacker able to replace both files and the manifest can recompute the hashes.",
         "A valid detached signature does not prove that a signed backup is the newest; rollback/freeze protection requires separately trusted monotonic state and freshness policy.",
-        "The local verifier authenticates exact manifest bytes only when the caller's public key is independently trusted; key compromise, revocation and rotation are not managed here."
+        "The local verifier authenticates exact manifest bytes only when the caller's public key is independently trusted; key compromise, revocation and rotation are not managed here.",
+        "A high-water authority that shares the backup host, credentials, administrator or stale recovery path can be rolled back with the artifacts and does not provide an independent trust anchor.",
+        "A successful object upload before compare-and-advance may leave an unaccepted orphan; cleanup must never delete an object referenced by accepted state.",
+        "An intentional point-in-time restore can make database contents older than the current generation; the recovery event must preserve monotonic lineage instead of lowering trusted state."
       ],
       "blockers": [
         "No production backup encryption/decryption pipeline or off-host storage provider is configured.",
         "Signing-key custody, rotation/revocation, threshold policy and independently trusted public-key provisioning remain unapproved and undeployed.",
-        "Rollback-resistant high-water state, immutable object-version/retention verification, clean-host restore, approved RPO/RTO and production ACLs remain unimplemented; no operator-approved deployed/staging database has been used."
+        "Rollback-resistant high-water state, immutable object-version/retention verification, clean-host restore, approved RPO/RTO and production ACLs remain unimplemented; no operator-approved deployed/staging database has been used.",
+        "No provider-neutral atomic compare-and-advance service has been implemented or tested under concurrent writers.",
+        "No independent recovery/audit authority exists for the high-water state; production rollback protection cannot be claimed."
       ],
       "status": "active",
-      "status_detail": "Main already contains a strict Draft 2020-12 manifest schema, runtime schema validator, exact-byte Ed25519 detached-signature verifier (`verify_backup_manifest_signature` / `verify_signed_backup_artifacts`) and streamed local plaintext/ciphertext digest/length verification. Synthetic tests use ephemeral keys and reject modified manifests, wrong/unknown signers, duplicate JSON keys, invalid key/signature lengths and changed artifacts. This is local verification code only: no production signer/key custody, encryption/decryption pipeline, off-host provider, anti-rollback high-water service, object retention or clean-host restore is deployed.",
-      "next_step": "Design an atomic monotonic high-water/rollback check for signed backup generations and test it with synthetic fixtures; then obtain explicit ownership, provider, key-custody, retention and RPO/RTO approvals before building encryption/decryption, immutable off-host upload and clean-host restore integration.",
+      "status_detail": "Main already contains a strict Draft 2020-12 manifest schema, runtime schema validator, exact-byte Ed25519 detached-signature verifier (`verify_backup_manifest_signature` / `verify_signed_backup_artifacts`) and streamed local plaintext/ciphertext digest/length verification. Synthetic tests use ephemeral keys and reject modified manifests, wrong/unknown signers, duplicate JSON keys, invalid key/signature lengths and changed artifacts. This is local verification code only: no production signer/key custody, encryption/decryption pipeline, off-host provider, anti-rollback high-water service, object retention or clean-host restore is deployed. This run adds a provider-neutral high-water architecture proposal and failure matrix only; it does not implement a CAS service or production anti-rollback guarantee.",
+      "next_step": "Implement a small provider-neutral CAS contract and deterministic concurrency/failure tests only after independent trust-domain ownership and recovery semantics are approved; then select a provider and RPO/RTO with the owner. Do not create a Supabase project or reuse another project's database.",
       "success_metrics": [
         "backup includes committed WAL data",
         "restore rejects WAL-mode header and corrupted audit data before destination creation",
@@ -995,7 +1025,11 @@
         "A synthetic manifest signature verifies only against an independently supplied trusted public key and exact manifest bytes; tampering, unknown signer and duplicate JSON keys fail closed.",
         "Both local artifact hashes and byte lengths match the signed manifest before verification succeeds.",
         "No claim of newest-backup or rollback protection until monotonic trusted state and freshness policy are independently persisted and tested.",
-        "No production disaster-recovery readiness claim until encrypted off-host artifacts are restored on a clean host against approved RPO/RTO."
+        "No production disaster-recovery readiness claim until encrypted off-host artifacts are restored on a clean host against approved RPO/RTO.",
+        "Two concurrent writers using the same expected state cannot both commit; one receives a conflict and no accepted state is overwritten.",
+        "An accepted generation binds the exact signed-manifest digest and immutable object-version identifier; missing/replaced objects fail closed.",
+        "An intentional older point-in-time restore creates an auditable higher-generation restore event and never lowers the high-water mark.",
+        "No rollback-protection claim is made when the high-water authority is unavailable, stale or restored from an untrusted snapshot."
       ],
       "last_reviewed": "2026-11-26"
     }
