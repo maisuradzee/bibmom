@@ -12,7 +12,7 @@ How do native double, long double, recursive pairwise reduction, Neumaier compen
 
 ## მოკლე შეჯამება
 
-An exact-head x86-64/ARM64 CI matrix completed 50 cases per architecture. Neumaier and the exact superaccumulator matched the known integer reference in every measured repetition on both architectures and both input layouts. Native long double differed by architecture: the x86-64 runner reports 64 significand bits and failed the grouped-cancellation fixture; the ARM64 runner reports 113 significand bits and passed both fixtures. Naive and the tested pairwise tree failed both layouts on both architectures. Timing varied substantially on the hosted x86-64 runner; the ARM64 runner showed more consistent scaling in this single batch, but no general speedup claim is justified.
+An exact-head x86-64/ARM64 CI matrix completed 50 cases per architecture. A bounded integer-unit-to-binary64 converter has now been added with round-to-nearest, ties-to-even. Its boundary self-test covers normal/subnormal values, positive and negative halfway ties, cancellation, and overflow; exact-head CI and an independent MPFR/SoftFloat cross-check are pending. Neumaier and the exact superaccumulator matched the known integer reference in every measured repetition on both architectures and both input layouts. Native long double differed by architecture: the x86-64 runner reports 64 significand bits and failed the grouped-cancellation fixture; the ARM64 runner reports 113 significand bits and passed both fixtures. Naive and the tested pairwise tree failed both layouts on both architectures. Timing varied substantially on the hosted x86-64 runner; the ARM64 runner showed more consistent scaling in this single batch, but no general speedup claim is justified.
 
 ## მეთოდი ან ექსპერიმენტის გეგმა
 
@@ -25,7 +25,7 @@ The C11/GCC OpenMP benchmark generates values without storing the input vector:
 - OpenMP methods: per-thread naive partials, per-thread long double, per-thread pairwise trees with deterministic merge, per-thread Neumaier (sum, correction) states, and per-thread exact superaccumulators merged in thread-index order.
 - Requested worker counts: 1, 2, 4 and 8. Actual thread counts are recorded and validated against the requested counts.
 - One warm-up and five timed repetitions per case. Both monotonic wall time and process CPU time are measured. Median speedup is compared with the matching serial algorithm.
-- The exact accumulator decomposes finite binary64 values into integer significands and power-of-two shifts in units of 2^-1074. Forty 64-bit limbs form a 2,560-bit fixed-width two's-complement accumulator. The experiment bound is at most 10^12 repetitions; the benchmark checks exact equality against the known integer fixture sum, not a general rational-to-binary64 rounding routine. A self-test includes negative values and the smallest binary64 subnormal.
+- The exact accumulator decomposes finite IEEE-754 binary64 values into integer significands and power-of-two shifts in units of 2^-1074. Forty 64-bit limbs form a 2,560-bit fixed-width two's-complement accumulator. The benchmark input bound is at most 10^12 repetitions, which remains within this accumulator width for finite binary64 inputs. A separate converter rounds the exact integer-unit sum to binary64 using guard/sticky bits and ties-to-even; the current boundary tests are not an independent proof of correct rounding.
 - No fast-math compiler flag is used. Each report records source SHA-256, compiler, runtime, platform, long-double precision, actual threads, timing samples and process peak RSS.
 
 The exact-head workflow was run on PR #37 head fe03281ea7adebac8ac8a8b20a87408112953b9c:
@@ -106,7 +106,7 @@ An earlier local run was excluded from the architecture comparison because its s
 
 ### UNTESTED IDEA
 
-- Implement a general exact-to-binary64 round-to-nearest-even conversion.
+- Independently cross-check exact-to-binary64 conversion against MPFR or SoftFloat, including generated boundary and random finite-sum cases.
 - Compare exponent-binned, long-accumulator and error-free-transformation implementations.
 - Test memory-bandwidth-bound arrays, NUMA placement, energy and multiple compiler/OpenMP runtime versions.
 
@@ -122,16 +122,16 @@ An earlier local run was excluded from the architecture comparison because its s
 - Both architecture runs used GitHub-hosted Ubuntu 24.04 runners and GCC 13.3.0. They are architecture-level replications, not independent laboratory replications.
 - Five repetitions per cell are not enough for strong timing inference; CPU scheduling and host contention remain visible.
 - Process peak RSS is not per-method memory usage.
-- The exact accumulator is an exact integer-domain comparator for the known fixture sums; it does not yet return a general correctly-rounded binary64 result.
+- The converter is bounded by the 2,560-bit accumulator and benchmark input-count bound; accumulator overflow is unsupported. Boundary self-tests are not an independent proof of correct rounding.
 - No external numerical-method review has been performed.
 
 ## შემდეგი ნაბიჯები
 
-1. Implement and test general exact-to-binary64 round-to-nearest-even conversion.
-2. Add representative array sizes and memory-bandwidth-bound inputs; record affinity, CPU model and runtime version.
-3. Repeat timing on pinned x86-64 and ARM64 hardware with more repetitions and confidence intervals.
-4. Compare binned and error-free-transformation methods against the same exact reference.
-5. Request an independent numerical-method review before changing this draft's publication status.
+1. Complete exact-head x86-64/ARM64 CI for the new converter boundary tests.
+2. Independently cross-check conversion against MPFR or SoftFloat and generated rational reference cases.
+3. Add representative array sizes and memory-bandwidth-bound inputs; record affinity, CPU model and runtime version.
+4. Repeat timing on pinned x86-64 and ARM64 hardware with more repetitions and confidence intervals.
+5. Compare binned and error-free-transformation methods against the same exact reference, then request independent numerical-method review.
 
 ## შემოწმების სტატუსი
 
