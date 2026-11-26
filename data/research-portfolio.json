@@ -23,32 +23,36 @@
       ],
       "sources": [
         {
-          "title": "Drinking-water fact sheet",
+          "title": "Guidelines for drinking-water quality: fourth edition incorporating the first, second and third addenda",
           "publisher": "World Health Organization",
-          "publication_date": "2026-11-19",
-          "url": "https://www.who.int/news-room/fact-sheets/detail/drinking-water/",
-          "type": "official_health_source"
+          "publication_date": "2026-06-17",
+          "url": "https://www.who.int/publications/i/item/9789240121225",
+          "type": "official_health_guideline",
+          "accessed_at": "2026-11-26"
         },
         {
           "title": "Progress on household drinking water, sanitation and hygiene 2000–2024: 2025 update",
           "publisher": "WHO/UNICEF Joint Monitoring Programme",
           "publication_date": "2025-08-26",
           "url": "https://data.unicef.org/resources/jmp-report-2025/",
-          "type": "official_monitoring_report"
+          "type": "official_monitoring_report",
+          "accessed_at": "2026-11-26"
         },
         {
           "title": "National Environmental Agency — drinking-water monitoring information",
           "publisher": "National Environmental Agency of Georgia",
           "publication_date": "2025-09-18",
           "url": "https://nea.gov.ge/En/News/2335",
-          "type": "official_national_source"
+          "type": "official_national_source",
+          "accessed_at": "2026-11-26"
         },
         {
           "title": "Water safety plan manual, second edition",
           "publisher": "World Health Organization",
           "publication_date": "2023-03-01",
           "url": "https://www.who.int/publications/i/item/9789240067691",
-          "type": "technical_guidance"
+          "type": "technical_guidance",
+          "accessed_at": "2026-11-26"
         }
       ],
       "data_needs": [
@@ -100,21 +104,24 @@
           "publisher": "NOEMA repository",
           "publication_date": "2026-11-26",
           "url": "https://github.com/maisuradzee/bibmom/blob/main/research/drafts/NOEMA-2026-005-arm64-replication-protocol.md",
-          "type": "internal_experiment_protocol"
+          "type": "internal_experiment_protocol",
+          "accessed_at": "2026-11-26"
         },
         {
           "title": "NOEMA-005 four-batch ARM64 repeat validation",
           "publisher": "NOEMA repository",
           "publication_date": "2026-11-26",
           "url": "https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/arm64-repeat-validation-2026-11-26.json",
-          "type": "frozen_experiment_result"
+          "type": "frozen_experiment_result",
+          "accessed_at": "2026-11-26"
         },
         {
           "title": "Python threading documentation",
           "publisher": "Python Software Foundation",
           "publication_date": "undated",
           "url": "https://docs.python.org/3/library/threading.html",
-          "type": "official_runtime_documentation"
+          "type": "official_runtime_documentation",
+          "accessed_at": "2026-11-26"
         }
       ],
       "data_needs": [
@@ -168,70 +175,88 @@
           "publisher": "UNDRR",
           "publication_date": "2026-11-11",
           "url": "https://www.undrr.org/reports/global-status-mhews-2026",
-          "type": "official_global_report"
+          "type": "official_global_report",
+          "accessed_at": "2026-11-26"
         },
         {
           "title": "Global Status of Multi-Hazard Early Warning Systems 2026",
           "publisher": "World Meteorological Organization",
           "publication_date": "2026-11-11",
           "url": "https://wmo.int/resources/publication-series/global-status-of-multi-hazard-early-warning-systems/gsmhews-2026",
-          "type": "official_global_report"
+          "type": "official_global_report",
+          "accessed_at": "2026-11-26"
         },
         {
           "title": "Heat–health action plans: guidance, second edition",
           "publisher": "World Health Organization Regional Office for Europe",
           "publication_date": "2026-06-11",
           "url": "https://www.who.int/europe/publications/i/item/9789289062930",
-          "type": "official_public_health_guidance"
+          "type": "official_public_health_guidance",
+          "accessed_at": "2026-11-26"
         },
         {
           "title": "A working meeting on the new ICT system",
           "publisher": "National Environmental Agency of Georgia",
           "publication_date": "2026-07-10",
           "url": "https://nea.gov.ge/En/News/2416",
-          "type": "official_national_source"
+          "type": "official_national_source",
+          "accessed_at": "2026-11-26"
         },
         {
           "title": "Multi-hazard risk management plans for seven river basins",
           "publisher": "National Environmental Agency of Georgia",
           "publication_date": "2026-04-02",
           "url": "https://nea.gov.ge/En/News/2381",
-          "type": "official_national_source"
+          "type": "official_national_source",
+          "accessed_at": "2026-11-26"
         },
         {
           "title": "UN in Georgia Annual Report 2025",
           "publisher": "United Nations in Georgia",
           "publication_date": "2026-04",
           "url": "https://georgia.un.org/sites/default/files/2026-04/UN%20Georgia%20Annual%20Report%202025_2.pdf",
-          "type": "official_country_report"
+          "type": "official_country_report",
+          "accessed_at": "2026-11-26"
         },
         {
           "title": "Scaling-up Multi-Hazard Early Warning System and the Use of Climate Information in Georgia",
           "publisher": "UNDP Georgia",
           "publication_date": "undated",
           "url": "https://www.undp.org/georgia/projects/early-warning-climate-information",
-          "type": "official_project_page"
+          "type": "official_project_page",
+          "accessed_at": "2026-11-26"
         },
         {
           "title": "A Holistic Approach to Early Warning Systems Using an Agent-Based Model",
           "publisher": "International Journal of Disaster Risk Science (peer-reviewed)",
           "publication_date": "2026-05-07",
           "url": "https://doi.org/10.1007/s13753-026-00729-7",
-          "type": "peer_reviewed_agent_based_model"
+          "type": "peer_reviewed_agent_based_model",
+          "accessed_at": "2026-11-26"
         },
         {
           "title": "Conceptualising risk communication barriers to household flood preparedness",
           "publisher": "Urban Governance (peer-reviewed)",
           "publication_date": "2023-06-01",
           "url": "https://doi.org/10.1016/j.ugj.2023.02.001",
-          "type": "peer_reviewed_systematic_review"
+          "type": "peer_reviewed_systematic_review",
+          "accessed_at": "2026-11-26"
         },
         {
           "title": "Early warning protection expands worldwide",
           "publisher": "World Meteorological Organization / UNDRR",
           "publication_date": "2026-11-11",
           "url": "https://public.wmo.int/media/news/early-warning-protection-expands-worldwide",
-          "type": "official_joint_press_release"
+          "type": "official_joint_press_release",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Organized by the Agency, consultative meetings were held regarding the preparation of multi-hazard risk management plans for the basins of seven rivers in Georgia",
+          "publisher": "National Environmental Agency of Georgia",
+          "publication_date": "2026-11-25",
+          "url": "https://nea.gov.ge/En/News/3459",
+          "type": "official_national_update",
+          "accessed_at": "2026-11-26"
         }
       ],
       "data_needs": [
@@ -254,7 +279,7 @@
         "არც alert-delivery, acknowledgement და action-completion აგრეგირებული ჩანაწერები და არც თემის საველე შეფასება არ არის ხელმისაწვდომი"
       ],
       "status": "active",
-      "status_detail": "Discovery draft enriched with two peer-reviewed studies and verified 2026 UNDRR/WMO evidence; Georgia's system investments are documented, but a last-mile gap has not yet been measured in a specific community.",
+      "status_detail": "Discovery draft enriched with peer-reviewed studies and verified 2026 UNDRR/WMO evidence. NEA's 25 November 2026 update confirms consultations on plans for seven river basins; it does not establish municipal adoption or local warning-to-action performance.",
       "next_step": "შევადაროთ Fiji-ის peer-reviewed case და საქართველოს ერთ river-basin/municipal workflow; მოვიპოვოთ საჯარო, არაპერსონალური data dictionary და მხოლოდ უფლებამოსილი პარტნიორის თანხმობით დავარეგისტრიროთ alert-to-action შეფასება.",
       "success_metrics": [
         "გაფრთხილების მიღწევის, სწორად გაგებისა და feasible action-ის წილი",
@@ -288,21 +313,24 @@
           "publisher": "SQLite",
           "publication_date": "undated",
           "url": "https://www.sqlite.org/fileformat.html",
-          "type": "official_technical_specification"
+          "type": "official_technical_specification",
+          "accessed_at": "2026-11-26"
         },
         {
           "title": "Write-Ahead Logging",
           "publisher": "SQLite",
           "publication_date": "undated",
           "url": "https://www.sqlite.org/wal.html",
-          "type": "official_technical_documentation"
+          "type": "official_technical_documentation",
+          "accessed_at": "2026-11-26"
         },
         {
           "title": "NOEMA operational observability and verified SQLite backup PR",
           "publisher": "NOEMA GitHub repository",
           "publication_date": "2026-11-24",
           "url": "https://github.com/maisuradzee/bibmom/pull/19",
-          "type": "engineering_change_record"
+          "type": "engineering_change_record",
+          "accessed_at": "2026-11-26"
         }
       ],
       "data_needs": [
