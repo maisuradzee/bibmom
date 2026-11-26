@@ -51,7 +51,7 @@ The following is a proposed format, not a current schema:
 
 The proposed envelope is defined in [`data/noema-backup-manifest.schema.json`](../data/noema-backup-manifest.schema.json). The schema deliberately permits only non-secret metadata: artifact SHA-256/byte lengths, application and SQLite versions, aggregate queue/audit counts, non-secret recipient/signing key identifiers, immutable object-version identifier and an approved retention-policy identifier. Each object boundary rejects unlisted fields, so a future manifest cannot silently grow to accept arbitrary credentials or private key material.
 
-The signature bytes remain a detached artifact; the manifest contains only the signature format and public key identifier. The schema and its tests are a **metadata contract only**. They do not verify the detached signature, decrypt ciphertext, check the actual artifact hashes, inspect SQLite contents, prove object immutability or establish that any provider/retention policy is configured. No real manifest, key identifier, ciphertext or storage endpoint is stored in this public repository.
+The signature bytes remain a detached artifact; the manifest contains only the signature format and public key identifier. The schema itself is a **metadata contract only**. The runtime verifier is implemented separately in `noema_core/backup_manifest.py`: it validates exact UTF-8 manifest bytes, rejects duplicate JSON keys and non-standard constants, verifies a detached Ed25519 signature against caller-supplied trusted public keys, then checks local plaintext/ciphertext SHA-256 digests and byte lengths. Synthetic tests use ephemeral keys only. No real manifest, production key, ciphertext or storage endpoint is stored in this public repository.
 
 ## 3.2 Executable metadata-schema validation
 
@@ -61,7 +61,7 @@ The strict manifest schema is now checked at runtime with a Draft 2020-12 valida
 
 The command rejects missing/unknown fields, malformed hashes, invalid timestamps and credential-like extra properties. A synthetic metadata fixture exercises the valid and invalid paths in CI; no real manifest, recipient identifier, signing key identifier or storage object is committed.
 
-**Important boundary:** a successful command proves only that the JSON document matches the declared metadata schema. It does not verify a detached signature, authenticate a signer, decrypt or hash ciphertext, compare plaintext bytes, query provider object version/retention, or validate/restore SQLite. Those checks remain separate implementation gates.
+**Important boundary:** schema validation alone proves only that the JSON document matches the declared metadata contract. The separate `verify_noema_backup_manifest_signature.py` command verifies a detached Ed25519 signature using a caller-supplied trusted public key and then verifies local plaintext/ciphertext byte hashes and lengths. Neither command decrypts ciphertext, queries provider object version/retention, validates SQLite pages, proves the backup is the newest, or performs a restore.
 
 ## 4. Restore sequence
 
@@ -118,7 +118,7 @@ A future implementation is not production-ready until tests cover:
 
 ## 8. Current implementation boundary
 
-The local snapshot implementation stages each backup inside a fresh private directory beneath the destination parent. On POSIX, the directory is mode 0700 and the temporary SQLite file is mode 0600 before SQLite opens it; the verified snapshot is published by a no-overwrite hard link. A regression test observes both permissions at the publication boundary while the final parent is deliberately mode 0777. This narrows temporary-path replacement risk in a shared parent, but does not protect the completed backup from an overly permissive parent ACL. The change does not implement encryption, off-host upload, object locking, manifest signing, key rotation, automated retention, production ACLs or scheduled restore drills.
+The local snapshot implementation stages each backup inside a fresh private directory beneath the destination parent. On POSIX, the directory is mode 0700 and the temporary SQLite file is mode 0600 before SQLite opens it; the verified snapshot is published by a no-overwrite hard link. A regression test observes both permissions at the publication boundary while the final parent is deliberately mode 0777. This narrows temporary-path replacement risk in a shared parent, but does not protect the completed backup from an overly permissive parent ACL. The change does not implement encryption/decryption, off-host upload, object locking, production manifest signing, key custody/rotation/revocation, rollback-resistant high-water storage, automated retention, production ACLs or scheduled restore drills. Detached signature verification is implemented as a local prototype in section 11; it is not a deployed signing or backup pipeline.
 
 ## References
 
@@ -144,7 +144,7 @@ The command requires an existing database, verifies its integrity, creates a fre
 
 The verifier first applies the strict metadata schema, then streams both files through SHA-256 and compares each digest and byte length with the manifest. It opens each artifact once, requires a regular file, rejects symlinks on platforms that provide `O_NOFOLLOW`, and rejects a file whose observed identity/size/timestamps change during hashing. It does not load the full artifact into memory.
 
-The check is intentionally narrower than authentication: an attacker able to replace both files and the unsigned manifest can recompute matching hashes. The tool does **not** verify the detached manifest signature, authenticate the signing key, decrypt the ciphertext, verify provider object-version/retention, inspect SQLite pages, or perform a restore. It is a local byte-integrity gate only; production recovery still requires the separately approved cryptographic, provider and clean-host restore controls above.
+The hash/length command is intentionally narrower than authentication: an attacker able to replace both files and the unsigned manifest can recompute matching hashes. Use the separate signed-manifest command in section 11 when signer authentication is required. The hash-only tool does not verify a signature, decrypt ciphertext, verify provider object-version/retention, inspect SQLite pages, or perform a restore. It is a local byte-integrity gate only.
 
 
 ## 11. Detached Ed25519 manifest verification (local prototype)
