@@ -54,6 +54,16 @@ UNDRR-ის 2026 წლის ანგარიშის ოფიციალ
 
 WMO/UNDRR-ის 2026 წლის მოკლე ანგარიში აღნიშნავს, რომ მნიშვნელოვანი ან სრულყოფილი შესაძლებლობების მქონე ქვეყნებში კატასტროფებთან დაკავშირებული სიკვდილიანობა 6.1-ჯერ დაბალი იყო, ხოლო დაზარალებული ადამიანების რაოდენობა 3.2-ჯერ ნაკლები — შეზღუდული ან საშუალო შესაძლებლობების მქონე ქვეყნებთან შედარებით. ეს არის ქვეყნებს შორის **ასოციაცია** და არა მტკიცებულება, რომ სხვაობა მხოლოდ გაფრთხილების სისტემამ გამოიწვია.
 
+### FACT — 2025 წლის anticipatory-action აქტივობები
+
+UNDRR/WMO-ის 2026 წლის 11 ნოემბრის ოფიციალური განახლება იტყობინება, რომ აქტიური anticipatory-action frameworks-ის რაოდენობა 2024 წლის 154-დან 2025 წელს 262-მდე გაიზარდა; ჩარჩოები 75 ქვეყანას მოიცავდა. 2025 წელს დაფიქსირდა 146 activation 54 ქვეყანაში, პირდაპირ მიღწეული იყო 9.6 მილიონი ადამიანი და წინასწარ შეთანხმებული დაფინანსება შეადგენდა USD 119.9 მილიონს.
+
+### REPRODUCED RESULT — framework count growth
+
+NOEMA-ს გამეორებადმა სკრიპტმა მხოლოდ 154 და 262 წყაროსეულ რიცხვებზე გამოთვალა ზრდა: `(262 − 154) / 154 × 100 = 70.1299%`, რაც მთელ პროცენტამდე მრგვალდება 70%-ად, როგორც წყარო იტყობინება. ეს არის მარტივი არითმეტიკა და არა 2025 წლის activation-ების ან ქვეყნების პირველადი ჩანაწერების დამოუკიდებელი ანალიზი.
+
+**მნიშვნელოვანი საზღვარი:** 9.6 მილიონი არის წყაროს მიერ აღწერილი პირდაპირი reach და არა გაგების, feasible protective action-ის, დამოუკიდებლად დადასტურებული ქცევის ან თავიდან აცილებული ზიანის მაჩვენებელი. USD 119.9 მილიონი არის pre-arranged financing და არა აუცილებლად უკვე გაცემული/დახარჯული თანხა ან თითო ადამიანზე ხარჯი. Framework-ები, activation-ები, ქვეყნები და ადამიანები სხვადასხვა საზომი ერთეულია და მათი ერთმანეთზე გაყოფით ეფექტიანობის მაჩვენებელი არ უნდა გამოითვალოს.
+
 ### FACT — სიცხე, როგორც ადამიანზე უშუალო ზემოქმედების მაგალითი
 
 WHO/Europe-ის 2026 წლის მეორე გამოცემა *Heat–health action plans: guidance* აღწერს სიცხის ჯანმრთელობაზე ზემოქმედების პრევენციის რვა კომპონენტს: governance; heat–health warning system; მოწყვლადი მოსახლეობის იდენტიფიკაცია; კომუნიკაცია; ჯანდაცვის სისტემის მდგრადობა; სიცხის ექსპოზიციის შემცირება; ჯანმრთელობის ზედამხედველობა; monitoring/evaluation/learning. ეს მიუთითებს, რომ მხოლოდ ტემპერატურის პროგნოზი არ არის საკმარისი — საჭიროა კოორდინირებული მოქმედება და შეფასება.
@@ -205,6 +215,7 @@ WMO ასახელებს შემდეგ გამოწვევა�
 
 
 ## წყაროები
+- **UNDRR & WMO.** *Early warning protection expands worldwide as powerful El Niño raises the stakes*. 11 November 2026. https://www.undrr.org/news/early-warning-protection-expands-worldwide-powerful-el-nino-raises-stakes — 2025 anticipatory-action framework counts, activations, direct reach and pre-arranged financing. Accessed 26 November 2026.
 
 1. UNDRR, *Global Status of Multi-Hazard Early Warning Systems 2026*, 11 November 2026 — https://www.undrr.org/reports/global-status-mhews-2026
 2. WMO, *Global Status of Multi-Hazard Early Warning Systems 2026*, 11 November 2026 — https://wmo.int/resources/publication-series/global-status-of-multi-hazard-early-warning-systems/gsmhews-2026
@@ -319,5 +330,7 @@ The standard-library script `scripts/reproduce_noema007_mhews_snapshot.py` deriv
 The National Environmental Agency's 25 November 2026 update confirms that a two-day consultation discussed multi-hazard risk-management plans for the Alazani, Iori, Mtkvari, Khrami-Ktsia, Chorokhi-Acharistskali, Enguri and Rioni river basins. It also describes the wider programme as covering 11 basins. This verifies ongoing planning and institutional coordination; it does not verify final approval of all plans, alert delivery to residents, acknowledgement, protective action or reduced losses.
 
 Source: National Environmental Agency of Georgia, 25 November 2026, https://nea.gov.ge/En/News/3459.
+
+Source: UNDRR & WMO, 11 November 2026, https://www.undrr.org/news/early-warning-protection-expands-worldwide-powerful-el-nino-raises-stakes. Source-reported 2025 anticipatory-action aggregates are frozen in `data/noema-007/anticipatory-action-2025-source-snapshot.json`; only the framework growth percentage is independently recomputed.
 
 **Evidence classification:** source counts and scores are FACT; the percentages and −0.04 difference are REPRODUCED RESULT from the frozen source snapshot; the need to measure operational effectiveness separately is INFERENCE. A Georgia-specific last-mile gap remains HYPOTHESIS until permissioned local workflow data and field evaluation exist.
