@@ -63,7 +63,8 @@
               "surface_water",
               "potable_network",
               "surface_and_groundwater",
-              "water_quality_station_registry"
+              "water_quality_station_registry",
+              "groundwater_well_registry"
             ]
           },
           "access_status": {
@@ -72,7 +73,8 @@
               "public_pdf_aggregate_and_process_facts",
               "public_pdf_aggregate_only_denominator_not_in_table",
               "public_historical_aggregate_table",
-              "public_map_and_table_entry_not_inspected"
+              "public_map_and_table_entry_not_inspected",
+              "official_regulation_only_registry_access_unverified"
             ]
           },
           "observation_period": {
