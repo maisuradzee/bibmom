@@ -29,7 +29,9 @@ def run(repeat_count: int) -> dict:
     flags=["-std=c11","-O2","-fopenmp","-Wall","-Wextra","-Werror"]
     with tempfile.TemporaryDirectory(prefix="noema005-memory-build-") as directory:
         binary=Path(directory)/"noema005-memory"
-        subprocess.run([compiler,*flags,str(SOURCE),"-lm","-o",str(binary)],check=True,capture_output=True,text=True)
+        compile_result=subprocess.run([compiler,*flags,str(SOURCE),"-lm","-o",str(binary)],capture_output=True,text=True)
+        if compile_result.returncode:
+            raise RuntimeError(f"compiler failed ({compile_result.returncode}):\\n{compile_result.stderr}\\n{compile_result.stdout}")
         completed=subprocess.run([str(binary),str(repeat_count)],check=True,capture_output=True,text=True)
     report=json.loads(completed.stdout)
     report["provenance"]={
