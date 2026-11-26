@@ -14,6 +14,7 @@
 - **შედეგის მთლიანობა:** payload/result ინახება canonical JSON-ად, SHA-256 hash-ით; payload-ის შეცვლა worker-ის claim-ს აჩერებს.
 - **აუდიტის ჯაჭვი:** ყველა მდგომარეობის ცვლილება ემატება SHA-256-ით დაკავშირებულ მოვლენათა რიგს; `verify_audit_log()` ცვლილებას ან რიგის წყვეტას აფიქსირებს.
 - **მკაცრი handler allowlist:** `HandlerRegistry` მხოლოდ პროგრამის კოდში წინასწარ რეგისტრირებულ handler-ებს იღებს. Queue payload არ გამოიყენება კოდის დინამიკური იმპორტისთვის ან შესრულებისთვის.
+- **ადაპტირებადი ინტეგრაცია:** `noema_core/integrations.py` იყენებს trusted `AdapterRegistry`-ს, აღწერს თითოეული adapter-ის შესაძლებლობებს, ამოწმებს payload-ის სქემას და ნაგულისხმევად ქმნის მხოლოდ `DRY_RUN` გეგმებს. Live execution მოითხოვს adapter/operation-ზე შეზღუდულ `IntegrationGrant`-ს; წყაროს წვდომა და reuse მოწმდება mission policy-ით. `integration.discover` და `integration.plan` handler-ები მხოლოდ metadata discovery-სა და dry-run დაგეგმვას ასრულებს; ზოგადი live-execution handler განზრახ არ რეგისტრირდება.
 - **სატესტო health-check:** CI ქმნის დროებით DB-ს, ამატებს/ასრულებს დავალებას, ამოწმებს worker-სა და მთლიანობას.
 - **მრავალპროცესიანი claim ტესტი:** რამდენიმე დამოუკიდებელი Python process ერთ SQLite ფაილს იყენებს; ტესტი ამოწმებს, რომ თითოეული job მხოლოდ ერთხელ და სხვადასხვა worker-ზე ნაწილდება. ეს ადასტურებს ერთ ჰოსტზე პროცესების კოორდინაციას და არა სხვადასხვა მანქანაზე distributed execution-ს.
 - **ფაილის წვდომა:** POSIX სისტემებზე DB ფაილს ენიჭება owner-only `0600` რეჟიმი; `:memory:` უარყოფილია, რადგან ის პროცესებს შორის საერთო საცავი არ არის.
