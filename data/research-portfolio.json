@@ -1,0 +1,313 @@
+{
+  "project": "NOEMA",
+  "schema_version": 1,
+  "updated_at": "2026-11-26",
+  "streams": [
+    {
+      "id": "NOEMA-2026-006",
+      "title": "AquaSignal — წყლის უსაფრთხოების ოპერატორული ადრეული სიგნალები",
+      "pillars": [
+        "DISCOVERY",
+        "RESEARCH",
+        "INNOVATION"
+      ],
+      "stage": "prototype",
+      "problem": "წყლის ხარისხის ოპერატორებს შეიძლება სჭირდებოდეთ ლაბორატორიული ნიმუშებისა და უწყვეტი სენსორული telemetry-ის დროული, აუდიტირებადი შეჯერება; საქართველოში არსებული მონიტორინგის ქსელი და ლაბორატორიული კონტროლი არ უნდა ჩაითვალოს არარსებულად.",
+      "research_question": "შეუძლია თუ არა site-specific წესებზე, მონაცემის სიახლესა და კალიბრაციის სტატუსზე დაფუძნებულმა operator-side სისტემამ ადრე მონიშნოს ოპერაციული გადახრები ისე, რომ არ ჩაანაცვლოს ლაბორატორიული ანალიზი ან უფლებამოსილი ოპერატორის გადაწყვეტილება?",
+      "human_benefit": "შესაძლო ადრეული გამოვლენა და სწრაფი ოპერატორული რეაგირება სასმელი წყლის სისტემებში; საველე სარგებელი ჯერ დაუდასტურებელია.",
+      "hypothesis": "თუ მონაცემის ხარისხი, freshness, calibration და ობიექტის მიერ დამტკიცებული ზღვრები ცალ-ცალკე კონტროლდება, კონსერვატიული წესების ძრავა შეძლებს არასანდო მონაცემის ნორმალურ მდგომარეობად წარმოჩენის თავიდან აცილებას.",
+      "methodology": [
+        "ოფიციალური წყაროების დოკუმენტური მიმოხილვა და არსებული ქართული მონიტორინგის ინფრასტრუქტურის აღწერა",
+        "დეტერმინისტული წესების ძრავისა და სინთეზური unit tests-ის გამოყენება",
+        "შემდეგ ეტაპზე მხოლოდ უფლებამოსილი ოპერატორის მიერ ნებადართული paired sensor/laboratory მონაცემის წინასწარ რეგისტრირებული შეფასება"
+      ],
+      "sources": [
+        {
+          "title": "Drinking-water fact sheet",
+          "publisher": "World Health Organization",
+          "publication_date": "2026-11-19",
+          "url": "https://www.who.int/news-room/fact-sheets/detail/drinking-water/",
+          "type": "official_health_source"
+        },
+        {
+          "title": "Progress on household drinking water, sanitation and hygiene 2000–2024: 2025 update",
+          "publisher": "WHO/UNICEF Joint Monitoring Programme",
+          "publication_date": "2025-08-26",
+          "url": "https://data.unicef.org/resources/jmp-report-2025/",
+          "type": "official_monitoring_report"
+        },
+        {
+          "title": "National Environmental Agency — drinking-water monitoring information",
+          "publisher": "National Environmental Agency of Georgia",
+          "publication_date": "2025-09-18",
+          "url": "https://nea.gov.ge/En/News/2335",
+          "type": "official_national_source"
+        },
+        {
+          "title": "Water safety plan manual, second edition",
+          "publisher": "World Health Organization",
+          "publication_date": "2023-03-01",
+          "url": "https://www.who.int/publications/i/item/9789240067691",
+          "type": "technical_guidance"
+        }
+      ],
+      "data_needs": [
+        "უფლებამოსილი ოპერატორის data dictionary და პარამეტრების ერთეულები",
+        "ობიექტის დამტკიცებული Water Safety Plan და site-specific operational limits",
+        "ნებადართული ისტორიული paired sensor/laboratory ჩანაწერები, sample provenance და calibration logs",
+        "მონაცემის გამოყენებისა და ხელახალი გამოქვეყნების წერილობითი ნებართვა"
+      ],
+      "risks": [
+        "ცრუ განგაში ან სენსორის drift-ის წყლის რეალურ ცვლილებად მიჩნევა",
+        "არასრული telemetry-ის ნორმალურ მდგომარეობად არასწორი ინტერპრეტაცია",
+        "პირადი/ოპერატორული მონაცემის საჯარო საცავში შემთხვევითი მოხვედრა",
+        "პროტოტიპის ლაბორატორიულ ან რეგულატორულ შეფასებად აღქმა"
+      ],
+      "blockers": [
+        "რეალური paired sensor/laboratory მონაცემი და data dictionary ჯერ არ არის ნებადართულად ხელმისაწვდომი"
+      ],
+      "status": "active",
+      "status_detail": "სინთეზური ტესტებით შემოწმებული operator-side პროტოტიპი main-შია; საველე ეფექტიანობა არ გაზომილა.",
+      "next_step": "მოიპოვოს ნებადართული data dictionary და paired sensor/lab dataset; წინასწარ დარეგისტრირდეს baseline, detection delay, sensitivity, PPV და false-alert rate.",
+      "success_metrics": [
+        "საველე ტესტში წინასწარ განსაზღვრულ reference labels-თან შედარებული sensitivity და positive predictive value",
+        "false-alert rate და detection delay წინასწარ განსაზღვრულ baseline-თან შედარებით",
+        "ყველა სიგნალზე წყაროს, freshness-ის, calibration-ისა და წესის ვერსიის მიკვლევადობა"
+      ],
+      "last_reviewed": "2026-11-26"
+    },
+    {
+      "id": "NOEMA-2026-005",
+      "title": "რიცხვითი სიზუსტე და რეალური CPU-thread reduction",
+      "pillars": [
+        "RESEARCH",
+        "INNOVATION"
+      ],
+      "stage": "preliminary",
+      "problem": "პარალელურმა floating-point reduction-მა შეიძლება გააძლიეროს cancellation/ordering შეცდომები; ამავე დროს რეალური threads-ის გამოყენება ავტომატურად არ ნიშნავს wall-time აჩქარებას.",
+      "research_question": "რომელი partial-reduction არქიტექტურა ინარჩუნებს correctly-rounded reference შედეგს რეალურ CPU threads-ზე და რა პირობებში აქვს მას გაზომვადი შესრულების უპირატესობა?",
+      "human_benefit": "უფრო სანდო სამეცნიერო და საინჟინრო გამოთვლები, სადაც რიცხვითი შეცდომა ან შესრულების მცდარი მოლოდინი მნიშვნელოვან შედეგს იწვევს.",
+      "hypothesis": "Neumaier (sum, compensation) state-ის გაერთიანება უკეთ შეინარჩუნებს სიზუსტეს scalar partial sums-თან შედარებით, თუმცა Python ThreadPool-ის overhead შეიძლება wall-time მოგებას გააქრობდეს.",
+      "methodology": [
+        "დეტერმინისტული synthetic binary64 cancellation fixture და exact-rational reference",
+        "contiguous/round-robin partition-ები, 1/2/4/8 worker-ები და naive/scalar Neumaier/compensation-state მეთოდები",
+        "ოთხი დამოუკიდებელი ARM64 benchmark batch, თითოეულში ოთხი runtime cell და თითოეულ cell-ში 48 configuration",
+        "accuracy, CPU-time/wall-time და tracemalloc ცალ-ცალკე შეფასება; CPU-time/wall-time არ განიმარტოს როგორც wall-time speedup"
+      ],
+      "sources": [
+        {
+          "title": "NOEMA-005 ARM64 replication protocol",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/blob/main/research/drafts/NOEMA-2026-005-arm64-replication-protocol.md",
+          "type": "internal_experiment_protocol"
+        },
+        {
+          "title": "NOEMA-005 four-batch ARM64 repeat validation",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/arm64-repeat-validation-2026-11-26.json",
+          "type": "frozen_experiment_result"
+        },
+        {
+          "title": "Python threading documentation",
+          "publisher": "Python Software Foundation",
+          "publication_date": "undated",
+          "url": "https://docs.python.org/3/library/threading.html",
+          "type": "official_runtime_documentation"
+        }
+      ],
+      "data_needs": [
+        "შენახული synthetic input hashes და სრული benchmark protocol",
+        "დამოუკიდებელი runtime-ების raw report-ები და არტეფაქტების SHA-256",
+        "შემდეგ ეტაპზე native C/OpenMP ან სხვა runtime-ის იდენტურ input-ზე შედარება"
+      ],
+      "risks": [
+        "Hosted runner-ების CPU მოდელი, virtualization და host contention იცვლება",
+        "synthetic cancellation workload რეალურ სამეცნიერო workload-ს არ წარმოადგენს",
+        "tracemalloc არ ზომავს სრულ RSS-ს ან ყველა native allocation-ს",
+        "სამი repetition timing-ის მაღალი სიმძლავრის სტატისტიკურ დასკვნას არ იძლევა"
+      ],
+      "blockers": [
+        "დამოუკიდებელი გარე რეცენზია ჯერ არ ჩატარებულა; native C/OpenMP შედარება ჯერ არ შესრულებულა"
+      ],
+      "status": "active",
+      "status_detail": "Preliminary; ოთხ ARM64 batch-ში Neumaier-state იყო 768/768, scalar Neumaier 672/768, naive scalar 0/768; ზოგადი wall-time speedup არ დადასტურებულა.",
+      "next_step": "შევადაროთ native C/OpenMP reduction და ალტერნატიული accumulator-ები იმავე frozen input-ზე; გავზარდოთ repetitions და დავამატოთ დამოუკიდებელი replication.",
+      "success_metrics": [
+        "exact-reference accuracy თითოეული მეთოდისა და runtime-ის მიხედვით",
+        "median wall-time და uncertainty interval წინასწარ განსაზღვრული repetition protocol-ით",
+        "peak RSS და traced Python allocation ცალ-ცალკე",
+        "independent replication-ის შედეგების თანხვედრა"
+      ],
+      "last_reviewed": "2026-11-26"
+    },
+    {
+      "id": "NOEMA-2026-007",
+      "title": "ადრეული გაფრთხილებიდან რეალურ მოქმედებამდე არსებული გლობალური და ადგილობრივი ხარვეზი",
+      "pillars": [
+        "DISCOVERY",
+        "RESEARCH",
+        "INNOVATION"
+      ],
+      "stage": "draft",
+      "problem": "მრავალსაფრთხიანი ადრეული გაფრთხილების შესაძლებლობა ბევრ ქვეყანაში არსებობს, მაგრამ ყველა ოთხი რგოლი — რისკის ცოდნა, მონიტორინგი/პროგნოზირება, გაფრთხილების გავრცელება და მზადყოფნა/რეაგირება — ერთდროულად სრულად არ არის წარმოდგენილი. საქართველოს კონტექსტში მნიშვნელოვანი ინფრასტრუქტურა უკვე ვითარდება; დაუდგენელია, სად რჩება ბოლო-მილის რეაგირების გაზომვადი ხარვეზი.",
+      "research_question": "შეუძლია თუ არა ოფიციალური გაფრთხილებისგან დამოუკიდებელ, privacy-preserving action-readiness ფენას გააუმჯობესოს კონკრეტულ მაღალი რისკის თემებში გაფრთხილების გაგება, მიღება და feasible protective action ისე, რომ არ შექმნას დუბლირებული ოფიციალური გაფრთხილება?",
+      "human_benefit": "საფრთხის წინასწარი ცოდნის რეალურ, დროულ და ადამიანზე მორგებულ დამცავ მოქმედებად გარდაქმნა; შესაძლო სარგებელი მოიცავს სიცოცხლის, ჯანმრთელობისა და ქონების დაცვას.",
+      "hypothesis": "თუ ოფიციალური გაფრთხილება დაკავშირებულია ლოკალურ რისკთან, წინასწარ შეთანხმებულ მოქმედების playbook-თან, პასუხისმგებელ ორგანიზაციასთან, ხელმისაწვდომ საკომუნიკაციო არხთან და acknowledgement/action audit-თან, შეიძლება შემცირდეს გაფრთხილებიდან მოქმედებამდე დრო და გაიზარდოს რეაგირების დაფარვა.",
+      "methodology": [
+        "UNDRR/WMO 2026 MHEWS ანგარიშის ოთხი pillar-ისა და country-level reporting-ის ანალიზი",
+        "საქართველოს NEA/UNDP/UN Georgia ოფიციალური პროექტებისა და მიმდინარე სისტემების mapping",
+        "მინიმუმ სამი განსხვავებული სოციალური/კლიმატური კონტექსტის შედარება",
+        "მონაცემთა უფლებებისა და privacy review-ის შემდეგ მხოლოდ აგრეგირებული/ანონიმიზებული warning-delivery და action-log მონაცემის შეფასება",
+        "პილოტისთვის წინასწარ რეგისტრირებული baseline და stepped-wedge ან matched-community შეფასების დიზაინი"
+      ],
+      "sources": [
+        {
+          "title": "Global Status of Multi-Hazard Early Warning Systems 2026",
+          "publisher": "UNDRR",
+          "publication_date": "2026-11-11",
+          "url": "https://www.undrr.org/reports/global-status-mhews-2026",
+          "type": "official_global_report"
+        },
+        {
+          "title": "Global Status of Multi-Hazard Early Warning Systems 2026",
+          "publisher": "World Meteorological Organization",
+          "publication_date": "2026-11-11",
+          "url": "https://wmo.int/resources/publication-series/global-status-of-multi-hazard-early-warning-systems/gsmhews-2026",
+          "type": "official_global_report"
+        },
+        {
+          "title": "Heat–health action plans: guidance, second edition",
+          "publisher": "World Health Organization Regional Office for Europe",
+          "publication_date": "2026-06-11",
+          "url": "https://www.who.int/europe/publications/i/item/9789289062930",
+          "type": "official_public_health_guidance"
+        },
+        {
+          "title": "A working meeting on the new ICT system",
+          "publisher": "National Environmental Agency of Georgia",
+          "publication_date": "2026-07-10",
+          "url": "https://nea.gov.ge/En/News/2416",
+          "type": "official_national_source"
+        },
+        {
+          "title": "Multi-hazard risk management plans for seven river basins",
+          "publisher": "National Environmental Agency of Georgia",
+          "publication_date": "2026-04-02",
+          "url": "https://nea.gov.ge/En/News/2381",
+          "type": "official_national_source"
+        },
+        {
+          "title": "UN in Georgia Annual Report 2025",
+          "publisher": "United Nations in Georgia",
+          "publication_date": "2026-04",
+          "url": "https://georgia.un.org/sites/default/files/2026-04/UN%20Georgia%20Annual%20Report%202025_2.pdf",
+          "type": "official_country_report"
+        },
+        {
+          "title": "Scaling-up Multi-Hazard Early Warning System and the Use of Climate Information in Georgia",
+          "publisher": "UNDP Georgia",
+          "publication_date": "undated",
+          "url": "https://www.undp.org/georgia/projects/early-warning-climate-information",
+          "type": "official_project_page"
+        }
+      ],
+      "data_needs": [
+        "ოფიციალური alert-ის timestamp, hazard type, geographic scope და source version",
+        "მუნიციპალური/თემის emergency plan-ები და action playbook-ები",
+        "aggregated delivery, acknowledgement და action completion დროები; პერსონალური იდენტიფიკატორების გარეშე",
+        "risk maps, exposed-population aggregates და accessibility/language coverage",
+        "after-action review-ები და community feedback"
+      ],
+      "risks": [
+        "ოფიციალურ უწყებებთან დუბლირება ან გაფრთხილების წყაროს ავტორიტეტის დაბნევა",
+        "ცრუ სიზუსტე ან არასწორი ადგილობრივი risk mapping",
+        "პერსონალური მონაცემის ზედმეტი შეგროვება ან მოწყვლადი ჯგუფების პროფილირება",
+        "ციფრული არხების მიუწვდომლობა, ენობრივი/შეზღუდული შესაძლებლობის ბარიერები",
+        "გაფრთხილების მიღება მოქმედების შესაძლებლობას არ უდრის; მიზეზობრივი ეფექტის დადგენა რთულია"
+      ],
+      "blockers": [
+        "საქართველოს მუნიციპალიტეტების მოქმედი emergency plan-ების და 2026 ICT სისტემის საჯარო data dictionary-ის სრული ვერსიები ჯერ არ არის მოპოვებული",
+        "ოფიციალურ საჯარო წყაროებში emergency plan-ის ექვსი მუნიციპალიტეტის ჩამონათვალი განსხვავდება; საჭიროა თარიღებისა და ვერსიების შეჯერება"
+      ],
+      "status": "active",
+      "status_detail": "წყაროებით გამყარებული discovery draft; საქართველოში არსებული early-warning ინვესტიციები დადასტურებულია, მაგრამ ბოლო-მილის ხარვეზი ჯერ კონკრეტულ თემში არ გაზომილა.",
+      "next_step": "შევადაროთ სულ მცირე სამი კონტექსტი და საქართველოს ერთ river-basin/municipal pilot-ზე მოვიპოვოთ საჯარო, არაპერსონალური workflow/data dictionary; არ დავიწყოთ ახალი alerting product-ის კოდირება მანამდე.",
+      "success_metrics": [
+        "გაფრთხილების მიღწევის, სწორად გაგებისა და feasible action-ის წილი",
+        "alert-to-acknowledgement და alert-to-action დრო",
+        "false/misdirected alert rate",
+        "coverage gap ასაკის, ენის, შეზღუდული შესაძლებლობისა და კავშირის ხელმისაწვდომობის მიხედვით მხოლოდ აგრეგირებულ დონეზე",
+        "after-action review-ის completeness და corrective action closure rate"
+      ],
+      "last_reviewed": "2026-11-26"
+    },
+    {
+      "id": "NOEMA-INFRA-001",
+      "title": "კვლევითი პლატფორმის სანდოობა, provenance და backup/restore",
+      "pillars": [
+        "INNOVATION"
+      ],
+      "stage": "engineering",
+      "problem": "კვლევითი ჩანაწერების, job queue-ისა და audit trail-ის სანდოობა დამოკიდებულია მიკვლევადობაზე, უსაფრთხო backup-ზე და რეალურად შემოწმებულ restore-ზე; backup-ის წარმატებული შექმნა თავისთავად აღდგენადობას არ ადასტურებს.",
+      "research_question": "შეუძლია თუ არა NOEMA-ს local SQLite runtime-ს შექმნას თვითმყოფადი, integrity-შემოწმებული backup და უსაფრთხოდ აღადგინოს ის ისე, რომ WAL-only state, audit tampering ან არსებული database-ის overwrite არ მოხდეს?",
+      "human_benefit": "კვლევის ისტორიისა და სამუშაოების დაკარგვის რისკის შემცირება და შედეგების წარმომავლობის შენარჩუნება.",
+      "hypothesis": "SQLite file header-ის journal-version-ის პირდაპირი შემოწმება immutable read-only validation-თან ერთად სწორად უარყოფს WAL-mode backup-ს ისე, რომ source file არ შეიცვალოს.",
+      "methodology": [
+        "SQLite official file-format და WAL documentation-ის მიხედვით file header-ის byte 18/19 შემოწმება",
+        "synthetic database backup/restore round-trip, WAL-mode negative case, tampered audit და no-overwrite regression tests",
+        "GitHub Actions-ის exact-head CI და mergeability verification",
+        "შემდგომ ეტაპზე encrypted off-host backup, retention/rotation და scheduled restore drills"
+      ],
+      "sources": [
+        {
+          "title": "SQLite Database File Format",
+          "publisher": "SQLite",
+          "publication_date": "undated",
+          "url": "https://www.sqlite.org/fileformat.html",
+          "type": "official_technical_specification"
+        },
+        {
+          "title": "Write-Ahead Logging",
+          "publisher": "SQLite",
+          "publication_date": "undated",
+          "url": "https://www.sqlite.org/wal.html",
+          "type": "official_technical_documentation"
+        },
+        {
+          "title": "NOEMA operational observability and verified SQLite backup PR",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-24",
+          "url": "https://github.com/maisuradzee/bibmom/pull/19",
+          "type": "engineering_change_record"
+        }
+      ],
+      "data_needs": [
+        "synthetic SQLite databases with rollback-journal and WAL header states",
+        "backup/restore test fixtures and immutable source hash",
+        "CI job logs and exact commit SHA"
+      ],
+      "risks": [
+        "immutable=1 SQLite connection may mask the stored WAL journal mode",
+        "same-host backup does not protect against host/disk loss",
+        "backup is currently unencrypted and has no off-host retention automation",
+        "audit hash chain without signed external checkpoint does not prevent all tampering scenarios"
+      ],
+      "blockers": [
+        "PR #19's earlier CI run failed because immutable SQLite mode returned DELETE despite a WAL-mode file header; a header-based regression fix has been submitted and awaits CI."
+      ],
+      "status": "active",
+      "status_detail": "PR #19 remains Draft/open; WAL-mode false-negative is reproduced and the raw file-header validation fix is submitted on the same infrastructure branch.",
+      "next_step": "Run PR #19's complete CI on the new exact head; if all required checks pass and the PR is mergeable, review and merge only that verified head SHA.",
+      "success_metrics": [
+        "backup includes committed WAL data",
+        "restore rejects WAL-mode header and corrupted audit data before destination creation",
+        "restore never overwrites an existing destination and does not mutate source bytes",
+        "complete unit tests, frozen research reproductions, site build and publication-boundary checks pass",
+        "restore drill and encrypted off-host backup policy are documented and later independently tested"
+      ],
+      "last_reviewed": "2026-11-26"
+    }
+  ]
+}

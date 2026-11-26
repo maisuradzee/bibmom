@@ -22,6 +22,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - `noema_core/jobs.py`, `noema_core/worker.py`, `noema_core/supervisor.py`, `noema_core/workflows.py`, `noema_core/scheduler.py` და `noema_core/service.py` — მდგრადი დავალებების რიგი, allowlisted worker, supervisor loop, DAG workflow-ები, ინტერვალური განრიგი და გაშვებადი სერვისის bootstrap.
 - `assets/styles.css` და `assets/articles.css` — მთავარი გვერდისა და კვლევითი სტატიების ვიზუალური სტილები.
 - `data/research.json` — საჯარო, ვერსიაკონტროლირებადი კვლევების კატალოგი; `data/research.schema.json` განსაზღვრავს ჩანაწერების სტრუქტურას. ეს არის ამჟამინდელი სტატიკური კატალოგი და არა Supabase/სერვერული მონაცემთა ბაზა.
+- `data/research-portfolio.json` და `data/research-portfolio.schema.json` — 3–5 აქტიური, დამოუკიდებელი კვლევითი ნაკადის ერთიანი პორტფელი; ტესტები: `tests/test_research_portfolio.py`.
 - `data/noema-003/` — NOAA-ს ფიქსირებული მონაცემთა ამონარიდი, NASA/HadCRUT5/NOAA snapshot-ები, provenance metadata და გამეორებადი შედეგები.
 - `data/noema-005/` — binary64 ჯამის რიგითობის ექსპერიმენტის გაყინული შედეგები და ზუსტი reference შედარება.
 - `research/drafts/` — სამუშაო ჩანაწერები; Pages არტეფაქტში არ შედის, თუმცა საჯარო GitHub საცავში იკითხება.
@@ -37,6 +38,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 ## მიმდინარე კვლევა
 
 - [NOEMA-2026-006 AquaSignal](research/drafts/NOEMA-2026-006-aquasignal-water-early-warning.md) — სასმელი წყლის მონიტორინგის მონაცემების ადრეული სიგნალები; დოკუმენტური discovery და სინთეზური პროგრამული პროტოტიპი, საველე ვალიდაციის გარეშე.
+- [NOEMA-2026-007 Last-Mile Action Gap](research/drafts/NOEMA-2026-007-global-early-warning-action-gap.md) — გლობალური ადრეული გაფრთხილების ოთხი pillar და საქართველოს არსებული სისტემები; კვლევა ჯერ discovery draft-ია, არა საველე შედეგი.
 
 - [NOEMA-2026-001](research/drafts/2026-11-23-paleolithic-sign-systems.md) — პალეოლითური ნიშნები; მეთოდოლოგიური გადახედვა: [დამატება A](research/drafts/2026-11-23-methodological-reassessment.md).
 - [NOEMA-2026-002](research/drafts/2026-11-23-signbase-coding-audit.md) — SignBase 2.0-ის ტექსტური კოდირების აუდიტი და საბაზისო heuristic-ის ტესტი.
