@@ -31,10 +31,8 @@ int main(void) {
     value = signed_maximum();
     --value.limb[0];
     if (!exact_add_significand_checked(&value, 1, 0, 0)) return 3;
-    if (memcmp(&value, &(exact_accum_t){{
-        [EXACT_LIMBS - 1] = UINT64_MAX >> 1,
-        [0] = UINT64_MAX
-    }}, sizeof(value)) != 0) return 4;
+    exact_accum_t expected_maximum = signed_maximum();
+    if (memcmp(&value, &expected_maximum, sizeof(value)) != 0) return 4;
 
     value = signed_minimum();
     value.limb[0] = 1;
