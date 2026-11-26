@@ -462,6 +462,38 @@
           "url": "https://github.com/maisuradzee/bibmom/pull/19",
           "type": "engineering_change_record",
           "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "age — file encryption tool and documentation",
+          "publisher": "FiloSottile/age project",
+          "publication_date": "undated",
+          "url": "https://github.com/FiloSottile/age",
+          "type": "official_technical_documentation",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "age file-format specification v1.1.0",
+          "publisher": "Cryptographic Standards and Practices (C2SP)",
+          "publication_date": "undated",
+          "url": "https://c2sp.org/age@v1.1.0",
+          "type": "technical_specification",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "minisign signing and verification documentation",
+          "publisher": "jedisct1/minisign project",
+          "publication_date": "undated",
+          "url": "https://github.com/jedisct1/minisign",
+          "type": "official_technical_documentation",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Locking objects with Object Lock",
+          "publisher": "Amazon Web Services",
+          "publication_date": "undated",
+          "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock.html",
+          "type": "official_cloud_documentation",
+          "accessed_at": "2026-11-26"
         }
       ],
       "data_needs": [
@@ -476,12 +508,12 @@
         "audit hash chain without signed external checkpoint does not prevent all tampering scenarios"
       ],
       "blockers": [
-        "PR #19 is 32 commits ahead / 54 behind current main and mergeable=false; blind merge/rebase is unsafe.",
-        "Backup encryption, off-host storage, retention/rotation and scheduled restore drills remain unimplemented."
+        "Backup encryption, off-host storage, retention/rotation and scheduled restore drills remain unimplemented.",
+        "Encrypted/off-host backup, signed manifest, retention/rotation, provider integration and scheduled restore drills are design-only; no storage provider, key custodian, RPO/RTO or retention policy has been selected."
       ],
       "status": "active",
-      "status_detail": "PR #19 remains Draft/open and diverged from current main: 32 commits ahead / 54 behind, mergeable=false. Its backup_to()/restore_from_backup() implementation and CLI are not present in current main; the older branch's successful CI is not evidence for current main. No new backup code was merged in this cycle.",
-      "next_step": "Create a clean branch from current main and selectively port the verified SQLite online backup/restore implementation and CLI; rerun exact-head CI and a restore drill covering WAL inclusion, source immutability, owner-only permissions, no-overwrite behavior and integrity checks. Then add encrypted off-host storage, retention/rotation and scheduled restore exercises.",
+      "status_detail": "A clean branch based on current main selectively ports the previously verified local SQLite online backup/restore, CLI, queue/workflow/scheduler counts and payload-free supervisor observability from the divergent PR #19. The port also rejects symlink backup/restore destinations and adds a regression test. Exact-head CI and the complete restore drill are pending. The current implementation remains local and unencrypted; no off-host storage provider or keys are configured.",
+      "next_step": "Run exact-head quality CI and a restore drill covering WAL inclusion, source immutability, owner-only file mode, no-overwrite and symlink rejection, corrupt audit data and service health. Then choose a storage provider, key custodian, RPO/RTO and retention policy before implementing age encryption, signed manifests and off-host immutable object versions.",
       "success_metrics": [
         "backup includes committed WAL data",
         "restore rejects WAL-mode header and corrupted audit data before destination creation",
