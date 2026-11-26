@@ -73,3 +73,8 @@ There is deliberately no generic live-execution job handler. A future live workf
 discover() and validate() must be side-effect-free. Unknown adapters and undeclared operations fail closed. No third-party API, database, account, credential store or production data source is enabled by this framework change. A real connector still needs a reviewed adapter, verified permission, secret-provider wiring, provider-specific tests, rate limits, monitoring and failure/retry handling.
 
 This is an integration framework, not proof of a completed live integration or universal access to external services. Public availability does not automatically grant rights to collect, reuse or republish information.
+
+
+## First concrete adapter
+
+The first bounded implementation is documented in [GitHub Public Repository Adapter](GITHUB_PUBLIC_ADAPTER.md). It provides only public repository metadata and UTF-8 text-file reads from one configured repository; no write operations are available.
