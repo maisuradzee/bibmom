@@ -6,9 +6,9 @@
 - **ბოლო დადასტურებული engineering merge:** PR #58 — commit 54758dbd3f60298cc1440d30fe44f6f5531f647a.
 - **NOEMA-005:** MPFR 4.2.1 cross-check და checked signed add/merge overflow guard main-შია; 467/467 synthetic inputs თითო hosted x86-64/ARM64 გარემოზე დაემთხვა MPFR/Python references. კვლევა preliminary რჩება; დამოუკიდებელი numerical review, representative workloads და physical-hardware replication დარჩენილია.
 - **NOEMA-INFRA-001:** PR #57-ით დაემატა local same-host restore-drill CLI; encrypted off-host backup და clean-host disaster recovery ჯერ არ განხორციელებულა.
-- **Latest main quality CI:** run 45829643821 — SUCCESS, 312 Python tests (one skipped).
+- **Latest main quality CI:** run 45830239964 — SUCCESS, 312 Python tests (one skipped).
 - **Latest main native workflow:** run 45829643815 — x86-64 და ARM64 ორივე SUCCESS.
-- **Latest main Pages deployment:** run 45829643782 — build და deploy SUCCESS.
+- **Latest main Pages deployment:** run 45830240214 — build და deploy SUCCESS.
 
 ## მიმდინარე მდგომარეობა
 
@@ -303,12 +303,13 @@ NOEMA progresses during scheduled runs only; this audit does not claim continuou
 
 ## Final state after run 8 — 2026-11-26
 
-- **Current main:** `54758dbd3f60298cc1440d30fe44f6f5531f647a`.
+- **Base main before PR #59 status sync:** `54758dbd3f60298cc1440d30fe44f6f5531f647a`.
+- **PR #59 portfolio/status sync:** merged as `b4e5f1fe78843a196adece7190fd65b9a7ae90ba`; this merge carries the corrected four-stream portfolio and current project status into main.
 - **PR #55:** merged; synchronized the MPFR cross-check status on main.
 - **PR #57:** merged as `5ba61c8932e5dccfa3edc35fc7d8cbed60bb2170`; added `python -m noema_core.jobs_cli --db ~/.noema/noema-jobs.sqlite3 restore-drill`. The command performs a same-host online SQLite backup/restore in a temporary directory, compares job/audit counts and audit-chain hash, verifies backup bytes remain unchanged, and emits aggregate-only JSON. It does not test off-host encryption, key recovery, provider retention or clean-host disaster recovery.
 - **PR #58:** merged as current main `54758dbd3f60298cc1440d30fe44f6f5531f647a`; added checked signed 2,560-bit accumulator add/merge, no-mutation-on-overflow behavior, native boundary harness and regression tests. The native workflow now asserts MPFR 4.2.1. The previous 4.2.2 label was corrected after both hosted Ubuntu runners reported 4.2.1.
 - **PR #58 exact-head checks:** quality CI [45829393835](https://github.com/maisuradzee/bibmom/actions/runs/45829393835) SUCCESS, 312 Python tests (one skipped); native x86-64/ARM64 [45829393564](https://github.com/maisuradzee/bibmom/actions/runs/45829393564) SUCCESS on both architectures, 50 accumulator cases each; GIL/free-threaded CPU-thread workflow [45829393656](https://github.com/maisuradzee/bibmom/actions/runs/45829393656) SUCCESS, 48 cases and three repetitions in each runtime.
-- **Latest main checks:** quality CI [45829643821](https://github.com/maisuradzee/bibmom/actions/runs/45829643821) SUCCESS, 312 tests (one skipped); native x86-64/ARM64 workflow [45829643815](https://github.com/maisuradzee/bibmom/actions/runs/45829643815) SUCCESS; Pages deployment [45829643782](https://github.com/maisuradzee/bibmom/actions/runs/45829643782) build and deploy SUCCESS.
+- **Latest main checks:** quality CI [45830239964](https://github.com/maisuradzee/bibmom/actions/runs/45830239964) SUCCESS, 312 tests (one skipped); native x86-64/ARM64 workflow [45829643815](https://github.com/maisuradzee/bibmom/actions/runs/45829643815) SUCCESS; Pages deployment [45830240214](https://github.com/maisuradzee/bibmom/actions/runs/45830240214) build and deploy SUCCESS.
 - **Active portfolio:** AquaSignal remains a synthetic/operator-decision-support prototype without paired field sensor/laboratory validation; NOEMA-005 remains preliminary despite the new checked-overflow and MPFR tests; NOEMA-007 remains a discovery draft without local last-mile outcome data; NOEMA-INFRA-001 now has a same-host restore-drill CLI, while encrypted off-host backup and clean-host recovery remain unimplemented.
 - **Publication:** public catalogue remains 1 preliminary / 0 published. No study was promoted to Published; independent numerical-method and field review are still outstanding.
 - **Privacy and deployment boundary:** only public code, documentation and synthetic fixtures were added. No operator telemetry, private laboratory data, credentials, signing keys, new Supabase project or external database was added. Pages are updated only because the successful deploy job above completed.

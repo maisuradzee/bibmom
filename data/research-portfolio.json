@@ -290,6 +290,30 @@
           "url": "https://github.com/maisuradzee/bibmom/actions/runs/45829393656",
           "type": "internal_ci_result",
           "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA PR #59 — run 8 research portfolio and project-status synchronization",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/pull/59",
+          "type": "engineering_change_record",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA main quality CI after run 8 portfolio sync",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45830239964",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA Pages deployment after run 8 portfolio sync",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45830240214",
+          "type": "internal_deployment_result",
+          "accessed_at": "2026-11-26"
         }
       ],
       "data_needs": [
@@ -311,7 +335,7 @@
         "Hosted x86-64/ARM64 CI is not independent physical-hardware replication; external numerical-method review remains outstanding."
       ],
       "status": "active",
-      "status_detail": "PR #52 MPFR converter cross-check and PR #58 checked signed add/merge guard are merged into main (PR #58 merge commit 54758dbd3f60298cc1440d30fe44f6f5531f647a). The hosted MPFR version was re-audited: both Ubuntu architectures report 4.2.1, not 4.2.2; the workflow now asserts 4.2.1. Each hosted architecture matched 467 synthetic signed inputs against MPFR_RNDN and Python Decimal, and the native accumulator workflow validated 50 cases per architecture. PR #58 exact-head quality CI 45829393835 passed 312 Python tests (one skipped); native x86-64/ARM64 workflow 45829393564 and actual GIL-enabled/free-threaded CPU-thread workflow 45829393656 both passed. Each CPU-thread runtime ran 48 cases with three repetitions and distinct native thread IDs. These are hosted reproducible tests, not independent physical-hardware replication, formal proof or a performance claim. The study remains preliminary pending independent review and representative workloads. After merge, main quality CI 45829643821, native x86-64/ARM64 workflow 45829643815 and Pages deployment 45829643782 all succeeded for the merge commit.",
+      "status_detail": "PR #52 MPFR converter cross-check and PR #58 checked signed add/merge guard are merged into main (PR #58 merge commit 54758dbd3f60298cc1440d30fe44f6f5531f647a). The hosted MPFR version was re-audited: both Ubuntu architectures report 4.2.1, not 4.2.2; the workflow now asserts 4.2.1. Each hosted architecture matched 467 synthetic signed inputs against MPFR_RNDN and Python Decimal, and the native accumulator workflow validated 50 cases per architecture. PR #58 exact-head quality CI 45829393835 passed 312 Python tests (one skipped); native x86-64/ARM64 workflow 45829393564 and actual GIL-enabled/free-threaded CPU-thread workflow 45829393656 both passed. Each CPU-thread runtime ran 48 cases with three repetitions and distinct native thread IDs. These are hosted reproducible tests, not independent physical-hardware replication, formal proof or a performance claim. The study remains preliminary pending independent review and representative workloads. After merge, main quality CI 45829643821, native x86-64/ARM64 workflow 45829643815 and Pages deployment 45829643782 all succeeded for the merge commit. The subsequent portfolio/status sync PR #59 merged as b4e5f1fe78843a196adece7190fd65b9a7ae90ba; its exact-head quality CI 45830093428 passed 312 tests and the main Pages deployment 45830240214 succeeded.",
       "next_step": "Obtain independent numerical-method review of the checked signed accumulator and MPFR converter; then evaluate pairwise, Neumaier, long-double and exact methods on representative memory-bandwidth-bound workloads and repeat on independently selected physical x86-64/ARM64 systems with uncertainty intervals.",
       "success_metrics": [
         "exact-reference accuracy თითოეული მეთოდისა და runtime-ის მიხედვით",
@@ -672,6 +696,30 @@
           "url": "https://github.com/maisuradzee/bibmom/actions/runs/45828456789",
           "type": "internal_deployment_result",
           "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA PR #59 — run 8 research portfolio and project-status synchronization",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/pull/59",
+          "type": "engineering_change_record",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA main quality CI after run 8 portfolio sync",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45830239964",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA Pages deployment after run 8 portfolio sync",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45830240214",
+          "type": "internal_deployment_result",
+          "accessed_at": "2026-11-26"
         }
       ],
       "data_needs": [
@@ -692,7 +740,7 @@
         "Encrypted off-host storage, signed manifest, provider integration, key custody, retention/rotation and an approved RPO/RTO remain unimplemented; the new CLI drill is same-host only and has not yet been run against an operator-approved deployed/staging database."
       ],
       "status": "active",
-      "status_detail": "PR #51 POSIX private staging hardening and PR #57 local restore-drill CLI are merged. PR #57 exact-head quality CI 45828180990 passed 311 Python tests (one skipped), including both restore-drill tests; CPU-thread workflow 45828181011 passed both GIL-enabled and free-threaded jobs. Main quality CI 45828456980 and Pages deployment 45828456789 succeeded for main commit 5ba61c8932e5dccfa3edc35fc7d8cbed60bb2170. The CLI runs an isolated same-host backup/restore, checks source/restored integrity, job and audit counts, final audit hash and unchanged backup bytes, and omits payloads and job IDs. This is a local smoke drill, not off-host disaster-recovery evidence. After PR #58, main quality CI 45829643821, native workflow 45829643815 and Pages deployment 45829643782 succeeded for the current main commit.",
+      "status_detail": "PR #51 POSIX private staging hardening and PR #57 local restore-drill CLI are merged. PR #57 exact-head quality CI 45828180990 passed 311 Python tests (one skipped), including both restore-drill tests; CPU-thread workflow 45828181011 passed both GIL-enabled and free-threaded jobs. Main quality CI 45828456980 and Pages deployment 45828456789 succeeded for main commit 5ba61c8932e5dccfa3edc35fc7d8cbed60bb2170. The CLI runs an isolated same-host backup/restore, checks source/restored integrity, job and audit counts, final audit hash and unchanged backup bytes, and omits payloads and job IDs. This is a local smoke drill, not off-host disaster-recovery evidence. After PR #58, main quality CI 45829643821, native workflow 45829643815 and Pages deployment 45829643782 succeeded for the current main commit. The subsequent portfolio/status sync PR #59 merged as b4e5f1fe78843a196adece7190fd65b9a7ae90ba; exact-head quality CI 45830093428 passed and main Pages deployment 45830240214 completed successfully.",
       "next_step": "Run restore-drill on an operator-approved non-production instance with representative NOEMA data and retain only aggregate counts, elapsed time and integrity result. Then approve RPO/RTO, provider, key custodian and retention policy before implementing age encryption, signed manifests, versioned off-host storage, key rotation and scheduled clean-host restore drills.",
       "success_metrics": [
         "backup includes committed WAL data",
