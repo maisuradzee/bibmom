@@ -54,6 +54,19 @@ MPFR-ის ოფიციალური დოკუმენტაცია 
 2. GNU MP 6.3.0 Manual, Integer Import and Export: https://gmplib.org/manual/Integer-Import-and-Export (წვდომა: 2026-11-26).
 3. IEEE Std 754-2019, IEEE Standard for Floating-Point Arithmetic: https://standards.ieee.org/ieee/754/6210/ (წვდომა: 2026-11-26).
 
+## შემდეგი ნაბიჯები
+
+1. exact accumulator-ის add/merge ოპერაციებს დაემატოს checked-overflow კონტრაქტი და შესაბამისი უარყოფითი ტესტები.
+2. pairwise, Neumaier და exact მეთოდები შეფასდეს წარმომადგენლობით memory-bandwidth-bound workload-ებზე.
+3. ექსპერიმენტი განმეორდეს დამოუკიდებლად შერჩეულ ფიზიკურ x86-64 და ARM64 მოწყობილობებზე, წინასწარ განსაზღვრული warm-up/repetition პროტოკოლით და uncertainty interval-ებით.
+4. შედეგები წარედგინოს დამოუკიდებელ numerical-method review-ს.
+
+## შემოწმების სტატუსი
+
+- Code-only head 1ab5917d961d829a52a850884fac7d829c7fddf4: [quality CI 45819091367](https://github.com/maisuradzee/bibmom/actions/runs/45819091367) SUCCESS; [native x86-64/ARM64 workflow 45819091300](https://github.com/maisuradzee/bibmom/actions/runs/45819091300) SUCCESS.
+- ორივე native architecture job-მა MPFR cross-check და Python integer/Decimal oracle tests წარმატებით შეასრულა.
+- ამ კვლევითი ჩანაწერისა და პორტფელის დამატების შემდეგ შეიცვალა PR head; საბოლოო exact-head CI-ის შედეგი ცალკე უნდა დადასტურდეს.
+
 ## ცვლილებების ისტორია
 
 - 2026-11-26: დაემატა MPFR 4.2.2 cross-check harness, Python test, x86-64/ARM64 CI ნაბიჯი და signed 2,560-bit input range regression.
