@@ -58,7 +58,7 @@ class BackupManifestRuntimeValidationTests(unittest.TestCase):
             with self.subTest(field=field):
                 document = synthetic_manifest()
                 document[field] = "synthetic-placeholder"
-                with self.assertRaisesRegex(ValueError, "additional properties"):
+                with self.assertRaisesRegex(ValueError, "(?i)additional properties"):
                     validate_backup_manifest(document)
 
     def test_invalid_hash_and_timestamp_are_rejected(self):
