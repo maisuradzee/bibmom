@@ -30,7 +30,10 @@ class MemoryBackedReportTests(unittest.TestCase):
     def test_speedup_uses_matching_baseline(self):
         r=fixture();r["cases"][3]["speedup_vs_matching_serial"]=99.0
         with self.assertRaisesRegex(ValueError,"speedup does not reproduce"):validate_report(r)
+    def test_exact_head_sha_required(self):
+        r=fixture();r["provenance"].pop("tested_head_sha")
+        with self.assertRaisesRegex(ValueError,"exact tested head SHA"):validate_report(r)
     def test_source_digest_required(self):
-        r=fixture();r["provenance"]={}
+        r=fixture();r["provenance"].pop("source_sha256")
         with self.assertRaisesRegex(ValueError,"source SHA-256"):validate_report(r)
 if __name__=="__main__":unittest.main()
