@@ -12,7 +12,7 @@
 
 ## მოკლე შეჯამება
 
-ეს კვლევა აფართოებს main-ში არსებულ MPFR cross-check-ს 467 სინთეზური input-იდან 2,068 ახალ, დეტერმინისტულ input-მდე. ახალი ნაკრები შედგება 1,024 seeded signed integer-ისგან, რომელთა bit length 1–2,559 დიაპაზონს ფარავს, და 1,044 tie-adjacent მნიშვნელობისგან. თითოეული input მოწმდება C/MPFR harness-ით და ორ Python reference-თან: integer guard/remainder/ties-to-even oracle და 1,200-digit Decimal rational conversion. ახალი შედეგი ჯერ pending-ია ზუსტი PR head-ის x86-64 და ARM64 workflow-ების დასრულებამდე.
+ეს კვლევა აფართოებს main-ში არსებულ MPFR cross-check-ს 467 სინთეზური input-იდან 2,068 ახალ, დეტერმინისტულ input-მდე. ახალი ნაკრები შედგება 1,024 seeded signed integer-ისგან, რომელთა bit length 1–2,559 დიაპაზონიდან დეტერმინისტულად აირჩევა, და 1,044 tie-adjacent მნიშვნელობისგან. თითოეული input მოწმდება C/MPFR harness-ით და ორ Python reference-თან: integer guard/remainder/ties-to-even oracle და 1,200-digit Decimal rational conversion. ახალი შედეგი ჯერ pending-ია ზუსტი PR head-ის x86-64 და ARM64 workflow-ების დასრულებამდე.
 
 ## რატომ არის ეს კითხვა მნიშვნელოვანი?
 
@@ -44,7 +44,7 @@
 
 ## მეთოდი ან ექსპერიმენტის გეგმა
 
-1. ფიქსირებული seed-ით გენერირდება 1,024 signed magnitude; bit length თითო შემთხვევაზე აირჩევა 1–2,559 დიაპაზონიდან.
+1. ფიქსირებული seed-ით გენერირდება 1,024 signed magnitude; bit length თითო შემთხვევაზე აირჩევა 1–2,559 დიაპაზონიდან. ეს არის გენერაციის დიაპაზონი და არა მტკიცება, რომ random sample-ის ყველა კიდური bit length აუცილებლად გამოვიდა.
 2. სხვადასხვა exponent-ისთვის იქმნება retained significand-ის even/odd ვარიანტები და midpoint−1, midpoint, midpoint+1 მნიშვნელობები ორივე ნიშნისთვის.
 3. tie-adjacent ნაწილი მოიცავს 87 exponent position × 2 significand parity × 3 midpoint offsets × 2 signs = 1,044 input-ს.
 4. სრული ნაკრები მოწმდება სამი oracle გზით: C converter vs MPFR 4.2.1; Python integer ties-to-even reference; Python Decimal rational conversion.
@@ -52,7 +52,7 @@
 
 ## შედეგები და ინტერპრეტაცია
 
-**REPRODUCED RESULT — exact-head hosted CI:** branch head 725458e7a423c16e7df854990b0a86921253a358-ზე სრული ნაკრები წარმატებით დასრულდა. Quality CI [45839154986](https://github.com/maisuradzee/bibmom/actions/runs/45839154986) — SUCCESS, 312 Python tests. Native MPFR workflow [45839155039](https://github.com/maisuradzee/bibmom/actions/runs/45839155039) — SUCCESS ორივე hosted architecture-ზე. x86-64 და ARM64 თითოეულმა გამოიყენეს MPFR 4.2.1 და გაიარეს 2,068 input-ის bitwise comparison: C converter == MPFR_RNDN == Python integer oracle == Python Decimal reference. ამ ნაკრებში 1,024 seeded full-width signed values და 1,044 tie-adjacent values იყო. ეს ადასტურებს მხოლოდ მოცემული deterministic suite-ის hosted reproduction-ს; არ არის ამომწურავი proof ან დამოუკიდებელი physical-hardware replication.
+**REPRODUCED RESULT — clean-base exact-head hosted CI:** current-main-ზე პორტირებულ head 9e980ac1d74ae3b4de10074456afc8829813036d-ზე quality CI [45839774795](https://github.com/maisuradzee/bibmom/actions/runs/45839774795) — SUCCESS, 317 Python tests; native MPFR workflow [45839837589](https://github.com/maisuradzee/bibmom/actions/runs/45839837589) — SUCCESS ორივე hosted architecture-ზე. x86-64 და ARM64 თითოეულმა გამოიყენეს MPFR 4.2.1 და გაიარეს 2,068 input-ის bitwise comparison: C converter == MPFR_RNDN == Python integer oracle == Python Decimal reference. ნაკრები მოიცავს 1,024 seeded signed values-ს, რომელთა bit length 1–2,559 დიაპაზონიდან აირჩევა, და 1,044 tie-adjacent values-ს. ეს ადასტურებს მხოლოდ მოცემული deterministic suite-ის hosted reproduction-ს; არ არის ამომწურავი proof ან დამოუკიდებელი physical-hardware replication.
 
 ## შეზღუდვები და გაურკვევლობები
 
@@ -82,8 +82,8 @@
 ## შემოწმების სტატუსი
 
 - **Draft:** ტესტის კოდი და მეთოდი შექმნილია.
-- **Quality CI:** 45839154986 SUCCESS (312 Python tests).
-- **Native MPFR:** 45839155039 SUCCESS ორივე hosted architecture-ზე; MPFR 4.2.1.
+- **Clean-base quality CI:** 45839774795 SUCCESS (317 Python tests).
+- **Clean-base native MPFR:** 45839837589 SUCCESS ორივე hosted architecture-ზე; MPFR 4.2.1.
 - **Publication:** კვლევა რჩება preliminary; ახალი oracle addendum არის draft და საჯარო კატალოგი არ იცვლება.
 
 ## ცვლილებების ისტორია
