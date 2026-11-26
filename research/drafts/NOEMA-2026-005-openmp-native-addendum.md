@@ -8,23 +8,23 @@
 
 ## საკვლევი კითხვა
 
-Preserving a per-thread Neumaier (sum, correction) state across worker boundaries: does it preserve the exact binary64 reference under native OpenMP execution, and what wall-time/process-CPU trade-off is observed against naive partial sums and serial compensated summation?
+Does retaining a per-thread Neumaier (sum, correction) state preserve the exact binary64 reference under native OpenMP execution, and what wall-time/process-CPU trade-off is observed against naive partial sums and serial compensated summation?
 
 ## მოკლე შეჯამება
 
-This addendum extends NOEMA-2026-005 from Python thread-pool experiments to native C/OpenMP. It contains a deterministic synthetic protocol, a local raw report, a compiler-provenance runner, strict-warning tests, and a CI profile. It does not claim general performance or universal numerical correctness.
+This addendum extends NOEMA-2026-005 from Python thread-pool experiments to native C/OpenMP. It defines deterministic synthetic inputs, exact expected sums, a compiler-provenance runner, a hosted CI report, and strict-warning native tests. It does not claim general performance or universal numerical correctness.
 
 ## არსებული ცოდნა და წყაროები
 
-Neumaier's 1974 analysis compares rounding-error bounds for finite-sum algorithms, including ordinary and compensated procedures. The OpenMP 5.2 specification states that the order in which reduction values are combined is unspecified; bitwise-identical results across sequential and parallel executions are therefore not guaranteed. This experiment avoids relying on an implementation-selected final reduction order: each worker emits a two-component state and the coordinator merges states in ascending worker index order.
+Neumaier (1974) gives a rounding-error analysis comparing finite-sum algorithms, including ordinary and compensated procedures. Ogita, Rump and Oishi (2005) present error-free-transformation-based algorithms for accurate summation and dot products, with error bounds and measured computing-time comparisons. The OpenMP 5.2 specification states that the location and order of reduction combination are unspecified; bitwise-identical results across sequential and parallel executions are therefore not guaranteed. This experiment avoids relying on an implementation-selected final reduction order: each worker emits a two-component state and the coordinator merges states in ascending worker-index order.
 
 ## მტკიცებულებები
 
-- **FACT:** 2^53, 1, and -2^53 are exactly representable as binary64 values. For both generated input layouts, the exact mathematical sum is the configured repeat count.
-- **REPRODUCED RESULT:** the local Linux x86-64 run compiled with GCC 14.2.0 and strict warnings. The 250,000-repeat profile generated 20 cases. Serial Neumaier and OpenMP Neumaier-state matched the exact reference in 5/5 runs for both layouts and worker counts 1/2/4/8. Serial naive and OpenMP scalar partial sums matched in 0/5 runs for both layouts. The runtime created the requested thread counts.
-- **INFERENCE:** retaining both sum and correction in each worker state preserves information that scalar partial sums lose on these cancellation fixtures.
-- **HYPOTHESIS:** native OpenMP can reduce Python thread-pool overhead, but thread startup, scheduling and oversubscription can still erase wall-time gains.
-- **UNTESTED IDEA:** compare pairwise-tree merging, long-double partials and exact/binned accumulators on at least two independent hardware families.
+- **FACT:** In binary64, (2^{53}), (1), and (-2^{53}) are exactly representable. For both generated input layouts, the exact mathematical sum is the configured repeat count.
+- **REPRODUCED RESULT:** The hosted Ubuntu 24.04 x86-64 CI run used GCC 13.3.0, four visible CPUs, 250,000 repeats per layout, one warmup, five measured repetitions and 20 cases. Serial Neumaier and OpenMP Neumaier-state matched the exact reference in 5/5 runs for both layouts and all tested worker counts. Serial naive and OpenMP scalar partial sums matched in 0/5 runs. The runtime observed the requested 1/2/4/8 OpenMP threads.
+- **INFERENCE:** Retaining both sum and correction in each worker state preserves information that scalar partial sums lose on these two cancellation fixtures.
+- **HYPOTHESIS:** Native OpenMP may reduce Python thread-pool overhead, but thread startup, scheduling, CPU quota and oversubscription can still erase wall-time gains.
+- **UNTESTED IDEA:** Compare pairwise-tree merging, long-double partials and binned/exact accumulators on at least two independent hardware families.
 
 ## ჰიპოთეზა
 
@@ -34,56 +34,61 @@ A deterministic merge of per-thread Neumaier states will preserve the exact resu
 
 The C program generates two layouts without allocating an input array:
 
-1. triplet order: repeated [2^53, 1, -2^53].
-2. grouped cancellation: all 2^53 values, then all 1 values, then all -2^53 values.
+1. triplet order: repeated ([2^{53}, 1, -2^{53}]).
+2. grouped cancellation: all (2^{53}) values, then all (1) values, then all (-2^{53}) values.
 
-It compares serial naive, serial Neumaier, OpenMP naive scalar partials and OpenMP Neumaier-state partials. OpenMP uses schedule(static); worker states are merged in ascending worker-index order. The report records requested and observed thread counts.
+It compares serial naive, serial Neumaier, OpenMP naive scalar partials and OpenMP Neumaier-state partials. OpenMP uses `schedule(static)`; worker states are merged in ascending worker-index order. The report records requested and observed thread counts.
 
-Wall time uses CLOCK_MONOTONIC. Process CPU time uses CLOCK_PROCESS_CPUTIME_ID and includes CPU consumed by all process threads. Speedup is the matching serial method's median wall time divided by the OpenMP method's median wall time. ru_maxrss is a process-wide high-water mark, not a per-method memory measurement.
+Wall time uses `CLOCK_MONOTONIC`. Process CPU time uses `CLOCK_PROCESS_CPUTIME_ID` and includes CPU consumed by all process threads. Speedup is the matching serial method's median wall time divided by the OpenMP method's median wall time. `ru_maxrss` is a process-wide high-water mark, not a per-method memory measurement.
 
-The default CI profile uses 250,000 repeats, worker counts 1/2/4/8, one warmup and five measured repetitions. The local raw report and its source/compiler/environment provenance are stored at data/noema-005/native-openmp-local-linux-x86_64-2026-11-26.json.
+The default CI profile uses 250,000 repeats, worker counts 1/2/4/8, one warmup and five measured repetitions. The complete 20-case CI summary is stored at `data/noema-005/native-openmp-ci-summary-2026-11-26.json`. It records the uncompressed raw artifact SHA-256, GitHub artifact digest, run ID, source SHA and compiler/platform provenance. The raw report artifact is attached to [workflow run 45785996326](https://github.com/maisuradzee/bibmom/actions/runs/45785996326) (artifact retention is 30 days).
+
+The earlier file `data/noema-005/native-openmp-local-linux-x86_64-2026-11-26.json` is retained as historical audit material but is **incomplete**: it contains 10 cases while declaring 20 expected. It is not a valid frozen result and is not used for the conclusions below.
 
 ## შედეგები და ინტერპრეტაცია
 
-In the local containerized run, median OpenMP Neumaier-state speedup versus serial Neumaier was 1.078x / 2.138x / 3.490x / 1.409x for triplet order and 1.097x / 2.226x / 1.981x / 1.340x for grouped cancellation (1/2/4/8 workers). The environment had five visible CPUs, cpuset 0-4 and a four-CPU cgroup quota. The eight-worker result is therefore oversubscribed.
+In the hosted CI report, Neumaier-state median speedup versus serial Neumaier ranged from 0.995x to 3.591x across the two layouts and worker counts. The environment exposed four CPUs; eight workers are oversubscribed. The grouped-cancellation 1-worker case was marginally slower than serial Neumaier (0.995x), demonstrating that the compensated OpenMP wrapper does not guarantee a speedup.
 
-These are observed medians from one run, not a general performance result. Five repetitions do not establish stable confidence intervals. Raw samples contain scheduler outliers. The hosted CI run is a second execution environment, but not an independent scientific replication.
+These are medians from one hosted runner and five repetitions, not a general performance result. Raw timing samples contain scheduler outliers; the frozen repository summary retains per-case medians, while the full raw samples are in the time-limited CI artifact. This is not independent scientific replication.
 
 ## შეზღუდვები და გაურკვევლობები
 
 - Synthetic cancellation data is not representative of all scientific workloads.
-- Generated-on-the-fly inputs do not test memory-bandwidth-bound reductions.
+- Generated-on-the-fly input does not test memory-bandwidth-bound reductions.
 - Process-wide peak RSS cannot be attributed to an individual method.
-- A single container and a single hosted runner do not establish architecture-independent behavior.
+- A single hosted runner does not establish architecture-independent behavior.
+- Five repetitions do not establish narrow confidence intervals or stable performance distributions.
 - No correctness claim is made for arbitrary floating-point inputs, all compilers, all flags or all architectures.
-- -ffast-math is intentionally not enabled because reassociation can invalidate compensation algorithms.
+- `-ffast-math` is intentionally not enabled because reassociation can invalidate compensation algorithms.
+- The frozen summary does not include the raw per-repetition samples; the linked GitHub artifact expires after its retention period.
 
 ## დასკვნა
 
-The local experiment reproduces exact-reference accuracy for Neumaier-state merging on the two defined fixtures and shows that native OpenMP can use the requested worker counts. The measured speedups are exploratory and environment-specific. The result remains draft until an independent hardware replication and technical review are completed.
+The hosted experiment reproduces exact-reference accuracy for Neumaier-state merging on the two defined fixtures and verifies actual OpenMP worker counts. Timing results range from a small regression to an exploratory speedup and are environment-specific. The result remains draft pending independent hardware replication and technical review.
 
 ## წყაროები
 
-1. Neumaier, A. (1974). Rundungsfehleranalyse einiger Verfahren zur Summation endlicher Summen. ZAMM 54(1), 39–51. DOI: https://doi.org/10.1002/zamm.19740540106
-2. OpenMP Architecture Review Board (2021). OpenMP API Specification 5.2, Section 5.5.6, Reduction Scoping Clauses. https://www.openmp.org/spec-html/5.2/openmpsu50.html
+1. A. Neumaier (1974). *Rundungsfehleranalyse einiger Verfahren zur Summation endlicher Summen*. ZAMM 54(1), 39–51. https://doi.org/10.1002/zamm.19740540106
+2. T. Ogita, S. M. Rump and S. Oishi (2005). *Accurate Sum and Dot Product*. SIAM Journal on Scientific Computing 26(6), 1955–1988. https://doi.org/10.1137/030601818
+3. OpenMP Architecture Review Board (2021). *OpenMP API Specification 5.2*, Section 5.5.6, Reduction Scoping Clauses. https://www.openmp.org/spec-html/5.2/openmpsu50.html
 
 ## შემდეგი ნაბიჯები
 
-- Run the same frozen fixtures on the hosted CI runner and compare accuracy, actual thread counts and environment metadata.
-- Add pairwise-tree and long-double baselines without enabling fast-math.
-- Add an input-buffer/memory-bandwidth workload and separate per-method allocation measurement.
-- Repeat on an independent ARM64 or other hardware family.
+- Preserve the full raw report in a durable, provenance-checked archive rather than relying only on the 30-day CI artifact.
+- Add pairwise-tree, long-double and binned/exact accumulator baselines.
+- Add an input-buffer/memory-bandwidth workload and a memory metric that can be attributed per method.
+- Repeat on independent ARM64 and x86-64 hardware, with a preregistered repetition protocol.
 - Obtain an independent numerical-method review before considering preliminary publication.
 
 ## შემოწმების სტატუსი
 
-- Local strict-warning compile: passed.
-- Local native smoke tests: 3/3 passed.
-- Local 20-case profile: exact-reference checks passed for all Neumaier runs.
-- Hosted CI: pending after draft metadata and workflow repair.
-- Independent replication: not completed.
+- Local strict-warning compile and native smoke tests: passed on the original branch run.
+- Hosted native OpenMP matrix: 20/20 cases; exact Neumaier checks and actual 1/2/4/8 worker counts passed.
+- Frozen CI summary validator and mutation regression tests: added in this branch; exact-head repository CI pending.
+- Independent hardware replication: not completed.
 - Publication status: draft; not published.
 
 ## ცვლილებების ისტორია
 
-- 2026-11-26: added native OpenMP protocol, local raw report, compiler-provenance runner and CI workflow.
+- 2026-11-26: added native OpenMP protocol, local historical report, compiler-provenance runner and CI workflow.
+- 2026-11-26: added complete hosted CI summary and validator; explicitly invalidated the incomplete 10/20-case local report as a source of conclusions.
