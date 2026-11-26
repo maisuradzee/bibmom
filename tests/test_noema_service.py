@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import tempfile
+import time
 import unittest
 from pathlib import Path
 
@@ -36,7 +37,7 @@ class NoemaServiceRuntimeTests(unittest.TestCase):
         self.assertEqual(service.scheduler.get(SERVICE_SCHEDULE_ID).interval_seconds, 300)
         github_schedule = service.scheduler.get("integration-github-metadata")
         self.assertEqual(github_schedule.interval_seconds, 6 * 60 * 60)
-        self.assertGreater(github_schedule.next_run_at, 0)
+        self.assertGreater(github_schedule.next_run_at, time.time())
         self.assertEqual(service.integration_engine.adapters.adapter_ids, ("github.public_repository",))
         self.assertTrue(service.health_report()["healthy"])
 
