@@ -99,3 +99,7 @@ GitHub Pages-ის არტეფაქტში შედის `index.html`,
 ## მონაცემთა ბაზა და საჯარო კატალოგი
 
 საიტის მიმდინარე საჯარო მონაცემთა წყარო არის Git-ით ვერსიაკონტროლირებადი `data/research.json`, რომელსაც ამოწმებს `data/research.schema.json` და Python ვალიდატორი. Pages build ქმნის მკაფიო სტატუსის მქონე სტატიებსა და JSON კატალოგს. ეს მიდგომა სწრაფი, გამჭვირვალე და მარტივად აღსადგენია, თუმცა არ არის ტრანზაქციული/ცოცხალი მონაცემთა ბაზა. დინამიკური მომხმარებლის ანგარიშების, კომენტარების, ძიების და audit log-ისთვის საჭიროა NOEMA-ს ცალკე Supabase პროექტი; სხვა პროექტის ბაზა არ უნდა იქნეს გამოყენებული.
+
+## NOEMA-005 native OpenMP experiment
+
+A reproducible C/OpenMP benchmark for compensated reduction, exact synthetic references, wall/process-CPU timing and provenance is available in [`scripts/noema005_openmp_benchmark.c`](scripts/noema005_openmp_benchmark.c), with protocol and preliminary results under `data/noema-005/` and `research/drafts/NOEMA-2026-005-openmp-native-addendum.md`.
