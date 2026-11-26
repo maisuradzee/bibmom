@@ -96,6 +96,17 @@ class AquaSignalIncidentLifecycleTests(unittest.TestCase):
         with self.assertRaisesRegex(IncidentError, "recorded NORMAL observation"):
             self.close(ack, assessment=self.assessment("NORMAL", minutes_ago=2))
 
+    def test_close_rejects_same_timestamp_with_changed_reading_evidence(self):
+        normal = self.record(self.opened, "NORMAL", "evt-normal", 1)
+        ack = self.acknowledge(normal)
+        forged = SignalAssessment(
+            "NORMAL", "plant-1", "free_chlorine", "sensor-2", 0.6, "mg/L",
+            self.assessment("NORMAL").observed_at, 0,
+            "synthetic NORMAL assessment"
+        )
+        with self.assertRaisesRegex(IncidentError, "complete recorded NORMAL assessment"):
+            self.close(ack, assessment=forged)
+
     def test_close_rejects_non_normal(self):
         ack = self.acknowledge(self.opened)
         with self.assertRaisesRegex(IncidentError, "NORMAL"):
