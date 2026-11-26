@@ -299,7 +299,9 @@
         "Run actual ThreadPoolExecutor native-thread experiment on CPython 3.14.4 GIL-enabled and free-threaded builds: 2 layouts × 4 worker counts × 2 partitions × 3 reduction methods × 3 repetitions, with native thread ID validation and process CPU/wall timing.",
         "Download the original GIL-enabled and free-threaded Actions artifact ZIPs, verify archive SHA-256 against the frozen summary, and independently recompute per-case accuracy and worker-count metric aggregates.",
         "Second real CPU-thread run raw reports were archived as gzip/base64; workflow ZIP SHA-256 and decompressed raw-report SHA-256 were checked, then per-case accuracy and metric aggregates were recomputed by scripts/reproduce_noema005_threaded_reruns.py --check.",
-        "Third hosted x86-64 rerun (GitHub Actions 45897707859): archive both GIL-enabled and free-threaded raw reports, verify ZIP hashes against GitHub artifact metadata, verify raw-report SHA-256 and independently reproduce per-method accuracy, median speedup, CPU/wall ratio, allocation and worker-count aggregates."
+        "Third hosted x86-64 rerun (GitHub Actions 45897707859): archive both GIL-enabled and free-threaded raw reports, verify ZIP hashes against GitHub artifact metadata, verify raw-report SHA-256 and independently reproduce per-method accuracy, median speedup, CPU/wall ratio, allocation and worker-count aggregates.",
+        "Fresh hosted rerun 45910119575: download both Actions artifact ZIPs, verify GitHub artifact SHA-256, independently recompute raw-report hashes and aggregates, then compare correctness counts and median speedups with run 45897707859 on identical input hashes.",
+        "Third hosted execution 45910842404: download both GIL-enabled and free-threaded artifact ZIPs, verify GitHub artifact SHA-256, independently recompute raw-report hashes and per-method aggregates, and compare the same frozen input hashes against the previous two hosted executions."
       ],
       "sources": [
         {
@@ -621,6 +623,22 @@
           "url": "https://github.com/maisuradzee/bibmom/actions/runs/45897707859",
           "type": "reproducible_hosted_experiment",
           "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "NOEMA-005 fresh hosted real CPU-thread rerun and archived artifacts",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-27",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45910119575",
+          "type": "internal_reproducibility_experiment",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "NOEMA-005 third hosted repeat run and artifact provenance",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-27",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45910842404",
+          "type": "internal_reproducibility_experiment",
+          "accessed_at": "2026-11-27"
         }
       ],
       "data_needs": [
@@ -628,7 +646,9 @@
         "დამოუკიდებელი runtime-ების raw report-ები და არტეფაქტების SHA-256",
         "შემდეგ ეტაპზე native C/OpenMP ან სხვა runtime-ის იდენტურ input-ზე შედარება",
         "Archived raw JSON reports and verified artifact ZIP hashes for run 45897707859.",
-        "Independent physical x86-64 and ARM64 replication with at least 20 repetitions per configuration, representative workloads, RSS/native-allocation and memory-bandwidth measurements."
+        "Independent physical x86-64 and ARM64 replication with at least 20 repetitions per configuration, representative workloads, RSS/native-allocation and memory-bandwidth measurements.",
+        "GIL-enabled raw report archival copy and verified artifact ZIP hashes for hosted rerun 45910119575; independent physical x86-64/ARM64 hardware results remain outstanding.",
+        "Repository archival copies of both raw reports from run 45910842404; current GitHub artifacts expire 2026-12-26."
       ],
       "risks": [
         "Hosted runner-ების CPU მოდელი, virtualization და host contention იცვლება",
@@ -640,15 +660,18 @@
         "Pairwise reduction may be faster on a fixture while returning an incorrect result; timing is only meaningful after accuracy passes.",
         "The second free-threaded run crossed the 1.0 median speedup threshold (0.9519x to 1.0181x), but its per-case range remained broad (0.7023x–1.135x) on the same hosted runner family; this is run-to-run sensitivity, not a robust or portable speedup.",
         "The 2026-11-27 free-threaded and GIL-enabled jobs ran on different hosted VM families (Azure and AWS); direct cross-runtime timing comparison is confounded.",
-        "The 1.2589x free-threaded median is versus matching serial Neumaier only; serial math.fsum was 14.8–16.3x faster than four-worker threaded Neumaier-state on these fixtures."
+        "The 1.2589x free-threaded median is versus matching serial Neumaier only; serial math.fsum was 14.8–16.3x faster than four-worker threaded Neumaier-state on these fixtures.",
+        "Across three hosted runs the free-threaded Neumaier-state median speedup versus serial Neumaier varied from 1.1718x to 1.2589x; the timing spread is evidence of hosted-run variability, not a robust portable speedup."
       ],
       "blockers": [
         "The native experiment still uses two synthetic cancellation fixtures; representative application workloads and memory-bandwidth tests remain outstanding.",
         "Hosted x86-64/ARM64 CI is not independent physical-hardware replication; external numerical-method review remains outstanding.",
-        "No independent physical-hardware replication or representative memory-bandwidth-bound workload has been completed; external numerical-method review remains outstanding."
+        "No independent physical-hardware replication or representative memory-bandwidth-bound workload has been completed; external numerical-method review remains outstanding.",
+        "The GIL-enabled raw report for hosted run 45910119575 is only available from its time-limited GitHub Actions artifact (expires 2026-12-26); a repository archival copy is still outstanding.",
+        "Run 45910842404 raw report bytes are not yet mirrored in the repository; GitHub artifacts 15160041527 and 15159419528 expire 2026-12-26."
       ],
       "status": "active",
-      "status_detail": "PR #81 merged into main as a69c3f29a7dec0f25f3a30c60f2d9f4d671807c7. Its exact-head quality CI 45872887590 and actual CPU-thread workflow 45872887552 both succeeded. The archived second raw-report set from workflow 45867519546 was rechecked: archive hashes and decompressed report hashes matched the frozen metadata, and scripts/reproduce_noema005_threaded_reruns.py --check reproduced all per-case accuracy counts and aggregate ranges. In that archived run, Neumaier-state median speedup was 0.7744x (range 0.7225–0.7935) with GIL and 1.0181x (range 0.7023–1.135) on free-threaded CPython; the prior free-threaded run was 0.9519x. The crossing of 1.0 is run-to-run variability, not evidence of a robust speedup. Both archived runs used the same hosted x86-64 runner family with 4-CPU affinity and synthetic cancellation fixtures. The study remains preliminary; representative application workloads, independent physical hardware and external numerical-method review remain outstanding. Scheduled-cycle audit 2026-11-27: PR #87 remains Draft on head 244761b6c44a2927345de4215b001bf909f8e662; exact-head quality CI 45883799154, 96-MiB memory-backed benchmark 45883799149 and actual CPU-thread workflow 45883799162 all succeeded. This is one hosted x86-64 runner family and a synthetic cancellation workload only; a second buffer size, representative workload and independent physical x86-64/ARM64 replication remain outstanding. Its base snapshot b97b30de is behind current main 8a69e6d9, so it needs refresh/revalidation before merge. Third hosted rerun (2026-11-27, Actions run 45897707859) was archived and independently reproduced in PR #94. Neumaier compensation-state merge was 48/48 correctly rounded in both runtimes; scalar Neumaier 42/48; naive 0/48. Free-threaded median speedup was 1.2589x versus matching serial Neumaier (worker medians 0.7733x/1.2125x/1.3546x/1.3090x for 1/2/4/8 workers), while GIL-enabled median was 0.7576x. CPU-time/wall-time exceeded 1.05 in 36/48 free-threaded runs and 0/48 GIL-enabled runs; native worker identity matched configured worker count in all 16 cases per runtime. Critical caveat: serial math.fsum remained 14.8–16.3x faster than the four-worker threaded Neumaier-state path on these fixtures. The two runtime modes used different hosted VM families, so cross-mode timing is confounded; this is not a general speedup claim.",
+      "status_detail": "PR #81 merged into main as a69c3f29a7dec0f25f3a30c60f2d9f4d671807c7. Its exact-head quality CI 45872887590 and actual CPU-thread workflow 45872887552 both succeeded. The archived second raw-report set from workflow 45867519546 was rechecked: archive hashes and decompressed report hashes matched the frozen metadata, and scripts/reproduce_noema005_threaded_reruns.py --check reproduced all per-case accuracy counts and aggregate ranges. In that archived run, Neumaier-state median speedup was 0.7744x (range 0.7225–0.7935) with GIL and 1.0181x (range 0.7023–1.135) on free-threaded CPython; the prior free-threaded run was 0.9519x. The crossing of 1.0 is run-to-run variability, not evidence of a robust speedup. Both archived runs used the same hosted x86-64 runner family with 4-CPU affinity and synthetic cancellation fixtures. The study remains preliminary; representative application workloads, independent physical hardware and external numerical-method review remain outstanding. Scheduled-cycle audit 2026-11-27: PR #87 remains Draft on head 244761b6c44a2927345de4215b001bf909f8e662; exact-head quality CI 45883799154, 96-MiB memory-backed benchmark 45883799149 and actual CPU-thread workflow 45883799162 all succeeded. This is one hosted x86-64 runner family and a synthetic cancellation workload only; a second buffer size, representative workload and independent physical x86-64/ARM64 replication remain outstanding. Its base snapshot b97b30de is behind current main 8a69e6d9, so it needs refresh/revalidation before merge. Third hosted rerun (2026-11-27, Actions run 45897707859) was archived and independently reproduced in PR #94. Neumaier compensation-state merge was 48/48 correctly rounded in both runtimes; scalar Neumaier 42/48; naive 0/48. Free-threaded median speedup was 1.2589x versus matching serial Neumaier (worker medians 0.7733x/1.2125x/1.3546x/1.3090x for 1/2/4/8 workers), while GIL-enabled median was 0.7576x. CPU-time/wall-time exceeded 1.05 in 36/48 free-threaded runs and 0/48 GIL-enabled runs; native worker identity matched configured worker count in all 16 cases per runtime. Critical caveat: serial math.fsum remained 14.8–16.3x faster than the four-worker threaded Neumaier-state path on these fixtures. The two runtime modes used different hosted VM families, so cross-mode timing is confounded; this is not a general speedup claim. Fresh hosted rerun 45910119575 on the same deterministic input hashes reproduced 48/48 Neumaier-state, 42/48 scalar Neumaier and 0/48 naive results in both runtimes. Free-threaded median speedup was 1.2565x (previous hosted run 1.2589x); GIL-enabled was 0.7601x (previous 0.7576x). CPU/wall >1.05 occurred in 36/48 free-threaded and 0/48 GIL-enabled runs. The free-threaded raw report and both artifact ZIP digests are recorded in the run-refresh PR; the GIL-enabled raw report was downloaded and hashed during this execution but its raw bytes are not mirrored in the PR. Artifact 15159148673 is retained by GitHub until 2026-12-26. This is cross-run hosted reproducibility only, not physical-hardware replication; serial math.fsum remains substantially faster. Third hosted repeat 45910842404 on the same frozen input hashes reproduced 48/48 Neumaier-state, 42/48 scalar Neumaier and 0/48 naive correctness counts in both runtimes. Free-threaded Neumaier-state median speedup was 1.1718x versus matching serial Neumaier (previous runs 1.2589x and 1.2565x); GIL-enabled was 0.7604x (previous 0.7576x and 0.7601x). The free-threaded timing spread demonstrates hosted-run variability and is not a robust portable speedup. Both artifact ZIP and raw-report hashes were independently verified in this run, but raw bytes are not yet mirrored; artifact IDs 15160041527 and 15159419528 expire 2026-12-26.",
       "next_step": "Replicate the same frozen inputs on independently controlled physical x86-64 and ARM64 hardware with at least 20 repetitions per configuration, confidence intervals, RSS/native-allocation and DRAM-bandwidth measurements; compare Neumaier-state against serial math.fsum, pairwise and exact accumulator on representative application workloads. Obtain independent numerical-method review.",
       "success_metrics": [
         "exact-reference accuracy თითოეული მეთოდისა და runtime-ის მიხედვით",
@@ -664,7 +687,9 @@
         "Run-to-run median speedup deltas reproduce exactly; the free-threaded state-merge crossing of 1.0 is reported with its broad range and not interpreted as robust speedup.",
         "Third hosted rerun 45897707859: raw artifact archive and report SHA-256 values verify, and all 48 cases per runtime reproduce exactly from archived raw reports.",
         "Neumaier-state retains 48/48 correctly rounded results while scalar partial merge remains explicitly tested for the six failing grouped-cancellation configurations.",
-        "Performance claims distinguish matching serial Neumaier from serial math.fsum and report CPU parallelism separately from wall-time speedup."
+        "Performance claims distinguish matching serial Neumaier from serial math.fsum and report CPU parallelism separately from wall-time speedup.",
+        "Two hosted reruns on identical frozen input hashes reproduce 48/48 Neumaier-state, 42/48 scalar Neumaier and 0/48 naive correctness counts, with the cross-run speedup delta reported and no general speedup claim.",
+        "Three hosted executions on identical frozen input hashes reproduce 48/48 Neumaier-state, 42/48 scalar Neumaier and 0/48 naive correctness counts; report the observed 1.1718x–1.2589x free-threaded median variation without a general speedup claim."
       ],
       "last_reviewed": "2026-11-27"
     },
