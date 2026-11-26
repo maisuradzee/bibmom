@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-005",
+  "experiment_id": "NOEMA-2026-005-REAL-THREADS-001",
+  "workflow_run_id": 45840219895,
+  "workflow_run_url": "https://github.com/maisuradzee/bibmom/actions/runs/45840219895",
+  "source_commit": "b4df9c9c1f7d2142c8d48e487a73977be70b9966",
+  "benchmark_script": "scripts/benchmark_noema005_threaded_reduction.py",
+  "protocol": {
+    "repeat_count": 65536,
+    "values_per_layout": 196608,
+    "layouts": [
+      "triplet_order",
+      "grouped_cancellation"
+    ],
+    "workers": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "partitions": [
+      "contiguous",
+      "round_robin"
+    ],
+    "methods": [
+      "threaded_naive_scalar",
+      "threaded_neumaier_scalar",
+      "threaded_neumaier_state"
+    ],
+    "warmups": 1,
+    "repetitions": 3,
+    "cases_per_runtime": 48,
+    "distinct_native_thread_ids_validated": true
+  },
+  "input_sha256": {
+    "triplet_order": "e6cc4a627d55c476cb55e6f9789ceb39282e1f787d4b0a5fc040b30428085291",
+    "grouped_cancellation": "16ae80fed695b4d02f4a42a2e7c3f5b8a5eff96e97296273c3ddcacfb19090ee"
+  },
+  "runs": {
+    "gil_enabled": {
+      "environment": {
+        "python_version": "3.14.4",
+        "machine": "x86_64",
+        "platform": "Linux-7.0.0-1017-azure-x86_64-with-glibc2.39",
+        "gil_enabled": true,
+        "free_threaded_build": false,
+        "cpu_affinity_count": 4
+      },
+      "correctness_by_method": {
+        "threaded_naive_scalar": {
+          "cases": 16,
+          "correct_runs": 0,
+          "total_runs": 48
+        },
+        "threaded_neumaier_scalar": {
+          "cases": 16,
+          "correct_runs": 42,
+          "total_runs": 48,
+          "fully_correct_cases": 14,
+          "zero_correct_cases": 2
+        },
+        "threaded_neumaier_state": {
+          "cases": 16,
+          "correct_runs": 48,
+          "total_runs": 48,
+          "fully_correct_cases": 16,
+          "zero_correct_cases": 0
+        }
+      },
+      "cpu_wall_ratio_workers_2_to_8": {
+        "min": 1.004225,
+        "max": 1.031445
+      },
+      "neumaier_state_speedup_workers_2_to_8": {
+        "min": 0.667336,
+        "max": 0.960844
+      },
+      "artifact": {
+        "id": 15127921081,
+        "sha256": "99e8f5970a73d55dcf6dff0aa3c37dc44312b0112add16404f303af30775c",
+        "retention_days": 30
+      }
+    },
+    "free_threaded": {
+      "environment": {
+        "python_version": "3.14.4",
+        "machine": "x86_64",
+        "platform": "Linux-7.0.0-1017-aws-x86_64-with-glibc2.39",
+        "gil_enabled": false,
+        "free_threaded_build": true,
+        "cpu_affinity_count": 4
+      },
+      "correctness_by_method": {
+        "threaded_naive_scalar": {
+          "cases": 16,
+          "correct_runs": 0,
+          "total_runs": 48
+        },
+        "threaded_neumaier_scalar": {
+          "cases": 16,
+          "correct_runs": 42,
+          "total_runs": 48,
+          "fully_correct_cases": 14,
+          "zero_correct_cases": 2
+        },
+        "threaded_neumaier_state": {
+          "cases": 16,
+          "correct_runs": 48,
+          "total_runs": 48,
+          "fully_correct_cases": 16,
+          "zero_correct_cases": 0
+        }
+      },
+      "cpu_wall_ratio_workers_2_to_8": {
+        "min": 1.879923,
+        "max": 3.921785
+      },
+      "neumaier_state_speedup_workers_2_to_8": {
+        "min": 0.578985,
+        "max": 0.797759
+      },
+      "artifact": {
+        "id": 15127418801,
+        "sha256": "95e5d83563404c1e0de979991e5b71bd852f43af9c3ee05d0e5c8f6475a7fcd9",
+        "retention_days": 30
+      }
+    }
+  },
+  "scalar_neumaier_failure_configurations": [
+    {
+      "layout": "grouped_cancellation",
+      "workers": 2,
+      "partition": "contiguous"
+    },
+    {
+      "layout": "grouped_cancellation",
+      "workers": 8,
+      "partition": "contiguous"
+    }
+  ],
+  "memory_metric": "tracemalloc peak delta; Python allocations only, not RSS/native allocations",
+  "interpretation": {
+    "accuracy": "Neumaier (sum, correction) state preserved through the merge was correct in every tested run. Scalarizing each worker's compensated state before merge failed in two grouped-cancellation configurations per runtime. Naive partial sums failed all tested runs.",
+    "parallelism": "With 2–8 workers, GIL-enabled process CPU/wall ratios stayed near 1; the free-threaded run showed ratios 1.88–3.92, consistent with concurrent CPU use. The runners differ in host platform/provider, so this is not a controlled causal comparison.",
+    "performance": "The threaded Neumaier-state method was slower than the matching serial baseline in this synthetic workload; no speedup was observed.",
+    "limitations": "Synthetic cancellation only; hosted x86-64 runners; three repetitions; process CPU time is process-wide; tracemalloc excludes RSS/native allocations; not representative scientific workloads or independent physical-hardware replication."
+  }
+}
