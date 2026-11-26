@@ -22,6 +22,17 @@ static int parse_decimal_accumulator(const char *text, exact_accum_t *value) {
         if (carry) return 0;
     }
 
+    const uint64_t signed_limit = UINT64_C(1) << 63;
+    uint64_t top_limb = value->limb[EXACT_LIMBS - 1];
+    if (!negative && (top_limb & signed_limit)) return 0;
+    if (negative && top_limb == signed_limit) {
+        for (int limb = 0; limb < EXACT_LIMBS - 1; ++limb) {
+            if (value->limb[limb]) return 0;
+        }
+    } else if (negative && top_limb > signed_limit) {
+        return 0;
+    }
+
     if (negative) {
         uint64_t carry = 1;
         for (int limb = 0; limb < EXACT_LIMBS; ++limb) {
