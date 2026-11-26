@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "reviewed_on": "2026-11-27",
+  "evidence_boundary": "Public source metadata only; no raw sample-level or operational records imported.",
+  "sources": [
+    {
+      "id": "NEA_GW_2021_2025",
+      "publisher": "National Environmental Agency of Georgia",
+      "publication_date": "2026-11-26",
+      "url": "https://nea.gov.ge/ajs/News/3461",
+      "matrix": "groundwater",
+      "access_status": "official_report_archive_linked_not_extracted",
+      "observation_period": "2021-2025",
+      "sample_level_schema_verified": false,
+      "reuse_terms_verified": false,
+      "note": "Announcement describes monitoring results, automatic stations and historical data digitisation; linked RAR contents not inspected."
+    },
+    {
+      "id": "UNECE_GW_2024",
+      "publisher": "Government of Georgia via UNECE/WHO Protocol on Water and Health",
+      "publication_date": "2025-04-01",
+      "url": "https://unece.org/sites/default/files/2025-10/Georgia_summary_report_6th_cycle_1Apr25_ENG.pdf",
+      "matrix": "groundwater",
+      "access_status": "public_pdf_aggregate_and_process_facts",
+      "observation_period": "2024",
+      "sample_level_schema_verified": false,
+      "reuse_terms_verified": false,
+      "reported_counts": {
+        "monitoring_points": 72,
+        "laboratory_samples": 394,
+        "chemical_analyses": 142,
+        "microbiological_analyses": 137,
+        "heavy_metal_analyses": 100,
+        "petroleum_product_analyses": 15,
+        "nitrate_risk_field_points": 42
+      },
+      "note": "Report says electronic groundwater results have been available since 2022; no row-level export is supplied in the cited passage."
+    },
+    {
+      "id": "UNECE_SW_2024",
+      "publisher": "Government of Georgia via UNECE/WHO Protocol on Water and Health",
+      "publication_date": "2025-04-01",
+      "url": "https://unece.org/sites/default/files/2025-10/Georgia_summary_report_6th_cycle_1Apr25_ENG.pdf",
+      "matrix": "surface_water",
+      "access_status": "public_pdf_aggregate_and_process_facts",
+      "observation_period": "2022-2024",
+      "sample_level_schema_verified": false,
+      "reuse_terms_verified": false,
+      "reported_counts": {
+        "2022_points": 228,
+        "2022_water_bodies": 131,
+        "2023_points": 243,
+        "2023_water_bodies": 132,
+        "2024_points": 331,
+        "2024_water_bodies": 137,
+        "physicochemical_parameters_up_to": 60,
+        "microbiological_indicators": 4
+      },
+      "note": "Monthly bulletins are reported; surface water is not potable-network compliance."
+    },
+    {
+      "id": "UNECE_DRINKING_WATER_2024",
+      "publisher": "Government of Georgia via UNECE/WHO Protocol on Water and Health",
+      "publication_date": "2025-04-01",
+      "url": "https://unece.org/sites/default/files/2025-10/Georgia_summary_report_6th_cycle_1Apr25_ENG.pdf",
+      "matrix": "potable_network",
+      "access_status": "public_pdf_aggregate_only_denominator_not_in_table",
+      "observation_period": "2021-2024",
+      "sample_level_schema_verified": false,
+      "reuse_terms_verified": false,
+      "reported_counts": {
+        "e_coli_non_compliance_percent_2021_2022": 37,
+        "e_coli_non_compliance_percent_2023": 44.5,
+        "e_coli_non_compliance_percent_2024": 40.3
+      },
+      "note": "Food Safety Agency is identified as drinking-water control body; small rural systems were included. Percentages are not population coverage."
+    },
+    {
+      "id": "WIS_C10",
+      "publisher": "Water Information System of Georgia / MEPA",
+      "publication_date": "2020-06",
+      "url": "https://wis.mepa.gov.ge/Wis/C10?Id=2121",
+      "matrix": "surface_water",
+      "access_status": "public_historical_aggregate_table",
+      "observation_period": "2004-2018",
+      "sample_level_schema_verified": false,
+      "reuse_terms_verified": false,
+      "note": "Annual aggregate BOD5 and ammonium indicators; not a live feed."
+    },
+    {
+      "id": "WIS_C11",
+      "publisher": "Water Information System of Georgia / MEPA",
+      "publication_date": "2020-06",
+      "url": "https://wis.mepa.gov.ge/Wis/C11?Id=2122",
+      "matrix": "surface_and_groundwater",
+      "access_status": "public_historical_aggregate_table",
+      "observation_period": "2004-2018",
+      "sample_level_schema_verified": false,
+      "reuse_terms_verified": false,
+      "note": "Annual aggregate nitrate/phosphate indicators; not a live feed."
+    },
+    {
+      "id": "HYDROMET_WATER_QUALITY_POINTS",
+      "publisher": "Hydromet Georgia",
+      "publication_date": "undated",
+      "url": "https://www.hydromet.ge/maps/",
+      "matrix": "water_quality_station_registry",
+      "access_status": "public_map_and_table_entry_not_inspected",
+      "observation_period": "unknown",
+      "sample_level_schema_verified": false,
+      "reuse_terms_verified": false,
+      "note": "Map/table entry exists; station fields, export format and freshness are unverified."
+    }
+  ]
+}
