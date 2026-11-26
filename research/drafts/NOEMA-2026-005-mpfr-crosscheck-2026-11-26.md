@@ -50,7 +50,7 @@ MPFR-ის ოფიციალური დოკუმენტაცია 
 
 ## წყაროები
 
-1. GNU MPFR 4.2.2 Manual, rounding modes and correctly rounded operations: https://mpfr.loria.fr/mpfr-current/mpfr.html (წვდომა: 2026-11-26).
+1. GNU MPFR 4.2.1 Manual, rounding modes and correctly rounded operations: https://mpfr.loria.fr/mpfr-current/mpfr.html (წვდომა: 2026-11-26).
 2. GNU MP 6.3.0 Manual, Integer Import and Export: https://gmplib.org/manual/Integer-Import-and-Export (წვდომა: 2026-11-26).
 3. IEEE Std 754-2019, IEEE Standard for Floating-Point Arithmetic: https://standards.ieee.org/ieee/754/6210/ (წვდომა: 2026-11-26).
 
@@ -69,7 +69,7 @@ MPFR-ის ოფიციალური დოკუმენტაცია 
 
 ## ცვლილებების ისტორია
 
-- 2026-11-26: დაემატა MPFR 4.2.2 cross-check harness, Python test, x86-64/ARM64 CI ნაბიჯი და signed 2,560-bit input range regression.
+- 2026-11-26: დაემატა MPFR 4.2.1 cross-check harness, Python test, x86-64/ARM64 CI ნაბიჯი და signed 2,560-bit input range regression.
 
 ## Clean-base exact-head verification — 2026-11-26
 
@@ -84,3 +84,10 @@ Exact branch head: `506ebfabb63fd1bc1f1633bdc9767ae3c61d268e`.
 Each hosted architecture checked 467 valid synthetic signed inputs. The signed-range regression was corrected to send real newline-terminated values; the earlier draft test used a literal backslash-n and only exercised malformed-input rejection.
 
 The result remains preliminary: hosted runners are not independent physical hardware, inputs are synthetic, no representative application workload or performance result is established, and the exact accumulator's add/merge operations still need checked-overflow detection.
+
+
+## Provenance correction — 2026-11-26
+
+The exact PR #52 native workflow logs were re-audited. Both hosted jobs report `pkg-config --modversion mpfr` as **4.2.1** (not 4.2.2). The earlier draft, README and portfolio version label of 4.2.2 was incorrect and has been corrected. The workflow now asserts upstream MPFR version 4.2.1 so a future runner-image update cannot silently change the oracle library version.
+
+The previously reported 467/467 per-architecture comparison therefore refers to **MPFR 4.2.1**, the C converter and Python Decimal on hosted Ubuntu x86-64/ARM64. This correction changes the provenance label, not the observed bit-for-bit result. It remains hosted synthetic evidence, not physical-hardware replication or a formal proof.
