@@ -145,3 +145,23 @@ The command requires an existing database, verifies its integrity, creates a fre
 The verifier first applies the strict metadata schema, then streams both files through SHA-256 and compares each digest and byte length with the manifest. It opens each artifact once, requires a regular file, rejects symlinks on platforms that provide `O_NOFOLLOW`, and rejects a file whose observed identity/size/timestamps change during hashing. It does not load the full artifact into memory.
 
 The check is intentionally narrower than authentication: an attacker able to replace both files and the unsigned manifest can recompute matching hashes. The tool does **not** verify the detached manifest signature, authenticate the signing key, decrypt the ciphertext, verify provider object-version/retention, inspect SQLite pages, or perform a restore. It is a local byte-integrity gate only; production recovery still requires the separately approved cryptographic, provider and clean-host restore controls above.
+
+
+## 11. Detached Ed25519 manifest verification (local prototype)
+
+The local verifier now accepts the **exact UTF-8 bytes** of a manifest, a detached raw 64-byte Ed25519 signature, and a caller-supplied mapping of trusted key identifiers to raw 32-byte public keys. It parses JSON with duplicate-key and non-standard-number rejection, validates the existing closed metadata schema, requires the manifest's `signature.format` to be `ed25519-raw`, and verifies the signature over the exact bytes before trusting the declared artifact hashes. The verifier then streams both plaintext and ciphertext through the existing SHA-256/byte-length gate.
+
+Example:
+
+```sh
+python scripts/verify_noema_backup_manifest_signature.py /secure/staging/manifest.json \
+  --signature /secure/staging/manifest.sig \
+  --public-key /secure/trusted/noema-signing-public.raw \
+  --public-key-id approved-key-2026-01 \
+  --plaintext /secure/staging/snapshot.sqlite \
+  --ciphertext /secure/staging/snapshot.sqlite.age
+```
+
+The public key and key identifier must be provisioned through a separately trusted channel. The command does not read a public key from the manifest or backup object. Test keys are generated ephemerally in the test process; no production or private key is stored in Git. The pinned `cryptography` dependency is used for Ed25519 verification rather than a hand-written curve implementation.
+
+**Evidence boundary:** synthetic tests prove that the local implementation accepts a matching test signature and rejects a modified manifest, wrong/unknown signer, invalid key/signature lengths, duplicate JSON keys and changed artifacts. This does not deploy key custody, sign real backups, decrypt ciphertext, query provider object versions/retention, prevent rollback to an older correctly signed backup, inspect SQLite contents or prove clean-host recovery. A valid signature proves control of the configured key for those exact bytes; it does not prove that the backup is the newest or that the key has not been compromised.
