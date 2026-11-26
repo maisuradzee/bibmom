@@ -42,6 +42,16 @@ jobs:
           test -f tests/test_noema005_threaded_reruns.py
           test -f scripts/validate_noema005_cpu_thread_summary.py
           test -f tests/test_noema005_cpu_thread_summary.py
+          test -f scripts/noema005_memory_bandwidth_benchmark.c
+          test -f scripts/run_noema005_memory_bandwidth_benchmark.py
+          test -f scripts/validate_noema005_memory_bandwidth_report.py
+          test -f scripts/reproduce_noema005_memory_bandwidth_frozen.py
+          test -f data/noema-005/memory-bandwidth-protocol.json
+          test -f data/noema-005/memory-bandwidth-artifact-2026-11-26.zip
+          test -f data/noema-005/memory-bandwidth-provenance-2026-11-26.json
+          test -f tests/test_noema005_memory_bandwidth_report.py
+          test -f tests/test_noema005_memory_bandwidth_frozen.py
+          test -f research/drafts/NOEMA-2026-005-memory-bandwidth-2026-11-26.md
           test -f data/noema-007/mhews-2026-source-snapshot.json
           test -f data/noema-007/mhews-2026-derived-results.json
           test -f scripts/reproduce_noema007_mhews_snapshot.py
