@@ -10,10 +10,12 @@ The existing `evaluate_readings()` function classifies one supplied time-series 
 - Severity can escalate but does not automatically de-escalate.
 - `NORMAL` and `DATA_QUALITY_HOLD` update the last assessment but never close an incident.
 - Acknowledgement is a distinct operator action; it does not close the incident.
-- Closure requires a recorded latest `NORMAL` assessment, prior acknowledgement, and a closure timestamp no earlier than both the latest assessment update and acknowledgement; it also requires a non-empty external clearance reference, a reason, and an explicit operator identity.
-- Closure references the exact latest normal-assessment event ID. A later assessment invalidates an older clearance reference.
-- Reopening after closure creates a new incident ID.
+- Closure requires a recorded latest `NORMAL` assessment, prior acknowledgement, and a closure timestamp no earlier than the latest assessment update, its observation time or acknowledgement; it also requires a non-empty external clearance reference, a reason, and an explicit operator identity.
+- Closure references the exact latest normal-assessment event ID and complete immutable assessment. A later assessment invalidates an older clearance reference.
 - Event IDs are idempotent: replaying an identical event is a no-op; reusing an ID for different content is rejected.
+- The immutable `WaterIncident` constructor revalidates event chronology, assessment-to-event binding, monotonic severity, and the presence/content of acknowledgement and closure audit events. This prevents a caller from bypassing transition functions by directly constructing or replacing state fields.
+- New assessments after acknowledgement must have event timestamps no earlier than the last recorded event.
+- Reopening after closure creates a new incident ID and cannot be backdated before the previous closure.
 
 ## Scope and safety
 
@@ -23,4 +25,4 @@ The module does not define water-quality limits, certify potability, detect path
 
 ## Verification
 
-`tests/test_aquasignal_incidents.py` uses synthetic values only. It covers incident opening, escalation without de-escalation, data-quality holds, non-automatic closure, acknowledgement, operator clearance, idempotent replay, event-ID collision, monotonic timestamps and reopening. Passing these tests validates software transition rules only; it does not validate AquaSignal in a live water network.
+`tests/test_aquasignal_incidents.py` uses synthetic values only. It covers incident opening, escalation without de-escalation, data-quality holds, non-automatic closure, acknowledgement, operator clearance, idempotent replay, event-ID collision, monotonic event timestamps, direct-construction invariant bypass attempts and reopening. Passing these tests validates software transition rules only; it does not validate AquaSignal in a live water network.
