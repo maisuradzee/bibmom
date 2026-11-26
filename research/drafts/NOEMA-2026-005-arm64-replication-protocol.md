@@ -2,12 +2,12 @@
 
 - **ID:** NOEMA-2026-005 (continuation; no new study ID)
 - **Experiment ID:** `NOEMA-2026-005-REAL-THREADS-ARM64-001`
-- **Date:** 2026-11-26
-- **Status:** `draft` — protocol and CI implementation; measurements are not yet available
+- **თარიღი:** 2026-11-26
+- **სტატუსი:** `draft` — პროტოკოლი და CI რეალიზებულია; გაზომვები ჯერ არ დასრულებულა
 - **Scope:** numerical computing · floating-point summation · runtime reproducibility
 - **Base commit:** `d46c10cf384f2eba09b4d332a323c19554f552b6`
 
-## Research question
+## საკვლევი კითხვა
 
 Do the numerical-accuracy findings and CPU-concurrency observations from the existing x86-64 CPython real-thread benchmark reproduce on independently hosted ARM64 machines, and how do the GIL-enabled and free-threaded CPython modes differ on those machines?
 
@@ -41,7 +41,7 @@ The Neumaier `(sum, compensation)` state should preserve the same numerical info
 
 A later study could compare a native C/OpenMP reduction and a deterministic tree reduction against the pure-Python ThreadPoolExecutor implementation. That work is outside this protocol.
 
-## Sources and provenance
+## წყაროები
 
 1. GitHub. *GitHub-hosted runners reference*. Official documentation; the page does not state a publication date. URL: https://docs.github.com/en/actions/reference/runners/github-hosted-runners. Accessed 2026-11-26. Supports the runner labels, architectures and listed hardware specifications.
 2. GitHub. *Linux arm64 hosted runners now available for free in public repositories (Public Preview)*. GitHub Changelog, 2025-01-16. URL: https://github.blog/changelog/2025-01-16-linux-arm64-hosted-runners-now-available-for-free-in-public-repositories-public-preview/. Accessed 2026-11-26. Supports the use of ARM64 hosted runners in public repositories.
@@ -49,7 +49,7 @@ A later study could compare a native C/OpenMP reduction and a deterministic tree
 4. Python Software Foundation. *Python 3.14 — Support for free threading*. Python 3.14 documentation; versioned documentation page. URL: https://docs.python.org/3.14/howto/free-threading-python.html. Accessed 2026-11-26. Supports the free-threading behavior and compatibility cautions.
 5. Python Software Foundation. *What's New in Python 3.14 — Free-threaded mode improvements*. Python documentation; page date not stated. URL: https://docs.python.org/3/whatsnew/3.14.html. Accessed 2026-11-26. Supports the statement that free-threaded mode and its performance characteristics vary by platform and build.
 
-## Method
+## მეთოდი ან ექსპერიმენტის გეგმა
 
 ### Runtime matrix
 
@@ -91,6 +91,13 @@ Each runner/runtime report must:
 
 The CI job must run the existing threaded-reduction unit tests, validate the report with `scripts/validate_noema005_arm64_report.py`, and upload the complete JSON report as a 30-day Actions artifact. A failed runner setup or validation is a failed replication, not a missing value to be filled manually.
 
+## შემოწმების სტატუსი
+
+- პროტოკოლი, ARM64 runner მატრიცა, report validator და validator-ის unit tests დაემატა ცალკე research branch-ზე.
+- Ubuntu ARM64-ის ორივე runtime და macOS ARM64-ის GIL-enabled runtime წარმატებით დასრულდა; macOS ARM64 free-threaded job ამ სტატუსის დაფიქსირების მომენტში ჯერ მიმდინარეობს.
+- სრული ხარისხის CI-მ პირველ ცდაზე draft validator-ზე ჩავარდა, რადგან ეს დოკუმენტი არ იყენებდა repository-ის სავალდებულო ქართულ metadata/heading ფორმატს. ეს დოკუმენტი გასწორებულია; ახალი commit-ის შემდეგ სრული CI ხელახლა უნდა შესრულდეს.
+- სანამ ოთხივე job არ დასრულდება და JSON არტეფაქტები არ შემოწმდება, ARM64 შედეგი არ არის გამოცხადებული.
+
 ## Results and interpretation
 
 **Not yet measured.** No ARM64 benchmark result is claimed in this protocol. Results will be added only after the corresponding Actions artifacts have been downloaded and independently inspected. Timing comparisons will remain runner-specific and descriptive; no universal performance claim will be made from these hosted virtual machines.
@@ -106,7 +113,7 @@ The CI job must run the existing threaded-reduction unit tests, validate the rep
 - The benchmark and CI use public synthetic inputs only. No personal, confidential, licensed or secret data is uploaded.
 - Workflow artifacts are retained for 30 days; committed summaries must not imply that temporary artifacts are permanent archives.
 
-## Next steps
+## შემდეგი ნაბიჯები
 
 1. Run the four ARM64 CI jobs and inspect each report.
 2. Persist only verified result JSON and SHA-256 provenance in `data/noema-005/`.
