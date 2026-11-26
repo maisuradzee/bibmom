@@ -359,3 +359,21 @@ No personal, message-level, device-level or operational data was added. The publ
 - NIST SP 800-188 (2023): https://doi.org/10.6028/NIST.SP.800-188
 - NIST SP 800-226 (2025): https://doi.org/10.6028/NIST.SP.800-226
 - Dinur & Nissim (PODS 2003): https://doi.org/10.1145/773153.773173
+
+
+## NIST SP 800-226 refinement — privacy unit and cumulative composition (2026-11-26)
+
+### FACT
+
+NIST SP 800-226 (March 2025), Sections 2.4–2.5, states that event-level differential privacy protects individual events/rows and can provide surprisingly weak protection for a person who contributes many events. It identifies user-level privacy as the safest default where feasible. Bounding a person's total contributions can support a user-level guarantee, but increases sensitivity and therefore the noise needed for a given privacy parameter. NIST also explains that privacy loss composes across repeated analyses/releases, and that differential privacy does not protect raw data during collection, storage or analysis.
+
+### INFERENCE
+
+If the same resident may contribute warning receipts or survey answers across multiple hazards, events or time windows, event-level privacy alone may not protect the person's overall participation pattern. NOEMA-007 must define the privacy unit and contribution window with the data controller before selecting a mechanism. A user-level contribution bound and cumulative release accountant are candidate requirements, not implemented controls.
+
+### UNTESTED IDEA
+
+A restricted preprocessing service could enforce contribution limits without exporting person identifiers, then pass only bounded data to a vetted differentially private mechanism. This requires a lawful data basis, a private identity-linkage boundary, an explicit threat model, sensitivity analysis, ε/δ selection, composition accounting and utility/bias assessment. No such service or mechanism exists in the prototype.
+
+**Source:** Near, J., Darais, D., Lefkovitz, N., & Howarth, G. (2025). *Guidelines for Evaluating Differential Privacy Guarantees*. NIST SP 800-226, Sections 2.4–2.5 and 4.5. https://doi.org/10.6028/NIST.SP.800-226
+

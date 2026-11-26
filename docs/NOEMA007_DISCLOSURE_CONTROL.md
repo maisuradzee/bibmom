@@ -35,12 +35,22 @@ A per-record small-cell threshold cannot, by itself, guarantee privacy across a 
 
 This concern is consistent with the broader statistical-database literature. Dinur and Nissim (2003) show that multiple subset-sum answers can permit reconstruction even when answers are perturbed. NIST SP 800-188 recommends selecting an explicit data-sharing model, assessing release risk, using governance such as a Disclosure Review Board, and conducting re-identification studies. NIST SP 800-226 describes differential privacy as a quantitative privacy-loss framework and highlights implementation hazards.
 
+## Differential-privacy design requirements — NIST SP 800-226
+
+**FACT:** NIST SP 800-226 (March 2025), Sections 2.4–2.5, explains that the unit of privacy determines what is protected. Event-level privacy protects one event/row, not necessarily the person who contributes many events; NIST identifies user-level privacy as the safest default where feasible. Bounding a person's contributions can convert an event-level dataset to a user-level guarantee, but increases sensitivity and the noise required for a given privacy parameter.
+
+**FACT:** NIST SP 800-226 describes composition: privacy loss accumulates across repeated analyses/releases of the same data. An epsilon budget must therefore be tracked across the release history; a fresh per-release threshold is not a cumulative privacy guarantee. The publication also emphasizes that differential privacy does not secure raw data during collection, storage or analysis.
+
+**INFERENCE for NOEMA-007:** if the same resident can contribute warning receipts or survey responses across multiple events or time windows, event-level adjacency alone may not protect that resident's overall participation pattern. The privacy unit must be chosen with the data controller and threat model. A person-level contribution bound may be preferable, but its utility cost must be measured. Any identity linkage needed for contribution bounding belongs only in a separately controlled private processing environment; it must not be added to this public repository.
+
+**UNTESTED IDEA:** a future release pipeline could enforce person-level contribution limits in the restricted preprocessing boundary, then publish only aggregates produced by a vetted user-level differentially private mechanism with a cumulative accountant. No mechanism, privacy parameters, contribution cap, or privacy accountant is implemented or selected here.
+
 ## Proposed release architecture
 
 1. **Trusted query construction.** The server-side query planner, not a public caller, creates canonical population and cohort predicates. A stable query fingerprint and parent/child cohort lineage are retained in a restricted release ledger.
 2. **Batch release review.** Before publishing any event/area aggregate, compare it with all prior releases for the same population and overlapping measurement windows. Check nested differences, complements, repeated queries, sparse combinations and suppression interactions.
 3. **Complementary suppression.** If suppressing one small cell would allow it to be reconstructed from row/column totals or other released aggregates, suppress additional cells or withhold the related table.
-4. **Formal privacy option.** For repeated public query access, evaluate a differential-privacy mechanism with an explicit, composition-aware privacy budget and a documented threat model. Do not treat a noisy answer or a k threshold as a privacy proof.
+4. **Formal privacy option.** Before repeated public query access, define the unit of privacy (prefer user-level where feasible), per-person contribution bounds, adjacency, sensitivity, ε/δ, the mechanism and randomness, utility/bias checks, and a composition-aware cumulative privacy budget. Use a vetted implementation. Do not treat a noisy answer, a per-release threshold or event-level adjacency as a person-level privacy proof.
 5. **Governance.** Store the actual review decision, reviewer identity in a restricted system, approval scope, policy version and release hash. Public JSON must not contain reviewer personal details or secrets.
 6. **Fail closed.** If query lineage, overlap information, release history, suppression state or privacy-budget accounting is unavailable, do not publish the new aggregate.
 
@@ -50,6 +60,9 @@ This concern is consistent with the broader statistical-database literature. Din
 - It does not implement a complete overlap detector and cannot identify unknown relationships from counts alone.
 - A query fingerprint does not itself prove that two cohorts are disjoint; lineage must be produced by a trusted query planner.
 - A privacy budget is meaningful only when the mechanism, adjacency definition, sensitivity, contribution bounds, composition rule and randomness are correctly implemented and audited.
+- NIST SP 800-226 warns that event-level privacy can protect events rather than people; repeated contributions by one person may require a user-level unit or an explicit contribution bound.
+- Differential privacy does not protect raw data while it is collected, stored or analyzed; ordinary access-control and data-security safeguards remain necessary.
+- NOEMA has not selected ε, δ, a privacy unit, contribution bound, mechanism or accountant; this proposal makes no differential-privacy claim.
 - No personal data, sensor records, message logs, device identifiers, private keys or operational data are added to this public repository.
 
 ## Next validation steps
