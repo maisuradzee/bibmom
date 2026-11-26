@@ -1,5 +1,6 @@
 from __future__ import annotations
 import unittest
+from dataclasses import replace
 from datetime import datetime, timedelta, timezone
 from noema_core.aquasignal import SignalAssessment
 from noema_core.aquasignal_incidents import (
@@ -116,6 +117,29 @@ class AquaSignalIncidentLifecycleTests(unittest.TestCase):
         normal = self.record(self.opened, "NORMAL", "evt-normal", 1)
         with self.assertRaisesRegex(IncidentError, "acknowledged"):
             self.close(normal)
+
+    def test_close_rejects_timestamp_before_operator_acknowledgement(self):
+        normal = self.record(self.opened, "NORMAL", "evt-normal", 1)
+        late_ack = acknowledge_incident(
+            normal, event_id="ack-late", operator_id="operator-test-1",
+            reference="work-order-test-1",
+            now=normal.updated_at + timedelta(minutes=10)
+        )
+        with self.assertRaisesRegex(IncidentError, "latest assessment and acknowledgement"):
+            close_incident(
+                late_ack, self.assessment("NORMAL"),
+                clearance_assessment_event_id="evt-normal",
+                event_id="close-early", operator_id="operator-test-2",
+                reference="lab-sample-test-77",
+                reason="Approved response procedure completed and confirmed.",
+                now=normal.updated_at + timedelta(minutes=2)
+            )
+
+    def test_closed_incident_invariant_rejects_closure_before_acknowledgement(self):
+        normal = self.record(self.opened, "NORMAL", "evt-normal", 1)
+        closed = self.close(self.acknowledge(normal))
+        with self.assertRaisesRegex(IncidentError, "closure timestamp must follow"):
+            replace(closed, closed_at=closed.acknowledged_at - timedelta(seconds=1))
 
     def test_acknowledgement_and_closure_replays_are_idempotent(self):
         normal = self.record(self.opened, "NORMAL", "evt-normal", 1)
