@@ -4,11 +4,11 @@
 - **საცავი:** https://github.com/maisuradzee/bibmom
 - **ძირითადი branch:** main
 - **ბოლო დადასტურებული engineering merge:** PR #64 — commit 6dbb18e2a7cf0427f7d874d0ab903c9293771685.
-- **NOEMA-005:** PR #63-ით დაემატა 2,068-case full-width/tie-adjacent MPFR 4.2.1 oracle; hosted x86-64 და ARM64 თითოეულზე 2,068/2,068 bitwise match. რეალურ CPU-thread synthetic benchmark-ში Neumaier state merge 48/48, scalar Neumaier 42/48, naive 0/48; wall-time speedup არ დადასტურებულა. კვლევა preliminary რჩება.
+- **NOEMA-005:** PR #63-ით დაემატა 2,068-case full-width/tie-adjacent MPFR 4.2.1 oracle; hosted x86-64 და ARM64 თითოეულზე 2,068/2,068 bitwise match. PR #66-ით ორიგინალური CPU-thread artifact ZIP-ების SHA-256 და raw report aggregates დამოუკიდებლად გადამოწმდა. Neumaier state merge 48/48, scalar Neumaier 42/48, naive 0/48; wall-time speedup არ დადასტურებულა. კვლევა preliminary რჩება.
 - **NOEMA-INFRA-001:** PR #57 local same-host restore-drill CLI და PR #64 strict non-secret backup manifest schema/test-ები main-შია; off-host encryption, signature verification, key custody და clean-host recovery ჯერ არ განხორციელებულა.
-- **Latest main quality CI:** run 45842834069 — SUCCESS, 329 Python tests.
-- **Latest main native workflow:** run 45842391826 — x86-64 და ARM64 ორივე SUCCESS.
-- **Latest main Pages deployment:** run 45842833997 — build და deploy SUCCESS.
+- **Latest main quality CI:** run 45844512093 — SUCCESS, 334 Python tests.
+- **Latest verified CPU-thread workflow:** PR #66 exact head, run 45844363177 — GIL-enabled და free-threaded ორივე SUCCESS.
+- **Latest main Pages deployment:** run 45844512448 — build და deploy SUCCESS.
 
 ## მიმდინარე მდგომარეობა
 
@@ -18,7 +18,7 @@
 | DISCOVERY · RESEARCH · INNOVATION მოდელი | PR #25-ით main-შია | docs/NOEMA_OPERATING_MODEL.md |
 | NOEMA-002 SignBase audit | შესრულებული კვლევითი ჩანაწერი | data/audits და research archive |
 | NOEMA-003 climate analysis | დრაფტი / გამეორებადი; ERA5 validation gate ვერ გაიარა და საბოლოო დასკვნაში არ გამოიყენება | data/noema-003, scripts და tests |
-| NOEMA-005 summation | preliminary; full-width MPFR oracle და რეალური CPU-thread შედეგები main-შია | 2,068/2,068 MPFR matches თითო hosted x86-64/ARM64 architecture-ზე; Neumaier-state 48/48, scalar Neumaier 42/48, naive 0/48 synthetic thread runs; speedup არ დადასტურებულა; independent review და representative workloads დარჩენილია |
+| NOEMA-005 summation | preliminary; full-width MPFR oracle, CPU-thread results და artifact provenance audit main-შია | 2,068/2,068 MPFR matches თითო hosted x86-64/ARM64-ზე; artifact ZIP SHA-256 და 48-case aggregate-ები გადამოწმებულია; Neumaier-state 48/48, scalar 42/48, naive 0/48; speedup არ დადასტურებულა |
 | NOEMA-006 AquaSignal | draft + software prototype; საველე ვალიდაცია არ ჩატარებულა | research/drafts/NOEMA-2026-006-aquasignal-water-early-warning.md, docs/AQUASIGNAL_MVP.md, noema_core/aquasignal.py |
 | NOEMA-INFRA-001 reliability | active / engineering; same-host restore-drill plus strict metadata schema merged | PR #57 and #64; 7 schema-contract tests; no real manifest, encryption, signature verification, provider/key custody or clean-host recovery |
 | NOEMA-007 Last-Mile Action Gap | draft / discovery; UNDRR 2026: 136 ქვეყნიდან 64-ს ოთხივე pillar აქვს; 2022-ის შემდეგ capability scores თითქმის უცვლელია და preparedness 0.74-დან 0.70-მდე დაეცა; საქართველოში NEA-ის 7 აუზის გეგმებზე კონსულტაცია მიმდინარეობს; ადგილობრივი last-mile ეფექტიანობა ჯერ არ გაზომილა | research/drafts/NOEMA-2026-007-global-early-warning-action-gap.md |
@@ -330,11 +330,12 @@ NOEMA progresses during scheduled runs only; this audit does not claim continuou
 
 ## NOEMA run audit — 2026-11-26 (run 10)
 
-- **Current main:** `6dbb18e2a7cf0427f7d874d0ab903c9293771685`.
+- **Latest research merge:** PR #66 — `45f9511ca1552a9ef680b7d52a3d560bc858a485`.
 - **PR #63 — NOEMA-005 full-width MPFR and CPU-thread evidence:** merged as `c89725743a98252da0bfba1ce0bb51472f758e44`. Exact-head quality CI [45841469603](https://github.com/maisuradzee/bibmom/actions/runs/45841469603), GIL-enabled/free-threaded CPU-thread workflow [45841469605](https://github.com/maisuradzee/bibmom/actions/runs/45841469605) and MPFR 4.2.1 x86-64/ARM64 workflow [45841469616](https://github.com/maisuradzee/bibmom/actions/runs/45841469616) all succeeded. The 2,068-case oracle matched on both hosted architectures. The synthetic native-thread run preserved Neumaier state in 48/48 runs; scalarized Neumaier matched 42/48 and naive partial sums 0/48. No threaded wall-time speedup was observed.
 - **NOEMA-005 artifact provenance audit:** original ZIPs from [45840219895](https://github.com/maisuradzee/bibmom/actions/runs/45840219895) were downloaded; their 7,620-byte and 7,830-byte archive SHA-256 values independently matched the frozen summary. Reaggregation of both raw 48-case reports reproduced method accuracy counts and metric ranges. This is integrity/reaggregation verification, not a second benchmark execution; the ZIPs retain their 30-day Actions retention.
+- **PR #66 — artifact provenance audit:** merged as `45f9511ca1552a9ef680b7d52a3d560bc858a485`; its structured audit JSON and regression test now preserve the verified archive hashes and aggregate comparison in main.
 - **PR #64 — NOEMA-INFRA-001 manifest contract:** merged as `6dbb18e2a7cf0427f7d874d0ab903c9293771685`. Exact-head quality CI [45842688777](https://github.com/maisuradzee/bibmom/actions/runs/45842688777) passed 329 Python tests, including 7 focused manifest-schema contract tests, site build and publication-boundary checks.
-- **Post-merge main verification:** quality CI [45842834069](https://github.com/maisuradzee/bibmom/actions/runs/45842834069) passed 329 tests. Pages build/deploy [45842833997](https://github.com/maisuradzee/bibmom/actions/runs/45842833997) completed successfully. The last native x86-64/ARM64 matrix for the NOEMA-005 merge [45842391826](https://github.com/maisuradzee/bibmom/actions/runs/45842391826) also succeeded.
+- **Post-merge main verification:** quality CI [45844512093](https://github.com/maisuradzee/bibmom/actions/runs/45844512093) passed 334 tests. Pages build/deploy [45844512448](https://github.com/maisuradzee/bibmom/actions/runs/45844512448) completed successfully. PR #66 exact-head quality CI [45844362485](https://github.com/maisuradzee/bibmom/actions/runs/45844362485) and GIL-enabled/free-threaded workflow [45844363177](https://github.com/maisuradzee/bibmom/actions/runs/45844363177) both succeeded.
 - **NOEMA-2026-006 AquaSignal:** prototype and local event store remain synthetic/operator-side only. Authorized paired sensor/lab data, site-approved Water Safety Plan limits and field validation remain blockers.
 - **NOEMA-2026-005:** remains preliminary. Hosted CI is not physical-hardware replication or formal proof; the thread benchmark uses two synthetic cancellation layouts, and representative scientific workloads, memory-bandwidth measurements and independent numerical-method review remain outstanding.
 - **NOEMA-2026-007 Last-Mile Action Gap:** the frozen UNDRR source snapshot reproduces 64/136 = 47.0588% all-four-pillar country reporting and the source-reported preparedness score change 0.74 to 0.70. These are country-level capability measures, not population coverage, alert receipt, comprehension or causal impact. Georgian municipal delivery/acknowledgement/action records and field validation remain unavailable.
