@@ -35,6 +35,13 @@ from .scheduler import (
     SchedulerReport,
 )
 from .supervisor import SupervisorReport, WorkerSupervisor
+from .aquasignal import (
+    AquaSignalError,
+    SignalAssessment,
+    WaterControlLimits,
+    WaterReading,
+    evaluate_readings,
+)
 from .mission import (
     AccessDecision,
     AutonomyDecision,
@@ -46,6 +53,11 @@ from .mission import (
 )
 
 __all__ = [
+    "AquaSignalError",
+    "SignalAssessment",
+    "WaterControlLimits",
+    "WaterReading",
+    "evaluate_readings",
     "AuditVerification",
     "ClaimedJob",
     "InvalidJob",

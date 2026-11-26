@@ -67,9 +67,11 @@ jobs:
           test -f docs/CORE_MISSION.md
           test -f docs/AUTONOMY_ARCHITECTURE.md
           test -f noema_core/__init__.py
+          test -f noema_core/aquasignal.py
           test -f noema_core/mission.py
           test -f noema_core/mission.json
           test -f scripts/validate_mission.py
+          test -f tests/test_aquasignal.py
           test -f tests/test_mission_core.py
           test -f noema_core/jobs.py
           test -f noema_core/jobs_cli.py

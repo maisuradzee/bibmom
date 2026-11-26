@@ -15,6 +15,9 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 ## სტრუქტურა
 
 - `index.html` — მთავარი გვერდი.
+- `docs/NOEMA_OPERATING_MODEL.md` — DISCOVERY · RESEARCH · INNOVATION-ის ერთიანი სამუშაო მოდელი.
+- `docs/AQUASIGNAL_MVP.md` — წყლის ხარისხის ოპერატორული ადრეული სიგნალის პროტოტიპის არქიტექტურა.
+- `noema_core/aquasignal.py` — AquaSignal-ის დეტერმინისტული, მხოლოდ გადაწყვეტილების მხარდამჭერი წესების ძრავა.
 - `noema_core/mission.json` და `noema_core/mission.py` — მანქანურად წაკითხვადი მისია, ინფორმაციის წვდომის პოლიტიკა და ავტონომიური მოქმედებების წესები.
 - `noema_core/jobs.py`, `noema_core/worker.py`, `noema_core/supervisor.py`, `noema_core/workflows.py`, `noema_core/scheduler.py` და `noema_core/service.py` — მდგრადი დავალებების რიგი, allowlisted worker, supervisor loop, DAG workflow-ები, ინტერვალური განრიგი და გაშვებადი სერვისის bootstrap.
 - `assets/styles.css` და `assets/articles.css` — მთავარი გვერდისა და კვლევითი სტატიების ვიზუალური სტილები.
@@ -32,6 +35,8 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - `.github/workflows/deploy.yml` — საჯარო ფაილების შერჩევა და Pages deployment.
 
 ## მიმდინარე კვლევა
+
+- [NOEMA-2026-006 AquaSignal](research/drafts/NOEMA-2026-006-aquasignal-water-early-warning.md) — სასმელი წყლის მონიტორინგის მონაცემების ადრეული სიგნალები; დოკუმენტური discovery და სინთეზური პროგრამული პროტოტიპი, საველე ვალიდაციის გარეშე.
 
 - [NOEMA-2026-001](research/drafts/2026-11-23-paleolithic-sign-systems.md) — პალეოლითური ნიშნები; მეთოდოლოგიური გადახედვა: [დამატება A](research/drafts/2026-11-23-methodological-reassessment.md).
 - [NOEMA-2026-002](research/drafts/2026-11-23-signbase-coding-audit.md) — SignBase 2.0-ის ტექსტური კოდირების აუდიტი და საბაზისო heuristic-ის ტესტი.
