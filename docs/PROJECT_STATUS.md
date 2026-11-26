@@ -155,3 +155,39 @@ This section supersedes earlier status snapshots in this file where PR #29 or PR
 - No new Supabase project or external database was created.
 - No study was promoted to Published. The AquaSignal field study and native OpenMP independent replication remain unvalidated.
 - This report records work completed during a scheduled run; it does not claim continuous background execution.
+
+
+## NOEMA run audit — 2026-11-26 (World Risk Poll + accumulator algorithms)
+
+This section supersedes earlier status snapshots in this file where the current main SHA, PR divergence counts, or the NOEMA-005/NOEMA-007 run state differ.
+
+- **Current main at audit start:** `1422e0f593c43f24836c2349263d43eee127ea47`.
+- **NOEMA-2026-005:** Draft PR [#33](https://github.com/maisuradzee/bibmom/pull/33) adds five deterministic binary64 fixtures (15,359 values), exact `Fraction.from_float` reference, strict left-to-right, one adjacent-pair tree, Neumaier, `math.fsum` and 1,200-digit Decimal comparisons. Local tests passed 5/5 on CPython 3.13.5/x86_64. Neumaier, `math.fsum` and Decimal matched 5/5; strict naive and the tested adjacent-pair tree matched 1/5 each. This is accuracy-only; no threading/runtime/memory claim. The first CI run [45795906135](https://github.com/maisuradzee/bibmom/actions/runs/45795906135) failed draft completeness; the next [45796232959](https://github.com/maisuradzee/bibmom/actions/runs/45796232959) passed draft validation but exposed a frozen-result test that compared full ULP snapshots across CPython 3.13 and 3.14. The test has been changed to compare stable input hashes, exact references and accuracy classifications; the latest head is `9cb8438f6ea1a23cfb244231bba6c6da3164f7fc`, and exact-head CI is pending.
+- **NOEMA-2026-007:** Draft PR [#34](https://github.com/maisuradzee/bibmom/pull/34) adds Lloyd's Register Foundation's 2025 World Risk Poll warning-to-action evidence, a machine-readable evidence record, Georgia sample caveat and privacy-preserving Action Readiness Ledger proposal. Local tests passed 4/4. Exact-head quality CI [45795911909](https://github.com/maisuradzee/bibmom/actions/runs/45795911909) passed all workflow steps: draft validation, research index, mission/queue/service checks, unit tests, frozen-result reproduction, site build and publication-boundary checks. The source report shows 80% of disaster-impacted respondents received a warning and 64% of warned respondents could act. Georgia had only 99 respondents asked about warnings, below the report's 100-respondent threshold; the 22.8% figure is not a robust country estimate. NOEMA has not independently rerun the 143,459-row microdata; the source repository reports 541 findings checked (487 match, 17 within tolerance, 37 Gallup-only). No microdata or personal data was copied.
+- **NOEMA-2026-006 AquaSignal:** PR #29 remains merged. The in-memory incident lifecycle still has no paired sensor/laboratory data or field validation; operator data dictionary and site-approved Water Safety Plan limits remain blockers.
+- **NOEMA-INFRA-001:** PR [#19](https://github.com/maisuradzee/bibmom/pull/19) compares to current main as 32 ahead / 49 behind (merge base `f777eb530443e5be33ce6d28591eeb75e2df0fd0`). Its backup/restore implementation is not present in current main. A review comment recommends selective porting to a clean current-main branch rather than blind rebase. Backup encryption, off-host retention/rotation and scheduled restore drills remain absent.
+- **PR #27 adaptive integration engine:** branch compares as 37 ahead / 43 behind. Security review comments identify credential-key normalization gaps and missing capability-policy fingerprint comparison at execute time. These are potential policy bypasses, not evidence of an actual credential leak; do not merge until fixed, refreshed and rechecked.
+- **Publication:** the catalogue remains 1 preliminary / 0 published. Both new studies remain drafts; no independent external review has been completed.
+- **Main CI / Pages:** the current main commit's combined status endpoint returned no status entries in this audit. The last explicitly verified main quality/deploy runs remain [45792961744](https://github.com/maisuradzee/bibmom/actions/runs/45792961744) and [45792961703](https://github.com/maisuradzee/bibmom/actions/runs/45792961703) for the earlier main commit `8bb91db62105a83391986d06e88f198b5c7d1670`; therefore this audit does not claim Pages reflects commit `1422e0f`.
+- **Public-data boundary:** only public-source summaries and synthetic fixtures were added. The WRP source dataset is CC BY-SA 4.0 and its microdata was not copied into NOEMA. No private operator telemetry, credentials or personal data were added; no new Supabase project or external database was created.
+
+### Active stream status
+
+| Stream | Current status | Next verified step |
+|---|---|---|
+| NOEMA-2026-006 AquaSignal | Prototype; PR #29 merged | Obtain authorized paired sensor/lab data and approved site limits before field validation |
+| NOEMA-2026-005 numerical reduction | Preliminary; PR #33 Draft, exact-head CI pending | Finish cross-runtime CI, then native C/OpenMP long-double and binned/exact comparison |
+| NOEMA-2026-007 Last-Mile Action Gap | Draft; PR #34 exact-head CI success | Obtain authorized municipal aggregate delivery/acknowledgement/action data; Georgia WRP sample is too small |
+| NOEMA-INFRA-001 reliability | Engineering; PR #19 divergent | Port backup/restore to a clean branch from current main and run a restore drill |
+
+
+### Post-merge verification — 2026-11-26
+
+The two independent research PRs were merged only after their exact-head quality CI passed, their branch comparisons showed no behind commits, and the public-data boundary was checked:
+
+- **PR #33 / NOEMA-005** — exact head `9cb8438f6ea1a23cfb244231bba6c6da3164f7fc`; PR quality CI [45796534709](https://github.com/maisuradzee/bibmom/actions/runs/45796534709) SUCCESS; squash merge commit `590b6f7de140356d0eb2188fd82ce6161be96330). Main push quality [45796919557](https://github.com/maisuradzee/bibmom/actions/runs/45796919557) SUCCESS and Pages deployment [45796919732](https://github.com/maisuradzee/bibmom/actions/runs/45796919732) SUCCESS.
+- **PR #34 / NOEMA-2026-007** — after merging current main into the branch, exact head `ef6bae6e5792d969753aeffe338203699e9944de`; PR quality CI [45797079222](https://github.com/maisuradzee/bibmom/actions/runs/45797079222) SUCCESS; squash merge commit `50a54227444ae52bdb5641b30e8c430ec7b8a722). Main push quality [45797225139](https://github.com/maisuradzee/bibmom/actions/runs/45797225139) SUCCESS and Pages deployment [45797225190](https://github.com/maisuradzee/bibmom/actions/runs/45797225190) SUCCESS.
+- **Current main after both merges:** `50a54227444ae52bdb5641b30e8c430ec7b8a722`. The GitHub Pages deployment for this exact commit completed successfully; the site now includes the merged public-safe research drafts and evidence metadata.
+- **Publication boundary:** the public research catalogue remains 1 preliminary / 0 published. The new accumulator comparison and World Risk Poll analysis remain draft research records; merge into the repository did not promote either to Published.
+- **Portfolio sync PR #35:** still open as a draft; its branch is being refreshed against the two merged research changes before final exact-head CI.
+
