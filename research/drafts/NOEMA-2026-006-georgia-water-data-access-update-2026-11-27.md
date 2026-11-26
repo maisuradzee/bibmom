@@ -55,9 +55,9 @@ It says up to 60 physicochemical parameters and four microbiological indicators 
 
 The UNECE/WHO submission identifies the National Food Safety Agency as the drinking-water quality control body; operating companies conduct internal laboratory control, with independent accredited testing also permitted.
 
-The report records total E. coli non-compliance of 40.3% for 2024, compared with 44.5% for 2023 and 37.0% for 2021–2022. It says the non-compliance was mainly microbiological and that small rural water-supply systems had been included in the laboratory-control programme.
+The report narrative records total E. coli non-compliance of 37.0% for 2021–2022, 44.5% for 2023 and 40.3% for 2024. A separate table on page 56 labels its columns as baseline 2005 (25.0%), previous reporting cycle 2019 (34.0%) and current 2024 (40.3%). These are different reference-year frames in the same submission and must not be joined into one continuous trend without the underlying definitions and denominators. The report says non-compliance was mainly microbiological and that small rural water-supply systems had been included in the laboratory-control programme.
 
-**Interpretation boundary:** the report's E. coli table does not provide the sample denominator or an urban/rural or municipal/system-level breakdown. Its context section separately reports that up to 70% of the population is connected to centralised supply (95% urban and 35% rural) and 31% uses other local supply systems, but it does not explicitly tie those coverage figures to the 40.3% sample frame. The 40.3% is a reported sample-compliance statistic, not the percentage of Georgia's population receiving unsafe water, not a current live reading, and not a causal estimate. It is a high-value discovery signal for obtaining the underlying sample counts, locations, dates and corrective-action records from the competent authority.
+**Interpretation boundary:** the report's E. coli table does not provide the sample denominator or an urban/rural or municipal/system-level breakdown. Its context section separately reports that up to 70% of the population is connected to centralised supply (95% urban and 35% rural) and 31% uses other local supply systems, but it does not explicitly tie those coverage figures to the 40.3% sample frame. The 40.3% is a reported sample-compliance statistic, not the percentage of Georgia's population receiving unsafe water, not a current live reading, and not a causal estimate. The differing narrative/table reference years and absent denominators make trend reconstruction unsafe without the underlying methodology and counts. It is a high-value discovery signal for obtaining the underlying sample counts, locations, dates and corrective-action records from the competent authority.
 
 ### 5. Public indicator and map interfaces
 
@@ -69,7 +69,7 @@ The report records total E. coli non-compliance of 40.3% for 2024, compared with
 ### FACT
 - The 2025 UNECE/WHO report states that groundwater results have been available electronically since 2022 and describes the 2024 monitoring volumes above.
 - The same report records 2024 surface-water sampling at 331 points on 137 water bodies and up to 60 physicochemical plus four microbiological indicators.
-- The report records E. coli non-compliance of 40.3% in 2024, with small rural systems included in the control programme; its table leaves the sample denominator and urban/rural disaggregation blank.
+- The report narrative records E. coli non-compliance of 37.0% (2021–2022), 44.5% (2023) and 40.3% (2024); its separate table labels 25.0% (2005), 34.0% (2019) and 40.3% (2024). The table leaves sample denominator and urban/rural disaggregation blank, so these reference frames are not merged into one trend.
 - The same government submission describes groundwater used as a drinking-water source as generally good quality, with isolated microbiological exceedances and averages within norms; this remains source-reported evidence.
 - NEA's 2026-11-26 announcement confirms a 2021–2025 groundwater report and field methodology exist and links an archive.
 - WIS C10/C11 expose historical annual aggregates for 2004–2018.
