@@ -137,3 +137,11 @@ The CLI now provides a controlled same-host smoke drill:
 The command requires an existing database, verifies its integrity, creates a fresh SQLite online backup in a temporary directory, restores that backup to a second new path, verifies the restored database, and compares job count, audit-event count and final audit-chain hash with the backup snapshot. It also confirms that the backup source bytes were not changed by restore. The JSON report contains aggregate counts and hashes only; it does not include job payloads or job identifiers. Temporary backup and restore files are removed when the command exits.
 
 **Evidence boundary:** this is a same-host local filesystem drill. It does not test encrypted off-host upload, object-version retrieval, independent key custody, clean-host recovery, provider retention, or an approved production RPO/RTO. It must not be reported as disaster-recovery readiness.
+
+## 10. Local artifact hash/length verification
+
+`python scripts/verify_noema_backup_artifacts.py /secure/staging/manifest.json --plaintext /secure/staging/snapshot.sqlite --ciphertext /secure/staging/snapshot.sqlite.age`
+
+The verifier first applies the strict metadata schema, then streams both files through SHA-256 and compares each digest and byte length with the manifest. It opens each artifact once, requires a regular file, rejects symlinks on platforms that provide `O_NOFOLLOW`, and rejects a file whose observed identity/size/timestamps change during hashing. It does not load the full artifact into memory.
+
+The check is intentionally narrower than authentication: an attacker able to replace both files and the unsigned manifest can recompute matching hashes. The tool does **not** verify the detached manifest signature, authenticate the signing key, decrypt the ciphertext, verify provider object-version/retention, inspect SQLite pages, or perform a restore. It is a local byte-integrity gate only; production recovery still requires the separately approved cryptographic, provider and clean-host restore controls above.
