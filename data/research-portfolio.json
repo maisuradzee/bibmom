@@ -692,7 +692,8 @@
         "შემდგომ ეტაპზე encrypted off-host backup, retention/rotation და scheduled restore drills",
         "On POSIX, stage each local SQLite snapshot in a fresh 0700 directory with a 0600 temporary database file; verify both permissions at the atomic no-overwrite publication boundary.",
         "The restore-drill CLI requires an existing database, verifies it, creates an online SQLite snapshot and restores it into a second new path inside a temporary directory; it compares job/audit counts and the final audit-chain hash, confirms the backup bytes remain unchanged, and emits aggregate-only JSON without job IDs or payloads.",
-        "Define a strict JSON Schema 2020-12 metadata envelope for future off-host backups; tests enforce closed object boundaries and exclude secret/credential fields."
+        "Define a strict JSON Schema 2020-12 metadata envelope for future off-host backups; tests enforce closed object boundaries and exclude secret/credential fields.",
+        "Validate proposed backup manifests with an executable JSON Schema Draft 2020-12 validator and strict format checking; keep cryptographic and provider checks explicitly out of scope."
       ],
       "sources": [
         {
@@ -890,8 +891,8 @@
         "Encrypted off-host storage, signed manifest, provider integration, key custody, retention/rotation and an approved RPO/RTO remain unimplemented; the new CLI drill is same-host only and has not yet been run against an operator-approved deployed/staging database."
       ],
       "status": "active",
-      "status_detail": "PR #57 local same-host SQLite backup/restore and aggregate-only restore-drill CLI remain in main. PR #64 merged as 6dbb18e2a7cf0427f7d874d0ab903c9293771685 and adds a strict JSON Schema 2020-12 metadata contract plus seven focused tests for artifact digests, provenance, closed object boundaries and rejection of credential/private-key fields. Exact-head quality CI 45842688777 passed 329 Python tests, site build and publication-boundary checks; main quality CI 45842834069 and Pages build/deploy 45842833997 also succeeded. This remains schema-only engineering: no actual manifest, provider, encrypted off-host object, signature verification, key custody, retention or clean-host recovery is configured.",
-      "next_step": "Run the local restore-drill only on an operator-approved non-production instance and retain aggregate evidence. Then obtain approval for RPO/RTO, provider, retention and key custodians; implement authenticated encryption, detached signature verification, versioned off-host storage and clean-host restore drills only after those decisions.",
+      "status_detail": "PR #57 local same-host SQLite backup/restore and aggregate-only restore-drill CLI remain in main. PR #64 merged as 6dbb18e2a7cf0427f7d874d0ab903c9293771685 and adds a strict JSON Schema 2020-12 metadata contract plus seven focused tests for artifact digests, provenance, closed object boundaries and rejection of credential/private-key fields. Exact-head quality CI 45842688777 passed 329 Python tests, site build and publication-boundary checks; main quality CI 45842834069 and Pages build/deploy 45842833997 also succeeded. This remains schema-only engineering: no actual manifest, provider, encrypted off-host object, signature verification, key custody, retention or clean-host recovery is configured. A separate infrastructure branch adds a runtime Draft 2020-12 manifest validator and synthetic valid/invalid CLI tests, including format checking and rejection of credential-like extra properties. This validates metadata shape only; it does not implement signing, encryption, off-host storage or recovery.",
+      "next_step": "Implement an isolated encrypted off-host proof-of-concept only after provider, key custody, RPO/RTO and retention are approved; then test detached signature verification, ciphertext/plaintext hash comparison and clean-host restore with separate credentials.",
       "success_metrics": [
         "backup includes committed WAL data",
         "restore rejects WAL-mode header and corrupted audit data before destination creation",
@@ -901,7 +902,9 @@
         "On POSIX, a test observes the staging directory at 0700 and the SQLite snapshot at 0600 immediately before no-overwrite publication, even when the destination parent is 0777.",
         "restore-drill returns success only when source and restored databases are valid, job/audit counts and final audit hash match, and the backup bytes remain unchanged",
         "restore-drill output contains aggregate metadata only and explicitly identifies the same-host-only evidence boundary",
-        "The future manifest is structurally validated against a strict schema; every object rejects unlisted fields and no secret/private-key material is permitted."
+        "The future manifest is structurally validated against a strict schema; every object rejects unlisted fields and no secret/private-key material is permitted.",
+        "Runtime manifest validator accepts a synthetic schema-valid document and rejects malformed hashes, invalid UTC timestamps, missing fields and secret-like extra properties.",
+        "No claim of off-host disaster-recovery readiness until a clean-host restore is independently attested against approved RPO/RTO."
       ],
       "last_reviewed": "2026-11-26"
     }

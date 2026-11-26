@@ -53,6 +53,16 @@ The proposed envelope is defined in [`data/noema-backup-manifest.schema.json`](.
 
 The signature bytes remain a detached artifact; the manifest contains only the signature format and public key identifier. The schema and its tests are a **metadata contract only**. They do not verify the detached signature, decrypt ciphertext, check the actual artifact hashes, inspect SQLite contents, prove object immutability or establish that any provider/retention policy is configured. No real manifest, key identifier, ciphertext or storage endpoint is stored in this public repository.
 
+## 3.2 Executable metadata-schema validation
+
+The strict manifest schema is now checked at runtime with a Draft 2020-12 validator and format checking:
+
+`python scripts/validate_noema_backup_manifest.py /secure/staging/manifest.json`
+
+The command rejects missing/unknown fields, malformed hashes, invalid timestamps and credential-like extra properties. A synthetic metadata fixture exercises the valid and invalid paths in CI; no real manifest, recipient identifier, signing key identifier or storage object is committed.
+
+**Important boundary:** a successful command proves only that the JSON document matches the declared metadata schema. It does not verify a detached signature, authenticate a signer, decrypt or hash ciphertext, compare plaintext bytes, query provider object version/retention, or validate/restore SQLite. Those checks remain separate implementation gates.
+
 ## 4. Restore sequence
 
 Restore must fail closed and never overwrite an existing database:
