@@ -22,7 +22,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - `noema_core/aquasignal.py` — AquaSignal-ის დეტერმინისტული, მხოლოდ გადაწყვეტილების მხარდამჭერი წესების ძრავა.
 - `noema_core/aquasignal_store.py` — ინციდენტების replay-ზე დაფუძნებული SQLite persistence, SHA-256 audit chain და caller-supplied trusted checkpoint-ის hash/count comparison; ხელმოწერა და anti-rollback ცალკე ეტაპია.
 - `noema_core/action_readiness.py` — NOEMA-007-ის event/area aggregate-only warning-to-action metrics validator; endpoint receipts და survey denominators განცალკევებულია.
-- `noema_core/backup_manifest.py` — strict Draft 2020-12 manifest validator და plaintext/ciphertext artifact-ების streamed SHA-256/byte-length verifier; detached signature, decryption, provider retention და restore ცალკე ეტაპებია.
+- `noema_core/backup_manifest.py` — strict Draft 2020-12 manifest validator, streamed plaintext/ciphertext SHA-256/byte-length verifier და caller-supplied trusted Ed25519 public key-ით exact-byte detached-signature verification; decryption, provider retention, anti-rollback და restore ცალკე ეტაპებია.
 - `noema_core/mission.json` და `noema_core/mission.py` — მანქანურად წაკითხვადი მისია, ინფორმაციის წვდომის პოლიტიკა და ავტონომიური მოქმედებების წესები.
 - `noema_core/jobs.py`, `noema_core/jobs_cli.py`, `noema_core/worker.py`, `noema_core/supervisor.py`, `noema_core/workflows.py`, `noema_core/scheduler.py` და `noema_core/service.py` — მდგრადი queue/worker, metrics და verified SQLite backup/restore CLI.
 - `assets/styles.css` და `assets/articles.css` — მთავარი გვერდისა და კვლევითი სტატიების ვიზუალური სტილები.
