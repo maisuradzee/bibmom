@@ -1,0 +1,48 @@
+{
+  "study_id": "NOEMA-2026-005",
+  "experiment_id": "NOEMA-2026-005-OPEMP-001",
+  "version": 1,
+  "status": "protocol",
+  "input": {
+    "format": "IEED-754 binary64",
+    "large_value": "2^53",
+    "small_value": 1,
+    "layouts": ["triplet_order", "grouped_cancellation"],
+    "repeat_count_default": 250000,
+    "elements_per_layout_default": 750000,
+    "exact_sum_per_layout": "repeat_count",
+    "generation": "on-the-fly; no input array is allocated"
+  },
+  "methods": [
+    "serial_naive",
+    "serial_neumaier",
+    "openmp_naive_partials",
+    "openmp_neumaier_state"
+  ],
+  "worker_counts_default": [1, 2, 4, 8],
+  "partition": "OpenMP schedule(static); each worker owns one local partial state; final state merge occurs in ascending worker index order",
+  "measurements": {
+    "wall_time": "CLOCK_MONOTONIC elapsed nanoseconds",
+    "process_cpu_time": "CLOCK_PROCESS_CPUTIME_ID nanoseconds, including CPU consumed by all process threads",
+    "speedup": "matching serial method median wall time divided by OpenMP method median wall time",
+    "memory": "getrusage(RUSAGE_SELF).ru_maxrss process-wide high-water mark ; not a per-method allocation measurement"
+  },
+  "default_run": {
+    "warmups": 1,
+    "repetitions": 5
+  },
+  "acceptance": {
+    "serial_neumaier_correct_runs": "all",
+    "openmp_neumaier_state_correct_runs": "all",
+    "actual_openmp_threads": "must equal requested worker count for every repetition",
+    "serial_naive": "expected to fail exact sum for both cancellation layouts"
+  },
+  "limitations": [
+    "Synthetic cancellation data is not representative of all scientific workloads.",
+    "The generated-on-the-fly input removes input-array memory bandwidth from the benchmark.",
+    "Process-wide peak RSS cannot attribute memory to an individual method.",
+    "A single hosted runner is not an independent hardware replication.",
+    "No wall-time speedup is assumed; thread startup, scheduling and runtime overhead may dominate.",
+    "The OpenMP benchmark is Linux/POSIX-oriented because it uses CLOCK_PROCESS_CPUTIME_ID and getrusage."
+  ]
+}
