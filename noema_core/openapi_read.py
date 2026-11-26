@@ -6,6 +6,7 @@ It never executes secured or non-GET operations and never accepts caller URLs.
 from __future__ import annotations
 
 import hashlib
+import ipaddress
 import json
 import math
 import re
@@ -88,7 +89,12 @@ class OpenAPIReadAdapter:
         if not isinstance(openapi_document, Mapping):
             raise OpenAPIReadAdapterError("openapi_document must be a JSON object")
         try:
-            copied = json.loads(json.dumps(dict(openapi_document), ensure_ascii=False, allow_nan=False))
+            serialized_document = json.dumps(
+                dict(openapi_document), ensure_ascii=False, allow_nan=False
+            )
+            if len(serialized_document.encode("utf-8")) > 2_000_000:
+                raise OpenAPIReadAdapterError("OpenAPI document exceeds the 2 MB size limit")
+            copied = json.loads(serialized_document)
         except (TypeError, ValueError) as exc:
             raise OpenAPIReadAdapterError("OpenAPI document must be JSON-compatible") from exc
         if not isinstance(copied, dict):
@@ -132,8 +138,18 @@ class OpenAPIReadAdapter:
         host = parsed.hostname.lower()
         if host == "localhost" or host.endswith(".localhost") or host.endswith(".local"):
             raise OpenAPIReadAdapterError("Local hostnames are not allowed")
+        try:
+            address = ipaddress.ip_address(host)
+        except ValueError:
+            address = None
+        if address is not None and not address.is_global:
+            raise OpenAPIReadAdapterError("Non-public IP literals are not allowed")
         path = parsed.path.rstrip("/")
-        if "%" in path or "\\" in path or any(x in {".", ".."} for x in path.split("/") if x):
+        if (
+            "%" in path or "\\" in path or "//" in path
+            or any(x in {".", ".."} for x in path.split("/") if x)
+            or not re.fullmatch(r"/[A-Za-z0-9._~/-]*", path)
+        ):
             raise OpenAPIReadAdapterError("base_url contains an unsafe path")
         return f"https://{parsed.netloc}{path}"
 
@@ -182,6 +198,11 @@ class OpenAPIReadAdapter:
         schema = parameter.get("schema")
         if not isinstance(name, str) or not _PARAM_RE.fullmatch(name):
             raise OpenAPIReadAdapterError("parameter name is invalid")
+        normalized_name = name.strip().lower().replace("-", "_")
+        if normalized_name in _SECRET_KEYS or normalized_name.replace("_", "") in {
+            key.replace("_", "") for key in _SECRET_KEYS
+        }:
+            raise OpenAPIReadAdapterError("credential-like parameters are not supported")
         if location not in {"path", "query"}:
             raise OpenAPIReadAdapterError("only path and query parameters are supported")
         if not isinstance(required, bool) or (location == "path" and not required):
@@ -261,6 +282,8 @@ class OpenAPIReadAdapter:
         paths = self.document.get("paths")
         if not isinstance(paths, Mapping):
             raise OpenAPIReadAdapterError("OpenAPI document must contain a paths object")
+        if len(paths) > 1_000:
+            raise OpenAPIReadAdapterError("OpenAPI document contains more than 1,000 paths")
         root_security = self.document.get("security", [])
         if not isinstance(root_security, list):
             raise OpenAPIReadAdapterError("OpenAPI security must be an array")
@@ -344,6 +367,8 @@ class OpenAPIReadAdapter:
             if not isinstance(description, str):
                 description = raw_id
             description = f"{raw_id}: {description.strip()}"[:300]
+            if len(discovered) >= 250:
+                break
             discovered[operation_id] = _Operation(
                 operation_id, raw_id, safe_path, tuple(parsed_parameters), description
             )
@@ -369,6 +394,8 @@ class OpenAPIReadAdapter:
         if parameter.schema_type == "string":
             if not isinstance(value, str):
                 return f"{parameter.name} must be a string"
+            if len(value) > 2_048:
+                return f"{parameter.name} exceeds the hard 2,048-character limit"
             if parameter.min_length is not None and len(value) < parameter.min_length:
                 return f"{parameter.name} is shorter than minLength"
             if parameter.max_length is not None and len(value) > parameter.max_length:
@@ -421,7 +448,11 @@ class OpenAPIReadAdapter:
         if isinstance(value, Mapping):
             for key, child in value.items():
                 normalized = str(key).strip().lower().replace("-", "_")
-                if normalized in _SECRET_KEYS or OpenAPIReadAdapter._contains_secret_key(child):
+                if (
+                    normalized in _SECRET_KEYS
+                    or normalized.replace("_", "") in {item.replace("_", "") for item in _SECRET_KEYS}
+                    or OpenAPIReadAdapter._contains_secret_key(child)
+                ):
                     return True
         elif isinstance(value, list):
             return any(OpenAPIReadAdapter._contains_secret_key(child) for child in value)
@@ -487,6 +518,8 @@ class OpenAPIReadAdapter:
         url = self.base_url + endpoint_path
         if query:
             url += "?" + urlencode(query)
+        if len(url) > 8_192:
+            raise OpenAPIReadAdapterError("Constructed API URL exceeds the 8,192-character limit")
         body = self._http_get(url)
         try:
             data = json.loads(body.decode("utf-8"))
