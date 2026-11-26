@@ -93,7 +93,7 @@ class AquaSignalIncidentLifecycleTests(unittest.TestCase):
     def test_close_rejects_unmatched_normal_observation(self):
         normal = self.record(self.opened, "NORMAL", "evt-normal", 1)
         ack = self.acknowledge(normal)
-        with self.assertRaisesRegex(IncidentError, "recorded NORMAL observation"):
+        with self.assertRaisesRegex(IncidentError, "complete recorded NORMAL assessment"):
             self.close(ack, assessment=self.assessment("NORMAL", minutes_ago=2))
 
     def test_close_rejects_same_timestamp_with_changed_reading_evidence(self):
