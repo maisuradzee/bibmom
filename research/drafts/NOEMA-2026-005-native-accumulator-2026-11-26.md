@@ -1,13 +1,18 @@
 # NOEMA-2026-005 — native accumulator and OpenMP comparison
 
-- **ID:** NOEMA-2026-005
+- **ID:** NOEMA-2026-005-NATIVE-001
 - **სტატუსი:** draft
 - **თარიღი:** 2026-11-26
-- **Evidence class:** deterministic synthetic native benchmark + one local x86-64 run; independent ARM64 CI replication pending
+- **სფერო:** რიცხვითი ანალიზი, binary64 reduction, native CPU threads
+- **ავტორი/მომზადების სისტემა:** NOEMA research automation; GCC 13.3.0 x86-64 and ARM64 GitHub-hosted runners
 
 ## საკვლევი კითხვა
 
 How do native double, long double, recursive pairwise reduction, Neumaier compensation and a fixed-width exact superaccumulator compare for accuracy, wall time and process CPU time when the same cancellation-sensitive input is reduced serially and across actual OpenMP threads?
+
+## მოკლე შეჯამება
+
+An exact-head x86-64/ARM64 CI matrix completed 50 cases per architecture. Neumaier and the exact superaccumulator matched the known integer reference in every measured repetition on both architectures and both input layouts. Native long double differed by architecture: the x86-64 runner reports 64 significand bits and failed the grouped-cancellation fixture; the ARM64 runner reports 113 significand bits and passed both fixtures. Naive and the tested pairwise tree failed both layouts on both architectures. Timing varied substantially on the hosted x86-64 runner; the ARM64 runner showed more consistent scaling in this single batch, but no general speedup claim is justified.
 
 ## მეთოდი ან ექსპერიმენტის გეგმა
 
@@ -18,83 +23,121 @@ The C11/GCC OpenMP benchmark generates values without storing the input vector:
 - Exact mathematical sum for both fixtures: 250,000.
 - Serial methods: naive binary64, native long double, recursive contiguous pairwise tree, Neumaier compensation, and a fixed-width 2,560-bit two's-complement superaccumulator.
 - OpenMP methods: per-thread naive partials, per-thread long double, per-thread pairwise trees with deterministic merge, per-thread Neumaier (sum, correction) states, and per-thread exact superaccumulators merged in thread-index order.
-- Requested worker counts: 1, 2, 4 and 8. Actual thread counts are recorded and must equal the requested counts for a report to validate.
-- One warm-up and five timed repetitions per case. Both monotonic wall time and process CPU time are measured. Median speedup is compared with the matching serial algorithm, not with an unrelated baseline.
-- The exact accumulator decomposes each finite binary64 value into its integer significand and a power-of-two shift in units of 2^-1074. Its 40 64-bit limbs provide a 2,560-bit fixed-width two's-complement accumulator. The experiment input bound is at most 10^12 repetitions; the benchmark checks exact equality against the known integer fixture sum rather than implementing a general rational-to-binary64 rounding routine. A separate self-test includes negative values and the smallest binary64 subnormal.
+- Requested worker counts: 1, 2, 4 and 8. Actual thread counts are recorded and validated against the requested counts.
+- One warm-up and five timed repetitions per case. Both monotonic wall time and process CPU time are measured. Median speedup is compared with the matching serial algorithm.
+- The exact accumulator decomposes finite binary64 values into integer significands and power-of-two shifts in units of 2^-1074. Forty 64-bit limbs form a 2,560-bit fixed-width two's-complement accumulator. The experiment bound is at most 10^12 repetitions; the benchmark checks exact equality against the known integer fixture sum, not a general rational-to-binary64 rounding routine. A self-test includes negative values and the smallest binary64 subnormal.
+- No fast-math compiler flag is used. Each report records source SHA-256, compiler, runtime, platform, long-double precision, actual threads, timing samples and process peak RSS.
 
-No fast-math compiler flag is used. The source, compiler, runtime, platform, worker counts, timing samples and peak process RSS are captured in each JSON report. CI uploads separate x86-64 and ARM64 raw reports as workflow artifacts.
+The exact-head workflow was run on PR #37 head fe03281ea7adebac8ac8a8b20a87408112953b9c:
+- [NOEMA-005 native accumulator replication, run 45802426194](https://github.com/maisuradzee/bibmom/actions/runs/45802426194) — x86-64 and ARM64 jobs SUCCESS.
+- [NOEMA quality checks, run 45802426249](https://github.com/maisuradzee/bibmom/actions/runs/45802426249) — SUCCESS.
+- Raw reports: artifact 15107801878 (linux-x86_64) and artifact 15108376138 (linux-arm64); both reports passed the in-workflow validator and recorded the same C source SHA-256: 96cf598a83934b78a6a382faaca9ddeea1f75656bf282e9295bea9125361f7a2.
 
-## Local exploratory result
+## შედეგები და ინტერპრეტაცია
 
-One local run was performed on 2026-11-26 at 10:21:45 UTC:
+### Accuracy
 
-- Linux x86-64, GCC 14.2.0, CPython 3.13.5 wrapper, five visible CPUs.
-- LDBL_MANT_DIG = 64, sizeof(long double) = 16.
-- 250,000 triplets per fixture, 1 warm-up, 5 measured repetitions, 50 cases total.
-- Process peak RSS: 95,760 KiB for the complete benchmark process; this is not a per-method memory measurement.
+Every cell below is five measured repetitions. OpenMP results were the same at each requested worker count 1/2/4/8.
 
-| Method | Triplet accuracy | Grouped accuracy |
-|---|---:|---:|
-| Serial naive | 0/5 | 0/5 |
-| Serial long double | 5/5 | 0/5 |
-| Serial pairwise | 0/5 | 0/5 |
-| Serial Neumaier | 5/5 | 5/5 |
-| Serial exact superaccumulator | 5/5 | 5/5 |
-| OpenMP naive partials, 1/2/4/8 threads | 0/5 each | 0/5 each |
-| OpenMP long double, 1/2/4/8 threads | 5/5 each | 0/5 each |
-| OpenMP pairwise tree, 1/2/4/8 threads | 0/5 each | 0/5 each |
-| OpenMP Neumaier state, 1/2/4/8 threads | 5/5 each | 5/5 each |
-| OpenMP exact superaccumulator, 1/2/4/8 threads | 5/5 each | 5/5 each |
+| Method | x86-64 triplet | x86-64 grouped | ARM64 triplet | ARM64 grouped |
+|---|---:|---:|---:|---:|
+| Serial naive | 0/5 | 0/5 | 0/5 | 0/5 |
+| Serial long double | 5/5 | 0/5 | 5/5 | 5/5 |
+| Serial pairwise | 0/5 | 0/5 | 0/5 | 0/5 |
+| Serial Neumaier | 5/5 | 5/5 | 5/5 | 5/5 |
+| Serial exact superaccumulator | 5/5 | 5/5 | 5/5 | 5/5 |
+| OpenMP naive partials | 0/5 | 0/5 | 0/5 | 0/5 |
+| OpenMP long double | 5/5 | 0/5 | 5/5 | 5/5 |
+| OpenMP pairwise tree | 0/5 | 0/5 | 0/5 | 0/5 |
+| OpenMP Neumaier state | 5/5 | 5/5 | 5/5 | 5/5 |
+| OpenMP exact superaccumulator | 5/5 | 5/5 | 5/5 | 5/5 |
 
-For the exact OpenMP superaccumulator, median speedup over its matching serial exact implementation was 1.67x, 1.76x and 2.09x at 2/4/8 workers for triplet_order; and 2.01x, 1.95x and 1.86x for grouped_cancellation. At one worker, OpenMP overhead made the exact parallel path slower than its serial baseline. These are single-host exploratory measurements, not general performance claims.
+The x86-64 runner reported LDBL_MANT_DIG=64 and sizeof(long double)=16. The ARM64 runner reported LDBL_MANT_DIG=113 and sizeof(long double)=16. This is direct evidence that the long-double precision available to this C build is ABI/architecture dependent; it is not evidence that every ARM64 or x86-64 platform has the same ABI.
 
-The pairwise tree sometimes showed attractive wall-time ratios at 4/8 workers, but it returned the wrong sum on both fixtures. Those timing ratios are therefore not evidence of useful speedup. Accuracy is a hard acceptance condition.
+### Timing observations
 
-## Evidence classification
+For the exact OpenMP superaccumulator, matching-serial median wall-time ratios at 2/4/8 workers were:
+
+| Architecture / layout | 2 workers | 4 workers | 8 workers |
+|---|---:|---:|---:|
+| x86-64 triplet | 0.90x | 1.79x | 1.35x |
+| x86-64 grouped | 1.16x | 0.17x | 0.98x |
+| ARM64 triplet | 1.92x | 1.56x | 3.56x |
+| ARM64 grouped | 1.85x | 1.44x | 2.35x |
+
+The x86-64 grouped four-worker cell was a substantial timing outlier; other x86 cells also varied. ARM64 Neumaier state showed 1.23–1.70x (triplet) and 1.27–1.50x (grouped) at 2/4/8 workers in this batch. These ratios are exploratory and must be repeated on stable, pinned hardware before performance conclusions.
+
+The pairwise tree sometimes had lower wall time than its serial counterpart, but it returned the wrong sum in every measured fixture. Those ratios are not accepted as useful speedup. Process CPU time and wall time are retained separately; CPU-time/wall-time is not interpreted as speedup.
+
+### Memory and runtime metadata
+
+| Runner | Compiler | long double mantissa | CPU count | Process peak RSS |
+|---|---|---:|---:|---:|
+| Ubuntu 24.04 x86-64 | GCC 13.3.0 | 64 bits | 4 | 17,960 KiB |
+| Ubuntu 24.04 ARM64 | GCC 13.3.0 | 113 bits | 4 | 16,484 KiB |
+
+RSS is a process-wide high-water mark for the entire benchmark process, not per-method memory use.
+
+An earlier local run was excluded from the architecture comparison because its source hash (73c44c758e1475ce15869c71731f0316f8dfc51582bcaa88e567249d9245b7fb) differed from the exact PR source hash above. This provenance mismatch was caught by the report validator; only the two exact-source CI artifacts are treated as the cross-architecture evidence in this draft.
+
+## მტკიცებულებები
 
 ### FACT
 
-- Floating-point summation error depends on the method, ordering and conditioning. Higham's analysis explicitly finds no single summation method uniformly most accurate across all cases.
-- Error-free transformations can build accurate summation and dot-product algorithms using working-precision operations; the cited Ogita–Rump–Oishi paper analyzes such algorithms.
+- Floating-point summation error depends on method, ordering and conditioning. Higham's analysis does not identify one summation method that is uniformly most accurate.
+- Error-free transformations can construct accurate sum and dot-product algorithms using working-precision operations; Ogita, Rump and Oishi analyze such algorithms.
 
 ### REPRODUCED RESULT
 
-- The local C/OpenMP run reproduced the expected exact integer sum in every Neumaier and exact-superaccumulator repetition, while naive and pairwise failed on both layouts.
-- Native long double succeeded on the interleaved triplet layout but failed on grouped cancellation on this host, despite 64 significand bits. The grouped partial sum grows in magnitude before the small terms are added.
-- The OpenMP benchmark observed actual 1/2/4/8 native worker counts on this host. This does not establish behavior on other architectures.
+- The exact-head CI generated and validated 50 cases on each of x86-64 and ARM64, using the same source hash and 1/2/4/8 actual OpenMP worker counts.
+- Neumaier and the exact superaccumulator matched the known integer reference 5/5 on both fixtures and both architectures.
+- Native long double passed grouped cancellation on the ARM64 runner (113-bit significand) but failed on x86-64 (64-bit significand).
+- Naive and the tested pairwise tree failed both fixtures on both architectures.
 
 ### INFERENCE
 
-- Wider precision alone is not a universal replacement for compensated or exact accumulation; its benefit depends on exponent range, input ordering and the target ABI.
-- A fast but inaccurate reduction must not be considered a performance improvement for a numerically constrained workload.
+- Wider precision alone is not a portable accuracy guarantee; the actual C ABI and input ordering matter.
+- A fast but inaccurate reduction is not a valid performance improvement for a numerically constrained task.
+- The x86-64 timing variance is too large to support a reliable scaling claim from this batch.
 
 ### HYPOTHESIS
 
-- The exact superaccumulator may provide a more stable accuracy/performance trade-off when its per-thread state is merged deterministically, but this needs independent x86-64/ARM64 replication and representative application workloads.
+- Deterministically merged exact per-thread accumulators may offer a useful accuracy/performance trade-off for some workloads, but the result needs repeated pinned-hardware tests and realistic application data.
 
 ### UNTESTED IDEA
 
-- Add a general exact-to-binary64 round-to-nearest-even conversion, then compare binned, long-accumulator and error-free-transformation implementations.
-- Evaluate realistic vector sizes and memory-bandwidth-bound inputs, including NUMA placement and reproducibility across compiler/runtime versions.
+- Implement a general exact-to-binary64 round-to-nearest-even conversion.
+- Compare exponent-binned, long-accumulator and error-free-transformation implementations.
+- Test memory-bandwidth-bound arrays, NUMA placement, energy and multiple compiler/OpenMP runtime versions.
 
 ## წყაროები
 
-1. Nicholas J. Higham, “The Accuracy of Floating Point Summation,” SIAM Journal on Scientific Computing, 14(4), 783–799 (1993), DOI: [10.1137/0914050](https://doi.org/10.1137/0914050). The paper analyzes several summation methods and does not identify one uniformly best method. Accessed 2026-11-26.
-2. Takeshi Ogita, Siegfried M. Rump and Shin'ichi Oishi, “Accurate Sum and Dot Product,” SIAM Journal on Scientific Computing, 26(6), 1955–1988 (2005), DOI: [10.1137/030601818](https://doi.org/10.1137/030601818). The paper presents error-free-transformation-based accurate summation and dot-product algorithms. Accessed 2026-11-26.
-3. IEEE Computer Society, IEEE Std 754-2019, [standard record](https://standards.ieee.org/ieee/754/6210/). Used as the binary floating-point format reference. Accessed 2026-11-26.
+1. Nicholas J. Higham, “The Accuracy of Floating Point Summation,” SIAM Journal on Scientific Computing, 14(4), 783–799 (1993), DOI: [10.1137/0914050](https://doi.org/10.1137/0914050). Accessed 2026-11-26.
+2. Takeshi Ogita, Siegfried M. Rump and Shin'ichi Oishi, “Accurate Sum and Dot Product,” SIAM Journal on Scientific Computing, 26(6), 1955–1988 (2005), DOI: [10.1137/030601818](https://doi.org/10.1137/030601818). Accessed 2026-11-26.
+3. IEEE Computer Society, IEEE Std 754-2019, [standard record](https://standards.ieee.org/ieee/754/6210/). Accessed 2026-11-26.
+
+## შეზღუდვები და გაურკვევლობები
+
+- Only two deliberately ill-conditioned synthetic fixtures were tested; they do not represent production workload distributions.
+- Both architecture runs used GitHub-hosted Ubuntu 24.04 runners and GCC 13.3.0. They are architecture-level replications, not independent laboratory replications.
+- Five repetitions per cell are not enough for strong timing inference; CPU scheduling and host contention remain visible.
+- Process peak RSS is not per-method memory usage.
+- The exact accumulator is an exact integer-domain comparator for the known fixture sums; it does not yet return a general correctly-rounded binary64 result.
+- No external numerical-method review has been performed.
 
 ## შემდეგი ნაბიჯები
 
-- Only two deliberately ill-conditioned synthetic fixtures were tested. They do not represent a distribution of production workloads.
-- The local timing run used one x86-64 environment and is not an independent replication. CPU scheduling, container quotas, OpenMP runtime and compiler details can change timing.
-- process_peak_rss is a process-wide high-water mark, not per-method memory usage.
-- The exact accumulator is an exact integer-domain comparator for the known fixtures; it does not yet expose a general correctly-rounded floating-point result.
-- The first independent replication is scheduled in the PR workflow on x86-64 and ARM64. After that, benchmark realistic data sizes, memory bandwidth and independent compiler/runtime combinations.
-- Status remains draft; no independent scientific review has occurred and the result is not promoted to preliminary or published.
+1. Implement and test general exact-to-binary64 round-to-nearest-even conversion.
+2. Add representative array sizes and memory-bandwidth-bound inputs; record affinity, CPU model and runtime version.
+3. Repeat timing on pinned x86-64 and ARM64 hardware with more repetitions and confidence intervals.
+4. Compare binned and error-free-transformation methods against the same exact reference.
+5. Request an independent numerical-method review before changing this draft's publication status.
 
 ## შემოწმების სტატუსი
 
-- Local exploratory C/OpenMP run: completed on one Linux x86-64 environment.
-- Exact-head x86-64 and ARM64 CI: workflow running; no independent result is claimed until both reports validate.
-- Draft completeness, source-hash and timing-report validators: pending final quality CI.
-- Independent numerical-method review: not performed.
+- Exact-head quality CI: SUCCESS, run 45802426249.
+- Native accumulator matrix: SUCCESS on x86-64 and ARM64, run 45802426194.
+- Both raw artifacts passed the report validator; source hash matched across architectures.
+- Earlier local report with a different source hash is excluded from the cross-architecture evidence.
+- Independent scientific review: not performed.
+- Status remains draft; no publication promotion is claimed.
