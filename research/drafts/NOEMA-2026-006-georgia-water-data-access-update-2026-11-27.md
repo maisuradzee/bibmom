@@ -96,7 +96,7 @@ A first controlled pilot could compare groundwater nitrate field measurements wi
 ## შემოწმების სტატუსი
 
 
-- No sample-level dataset or RAR archive was downloaded, parsed or hashed in this run.
+- The direct official RAR URL was resolved from the NEA announcement, but retrieval from this execution environment failed; no archive was downloaded, parsed or hashed.
 - No raw personal, operator, laboratory or telemetry data was added to the public repository.
 - The UNECE report is a government-submitted summary report, not an independently re-analysed underlying dataset.
 - The WIS series are historical and aggregated; they cannot validate current local risk.
@@ -106,6 +106,7 @@ A first controlled pilot could compare groundwater nitrate field measurements wi
 ## წყაროები
 
 1. **National Environmental Agency of Georgia**, 2026-11-26, *2021–2025 groundwater monitoring results and field methodology announcement*: https://nea.gov.ge/ajs/News/3461
+7. **National Environmental Agency of Georgia**, 2026-11-26, *Official RAR archive linked by the announcement*: https://ftp.mepa.gov.ge/Public/NEA/%E1%83%B0%E1%83%98%E1%83%93%E1%83%A0%E1%83%9D%E1%83%92%E1%83%94%E1%83%9A%E1%83%9D%E1%83%92%E1%83%98%E1%83%A3%E1%83%A0%E1%83%98%20%E1%83%90%E1%83%9C%E1%83%92%E1%83%90%E1%83%A0%E1%83%98%E1%83%A8%E1%83%98%20-%202026%20-%20%E1%83%94%E1%83%9A-%E1%83%95%E1%83%94%E1%83%A0%E1%83%A1%E1%83%98%E1%83%94%E1%83%91%E1%83%98.rar
 2. **Government of Georgia**, 2025-04-01 submission, *Summary report under the Protocol on Water and Health*, especially pp. 26, 42, 51 and 56: https://unece.org/sites/default/files/2025-10/Georgia_summary_report_6th_cycle_1Apr25_ENG.pdf
 3. **Water Information System of Georgia**, C10 BOD5/ammonium indicator: https://wis.mepa.gov.ge/Wis/C10?Id=2121
 4. **Water Information System of Georgia**, C11 nutrients indicator: https://wis.mepa.gov.ge/Wis/C11?Id=2122
@@ -179,3 +180,29 @@ The sample adapter must reject observations without matrix identity and provenan
 ## Changes history
 
 - 2026-11-27: added the official NEA122 groundwater station-layer catalogue discovery, the Tianeti field data-registration description and the statutory NEA/National Food Safety Agency data-owner distinction.
+
+
+## 8. Direct archive URL and retrieval audit — 2026-11-27
+
+### FACT — the official announcement exposes a direct archive URL
+
+NEA's 2026-11-26 announcement links the following RAR archive for the 2021–2025 groundwater monitoring report and the nitrate-risk field methodology:
+
+https://ftp.mepa.gov.ge/Public/NEA/%E1%83%B0%E1%83%98%E1%83%93%E1%83%A0%E1%83%9D%E1%83%92%E1%83%94%E1%83%9A%E1%83%9D%E1%83%92%E1%83%98%E1%83%A3%E1%83%A0%E1%83%98%20%E1%83%90%E1%83%9C%E1%83%92%E1%83%90%E1%83%A0%E1%83%98%E1%83%A8%E1%83%98%20-%202026%20-%20%E1%83%94%E1%83%9A-%E1%83%95%E1%83%94%E1%83%A0%E1%83%A1%E1%83%98%E1%83%94%E1%83%91%E1%83%98.rar
+
+This resolves the earlier access record from “announcement only” to “direct official archive URL identified”. The archive remains a linked source artifact, not an inspected dataset.
+
+### Retrieval result and evidence boundary
+
+- A retrieval attempt from this execution environment did not return the RAR file.
+- The failure is an environment/tool-access limitation; it does **not** prove that the official server is generally unavailable or that the archive is corrupt.
+- No archive byte count, SHA-256, internal filename list, document count, table granularity, data dictionary or licence/reuse statement was verified.
+- No report pages, sample rows, coordinates or owner/operator information were extracted.
+
+### INFERENCE
+
+The next blocker is no longer locating the archive URL. It is obtaining a verifiable copy through an accessible official route and establishing whether the archive contains only formatted reports or any structured observations. The direct URL must not be treated as proof of machine-readable sample-level access.
+
+### Next action
+
+Request an alternate official download or a copy of the archive from NEA if automated retrieval remains unavailable. On receipt, compute the archive digest before extraction, inventory internal files, inspect metadata and licensing, and keep any personal or operational records out of the public repository.
