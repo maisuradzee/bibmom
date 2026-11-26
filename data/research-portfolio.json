@@ -226,6 +226,38 @@
           "url": "https://gmplib.org/manual/Integer-Import-and-Export",
           "type": "official_numerical_library_documentation",
           "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA PR #52 — clean-base MPFR binary64 rounding cross-check",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/pull/52",
+          "type": "engineering_change_record",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA-005 exact-head quality CI for MPFR cross-check",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45824791797",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA-005 exact-head actual CPU-thread workflow",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45824791997",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA-005 exact-head native x86-64 and ARM64 MPFR workflow",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45824791814",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26"
         }
       ],
       "data_needs": [
@@ -243,14 +275,13 @@
         "Pairwise reduction may be faster on a fixture while returning an incorrect result; timing is only meaningful after accuracy passes."
       ],
       "blockers": [
-        "The converter is bounded by the 2,560-bit accumulator; accumulator overflow is unsupported.",
-        "The clean-base exact-head CI is pending; prior CI passed on the previous head only.",
         "The native experiment still uses two synthetic cancellation fixtures; representative application workloads and memory-bandwidth tests remain outstanding.",
         "Hosted x86-64/ARM64 CI is not independent physical-hardware replication; external numerical-method review remains outstanding.",
-        "The exact reduction accumulator's add/merge helpers still use fixed-width modular arithmetic; the new signed-range guard protects the decimal oracle harness, not arbitrary accumulation outside the documented finite benchmark bound."
+        "The exact reduction accumulator's add/merge helpers still use fixed-width modular arithmetic; the new signed-range guard protects the decimal oracle harness, not arbitrary accumulation outside the documented finite benchmark bound.",
+        "The signed 2,560-bit accumulator's add/merge operations still use fixed-width modular arithmetic; general checked-overflow detection and regression tests are not yet implemented."
       ],
       "status": "active",
-      "status_detail": "A clean-base research branch ports the MPFR 4.2.2 correctly-rounded binary64 cross-check, signed-range validation and reproducible x86-64/ARM64 tests. The earlier code-only head passed 467 valid inputs per hosted architecture against MPFR and Python Decimal; the clean-base exact-head CI is pending. This is hosted REPRODUCED RESULT evidence, not physical-hardware replication, formal proof or a performance result.",
+      "status_detail": "PR #52 was merged into main at 8b52e349c1acdab10412e84c294b188eac6cd084. On exact head 506ebfabb63fd1bc1f1633bdc9767ae3c61d268e, quality CI 45824791797, actual CPU-thread workflow 45824791997 and native x86-64/ARM64 MPFR workflow 45824791814 all passed. The MPFR suite checked 467 valid synthetic signed inputs per hosted architecture against MPFR_RNDN and Python Decimal; signed-range rejection now uses actual newline-terminated inputs. This is hosted REPRODUCED RESULT evidence, not physical-hardware replication, formal proof, representative workload validation or a performance result.",
       "next_step": "Add explicit checked-overflow detection to the exact accumulator add/merge operations and regression tests. Then test representative memory-bandwidth-bound workloads on pinned physical x86-64/ARM64 hardware with uncertainty intervals, and obtain independent numerical-method review.",
       "success_metrics": [
         "exact-reference accuracy თითოეული მეთოდისა და runtime-ის მიხედვით",
