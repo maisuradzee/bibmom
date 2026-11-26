@@ -40,6 +40,7 @@ class CheckpointStore(Protocol):
 class TrustedCheckpointState:
     """High-water state that must be held outside the rollbackable event store."""
 
+    store_id: str
     sequence: int
     checkpoint_sha256: str
 
@@ -60,6 +61,8 @@ def _reject_json_constant(value: str) -> None:
 def _validate_document(document: Any) -> dict[str, Any]:
     if not isinstance(document, dict):
         raise ValueError("checkpoint root must be an object")
+    if any(not isinstance(key, str) for key in document):
+        raise ValueError("checkpoint object keys must be strings")
     if set(document) != _FIELDS:
         missing = sorted(_FIELDS - set(document))
         extra = sorted(set(document) - _FIELDS)
@@ -131,6 +134,8 @@ def _validate_trusted_state(state: TrustedCheckpointState | None) -> None:
         return
     if not isinstance(state, TrustedCheckpointState):
         raise ValueError("trusted_state must be TrustedCheckpointState or None")
+    if not isinstance(state.store_id, str) or not _STORE_ID.fullmatch(state.store_id):
+        raise ValueError("trusted checkpoint store_id is invalid")
     if type(state.sequence) is not int or state.sequence < 1:
         raise ValueError("trusted checkpoint sequence must be a positive integer")
     if not isinstance(state.checkpoint_sha256, str) or not _SHA256.fullmatch(state.checkpoint_sha256):
@@ -190,6 +195,8 @@ def verify_signed_checkpoint(
     sequence = document["sequence"]
     idempotent = False
     if trusted_state is not None:
+        if trusted_state.store_id != expected_store_id:
+            raise ValueError("trusted high-water state belongs to a different AquaSignal store")
         if sequence < trusted_state.sequence:
             raise ValueError("checkpoint rollback detected: sequence is below trusted high-water mark")
         if sequence == trusted_state.sequence:
@@ -214,6 +221,7 @@ def verify_signed_checkpoint(
         "checkpoint_sha256": checkpoint_digest,
         "idempotent": idempotent,
         "next_trusted_state": {
+            "store_id": document["store_id"],
             "sequence": sequence,
             "checkpoint_sha256": checkpoint_digest,
         },
