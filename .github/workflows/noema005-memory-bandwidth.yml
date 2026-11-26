@@ -1,0 +1,34 @@
+name: NOEMA-005 memory-backed reduction benchmark
+on:
+  push:
+    branches: [main]
+    paths: ["scripts/noema005_memory_bandwidth_benchmark.c","scripts/run_noema005_memory_bandwidth_benchmark.py","scripts/validate_noema005_memory_bandwidth_report.py","data/noema-005/memory-bandwidth-protocol.json","tests/test_noema005_memory_bandwidth_report.py","research/drafts/NOEMA-2026-005-memory-bandwidth-2026-11-26.md",".github/workflows/noema005-memory-bandwidth.yml"]
+  pull_request:
+    branches: [main]
+    paths: ["scripts/noema005_memory_bandwidth_benchmark.c","scripts/run_noema005_memory_bandwidth_benchmark.py","scripts/validate_noema005_memory_bandwidth_report.py","data/noema-005/memory-bandwidth-protocol.json","tests/test_noema005_memory_bandwidth_report.py","research/drafts/NOEMA-2026-005-memory-bandwidth-2026-11-26.md",".github/workflows/noema005-memory-bandwidth.yml"]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+      - name: Run memory-backed native reduction
+        env:
+          NOEMA_TESTED_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: python scripts/run_noema005_memory_bandwidth_benchmark.py --repeat-count 4194304 --output noema005-memory-report.json
+      - name: Validate report and unit tests
+        run: |
+          python scripts/validate_noema005_memory_bandwidth_report.py --report noema005-memory-report.json
+          python -m unittest discover -s tests -p 'test_noema005_memory_bandwidth_report.py' -v
+      - uses: actions/upload-artifact@v4
+        with:
+          name: noema005-memory-bandwidth-report
+          path: noema005-memory-report.json
+          if-no-files-found: error
+          retention-days: 30
