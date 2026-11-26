@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NOEMA-007 Aggregate Release Batch Preflight",
+  "description": "Metadata-only preflight contract. It is not a differential-privacy mechanism or a complete disclosure-control guarantee.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "release_batch_id",
+    "protected_population_family_id",
+    "source_snapshot_sha256",
+    "query_manifest_sha256",
+    "cohort_manifest_sha256",
+    "output_manifest_sha256",
+    "privacy_unit",
+    "privacy_unit_rationale",
+    "contribution_bound",
+    "adjacency",
+    "differential_privacy_claimed",
+    "approval"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "release_batch_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{7,63}$"},
+    "protected_population_family_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{7,63}$"},
+    "source_snapshot_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "query_manifest_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "cohort_manifest_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "output_manifest_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "privacy_unit": {"enum": ["person", "event"]},
+    "privacy_unit_rationale": {"type": "string", "minLength": 1, "maxLength": 500},
+    "contribution_bound": {"type": "integer", "minimum": 1},
+    "adjacency": {"enum": ["add_remove", "replace_one"]},
+    "differential_privacy_claimed": {"const": false},
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "data_controller_approved",
+        "privacy_reviewer_approved",
+        "approval_reference",
+        "policy_version",
+        "approved_scope_sha256"
+      ],
+      "properties": {
+        "data_controller_approved": {"const": true},
+        "privacy_reviewer_approved": {"const": true},
+        "approval_reference": {"type": "string", "minLength": 1, "maxLength": 128},
+        "policy_version": {"type": "string", "minLength": 1, "maxLength": 64},
+        "approved_scope_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    }
+  }
+}
