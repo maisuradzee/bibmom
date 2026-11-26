@@ -557,5 +557,272 @@
       "The 1.05 CPU-time/wall-time threshold is descriptive and is not a significance test.",
       "Raw JSON reports are retained by GitHub Actions artifacts for 30 days; report and archive SHA-256 values are recorded, but raw reports are not permanently committed."
     ]
+  },
+  "fourth_batch_verification": {
+    "replication_batch": 4,
+    "date": "2026-11-26",
+    "benchmark_run": {
+      "id": 45756479611,
+      "url": "https://github.com/maisuradzee/bibmom/actions/runs/45756479611",
+      "head_sha": "f944a7d26323342ce596437163fcb2a483778107",
+      "conclusion": "success"
+    },
+    "quality_run": {
+      "id": 45756479168,
+      "url": "https://github.com/maisuradzee/bibmom/actions/runs/45756479168",
+      "head_sha": "f944a7d26323342ce596437163fcb2a483778107",
+      "conclusion": "success"
+    },
+    "x86_64_thread_benchmark_run": {
+      "id": 45756479254,
+      "url": "https://github.com/maisuradzee/bibmom/actions/runs/45756479254",
+      "head_sha": "f944a7d26323342ce596437163fcb2a483778107",
+      "conclusion": "success"
+    },
+    "runner_reports": [
+      {
+        "runner": "ubuntu-24.04-arm",
+        "runtime_mode": "gil-enabled",
+        "generated_at": "2026-11-26T04:38:45.329517+00:00",
+        "environment": {
+          "python_implementation": "CPython",
+          "python_version": "3.14.4",
+          "machine": "aarch64",
+          "platform": "Linux-7.0.0-1020-azure-aarch64-with-glibc2.39",
+          "process_cpus": 4,
+          "gil_enabled": true,
+          "free_threaded_build": false
+        },
+        "configurations": 48,
+        "measured_runs": 144,
+        "accuracy": {
+          "naive_scalar": "0/48",
+          "neumaier_scalar": "42/48",
+          "neumaier_state": "48/48"
+        },
+        "cpu_parallelism_samples_above_1_05": {
+          "count": 0,
+          "total": 144
+        },
+        "median_speedup_by_method": {
+          "naive_scalar": 0.498939,
+          "neumaier_scalar": 0.739211,
+          "neumaier_state": 0.739002
+        },
+        "report": {
+          "sha256": "89bacbd13a02398ac72bc90f506ea63f7ee86a5b69dcfd4336604d7771f12280",
+          "bytes": 56813
+        },
+        "artifact": {
+          "id": 15087449487,
+          "name": "noema005-arm64-ubuntu-24.04-arm-gil-enabled",
+          "zip_sha256": "8462c2120a64529cd778edf10b372ae2864a59cb61cd17bd046e67132a4216ec",
+          "zip_bytes": 7576,
+          "retention_days": 30
+        }
+      },
+      {
+        "runner": "ubuntu-24.04-arm",
+        "runtime_mode": "free-threaded",
+        "generated_at": "2026-11-26T04:38:54.010184+00:00",
+        "environment": {
+          "python_implementation": "CPython",
+          "python_version": "3.14.4",
+          "machine": "aarch64",
+          "platform": "Linux-7.0.0-1017-azure-aarch64-with-glibc2.39",
+          "process_cpus": 4,
+          "gil_enabled": false,
+          "free_threaded_build": true
+        },
+        "configurations": 48,
+        "measured_runs": 144,
+        "accuracy": {
+          "naive_scalar": "0/48",
+          "neumaier_scalar": "42/48",
+          "neumaier_state": "48/48"
+        },
+        "cpu_parallelism_samples_above_1_05": {
+          "count": 108,
+          "total": 144
+        },
+        "median_speedup_by_method": {
+          "naive_scalar": 0.196333,
+          "neumaier_scalar": 0.680484,
+          "neumaier_state": 0.663204
+        },
+        "report": {
+          "sha256": "aff8318012aca5ebce693bde983d60e054cc235ee115d2591baddfd37157ae3f",
+          "bytes": 56932
+        },
+        "artifact": {
+          "id": 15088016826,
+          "name": "noema005-arm64-ubuntu-24.04-arm-free-threaded",
+          "zip_sha256": "de7fd7eb64077bdb1a45a631eccd6ef45866ac5ba2e688396a290f5a58f1caea",
+          "zip_bytes": 7753,
+          "retention_days": 30
+        }
+      },
+      {
+        "runner": "macos-15-arm64",
+        "runtime_mode": "gil-enabled",
+        "generated_at": "2026-11-26T04:39:01.493358+00:00",
+        "environment": {
+          "python_implementation": "CPython",
+          "python_version": "3.14.4",
+          "machine": "arm64",
+          "platform": "macOS-15.8.2-arm64-arm-64bit-Mach-O",
+          "process_cpus": 3,
+          "gil_enabled": true,
+          "free_threaded_build": false
+        },
+        "configurations": 48,
+        "measured_runs": 144,
+        "accuracy": {
+          "naive_scalar": "0/48",
+          "neumaier_scalar": "42/48",
+          "neumaier_state": "48/48"
+        },
+        "cpu_parallelism_samples_above_1_05": {
+          "count": 0,
+          "total": 144
+        },
+        "median_speedup_by_method": {
+          "naive_scalar": 0.466219,
+          "neumaier_scalar": 0.881982,
+          "neumaier_state": 0.793611
+        },
+        "report": {
+          "sha256": "9b2cd5ffb0d1646d476448abb6a78818ce68f1f85d50df3e558ce27ecd97d704",
+          "bytes": 56817
+        },
+        "artifact": {
+          "id": 15088580231,
+          "name": "noema005-arm64-macos-15-arm64-gil-enabled",
+          "zip_sha256": "576364a24ca925f300db62933ccc7b05d9c83bc0572cc7687a0da0a9eac49cc0",
+          "zip_bytes": 7393,
+          "retention_days": 30
+        }
+      },
+      {
+        "runner": "macos-15-arm64",
+        "runtime_mode": "free-threaded",
+        "generated_at": "2026-11-26T04:39:31.275206+00:00",
+        "environment": {
+          "python_implementation": "CPython",
+          "python_version": "3.14.4",
+          "machine": "arm64",
+          "platform": "macOS-15.8.2-arm64-arm-64bit-Mach-O",
+          "process_cpus": 3,
+          "gil_enabled": false,
+          "free_threaded_build": true
+        },
+        "configurations": 48,
+        "measured_runs": 144,
+        "accuracy": {
+          "naive_scalar": "0/48",
+          "neumaier_scalar": "42/48",
+          "neumaier_state": "48/48"
+        },
+        "cpu_parallelism_samples_above_1_05": {
+          "count": 99,
+          "total": 144
+        },
+        "median_speedup_by_method": {
+          "naive_scalar": 0.189908,
+          "neumaier_scalar": 0.861783,
+          "neumaier_state": 0.858241
+        },
+        "report": {
+          "sha256": "f95e6d7622933f9dbe6ffb5bc1caec0a011043415ec3564ee0020228deb5a4c7",
+          "bytes": 56865
+        },
+        "artifact": {
+          "id": 15087304884,
+          "name": "noema005-arm64-macos-15-arm64-free-threaded",
+          "zip_sha256": "157d7772f33d963a927f3d115ec59a5973f7ecb03982fcfd4327fde241c88926",
+          "zip_bytes": 7680,
+          "retention_days": 30
+        }
+      }
+    ],
+    "aggregate": {
+      "runtime_cells": 4,
+      "configurations": 192,
+      "measured_runs": 576,
+      "accuracy": {
+        "naive_scalar": {
+          "correct": 0,
+          "total": 192
+        },
+        "neumaier_scalar": {
+          "correct": 168,
+          "total": 192
+        },
+        "neumaier_state": {
+          "correct": 192,
+          "total": 192
+        }
+      },
+      "cpu_parallelism_samples_above_1_05": {
+        "gil_enabled": {
+          "count": 0,
+          "total": 288
+        },
+        "free_threaded": {
+          "count": 207,
+          "total": 288
+        }
+      },
+      "median_neumaier_state_speedup_by_runtime_cell": {
+        "ubuntu_gil_enabled": 0.739002,
+        "ubuntu_free_threaded": 0.663204,
+        "macos_gil_enabled": 0.793611,
+        "macos_free_threaded": 0.858241
+      },
+      "all_runtime_cell_median_speedups_below_one": true,
+      "interpretation": "Final-PR-head verification reproduced Neumaier-state accuracy in all four ARM64 runtime cells. All four state-method cell medians were below one; no wall-time acceleration was established."
+    },
+    "four_batch_comparison": {
+      "batch_run_ids": [
+        45752987940,
+        45754595646,
+        45756074975,
+        45756479611
+      ],
+      "accuracy_per_batch": {
+        "naive_scalar": "0/192",
+        "neumaier_scalar": "168/192",
+        "neumaier_state": "192/192"
+      },
+      "cumulative_accuracy": {
+        "naive_scalar": "0/768",
+        "neumaier_scalar": "672/768",
+        "neumaier_state": "768/768"
+      },
+      "cpu_parallelism_threshold_counts": {
+        "gil_enabled": [
+          "2/288",
+          "1/288",
+          "0/288",
+          "0/288"
+        ],
+        "free_threaded": [
+          "208/288",
+          "211/288",
+          "214/288",
+          "207/288"
+        ]
+      },
+      "interpretation": "Across four independent ARM64 benchmark batches, the exact numerical result was invariant. CPU-time/wall-time threshold counts varied; they are descriptive only. Timing results do not support a robust general speedup claim."
+    },
+    "limitations": [
+      "Hosted virtual machines are not controlled laboratory hardware; CPU scheduling, host contention and clock behavior may vary.",
+      "Ubuntu ARM64 and macOS ARM64 differ in CPU family, operating system, core count and virtualization; differences cannot be attributed to architecture alone.",
+      "Each runtime cell used three measured repetitions; this is not a high-powered timing study.",
+      "The synthetic cancellation inputs are adversarial and do not represent typical scientific workloads.",
+      "tracemalloc measures traced Python allocations, not process RSS or every native allocation.",
+      "The 1.05 CPU-time/wall-time threshold is descriptive and is not a significance test.",
+      "Raw JSON reports are retained by GitHub Actions artifacts for 30 days; report and archive SHA-256 values are recorded, but raw reports are not permanently committed."
+    ]
   }
 }
