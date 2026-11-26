@@ -12,7 +12,20 @@ How do native double, long double, recursive pairwise reduction, Neumaier compen
 
 ## მოკლე შეჯამება
 
-An exact-head x86-64/ARM64 CI matrix completed 50 cases per architecture. A bounded integer-unit-to-binary64 converter has now been added with round-to-nearest, ties-to-even. Its boundary self-test covers normal/subnormal values, positive and negative halfway ties, cancellation, and overflow; exact-head CI and an independent MPFR/SoftFloat cross-check are pending. Neumaier and the exact superaccumulator matched the known integer reference in every measured repetition on both architectures and both input layouts. Native long double differed by architecture: the x86-64 runner reports 64 significand bits and failed the grouped-cancellation fixture; the ARM64 runner reports 113 significand bits and passed both fixtures. Naive and the tested pairwise tree failed both layouts on both architectures. Timing varied substantially on the hosted x86-64 runner; the ARM64 runner showed more consistent scaling in this single batch, but no general speedup claim is justified.
+An exact-head x86-64/ARM64 CI matrix completed 50 native reduction cases per architecture. The bounded integer-unit-to-binary64 converter now has both boundary self-tests and a deterministic 275-input exact-rational oracle suite. The Python integer and Decimal oracles agreed bit-for-bit on all 275 inputs, and the native C converter matched all 275 on both hosted architectures. This is a reproduced CI regression result, not an MPFR/SoftFloat proof or physical-hardware replication. Neumaier and the exact superaccumulator matched the known integer reference in every measured reduction repetition on both architectures and both input layouts. Native long double differed by architecture: the x86-64 runner reports 64 significand bits and failed the grouped-cancellation fixture; the ARM64 runner reports 113 significand bits and passed both fixtures. Naive and the tested pairwise tree failed both layouts on both architectures. Timing varied substantially on the hosted x86-64 runner; the ARM64 runner showed more consistent scaling in this single batch, but no general speedup claim is justified.
+
+## Exact binary64 conversion oracle cross-check
+
+A separate C harness includes the benchmark translation unit and exposes the bounded converter to a deterministic test stream of signed 2,560-bit integer-unit values. The Python test generates 275 inputs (261 unique) across 21 bit-length buckets, plus explicit subnormal/normal, halfway-tie, maximum-finite/overflow-midpoint and signed-accumulator-endpoint cases. All values represent exact multiples of 2^-1074.
+
+Two Python references are compared first: an arbitrary-precision integer quotient/remainder implementation with ties-to-even, and a 1,200-digit Decimal rational conversion. The C output is then compared bit-for-bit with the Decimal reference. The test passed on both linux-x86_64 and linux-arm64 in the exact-head native workflow. The quality suite also passed on the same head.
+
+- [Exact-head quality CI — run 45809003594](https://github.com/maisuradzee/bibmom/actions/runs/45809003594) — SUCCESS.
+- [Native x86-64/ARM64 matrix — run 45809003616](https://github.com/maisuradzee/bibmom/actions/runs/45809003616) — both architecture jobs SUCCESS; the oracle step passed on each.
+- Frozen protocol: data/noema-005/exact-rounding-oracle-protocol-2026-11-26.json.
+- Frozen CI result: data/noema-005/exact-rounding-oracle-ci-2026-11-26.json.
+
+This cross-check is stronger than the original hand-picked boundary tests, but it is not MPFR/SoftFloat, a formal proof, or an independent implementation in another runtime. The deterministic synthetic cases do not establish general application-level correctness.
 
 ## მეთოდი ან ექსპერიმენტის გეგმა
 
@@ -106,7 +119,7 @@ An earlier local run was excluded from the architecture comparison because its s
 
 ### UNTESTED IDEA
 
-- Independently cross-check exact-to-binary64 conversion against MPFR or SoftFloat, including generated boundary and random finite-sum cases.
+- Cross-check the converter against MPFR or SoftFloat, including independently generated rational values and signed overflow/underflow boundaries.
 - Compare exponent-binned, long-accumulator and error-free-transformation implementations.
 - Test memory-bandwidth-bound arrays, NUMA placement, energy and multiple compiler/OpenMP runtime versions.
 
@@ -122,21 +135,22 @@ An earlier local run was excluded from the architecture comparison because its s
 - Both architecture runs used GitHub-hosted Ubuntu 24.04 runners and GCC 13.3.0. They are architecture-level replications, not independent laboratory replications.
 - Five repetitions per cell are not enough for strong timing inference; CPU scheduling and host contention remain visible.
 - Process peak RSS is not per-method memory usage.
-- The converter is bounded by the 2,560-bit accumulator and benchmark input-count bound; accumulator overflow is unsupported. Boundary self-tests are not an independent proof of correct rounding.
+- The converter is bounded by the 2,560-bit accumulator and benchmark input-count bound; accumulator overflow is unsupported. The 275-case integer/Decimal oracle test is not MPFR/SoftFloat or a formal proof.
 - No external numerical-method review has been performed.
 
 ## შემდეგი ნაბიჯები
 
-1. Complete exact-head x86-64/ARM64 CI for the new converter boundary tests.
-2. Independently cross-check conversion against MPFR or SoftFloat and generated rational reference cases.
+1. Cross-check conversion against MPFR or SoftFloat and independently generated rational reference cases.
+2. Add accumulator-overflow rejection tests and extend property generation to broader finite-sum distributions.
 3. Add representative array sizes and memory-bandwidth-bound inputs; record affinity, CPU model and runtime version.
 4. Repeat timing on pinned x86-64 and ARM64 hardware with more repetitions and confidence intervals.
 5. Compare binned and error-free-transformation methods against the same exact reference, then request independent numerical-method review.
 
 ## შემოწმების სტატუსი
 
-- Exact-head quality CI: SUCCESS, run 45802426249.
-- Native accumulator matrix: SUCCESS on x86-64 and ARM64, run 45802426194.
+- Exact-head quality CI for the converter and rational-oracle suite: SUCCESS, run 45809003594.
+- Native accumulator matrix: SUCCESS on x86-64 and ARM64, run 45809003616; 275/275 oracle matches on each architecture.
+- The exact converter change was merged from PR #42 at 32bd0ea18c40865322bc89f5424d9f84a12ac307.
 - Both raw artifacts passed the report validator; source hash matched across architectures.
 - Earlier local report with a different source hash is excluded from the cross-architecture evidence.
 - Independent scientific review: not performed.
