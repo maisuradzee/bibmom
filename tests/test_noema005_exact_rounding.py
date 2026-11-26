@@ -138,6 +138,53 @@ class Noema005ExactRoundingOracleTests(unittest.TestCase):
         self.assertEqual(len(actual), len(values))
         self.assertEqual(actual, expected)
 
+    @staticmethod
+    def randomized_cases() -> list[int]:
+        """Deterministic full-width signed integers plus tie-adjacent rounding cases."""
+        rng = random.Random(0x4E4F454D41355F52)
+        values: list[int] = []
+
+        # Cover the full supported signed accumulator width with reproducible
+        # magnitudes and signs, not just the hand-selected boundary fixtures.
+        for _ in range(1024):
+            bit_length = rng.randint(1, 2559)
+            magnitude = (1 << (bit_length - 1)) | rng.getrandbits(bit_length - 1)
+            values.append(-magnitude if rng.getrandbits(1) else magnitude)
+
+        # Probe immediately below, at, and above half-way points over a broad
+        # exponent range, with both even and odd retained significands.
+        for highest in range(53, 2559, 29):
+            shift = highest - 52
+            seed = (1 << 52) | rng.getrandbits(52)
+            for significand in (seed & ~1, seed | 1):
+                midpoint = (significand << shift) + (1 << (shift - 1))
+                for delta in (-1, 0, 1):
+                    candidate = midpoint + delta
+                    values.extend((candidate, -candidate))
+        return values
+
+    def test_native_converter_matches_deterministic_random_full_width_oracles(self):
+        values = self.randomized_cases()
+        expected = []
+        for value in values:
+            with self.subTest(value_bits=abs(value).bit_length(), negative=value < 0):
+                integer_result = integer_rounding_oracle(value)
+                decimal_result = decimal_rounding_oracle(value)
+                self.assertEqual(integer_result, decimal_result)
+                expected.append(decimal_result)
+
+        completed = subprocess.run(
+            [str(self.binary)],
+            input="".join(f"{value}\\n" for value in values),
+            check=True,
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
+        actual = [int(line, 16) for line in completed.stdout.splitlines()]
+        self.assertEqual(len(actual), len(values))
+        self.assertEqual(actual, expected)
+
     def test_boundary_suite_includes_overflow_tie_and_signed_extremes(self):
         values = self.cases()
         self.assertIn(((1 << 53) - 1) * (1 << 2045) + (1 << 2044), values)
