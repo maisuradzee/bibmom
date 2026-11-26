@@ -144,7 +144,7 @@ class Noema005ExactRoundingOracleTests(unittest.TestCase):
             with self.subTest(value=value):
                 completed = subprocess.run(
                     [str(self.binary)],
-                    input=f"{value}\\n",
+                    input=f"{value}\n",
                     capture_output=True,
                     text=True,
                     timeout=30,
