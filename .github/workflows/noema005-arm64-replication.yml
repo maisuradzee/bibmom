@@ -1,0 +1,167 @@
+name: NOEMA-005 ARM64 real-thread replication
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - .github/workflows/noema005-arm64-replication.yml
+      - scripts/benchmark_noema005_threaded_reduction.py
+      - scripts/validate_noema005_arm64_report.py
+      - tests/test_benchmark_noema005_threaded_reduction.py
+      - tests/test_validate_noema005_arm64_report.py
+      - research/drafts/NOEMA-2026-005-arm64-replication-protocol.md
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: noema005-arm64-replication-\${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  benchmark:
+    name: \${{ matrix.runner_key }} / \${{ matrix.mode }}
+    runs-on: \${{ matrix.runner }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        include:
+          - runner: ubuntu-24.04-arm
+            runner_key: ubuntu-24.04-arm
+            expected_os: Linux
+            python_version: "3.14.4"
+            mode: gil-enabled
+            expected_gil: enabled
+          - runner: ubuntu-24.04-arm
+            runner_key: ubuntu-24.04-arm
+            expected_os: Linux
+            python_version: "3.14.4t"
+            mode: free-threaded
+            expected_gil: disabled
+          - runner: macos-15
+            runner_key: macos-15-arm64
+            expected_os: Darwin
+            python_version: "3.14.4"
+            mode: gil-enabled
+            expected_gil: enabled
+          - runner: macos-15
+            runner_key: macos-15-arm64
+            expected_os: Darwin
+            python_version: "3.14.4t"
+            mode: free-threaded
+            expected_gil: disabled
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Set up CPython
+        uses: actions/setup-python@v6
+        with:
+          python-version: \${{ matrix.python_version }}
+
+      - name: Verify ARM64 runner, CPython and GIL mode
+        shell: bash
+        run: |
+          python --version
+          python - <<'PY'
+          import os
+          import platform
+          import sys
+          import sysconfig
+
+          machine = platform.machine().lower()
+          allowed_arm64 = {"aarch64", "arm64"}
+          if machine not in allowed_arm64:
+              raise SystemExit(f"Expected ARM64 runner, got {machine!r}")
+          expected_os = "\${{ matrix.expected_os }}"
+          if platform.system() != expected_os:
+              raise SystemExit(
+                  f"Expected OS {expected_os!r}, got {platform.system()!r}"
+              )
+          if platform.python_implementation() != "CPython":
+              raise SystemExit("Expected CPython")
+          gil_enabled = sys._is_gil_enabled()
+          py_gil_disabled = int(sysconfig.get_config_var("Py_GIL_DISABLED") or 0)
+          expected_gil = "\${{ matrix.expected_gil }}"
+          print(f"implementation={platform.python_implementation()}")
+          print(f"python={platform.python_version()}")
+          print(f"os={platform.platform()}")
+          print(f"machine={machine}")
+          print(f"processor={platform.processor()}")
+          print(f"cpu_count={os.cpu_count()}")
+          print(f"Py_GIL_DISABLED={py_gil_disabled}")
+          print(f"gil_enabled={gil_enabled}")
+          if expected_gil == "enabled" and not gil_enabled:
+              raise SystemExit("Expected GIL-enabled CPython")
+          if expected_gil == "disabled" and gil_enabled:
+              raise SystemExit("Expected free-threaded CPython with GIL disabled")
+          if expected_gil == "disabled" and py_gil_disabled != 1:
+              raise SystemExit("Expected a free-threaded CPython build")
+          if expected_gil == "enabled" and py_gil_disabled != 0:
+              raise SystemExit("Expected a standard GIL-enabled CPython build")
+          PY
+
+      - name: Run existing real-thread reduction tests
+        run: python -m unittest discover -s tests -p 'test_benchmark_noema005_threaded_reduction.py' -v
+
+      - name: Run ARM64 report-validator tests
+        run: python -m unittest discover -s tests -p 'test_validate_noema005_arm64_report.py' -v
+
+      - name: Run real CPU-thread benchmark
+        run: >-
+          python scripts/benchmark_noema005_threaded_reduction.py
+          --repeat-count 65536
+          --workers 1,2,4,8
+          --warmups 1
+          --repetitions 3
+          --expected-gil \${{ matrix.expected_gil }}
+          --output "$RUNNER_TEMP/noema005-arm64-\${{ matrix.runner_key }}-\${{ matrix.mode }}.json"
+
+      - name: Validate measured ARM64 report
+        run: >-
+          python scripts/validate_noema005_arm64_report.py
+          "$RUNNER_TEMP/noema005-arm64-\${{ matrix.runner_key }}-\${{ matrix.mode }}.json"
+          --expected-gil \${{ matrix.expected_gil }}
+          --expected-architecture arm64
+
+      - name: Write benchmark summary
+        shell: bash
+        run: |
+          python - "$RUNNER_TEMP/noema005-arm64-\${{ matrix.runner_key }}-\${{ matrix.mode }}.json" <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          import sys
+          from pathlib import Path
+
+          report = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+          env = report["environment"]
+          print("## NOEMA-005 ARM64 real-thread replication")
+          print()
+          print(f"- Runner: \${{ matrix.runner_key }}")
+          print(f"- Python: {env['python_version']} ({'GIL enabled' if env['gil_enabled'] else 'free-threaded'})")
+          print(f"- Machine: {env['machine']} — {env['processor'] or 'processor string unavailable'}")
+          print(f"- Process-visible CPUs: {env['cpu_count_process']}")
+          print(f"- Input SHA-256: " + ", ".join(x["canonical_binary64_big_endian_sha256"] for x in report["inputs"]))
+          print()
+          print("| Layout | Method | Workers | Partition | Median wall (ms) | CPU/wall | Speedup | Correct |")
+          print("|---|---|---:|---|---:|---:|---:|---:|")
+          for case in report["threaded_cases"]:
+              print(
+                  f"| {case['layout']} | {case['method']} | {case['worker_count']} "
+                  f"| {case['partition']} | {case['median_wall_ns'] / 1_000_000:.3f} "
+                  f"| {case['median_cpu_wall_ratio']:.3f} "
+                  f"| {case['speedup_vs_matching_serial_baseline']:.3f} "
+                  f"| {case['correctly_rounded_runs']}/{case['runs']} |"
+              )
+          PY
+
+      - name: Upload measured JSON report
+        uses: actions/upload-artifact@v4
+        with:
+          name: noema005-arm64-\${{ matrix.runner_key }}-\${{ matrix.mode }}
+          path: \${{ runner.temp }}/noema005-arm64-\${{ matrix.runner_key }}-\${{ matrix.mode }}.json
+          if-no-files-found: error
+          retention-days: 30
