@@ -1,15 +1,15 @@
 # NOEMA — მიმდინარე პროექტის მდგომარეობა
 
-- **განახლდა:** 2026-11-26 (run 13 audit, post-merge verification)
+- **განახლდა:** 2026-11-26 (run 13, post-merge snapshot)
 - **საცავი:** https://github.com/maisuradzee/bibmom
-- **ძირითადი branch:** main
-- **მიმდინარე main:** `8c253c3b6096134d713cef1b1a3969ed9e000126` (PR #76, INFRA-001 artifact verifier)
-- **Latest verified main quality CI:** [45858316244](https://github.com/maisuradzee/bibmom/actions/runs/45858316244) — `validate` job SUCCESS for the current main SHA.
-- **Latest verified Pages deployment:** [45858316170](https://github.com/maisuradzee/bibmom/actions/runs/45858316170) — `build` and `deploy` jobs SUCCESS for the current main SHA.
-- **Current run audit:** [docs/run-audits/2026-11-26-run-13.md](run-audits/2026-11-26-run-13.md) — four-stream portfolio, evidence boundaries, open PR freshness and next priorities.
-- **Open research/engineering PRs:** #77 (run 13 audit/portfolio sync; CI rerunning after refresh), #71 (NOEMA-005; refresh required), #46, #27, #7 and #5 (older Draft PRs requiring refresh/revalidation).
+- **მდგომარეობის snapshot main:** `e22ee07ca38fc076d722c4ec7700d163e6abe745` (PR #77, run 13 audit/portfolio synchronization)
+- **Latest verified quality CI for snapshot:** [45858719568](https://github.com/maisuradzee/bibmom/actions/runs/45858719568) — `validate` job SUCCESS.
+- **Latest verified Pages deployment for snapshot:** [45858719709](https://github.com/maisuradzee/bibmom/actions/runs/45858719709) — `build` and `deploy` jobs SUCCESS.
+- **Run 13 audit:** [docs/run-audits/2026-11-26-run-13.md](run-audits/2026-11-26-run-13.md) — four active streams, evidence boundaries, work performed and post-merge verification.
+- **Merged in run 13:** PR #76 (INFRA-001 streamed artifact digest verification) and PR #77 (portfolio/status audit).
+- **Open research/engineering PRs at this snapshot:** #71 (NOEMA-005; 8 ahead / 5 behind, refresh required), #46, #27, #7 and #5 (older Draft PRs requiring refresh/revalidation).
 
-> ქვემოთ არსებული დეტალური ჩანაწერები მოიცავს წინა გაშვებების snapshot-ებს. თუ რომელიმე ისტორიული SHA, CI ან PR სტატუსი ამ ზედა მიმდინარე audit-ს ეწინააღმდეგება, უპირატესობა მიანიჭეთ run 13 audit-ს; ისტორიული ჩანაწერები განზრახ შენარჩუნებულია Git ისტორიისა და გადაწყვეტილებების კვალისთვის.
+> ეს არის snapshot, რომელიც დადასტურებულია main `e22ee07`-ზე. მომდევნო merge-ები main-ს წინ წასწევს; მათთვის CI/deployment-ის სტატუსი ცალკე უნდა შემოწმდეს. ქვემოთ არსებული დეტალური ჩანაწერები მოიცავს წინა გაშვებების snapshot-ებს და ისტორიის შესანარჩუნებლად დატოვებულია.
 
 ## მიმდინარე მდგომარეობა
 
