@@ -65,7 +65,9 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install --yes libmpfr-dev libgmp-dev pkg-config
-          pkg-config --modversion mpfr
+          MPFR_VERSION="$(pkg-config --modversion mpfr)"
+          echo "MPFR version: ${MPFR_VERSION}"
+          test "${MPFR_VERSION}" = "4.2.1"
       - name: Cross-check exact binary64 conversion against MPFR
         run: python -m unittest discover -s tests -p "test_noema005_mpfr_rounding.py" -v
       - name: Cross-check exact binary64 conversion against integer and Decimal oracles
