@@ -150,7 +150,7 @@ NOEMA-ს ყველაზე დასაბუთებული შემ�
 3. მხოლოდ უფლებამოსილი პარტნიორის თანხმობის შემდეგ შეაგროვე არაპერსონალური/აგრეგირებული timestamp-ები: alert issued, delivered, acknowledged, action started/completed და after-action review.
 4. წინასწარ განსაზღვრე baseline, inclusion/accessibility measures, false/misdirected alert-ები და stop criteria; სანამ ეს მონაცემები არ არსებობს, Action Bridge დარჩეს არქიტექტურულ ჰიპოთეზად.
 
-## 10. შემოწმების სტატუსი
+## შემოწმების სტატუსი
 
 - **FACT:** UNDRR/WMO-ის 2026 წლის ანგარიშში 136 ქვეყანა იუწყება MHEWS შესაძლებლობას; 64-ს აქვს ოთხივე pillar-ის შესაძლებლობა; risk knowledge ყველაზე სუსტი pillar-ია. წყარო: UNDRR report page და WMO publication.
 - **FACT:** WMO/UNDRR აღწერს 6.1-ჯერ დაბალ disaster mortality-ს და 3.2-ჯერ ნაკლებ დაზარალებულ ადამიანს უფრო ყოვლისმომცველი სისტემების მქონე ქვეყნებში; ეს არის ქვეყნებს შორის ასოციაცია და არა მარტო early-warning სისტემის მიზეზობრივი ეფექტი.
@@ -162,7 +162,7 @@ NOEMA-ს ყველაზე დასაბუთებული შემ�
 - **UNTESTED IDEA:** NOEMA Last-Mile Action Bridge — მხოლოდ ოფიციალური სისტემების დამხმარე, privacy-preserving readiness layer; ახალი საჯარო alerting არხი ან ავტომატური ბრძანების სისტემა არ იგეგმება.
 - **განმეორებადობა:** ამ ეტაპზე ჩატარებულია მხოლოდ 64/136 არითმეტიკული გამოთვლა. საველე მონაცემი, მომხმარებელთა კვლევა, causal evaluation და NOEMA-ს პროგრამული პროტოტიპი არ ჩატარებულა.
 
-## 11. წყაროები
+## წყაროები
 
 1. UNDRR, *Global Status of Multi-Hazard Early Warning Systems 2026*, 11 November 2026 — https://www.undrr.org/reports/global-status-mhews-2026
 2. WMO, *Global Status of Multi-Hazard Early Warning Systems 2026*, 11 November 2026 — https://wmo.int/resources/publication-series/global-status-of-multi-hazard-early-warning-systems/gsmhews-2026
