@@ -519,6 +519,14 @@
           "url": "https://github.com/maisuradzee/bibmom/actions/runs/45811367483",
           "type": "internal_ci_result",
           "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA PR #50 — private POSIX backup staging hardening",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/pull/50",
+          "type": "internal_engineering_change",
+          "accessed_at": "2026-11-26"
         }
       ],
       "data_needs": [
@@ -539,7 +547,7 @@
         "Encrypted/off-host backup, signed manifest, retention/rotation, provider integration and scheduled restore drills are not implemented; no storage provider, key custodian, RPO/RTO or retention policy has been selected."
       ],
       "status": "active",
-      "status_detail": "PR #50 proposes a local backup hardening change: create the temporary SQLite snapshot inside a private 0700 POSIX staging directory, keep the file at 0600, and publish by atomic no-overwrite hard link. A regression test inspects both modes immediately before publication even when the final parent is 0755. The change is Draft and exact-head CI is pending; off-host encryption, signed manifests, retention/rotation and restore drills remain unimplemented.",
+      "status_detail": "Draft PR #50 adds a private POSIX staging directory (0700) and 0600 temporary SQLite file before path-based SQLite access, then publishes the verified snapshot by no-overwrite hard link. Its regression test inspects both permissions at publication while the destination parent is 0777. The PR's exact-head quality check passed on its initial code head; the current check status is authoritative on the PR. PR #49 subsequently advanced main by one commit, so this branch must be refreshed and re-tested before merge. Off-host encryption, signed manifests, retention/rotation and restore drills remain unimplemented.",
       "next_step": "Validate the private staging change on the exact PR head, then run an operator-approved restore drill and measure recovery time/data loss. Select provider, key custodian, RPO/RTO and retention policy before implementing encrypted off-host storage and signed manifests.",
       "success_metrics": [
         "backup includes committed WAL data",
