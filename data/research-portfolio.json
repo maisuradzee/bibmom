@@ -19,7 +19,8 @@
       "methodology": [
         "ოფიციალური წყაროების დოკუმენტური მიმოხილვა და არსებული ქართული მონიტორინგის ინფრასტრუქტურის აღწერა",
         "დეტერმინისტული წესების ძრავისა და სინთეზური unit tests-ის გამოყენება",
-        "შემდეგ ეტაპზე მხოლოდ უფლებამოსილი ოპერატორის მიერ ნებადართული paired sensor/laboratory მონაცემის წინასწარ რეგისტრირებული შეფასება"
+        "შემდეგ ეტაპზე მხოლოდ უფლებამოსილი ოპერატორის მიერ ნებადართული paired sensor/laboratory მონაცემის წინასწარ რეგისტრირებული შეფასება",
+        "ლოკალური append-only SQLite event store: canonical transition replay, WAL, immediate write transaction, SHA-256 hash chain და synthetic concurrency/tamper/replay tests"
       ],
       "sources": [
         {
@@ -53,6 +54,14 @@
           "url": "https://www.who.int/publications/i/item/9789240067691",
           "type": "technical_guidance",
           "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Write-Ahead Logging",
+          "publisher": "SQLite",
+          "publication_date": "undated",
+          "url": "https://www.sqlite.org/wal.html",
+          "type": "official_technical_documentation",
+          "accessed_at": "2026-11-26"
         }
       ],
       "data_needs": [
@@ -65,15 +74,21 @@
         "ცრუ განგაში ან სენსორის drift-ის წყლის რეალურ ცვლილებად მიჩნევა",
         "არასრული telemetry-ის ნორმალურ მდგომარეობად არასწორი ინტერპრეტაცია",
         "პირადი/ოპერატორული მონაცემის საჯარო საცავში შემთხვევითი მოხვედრა",
-        "პროტოტიპის ლაბორატორიულ ან რეგულატორულ შეფასებად აღქმა"
+        "პროტოტიპის ლაბორატორიულ ან რეგულატორულ შეფასებად აღქმა",
+        "The local hash chain is tamper-evident but not signed; a privileged attacker able to rewrite and rehash the database may alter history.",
+        "The event store has no encrypted/off-host backup, retention policy, external signed checkpoint or production access-control integration."
       ],
       "blockers": [
-        "Authorized paired sensor/laboratory data, a site data dictionary and approved Water Safety Plan limits are not available under explicit reuse permission.",
-        "No field validation, independent external review or production durable event store exists."
+        "Authorized paired sensor/laboratory data, a site data dictionary and approved Water Safety Plan limits remain unavailable under explicit reuse permission.",
+        "No field validation or independent external review has been completed.",
+        "The new SQLite event store is a local prototype; encrypted/off-host backup, retention/rotation, signed external checkpoints and production access control remain unimplemented.",
+        "The clean-branch exact-head CI for the filesystem hardening is pending.",
+        "No encrypted/off-host backup, retention/rotation, signed external checkpoint, restore drill or production access-control integration exists.",
+        "Authorized paired sensor/laboratory data and field validation remain unavailable."
       ],
       "status": "active",
-      "status_detail": "PR #29 merged into main at 5b0f8ea791ca9eee1ff5bc96cbc811ebfe88b960. Exact-head quality CI run 45791736630 passed 252 Python tests. The immutable WaterIncident model now checks monotonic event history, complete assessment-to-event binding, severity consistency, and matching acknowledgement/closure audit events; new assessments cannot be backdated before the last event, while identical acknowledgement replay remains idempotent. This is still a synthetic in-memory prototype; no paired sensor/laboratory data or field validation exists.",
-      "next_step": "Obtain an authorized operator data dictionary and permitted paired sensor/laboratory records; preregister baseline, sensitivity, PPV, false-alert rate and detection-delay metrics before any field pilot. Design a durable append-only event store with access control and recovery tests.",
+      "status_detail": "The append-only SQLite event-store prototype has been ported onto a clean branch from current main and hardened: on POSIX it requires a current-user-owned 0700 parent directory, opens the database with O_NOFOLLOW, verifies a regular file owned by the current user and applies mode 0600 before SQLite opens it. Synthetic tests cover private-directory rejection and database symlink rejection in addition to replay, stale snapshots, tampering and concurrency. Exact-head CI is pending. This remains a local prototype with no authorized sensor/laboratory data or field validation.",
+      "next_step": "Complete exact-head quality CI and review the event-store recovery contract. Before any production use, add encrypted/off-host backups, retention/rotation, signed external checkpoints, restore drills and host ACL integration; separately obtain explicitly authorized paired sensor/laboratory data for a preregistered field evaluation.",
       "success_metrics": [
         "საველე ტესტში წინასწარ განსაზღვრულ reference labels-თან შედარებული sensitivity და positive predictive value",
         "false-alert rate და detection delay წინასწარ განსაზღვრულ baseline-თან შედარებით",
@@ -97,7 +112,9 @@
         "დეტერმინისტული synthetic binary64 cancellation fixture და exact-rational reference",
         "contiguous/round-robin partition-ები, 1/2/4/8 worker-ები და naive/scalar Neumaier/compensation-state მეთოდები",
         "ოთხი დამოუკიდებელი ARM64 benchmark batch, თითოეულში ოთხი runtime cell და თითოეულ cell-ში 48 configuration",
-        "accuracy, CPU-time/wall-time და tracemalloc ცალ-ცალკე შეფასება; CPU-time/wall-time არ განიმარტოს როგორც wall-time speedup"
+        "accuracy, CPU-time/wall-time და tracemalloc ცალ-ცალკე შეფასება; CPU-time/wall-time არ განიმარტოს როგორც wall-time speedup",
+        "Native C11/OpenMP comparison of serial and 1/2/4/8-thread naive, long-double, recursive pairwise, Neumaier-state and fixed-width exact-superaccumulator reductions on two frozen cancellation layouts",
+        "One warm-up and five timed repetitions per case; record actual native thread counts, monotonic wall time, process CPU time, process peak RSS and compiler/runtime provenance"
       ],
       "sources": [
         {
@@ -155,6 +172,30 @@
           "url": "https://docs.python.org/3/library/decimal.html",
           "type": "official_runtime_documentation",
           "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "The Accuracy of Floating Point Summation",
+          "publisher": "SIAM Journal on Scientific Computing",
+          "publication_date": "1993-07",
+          "url": "https://doi.org/10.1137/0914050",
+          "type": "peer_reviewed_numerical_analysis",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Accurate Sum and Dot Product",
+          "publisher": "SIAM Journal on Scientific Computing",
+          "publication_date": "2005-01",
+          "url": "https://doi.org/10.1137/030601818",
+          "type": "peer_reviewed_numerical_analysis",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "IEEE Std 754-2019 — IEEE Standard for Floating-Point Arithmetic",
+          "publisher": "IEEE Computer Society",
+          "publication_date": "2019-07-22",
+          "url": "https://standards.ieee.org/ieee/754/6210/",
+          "type": "technical_standard",
+          "accessed_at": "2026-11-26"
         }
       ],
       "data_needs": [
@@ -166,17 +207,20 @@
         "Hosted runner-ების CPU მოდელი, virtualization და host contention იცვლება",
         "synthetic cancellation workload რეალურ სამეცნიერო workload-ს არ წარმოადგენს",
         "tracemalloc არ ზომავს სრულ RSS-ს ან ყველა native allocation-ს",
-        "სამი repetition timing-ის მაღალი სიმძლავრის სტატისტიკურ დასკვნას არ იძლევა"
+        "სამი repetition timing-ის მაღალი სიმძლავრის სტატისტიკურ დასკვნას არ იძლევა",
+        "Native long double precision and representation vary by ABI; this local x86-64 host reports 64 significand bits.",
+        "The fixed-width exact superaccumulator is validated against known synthetic integer sums only; a general correctly-rounded conversion is not implemented.",
+        "Pairwise reduction may be faster on a fixture while returning an incorrect result; timing is only meaningful after accuracy passes."
       ],
       "blockers": [
-        "The native experiment currently covers two synthetic cancellation fixtures only; representative application workloads and memory-bandwidth tests remain outstanding.",
-        "Five repetitions on hosted runners show material timing variance, especially on x86-64; pinned-hardware repetition and uncertainty intervals are required before performance conclusions.",
-        "The exact superaccumulator is an exact integer-domain comparator for known fixture sums; a general correctly-rounded binary64 result is not implemented.",
-        "External numerical-method review remains outstanding."
+        "The native C/OpenMP experiment currently has one local x86-64 run; independent ARM64 and hosted x86-64 replication are pending.",
+        "Five repetitions and two synthetic cancellation fixtures do not establish general accuracy or performance.",
+        "The exact superaccumulator is a fixture-level exact comparator and does not yet expose a general correctly-rounded floating-point result.",
+        "External numerical-method review and representative application workloads remain outstanding."
       ],
       "status": "active",
-      "status_detail": "The native C11/OpenMP sub-experiment now has exact-head x86-64 and ARM64 CI evidence. Run 45802426194 completed 50 cases on each architecture; both raw reports passed the validator and recorded the same source SHA-256 96cf598a83934b78a6a382faaca9ddeea1f75656bf282e9295bea9125361f7a2. Neumaier and exact superaccumulator matched both fixtures 5/5 on both architectures. Native long double passed grouped cancellation on ARM64 (LDBL_MANT_DIG=113) but failed on x86-64 (64). Naive and the tested pairwise tree failed both fixtures. Timing was variable on x86-64; ARM64 showed better single-batch scaling, but this is not sufficient for general performance claims. The native sub-experiment remains draft; the existing study remains preliminary.",
-      "next_step": "Implement general exact-to-binary64 round-to-nearest-even conversion; add representative array sizes and memory-bandwidth-bound inputs; repeat on pinned x86-64/ARM64 hardware with more repetitions and uncertainty intervals; compare binned and error-free-transformation algorithms; request independent numerical-method review.",
+      "status_detail": "A native C11/OpenMP experiment was added as a draft sub-experiment. One local Linux x86-64 run (GCC 14.2.0, LDBL_MANT_DIG=64, five visible CPUs) covered 50 cases: two cancellation layouts, five serial methods and five OpenMP methods at 1/2/4/8 threads, with one warm-up and five measured repetitions. Serial and OpenMP Neumaier and exact-superaccumulator paths matched the known integer reference in 5/5 runs on both layouts. Native long double passed the interleaved triplet but failed grouped cancellation; pairwise and naive failed both. Exact OpenMP median speedups over matching serial exact were 1.67–2.09x at 2/4/8 workers on triplets and 1.86–2.01x on grouped cancellation in this single host only. The independent ARM64/x86-64 CI matrix and its raw artifacts are pending; the new sub-experiment remains draft and does not alter the existing preliminary study's status.",
+      "next_step": "Run the exact-head x86-64 and ARM64 native CI matrix; compare architecture-specific long-double behavior and exact-superaccumulator accuracy. Then implement general correctly-rounded output, add representative vector/memory-bandwidth workloads and repeat with independent compilers/runtime versions.",
       "success_metrics": [
         "exact-reference accuracy თითოეული მეთოდისა და runtime-ის მიხედვით",
         "median wall-time და uncertainty interval წინასწარ განსაზღვრული repetition protocol-ით",
