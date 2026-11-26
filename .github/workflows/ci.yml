@@ -26,6 +26,10 @@ jobs:
           test -f assets/articles.css
           test -f requirements-site.txt
           test -f data/research.json
+          test -f data/noema-007/mhews-2026-source-snapshot.json
+          test -f data/noema-007/mhews-2026-derived-results.json
+          test -f scripts/reproduce_noema007_mhews_snapshot.py
+          test -f tests/test_noema007_mhews_snapshot.py
           test -f research/TEMPLATE.md
           test -f scripts/validate_research.py
           test -f scripts/validate_drafts.py
