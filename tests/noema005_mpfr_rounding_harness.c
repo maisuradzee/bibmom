@@ -46,12 +46,12 @@ int main(void) {
     mpfr_init2(exact_reference, EXACT_LIMBS * 64 + 64);
 
     while (fgets(line, sizeof(line), stdin)) {
-        line[strcspn(line, "\\r\\n")] = '\\0';
+        line[strcspn(line, "\r\n")] = '\0';
         if (!*line) continue;
 
         exact_accum_t accumulator;
         if (!parse_units(line, units) || !mpz_to_accumulator(units, &accumulator)) {
-            fprintf(stderr, "invalid or out-of-range exact integer input\\n");
+            fprintf(stderr, "invalid or out-of-range exact integer input\n");
             mpfr_clear(exact_reference);
             mpz_clear(units);
             return 2;
@@ -69,14 +69,14 @@ int main(void) {
         if (expected_bits != actual_bits) {
             fprintf(
                 stderr,
-                "MPFR mismatch for input %s: expected %016" PRIx64 ", got %016" PRIx64 "\\n",
+                "MPFR mismatch for input %s: expected %016" PRIx64 ", got %016" PRIx64 "\n",
                 line, expected_bits, actual_bits
             );
             mpfr_clear(exact_reference);
             mpz_clear(units);
             return 1;
         }
-        printf("%016" PRIx64 "\\n", actual_bits);
+        printf("%016" PRIx64 "\n", actual_bits);
     }
 
     int read_error = ferror(stdin);
