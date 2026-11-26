@@ -42,6 +42,7 @@ class IncidentEvent:
     actor_id: str | None = None
     reference: str | None = None
     reason: str = ""
+    assessment: SignalAssessment | None = None
 
 @dataclass(frozen=True)
 class WaterIncident:
@@ -111,7 +112,8 @@ def record_assessment(current, assessment: SignalAssessment, *, incident_id: str
     severity = SEVERITY.get(assessment.status)
     event = IncidentEvent(
         event_id, "assessment", now, assessment.status,
-        observed_at=assessment.observed_at, reason=assessment.reason
+        observed_at=assessment.observed_at, reason=assessment.reason,
+        assessment=assessment,
     )
     if current is not None and _replay(current, event):
         return current
@@ -160,7 +162,7 @@ def acknowledge_incident(incident: WaterIncident, *, event_id: str, operator_id:
 def close_incident(incident: WaterIncident, assessment: SignalAssessment, *,
                    clearance_assessment_event_id: str, event_id: str,
                    operator_id: str, reference: str, reason: str, now: datetime):
-    """Close only on the latest recorded NORMAL assessment plus operator attestation."""
+    """Close only on the complete latest NORMAL assessment plus operator attestation."""
     if not isinstance(incident, WaterIncident):
         raise IncidentError("incident must be a WaterIncident")
     if not isinstance(assessment, SignalAssessment) or assessment.status != "NORMAL":
@@ -173,8 +175,8 @@ def close_incident(incident: WaterIncident, assessment: SignalAssessment, *,
     ):
         raise IncidentError("clearance must reference latest NORMAL assessment")
     latest = next(e for e in incident.events if e.event_id == incident.last_assessment_event_id)
-    if latest.kind != "assessment" or latest.observed_at != assessment.observed_at:
-        raise IncidentError("clearance evidence must match recorded NORMAL observation")
+    if latest.kind != "assessment" or latest.assessment != assessment:
+        raise IncidentError("clearance evidence must match the complete recorded NORMAL assessment")
     if incident.acknowledged_at is None:
         raise IncidentError("incident must be acknowledged before closure")
     if not _aware(assessment.observed_at) or not _aware(now) or now < max(incident.updated_at, assessment.observed_at):
