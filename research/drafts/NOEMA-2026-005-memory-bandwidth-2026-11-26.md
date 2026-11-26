@@ -106,3 +106,6 @@ A 96 MiB aligned binary64 array (12,582,912 values; 4,194,304 repetitions of [2^
 - **INFERENCE:** four-thread Neumaier scaling is promising on this one host but is not a general speedup claim. The eight-thread case is oversubscribed on a four-CPU runner.
 - **HYPOTHESIS:** the relative cost of compensated state may change with larger buffers, representative scientific distributions and different cache/memory architectures.
 - **UNTESTED IDEA:** hardware-counter collection and independent physical x86-64/ARM64 replication.
+
+
+Frozen artifact archive: `data/noema-005/memory-bandwidth-artifact-2026-11-26.zip`. Its raw report member is `noema005-memory-report.json`; the report and archive hashes are verified by `scripts/reproduce_noema005_memory_bandwidth_frozen.py`.
