@@ -10,6 +10,10 @@ on:
       - tests/test_benchmark_noema005_threaded_reduction.py
       - tests/test_validate_noema005_arm64_report.py
       - research/drafts/NOEMA-2026-005-arm64-replication-protocol.md
+      - research/preprints/NOEMA-2026-005-floating-point-summation.md
+      - data/noema-005/arm64-threaded-benchmark-summary-2026-11-26.json
+      - data/research.json
+      - tests/test_noema005_arm64_summary.py
   workflow_dispatch:
 
 permissions:
@@ -110,6 +114,9 @@ jobs:
 
       - name: Run ARM64 report-validator tests
         run: python -m unittest discover -s tests -p 'test_validate_noema005_arm64_report.py' -v
+
+      - name: Validate persisted ARM64 result summary
+        run: python -m unittest discover -s tests -p 'test_noema005_arm64_summary.py' -v
 
       - name: Run real CPU-thread benchmark
         run: >-
