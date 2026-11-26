@@ -65,7 +65,7 @@ MPFR-ის ოფიციალური დოკუმენტაცია 
 
 - Code-only head 1ab5917d961d829a52a850884fac7d829c7fddf4: [quality CI 45819091367](https://github.com/maisuradzee/bibmom/actions/runs/45819091367) SUCCESS; [native x86-64/ARM64 workflow 45819091300](https://github.com/maisuradzee/bibmom/actions/runs/45819091300) SUCCESS.
 - ორივე native architecture job-მა MPFR cross-check და Python integer/Decimal oracle tests წარმატებით შეასრულა.
-- ამ კვლევითი ჩანაწერისა და პორტფელის დამატების შემდეგ შეიცვალა PR head; საბოლოო exact-head CI-ის შედეგი ცალკე უნდა დადასტურდეს.
+- კვლევითი ჩანაწერისა და პორტფელის შემდგომი ცვლილებები შედის PR #48-ის მიმდინარე revision-ში. საბოლოო ვალიდაცია უნდა შემოწმდეს PR-ის მიმდინარე exact-head checks-ში; code-only head-ის ძველი run-ები მოგვიანებით შეცვლილ revision-ს არ ამოწმებს.
 
 ## ცვლილებების ისტორია
 
