@@ -147,3 +147,15 @@ GitHub საცავი public-ია. Pages build draft/review ფაილ�
 - სამივე ARM64 batch-ში Neumaier-state ზუსტი შედეგი შენარჩუნდა: **576/576**; scalar Neumaier **504/576**; naive scalar **0/576**.
 - Timing შედეგები არასტაბილურია: CPU/wall >1.05 threshold free-threaded რეჟიმში 208/288 → 211/288 → 214/288; GIL-enabled 2/288 → 1/288 → 0/288. მესამე batch-ში macOS free-threaded state-method median speedup 1.003 იყო; დანარჩენი სამი runtime-cell median 1.0-ზე ნაკლები. სამი repetition-ით ეს არ არის სანდო აჩქარების მტკიცებულება.
 - კვლევის სტატუსი რჩება `preliminary`; გარე რეცენზია არ ჩატარებულა. PR #23-ის merge/deployment სტატუსი უნდა დადასტურდეს ცალკე.
+
+
+## 2026-11-26 — PR #23 merge და Pages deployment
+
+- [PR #23](https://github.com/maisuradzee/bibmom/pull/23) წარმატებით გაერთიანდა squash-ით. Merge commit: `4d950bdd154fc56ca665802794b0ba1d5ff15e25`; main-ის SHA ამ merge-ის შემდეგ ემთხვევა ამ commit-ს.
+- [Main quality run #45756851261](https://github.com/maisuradzee/bibmom/actions/runs/45756851261) — SUCCESS.
+- [Pages deployment #45756851227](https://github.com/maisuradzee/bibmom/actions/runs/45756851227) — build და deploy jobs SUCCESS; GitHub Pages deployment დასრულებულია. საჯარო მისამართი: https://maisuradzee.github.io/bibmom/.
+- PR-ის final-head ARM64 verification: [run 45756479611](https://github.com/maisuradzee/bibmom/actions/runs/45756479611) — ოთხივე runner/runtime job SUCCESS; Neumaier-state 192/192.
+- მეოთხე batch-ის ოთხივე raw artifact ჩამოიტვირთა და SHA-256-ით შემოწმდა. Final-head report/archive hash-ები, runner metadata და შედეგები არქივდება `data/noema-005/arm64-repeat-validation-2026-11-26.json`-ში.
+- ოთხი ARM64 batch-ის კუმულაციური სიზუსტე: Neumaier-state **768/768**, scalar Neumaier **672/768**, naive scalar **0/768**. Timing-ის მცირე განსხვავებები არ იძლევა ზოგადი speedup-ის დასკვნის საფუძველს.
+- README-ში დაზუსტდა GitHub Actions PR path-filter-ის სემანტიკა: ცალკე docs-only PR არ ააქტიურებს ARM64 matrix-ს, თუმცა უკვე benchmark-ფაილების შემცველ PR-ში შემდგომი synchronize შეიძლება ხელახლა აამუშაოს workflow, რადგან PR path filter მთელ PR diff-ს ამოწმებს.
+- კვლევა რჩება `preliminary`; დამოუკიდებელი გარე რეცენზია არ ჩატარებულა. `published` სტატუსი არ მინიჭებულა.

@@ -285,3 +285,26 @@ x86-64 წინა შედეგებთან შედარება მ�
 
 ---
 **NOEMA სტატუსი:** preliminary · წინასწარი შედეგი · დამოუკიდებელი გარე რეცენზია არ დასრულებულა.
+
+
+## საბოლოო PR-head ARM64 verification — მეოთხე batch
+
+**REPRODUCED RESULT:** საბოლოო PR head `f944a7d26323342ce596437163fcb2a483778107`-ზე ARM64 workflow run `45756479611` ოთხივე runner/runtime უჯრედში წარმატებით დასრულდა. Neumaier-state კვლავ სწორად დამრგვალდა 192/192 measured run-ში; scalar Neumaier — 168/192; naive scalar — 0/192. ოთხი დამოუკიდებელი batch-ის ჯამური შედეგია: Neumaier-state **768/768**, scalar Neumaier **672/768**, naive scalar **0/768**.
+
+| ARM64 runtime cell | Neumaier-state accuracy | CPU/wall >1.05 | Median state speedup |
+|---|---:|---:|---:|
+| Ubuntu 24.04 ARM64, GIL enabled | 48/48 | 0/144 | 0.739 |
+| Ubuntu 24.04 ARM64, free-threaded | 48/48 | 108/144 | 0.663 |
+| macOS 15 ARM64, GIL enabled | 48/48 | 0/144 | 0.794 |
+| macOS 15 ARM64, free-threaded | 48/48 | 99/144 | 0.858 |
+
+**INFERENCE:** ზუსტი შედეგი ოთხივე batch-ში უცვლელი დარჩა. CPU/wall threshold-ის რაოდენობა კვლავ მერყეობდა: free-threaded 208/288 → 211/288 → 214/288 → 207/288; GIL-enabled 2/288 → 1/288 → 0/288 → 0/288. მეოთხე batch-ში ოთხივე runtime-cell state-method median speedup 1.0-ზე ნაკლები იყო. მესამე batch-ის ერთ cell-ში 1.003 median speedup იყო, რაც სხვა batch-ებში არ განმეორდა; ეს კიდევ ერთხელ აჩვენებს, რომ სამი measured repetition-ით წარმადობის მცირე განსხვავებები სანდოდ ვერ ფასდება.
+
+**FACT:** Python-ის ოფიციალური `time.process_time()` დოკუმენტაცია განსაზღვრავს მას როგორც მიმდინარე პროცესის user+system CPU time-ის ჯამს; `perf_counter()` გამოიყენება elapsed duration-ის გასაზომად. შესაბამისად, მათი შეფარდება პროცესის aggregate CPU consumption-ს ასახავს და თავისთავად wall-time speedup-ს არ ნიშნავს.
+
+**მონაცემები და provenance:** [ოთხივე batch-ის report/archive hash-ები და run metadata](../data/noema-005/arm64-repeat-validation-2026-11-26.json); [final-head ARM64 run 45756479611](https://github.com/maisuradzee/bibmom/actions/runs/45756479611); [final-head quality run 45756479168](https://github.com/maisuradzee/bibmom/actions/runs/45756479168); [x86-64 threaded run 45756479254](https://github.com/maisuradzee/bibmom/actions/runs/45756479254). ოთხივე raw report ZIP ჩამოიტვირთა და SHA-256-ით შემოწმდა. GitHub Actions artifacts 30 დღე ინახება; JSON-ში შენახული hash-ები provenance-ს უზრუნველყოფს, მაგრამ raw reports-ის მუდმივ არქივს არ წარმოადგენს.
+
+**შეზღუდვები:** hosted VM-ები კონტროლირებული ლაბორატორიული აპარატურა არ არის; Ubuntu და macOS runner-ები CPU/OS/core count-ით განსხვავდება; თითო უჯრედში მხოლოდ სამი measured repetition ჩატარდა; მონაცემები სინთეზური cancellation fixture-ებია; `tracemalloc` არ ზომავს სრულ RSS-ს ან ყველა native allocation-ს. დამოუკიდებელი გარე რეცენზია არ ჩატარებულა.
+
+---
+**NOEMA სტატუსი:** preliminary · წინასწარი შედეგი · დამოუკიდებელი გარე რეცენზია არ დასრულებულა.
