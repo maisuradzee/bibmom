@@ -68,11 +68,12 @@
         "პროტოტიპის ლაბორატორიულ ან რეგულატორულ შეფასებად აღქმა"
       ],
       "blockers": [
-        "რეალური paired sensor/laboratory მონაცემი და data dictionary ჯერ არ არის ნებადართულად ხელმისაწვდომი"
+        "Real paired sensor/laboratory data, data dictionary and site-approved Water Safety Plan limits are not yet available under an explicit reuse permission.",
+        "PR #29 incident lifecycle remains Draft/open and needs independent review before integration."
       ],
       "status": "active",
-      "status_detail": "სინთეზური ტესტებით შემოწმებული operator-side პროტოტიპი main-შია; საველე ეფექტიანობა არ გაზომილა.",
-      "next_step": "მოიპოვოს ნებადართული data dictionary და paired sensor/lab dataset; წინასწარ დარეგისტრირდეს baseline, detection delay, sensitivity, PPV და false-alert rate.",
+      "status_detail": "Main contains a synthetic-test-backed operator-side rules engine. Draft PR #29 adds an operator-controlled incident lifecycle; its latest exact-head quality CI passed after clearance was tightened to match the complete recorded SignalAssessment. No real sensor/laboratory data or field validation is available.",
+      "next_step": "Obtain an authorized operator data dictionary and permitted paired sensor/laboratory records; preregister baseline, sensitivity, PPV, false-alert rate and detection delay before any field pilot.",
       "success_metrics": [
         "საველე ტესტში წინასწარ განსაზღვრულ reference labels-თან შედარებული sensitivity და positive predictive value",
         "false-alert rate და detection delay წინასწარ განსაზღვრულ baseline-თან შედარებით",
