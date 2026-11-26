@@ -574,7 +574,7 @@
         "Hosted x86-64/ARM64 CI is not independent physical-hardware replication; external numerical-method review remains outstanding."
       ],
       "status": "active",
-      "status_detail": "PR #81 merged into main as a69c3f29a7dec0f25f3a30c60f2d9f4d671807c7. Its exact-head quality CI 45872887590 and actual CPU-thread workflow 45872887552 both succeeded. The archived second raw-report set from workflow 45867519546 was rechecked: archive hashes and decompressed report hashes matched the frozen metadata, and scripts/reproduce_noema005_threaded_reruns.py --check reproduced all per-case accuracy counts and aggregate ranges. In that archived run, Neumaier-state median speedup was 0.7744x (range 0.7225–0.7935) with GIL and 1.0181x (range 0.7023–1.135) on free-threaded CPython; the prior free-threaded run was 0.9519x. The crossing of 1.0 is run-to-run variability, not evidence of a robust speedup. Both archived runs used the same hosted x86-64 runner family with 4-CPU affinity and synthetic cancellation fixtures. The study remains preliminary; representative application workloads, independent physical hardware and external numerical-method review remain outstanding.",
+      "status_detail": "PR #81 merged into main as a69c3f29a7dec0f25f3a30c60f2d9f4d671807c7. Its exact-head quality CI 45872887590 and actual CPU-thread workflow 45872887552 both succeeded. The archived second raw-report set from workflow 45867519546 was rechecked: archive hashes and decompressed report hashes matched the frozen metadata, and scripts/reproduce_noema005_threaded_reruns.py --check reproduced all per-case accuracy counts and aggregate ranges. In that archived run, Neumaier-state median speedup was 0.7744x (range 0.7225–0.7935) with GIL and 1.0181x (range 0.7023–1.135) on free-threaded CPython; the prior free-threaded run was 0.9519x. The crossing of 1.0 is run-to-run variability, not evidence of a robust speedup. Both archived runs used the same hosted x86-64 runner family with 4-CPU affinity and synthetic cancellation fixtures. The study remains preliminary; representative application workloads, independent physical hardware and external numerical-method review remain outstanding. Scheduled-cycle audit 2026-11-27: PR #87 remains Draft on head 244761b6c44a2927345de4215b001bf909f8e662; exact-head quality CI 45883799154, 96-MiB memory-backed benchmark 45883799149 and actual CPU-thread workflow 45883799162 all succeeded. This is one hosted x86-64 runner family and a synthetic cancellation workload only; a second buffer size, representative workload and independent physical x86-64/ARM64 replication remain outstanding. Its base snapshot b97b30de is behind current main 8a69e6d9, so it needs refresh/revalidation before merge.",
       "next_step": "Obtain independent numerical-method review of the checked signed accumulator and MPFR converter; then evaluate pairwise, Neumaier, long-double and exact methods on representative memory-bandwidth-bound workloads and repeat on independently selected physical x86-64/ARM64 systems with uncertainty intervals.",
       "success_metrics": [
         "exact-reference accuracy თითოეული მეთოდისა და runtime-ის მიხედვით",
@@ -589,7 +589,7 @@
         "Two-run raw-report reproduction verifies both archive SHA-256 values and recomputes 96 cases / 288 timed runs across GIL-enabled and free-threaded runtimes from frozen raw JSON reports.",
         "Run-to-run median speedup deltas reproduce exactly; the free-threaded state-merge crossing of 1.0 is reported with its broad range and not interpreted as robust speedup."
       ],
-      "last_reviewed": "2026-11-26"
+      "last_reviewed": "2026-11-27"
     },
     {
       "id": "NOEMA-2026-007",
@@ -820,7 +820,7 @@
         "The UNDRR/WMO release provides published aggregates rather than the underlying country/activation-level records; NOEMA cannot independently verify reach, comprehension, protective action or avoided loss from this snapshot."
       ],
       "status": "active",
-      "status_detail": "PR #62 merged the UNDRR MHEWS 2026 country-level snapshot and arithmetic. PR #68 merged as f12a116c86514994ec40c4a953ba6a4f0a4656fc; exact-head quality CI 45849048113 succeeded. The new WMO 2026 roadmap snapshot reproduces 20/35 = 57.1429% of 35 government-validated roadmaps with clear budget allocations and approximately USD 69 million mean among those 20. An aggregate-only action-readiness validator and strict schema now keep endpoint receipts separate from survey-based receipt, comprehension, feasible action, self-reported action and verified action. Synthetic tests only; no field data, local effectiveness measurement or causal claim. Post-merge main CI 45850024686 passed 354 tests and Pages build/deploy 45850024682 succeeded.",
+      "status_detail": "PR #62 merged the UNDRR MHEWS 2026 country-level snapshot and arithmetic. PR #68 merged as f12a116c86514994ec40c4a953ba6a4f0a4656fc; exact-head quality CI 45849048113 succeeded. The new WMO 2026 roadmap snapshot reproduces 20/35 = 57.1429% of 35 government-validated roadmaps with clear budget allocations and approximately USD 69 million mean among those 20. An aggregate-only action-readiness validator and strict schema now keep endpoint receipts separate from survey-based receipt, comprehension, feasible action, self-reported action and verified action. Synthetic tests only; no field data, local effectiveness measurement or causal claim. Post-merge main CI 45850024686 passed 354 tests and Pages build/deploy 45850024682 succeeded. Scheduled-cycle audit 2026-11-27: PR #88 synthetic cross-release disclosure audit remains Draft at head cdaff77b748801163701aef427ab215bccc4f587 with quality CI 45883830584 successful. Follow-up PR #91 adds a metadata-only fail-closed aggregate-batch preflight; latest exact-head 65892bf3330491b596d6748e69f9831dbfc8d869 passed quality CI 45890862593 including focused tests, full unit suite and publication-boundary build. Neither PR implements a trusted overlap detector, persistent atomic ledger, authentication or differential privacy. PR #88 is based on b97b30de, behind main; PR #91 is based on current main. Both remain Draft pending independent privacy/security review.",
       "next_step": "Seek the official Georgia basin/municipal data dictionary and explicit permission for aggregate event-level warning and after-action data; obtain local privacy review of the proposed small-cell rule before any pilot, then pre-register comprehension, feasible-action and verified-action denominators. Do not treat global anticipatory-action counts as local effectiveness evidence.",
       "success_metrics": [
         "გაფრთხილების მიღწევის, სწორად გაგებისა და feasible action-ის წილი",
@@ -832,7 +832,7 @@
         "Each reported delivery, comprehension and action metric states its own numerator, denominator and unit; endpoint receipts are never labelled as people reached.",
         "No public aggregate is released without data-controller and privacy-reviewer approval and a documented small-cell suppression policy."
       ],
-      "last_reviewed": "2026-11-26"
+      "last_reviewed": "2026-11-27"
     },
     {
       "id": "NOEMA-INFRA-001",
@@ -1074,7 +1074,7 @@
         "Rollback-resistant high-water state, immutable object-version/retention verification, clean-host restore, approved RPO/RTO and production ACLs remain unimplemented; no operator-approved deployed/staging database has been used."
       ],
       "status": "active",
-      "status_detail": "Main contains local strict manifest/schema validation, streamed artifact digest/length checks and exact-byte Ed25519 verification using caller-supplied public keys. PR #85 is a separate draft architecture proposal for a provider-neutral linearizable compare-and-advance high-water authority and explicit restore lineage; its exact-head quality CI 45876372188 and CPU-thread workflow 45876372172 succeeded, but the PR is not merged and no service is deployed. Production anti-rollback, key custody, immutable object retention, off-host encryption and clean-host restore remain unimplemented.",
+      "status_detail": "Main contains local strict manifest/schema validation, streamed artifact digest/length checks and exact-byte Ed25519 verification using caller-supplied public keys. PR #85 is a separate draft architecture proposal for a provider-neutral linearizable compare-and-advance high-water authority and explicit restore lineage; its exact-head quality CI 45876372188 and CPU-thread workflow 45876372172 succeeded, but the PR is not merged and no service is deployed. Production anti-rollback, key custody, immutable object retention, off-host encryption and clean-host restore remain unimplemented. Scheduled-cycle audit 2026-11-27: PR #85 remains Draft at head 68e7385a798c19b807d75c3d41b27482ba0f402c; exact-head quality CI 45883729821 and actual CPU-thread workflow 45883729845 succeeded. The PR base a19252bb is behind current main 8a69e6d9. No external high-water service, production key custody, provider retention, encryption/decryption or clean-host restore is implemented; independent security review and trust-domain ownership remain blockers.",
       "next_step": "Obtain independent security/architecture review and an owner for the separate trust domain and recovery path. Only then implement a provider-neutral CAS interface with deterministic concurrent-writer, stale-state, timeout and point-in-time restore tests; choose provider, RPO/RTO and retention with explicit owner approval. Do not create a Supabase project or reuse another project's database.",
       "success_metrics": [
         "backup includes committed WAL data",
@@ -1094,7 +1094,7 @@
         "No claim of newest-backup or rollback protection until monotonic trusted state and freshness policy are independently persisted and tested.",
         "No production disaster-recovery readiness claim until encrypted off-host artifacts are restored on a clean host against approved RPO/RTO."
       ],
-      "last_reviewed": "2026-11-26"
+      "last_reviewed": "2026-11-27"
     }
   ]
 }
