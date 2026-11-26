@@ -40,11 +40,13 @@ class Noema005Arm64SummaryTests(unittest.TestCase):
         self.assertEqual(counts["free_threaded"], {"count": 208, "total": 288})
 
     def test_input_hashes_are_identical_across_runners(self):
-        hashes = {
-            (r["input_sha256"]["triplet_order"], r["input_sha256"]["grouped_cancellation"])
-            for r in self.summary["runners"]
-        }
-        self.assertEqual(len(hashes), 1)
+        hashes = self.summary["input_sha256"]
+        self.assertEqual(
+            set(hashes),
+            {"triplet_order", "grouped_cancellation"},
+        )
+        self.assertEqual(len(hashes["triplet_order"]), 64)
+        self.assertEqual(len(hashes["grouped_cancellation"]), 64)
 
     def test_all_artifacts_are_bound_to_the_final_pr_head(self):
         self.assertEqual(self.summary["benchmark_run_head_sha"], "4fe358edd532d1861544951682e9125f67a4e156")
