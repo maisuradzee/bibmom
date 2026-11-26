@@ -481,7 +481,7 @@ The backup manifest runtime validator verifies only Draft 2020-12 structure and 
 ### PR და backlog მდგომარეობა
 
 - #91 NOEMA-007 release-gate prototype: head `65892bf3330491b596d6748e69f9831dbfc8d869`, quality CI [45890862593](https://github.com/maisuradzee/bibmom/actions/runs/45890862593) SUCCESS; რჩება Draft.
-- #92 AquaSignal data-access update: წინა validator-compliant head `05d99a015f00eca34d7b9df631c4b25d0ffe038b` quality CI [45890781095](https://github.com/maisuradzee/bibmom/actions/runs/45890781095) SUCCESS. შემდგომ დაემატა დაბალანსებული groundwater evidence, source inventory schema/test და ოთხივე ნაკადის portfolio audit; ამ უახლეს head-ზე CI-ის საბოლოო დასკვნა ცალკე უნდა გადამოწმდეს.
+- #92 AquaSignal data-access update: latest exact head `91e1680857e2ccc9997f202e579ae3e90f4f11d6`, quality CI [45891329537](https://github.com/maisuradzee/bibmom/actions/runs/45891329537) SUCCESS. გაიარა draft completeness, portfolio/catalogue validation, source-access JSON Schema tests, full Python unit suite, frozen-result reproductions, public-site build და publication-boundary checks. PR-ში ასევე შესწორდა 2026-11-26 inventory-ის ზედმეტად ფართო data-access ფორმულირება და გაიმიჯნა E. coli narrative/table reference-year frames.
 - #85, #87 და #88-ის exact-head quality/სპეციალიზებული workflows წარმატებულია, მაგრამ მათი base snapshot-ები მიმდინარე main-ზე ძველია; merge-მდე საჭიროა refresh/revalidation.
 - Legacy draft PR-ები #5 (database/RLS proposal), #7 (cross-platform simulation CI), #27 (adaptive integration foundation) და #46 (security hardening) ამჟამინდელი ოთხნაკადიანი კვლევითი პორტფელის მიღმაა. #27 ამჟამად mergeable არ არის; დანარჩენები ძველ base snapshot-ებზეა. ამ ციკლში არცერთი არ გაერთიანებულა; საჭიროა ცალკე backlog triage და review.
 
