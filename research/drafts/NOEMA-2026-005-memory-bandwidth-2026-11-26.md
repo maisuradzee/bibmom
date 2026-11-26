@@ -1,9 +1,9 @@
 # NOEMA-2026-005 — Memory-backed native reduction benchmark
 
 - **თარიღი:** 2026-11-26
-- **სტატუსი:** draft / protocol and implementation; hosted run not yet verified
+- **სტატუსი:** draft / hosted synthetic benchmark reproduced; independent physical-hardware replication and external numerical-method review remain pending
 - **Experiment ID:** NOEMA-2026-005-MEMORY-001
-- **Evidence classes:** the mathematical fixture is a FACT; benchmark outcomes remain UNTESTED until an exact-head workflow artifact is validated
+- **Evidence classes:** the mathematical fixture is a FACT; the archived single-host measurements are a REPRODUCED RESULT for the declared run; general speedup remains unestablished
 
 ## საკვლევი კითხვა
 
@@ -71,10 +71,11 @@ A memory-backed workload may narrow or reverse any apparent throughput advantage
 
 ## შემოწმების სტატუსი
 
-- Protocol, native C/OpenMP implementation, runner and report validator are committed on the research branch.
-- The first hosted benchmark attempt failed during C compilation; compiler stderr is being surfaced for a precise correction.
-- Exact-head quality CI and benchmark artifact validation remain pending.
-- No performance result is claimed and no publication status is assigned.
+- The initial hosted compile attempt failed; the implementation was corrected before the frozen run.
+- Frozen benchmark run [45880304260](https://github.com/maisuradzee/bibmom/actions/runs/45880304260) completed on tested head `6720fbdf57f33d28c6d1030ccd1d399d5aec1462`; the archived ZIP and extracted report digests are recorded in the provenance file.
+- On the current PR head, quality CI [45882193657](https://github.com/maisuradzee/bibmom/actions/runs/45882193657), memory-backed benchmark workflow [45882193675](https://github.com/maisuradzee/bibmom/actions/runs/45882193675), and actual CPU-thread workflow [45882193706](https://github.com/maisuradzee/bibmom/actions/runs/45882193706) all succeeded.
+- Frozen-result reproduction validates the 15-case report and its raw timing arithmetic. The reported 2.351x four-worker Neumaier median is a single hosted x86-64 result, not an independent physical-hardware replication or a general performance guarantee.
+- The study remains preliminary; no publication status is assigned.
 
 ### REPRODUCED RESULT — hosted memory-backed run 2026-11-26
 
