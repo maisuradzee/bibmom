@@ -17,6 +17,20 @@ from .worker import (
     RunOutcome,
     Worker,
 )
+from .integrations import (
+    AdapterNotFound,
+    AdapterRegistry,
+    ExecutionMode,
+    IntegrationAdapter,
+    IntegrationCapability,
+    IntegrationDescriptor,
+    IntegrationEffect,
+    IntegrationEngine,
+    IntegrationError,
+    IntegrationGrant,
+    IntegrationPlan,
+    IntegrationResult,
+)
 from .workflows import (
     InvalidWorkflow,
     WorkflowEngine,
@@ -53,6 +67,18 @@ from .mission import (
 )
 
 __all__ = [
+    "AdapterNotFound",
+    "AdapterRegistry",
+    "ExecutionMode",
+    "IntegrationAdapter",
+    "IntegrationCapability",
+    "IntegrationDescriptor",
+    "IntegrationEffect",
+    "IntegrationEngine",
+    "IntegrationError",
+    "IntegrationGrant",
+    "IntegrationPlan",
+    "IntegrationResult",
     "AquaSignalError",
     "SignalAssessment",
     "WaterControlLimits",
