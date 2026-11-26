@@ -111,7 +111,8 @@
         "ოთხი დამოუკიდებელი ARM64 benchmark batch, თითოეულში ოთხი runtime cell და თითოეულ cell-ში 48 configuration",
         "accuracy, CPU-time/wall-time და tracemalloc ცალ-ცალკე შეფასება; CPU-time/wall-time არ განიმარტოს როგორც wall-time speedup",
         "Native C11/OpenMP comparison of serial and 1/2/4/8-thread naive, long-double, recursive pairwise, Neumaier-state and fixed-width exact-superaccumulator reductions on two frozen cancellation layouts",
-        "One warm-up and five timed repetitions per case; record actual native thread counts, monotonic wall time, process CPU time, process peak RSS and compiler/runtime provenance"
+        "One warm-up and five timed repetitions per case; record actual native thread counts, monotonic wall time, process CPU time, process peak RSS and compiler/runtime provenance",
+        "Independent MPFR 4.2.2 oracle: represent the exact signed integer in 2,624-bit precision, divide by 2^1074 exactly, then convert with MPFR_RNDN; compare bit patterns against the C converter and Python Decimal on hosted x86-64 and ARM64."
       ],
       "sources": [
         {
@@ -209,6 +210,22 @@
           "url": "https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/exact-rounding-oracle-ci-2026-11-26.json",
           "type": "internal_ci_result",
           "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "GNU MPFR 4.2.2 manual — rounding modes and correctly rounded operations",
+          "publisher": "GNU MPFR",
+          "publication_date": "undated",
+          "url": "https://mpfr.loria.fr/mpfr-current/mpfr.html",
+          "type": "official_numerical_library_documentation",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "GNU MP 6.3.0 manual — integer import and export",
+          "publisher": "GNU MP",
+          "publication_date": "undated",
+          "url": "https://gmplib.org/manual/Integer-Import-and-Export",
+          "type": "official_numerical_library_documentation",
+          "accessed_at": "2026-11-26"
         }
       ],
       "data_needs": [
@@ -228,13 +245,13 @@
       "blockers": [
         "The converter is bounded by the 2,560-bit accumulator; accumulator overflow is unsupported.",
         "The clean-base exact-head CI is pending; prior CI passed on the previous head only.",
-        "The 275-case Python integer/Decimal oracle suite is not an MPFR/SoftFloat cross-check or a formally verified proof; an independent numerical-library cross-check remains outstanding.",
         "The native experiment still uses two synthetic cancellation fixtures; representative application workloads and memory-bandwidth tests remain outstanding.",
-        "Hosted x86-64/ARM64 CI is not independent physical-hardware replication; external numerical-method review remains outstanding."
+        "Hosted x86-64/ARM64 CI is not independent physical-hardware replication; external numerical-method review remains outstanding.",
+        "The exact reduction accumulator's add/merge helpers still use fixed-width modular arithmetic; the new signed-range guard protects the decimal oracle harness, not arbitrary accumulation outside the documented finite benchmark bound."
       ],
       "status": "active",
-      "status_detail": "PR #42 was merged into main at 32bd0ea18c40865322bc89f5424d9f84a12ac307. On exact head 78706679b1b37f4fb46f6d2b7526f79693b54fe7, quality CI 45809003594 and native x86-64/ARM64 matrix 45809003616 passed. A deterministic 275-input (261 unique) suite compared the C converter bit-for-bit against two Python exact references (integer ties-to-even and 1,200-digit Decimal rational conversion); both architecture jobs passed all 275 cases. This is reproduced CI evidence, not MPFR/SoftFloat, formal proof or physical-hardware replication. The native reduction experiment remains limited to two synthetic cancellation fixtures; no general speedup claim is made.",
-      "next_step": "Cross-check exact-to-binary64 conversion against MPFR or SoftFloat and independently generated rational values; add explicit accumulator-overflow rejection tests; then test representative memory-bandwidth-bound workloads and pinned physical x86-64/ARM64 hardware with uncertainty intervals.",
+      "status_detail": "Draft PR #48 adds a separate MPFR 4.2.2 reference using 2,624-bit precision and MPFR_RNDN (round-to-nearest, ties-to-even), plus a signed-range guard in the decimal oracle harness. The code-only exact-head checks passed on hosted x86-64 and ARM64: 467 valid inputs per architecture matched both MPFR and the Python Decimal reference; two out-of-range signed inputs were rejected. The follow-up research-record/portfolio commit requires its own exact-head CI rerun. This is REPRODUCED RESULT evidence on hosted CI, not independent physical-hardware replication, formal proof or a performance result.",
+      "next_step": "Add explicit checked-overflow detection to the exact accumulator add/merge operations and regression tests. Then test representative memory-bandwidth-bound workloads on pinned physical x86-64/ARM64 hardware with uncertainty intervals, and obtain independent numerical-method review.",
       "success_metrics": [
         "exact-reference accuracy თითოეული მეთოდისა და runtime-ის მიხედვით",
         "median wall-time და uncertainty interval წინასწარ განსაზღვრული repetition protocol-ით",
