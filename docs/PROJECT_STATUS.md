@@ -1,15 +1,15 @@
 # NOEMA — მიმდინარე პროექტის მდგომარეობა
 
-- **განახლდა:** 2026-11-26
+- **განახლდა:** 2026-11-26 (run 13 audit, post-merge verification)
 - **საცავი:** https://github.com/maisuradzee/bibmom
 - **ძირითადი branch:** main
-- **მიმდინარე main:** `002b4ddc50a28658d97be26f8e4706b960daece3` (PR #73 merge)
-- **ბოლო დადასტურებული engineering merge:** PR #73 — NOEMA-007 anticipatory-action evidence; მანამდე PR #72 AquaSignal external checkpoint comparison და PR #70 portfolio/status sync merged.
-- **NOEMA-005:** PR #63-ით დაემატა 2,068-case full-width/tie-adjacent MPFR 4.2.1 oracle; hosted x86-64 და ARM64 თითოეულზე 2,068/2,068 bitwise match. PR #66-ით ორიგინალური CPU-thread artifact ZIP-ების SHA-256 და raw report aggregates დამოუკიდებლად გადამოწმდა. Neumaier state merge 48/48, scalar Neumaier 42/48, naive 0/48; wall-time speedup არ დადასტურებულა. კვლევა preliminary რჩება.
-- **NOEMA-INFRA-001:** PR #57 same-host restore-drill, PR #64 strict non-secret manifest schema და PR #69 executable Draft 2020-12 runtime validator main-შია; off-host encryption, detached signature verification, key custody, provider retention და clean-host recovery ჯერ არ განხორციელებულა.
-- **Latest verified quality CI:** PR #73 exact head, run 45853282017 — SUCCESS; ახალი NOEMA-007 frozen reproduction, full Python suite, site build და publication-boundary checks ყველა წარმატებულია. Main post-merge quality run for `002b4dd` ამ audit-ში ჯერ არ დადასტურებულა.
-- **Latest verified CPU-thread workflow:** PR #73 exact head, run 45853281867 — GIL-enabled და free-threaded ორივე SUCCESS. PR #71 run 45850716742-იც ორივე runtime-ზე SUCCESS, თუმცა მისი Draft branch ახლა main-ს ორი commit-ით ჩამორჩება.
-- **Latest confirmed Pages deployment:** run 45850024682 — build და deploy SUCCESS for `990ba166c7422257291ba2abfc9278ea7099c654`; deployment for current main `002b4dd` ამ audit-ში ჯერ არ დადასტურებულა.
+- **მიმდინარე main:** `8c253c3b6096134d713cef1b1a3969ed9e000126` (PR #76, INFRA-001 artifact verifier)
+- **Latest verified main quality CI:** [45858316244](https://github.com/maisuradzee/bibmom/actions/runs/45858316244) — `validate` job SUCCESS for the current main SHA.
+- **Latest verified Pages deployment:** [45858316170](https://github.com/maisuradzee/bibmom/actions/runs/45858316170) — `build` and `deploy` jobs SUCCESS for the current main SHA.
+- **Current run audit:** [docs/run-audits/2026-11-26-run-13.md](run-audits/2026-11-26-run-13.md) — four-stream portfolio, evidence boundaries, open PR freshness and next priorities.
+- **Open research/engineering PRs:** #77 (run 13 audit/portfolio sync; CI rerunning after refresh), #71 (NOEMA-005; refresh required), #46, #27, #7 and #5 (older Draft PRs requiring refresh/revalidation).
+
+> ქვემოთ არსებული დეტალური ჩანაწერები მოიცავს წინა გაშვებების snapshot-ებს. თუ რომელიმე ისტორიული SHA, CI ან PR სტატუსი ამ ზედა მიმდინარე audit-ს ეწინააღმდეგება, უპირატესობა მიანიჭეთ run 13 audit-ს; ისტორიული ჩანაწერები განზრახ შენარჩუნებულია Git ისტორიისა და გადაწყვეტილებების კვალისთვის.
 
 ## მიმდინარე მდგომარეობა
 

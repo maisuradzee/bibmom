@@ -706,7 +706,8 @@
         "On POSIX, stage each local SQLite snapshot in a fresh 0700 directory with a 0600 temporary database file; verify both permissions at the atomic no-overwrite publication boundary.",
         "The restore-drill CLI requires an existing database, verifies it, creates an online SQLite snapshot and restores it into a second new path inside a temporary directory; it compares job/audit counts and the final audit-chain hash, confirms the backup bytes remain unchanged, and emits aggregate-only JSON without job IDs or payloads.",
         "Define a strict JSON Schema 2020-12 metadata envelope for future off-host backups; tests enforce closed object boundaries and exclude secret/credential fields.",
-        "Validate proposed backup manifests with an executable JSON Schema Draft 2020-12 validator and strict format checking; keep cryptographic and provider checks explicitly out of scope."
+        "Validate proposed backup manifests with an executable JSON Schema Draft 2020-12 validator and strict format checking; keep cryptographic and provider checks explicitly out of scope.",
+        "Validate the strict manifest schema, then stream plaintext and ciphertext artifacts through SHA-256 and byte-length checks using one file descriptor; reject non-regular files, symlinks where O_NOFOLLOW exists, and obvious file mutation during hashing."
       ],
       "sources": [
         {
@@ -898,14 +899,15 @@
         "backup is currently unencrypted and has no off-host retention automation",
         "audit hash chain without signed external checkpoint does not prevent all tampering scenarios",
         "Private staging-directory permissions are POSIX-specific; the final backup remains subject to the destination parent's ACL and can be exposed if that parent is too permissive.",
-        "The restore-drill CLI validates a same-host temporary filesystem round-trip only; it does not validate encrypted off-host storage, provider object versions, key recovery or clean-host disaster recovery."
+        "The restore-drill CLI validates a same-host temporary filesystem round-trip only; it does not validate encrypted off-host storage, provider object versions, key recovery or clean-host disaster recovery.",
+        "A matching unsigned manifest and matching artifact hashes do not authenticate provenance; an attacker able to replace both files and the manifest can recompute the hashes."
       ],
       "blockers": [
-        "Encrypted off-host storage, signed manifest, provider integration, key custody, retention/rotation and an approved RPO/RTO remain unimplemented; the new CLI drill is same-host only and has not yet been run against an operator-approved deployed/staging database."
+        "Encrypted off-host storage, detached signature verification, independent key custody, provider integration, object-version/retention verification, approved RPO/RTO and clean-host recovery remain unimplemented; no operator-approved deployed/staging database has been used."
       ],
       "status": "active",
-      "status_detail": "PR #57 same-host SQLite backup/restore drill and PR #64 strict non-secret Draft 2020-12 metadata schema remain in main. PR #69 merged as 990ba166c7422257291ba2abfc9278ea7099c654; exact-head CI 45849597538 passed the runtime schema validator and full 341-test suite. Main quality CI 45850024686 passed 354 tests and Pages build/deploy 45850024682 succeeded. The runtime validator rejects malformed hashes/timestamps, missing fields and credential-like extras, but it does not verify signatures, decrypt or hash ciphertext, inspect SQLite, prove provider retention or establish clean-host recovery.",
-      "next_step": "Implement an isolated encrypted off-host proof-of-concept only after provider, key custody, RPO/RTO and retention are approved; then test detached signature verification, ciphertext/plaintext hash comparison and clean-host restore with separate credentials.",
+      "status_detail": "PR #57 same-host SQLite backup/restore drill and PR #64 strict non-secret Draft 2020-12 metadata schema remain in main. PR #69 added the runtime schema validator. PR #76 merged as 8c253c3b6096134d713cef1b1a3969ed9e000126; exact-head quality CI 45858015443 and GIL-enabled/free-threaded CPU-thread workflow 45858015445 both passed. The new verifier streams SHA-256 and byte-length checks for plaintext and ciphertext artifacts, requires regular files, rejects symlinks where O_NOFOLLOW is available, and rejects obvious mutation during hashing. It verifies local byte integrity only: it does not authenticate the manifest signature, decrypt ciphertext, prove provider retention, inspect SQLite contents or establish clean-host recovery.",
+      "next_step": "Define and implement detached signature verification against a public key pinned through a separate trusted channel, using synthetic test keys only; then test modified manifest, wrong signer and rollback-resistant monotonic checkpoint semantics. Provider integration, retention and clean-host restore remain gated on approved ownership, key custody, RPO/RTO and retention decisions.",
       "success_metrics": [
         "backup includes committed WAL data",
         "restore rejects WAL-mode header and corrupted audit data before destination creation",
@@ -917,7 +919,8 @@
         "restore-drill output contains aggregate metadata only and explicitly identifies the same-host-only evidence boundary",
         "The future manifest is structurally validated against a strict schema; every object rejects unlisted fields and no secret/private-key material is permitted.",
         "Runtime manifest validator accepts a synthetic schema-valid document and rejects malformed hashes, invalid UTC timestamps, missing fields and secret-like extra properties.",
-        "No claim of off-host disaster-recovery readiness until a clean-host restore is independently attested against approved RPO/RTO."
+        "No claim of off-host disaster-recovery readiness until a clean-host restore is independently attested against approved RPO/RTO.",
+        "The verifier accepts only when both plaintext and ciphertext SHA-256 digests and byte lengths match the strict manifest; missing, modified, non-regular, symlink (where supported) and concurrently changing artifacts fail closed."
       ],
       "last_reviewed": "2026-11-26"
     }
