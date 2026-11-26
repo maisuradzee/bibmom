@@ -43,7 +43,8 @@ tests/test_aquasignal_store.py uses synthetic fixtures only. It covers:
 - full open → escalate → acknowledge → NORMAL assessment → operator closure round-trip;
 - event replay after constructing a new store instance;
 - event-ID collision and stale-snapshot rejection;
-- append-only trigger enforcement and hash verification after deliberate trigger bypass;
+- append-only trigger enforcement and payload-digest mismatch detection after deliberate trigger bypass;
+- event-hash-chain verification when a modified payload is accompanied by a recomputed payload digest but the chain hash is not updated;
 - concurrent appends for two independent incidents;
 - POSIX owner-only database file and parent-directory permissions, symlink rejection, and safe no-follow open;
 - rejection of in-memory persistence.
