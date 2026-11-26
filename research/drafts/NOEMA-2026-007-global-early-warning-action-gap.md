@@ -334,3 +334,65 @@ Source: National Environmental Agency of Georgia, 25 November 2026, https://nea.
 Source: UNDRR & WMO, 11 November 2026, https://www.undrr.org/news/early-warning-protection-expands-worldwide-powerful-el-nino-raises-stakes. Source-reported 2025 anticipatory-action aggregates are frozen in `data/noema-007/anticipatory-action-2025-source-snapshot.json`; only the framework growth percentage is independently recomputed.
 
 **Evidence classification:** source counts and scores are FACT; the percentages and −0.04 difference are REPRODUCED RESULT from the frozen source snapshot; the need to measure operational effectiveness separately is INFERENCE. A Georgia-specific last-mile gap remains HYPOTHESIS until permissioned local workflow data and field evaluation exist.
+
+
+## 14. EW4All measurement crosswalk — 27 November 2026
+
+### FACT — official measurement requirements
+
+The WMO *Early Warnings for All: Toolkit for Monitoring & Evaluation*, version 1.0 (August 2024), provides indicator definitions that expose several gaps in the current NOEMA-007 aggregate-only prototype:
+
+- **G-3:** people covered per 100,000 through local or national dissemination mechanisms;
+- **3.2.1b:** last-mile stakeholder groups reporting timely and understandable warnings that enabled action;
+- **4.2:** percentage increase in warnings leading to early action;
+- **4.3.1:** amount of pre-agreed financing available for anticipatory-action activations;
+- **4.4:** monitoring of warning availability, financing and feasibility/effectiveness;
+- **G-6:** population at risk protected through pre-emptive evacuation.
+
+The IFRC 2025 report *Strengthening National Disaster Risk Management Systems through the Integration of Anticipatory Action* reports 66 countries with local early-warning action plans in 2024 and explicitly notes that the Sendai Framework Monitor does not specify whether those plans are operational or linked to anticipatory action rather than preparedness/rapid response.
+
+The UNDRR COP31 update of 12 November 2026 reports the WMO Secretary-General's statement that four in five people affected by disasters in the previous five years received advance warning, while one in three could not act after receiving it. The article page does not identify the underlying dataset, sample frame, weighting or uncertainty. This is retained as a source-reported discovery signal only and is not used as a NOEMA baseline.
+
+### REPRODUCED RESULT — machine-readable crosswalk
+
+The file `data/noema-007/ew4all-measurement-crosswalk-2026-11-27.json` maps the six official indicators above to current NOEMA fields. Its strict Draft 2020-12 schema and regression tests require source linkage, unique indicator IDs, denominator units and interpretation boundaries.
+
+The crosswalk identifies:
+- G-3 is not equivalent to current endpoint delivery or respondent-level receipt: endpoints are not unique people and no exposed-population denominator exists.
+- 3.2.1b is only partially covered: the current contract separates receipt, comprehension, feasibility and self-reported action, but does not measure timely human receipt or the joint respondent-level outcome.
+- 4.2 is not equivalent to respondent counts: it requires eligible warning-event denominators, event-to-action linkage and a pre-specified baseline period.
+- 4.3.1 is not implemented: feasibility responses do not prove pre-arranged finance or disbursement availability.
+- G-6 is not equivalent to generic protective-action counts: evacuation-specific outcomes and an exposed-population denominator are missing.
+- 4.4 is partially covered: plan, finance, activation and after-action lineage remain absent.
+
+### INFERENCE — measurement integrity is the next bottleneck
+
+A warning's technical delivery, human receipt, timely receipt, comprehension, trust, action feasibility, self-reported action, verified action and impact are separate stages. They must not be collapsed into a single rate. In particular, marginal receipt/comprehension/action rates cannot be multiplied into a joint success estimate without a common respondent cohort and defensible assumptions about their joint distribution.
+
+A descriptive verified-action count does not establish avoided mortality or loss. Causal impact requires a pre-specified comparison or other defensible evaluation design.
+
+### NOEMA INNOVATION — proposed measurement contract
+
+Before any local pilot, a permissioned data contract should separately identify:
+1. warning event, official issue time, action deadline, hazard and geographic scope;
+2. channel endpoint counts, without labelling them unique people;
+3. survey sampling frame, invitations, completions, response rate and weighting;
+4. timely receipt, comprehension, trust and feasibility as separate respondent outcomes;
+5. self-reported and independently verified actions, linked to an eligible warning event;
+6. plan version, trigger, responsible authority, resource availability and activation milestones;
+7. exposed-population denominators for evacuation-specific measures;
+8. after-action review and corrective-action closure.
+
+No personal survey, device or message-level data should be published. Small-cell and cross-release disclosure risks remain subject to the separate NOEMA-007 release gate and independent privacy review.
+
+### Limitations
+
+No local warning event, survey, endpoint log, action record or financing dataset was used. This is a framework crosswalk and measurement specification only. The UNDRR 4/5 and 1/3 statement is not independently reproduced. The crosswalk does not establish that Georgia's authorities collect these fields or permit their reuse.
+
+### Sources
+
+- WMO and EW4All partners, *Early Warnings for All: Toolkit for Monitoring & Evaluation*, v1.0, August 2024: https://wmo.int/sites/default/files/2024-09/EW4ALL%20ME%20Toolkit_Final%20Version%201_August2024.pdf
+- IFRC, *Strengthening National Disaster Risk Management Systems through the Integration of Anticipatory Action*, 2025: https://www.ifrc.org/sites/default/files/2025-09/Strengthening_National_Disaster_Risk_Management_Systems_through_integration_of_anticipatory_action.pdf
+- UNDRR, *COP31 leaders back a long-term future for Early Warnings for All*, 12 November 2026: https://www.undrr.org/news/cop31-leaders-back-long-term-future-early-warnings-all
+
+- 2026-11-27 — დაემატა EW4All indicator crosswalk, denominator integrity და financing/evacuation measurement gaps.
