@@ -72,11 +72,14 @@
       "sample_level_schema_verified": false,
       "reuse_terms_verified": false,
       "reported_counts": {
-        "e_coli_non_compliance_percent_2021_2022": 37,
-        "e_coli_non_compliance_percent_2023": 44.5,
-        "e_coli_non_compliance_percent_2024": 40.3
+        "narrative_e_coli_non_compliance_percent_2021_2022": 37,
+        "narrative_e_coli_non_compliance_percent_2023": 44.5,
+        "narrative_e_coli_non_compliance_percent_2024": 40.3,
+        "table_e_coli_baseline_percent_2005": 25,
+        "table_e_coli_previous_cycle_percent_2019": 34,
+        "table_e_coli_current_percent_2024": 40.3
       },
-      "note": "Food Safety Agency is identified as drinking-water control body; small rural systems were included. Percentages are not population coverage."
+      "note": "Food Safety Agency is identified as drinking-water control body; small rural systems were included. The report narrative and table use different reference-year frames; sample denominator and urban/rural breakdown are blank. Percentages are not population coverage."
     },
     {
       "id": "WIS_C10",
