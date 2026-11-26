@@ -21,7 +21,7 @@
 | NOEMA-003 climate analysis | დრაფტი / გამეორებადი; ERA5 validation gate ვერ გაიარა და საბოლოო დასკვნაში არ გამოიყენება | data/noema-003, scripts და tests |
 | NOEMA-005 summation | preliminary; x86-64 და ARM64 რეალური CPU-thread ტესტები | 4 ARM64 batch; Neumaier state 768/768, scalar Neumaier 672/768, naive scalar 0/768; wall-time speedup არ დადასტურებულა |
 | NOEMA-006 AquaSignal | draft + software prototype; საველე ვალიდაცია არ ჩატარებულა | research/drafts/NOEMA-2026-006-aquasignal-water-early-warning.md, docs/AQUASIGNAL_MVP.md, noema_core/aquasignal.py |
-| NOEMA-007 Last-Mile Action Gap | draft / discovery; გლობალური 4-pillar gap და საქართველოს არსებული MHEWS ინფრასტრუქტურა დოკუმენტურად შემოწმებულია; ადგილობრივი last-mile ეფექტიანობა ჯერ არ გაზომილა | research/drafts/NOEMA-2026-007-global-early-warning-action-gap.md |
+| NOEMA-007 Last-Mile Action Gap | draft / discovery; UNDRR 2026: 136 ქვეყნიდან 64-ს ოთხივე pillar აქვს; 2022-ის შემდეგ capability scores თითქმის უცვლელია და preparedness 0.74-დან 0.70-მდე დაეცა; საქართველოში NEA-ის 7 აუზის გეგმებზე კონსულტაცია მიმდინარეობს; ადგილობრივი last-mile ეფექტიანობა ჯერ არ გაზომილა | research/drafts/NOEMA-2026-007-global-early-warning-action-gap.md |
 | საჯარო კვლევითი კატალოგი | 1 preliminary, 0 published | data/research.json; schema version 2. NOEMA-006 draft კატალოგში არ არის |
 | GitHub Pages | ბოლო deployment წარმატებულია | run 45769302330 — build და deploy jobs SUCCESS; https://maisuradzee.github.io/bibmom/ |
 | Main quality CI | წარმატებულია | run 45769302290 — validate job SUCCESS |
