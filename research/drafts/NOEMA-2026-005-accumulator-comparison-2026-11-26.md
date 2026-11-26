@@ -1,52 +1,102 @@
 # NOEMA-2026-005 — accumulator comparison addendum
 
-- **Experiment:** NOEMA-2026-005-ACCUM-001
-- **Date:** 2026-11-26
-- **Status:** preliminary algorithm-accuracy experiment
-- **Scope:** deterministic binary64 summation fixtures; one local x86-64 CPython 3.13.5 environment
-- **Not in scope:** native threads, OpenMP, runtime/memory performance, independent hardware replication, or a universal accuracy guarantee
+- **ID:** NOEMA-2026-005-ACCUM-001
+- **სტატუსი:** draft
+- **თარიღი:** 2026-11-26
+- **სფერო:** რიცხვითი ანალიზი, binary64 reduction, პარალელური გამოთვლების ალგორითმები
+- **ავტორი/მომზადების სისტემა:** NOEMA research automation; local CPython 3.13.5 / Linux x86_64 run
 
-## Question
+## საკვლევი კითხვა
 
-How do a strict left-to-right binary64 loop, one fixed adjacent-pair reduction tree, Neumaier compensation, Python `math.fsum`, and a high-precision decimal baseline compare against the exact rational sum of the represented binary64 inputs?
+როგორ განსხვავდება მკაცრი left-to-right binary64 ციკლი, ერთი ფიქსირებული adjacent-pair reduction tree, Neumaier compensation, Python `math.fsum` და მაღალი სიზუსტის Decimal baseline იმავე binary64 input-ების ზუსტად დათვლილ ჯამთან შედარებით?
 
-## Method
+## მოკლე შეჯამება
 
-`scripts/compare_noema005_accumulators.py` generates five deterministic in-memory fixtures:
+ხუთი დეტერმინისტული სინთეზური fixture-ით (სულ 15,359 მნიშვნელობა) Neumaier, `math.fsum` და 1,200-ნიშნა Decimal baseline ზუსტად დაემთხვა Fraction-ზე დაფუძნებულ reference-ს 5/5 შემთხვევაში. მკაცრი naive loop და ერთი კონკრეტული pairwise tree დაემთხვა 1/5 შემთხვევაში. ეს არის ალგორითმის სიზუსტის მცირე ტესტი და არა threaded runtime benchmark.
 
-1. repeated `[2^53, 1, -2^53]` triplets;
-2. grouped positive-large, unit-residual, negative-large blocks;
-3. residual triplets at exponents 53, 100, 500 and 900;
-4. a subnormal residual of 2,048 minimum subnormals minus 2,047;
-5. 2,048 finite binary64 values generated from a fixed PRNG seed.
+## რატომ არის ეს კითხვა მნიშვნელოვანი?
 
-For each fixture, the reference is computed by summing `Fraction.from_float(x)` exactly and rounding once to binary64. Input hashes, hexadecimal results, exact-match flags and ULP distances are frozen in `data/noema-005/accumulator-comparison-2026-11-26.json`.
+NOEMA-005-ის წინა OpenMP შედეგებმა აჩვენა, რომ thread-local compensated state შეიძლება cancellation-heavy სინთეზურ fixture-ებში ზუსტ reference-ს ემთხვეოდეს. შემდეგი ნაბიჯია იმის დადგენა, რამდენად მდგრადია ეს შედეგი სხვა reduction სტრუქტურებთან და სხვა input განაწილებებთან. Reduction tree-ის შეცვლა მარტო არ იძლევა უნივერსალურ სიზუსტის გარანტიას.
 
-The explicit naive loop is used rather than the interpreter's built-in `sum`, whose implementation may differ across Python versions. The pairwise comparator is one fixed adjacent-pair tree, not every possible pairwise strategy. The 1,200-digit Decimal baseline is arbitrary-precision decimal arithmetic; it is **not** a substitute for a C `long double` implementation.
+## არსებული ცოდნა და წყაროები
 
-## Result
+- Python documentation, `math.fsum`: https://docs.python.org/3/library/math.html#math.fsum — ზუსტი floating-point summation-ის სტანდარტული ბიბლიოთეკის comparator; ამ ექსპერიმენტში oracle არ არის.
+- Python documentation, `Fraction.from_float`: https://docs.python.org/3/library/fractions.html#fractions.Fraction.from_float — binary64 მნიშვნელობის ზუსტი რაციონალური წარმოდგენა, რომელიც გამოიყენება reference-ის ასაგებად.
+- Python documentation, `decimal`: https://docs.python.org/3/library/decimal.html — მაღალი სიზუსტის decimal comparator-ის განხორციელება.
 
-Across five fixtures:
+## მტკიცებულებები
 
-| Method | Exact matches |
+### REPRODUCED RESULT
+
+- `triplet_order`, `grouped_cancellation`, `multi_exponent_residuals`, `subnormal_residual` და `seeded_binary64_mixture` fixtures-ის input hashes და შედეგები გაყინულია `data/noema-005/accumulator-comparison-2026-11-26.json)-ში.
+- Neumaier, `math.fsum` და Decimal 1,200-ნიშნა baseline ზუსტად დაემთხვა reference-ს 5/5 fixture-ზე.
+- Strict left-to-right loop და ერთი adjacent-pair tree ზუსტად დაემთხვა 1/5 fixture-ზე; ორივემ ვერ გაიარა სამი cancellation/residual fixture და seeded mixed-exponent fixture.
+- Seeded mixed-exponent fixture-ზე naive loop 3 ULP-ით, ხოლო pairwise tree 1 ULP-ით განსხვავდებოდა exact rounded reference-ისგან.
+
+## კონკურენტი ახსნები
+
+- Pairwise tree-ის შედეგი დამოკიდებულია კონკრეტულ partition/order-ზე; ეს ერთი adjacent-pair tree არ წარმოადგენს ყველა შესაძლო tree-ს.
+- ხუთი fixture არ ფარავს ყველა შესაძლო finite input distribution-ს.
+- Decimal comparator-ის სიზუსტე არ უნდა აირიოს C `long double`-ში ან native binned accumulator-ში.
+
+## ჰიპოთეზა
+
+კომპენსირებული ან ბინირებული accumulator შეიძლება იყოს უფრო მდგრადი cancellation-heavy workload-ებისთვის, ვიდრე naive reduction ან ერთი ფიქსირებული pairwise tree. ეს ჰიპოთეზა საჭიროებს native C/OpenMP და დამოუკიდებელ hardware ტესტს.
+
+## შემოწმების მეთოდი
+
+- ყველა input გენერირდება მეხსიერებაში დეტერმინისტული წესებით; seeded binary64 mixture იყენებს ფიქსირებულ PRNG seed-ს.
+- Reference არის `sum(Fraction.from_float(x))`, რომელიც ზუსტად აგროვებს წარმოდგენილ binary64 მნიშვნელობებს და ბოლოს ერთხელ მრგვალდება binary64-ზე.
+- შედარებულია strict left-to-right loop, adjacent-pair tree, Neumaier, `math.fsum` და 1,200-ნიშნა Decimal.
+- თითოეული fixture-ისთვის ინახება SHA-256 input hash, hexadecimal result, exact-match flag და ULP distance.
+- გაშვება: `python scripts/compare_noema005_accumulators.py --output data/noema-005/accumulator-comparison-2026-11-26.json`.
+
+## შედეგები და ინტერპრეტაცია
+
+| მეთოდი | ზუსტი დამთხვევა |
 |---|---:|
 | Strict left-to-right binary64 | 1 / 5 |
-| Fixed adjacent-pair tree | 1 / 5 |
+| Adjacent-pair tree | 1 / 5 |
 | Neumaier compensated | 5 / 5 |
 | `math.fsum` | 5 / 5 |
 | Decimal, 1,200 digits | 5 / 5 |
 
-The naive loop and this particular pairwise tree both failed all three cancellation/residual fixtures and the seeded mixed-exponent fixture; both matched the subnormal-only residual. On the seeded mixed-exponent fixture, the naive loop was 3 ULP from the exact rounded result and the pairwise tree was 1 ULP away. Neumaier, `math.fsum` and the Decimal baseline matched the exact rounded reference on all five tested fixtures.
+შედეგი აჩვენებს, რომ ამ fixture-ებზე მხოლოდ tree reduction-ის გამოყენება საკმარისი არ აღმოჩნდა. ეს არ ნიშნავს, რომ ყველა pairwise tree არაზუსტია, ან რომ Neumaier ყველა input-ზე სწორად დამრგვალებულ შედეგს უზრუნველყოფს.
 
-## Evidence classification
+## შეზღუდვები და გაურკვევლობები
 
-- **REPRODUCED RESULT:** the five fixture hashes and algorithm outputs are reproduced by the committed script and unit tests on the recorded local environment.
-- **INFERENCE:** reduction-tree shape alone is not a sufficient accuracy policy; compensation or a stronger accumulator should be evaluated for cancellation-heavy workloads.
-- **HYPOTHESIS:** a native binned/exact accumulator or a carefully designed compensated merge may offer a better accuracy/performance trade-off for NOEMA's parallel workloads.
-- **UNTESTED IDEA:** compare native C `long double`, pairwise trees with alternative partitioning, and a binned/exact accumulator inside the existing OpenMP benchmark.
+- ყველა input სინთეზურია; რეალური workload-ის განაწილება არ გამოგვიკვლევია.
+- pairwise შედარება მოიცავს მხოლოდ ერთ deterministic adjacent-pair tree-ს.
+- Decimal baseline არის arbitrary-precision decimal და არა C `long double`.
+- არ გაზომილა runtime, memory, memory bandwidth, energy, threads ან OpenMP scaling.
+- შესრულებულია მხოლოდ ერთ ადგილობრივ x86_64 გარემოში; დამოუკიდებელი hardware replication და გარე numerical-method review არ ჩატარებულა.
 
-## Limitations and next experiment
+## დასკვნა
 
-This is a small, synthetic algorithm-accuracy study. It does not establish correctness for all finite sequences, and the single pairwise tree is not representative of every tree shape. No runtime, memory, thread scaling, energy, or bandwidth measurement was made. The next step is to add native C/OpenMP implementations of long-double and binned/exact alternatives, use the same frozen fixtures and exact reference, then repeat on independent x86-64 and ARM64 hardware. External numerical-method review remains outstanding.
+ეს შედეგი ამართლებს შემდეგ ეტაპზე native C/OpenMP ალტერნატივების შედარებას, მაგრამ ჯერ არ იძლევა წარმოებაში კონკრეტული accumulator-ის არჩევის საფუძველს. არსებული OpenMP benchmark უნდა გაფართოვდეს long-double, ალტერნატიული pairwise partitioning და binned/exact accumulator-ით, იგივე გაყინულ fixture-ებზე.
 
-No research status is promoted to Published.
+## წყაროები
+
+1. Python Software Foundation, *math — Mathematical functions*, `math.fsum`, https://docs.python.org/3/library/math.html#math.fsum (წვდომა: 2026-11-26).
+2. Python Software Foundation, *fractions — Rational numbers*, `Fraction.from_float`, https://docs.python.org/3/library/fractions.html#fractions.Fraction.from_float (წვდომა: 2026-11-26).
+3. Python Software Foundation, *decimal — Decimal fixed-point and floating-point arithmetic*, https://docs.python.org/3/library/decimal.html (წვდომა: 2026-11-26).
+
+## შემდეგი ნაბიჯები
+
+1. native C/OpenMP benchmark-ში დაამატე C `long double`, alternative pairwise partitions და binned/exact accumulator.
+2. ყველა მეთოდი შეადარე იმავე fixture hashes-სა და exact reference-ს.
+3. გაზომე runtime, memory traffic და thread scaling ცალკე correctness შედეგებისგან.
+4. გაიმეორე დამოუკიდებელ x86_64 და ARM64 hardware-ზე.
+5. მოითხოვე დამოუკიდებელი numerical-method review.
+
+## შემოწმების სტატუსი
+
+- Local unit tests: 5/5 passed (CPython 3.13.5, Linux x86_64).
+- Frozen-result reproduction: passed locally; script SHA-256 recorded in JSON.
+- GitHub CI: first run failed only the draft-completeness validator because this document lacked required template metadata/sections; this revision adds the missing fields. CI rerun is pending.
+- Research status: draft; not Published.
+
+## ცვლილებების ისტორია
+
+- 2026-11-26 — დაემატა deterministic accumulator comparison, frozen input/result hashes და five-test reproduction suite.
+- 2026-11-26 — CI draft validator-ის მოთხოვნების შესაბამისად დაემატა metadata, წყაროები, მეთოდი, შემდეგი ნაბიჯები და შემოწმების სტატუსი.
