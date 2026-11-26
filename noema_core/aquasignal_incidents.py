@@ -115,9 +115,12 @@ class WaterIncident:
             or latest_assessment.at != self.updated_at
         ):
             raise IncidentError("latest assessment fields must match the event history")
-        expected_severity = max(SEVERITY[event.assessment_status] for event in assessments
-                                if event.assessment_status in SEVERITY)
-        if self.severity != expected_severity:
+        severity_levels = [
+            SEVERITY[event.assessment_status]
+            for event in assessments
+            if event.assessment_status in SEVERITY
+        ]
+        if not severity_levels or self.severity != max(severity_levels):
             raise IncidentError("incident severity must match the highest recorded assessment")
 
         acknowledgement_events = [event for event in self.events if event.kind == "acknowledged"]
@@ -148,8 +151,11 @@ class WaterIncident:
             _text(self.closed_by, "closed_by")
             _text(self.clearance_reference, "clearance_reference")
             _text(self.closure_reason, "closure_reason")
+            observed_at = latest_assessment.assessment.observed_at
+            if not _aware(observed_at):
+                raise IncidentError("closure assessment timestamp must be timezone-aware")
             if not _aware(self.closed_at) or self.closed_at < max(
-                self.updated_at, self.acknowledged_at, latest_assessment.assessment.observed_at
+                self.updated_at, self.acknowledged_at, observed_at
             ):
                 raise IncidentError("closure timestamp must follow the latest assessment and acknowledgement")
             if len(closure_events) != 1 or self.events[-1] != closure_events[0]:
@@ -223,7 +229,7 @@ def record_assessment(current: WaterIncident | None, assessment: SignalAssessmen
 def acknowledge_incident(incident: WaterIncident, *, event_id: str, operator_id: str,
                          reference: str, now: datetime) -> WaterIncident:
     """Record operator acknowledgement without closing the incident."""
-    if not isinstance(incident, WaterIncident) or not _aware(now) or now < incident.events[-1].at:
+    if not isinstance(incident, WaterIncident) or not _aware(now):
         raise IncidentError("invalid incident or acknowledgement time")
     event = IncidentEvent(
         _text(event_id, "event_id"), "acknowledged", now,
@@ -233,6 +239,8 @@ def acknowledge_incident(incident: WaterIncident, *, event_id: str, operator_id:
     )
     if _replay(incident, event):
         return incident
+    if now < incident.events[-1].at:
+        raise IncidentError("invalid incident or acknowledgement time")
     if incident.state != IncidentState.ACTIVE or incident.acknowledged_at is not None:
         raise IncidentError("only an unacknowledged active incident can be acknowledged")
     return replace(
