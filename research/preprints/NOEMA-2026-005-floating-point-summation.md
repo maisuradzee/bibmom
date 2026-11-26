@@ -185,7 +185,8 @@ x86-64 წინა შედეგებთან შედარება მ�
 
 ### მონაცემები და გამეორება
 
-- შედეგების შეჯამება: `data/noema-005/arm64-threaded-benchmark-summary-2026-11-26.json`.
+- შედეგების შეჯამება: [ARM64 benchmark JSON](https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/arm64-threaded-benchmark-summary-2026-11-26.json).
+- benchmark კოდი: [threaded reduction script](https://github.com/maisuradzee/bibmom/blob/main/scripts/benchmark_noema005_threaded_reduction.py); [ARM64 report validator](https://github.com/maisuradzee/bibmom/blob/main/scripts/validate_noema005_arm64_report.py); [replication protocol](https://github.com/maisuradzee/bibmom/blob/main/research/drafts/NOEMA-2026-005-arm64-replication-protocol.md).
 - workflow: [run 45752987940](https://github.com/maisuradzee/bibmom/actions/runs/45752987940).
 - quality/site CI: [run 45752987825](https://github.com/maisuradzee/bibmom/actions/runs/45752987825).
 - benchmark run head: `4fe358edd532d1861544951682e9125f67a4e156`.
