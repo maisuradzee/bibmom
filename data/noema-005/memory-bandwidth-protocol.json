@@ -60,11 +60,12 @@
     "No speedup is assumed; thread startup, memory resources, scheduling and oversubscription may make parallel methods slower."
   ],
   "frozen_result": {
-    "report": "data/noema-005/memory-bandwidth-2026-11-26.json",
     "provenance": "data/noema-005/memory-bandwidth-provenance-2026-11-26.json",
     "workflow_run": "https://github.com/maisuradzee/bibmom/actions/runs/45880304260",
     "tested_head_sha": "6720fbdf57f33d28c6d1030ccd1d399d5aec1462",
     "report_sha256": "a96bb2c89afdace73264d72d245de2cc850a8ee0068a8e825886333e2ed17509",
-    "artifact_sha256": "40380a90550c8262f8b18b2170da0bf2b19859a16c399a6a25df621e5e2176c7"
+    "artifact_sha256": "40380a90550c8262f8b18b2170da0bf2b19859a16c399a6a25df621e5e2176c7",
+    "archive": "data/noema-005/memory-bandwidth-artifact-2026-11-26.zip",
+    "report_member": "noema005-memory-report.json"
   }
 }

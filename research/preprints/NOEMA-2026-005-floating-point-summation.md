@@ -387,4 +387,4 @@ The exact tested head was 6720fbdf57f33d28c6d1030ccd1d399d5aec1462 (workflow run
 
 The 8-worker run used four available CPUs and is oversubscribed. The 96 MiB buffer exceeds the reported 48 MiB L3 cache, but no memory-controller counters were collected. Effective input throughput is a software-derived bytes/time measure, not DRAM bandwidth. The result is preliminary, synthetic and not an independent physical-hardware replication.
 
-Frozen report: data/noema-005/memory-bandwidth-2026-11-26.json. Provenance: data/noema-005/memory-bandwidth-provenance-2026-11-26.json. The report SHA-256 and downloaded artifact archive SHA-256 were verified at capture; the CI reproduction script rechecks the frozen report, exact head and report arithmetic.
+Frozen artifact: data/noema-005/memory-bandwidth-artifact-2026-11-26.zip; raw report member: noema005-memory-report.json. Provenance: data/noema-005/memory-bandwidth-provenance-2026-11-26.json. The report SHA-256 and downloaded artifact archive SHA-256 were verified at capture; the CI reproduction script rechecks the frozen report, exact head and report arithmetic.
