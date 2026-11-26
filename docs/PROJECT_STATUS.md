@@ -155,3 +155,27 @@ This section supersedes earlier status snapshots in this file where PR #29 or PR
 - No new Supabase project or external database was created.
 - No study was promoted to Published. The AquaSignal field study and native OpenMP independent replication remain unvalidated.
 - This report records work completed during a scheduled run; it does not claim continuous background execution.
+
+
+## Final status correction — 2026-11-26 (after PR #32)
+
+This is the latest repository state and supersedes earlier run-audit snapshots above.
+
+- **Current main:** `1422e0f593c43f24836c2349263d43eee127ea47`.
+- **PR #32 — portfolio/status synchronization:** merged at the current main commit. Exact-head quality CI [45793264708](https://github.com/maisuradzee/bibmom/actions/runs/45793264708) passed 264 Python tests; the actual CPU-thread workflow [45793264720](https://github.com/maisuradzee/bibmom/actions/runs/45793264720) passed.
+- **Main quality CI:** [45793476894](https://github.com/maisuradzee/bibmom/actions/runs/45793476894) — SUCCESS, 264 Python tests plus schema, frozen-result, site-build and publication-boundary checks.
+- **GitHub Pages:** [45793476150](https://github.com/maisuradzee/bibmom/actions/runs/45793476150) — build and deploy jobs SUCCESS for main commit `1422e0f593c43f24836c2349263d43eee127ea47`.
+- **Portfolio:** four active streams remain in `data/research-portfolio.json`; public catalogue remains 1 preliminary / 0 published.
+
+### Current open engineering blockers
+
+- **PR #27 Adaptive Integration Engine:** 37 commits ahead / 43 behind current main; `mergeable=false`. A new code audit comment [#7188240550](https://github.com/maisuradzee/bibmom/pull/27#issuecomment-7188240550) identifies three unresolved security concerns: incomplete credential-key normalization, stale capability authorization when security-relevant capability fields change without a version bump, and inconsistent secret-result filtering between direct and queue execution paths. These are findings in the unmerged draft branch, not evidence of a production data leak. Refresh and add regression tests before integration.
+- **PR #19 Backup/Restore:** 32 commits ahead / 49 behind current main; `mergeable=false`. Its earlier CI is not evidence for current main. Refresh carefully, then rerun exact-head CI and a full restore drill. Encrypted off-host backup, retention/rotation and scheduled restore exercises remain unimplemented.
+
+### Final publication and safety boundary
+
+- AquaSignal remains a synthetic in-memory prototype pending authorized paired sensor/laboratory data, independent review and field validation.
+- NOEMA-005's native OpenMP result remains a draft addendum. Full raw timing samples and provenance-backed summary are archived in `data/noema-005/`; the old 10/20-case local report is explicitly invalidated.
+- NOEMA-007 has no new local alert-delivery/acknowledgement/action dataset or field observation in this run.
+- No operator telemetry, private laboratory records, credentials or personal data were committed; no new Supabase project or external database was created.
+- No study was promoted to Published. Work is performed during scheduled runs, not continuously between conversations.
