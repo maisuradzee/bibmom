@@ -48,7 +48,7 @@ class Noema005Arm64SummaryTests(unittest.TestCase):
         self.assertEqual(len(hashes["triplet_order"]), 64)
         self.assertEqual(len(hashes["grouped_cancellation"]), 64)
 
-    def test_all_artifacts_are_bound_to_the_final_pr_head(self):
+    def test_artifacts_are_bound_to_the_exact_benchmark_run_head(self):
         self.assertEqual(self.summary["benchmark_run_head_sha"], "4fe358edd532d1861544951682e9125f67a4e156")
         for runner in self.summary["runners"]:
             artifact = runner["artifact"]
