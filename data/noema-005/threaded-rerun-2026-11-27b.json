@@ -28,7 +28,7 @@
       "archive_sha256": "b59bc555196c593e344febf8b62a4356996382227b5ee9fd0961fe4fecd7d7b5",
       "archive_bytes": 7608,
       "report_sha256": "d5667252fce07a07d430f22c20534c1829524a71afc739b7b8202d838a42af75",
-      "raw_report_path": "data/noema-005/raw/run-45910119575-gil-enabled.json.gz.b64",
+      "raw_report_path": null,
       "artifact_url": "https://api.github.com/repos/maisuradzee/bibmom/actions/artifacts/15159148673"
     }
   },
@@ -253,7 +253,8 @@
     "Free-threaded Neumaier-state median speedup versus matching serial Neumaier was 1.2565x; the previous run was 1.2589x. This is a close cross-run match on hosted x86-64 runner classes, not physical-hardware replication.",
     "GIL-enabled Neumaier-state median speedup versus matching serial Neumaier was 0.7601x; the previous run was 0.7576x. The GIL-enabled runs remained slower than the matching serial baseline.",
     "Free-threaded process CPU/wall ratio exceeded 1.05 in 36/48 measured runs; GIL-enabled mode had 0/48. This indicates aggregate CPU concurrency in the tested free-threaded cells, not general application speedup.",
-    "Serial math.fsum remained substantially faster than four-worker threaded Neumaier-state on these synthetic fixtures; no general algorithmic speed advantage is claimed."
+    "Serial math.fsum remained substantially faster than four-worker threaded Neumaier-state on these synthetic fixtures; no general algorithmic speed advantage is claimed.",
+    "The GIL-enabled run's raw report was independently inspected and hashed during this execution; only its aggregate summary and artifact provenance are retained in the repository."
   ],
   "limitations": [
     "Two hosted executions per runtime are available for this exact synthetic input/protocol; this is not independent physical-hardware replication.",
@@ -261,6 +262,7 @@
     "The reruns use hosted x86-64 runners and deterministic synthetic cancellation inputs only; no representative scientific workload was measured.",
     "Speedup is relative to matching serial Neumaier, not the fastest serial method; serial math.fsum was substantially faster.",
     "tracemalloc measures Python-traced allocations only, not RSS, native allocations or hardware DRAM bandwidth.",
-    "No confidence interval, independently selected physical x86-64/ARM64 replication or independent numerical-method review has been completed."
+    "No confidence interval, independently selected physical x86-64/ARM64 replication or independent numerical-method review has been completed.",
+    "The GIL-enabled raw report was downloaded and its artifact ZIP and decompressed report SHA-256 were verified during this run, but the raw bytes are not mirrored in this PR; its artifact link is retained until 2026-12-26 and the aggregate values are preserved."
   ]
 }
