@@ -5,7 +5,7 @@
 - **ძირითადი branch:** main
 - **main-ის ბოლო დადასტურებული commit:** 3ca18de8c05511d31b9b76928ca8a7c285fce0d7
 - **NOEMA-005:** ARM64 replication და final-head verification main-შია; კვლევა რჩება preliminary.
-- **მიმდინარე სამუშაო branch:** research/noema-discovery-aquasignal-2026-11-26 — NOEMA DISCOVERY / RESEARCH / INNOVATION operating model და AquaSignal prototype; PR ჯერ არ შექმნილა.
+- **მიმდინარე სამუშაო branch:** research/noema-discovery-aquasignal-2026-11-26 — NOEMA DISCOVERY / RESEARCH / INNOVATION operating model და AquaSignal prototype; Draft PR #25 ღიაა და merge-ს მხოლოდ მიმდინარე head-ზე სრული CI-ის შემდეგ განვიხილავთ.
 
 ## მიმდინარე მდგომარეობა
 
