@@ -209,6 +209,30 @@
           "url": "https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/exact-rounding-oracle-ci-2026-11-26.json",
           "type": "internal_ci_result",
           "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA-005 deterministic full-width rounding oracle protocol",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/blob/main/research/drafts/NOEMA-2026-005-randomized-rounding-oracle-2026-11-26.md",
+          "type": "internal_validation_protocol",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA quality CI for full-width rounding oracle exact head",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45813714251",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA native x86-64 and ARM64 full-width rounding oracle matrix",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45813714168",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26"
         }
       ],
       "data_needs": [
@@ -226,15 +250,14 @@
         "Pairwise reduction may be faster on a fixture while returning an incorrect result; timing is only meaningful after accuracy passes."
       ],
       "blockers": [
+        "The 2,068-case integer/Decimal oracle extension passed hosted x86-64 and ARM64 CI, but it is not an MPFR/SoftFloat cross-check or a formally verified proof.",
         "The converter is bounded by the 2,560-bit accumulator; accumulator overflow is unsupported.",
-        "The clean-base exact-head CI is pending; prior CI passed on the previous head only.",
-        "The 275-case Python integer/Decimal oracle suite is not an MPFR/SoftFloat cross-check or a formally verified proof; an independent numerical-library cross-check remains outstanding.",
         "The native experiment still uses two synthetic cancellation fixtures; representative application workloads and memory-bandwidth tests remain outstanding.",
         "Hosted x86-64/ARM64 CI is not independent physical-hardware replication; external numerical-method review remains outstanding."
       ],
       "status": "active",
-      "status_detail": "PR #42 was merged into main at 32bd0ea18c40865322bc89f5424d9f84a12ac307. On exact head 78706679b1b37f4fb46f6d2b7526f79693b54fe7, quality CI 45809003594 and native x86-64/ARM64 matrix 45809003616 passed. A deterministic 275-input (261 unique) suite compared the C converter bit-for-bit against two Python exact references (integer ties-to-even and 1,200-digit Decimal rational conversion); both architecture jobs passed all 275 cases. This is reproduced CI evidence, not MPFR/SoftFloat, formal proof or physical-hardware replication. The native reduction experiment remains limited to two synthetic cancellation fixtures; no general speedup claim is made.",
-      "next_step": "Cross-check exact-to-binary64 conversion against MPFR or SoftFloat and independently generated rational values; add explicit accumulator-overflow rejection tests; then test representative memory-bandwidth-bound workloads and pinned physical x86-64/ARM64 hardware with uncertainty intervals.",
+      "status_detail": "PR #47 exact head a79562f9a3cbb7086a1bdf737ee78178e96bf40b passed quality CI 45813714251 (304 Python tests, frozen research reproductions, site build and publication-boundary checks) and native x86-64/ARM64 matrix 45813714168 (both architecture jobs passed). The deterministic full-width extension checked 2,068 signed inputs: 1,024 seeded random magnitudes plus 1,044 tie-adjacent values; C output bits matched the integer and 1,200-digit Decimal references on both hosted architectures. The initial CI attempt exposed a draft-template metadata issue and a literal-backslash newline in the harness input; both were corrected before the successful exact-head run. This is reproduced hosted-CI evidence, not MPFR/SoftFloat, a formal proof or physical-hardware replication.",
+      "next_step": "Cross-check the converter against MPFR or SoftFloat and independently generated rational cases; add explicit checked-overflow rejection for accumulator add/merge; then test representative memory-bandwidth-bound workloads and pinned physical x86-64/ARM64 hardware with uncertainty intervals.",
       "success_metrics": [
         "exact-reference accuracy თითოეული მეთოდისა და runtime-ის მიხედვით",
         "median wall-time და uncertainty interval წინასწარ განსაზღვრული repetition protocol-ით",
