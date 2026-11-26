@@ -27,7 +27,7 @@ The existing real-thread benchmark ran on Linux x86-64 only. The earlier cross-p
 
 ### REPRODUCED RESULT
 
-**REPRODUCED RESULT (2026-11-26):** all four ARM64 runner/runtime cells completed successfully on the final PR head `4fe358edd532d1861544951682e9125f67a4e156`. Each cell ran 48 configurations × 3 repetitions (144 measured runs). Neumaier-state reduction matched the correctly rounded exact reference in **192/192** runs; Neumaier scalar partials matched in 168/192; naive scalar partials matched in 0/192. Free-threaded cells recorded a process-CPU/wall-time ratio above 1.05 in 208/288 samples; GIL-enabled cells recorded 2/288, both in the macOS naive-scalar group. This ratio is evidence of aggregate CPU use, not a wall-time speedup.
+**REPRODUCED RESULT (2026-11-26):** all four ARM64 runner/runtime cells completed successfully on the benchmark run head `4fe358edd532d1861544951682e9125f67a4e156`. Each cell ran 48 configurations × 3 repetitions (144 measured runs). Neumaier-state reduction matched the correctly rounded exact reference in **192/192** runs; Neumaier scalar partials matched in 168/192; naive scalar partials matched in 0/192. Free-threaded cells recorded a process-CPU/wall-time ratio above 1.05 in 208/288 samples; GIL-enabled cells recorded 2/288, both in the macOS naive-scalar group. This ratio is evidence of aggregate CPU use, not a wall-time speedup.
 
 ### INFERENCE
 
