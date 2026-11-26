@@ -62,15 +62,15 @@ result = engine.execute(plan)  # dry-run; adapter.execute() is not called
 
 ## Workflow integration
 
-IntegrationEngine.register_job_handlers(registry) registers only two safe handlers:
+IntegrationEngine.register_job_handlers(registry) registers two safe handlers by default:
 - integration.discover returns adapter metadata.
 - integration.plan validates an operation and creates a dry-run plan.
 
-There is deliberately no generic live-execution job handler. A future live workflow must pass an independently issued grant through a trusted application boundary. The existing queue is at-least-once, not exactly-once, so adapters must honor the supplied idempotency key for external side effects.
+Trusted host code may additionally pass a live_grants mapping. Only then is integration.execute_read registered. It looks up grants from the in-memory trusted mapping (never from the job payload), verifies that the declared capability is READ, checks the operation-scoped grant, and uses the queue job ID as the idempotency key. It rejects results containing credential-like fields and caps serialized result size below the SQLite queue limit. WRITE, EXTERNAL and DESTRUCTIVE capabilities are never run by this handler. The existing queue is at-least-once, not exactly-once, so adapters must honor the supplied idempotency key for external side effects.
 
 ## Boundaries and current scope
 
-discover() and validate() must be side-effect-free. Unknown adapters and undeclared operations fail closed. No third-party API, database, account, credential store or production data source is enabled by this framework change. A real connector still needs a reviewed adapter, verified permission, secret-provider wiring, provider-specific tests, rate limits, monitoring and failure/retry handling.
+discover() and validate() must be side-effect-free. Unknown adapters and undeclared operations fail closed. The service bootstrap registers one read-only public GitHub repository adapter and a grant limited to repository metadata; it schedules one metadata GET every six hours, with the first request delayed until the first interval elapses. The framework does not grant this service permission to read repository files or perform writes. Other third-party APIs, databases, accounts and credential stores remain unconfigured. Each additional connector still needs a reviewed adapter, verified permission, secret-provider wiring where applicable, provider-specific tests, rate limits, monitoring and failure/retry handling.
 
 This is an integration framework, not proof of a completed live integration or universal access to external services. Public availability does not automatically grant rights to collect, reuse or republish information.
 
