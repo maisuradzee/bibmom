@@ -389,7 +389,14 @@
             },
             "results_file": "data/noema-005/arm64-threaded-benchmark-summary-2026-11-26.json",
             "raw_artifact_retention_days": 30,
-            "benchmark_run_head_sha": "4fe358edd532d1861544951682e9125f67a4e156"
+            "benchmark_run_head_sha": "4fe358edd532d1861544951682e9125f67a4e156",
+            "results_url": "https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/arm64-threaded-benchmark-summary-2026-11-26.json",
+            "benchmark_script": "scripts/benchmark_noema005_threaded_reduction.py",
+            "benchmark_script_url": "https://github.com/maisuradzee/bibmom/blob/main/scripts/benchmark_noema005_threaded_reduction.py",
+            "validator_script": "scripts/validate_noema005_arm64_report.py",
+            "validator_script_url": "https://github.com/maisuradzee/bibmom/blob/main/scripts/validate_noema005_arm64_report.py",
+            "protocol_file": "research/drafts/NOEMA-2026-005-arm64-replication-protocol.md",
+            "protocol_url": "https://github.com/maisuradzee/bibmom/blob/main/research/drafts/NOEMA-2026-005-arm64-replication-protocol.md"
           }
         }
       },
