@@ -193,13 +193,13 @@ static result_t measure_case(long long repeat_count, layout_t layout, method_t m
             result.wall_samples[slot] = wall_elapsed;
             result.cpu_samples[slot] = cpu_elapsed;
             result.correct_runs += (value == (double)repeat_count);
-            if (actual < result.actual_threads_min)} result.actual_threads_min = actual;
+            if (actual < result.actual_threads_min) result.actual_threads_min = actual;
             if (actual > result.actual_threads_max) result.actual_threads_max = actual;
         }
     }
     double *wall_copy = calloc((size_t)repetitions, sizeof(double));
     double *cpu_copy = calloc((size_t)repetitions, sizeof(double));
-    if (!wall_copy || !cpu_copy) { fprint(stderr, "median allocation failed\n"); exit(2); }
+    if (!wall_copy || !cpu_copy) { fprintf(stderr, "median allocation failed\n"); exit(2); }
     memcpy(wall_copy, result.wall_samples, (size_t)repetitions * sizeof(double));
     memcpy(cpu_copy, result.cpu_samples, (size_t)repetitions * sizeof(double));
     result.median_wall_ns = median(wall_copy, repetitions);
