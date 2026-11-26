@@ -58,6 +58,7 @@ WHO/Europe-ის 2026 წლის მეორე გამოცემა *He
 
 - გარემოს ეროვნული სააგენტო 2026 წლის 10 ივლისის ცნობაში აღწერს ახალი ICT სისტემის წარდგენას/დანერგვას, რომელიც სხვადასხვა წყაროდან მონაცემების შეგროვებას, დამუშავებას, ანალიზსა და გაფრთხილებების დროულ გავრცელებას ემსახურება.
 - სააგენტოს 2026 წლის 2 აპრილის ცნობით, შვიდ მდინარის აუზზე მრავალსაფრთხიანი რისკის შეფასების შედეგები და მაღალი რისკის თემები დაინტერესებულ მხარეებთან გადამოწმების პროცესში იყო; პროექტის მასშტაბი 11 მდინარის აუზს მოიცავს.
+- სააგენტოს 2026 წლის 25 ნოემბრის განახლებით, აღმოსავლეთ საქართველოს ოთხი (ალაზანი, იორი, მტკვარი, ხრამი-ქცია) და დასავლეთ საქართველოს სამი (ჭოროხი-აჭარისწყალი, ენგური, რიონი) მდინარის აუზის გეგმებზე დაინტერესებულ მხარეებთან საკონსულტაციო შეხვედრები გაიმართა. ეს ადასტურებს დაგეგმვის/შეთანხმების პროცესის გაგრძელებას, მაგრამ არა ყველა გეგმის საბოლოო დამტკიცებას ან თემის დონეზე გაფრთხილებიდან მოქმედებამდე შედეგს.
 - გაეროს საქართველოში 2025 წლის წლიური ანგარიშის მიხედვით, ოპერაციულად ამოქმედებული იყო 144 ჰიდრომეტეოროლოგიური სადგური, დანერგილი იყო Multi-Hazard Disaster Risk Information System და პროგნოზირების პლატფორმები 11-ვე მდინარის აუზისთვის. ანგარიშში ასევე აღნიშნულია 16 მაღალი რისკის თემში 32 კლიმატური ადაპტაციის ღონისძიება, რომლითაც 55,188 ადამიანი ისარგებლა.
 - იმავე ანგარიშში ჩამოთვლილია ექვსი მუნიციპალიტეტის მიერ მიღებული Emergency Management Plans. UNDP-ის პროექტის საჯარო გვერდზე მოცემული ექვსი მუნიციპალიტეტის სია განსხვავდება. ეს არის **ოფიციალურ წყაროებს შორის ვერსიის/თარიღის შესაჯერებელი შეუსაბამობა**; არც ერთი სია არ უნდა ჩაითვალოს ამ კვლევით საბოლოოდ დადასტურებულ მიმდინარე მდგომარეობად.
 
@@ -169,6 +170,7 @@ NOEMA-ს ყველაზე დასაბუთებული შემ�
 3. WHO Regional Office for Europe, *Heat–health action plans: guidance, second edition*, 11 June 2026 — https://www.who.int/europe/publications/i/item/9789289062930
 4. National Environmental Agency of Georgia, *A working meeting on the new ICT system*, 10 July 2026 — https://nea.gov.ge/En/News/2416
 5. National Environmental Agency of Georgia, *A consultative meeting ... seven river basins*, 2 April 2026 — https://nea.gov.ge/En/News/2381
+11. National Environmental Agency of Georgia, *Consultative meetings on multi-hazard risk management plans for seven river basins*, 25 November 2026 — https://nea.gov.ge/En/News/3459
 6. United Nations in Georgia, *UN in Georgia Annual Report 2025*, published 2026 — https://georgia.un.org/sites/default/files/2026-04/UN%20Georgia%20Annual%20Report%202025_2.pdf
 7. UNDP Georgia, *Scaling-up Multi-Hazard Early Warning System and the Use of Climate Information in Georgia*, undated project page (accessed 26 November 2026) — https://www.undp.org/georgia/projects/early-warning-climate-information
 8. Anshuka, A. et al., *A Holistic Approach to Early Warning Systems Using an Agent-Based Model*, International Journal of Disaster Risk Science 17, 439–455 (7 May 2026), https://doi.org/10.1007/s13753-026-00729-7
@@ -178,3 +180,4 @@ NOEMA-ს ყველაზე დასაბუთებული შემ�
 ## 12. ცვლილებების ისტორია
 
 - 2026-11-26 — დაემატა 2026 წლის UNDRR/WMO წყაროს cross-check, ორი რეცენზირებული კვლევის მეთოდოლოგიური შეზღუდვები, მტკიცებულების კლასიფიკაცია და შემდეგი შემოწმების კრიტერიუმები; Action Bridge დარჩა შეუმოწმებელ იდეად.
+- 2026-11-26 — დაემატა NEA-ის 25 ნოემბრის განახლება შვიდ მდინარის აუზზე მიმდინარე საკონსულტაციო პროცესის შესახებ; ეს არ იქნა ინტერპრეტირებული როგორც გეგმის დამტკიცება ან საველე ეფექტიანობის მტკიცებულება.
