@@ -210,14 +210,15 @@
         "Pairwise reduction may be faster on a fixture while returning an incorrect result; timing is only meaningful after accuracy passes."
       ],
       "blockers": [
-        "The converter is bounded by the 2,560-bit accumulator; overflow of the accumulator itself is unsupported.",
+        "The converter is bounded by the 2,560-bit accumulator; accumulator overflow is unsupported.",
+        "The clean-base exact-head CI is pending; prior CI passed on the previous head only.",
         "Boundary self-tests and hosted CI are not an independent proof; MPFR/SoftFloat cross-check and generated rational cases remain outstanding.",
         "The native experiment still uses two synthetic cancellation fixtures; representative application workloads and memory-bandwidth tests remain outstanding.",
         "Hosted x86-64/ARM64 CI is not independent physical-hardware replication; external numerical-method review remains outstanding."
       ],
       "status": "active",
-      "status_detail": "The native C11/OpenMP experiment is present in main, while Draft PR #39 adds a bounded exact-integer-unit-to-binary64 round-to-nearest-even converter. Exact-head quality CI 45805534507 and native x86-64/ARM64 matrix 45805534509 both passed on head 38f69c1f6943266eefc626e4674a15b28e23abb5. The C self-test covers normal/subnormal boundaries, positive and negative halfway ties, cancellation and overflow. This is boundary-test evidence only: MPFR/SoftFloat independent cross-check, generated rational cases, representative application workloads and physical-hardware replication remain outstanding; no general speedup claim is made.",
-      "next_step": "Independently cross-check exact-to-binary64 conversion against MPFR or SoftFloat and generated rational cases; then add representative memory-bandwidth-bound workloads and repeat on pinned physical x86-64 and ARM64 hardware with uncertainty intervals.",
+      "status_detail": "The bounded exact-integer-unit-to-binary64 round-to-nearest-even converter has been ported onto a clean branch based on current main. Its C self-test covers normal/subnormal boundaries, positive and negative halfway ties, cancellation and overflow. The earlier branch's exact-head quality and x86-64/ARM64 native CI passed, but the new clean-base head still requires its own exact-head CI. Independent MPFR/SoftFloat cross-check and generated rational cases remain outstanding; no general speedup claim is made.",
+      "next_step": "Complete exact-head CI on the clean current-main branch, then independently cross-check exact-to-binary64 conversion against MPFR or SoftFloat and generated rational cases; add representative memory-bandwidth-bound workloads and pinned physical x86-64/ARM64 timing.",
       "success_metrics": [
         "exact-reference accuracy თითოეული მეთოდისა და runtime-ის მიხედვით",
         "median wall-time და uncertainty interval წინასწარ განსაზღვრული repetition protocol-ით",

@@ -24,6 +24,10 @@ typedef enum {
 } method_t;
 
 typedef struct { uint64_t limb[EXACT_LIMBS]; } exact_accum_t;
+
+_Static_assert(sizeof(double) == sizeof(uint64_t), "NOEMA exact conversion requires 64-bit double storage");
+_Static_assert(DBL_MANT_DIG == 53 && DBL_MAX_EXP == 1024 && DBL_MIN_EXP == -1021,
+               "NOEMA exact conversion requires IEEE-754 binary64 double");
 typedef struct {
     const char *name;
     double *wall_samples;
@@ -130,6 +134,158 @@ static int exact_equals_double(const exact_accum_t *value, double expected) {
     exact_add_double(&reference, expected);
     return memcmp(value, &reference, sizeof(reference)) == 0;
 }
+
+static int exact_get_bit(const exact_accum_t *value, int bit) {
+    if (bit < 0 || bit >= EXACT_LIMBS * 64) return 0;
+    return (int)((value->limb[bit / 64] >> (bit % 64)) & UINT64_C(1));
+}
+
+static int exact_any_bits_below(const exact_accum_t *value, int exclusive) {
+    if (exclusive <= 0) return 0;
+    int full_words = exclusive / 64;
+    if (full_words > EXACT_LIMBS) full_words = EXACT_LIMBS;
+    for (int i = 0; i < full_words; ++i) {
+        if (value->limb[i]) return 1;
+    }
+    int remainder = exclusive % 64;
+    if (remainder && full_words < EXACT_LIMBS) {
+        uint64_t mask = (UINT64_C(1) << remainder) - UINT64_C(1);
+        if (value->limb[full_words] & mask) return 1;
+    }
+    return 0;
+}
+
+static uint64_t exact_shifted_low_u64(const exact_accum_t *value, int shift) {
+    int word = shift / 64;
+    int offset = shift % 64;
+    if (word >= EXACT_LIMBS) return 0;
+    uint64_t result = value->limb[word] >> offset;
+    if (offset && word + 1 < EXACT_LIMBS) {
+        result |= value->limb[word + 1] << (64 - offset);
+    }
+    return result;
+}
+
+static int exact_highest_bit(const exact_accum_t *value) {
+    for (int word = EXACT_LIMBS - 1; word >= 0; --word) {
+        uint64_t current = value->limb[word];
+        if (!current) continue;
+        for (int bit = 63; bit >= 0; --bit) {
+            if ((current >> bit) & UINT64_C(1)) return word * 64 + bit;
+        }
+    }
+    return -1;
+}
+
+/* Convert the exact signed integer in units of 2^-1074 to binary64.
+   The caller must keep the exact sum inside the 2560-bit accumulator range. */
+static double exact_to_binary64(const exact_accum_t *value) {
+    exact_accum_t magnitude = *value;
+    int negative = (int)(magnitude.limb[EXACT_LIMBS - 1] >> 63);
+    if (negative) {
+        uint64_t carry = 1;
+        for (int i = 0; i < EXACT_LIMBS; ++i) {
+            __uint128_t total = (__uint128_t)(~magnitude.limb[i]) + carry;
+            magnitude.limb[i] = (uint64_t)total;
+            carry = (uint64_t)(total >> 64);
+        }
+    }
+
+    int highest = exact_highest_bit(&magnitude);
+    uint64_t bits = negative ? (UINT64_C(1) << 63) : 0;
+    if (highest < 0) return 0.0;
+
+    if (highest <= 51) {
+        /* Every integer multiple of the minimum subnormal is representable. */
+        bits |= magnitude.limb[0];
+    } else {
+        int discarded = highest - 52;
+        uint64_t significand = exact_shifted_low_u64(&magnitude, discarded)
+            & ((UINT64_C(1) << 53) - UINT64_C(1));
+        if (discarded > 0) {
+            int guard = exact_get_bit(&magnitude, discarded - 1);
+            int sticky = exact_any_bits_below(&magnitude, discarded - 1);
+            if (guard && (sticky || (significand & UINT64_C(1)))) {
+                ++significand;
+                if (significand == (UINT64_C(1) << 53)) {
+                    significand >>= 1;
+                    ++highest;
+                }
+            }
+        }
+
+        int exponent_field = highest - 51;
+        if (exponent_field >= 0x7ff) {
+            /* Round-to-nearest overflow is represented by signed infinity. */
+            bits |= UINT64_C(0x7ff) << 52;
+        } else {
+            bits |= (uint64_t)exponent_field << 52;
+            bits |= significand & ((UINT64_C(1) << 52) - UINT64_C(1));
+        }
+    }
+
+    double result;
+    memcpy(&result, &bits, sizeof(result));
+    return result;
+}
+
+static int exact_rounds_to_double(const exact_accum_t *value, double expected) {
+    double actual = exact_to_binary64(value);
+    uint64_t actual_bits = 0, expected_bits = 0;
+    memcpy(&actual_bits, &actual, sizeof(actual_bits));
+    memcpy(&expected_bits, &expected, sizeof(expected_bits));
+    return actual_bits == expected_bits;
+}
+
+static int exact_accumulator_rounding_self_test(void) {
+    exact_accum_t value = {{0}};
+    exact_add_double(&value, 1.0);
+    exact_add_double(&value, ldexp(1.0, -53));
+    if (!exact_rounds_to_double(&value, 1.0)) return 0; /* halfway, even lower */
+
+    value = (exact_accum_t){{0}};
+    double odd_lower = nextafter(1.0, 2.0);
+    exact_add_double(&value, odd_lower);
+    exact_add_double(&value, ldexp(1.0, -53));
+    if (!exact_rounds_to_double(&value, nextafter(odd_lower, 2.0))) return 0; /* halfway, even upper */
+
+    value = (exact_accum_t){{0}};
+    exact_add_double(&value, -1.0);
+    exact_add_double(&value, -ldexp(1.0, -53));
+    if (!exact_rounds_to_double(&value, -1.0)) return 0;
+
+    value = (exact_accum_t){{0}};
+    exact_add_double(&value, DBL_TRUE_MIN);
+    exact_add_double(&value, DBL_TRUE_MIN);
+    if (!exact_rounds_to_double(&value, 2.0 * DBL_TRUE_MIN)) return 0;
+
+    value = (exact_accum_t){{0}};
+    exact_add_double(&value, DBL_MIN);
+    exact_add_double(&value, -DBL_TRUE_MIN);
+    if (!exact_rounds_to_double(&value, nextafter(DBL_MIN, 0.0))) return 0;
+
+    value = (exact_accum_t){{0}};
+    exact_add_double(&value, DBL_MAX);
+    exact_add_double(&value, nextafter(ldexp(1.0, 970), 0.0));
+    if (!exact_rounds_to_double(&value, DBL_MAX)) return 0;
+
+    value = (exact_accum_t){{0}};
+    exact_add_double(&value, DBL_MAX);
+    exact_add_double(&value, ldexp(1.0, 970));
+    if (!exact_rounds_to_double(&value, INFINITY)) return 0;
+
+    value = (exact_accum_t){{0}};
+    exact_add_double(&value, -DBL_MAX);
+    exact_add_double(&value, -ldexp(1.0, 970));
+    if (!exact_rounds_to_double(&value, -INFINITY)) return 0;
+
+    value = (exact_accum_t){{0}};
+    exact_add_double(&value, LARGE_VALUE);
+    exact_add_double(&value, 1.0);
+    exact_add_double(&value, -LARGE_VALUE);
+    return exact_rounds_to_double(&value, 1.0);
+}
+
 static int exact_accumulator_self_test(void) {
     exact_accum_t value = {{0}};
     exact_add_double(&value, LARGE_VALUE);
@@ -141,7 +297,8 @@ static int exact_accumulator_self_test(void) {
     exact_add_double(&value, -DBL_TRUE_MIN);
     if (!exact_equals_double(&value, 1.25)) return 0;
     exact_add_double(&value, -2.5);
-    return exact_equals_double(&value, -1.25);
+    if (!exact_equals_double(&value, -1.25)) return 0;
+    return exact_accumulator_rounding_self_test();
 }
 static double pairwise_range(long long begin, long long end, long long repeats, layout_t layout) {
     long long n = end - begin;
