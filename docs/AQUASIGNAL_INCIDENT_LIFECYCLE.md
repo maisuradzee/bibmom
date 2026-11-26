@@ -10,7 +10,7 @@ The existing `evaluate_readings()` function classifies one supplied time-series 
 - Severity can escalate but does not automatically de-escalate.
 - `NORMAL` and `DATA_QUALITY_HOLD` update the last assessment but never close an incident.
 - Acknowledgement is a distinct operator action; it does not close the incident.
-- Closure requires a recorded latest `NORMAL` assessment, prior acknowledgement, a non-empty external clearance reference, a reason, and an explicit operator identity.
+- Closure requires a recorded latest `NORMAL` assessment, prior acknowledgement, and a closure timestamp no earlier than both the latest assessment update and acknowledgement; it also requires a non-empty external clearance reference, a reason, and an explicit operator identity.
 - Closure references the exact latest normal-assessment event ID. A later assessment invalidates an older clearance reference.
 - Reopening after closure creates a new incident ID.
 - Event IDs are idempotent: replaying an identical event is a no-op; reusing an ID for different content is rejected.
