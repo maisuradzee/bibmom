@@ -102,7 +102,7 @@ A future implementation is not production-ready until tests cover:
 
 ## 8. Current implementation boundary
 
-The local snapshot is now staged inside a fresh private directory under the destination parent. On POSIX the staging directory is forced to mode 0700 and the temporary SQLite file is created as 0600 before SQLite opens it; the completed file is then hard-link published without overwriting an existing destination. This narrows the temporary-path replacement window when the final destination parent is shared. Non-POSIX ACLs remain host-managed. The implementation still does not provide encryption, off-host upload, object locking, manifest signing, key rotation, automated retention, production ACLs or scheduled restore drills.
+The proposed PR #50 change stages the local snapshot inside a fresh private directory under the destination parent. On POSIX the staging directory is forced to mode 0700 and the temporary SQLite file is created as 0600 before SQLite opens it; the completed file is then hard-link published without overwriting an existing destination. This narrows the temporary-path replacement window when the final destination parent is shared. Non-POSIX ACLs remain host-managed. The implementation still does not provide encryption, off-host upload, object locking, manifest signing, key rotation, automated retention, production ACLs or scheduled restore drills.
 
 ## References
 
