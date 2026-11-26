@@ -110,3 +110,14 @@ The local snapshot implementation stages each backup inside a fresh private dire
 - age file-format specification v1.1.0: https://c2sp.org/age@v1.1.0
 - minisign signing and verification interface: https://github.com/jedisct1/minisign
 - Amazon S3 Object Lock and versioned WORM retention: https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock.html
+
+
+## 9. Local restore-drill command
+
+The CLI now provides a controlled same-host smoke drill:
+
+`python -m noema_core.jobs_cli --db ~/.noema/noema-jobs.sqlite3 restore-drill`
+
+The command requires an existing database, verifies its integrity, creates a fresh SQLite online backup in a temporary directory, restores that backup to a second new path, verifies the restored database, and compares job count, audit-event count and final audit-chain hash with the backup snapshot. It also confirms that the backup source bytes were not changed by restore. The JSON report contains aggregate counts and hashes only; it does not include job payloads or job identifiers. Temporary backup and restore files are removed when the command exits.
+
+**Evidence boundary:** this is a same-host local filesystem drill. It does not test encrypted off-host upload, object-version retrieval, independent key custody, clean-host recovery, provider retention, or an approved production RPO/RTO. It must not be reported as disaster-recovery readiness.
