@@ -47,6 +47,12 @@ The following is a proposed format, not a current schema:
 - signature_format and non-secret signing key identifier
 - object_version_id and approved retention_policy_id
 
+## 3.1 Machine-readable manifest contract
+
+The proposed envelope is defined in [`data/noema-backup-manifest.schema.json`](../data/noema-backup-manifest.schema.json). The schema deliberately permits only non-secret metadata: artifact SHA-256/byte lengths, application and SQLite versions, aggregate queue/audit counts, non-secret recipient/signing key identifiers, immutable object-version identifier and an approved retention-policy identifier. Each object boundary rejects unlisted fields, so a future manifest cannot silently grow to accept arbitrary credentials or private key material.
+
+The signature bytes remain a detached artifact; the manifest contains only the signature format and public key identifier. The schema and its tests are a **metadata contract only**. They do not verify the detached signature, decrypt ciphertext, check the actual artifact hashes, inspect SQLite contents, prove object immutability or establish that any provider/retention policy is configured. No real manifest, key identifier, ciphertext or storage endpoint is stored in this public repository.
+
 ## 4. Restore sequence
 
 Restore must fail closed and never overwrite an existing database:
