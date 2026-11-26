@@ -158,9 +158,9 @@ Neumaier-state median speedup changed only from 1.2589× to 1.2565× in free-thr
 - Workflow: https://github.com/maisuradzee/bibmom/actions/runs/45910119575
 - Tested PR head: c84fd8151c544acf50ee915c4069a68ad716b23d
 - Frozen summary: data/noema-005/threaded-rerun-2026-11-27b.json
-- Raw reports: data/noema-005/raw/run-45910119575-*.json.gz.b64
-- Artifact ZIP SHA-256: free-threaded 4a590157c1ce83068d55456ef97c2db6d9e436f47bf3afbdbef68dd53a3c2909; GIL-enabled b59bc555196c593e344febf8b62a4356996382227b5ee9fd0961fe4fecd7d7b5.
-- Raw report SHA-256 values and per-case aggregates are frozen in the summary; the generalized reproduction script validates both hosted runs.
+- Free-threaded raw report: data/noema-005/raw/run-45910119575-free-threaded.json.gz.b64 (archived and reproduced in this PR).
+- GIL-enabled artifact ZIP SHA-256: b59bc555196c593e344febf8b62a4356996382227b5ee9fd0961fe4fecd7d7b5; decompressed report SHA-256: d5667252fce07a07d430f22c20534c1829524a71afc739b7b8202d838a42af75. The GIL report was downloaded and inspected in this execution, but its raw bytes are not mirrored in this PR; artifact 15159148673 remains available until 2026-12-26.
+- The generalized reproduction script verifies the archived free-threaded report for run 459101 and both raw reports for run 458977. The GIL-enabled 459101 aggregate is retained with artifact provenance but is not independently reproducible from repository bytes.
 
 ### Limitations
 
