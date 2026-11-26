@@ -44,6 +44,10 @@ jobs:
           test -f noema_core/action_readiness.py
           test -f scripts/reproduce_noema007_wmo_roadmaps.py
           test -f tests/test_noema007_wmo_roadmaps.py
+          test -f data/noema-007/anticipatory-action-2025-source-snapshot.json
+          test -f data/noema-007/anticipatory-action-2025-derived-results.json
+          test -f scripts/reproduce_noema007_anticipatory_action.py
+          test -f tests/test_noema007_anticipatory_action.py
           test -f tests/test_noema007_action_readiness.py
           test -f research/TEMPLATE.md
           test -f scripts/validate_research.py
@@ -122,6 +126,8 @@ jobs:
         run: python scripts/validate_research.py
       - name: Reproduce NOEMA-007 WMO roadmap aggregates
         run: python scripts/reproduce_noema007_wmo_roadmaps.py --check
+      - name: Reproduce NOEMA-007 anticipatory-action aggregates
+        run: python scripts/reproduce_noema007_anticipatory_action.py --check
       - name: Validate NOEMA-007 action-readiness aggregate contract
         run: python -m unittest discover -s tests -p 'test_noema007_action_readiness.py' -v
       - name: Validate NOEMA mission and autonomy policy
