@@ -35,6 +35,11 @@ jobs:
           test -f data/noema-005/threaded-rerun-2026-11-26.json
           test -f scripts/validate_noema005_threaded_rerun.py
           test -f tests/test_noema005_threaded_rerun.py
+          test -f data/noema-005/threaded-reruns-2026-11-26.json
+          test -f data/noema-005/raw/run-45867519546-gil-enabled.json.gz.b64
+          test -f data/noema-005/raw/run-45867519546-free-threaded.json.gz.b64
+          test -f scripts/reproduce_noema005_threaded_reruns.py
+          test -f tests/test_noema005_threaded_reruns.py
           test -f scripts/validate_noema005_cpu_thread_summary.py
           test -f tests/test_noema005_cpu_thread_summary.py
           test -f data/noema-007/mhews-2026-source-snapshot.json
@@ -147,6 +152,10 @@ jobs:
         run: python scripts/validate_noema005_cpu_thread_summary.py
       - name: Validate NOEMA-005 2026-11-26 threaded rerun summary
         run: python scripts/validate_noema005_threaded_rerun.py
+      - name: Reproduce NOEMA-005 two-run threaded raw reports
+        run: python scripts/reproduce_noema005_threaded_reruns.py --check
+      - name: Test NOEMA-005 two-run threaded raw-report reproduction
+        run: python -m unittest discover -s tests -p 'test_noema005_threaded_reruns.py' -v
       - name: Validate runnable NOEMA service entrypoint
         run: python -m noema_core.service --check --db "$RUNNER_TEMP/noema-service-check.sqlite3"
       - name: Validate offsite backup manifest schema contract
