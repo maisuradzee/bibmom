@@ -340,7 +340,6 @@
             "experiment_id": "NOEMA-2026-005-REAL-THREADS-ARM64-001",
             "workflow_run": "https://github.com/maisuradzee/bibmom/actions/runs/45752987940",
             "quality_run": "https://github.com/maisuradzee/bibmom/actions/runs/45752987825",
-            "final_pr_head": "4fe358edd532d1861544951682e9125f67a4e156",
             "runtime_matrix": [
               {
                 "runner": "ubuntu-24.04-arm",
@@ -389,7 +388,8 @@
               "grouped_cancellation": "16ae80fed695b4d02f4a42a2e7c3f5b8a5eff96e97296273c3ddcacfb19090ee"
             },
             "results_file": "data/noema-005/arm64-threaded-benchmark-summary-2026-11-26.json",
-            "raw_artifact_retention_days": 30
+            "raw_artifact_retention_days": 30,
+            "benchmark_run_head_sha": "4fe358edd532d1861544951682e9125f67a4e156"
           }
         }
       },
