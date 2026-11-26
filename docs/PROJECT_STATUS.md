@@ -78,7 +78,7 @@ AquaSignal-ის პირველი ვერსია მხოლოდ �
 
 | ნაკადი | სტატუსი | მთავარი ბლოკერი / შემდეგი ნაბიჯი |
 |---|---|---|
-| NOEMA-2026-006 AquaSignal | active / prototype | paired sensor/lab მონაცემისა და data dictionary-ის ნებადართული წვდომა |
+| NOEMA-2026-006 AquaSignal | active / prototype; PR #29 Draft/open | main-ში synthetic-tested rules engine; PR #29 exact-head CI SUCCESS (run 45780586227), სრული assessment evidence-ზე operator clearance; field validation/data access still blocked |
 | NOEMA-2026-005 numerical reduction | active / preliminary | native C/OpenMP და ალტერნატიული accumulator-ის შედარება; გარე რეცენზია |
 | NOEMA-2026-007 Last-Mile Action Gap | active / draft | საქართველოს ერთ აუზში საჯარო, არაპერსონალური workflow/data dictionary და სამი კონტექსტის შედარება |
 | NOEMA-INFRA-001 backup/provenance | active / engineering | PR #19-ის WAL-mode regression fix-ის exact-head CI |
