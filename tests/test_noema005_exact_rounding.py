@@ -138,6 +138,20 @@ class Noema005ExactRoundingOracleTests(unittest.TestCase):
         self.assertEqual(len(actual), len(values))
         self.assertEqual(actual, expected)
 
+    def test_harness_rejects_values_outside_signed_accumulator_range(self):
+        out_of_range_values = (1 << 2559, -(1 << 2559) - 1)
+        for value in out_of_range_values:
+            with self.subTest(value=value):
+                completed = subprocess.run(
+                    [str(self.binary)],
+                    input=f"{value}\\n",
+                    capture_output=True,
+                    text=True,
+                    timeout=30,
+                )
+                self.assertEqual(completed.returncode, 2)
+                self.assertIn("invalid or out-of-range", completed.stderr)
+
     def test_boundary_suite_includes_overflow_tie_and_signed_extremes(self):
         values = self.cases()
         self.assertIn(((1 << 53) - 1) * (1 << 2045) + (1 << 2044), values)
