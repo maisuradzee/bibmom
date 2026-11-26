@@ -263,3 +263,29 @@ LRF-ის საჯარო WRP repository-ის reproduction ჩანაწ
 საქართველოს ერთი მდინარის აუზისა და მასთან დაკავშირებული ერთი მუნიციპალიტეტის საჯარო, ვერსიით განსაზღვრული workflow უნდა შეირჩეს მხოლოდ მას შემდეგ, რაც ოფიციალური უწყება დაადასტურებს data dictionary-სა და აგრეგირებული მონაცემის გამოყენების უფლებას. საველე პილოტამდე საჭიროა baseline, წინასწარ რეგისტრირებული შედეგები, კონფიდენციალურობის შეფასება და დამოუკიდებელი მეთოდოლოგიური განხილვა. თუ ეს მონაცემები/უფლებები მიუწვდომელია, კვლევა დარჩება დოკუმენტურ discovery-დ და არ შეიქმნება ყალბი ადგილობრივი ეფექტიანობის შეფასება.
 
 - 2026-11-26 — დაემატა LRF World Risk Poll 2025-ის გაფრთხილებიდან მოქმედებამდე შედეგები, საქართველოს 99-კაციანი warning-base-ის შეზღუდვა, საჯარო reproduction-ის provenance და Action Readiness Ledger-ის privacy-preserving მონაცემთა კონტრაქტი.
+
+
+## 9. Frozen source snapshot and reproducible arithmetic — 26 November 2026
+
+The official UNDRR 2026 report page has now been captured as a small, source-attributed public snapshot in `data/noema-007/mhews-2026-source-snapshot.json`. The snapshot contains only country-level counts and the two preparedness scores published on the report page; it contains no respondent records or local operational telemetry.
+
+The standard-library script `scripts/reproduce_noema007_mhews_snapshot.py` derives a frozen JSON result. It validates that every pillar count is within the explicit denominator, that the all-four count cannot exceed any single pillar count, and that the score inputs lie in [0, 1]. The test suite reproduces the committed result and rejects an impossible all-four count.
+
+### REPRODUCED RESULT — arithmetic only
+
+- Risk knowledge: 72/136 = 52.9412%.
+- Detection, monitoring and forecasting: 102/136 = 75.0000%.
+- Warning dissemination and communication: 123/136 = 90.4412%.
+- Preparedness to respond: 111/136 = 81.6176%.
+- All four pillars: 64/136 = 47.0588%.
+- Preparedness average score: 0.74 to 0.70, an absolute change of −0.04.
+
+**Interpretation boundary:** the percentages describe the share of countries in the source's reporting denominator. They are not population coverage, the share of people who received a warning, individual comprehension or protective action. The 0.04 score change is a difference between the source-reported average scores; it is not a causal estimate.
+
+### Local evidence boundary
+
+The National Environmental Agency's 25 November 2026 update confirms that a two-day consultation discussed multi-hazard risk-management plans for the Alazani, Iori, Mtkvari, Khrami-Ktsia, Chorokhi-Acharistskali, Enguri and Rioni river basins. It also describes the wider programme as covering 11 basins. This verifies ongoing planning and institutional coordination; it does not verify final approval of all plans, alert delivery to residents, acknowledgement, protective action or reduced losses.
+
+Source: National Environmental Agency of Georgia, 25 November 2026, https://nea.gov.ge/En/News/3459.
+
+**Evidence classification:** source counts and scores are FACT; the percentages and −0.04 difference are REPRODUCED RESULT from the frozen source snapshot; the need to measure operational effectiveness separately is INFERENCE. A Georgia-specific last-mile gap remains HYPOTHESIS until permissioned local workflow data and field evaluation exist.
