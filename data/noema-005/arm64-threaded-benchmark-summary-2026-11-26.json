@@ -1,0 +1,368 @@
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-005",
+  "experiment_id": "NOEMA-2026-005-REAL-THREADS-ARM64-001",
+  "date": "2026-11-26",
+  "base_commit": "d46c10cf384f2eba09b4d332a323c19554f552b6",
+  "run_head_sha": "4fe358edd532d1861544951682e9125f67a4e156",
+  "pull_request": 23,
+  "workflow_run": {
+    "id": 45752987940,
+    "url": "https://github.com/maisuradzee/bibmom/actions/runs/45752987940",
+    "conclusion": "success"
+  },
+  "quality_run": {
+    "id": 45752987825,
+    "url": "https://github.com/maisuradzee/bibmom/actions/runs/45752987825",
+    "conclusion": "success"
+  },
+  "protocol": {
+    "repeat_count": 65536,
+    "value_count_per_layout": 196608,
+    "workers": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "layouts": [
+      "triplet_order",
+      "grouped_cancellation"
+    ],
+    "partitions": [
+      "contiguous",
+      "round_robin"
+    ],
+    "methods": [
+      "threaded_naive_scalar",
+      "threaded_neumaier_scalar",
+      "threaded_neumaier_state"
+    ],
+    "warmups": 1,
+    "repetitions": 3,
+    "random_seed": null,
+    "input_generation": "deterministic synthetic binary64; no random numbers",
+    "reference": "exact rational sum of input binary64 values rounded once to binary64",
+    "cpu_metric": "process_time_ns / perf_counter_ns",
+    "memory_metric": "tracemalloc peak delta; not process RSS or all native allocations"
+  },
+  "input_sha256": {
+    "triplet_order": "e6cc4a627d55c476cb55e6f9789ceb39282e1f787d4b0a5fc040b30428085291",
+    "grouped_cancellation": "16ae80fed695b4d02f4a42a2e7c3f5b8a5eff96e97296273c3ddcacfb19090ee"
+  },
+  "aggregate": {
+    "arm64_runtimes": 4,
+    "threaded_configurations": 192,
+    "measured_runs": 576,
+    "accuracy": {
+      "naive_scalar": {
+        "correct": 0,
+        "total": 192
+      },
+      "neumaier_scalar": {
+        "correct": 168,
+        "total": 192
+      },
+      "neumaier_state": {
+        "correct": 192,
+        "total": 192
+      }
+    },
+    "cpu_wall_samples_above_1_05": {
+      "gil_enabled": {
+        "count": 2,
+        "total": 288
+      },
+      "free_threaded": {
+        "count": 208,
+        "total": 288
+      }
+    },
+    "interpretation": "Neumaier-state accuracy reproduced in all ARM64 runs. Free-threaded builds showed aggregate multi-thread CPU use on both ARM64 runner families. GIL-enabled builds showed only two threshold crossings, both in one macOS naive-scalar sample group. No general wall-time speedup was established."
+  },
+  "runners": [
+    {
+      "runner": "ubuntu-24.04-arm",
+      "runtime_mode": "gil-enabled",
+      "environment": {
+        "python_implementation": "CPython",
+        "python_version": "3.14.4",
+        "machine": "aarch64",
+        "platform": "Linux-7.0.0-1017-azure-aarch64-with-glibc2.39",
+        "processor": "aarch64",
+        "cpu_count": 4,
+        "gil_enabled": true,
+        "free_threaded_build": false
+      },
+      "accuracy": {
+        "naive_scalar": "0/48",
+        "neumaier_scalar": "42/48",
+        "neumaier_state": "48/48"
+      },
+      "cpu_wall_samples_above_1_05": {
+        "naive_scalar": "0/48",
+        "neumaier_scalar": "0/48",
+        "neumaier_state": "0/48"
+      },
+      "median_speedup_by_method": {
+        "naive_scalar": 0.49106,
+        "neumaier_scalar": 0.739538,
+        "neumaier_state": 0.738356
+      },
+      "neumaier_state_by_worker": [
+        {
+          "workers": 1,
+          "median_wall_ns": 26119226,
+          "median_speedup": 0.753635,
+          "median_cpu_wall_ratio": 1.00114,
+          "peak_traced_python_bytes": 11535
+        },
+        {
+          "workers": 2,
+          "median_wall_ns": 26376964,
+          "median_speedup": 0.745266,
+          "median_cpu_wall_ratio": 1.003497,
+          "peak_traced_python_bytes": 18490
+        },
+        {
+          "workers": 4,
+          "median_wall_ns": 26773262,
+          "median_speedup": 0.734001,
+          "median_cpu_wall_ratio": 1.008483,
+          "peak_traced_python_bytes": 32488
+        },
+        {
+          "workers": 8,
+          "median_wall_ns": 27518452,
+          "median_speedup": 0.714125,
+          "median_cpu_wall_ratio": 1.011717,
+          "peak_traced_python_bytes": 60740
+        }
+      ],
+      "artifact": {
+        "id": 15085759771,
+        "name": "noema005-arm64-ubuntu-24.04-arm-gil-enabled",
+        "zip_digest": "sha256:9561840b9f0165ee2df279ce64856d1ba6a0659316210c16aeddbd0f52787f1a",
+        "raw_report_sha256": "a94bd7f0575ecda269b199c9b06723d065dfabd9462a55f15e82c84dcaa22f1b",
+        "raw_report_bytes": 56819,
+        "expires_at": "2026-12-26T04:06:02Z"
+      }
+    },
+    {
+      "runner": "ubuntu-24.04-arm",
+      "runtime_mode": "free-threaded",
+      "environment": {
+        "python_implementation": "CPython",
+        "python_version": "3.14.4",
+        "machine": "aarch64",
+        "platform": "Linux-7.0.0-1017-azure-aarch64-with-glibc2.39",
+        "processor": "aarch64",
+        "cpu_count": 4,
+        "gil_enabled": false,
+        "free_threaded_build": true
+      },
+      "accuracy": {
+        "naive_scalar": "0/48",
+        "neumaier_scalar": "42/48",
+        "neumaier_state": "48/48"
+      },
+      "cpu_wall_samples_above_1_05": {
+        "naive_scalar": "36/48",
+        "neumaier_scalar": "36/48",
+        "neumaier_state": "36/48"
+      },
+      "median_speedup_by_method": {
+        "naive_scalar": 0.20053,
+        "neumaier_scalar": 0.672596,
+        "neumaier_state": 0.665959
+      },
+      "neumaier_state_by_worker": [
+        {
+          "workers": 1,
+          "median_wall_ns": 34746610,
+          "median_speedup": 0.639982,
+          "median_cpu_wall_ratio": 1.002737,
+          "peak_traced_python_bytes": 95151
+        },
+        {
+          "workers": 2,
+          "median_wall_ns": 36038103,
+          "median_speedup": 0.631513,
+          "median_cpu_wall_ratio": 1.988697,
+          "peak_traced_python_bytes": 186926
+        },
+        {
+          "workers": 4,
+          "median_wall_ns": 29094548,
+          "median_speedup": 0.774778,
+          "median_cpu_wall_ratio": 3.521914,
+          "peak_traced_python_bytes": 367428
+        },
+        {
+          "workers": 8,
+          "median_wall_ns": 30408769,
+          "median_speedup": 0.7326,
+          "median_cpu_wall_ratio": 3.662863,
+          "peak_traced_python_bytes": 731408
+        }
+      ],
+      "artifact": {
+        "id": 15086730556,
+        "name": "noema005-arm64-ubuntu-24.04-arm-free-threaded",
+        "zip_digest": "sha256:40ce1aa885938030c17ba55ef131739aabe7cae735d9e458ed60a6365920bdd8",
+        "raw_report_sha256": "a5db96342a0580e9f618741d3d14ec55b6943b2c1fea26090238128e0b46835c",
+        "raw_report_bytes": 56932,
+        "expires_at": "2026-12-26T04:06:09Z"
+      }
+    },
+    {
+      "runner": "macos-15-arm64",
+      "runtime_mode": "gil-enabled",
+      "environment": {
+        "python_implementation": "CPython",
+        "python_version": "3.14.4",
+        "machine": "arm64",
+        "platform": "macOS-15.8.2-arm64-arm-64bit-Mach-O",
+        "processor": "arm",
+        "cpu_count": 3,
+        "gil_enabled": true,
+        "free_threaded_build": false
+      },
+      "accuracy": {
+        "naive_scalar": "0/48",
+        "neumaier_scalar": "42/48",
+        "neumaier_state": "48/48"
+      },
+      "cpu_wall_samples_above_1_05": {
+        "naive_scalar": "2/48",
+        "neumaier_scalar": "0/48",
+        "neumaier_state": "0/48"
+      },
+      "median_speedup_by_method": {
+        "naive_scalar": 0.580249,
+        "neumaier_scalar": 0.948988,
+        "neumaier_state": 0.90844
+      },
+      "neumaier_state_by_worker": [
+        {
+          "workers": 1,
+          "median_wall_ns": 24525083,
+          "median_speedup": 0.894121,
+          "median_cpu_wall_ratio": 1.001465,
+          "peak_traced_python_bytes": 11535
+        },
+        {
+          "workers": 2,
+          "median_wall_ns": 25347729,
+          "median_speedup": 0.895491,
+          "median_cpu_wall_ratio": 1.001421,
+          "peak_traced_python_bytes": 18466
+        },
+        {
+          "workers": 4,
+          "median_wall_ns": 21247625,
+          "median_speedup": 1.006134,
+          "median_cpu_wall_ratio": 1.004696,
+          "peak_traced_python_bytes": 32204
+        },
+        {
+          "workers": 8,
+          "median_wall_ns": 23429500,
+          "median_speedup": 0.929092,
+          "median_cpu_wall_ratio": 1.008779,
+          "peak_traced_python_bytes": 59788
+        }
+      ],
+      "artifact": {
+        "id": 15086830621,
+        "name": "noema005-arm64-macos-15-arm64-gil-enabled",
+        "zip_digest": "sha256:c814620bf3d5f0b1592a381dd246ef7c4dce3b87ff396ba762189af4276f8dfc",
+        "raw_report_sha256": "220bea999fc4b048a841aa9ad6ac2ba133c0745282124a305a239a640c2eb374",
+        "raw_report_bytes": 56808,
+        "expires_at": "2026-12-26T04:06:29Z"
+      }
+    },
+    {
+      "runner": "macos-15-arm64",
+      "runtime_mode": "free-threaded",
+      "environment": {
+        "python_implementation": "CPython",
+        "python_version": "3.14.4",
+        "machine": "arm64",
+        "platform": "macOS-15.8.2-arm64-arm-64bit-Mach-O",
+        "processor": "arm",
+        "cpu_count": 3,
+        "gil_enabled": false,
+        "free_threaded_build": true
+      },
+      "accuracy": {
+        "naive_scalar": "0/48",
+        "neumaier_scalar": "42/48",
+        "neumaier_state": "48/48"
+      },
+      "cpu_wall_samples_above_1_05": {
+        "naive_scalar": "32/48",
+        "neumaier_scalar": "34/48",
+        "neumaier_state": "34/48"
+      },
+      "median_speedup_by_method": {
+        "naive_scalar": 0.26953,
+        "neumaier_scalar": 0.966402,
+        "neumaier_state": 0.922212
+      },
+      "neumaier_state_by_worker": [
+        {
+          "workers": 1,
+          "median_wall_ns": 24524063,
+          "median_speedup": 0.615052,
+          "median_cpu_wall_ratio": 1.001625,
+          "peak_traced_python_bytes": 95149
+        },
+        {
+          "workers": 2,
+          "median_wall_ns": 14895333,
+          "median_speedup": 1.029768,
+          "median_cpu_wall_ratio": 1.94609,
+          "peak_traced_python_bytes": 185458
+        },
+        {
+          "workers": 4,
+          "median_wall_ns": 15704020,
+          "median_speedup": 0.959376,
+          "median_cpu_wall_ratio": 2.222738,
+          "peak_traced_python_bytes": 366348
+        },
+        {
+          "workers": 8,
+          "median_wall_ns": 15319729,
+          "median_speedup": 0.983926,
+          "median_cpu_wall_ratio": 2.569922,
+          "peak_traced_python_bytes": 731644
+        }
+      ],
+      "artifact": {
+        "id": 15086132450,
+        "name": "noema005-arm64-macos-15-arm64-free-threaded",
+        "zip_digest": "sha256:4f20ca22e298a7786350993cf3e618e96296ee15e018b1bb4b2f60b11cb72f7e",
+        "raw_report_sha256": "714817e5b7405a84b75d81c8cd887906e80cd273bc5fb407f037be755ad0346e",
+        "raw_report_bytes": 56846,
+        "expires_at": "2026-12-26T04:06:25Z"
+      }
+    }
+  ],
+  "x86_64_reference": {
+    "source_commit": "d46c10cf384f2eba09b4d332a323c19554f552b6",
+    "gil_enabled_cpu_wall_samples_above_1_05": "0/144",
+    "free_threaded_cpu_wall_samples_above_1_05": "108/144",
+    "neumaier_state_accuracy": "48/48",
+    "note": "Descriptive comparison only; different cloud runners and CPUs prevent causal architecture attribution."
+  },
+  "limitations": [
+    "Hosted virtual machines are not controlled laboratory hardware; CPU scheduling and contention may vary.",
+    "Ubuntu ARM64 and macOS ARM64 differ in CPU family, OS and available core count.",
+    "Three repetitions are a replication profile, not a high-powered performance study.",
+    "Synthetic cancellation fixtures are adversarial and do not represent typical scientific workloads.",
+    "tracemalloc measures Python allocations, not process RSS or all native allocations.",
+    "Raw Actions artifacts expire after 30 days; this summary preserves aggregate metrics and SHA-256 provenance."
+  ]
+}
