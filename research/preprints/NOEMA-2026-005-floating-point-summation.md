@@ -308,3 +308,72 @@ x86-64 წინა შედეგებთან შედარება მ�
 
 ---
 **NOEMA სტატუსი:** preliminary · წინასწარი შედეგი · დამოუკიდებელი გარე რეცენზია არ დასრულებულა.
+
+
+## შედეგები
+
+### Neumaier-state accuracy და median wall-time speedup
+
+| Runtime | Run 45850716742 | Run 45867519546 | Accuracy თითო run-ში |
+|---|---:|---:|---:|
+| GIL-enabled | 0.7539× | 0.7744× | 48/48 ორივეში |
+| Free-threaded | 0.9519× | 1.0181× | 48/48 ორივეში |
+
+### მეორე run-ის ყველა მეთოდის შედეგები
+
+| Runtime | Method | Correct | Median speedup | Median CPU/wall |
+|---|---|---:|---:|---:|
+| GIL-enabled | Naive scalar | 0/48 | 0.4951× | 1.012 |
+| GIL-enabled | Scalar Neumaier | 42/48 | 0.7565× | 1.008 |
+| GIL-enabled | Neumaier state | 48/48 | 0.7744× | 1.008 |
+| Free-threaded | Naive scalar | 0/48 | 0.3682× | 2.258 |
+| Free-threaded | Scalar Neumaier | 42/48 | 0.9724× | 2.412 |
+| Free-threaded | Neumaier state | 48/48 | 1.0181× | 2.235 |
+
+### FACT
+
+- GitHub API-მ ახალი run-ის ორი artifact დააბრუნა: IDs 15140723434 და 15140468799. მათი archive SHA-256 მნიშვნელობები რეალურად ჩამოტვირთულ ZIP bytes-ს დაემთხვა.
+- თითო report-ის raw SHA-256 გადამოწმდა; თითო runtime-ში 48 case იყო.
+- თითო case-ის სამივე measured run-ში native thread ID-ების რაოდენობა ემთხვეოდა configured worker count-ს; ეს ადასტურებს native worker-thread-ების გამოყენებას და არა performance gain-ს.
+
+### REPRODUCED RESULT
+
+- ახალი raw reports-იდან დამოუკიდებლად თავიდან დაითვალა accuracy, median speedup, speedup range, median process-CPU/wall ratio, median traced allocation და CPU-parallelism threshold counts.
+- ახალი free-threaded Neumaier-state median speedup იყო 1.0181×, მაგრამ range 0.7023×–1.1350×; მხოლოდ ერთი hosted run-ის სამი repetition-იანი configuration-ების median-ია ეს მნიშვნელობა.
+
+### INFERENCE
+
+რიცხვითი სიზუსტე ორივე run-ში სტაბილური იყო, მაგრამ performance result run-sensitive აღმოჩნდა. ერთი free-threaded median-ის 1.0-ზე ოდნავ გადაკვეთა არ წარმოადგენს სანდო აჩქარების მტკიცებულებას. CPU/wall ratio >1.0 აჩვენებს aggregate CPU consumption-ს, მაგრამ თავისთავად wall-time speedup-ს არ ნიშნავს.
+
+### HYPOTHESIS
+
+უფრო ხანგრძლივი workloads, native code ან memory-bandwidth-bound arrays შეიძლება განსხვავებულ პროფილს აჩვენებდეს; ეს ჯერ არ შემოწმებულა დამოუკიდებელ ფიზიკურ hardware-ზე.
+
+### UNTESTED IDEA
+
+წინასწარ დარეგისტრირებული benchmark იგივე input hashes-ით, მინიმუმ 20 repetition თითო cell-ში, დამოუკიდებელ physical x86-64 და ARM64 მოწყობილობებზე, RSS და memory bandwidth გაზომვით და confidence intervals-ით.
+
+## წყაროები
+
+- NOEMA GitHub Actions run 45850716742 — https://github.com/maisuradzee/bibmom/actions/runs/45850716742
+- NOEMA GitHub Actions run 45867519546 — https://github.com/maisuradzee/bibmom/actions/runs/45867519546
+- Python 3.14 threading documentation — https://docs.python.org/3.14/library/threading.html
+- Python 3.14 free-threading HOWTO — https://docs.python.org/3.14/howto/free-threading-python.html
+- Higham, N. J. (1993), The Accuracy of Floating Point Summation — https://doi.org/10.1137/0914050
+- Ogita, T., Rump, S. M., Oishi, S. (2005), Accurate Sum and Dot Product — https://doi.org/10.1137/030601818
+
+## შემოწმების სტატუსი
+
+- ახალი run-ის ორივე ZIP ჩამოიტვირთა; archive SHA-256 დაემთხვა GitHub artifact metadata-ს.
+- ახალი raw JSON reports SHA-256-ით შემოწმდა და ხელახლა აგრეგირდა.
+- Reproduction script და mutation tests CI-ში სრულდება.
+- შედეგი რჩება preliminary: მხოლოდ hosted x86-64 VM, synthetic cancellation fixtures, სამი repetition თითო configuration; დამოუკიდებელი physical-hardware replication და გარე რეცენზია არ ჩატარებულა.
+- GitHub Actions artifact ZIP-ები 30 დღეში იშლება; raw report-ის compressed copy და hash-ები ამ PR-ში ინახება.
+
+## შემდეგი ნაბიჯები
+
+1. იგივე benchmark გაუშვი დამოუკიდებელ physical x86-64 და ARM64 მოწყობილობებზე.
+2. გაზარდე measured repetitions მინიმუმ 20-მდე და გამოაქვეყნე uncertainty intervals.
+3. დაამატე process RSS/native allocation და memory-bandwidth გაზომვები.
+4. შეადარე pairwise, long-double და exact/superaccumulator ალგორითმები.
+5. მოითხოვე დამოუკიდებელი numerical-method review; Published სტატუსი არ მიენიჭოს ამ ეტაპზე.
