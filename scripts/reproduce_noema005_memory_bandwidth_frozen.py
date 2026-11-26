@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """Reproduce the frozen NOEMA-005 memory-backed result from its original artifact ZIP."""
 from __future__ import annotations
-import argparse,hashlib,json
+import argparse,hashlib,json,sys
 from io import BytesIO
 from pathlib import Path
 from zipfile import ZipFile
 from typing import Any
-from scripts.validate_noema005_memory_bandwidth_report import validate_report
 ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT))
+from scripts.validate_noema005_memory_bandwidth_report import validate_report
 DEFAULT_ARCHIVE=ROOT/"data/noema-005/memory-bandwidth-artifact-2026-11-26.zip"
 DEFAULT_PROVENANCE=ROOT/"data/noema-005/memory-bandwidth-provenance-2026-11-26.json"
 def verify_frozen(archive_path:Path=DEFAULT_ARCHIVE,provenance_path:Path=DEFAULT_PROVENANCE)->dict[str,Any]:
