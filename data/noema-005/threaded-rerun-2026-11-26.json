@@ -4,7 +4,6 @@
   "workflow_run_id": 45850716742,
   "workflow_url": "https://github.com/maisuradzee/bibmom/actions/runs/45850716742",
   "tested_head_sha": "48bf7aeea44af78ee85f97463a15894330ddba4c",
-  "generated_at_utc": "2026-11-26T15:36:00Z",
   "runner": {
     "platform": "Linux-7.0.0-1017-azure-x86_64-with-glibc2.39",
     "machine": "x86_64",
@@ -44,7 +43,8 @@
         "name": "noema005-threaded-gil-enabled",
         "expires_at_utc": "2026-12-26T15:36:37Z",
         "archive_sha256": "b1b84fa96480fd989e6b866800004146f36a8c08b05859d3678cf32a3c094be4",
-        "report_sha256": "b984326a68847e2fac9b3c205a4ef4b3fb59d10e27210460c2061fc9c8ba8eaa"
+        "report_sha256": "b984326a68847e2fac9b3c205a4ef4b3fb59d10e27210460c2061fc9c8ba8eaa",
+        "report_generated_at_utc": "2026-11-26T15:36:37.243397Z"
       },
       "methods": {
         "threaded_naive_scalar": {
@@ -90,7 +90,8 @@
         "name": "noema005-threaded-free-threaded",
         "expires_at_utc": "2026-12-26T15:36:31Z",
         "archive_sha256": "f8adbcd890c436267b6efb2f907b0d1b210d3c1f4e6ea7f2ac7500f987363f41",
-        "report_sha256": "f23804a230c96358082a6ae6189761e0a571ae4fadc241a4456cccddeb9b24e1"
+        "report_sha256": "f23804a230c96358082a6ae6189761e0a571ae4fadc241a4456cccddeb9b24e1",
+        "report_generated_at_utc": "2026-11-26T15:36:31.812956Z"
       },
       "methods": {
         "threaded_naive_scalar": {
@@ -141,5 +142,7 @@
       "The workflow artifacts expire on 2026-12-26; their hashes are recorded, but raw JSON reports are not committed in this summary."
     ],
     "status": "preliminary"
-  }
+  },
+  "summary_recorded_at_utc": "2026-11-26T15:42:10Z",
+  "status": "preliminary"
 }
