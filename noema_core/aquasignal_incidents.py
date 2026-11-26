@@ -86,8 +86,8 @@ class WaterIncident:
         if self.state == IncidentState.CLOSED:
             if self.acknowledged_at is None or any(x is None for x in closed):
                 raise IncidentError("closed incident requires acknowledgement and operator clearance")
-            if not _aware(self.closed_at) or self.closed_at < self.updated_at:
-                raise IncidentError("invalid closure timestamp")
+            if not _aware(self.closed_at) or self.closed_at < max(self.updated_at, self.acknowledged_at):
+                raise IncidentError("closure timestamp must follow the latest assessment and acknowledgement")
 
 def _replay(incident, event):
     for old in incident.events:
@@ -179,8 +179,10 @@ def close_incident(incident: WaterIncident, assessment: SignalAssessment, *,
         raise IncidentError("clearance evidence must match the complete recorded NORMAL assessment")
     if incident.acknowledged_at is None:
         raise IncidentError("incident must be acknowledged before closure")
-    if not _aware(assessment.observed_at) or not _aware(now) or now < max(incident.updated_at, assessment.observed_at):
-        raise IncidentError("closure time must follow latest assessment")
+    if not _aware(assessment.observed_at) or not _aware(now) or now < max(
+        incident.updated_at, assessment.observed_at, incident.acknowledged_at
+    ):
+        raise IncidentError("closure time must follow the latest assessment and acknowledgement")
     event = IncidentEvent(
         _text(event_id, "event_id"), "closed", now, "NORMAL",
         actor_id=_text(operator_id, "operator_id"),
