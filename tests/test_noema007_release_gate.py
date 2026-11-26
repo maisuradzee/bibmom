@@ -106,6 +106,24 @@ class AggregateReleaseGateTests(unittest.TestCase):
         with self.assertRaisesRegex(AggregateReleaseGateError, "unapproved fields"):
             preflight_aggregate_batch(synthetic_plan(), [malformed])
 
+    def test_duplicate_ledger_entries_fail_closed_before_retry(self):
+        first = preflight_aggregate_batch(synthetic_plan(), [])
+        duplicate_family = {
+            "release_batch_id": "batch_20261127_02",
+            "protected_population_family_id": first["ledger_entry"]["protected_population_family_id"],
+            "plan_sha256": "a" * 64,
+        }
+        with self.assertRaisesRegex(AggregateReleaseGateError, "duplicate protected population family"):
+            preflight_aggregate_batch(synthetic_plan(), [first["ledger_entry"], duplicate_family])
+
+        duplicate_batch = {
+            "release_batch_id": first["ledger_entry"]["release_batch_id"],
+            "protected_population_family_id": "family_other_01",
+            "plan_sha256": "b" * 64,
+        }
+        with self.assertRaisesRegex(AggregateReleaseGateError, "duplicate release_batch_id"):
+            preflight_aggregate_batch(synthetic_plan(), [first["ledger_entry"], duplicate_batch])
+
     def test_release_batch_id_cannot_be_reused_for_another_family(self):
         plan = synthetic_plan()
         ledger = [{
