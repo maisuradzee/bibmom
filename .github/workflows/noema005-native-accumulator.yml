@@ -1,0 +1,62 @@
+name: NOEMA-005 native accumulator replication
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "scripts/noema005_native_accumulator_benchmark.c"
+      - "scripts/run_noema005_native_accumulator_benchmark.py"
+      - "scripts/validate_noema005_native_accumulator_report.py"
+      - "tests/test_noema005_native_accumulator.py"
+      - "research/drafts/NOEMA-2026-005-native-accumulator-2026-11-26.md"
+      - ".github/workflows/noema005-native-accumulator.yml"
+  push:
+    branches: [main, "research/**"]
+    paths:
+      - "scripts/noema005_native_accumulator_benchmark.c"
+      - "scripts/run_noema005_native_accumulator_benchmark.py"
+      - "scripts/validate_noema005_native_accumulator_report.py"
+      - "tests/test_noema005_native_accumulator.py"
+      - "research/drafts/NOEMA-2026-005-native-accumulator-2026-11-26.md"
+      - ".github/workflows/noema005-native-accumulator.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: ubuntu-24.04
+            label: linux-x86_64
+          - runner: ubuntu-24.04-arm
+            label: linux-arm64
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Verify compiler and source
+        run: |
+          gcc --version
+          python --version
+          sha256sum scripts/noema005_native_accumulator_benchmark.c
+      - name: Run native accumulator benchmark
+        run: |
+          python scripts/run_noema005_native_accumulator_benchmark.py --repeat-count 250000 --workers 1,2,4,8 --warmups 1 --repetitions 5 --output "$RUNNER_TEMP/noema005-native-${{ matrix.label }}.json"
+      - name: Validate report and exact accumulator
+        run: |
+          python scripts/validate_noema005_native_accumulator_report.py "$RUNNER_TEMP/noema005-native-${{ matrix.label }}.json"
+      - name: Upload raw report
+        uses: actions/upload-artifact@v4
+        with:
+          name: noema005-native-accumulator-${{ matrix.label }}
+          path: ${{ runner.temp }}/noema005-native-${{ matrix.label }}.json
+          if-no-files-found: error
+          retention-days: 30
