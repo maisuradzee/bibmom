@@ -60,7 +60,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 
 ## სერვისის გაშვება
 
-NOEMA-ს ერთჰოსტიანი runtime ირთვება ბრძანებით `python -m noema_core.service`. `--check` ამოწმებს mission policy-ს, SQLite/audit მთლიანობასა და შიდა self-check განრიგს. სერვისი ჩაშენებულად ასრულებს მხოლოდ მისიის, queue-ისა და runtime გარემოს ლოკალურ თვითშემოწმებას; გარე ინფორმაციის connector-ები ჯერ არ არის ჩართული. Linux `systemd`-ის ინსტალაციის ინსტრუქცია და უსაფრთხოების პარამეტრები აღწერილია [SERVICE_DEPLOYMENT.md](docs/SERVICE_DEPLOYMENT.md); unit ფაილი: `deploy/systemd/noema.service`.
+NOEMA-ს ერთჰოსტიანი runtime ირთვება ბრძანებით `python -m noema_core.service`. `--check` ამოწმებს mission policy-ს, SQLite/audit მთლიანობასა და შიდა/ინტეგრაციის განრიგის კონფიგურაციას, მაგრამ გარე API-ს არ იძახებს. სერვისი დამატებით ყოველ 6 საათში ერთხელ კითხულობს მხოლოდ წინასწარ კონფიგურირებული საჯარო GitHub საცავის metadata-ს; პირველი მოთხოვნა 6 საათის შემდეგ იგეგმება. GitHub adapter-ს აქვს მხოლოდ metadata-ის ნებართვა ამ runtime-ში — ფაილების წაკითხვა და write მოქმედებები გამორთულია. Linux `systemd`-ის ინსტალაციის ინსტრუქცია და უსაფრთხოების პარამეტრები აღწერილია [SERVICE_DEPLOYMENT.md](docs/SERVICE_DEPLOYMENT.md); unit ფაილი: `deploy/systemd/noema.service`.
 
 ## ტექნიკური სამუშაოების მართვა
 
