@@ -10,9 +10,11 @@ noema_core/aquasignal_store.py persists one canonical transition per row and rec
 
 ## Storage contract
 
-- A file-backed SQLite database is required; in-memory databases and symbolic-link paths are rejected.
+- A file-backed SQLite database is required; in-memory databases and symbolic-link database paths are rejected.
+- On POSIX, the resolved parent directory must be owned by the current user and have mode 0700; shared/group/world-accessible directories are rejected.
+- The database is opened with `O_NOFOLLOW`, verified as a regular file owned by the current user, and restricted with `fchmod(0600)` before SQLite opens it. The private parent also protects SQLite WAL/SHM sidecars.
 - The database uses WAL mode, a bounded busy timeout and FULL synchronous writes.
-- On POSIX, the database file is created/restricted to owner-only mode 0600 before use.
+- Non-POSIX file ACLs are not configured by this prototype and must be supplied by the host deployment.
 - Each event contains its incident ID, event ID, event kind, timestamp and canonical JSON payload.
 - Payload SHA-256, previous-event hash and event hash form a global append-only chain.
 - SQLite triggers reject UPDATE and DELETE on the event table.
@@ -43,7 +45,7 @@ tests/test_aquasignal_store.py uses synthetic fixtures only. It covers:
 - event-ID collision and stale-snapshot rejection;
 - append-only trigger enforcement and hash verification after deliberate trigger bypass;
 - concurrent appends for two independent incidents;
-- POSIX owner-only database file permissions;
+- POSIX owner-only database file and parent-directory permissions, symlink rejection, and safe no-follow open;
 - rejection of in-memory persistence.
 
 Passing these tests validates software invariants only. It does not establish operational suitability, water quality, regulatory compliance or field performance.
