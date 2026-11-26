@@ -87,7 +87,7 @@
 
 - **Artifact download:** შესრულებულია ორივე original ZIP-ზე; SHA-256 ემთხვევა frozen summary-ს.
 - **Aggregate reproduction:** 48 case თითო runtime-ზე; per-method counts და metric ranges ემთხვევა frozen summary-ს.
-- **CI:** structured audit regression tests დამატებულია; exact-head CI ჯერ არ არის გაშვებული.
+- **CI:** structured audit regression test quality workflow-შია ჩართული; exact-head validation PR #66-ის check-ებში ფიქსირდება.
 - **Publication:** draft; NOEMA-005 რჩება preliminary და საჯარო კატალოგში არ იცვლება.
 
 ## ცვლილებების ისტორია
