@@ -57,8 +57,16 @@ class ResearchPortfolioTests(unittest.TestCase):
                 self.assertTrue(source["title"].strip())
                 self.assertTrue(source["publisher"].strip())
                 self.assertTrue(source["type"].strip())
-                if source["publication_date"] != "undated":
-                    self.assertGreaterEqual(len(source["publication_date"]), 4)
+                date.fromisoformat(source["accessed_at"])
+                publication_date = source["publication_date"]
+                if publication_date != "undated":
+                    self.assertRegex(publication_date, r"^\\d{4}(-\\d{2}(-\\d{2})?)?$")
+                    if len(publication_date) == 4:
+                        self.assertGreaterEqual(int(publication_date), 1000)
+                    elif len(publication_date) == 7:
+                        date.fromisoformat(publication_date + "-01")
+                    else:
+                        date.fromisoformat(publication_date)
 
     def test_schema_declares_portfolio_limits_and_required_fields(self) -> None:
         self.assertEqual(
