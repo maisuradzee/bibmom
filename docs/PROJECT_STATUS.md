@@ -1,15 +1,15 @@
 # NOEMA — მიმდინარე პროექტის მდგომარეობა
 
-- **განახლდა:** 2026-11-26 (run 13, post-merge snapshot)
+- **განახლდა:** 2026-11-27 (run 14, post-merge snapshot)
 - **საცავი:** https://github.com/maisuradzee/bibmom
-- **მდგომარეობის snapshot main:** `e22ee07ca38fc076d722c4ec7700d163e6abe745` (PR #77, run 13 audit/portfolio synchronization)
-- **Latest verified quality CI for snapshot:** [45858719568](https://github.com/maisuradzee/bibmom/actions/runs/45858719568) — `validate` job SUCCESS.
-- **Latest verified Pages deployment for snapshot:** [45858719709](https://github.com/maisuradzee/bibmom/actions/runs/45858719709) — `build` and `deploy` jobs SUCCESS.
-- **Run 13 audit:** [docs/run-audits/2026-11-26-run-13.md](run-audits/2026-11-26-run-13.md) — four active streams, evidence boundaries, work performed and post-merge verification.
-- **Merged in run 13:** PR #76 (INFRA-001 streamed artifact digest verification) and PR #77 (portfolio/status audit).
-- **Open research/engineering PRs at this snapshot:** #71 (NOEMA-005; 8 ahead / 5 behind, refresh required), #46, #27, #7 and #5 (older Draft PRs requiring refresh/revalidation).
+- **მდგომარეობის snapshot main:** `01dd1cb174bbf4bd25acebf8555bbf966df5f3a6` (PR #92)
+- **Latest verified quality CI for snapshot:** [45904271740](https://github.com/maisuradzee/bibmom/actions/runs/45904271740) — `validate` job SUCCESS.
+- **Latest verified Pages deployment for snapshot:** [45904271738](https://github.com/maisuradzee/bibmom/actions/runs/45904271738) — build and deploy SUCCESS.
+- **Run 14 audit:** [docs/run-audits/2026-11-27-run-14.md](run-audits/2026-11-27-run-14.md) — four active streams reviewed; AquaSignal source-access discovery merged; INFRA reference model in Draft PR #95.
+- **Merged in run 14:** PR #92 — AquaSignal data-access evidence, NEA122 station-layer catalogue metadata, source-access schema/tests and portfolio update.
+- **Open research/engineering PRs at this snapshot:** #95, #94, #93, #91, #88, #87, #85, #46, #27, #7 and #5 (11 open Draft PRs; no open Issues). Older PRs require exact-head refresh and scope triage before merge.
 
-> ეს არის snapshot, რომელიც დადასტურებულია main `e22ee07`-ზე. მომდევნო merge-ები main-ს წინ წასწევს; მათთვის CI/deployment-ის სტატუსი ცალკე უნდა შემოწმდეს. ქვემოთ არსებული დეტალური ჩანაწერები მოიცავს წინა გაშვებების snapshot-ებს და ისტორიის შესანარჩუნებლად დატოვებულია.
+> ეს snapshot დადასტურებულია main `01dd1cb`-ზე. ამ დოკუმენტის status-sync PR-ის merge main-ს კიდევ წინ წასწევს; მისთვის CI და Pages deployment ცალკე უნდა დადასტურდეს.
 
 ## მიმდინარე მდგომარეობა
 
@@ -20,12 +20,12 @@
 | NOEMA-002 SignBase audit | შესრულებული კვლევითი ჩანაწერი | data/audits და research archive |
 | NOEMA-003 climate analysis | დრაფტი / გამეორებადი; ERA5 validation gate ვერ გაიარა და საბოლოო დასკვნაში არ გამოიყენება | data/noema-003, scripts და tests |
 | NOEMA-005 summation | preliminary; full-width MPFR oracle, CPU-thread results და artifact provenance audit main-შია | 2,068/2,068 MPFR matches თითო hosted x86-64/ARM64-ზე; artifact ZIP SHA-256 და 48-case aggregate-ები გადამოწმებულია; Neumaier-state 48/48, scalar 42/48, naive 0/48; speedup არ დადასტურებულა |
-| NOEMA-006 AquaSignal | draft + software prototype; საველე ვალიდაცია არ ჩატარებულა | research/drafts/NOEMA-2026-006-aquasignal-water-early-warning.md, docs/AQUASIGNAL_MVP.md, noema_core/aquasignal.py |
-| NOEMA-INFRA-001 reliability | active / engineering; same-host restore-drill, strict metadata schema and runtime JSON Schema validator merged | PR #57, #64, #69; 7 structural schema tests + 7 runtime manifest tests; no real manifest, encryption, signature verification, provider/key custody or clean-host recovery |
+| NOEMA-006 AquaSignal | draft + software prototype; საველე ვალიდაცია არ ჩატარებულა | PR #92 merged: NEA122 public/free groundwater station-layer catalogue metadata identified, but payload/API/reuse terms unverified; separate groundwater, station-registry and potable-network source classes; research/drafts/NOEMA-2026-006-georgia-water-data-access-update-2026-11-27.md |
+| NOEMA-INFRA-001 reliability | active / engineering; local high-water compare-and-advance reference model is in Draft PR #95 | PR #95 adds SQLite BEGIN IMMEDIATE reference model and 10 unit tests; exact-head quality/CPU workflows passed. This is not an external trust domain or production anti-rollback service; provider, key custody, off-host durability and clean-host restore remain unapproved |
 | NOEMA-007 Last-Mile Action Gap | draft / discovery + aggregate-only prototype; UNDRR 2026: 64/136 ქვეყანა ოთხივე pillar-ს აცხადებს; WMO-ს 35 validated roadmap-იდან 20-ს აქვს მკაფიო ბიუჯეტი (57.1429%), მათზე ჯამური მოთხოვნა დაახლოებით USD 1.38bn-ია; NEA 2026-11-25 ადასტურებს შვიდი აუზის გეგმებზე კონსულტაციას; საქართველოს last-mile action ჯერ არ გაზომილა | research/drafts/NOEMA-2026-007-global-early-warning-action-gap.md; `data/noema-007/`; `noema_core/action_readiness.py` |
 | საჯარო კვლევითი კატალოგი | 1 preliminary, 0 published | data/research.json; schema version 2. NOEMA-006 draft კატალოგში არ არის |
-| GitHub Pages | ბოლო deployment წარმატებულია | run 45842833997 — build და deploy jobs SUCCESS; https://maisuradzee.github.io/bibmom/ |
-| Main quality CI | წარმატებულია | run 45842834069 — 329 tests; validate job SUCCESS |
+| GitHub Pages | ბოლო deployment წარმატებულია | run 45904271738 — build და deploy jobs SUCCESS on main 01dd1cb; https://maisuradzee.github.io/bibmom/ |
+| Main quality CI | წარმატებულია | run 45904271740 — validate job SUCCESS on main 01dd1cb |
 | Supabase | NOEMA-ს ცალკე მონაცემთა ბაზა არ შექმნილა | ამჟამად გამოიყენება Git-ით ვერსიაკონტროლირებადი JSON კატალოგი; სხვა პროექტის ბაზა არ გამოიყენება |
 
 ## ბოლო NOEMA-005 merge/deployment audit
