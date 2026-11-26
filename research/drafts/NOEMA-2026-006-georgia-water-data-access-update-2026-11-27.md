@@ -122,52 +122,60 @@ A first controlled pilot could compare groundwater nitrate field measurements wi
 
 - **Status:** draft; no promotion to preliminary or published.
 
-## ცვლილებების ისტორია
 
-- 2026-11-27: დაემატა UNECE/WHO-ის 2025 ანგარიშისა და NEA-ის 2026-11-26 განცხადების საფუძველზე მონაცემთა წვდომის განახლება; არქივის შიგთავსი ჯერ არ შემოწმებულა.
+## 7. Public groundwater station-layer metadata — 2026-11-27
 
+### FACT — an official spatial-data catalogue entry exists
 
-## 6. New well-registration system — Government Resolution No. 424
+A fresh review of the Ministry of Environmental Protection and Agriculture's Geographic Information Portal found catalogue record **NEA122**:
 
-### FACT — legal scope and required data
+- Georgian title: groundwater observation points;
+- English title: *Groundwater monitoring*;
+- technical layer name: `Groundwtaer_Monitoring_Stations_NEA` (spelling preserved exactly as published);
+- geometry: point;
+- sharing classification: public;
+- price classification: free;
+- catalogue date: 06.03.2026;
+- listed storage: SQL SDE server and a personal computer;
+- the row's portal-placement field is blank; no direct map URL, download link or API endpoint is shown in the inspected catalogue entry.
 
-Government of Georgia Resolution No. 424 was adopted on 31 August 2026 and took effect on 1 September 2026. It establishes a state accounting procedure for wells drilled to extract fresh drinking water where the well depth exceeds 20 metres. The legal text excludes mineral, thermal and medicinal/balneological groundwater and wells drilled before the regulation took effect. NEA's public notice additionally states that household wells on citizens' household plots are excluded, whether built before or after 1 September 2026.
+This is stronger evidence than the earlier statement that no station registry had been identified: **public catalogue metadata for a groundwater monitoring-point layer does exist**. However, the page exposes the catalogue row, not the layer payload. Its public/free classification does not by itself prove anonymous direct download, open API access, current station activity, or permission to republish precise coordinates. No station coordinates or records were copied.
 
-The regulation requires NEA to create and periodically update a hydrogeological database from submitted well passports. The driller must submit the passport within 15 working days after drilling is completed; NEA must notify the driller about inclusion in the database within 10 working days after receiving the data. NEA may also conduct field monitoring and laboratory sampling where location and hydrogeological conditions warrant it.
+### FACT — field data-registration procedures are described
 
-The passport fields include coarse and precise location data (including UTM coordinates and, where available, cadastral code), owner identity and contact details, drilling date, well construction, geology/hydrogeology, static/dynamic water levels and yield. Field-test and laboratory-analysis results are attached **if sampling/analysis was performed**; the regulation does not establish that every registered well necessarily has a laboratory result.
+NEA's 2026-06-09 field-practical hydrogeology notice describes automatic stations at monitored wells in Tianeti Municipality. It says participants were shown station operation, portable field equipment, and procedures for data registration, documentation and field recording. This confirms that an operational data-collection/documentation workflow exists at those example stations; it does not disclose the underlying time series, exact analyte list, station identifiers, publication delay or reuse terms.
 
-### INFERENCE — what this changes for AquaSignal
+### FACT — statutory data-provider roles must remain separate
 
-This is a new prospective administrative data source, not evidence of a complete national well inventory or a public water-quality time series. It does not cover pre-existing wells under the legal text, and NEA says household wells are outside the rule. A registration passport can contain useful hydrogeological metadata, but its existence alone does not imply repeated sampling, public access, a live API, or permission for secondary use.
+Article 32 of Georgia's Law on Water Resources Management describes the state monitoring system for surface and groundwater and says NEA provides quantitative and qualitative observation data to interested parties on request. The same legal text assigns state control of drinking-water quality to the National Food Safety Agency. This supports two separate access routes: NEA for environmental/hydrogeological monitoring and the Food Safety Agency for drinking-water compliance. It does not grant NOEMA automatic access or reuse rights.
 
-AquaSignal must therefore maintain separate source classes:
-1. NEA groundwater monitoring stations and sample results;
-2. the new post-1 September 2026 well-registration database;
-3. household and pre-existing wells outside the stated registration scope;
-4. potable-network compliance sampling owned by the competent drinking-water control authorities.
+### INFERENCE — revised access classification
 
-These classes must not be merged into one coverage denominator or one water-safety score.
+The current evidence should be represented in three distinct layers:
 
-### PRIVACY AND PUBLICATION BOUNDARY
+1. **Station-registry metadata:** public/free catalogue entry NEA122 is confirmed; the actual spatial layer, fields, coordinate reference system, freshness and export/API access remain unverified.
+2. **Groundwater monitoring results:** electronic results since 2022 and official bulletins are source-reported; the newly announced 2021–2025 report archive remains uninspected.
+3. **Potable-network compliance:** separate regulatory owner and data stream; the 2024 E. coli aggregate cannot be joined to groundwater station points or interpreted as population prevalence.
 
-The legal annex explicitly requests personal identity and contact information for well owners and drillers, alongside well coordinates. No such records, identifiers, coordinates or owner details were accessed or copied. The public repository contains only the legal source URL, scope metadata and a description of the data categories.
+The previous blocker “no station registry identified” is therefore too broad. Replace it with: “an official public/free station-layer catalogue entry is identified, but the layer payload and machine-readable access path are not yet verified; sample-level analytical records and reuse terms remain outstanding.”
 
-Any future access must use a written authorization and a privacy-reviewed, purpose-limited export. Prefer aggregated or de-identified records; do not mirror the administrative register into the public repository. The legal text and NEA announcement do not establish that the database or its records are publicly downloadable.
+### Next engineering step
 
-### HYPOTHESIS
+Prepare two independent ingestion contracts, not one merged water table:
 
-If NEA can provide an authorized, de-identified well-register extract with stable well IDs, hydrogeological attributes and optional laboratory-result provenance, it may help prioritise monitoring gaps and nitrate-risk field follow-up. It cannot replace routine sampling or establish potable safety without representative laboratory evidence.
+- `StationRegistryAdapter`: source record ID, station ID, geometry, coordinate reference system, station type, active dates, source version and access/reuse metadata.
+- `SampleObservationAdapter`: sample ID, station ID, water matrix, collection/result/publication timestamps, analyte, value/unit, analytical method, LOD/LOQ, laboratory/accreditation, QA/QC, correction history and explicit reuse permission.
 
-### UNTESTED IDEA
+The sample adapter must reject observations without matrix identity and provenance. Surface water, groundwater, marine water, raw source water, treated network water and household wells remain separate domains. No safety score or operational alert is derived from the station catalogue alone.
 
-A registry-to-monitoring crosswalk could identify which newly registered wells have no recent field or laboratory sample and support a transparent, operator-approved sampling-priority list. This requires a lawful registry export, a data dictionary, sampling history, and an agreed definition of a monitoring gap.
+### Verification boundary
 
-### New source
+- The GIS portal catalogue row and NEA field-practical notice were inspected.
+- The actual NEA122 spatial layer was not downloaded or queried.
+- The official 2021–2025 RAR archive was linked in the Agency announcement but could not be retrieved and inspected in this run.
+- No coordinates, owner identities, operator telemetry or laboratory rows were added to the public repository.
+- “Public/free” is recorded as the portal's catalogue classification, not as a verified open-data licence or anonymous endpoint.
 
-- Government of Georgia, Resolution No. 424, 31 August 2026, *Technical Regulation — Rules for Accounting Wells for the Extraction of Fresh Drinking Groundwater*, effective 1 September 2026: https://matsne.gov.ge/ka/document/view/6991245
-- National Environmental Agency, *New state accounting regulation for fresh drinking-water wells entered into force on 1 September*, 1 September 2026: https://nea.gov.ge/En/News/2430
+## Changes history
 
-### Verification status
-
-The legal text and NEA notice were inspected. The registry itself, its operational database, data dictionary, API, public access policy, historical coverage and sample-level records were not inspected. The 2021–2025 NEA RAR archive announced on 26 November also remains unextracted. No field validation or water-quality model result is claimed.
+- 2026-11-27: added the official NEA122 groundwater station-layer catalogue discovery, the Tianeti field data-registration description and the statutory NEA/National Food Safety Agency data-owner distinction.
