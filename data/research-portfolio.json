@@ -345,12 +345,12 @@
         "audit hash chain without signed external checkpoint does not prevent all tampering scenarios"
       ],
       "blockers": [
-        "Backup snapshots are not encrypted or stored off-host; retention/rotation and scheduled restore drills are not yet implemented.",
-        "PR #19 is still Draft/open and needs an independent review of backup/restore safety before merge."
+        "PR #19 is diverged from current main by 6 commits and must be refreshed/rebased before merge; exact-head CI must be rerun.",
+        "Backups are not encrypted or stored off-host; retention/rotation and scheduled restore drills are not implemented."
       ],
       "status": "active",
-      "status_detail": "PR #19 remains Draft/open; exact head 0c4f456f17851918bf7f30af7ff4d3c369f6eec7 passed the full quality workflow (run 45774768045) and the CPU-thread workflow (run 45774768009). Independent review and merge are still pending.",
-      "next_step": "Review the exact PR #19 head and its current mergeability, verify backup/restore edge cases and public-safe content, then decide whether to mark ready and merge; separately design encrypted off-host retention and a scheduled restore drill.",
+      "status_detail": "PR #19's WAL-header regression fixture and backup/restore CLI passed quality CI on its current branch head. The branch is now known to be diverged from main (32 commits ahead, 6 behind); rebase and exact-head CI are required before merge. Backups remain local and unencrypted.",
+      "next_step": "Refresh PR #19 onto current main, resolve any integration conflicts, rerun the complete exact-head quality suite and a restore drill; then design encrypted off-host backup, retention/rotation and scheduled restore verification.",
       "success_metrics": [
         "backup includes committed WAL data",
         "restore rejects WAL-mode header and corrupted audit data before destination creation",
