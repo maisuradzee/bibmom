@@ -288,7 +288,7 @@ class IntegrationEngine:
                 permission_verified=grant.permission_verified,
                 reuse_permitted=plan.requires_reuse_permission and grant.reuse_permitted,
             )
-            if not decision.retrieval_allowed:
+            if not decision.allowed:
                 return decision.reason
             if plan.requires_reuse_permission and not decision.reuse_allowed:
                 return "Source reuse permission is not verified"
