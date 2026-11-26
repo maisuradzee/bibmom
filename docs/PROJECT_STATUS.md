@@ -3,16 +3,20 @@
 - **განახლდა:** 2026-11-26
 - **საცავი:** https://github.com/maisuradzee/bibmom
 - **ძირითადი branch:** main
-- **main-ის ბოლო დადასტურებული commit:** 3ca18de8c05511d31b9b76928ca8a7c285fce0d7
+- **ბოლო დადასტურებული ინოვაციური merge:** PR #25 — commit 5a8eaeb0d833af65f54b1b1213979c597e75b117.
 - **NOEMA-005:** ARM64 replication და final-head verification main-შია; კვლევა რჩება preliminary.
-- **მიმდინარე სამუშაო branch:** research/noema-discovery-aquasignal-2026-11-26 — NOEMA DISCOVERY / RESEARCH / INNOVATION operating model და AquaSignal prototype; Draft PR #25 ღიაა და merge-ს მხოლოდ მიმდინარე head-ზე სრული CI-ის შემდეგ განვიხილავთ.
+- **NOEMA-006 AquaSignal:** PR #25 merged; DISCOVERY / RESEARCH / INNOVATION operating model და operator-side anomaly prototype main-შია.
+- **PR #25 quality CI:** run 45768832968 — SUCCESS, exact head 7f0a3f165e54983624f9f874212e17f4cd8edebd; 220 Python tests.
+- **PR #25 CPU-thread workflow:** run 45768832918 — ორივე GIL-enabled და free-threaded job SUCCESS.
+- **Main quality CI:** run 45769022786 — SUCCESS, 220 Python tests.
+- **Main Pages deployment:** run 45769022785 — build და deploy SUCCESS.
 
 ## მიმდინარე მდგომარეობა
 
 | კომპონენტი | მდგომარეობა | მტკიცებულება |
 |---|---|---|
 | NOEMA mission/autonomy core | რეალიზებულია როგორც შეზღუდული, ტესტირებადი foundation | noema_core/mission.json, mission.py, jobs.py, worker.py, workflows.py, scheduler.py, supervisor.py, service.py |
-| DISCOVERY · RESEARCH · INNOVATION მოდელი | ამ PR-ში დოკუმენტირებულია | docs/NOEMA_OPERATING_MODEL.md |
+| DISCOVERY · RESEARCH · INNOVATION მოდელი | PR #25-ით main-შია | docs/NOEMA_OPERATING_MODEL.md |
 | NOEMA-002 SignBase audit | შესრულებული კვლევითი ჩანაწერი | data/audits და research archive |
 | NOEMA-003 climate analysis | დრაფტი / გამეორებადი; ERA5 validation gate ვერ გაიარა და საბოლოო დასკვნაში არ გამოიყენება | data/noema-003, scripts და tests |
 | NOEMA-005 summation | preliminary; x86-64 და ARM64 რეალური CPU-thread ტესტები | 4 ARM64 batch; Neumaier state 768/768, scalar Neumaier 672/768, naive scalar 0/768; wall-time speedup არ დადასტურებულა |
