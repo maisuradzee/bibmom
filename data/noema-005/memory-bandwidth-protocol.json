@@ -1,0 +1,13 @@
+{
+  "study_id":"NOEMA-2026-005",
+  "experiment_id":"NOEMA-2026-005-MEMORY-001",
+  "version":1,
+  "status":"protocol",
+  "input":{"format":"IEEE-754 binary64","pattern":["2^53","1","-2^53"],"repeat_count_default":4194304,"elements_default":12582912,"bytes_default":100663296,"exact_sum":"repeat_count","allocation":"64-byte-aligned contiguous array allocated once and reused","partition_alignment":"repeat_count is divisible by 1, 2, 4 and 8"},
+  "methods":["serial_naive","serial_long_double","serial_neumaier","openmp_naive_partials","openmp_long_double","openmp_neumaier_state"],
+  "workers":[1,2,4,8],
+  "measurements":{"wall_time":"CLOCK_MONOTONIC elapsed nanoseconds","process_cpu_time":"CLOCK_PROCESS_CPUTIME_ID aggregate across process threads","speedup":"matching serial median wall time divided by parallel median wall time","effective_input_throughput":"input bytes per run divided by median wall time, decimal GB/s; includes algorithm/runtime overhead","memory":"getrusage process-wide peak RSS; platform units retained verbatim"},
+  "repetitions":{"warmups":1,"measured":5},
+  "acceptance":{"naive_methods":"expected to lose unit terms for this cancellation pattern","long_double_methods":"must match exact reference on declared GCC/Linux CI environment","neumaier_methods":"must match exact reference for every measured run","actual_openmp_threads":"must equal requested worker count","raw_samples":"all wall and process-CPU samples retained; medians/throughput recomputed by validator"},
+  "limitations":["The repeated cancellation fixture is synthetic and adversarial.","A 96 MiB buffer is memory-backed but does not prove DRAM saturation; cache hierarchy, runner contention and CPU quotas may affect throughput.","Effective input throughput is not a hardware memory-controller counter and includes reduction/runtime overhead.","The fixed pattern tests one cancellation distribution only; it does not establish universal correctly-rounded behavior.","Hosted CI is not independent physical-hardware replication.","Process peak RSS is process-wide and cannot be attributed to an individual method.","Long-double precision and representation are ABI-dependent; LDBL_MANT_DIG and sizeof(long double) are recorded.","No speedup is assumed; thread startup, memory resources, scheduling and oversubscription may make parallel methods slower."]
+}
