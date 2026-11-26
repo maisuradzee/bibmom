@@ -105,14 +105,16 @@ class Noema005MpfrRoundingTests(unittest.TestCase):
                 self.assertEqual(integer_result, decimal_result)
                 expected.append(decimal_result)
 
+        self.assertTrue(all(-(1 << 2559) <= value < (1 << 2559) for value in values))
         completed = subprocess.run(
             [str(self.binary)],
             input="".join(f"{value}\\n" for value in values),
-            check=True,
+            check=False,
             capture_output=True,
             text=True,
             timeout=60,
         )
+        self.assertEqual(completed.returncode, 0, completed.stderr)
         actual = [int(line, 16) for line in completed.stdout.splitlines()]
         self.assertEqual(len(actual), len(values))
         self.assertEqual(actual, expected)
