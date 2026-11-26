@@ -10,6 +10,7 @@ from pathlib import Path
 from test_noema005_exact_rounding import (
     Noema005ExactRoundingOracleTests,
     decimal_rounding_oracle,
+    integer_rounding_oracle,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
