@@ -57,6 +57,8 @@ jobs:
           test -f scripts/reproduce_noema007_anticipatory_action.py
           test -f tests/test_noema007_anticipatory_action.py
           test -f tests/test_noema007_action_readiness.py
+          test -f tests/test_noema007_differencing_risk.py
+          test -f docs/NOEMA007_DISCLOSURE_CONTROL.md
           test -f research/TEMPLATE.md
           test -f scripts/validate_research.py
           test -f scripts/validate_drafts.py
@@ -176,6 +178,8 @@ jobs:
           python -m noema_core.jobs_cli restore --source "$BACKUP" --destination "$RESTORED"
           python -m noema_core.jobs_cli --db "$RESTORED" verify
           python -m noema_core.jobs_cli --db "$RESTORED" metrics
+      - name: Test NOEMA-007 cross-release disclosure risk
+        run: python -m unittest discover -s tests -p 'test_noema007_differencing_risk.py' -v
       - name: Run Python unit tests
         run: python -m unittest discover -s tests -v
       - name: Reproduce NOEMA-003 trend analysis and compare frozen results
