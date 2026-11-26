@@ -174,8 +174,8 @@ def reproduce(root: Path = ROOT) -> dict[str, Any]:
             raise ValueError(f"frozen aggregates do not match raw report for {mode}")
 
     comparison = summary["comparison"]
-    previous_gil = previous["environments"]["gil_enabled"]["methods"]["threaded_neumaier_state"]["median_speedup_vs_serial"]
-    previous_free = previous["environments"]["free_threaded"]["methods"]["threaded_neumaier_state"]["median_speedup_vs_serial"]
+    previous_gil = previous["environments"]["gil_enabled"]["methods"]["threaded_neumaier_state"]["median_speedup_vs_matching_serial"]
+    previous_free = previous["environments"]["free_threaded"]["methods"]["threaded_neumaier_state"]["median_speedup_vs_matching_serial"]
     current_gil = actual["gil_enabled"]["threaded_neumaier_state"]["median_speedup_vs_matching_serial"]
     current_free = actual["free_threaded"]["threaded_neumaier_state"]["median_speedup_vs_matching_serial"]
     if comparison["gil_enabled_neumaier_state_median_speedup_delta"] != round(current_gil - previous_gil, 4):
