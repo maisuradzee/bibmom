@@ -19,6 +19,8 @@ jobs:
         with:
           python-version: "3.14"
       - name: Run memory-backed native reduction
+        env:
+          NOEMA_TESTED_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
         run: python scripts/run_noema005_memory_bandwidth_benchmark.py --repeat-count 4194304 --output noema005-memory-report.json
       - name: Validate report and unit tests
         run: |
