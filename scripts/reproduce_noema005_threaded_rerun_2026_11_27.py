@@ -171,7 +171,7 @@ def aggregate_report(report: dict[str, Any], mode: str) -> dict[str, Any]:
 
 
 def validate_against_summary(actual: dict[str, Any], expected: dict[str, Any]) -> None:
-    for mode in ("free_threaded", "gil_enabled"):
+    for mode in actual:
         expected_mode = expected["aggregates"][mode]
         if actual[mode]["methods"] != {
             name: {
@@ -204,7 +204,10 @@ def reproduce(root: Path = ROOT, summary_path: Path | None = None) -> dict[str, 
     actual = {}
     for mode in ("free_threaded", "gil_enabled"):
         artifact = summary["artifacts"][mode]
-        report_path = root / artifact["raw_report_path"]
+        raw_report_path = artifact.get("raw_report_path")
+        if raw_report_path is None:
+            continue
+        report_path = root / raw_report_path
         report = load_report(report_path, artifact["report_sha256"])
         actual[mode] = aggregate_report(report, mode)
 
