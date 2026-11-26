@@ -50,7 +50,8 @@
       ],
       "properties": {
         "id": {
-          "const": 45897707859
+          "type": "integer",
+          "minimum": 1
         },
         "url": {
           "type": "string",
@@ -74,7 +75,37 @@
       "required": [
         "free_threaded",
         "gil_enabled"
-      ]
+      ],
+      "properties": {
+        "free_threaded": {
+          "type": "object",
+          "required": [
+            "id",
+            "archive_sha256",
+            "report_sha256",
+            "raw_report_path",
+            "artifact_url"
+          ]
+        },
+        "gil_enabled": {
+          "type": "object",
+          "required": [
+            "id",
+            "archive_sha256",
+            "report_sha256",
+            "raw_report_path",
+            "artifact_url"
+          ],
+          "properties": {
+            "raw_report_path": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        }
+      }
     },
     "inputs": {
       "type": "array",
