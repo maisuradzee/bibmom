@@ -503,13 +503,13 @@ The backup manifest runtime validator verifies only Draft 2020-12 structure and 
 
 - **NOEMA-2026-006 AquaSignal:** added the primary legal source for Government Resolution No.424 (31 August 2026, effective 1 September 2026) to the source-access inventory. The record distinguishes the new prospective registry for fresh drinking-water extraction wells deeper than 20 m from pre-existing wells and household wells; records that the passport may contain owner identity/contact information; and makes clear that field/lab results are attached only where sampling was performed. Added a strict access state, regression tests, research interpretation, README link and portfolio update. No owner data, coordinates, sample records or credentials were copied.
 - **NOEMA-2026-007 Last-Mile Action Gap:** created separate Draft PR #93 with a machine-readable crosswalk to WMO's 2024 EW4All M&E Toolkit. It maps G-3, 3.2.1b, 4.2, 4.3.1, G-6 and 4.4, and specifies denominator and interpretation boundaries. The UNDRR COP31 4/5 and 1/3 statement is recorded as source-reported but method-unverified and is not used as a baseline.
-- **NOEMA-2026-005:** audit only this run; remains preliminary. Existing hosted-thread and memory-backed benchmark claims remain limited to their archived synthetic workloads and hosted runner conditions; no physical-hardware replication or robust general speedup was established in this run.
+- **NOEMA-2026-005:** a third hosted real-thread rerun (run 45897707859) was downloaded, hash-verified and independently re-aggregated; its raw reports, frozen summary and reproduction tests are preserved in separate Draft PR #94. Neumaier-state was 48/48 correctly rounded in both runtimes; scalar Neumaier 42/48; naive 0/48. Free-threaded median speedup was 1.2589× versus matching serial Neumaier, while GIL-enabled median was 0.7576×. Serial math.fsum remained 14.8–16.3× faster than the four-worker threaded state on these fixtures; no overall algorithm speed advantage or physical-hardware replication is established.
 - **NOEMA-INFRA-001:** audit only this run; remains engineering. The high-water protocol in PR #85 is still a proposal; no production CAS authority, encryption/key custody, immutable off-host retention or clean-host restore was deployed.
 
 ### Exact-head verification
 
 - AquaSignal PR #92 branch `research/aquasignal-data-access-2026-11-27`: head `399ba94741fc527514faa27b1ea1ef9803eeefde`; quality CI [45897403462](https://github.com/maisuradzee/bibmom/actions/runs/45897403462) SUCCESS; GIL-enabled and free-threaded CPU-thread workflow [45897403575](https://github.com/maisuradzee/bibmom/actions/runs/45897403575) SUCCESS.
-- NOEMA-007 PR #93 branch `research/noema007-ew4all-crosswalk-2026-11-27`: head `eb8b530c0b5fca11b1fe2efa6e5645db78b4dcb9`; exact-head CI status is pending separate verification.
+- NOEMA-007 PR #93 branch `research/noema007-ew4all-crosswalk-2026-11-27`: head `97665a8084c2c26564619763d2e8feb9ea6a7b02`; quality CI [45898533254](https://github.com/maisuradzee/bibmom/actions/runs/45898533254) SUCCESS.
 - PR #91 aggregate-release preflight remains Draft/open and its earlier exact-head CI [45890862593](https://github.com/maisuradzee/bibmom/actions/runs/45890862593) succeeded. PR #87 memory-backed benchmark and PR #85 high-water protocol remain Draft/open. Their evidence boundaries have not changed.
 - No PR was merged, no direct write to main occurred, and no new Pages deployment is claimed.
 
@@ -524,3 +524,6 @@ The new legal register is a prospective administrative source, not proof of comp
 3. For NOEMA-007, obtain authorized warning/after-action aggregate data and preregister a local survey design with timely receipt, comprehension, feasible action and verification denominators.
 4. Continue NOEMA-005 only with representative memory-bandwidth workloads and independent physical x86-64/ARM64 replication.
 5. Keep INFRA-001 blocked at architecture level until a separately owned trust domain and recovery path are approved.
+
+
+- **NOEMA-005 third hosted rerun PR #94:** branch `research/noema005-real-threads-rerun-2026-11-27`, head `9ca5a8fe8ba941911e896cbef25c460371b71755`; quality CI [45898505436](https://github.com/maisuradzee/bibmom/actions/runs/45898505436) SUCCESS (415 tests, frozen raw-report reproduction, site build and publication-boundary checks); separate CPU-thread workflow [45898505440](https://github.com/maisuradzee/bibmom/actions/runs/45898505440) SUCCESS in both runtime jobs.
