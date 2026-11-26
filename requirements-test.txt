@@ -1,0 +1,2 @@
+# Pinned test-only dependency for executable JSON Schema validation.
+jsonschema==4.25.1
