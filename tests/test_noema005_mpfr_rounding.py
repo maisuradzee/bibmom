@@ -108,7 +108,7 @@ class Noema005MpfrRoundingTests(unittest.TestCase):
         self.assertTrue(all(-(1 << 2559) <= value < (1 << 2559) for value in values))
         completed = subprocess.run(
             [str(self.binary)],
-            input="".join(f"{value}\\n" for value in values),
+            input="".join(f"{value}\n" for value in values),
             check=False,
             capture_output=True,
             text=True,
