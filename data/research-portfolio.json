@@ -169,15 +169,14 @@
         "სამი repetition timing-ის მაღალი სიმძლავრის სტატისტიკურ დასკვნას არ იძლევა"
       ],
       "blockers": [
-        "Native C/OpenMP evidence is from one hosted x86-64 runner; independent native hardware replication is not complete.",
-        "Five repetitions and synthetic cancellation fixtures do not establish general accuracy or performance.",
-        "External numerical-method review remains outstanding.",
-        "No native C long-double or binned/exact implementation has been compared in this subexperiment.",
-        "The Python-only fixture study has no threaded/runtime/memory benchmark and no independent hardware replication."
+        "The native experiment currently covers two synthetic cancellation fixtures only; representative application workloads and memory-bandwidth tests remain outstanding.",
+        "Five repetitions on hosted runners show material timing variance, especially on x86-64; pinned-hardware repetition and uncertainty intervals are required before performance conclusions.",
+        "The exact superaccumulator is an exact integer-domain comparator for known fixture sums; a general correctly-rounded binary64 result is not implemented.",
+        "External numerical-method review remains outstanding."
       ],
       "status": "active",
-      "status_detail": "PR #33 has been merged into main (merge commit 590b6f7de140356d0eb2188fd82ce6161be96330). Exact-head quality CI 45796534709 passed all checks. The deterministic local algorithm-accuracy experiment contains five synthetic fixtures (15,359 binary64 values) compared with an exact Fraction reference. Neumaier, math.fsum and a 1,200-digit Decimal baseline matched 5/5; a strict left-to-right loop and one adjacent-pair tree matched 1/5 each. The frozen snapshot records CPython 3.13.5/x86_64. Cross-runtime tests compare input hashes, exact references and accuracy classifications rather than requiring identical ULP snapshots across CPython versions. No runtime/thread/memory claim is made by this subexperiment.",
-      "next_step": "Add native C/OpenMP long-double, alternative pairwise partitioning and binned/exact accumulator implementations against the same frozen fixtures. Measure runtime/memory separately and repeat on independent ARM64/x86-64 hardware; seek external numerical-method review.",
+      "status_detail": "The native C11/OpenMP sub-experiment now has exact-head x86-64 and ARM64 CI evidence. Run 45802426194 completed 50 cases on each architecture; both raw reports passed the validator and recorded the same source SHA-256 96cf598a83934b78a6a382faaca9ddeea1f75656bf282e9295bea9125361f7a2. Neumaier and exact superaccumulator matched both fixtures 5/5 on both architectures. Native long double passed grouped cancellation on ARM64 (LDBL_MANT_DIG=113) but failed on x86-64 (64). Naive and the tested pairwise tree failed both fixtures. Timing was variable on x86-64; ARM64 showed better single-batch scaling, but this is not sufficient for general performance claims. The native sub-experiment remains draft; the existing study remains preliminary.",
+      "next_step": "Implement general exact-to-binary64 round-to-nearest-even conversion; add representative array sizes and memory-bandwidth-bound inputs; repeat on pinned x86-64/ARM64 hardware with more repetitions and uncertainty intervals; compare binned and error-free-transformation algorithms; request independent numerical-method review.",
       "success_metrics": [
         "exact-reference accuracy თითოეული მეთოდისა და runtime-ის მიხედვით",
         "median wall-time და uncertainty interval წინასწარ განსაზღვრული repetition protocol-ით",
