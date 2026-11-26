@@ -1,12 +1,19 @@
 from __future__ import annotations
+
 import unittest
 from dataclasses import replace
 from datetime import datetime, timedelta, timezone
+
 from noema_core.aquasignal import SignalAssessment
 from noema_core.aquasignal_incidents import (
-    IncidentError, IncidentSeverity, IncidentState, acknowledge_incident,
-    close_incident, record_assessment,
+    IncidentError,
+    IncidentSeverity,
+    IncidentState,
+    acknowledge_incident,
+    close_incident,
+    record_assessment,
 )
+
 
 class AquaSignalIncidentLifecycleTests(unittest.TestCase):
     def setUp(self):
@@ -201,7 +208,6 @@ class AquaSignalIncidentLifecycleTests(unittest.TestCase):
                 now=self.now + timedelta(minutes=1)
             )
 
-
     def test_event_ids_are_unique_across_assessment_and_operator_actions(self):
         with self.assertRaisesRegex(IncidentError, "event_id already used for different content"):
             acknowledge_incident(
@@ -211,6 +217,54 @@ class AquaSignalIncidentLifecycleTests(unittest.TestCase):
                 reference="work-order-test-1",
                 now=self.now + timedelta(minutes=1),
             )
+
+    def test_backdated_assessment_after_acknowledgement_is_rejected(self):
+        normal = self.record(self.opened, "NORMAL", "evt-normal", 1)
+        ack = self.acknowledge(normal)
+        with self.assertRaisesRegex(IncidentError, "event timestamps cannot move backwards"):
+            record_assessment(
+                ack, self.assessment("ALERT"), incident_id="inc-1",
+                event_id="evt-after-ack", now=ack.acknowledged_at - timedelta(seconds=1)
+            )
+
+    def test_assessment_after_acknowledgement_keeps_event_history_ordered(self):
+        normal = self.record(self.opened, "NORMAL", "evt-normal", 1)
+        ack = self.acknowledge(normal)
+        later = record_assessment(
+            ack, self.assessment("ALERT"), incident_id="inc-1",
+            event_id="evt-after-ack", now=ack.acknowledged_at + timedelta(seconds=1)
+        )
+        self.assertEqual(later.events[-1].kind, "assessment")
+        self.assertGreaterEqual(later.events[-1].at, later.events[-2].at)
+
+    def test_water_incident_rejects_blank_operator_identity(self):
+        ack = self.acknowledge(self.opened)
+        with self.assertRaisesRegex(IncidentError, "acknowledged_by must be non-empty"):
+            replace(ack, acknowledged_by=" ")
+
+    def test_water_incident_requires_acknowledgement_audit_event(self):
+        ack = self.acknowledge(self.opened)
+        with self.assertRaisesRegex(IncidentError, "exactly one audit event"):
+            replace(ack, events=ack.events[:-1])
+
+    def test_water_incident_requires_final_closure_audit_event(self):
+        normal = self.record(self.opened, "NORMAL", "evt-normal", 1)
+        closed = self.close(self.acknowledge(normal))
+        with self.assertRaisesRegex(IncidentError, "final closure audit event"):
+            replace(closed, events=closed.events[:-1])
+
+    def test_water_incident_rejects_blank_clearance_metadata(self):
+        normal = self.record(self.opened, "NORMAL", "evt-normal", 1)
+        closed = self.close(self.acknowledge(normal))
+        with self.assertRaisesRegex(IncidentError, "clearance_reference must be non-empty"):
+            replace(closed, clearance_reference="")
+
+    def test_water_incident_rejects_non_monotonic_event_history(self):
+        ack = self.acknowledge(self.opened)
+        backdated_ack = replace(ack.events[-1], at=self.opened.opened_at - timedelta(seconds=1))
+        with self.assertRaisesRegex(IncidentError, "event timestamps cannot move backwards"):
+            replace(ack, events=ack.events[:-1] + (backdated_ack,))
+
 
 if __name__ == "__main__":
     unittest.main()
