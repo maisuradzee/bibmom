@@ -102,19 +102,25 @@ class AquaSignalSignedCheckpointTests(unittest.TestCase):
 
     def test_lower_sequence_is_rejected_as_rollback(self):
         payload, signature = self.make_signed(sequence=8)
-        state = TrustedCheckpointState(9, "0" * 64)
+        state = TrustedCheckpointState(STORE_ID, 9, "0" * 64)
         with self.assertRaisesRegex(ValueError, "rollback detected"):
             self.verify(payload, signature, trusted_state=state)
 
     def test_same_sequence_with_different_digest_is_rejected(self):
         payload, signature = self.make_signed(sequence=9)
-        state = TrustedCheckpointState(9, "0" * 64)
+        state = TrustedCheckpointState(STORE_ID, 9, "0" * 64)
         with self.assertRaisesRegex(ValueError, "equivocation detected"):
+            self.verify(payload, signature, trusted_state=state)
+
+    def test_high_water_state_is_bound_to_expected_store(self):
+        payload, signature = self.make_signed(sequence=10)
+        state = TrustedCheckpointState("b" * 32, 9, "0" * 64)
+        with self.assertRaisesRegex(ValueError, "different AquaSignal store"):
             self.verify(payload, signature, trusted_state=state)
 
     def test_same_checkpoint_is_idempotent_at_same_sequence(self):
         payload, signature = self.make_signed(sequence=9)
-        state = TrustedCheckpointState(9, hashlib.sha256(payload).hexdigest())
+        state = TrustedCheckpointState(STORE_ID, 9, hashlib.sha256(payload).hexdigest())
         result = self.verify(payload, signature, trusted_state=state)
         self.assertTrue(result["idempotent"])
 
