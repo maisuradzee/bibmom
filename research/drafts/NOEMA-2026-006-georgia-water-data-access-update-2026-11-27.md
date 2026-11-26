@@ -24,13 +24,14 @@ This changes the discovery status from **"public monitoring network descriptions
 The Government of Georgia's 2025 submission to the UNECE/WHO Protocol on Water and Health reports:
 
 - 72 groundwater monitoring points (66 wells and 8 springs);
-- 394 laboratory samples collected in 2024, reported as 142 chemical, 137 microbiological, 100 heavy-metal and 15 petroleum-product analyses;
+- 394 laboratory samples collected in 2024 from the 72 network points, reported as 142 chemical, 137 microbiological, 100 heavy-metal and 15 petroleum-product samples;
+- automatic stations installed on wells and springs in 11 district units across 8 regional administrations during 2022–2024;
 - field studies at 42 points to identify groundwater contaminated with nitrates or at risk of nitrate contamination;
-- 12 groundwater information bulletins prepared;
+- 12 groundwater information bulletins prepared and published;
 - groundwater monitoring results available electronically since 2022;
 - automatic groundwater monitoring-station data collection and control underway.
 
-These are source-reported counts and process descriptions. The report does not itself provide a row-level export, a complete station/analyte data dictionary, or reuse terms in the cited passage.
+The government-submitted report also characterises groundwater used as a drinking-water source as generally good quality, while noting isolated microbiological exceedances and average values within limits. This is the report's own summary, not an independent re-analysis. The report does not itself provide a row-level export, a complete station/analyte data dictionary, or reuse terms in the cited passage.
 
 ### 2. New NEA report announced 2026-11-26
 
@@ -56,7 +57,7 @@ The UNECE/WHO submission identifies the National Food Safety Agency as the drink
 
 The report records total E. coli non-compliance of 40.3% for 2024, compared with 44.5% for 2023 and 37.0% for 2021–2022. It says the non-compliance was mainly microbiological and that small rural water-supply systems had been included in the laboratory-control programme.
 
-**Interpretation boundary:** the report's table does not provide the denominator or a municipal/system-level breakdown alongside these percentages. 40.3% is a reported sample-compliance statistic, not the percentage of Georgia's population receiving unsafe water, not a current live reading, and not a causal estimate. It is a high-value discovery signal for obtaining the underlying sample counts, locations, dates and corrective-action records from the competent authority.
+**Interpretation boundary:** the report's E. coli table does not provide the sample denominator or an urban/rural or municipal/system-level breakdown. Its context section separately reports that up to 70% of the population is connected to centralised supply (95% urban and 35% rural) and 31% uses other local supply systems, but it does not explicitly tie those coverage figures to the 40.3% sample frame. The 40.3% is a reported sample-compliance statistic, not the percentage of Georgia's population receiving unsafe water, not a current live reading, and not a causal estimate. It is a high-value discovery signal for obtaining the underlying sample counts, locations, dates and corrective-action records from the competent authority.
 
 ### 5. Public indicator and map interfaces
 
@@ -68,7 +69,8 @@ The report records total E. coli non-compliance of 40.3% for 2024, compared with
 ### FACT
 - The 2025 UNECE/WHO report states that groundwater results have been available electronically since 2022 and describes the 2024 monitoring volumes above.
 - The same report records 2024 surface-water sampling at 331 points on 137 water bodies and up to 60 physicochemical plus four microbiological indicators.
-- The report records E. coli non-compliance of 40.3% in 2024, with small rural systems included in the control programme.
+- The report records E. coli non-compliance of 40.3% in 2024, with small rural systems included in the control programme; its table leaves the sample denominator and urban/rural disaggregation blank.
+- The same government submission describes groundwater used as a drinking-water source as generally good quality, with isolated microbiological exceedances and averages within norms; this remains source-reported evidence.
 - NEA's 2026-11-26 announcement confirms a 2021–2025 groundwater report and field methodology exist and links an archive.
 - WIS C10/C11 expose historical annual aggregates for 2004–2018.
 
