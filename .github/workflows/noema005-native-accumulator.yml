@@ -12,10 +12,6 @@ on:
       - "tests/test_noema005_exact_rounding.py"
       - "tests/noema005_mpfr_rounding_harness.c"
       - "tests/test_noema005_mpfr_rounding.py"
-      - "tests/noema005_exact_rounding_harness.c"
-      - "tests/test_noema005_exact_rounding.py"
-      - "tests/noema005_mpfr_rounding_harness.c"
-      - "tests/test_noema005_mpfr_rounding.py"
       - "research/drafts/NOEMA-2026-005-native-accumulator-2026-11-26.md"
       - ".github/workflows/noema005-native-accumulator.yml"
   push:
@@ -25,6 +21,10 @@ on:
       - "scripts/run_noema005_native_accumulator_benchmark.py"
       - "scripts/validate_noema005_native_accumulator_report.py"
       - "tests/test_noema005_native_accumulator.py"
+      - "tests/noema005_exact_rounding_harness.c"
+      - "tests/test_noema005_exact_rounding.py"
+      - "tests/noema005_mpfr_rounding_harness.c"
+      - "tests/test_noema005_mpfr_rounding.py"
       - "research/drafts/NOEMA-2026-005-native-accumulator-2026-11-26.md"
       - ".github/workflows/noema005-native-accumulator.yml"
   workflow_dispatch:
