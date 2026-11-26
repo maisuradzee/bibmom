@@ -436,7 +436,8 @@
         "SQLite official file-format და WAL documentation-ის მიხედვით file header-ის byte 18/19 შემოწმება",
         "synthetic database backup/restore round-trip, WAL-mode negative case, tampered audit და no-overwrite regression tests",
         "GitHub Actions-ის exact-head CI და mergeability verification",
-        "შემდგომ ეტაპზე encrypted off-host backup, retention/rotation და scheduled restore drills"
+        "შემდგომ ეტაპზე encrypted off-host backup, retention/rotation და scheduled restore drills",
+        "On POSIX, stage each local SQLite snapshot in a fresh 0700 directory with a 0600 temporary database file; verify both permissions at the atomic no-overwrite publication boundary."
       ],
       "sources": [
         {
@@ -518,6 +519,14 @@
           "url": "https://github.com/maisuradzee/bibmom/actions/runs/45811367483",
           "type": "internal_ci_result",
           "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Python tempfile.mkdtemp — secure temporary directory creation",
+          "publisher": "Python Software Foundation",
+          "publication_date": "undated",
+          "url": "https://docs.python.org/3/library/tempfile.html#tempfile.mkdtemp",
+          "type": "official_documentation",
+          "accessed_at": "2026-11-26"
         }
       ],
       "data_needs": [
@@ -529,7 +538,8 @@
         "immutable=1 SQLite connection may mask the stored WAL journal mode",
         "same-host backup does not protect against host/disk loss",
         "backup is currently unencrypted and has no off-host retention automation",
-        "audit hash chain without signed external checkpoint does not prevent all tampering scenarios"
+        "audit hash chain without signed external checkpoint does not prevent all tampering scenarios",
+        "Private staging-directory permissions are POSIX-specific; the final backup remains subject to the destination parent's ACL and can be exposed if that parent is too permissive."
       ],
       "blockers": [
         "Backup encryption, off-host storage, retention/rotation and scheduled restore drills remain unimplemented.",
@@ -537,14 +547,15 @@
         "Encrypted/off-host backup, signed manifest, retention/rotation, provider integration and scheduled restore drills are not implemented; no storage provider, key custodian, RPO/RTO or retention policy has been selected."
       ],
       "status": "active",
-      "status_detail": "PR #44 was merged into main at 70099355579eef8b4767149c5611c711eb222887. Exact-head quality CI 45811367125 passed 303 Python tests, the backup/restore CLI smoke, frozen research reproductions, site build and publication-boundary checks; CPU-thread workflow 45811367483 passed both GIL-enabled and free-threaded jobs. Local verified SQLite online backup/restore, metrics CLI, service health reporting, payload-free supervisor logs and symlink-destination rejection are now in main. The implementation is local and unencrypted; no off-host provider or keys are configured.",
-      "next_step": "Run an operator-approved restore drill and measure recovery time/data loss. Then select provider, key custodian, RPO/RTO and retention policy before implementing age encryption, signed manifests, off-host object versions, key rotation and scheduled restore verification.",
+      "status_detail": "A clean-base engineering change stages the verified SQLite snapshot in a fresh private directory under the destination parent; on POSIX the directory is 0700 and the temporary database is 0600 before SQLite opens it. A regression test observes both modes at the no-overwrite publication boundary while the final parent is 0777. This reduces temporary-path replacement risk only; it does not encrypt the artifact or protect it from an overly permissive final-parent ACL. Exact-head CI and restore checks are pending.",
+      "next_step": "Verify the clean-base private-staging change on its exact PR head, then run an operator-approved restore drill and measure recovery time/data loss. Select provider, key custodian, RPO/RTO and retention policy before implementing encrypted off-host storage and signed manifests.",
       "success_metrics": [
         "backup includes committed WAL data",
         "restore rejects WAL-mode header and corrupted audit data before destination creation",
         "restore never overwrites an existing destination and does not mutate source bytes",
         "complete unit tests, frozen research reproductions, site build and publication-boundary checks pass",
-        "restore drill and encrypted off-host backup policy are documented and later independently tested"
+        "restore drill and encrypted off-host backup policy are documented and later independently tested",
+        "On POSIX, a test observes the staging directory at 0700 and the SQLite snapshot at 0600 immediately before no-overwrite publication, even when the destination parent is 0777."
       ],
       "last_reviewed": "2026-11-26"
     }

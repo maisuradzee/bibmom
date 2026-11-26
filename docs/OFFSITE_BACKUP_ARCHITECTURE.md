@@ -102,7 +102,7 @@ A future implementation is not production-ready until tests cover:
 
 ## 8. Current implementation boundary
 
-This branch ports a local verified SQLite snapshot/restore implementation, queue/workflow/scheduler metrics and payload-free supervisor logging. It adds a regression test that rejects a symlink as a backup or restore destination. It does not implement encryption, off-host upload, object locking, manifest signing, key rotation, automated retention, production ACLs or scheduled restore drills.
+The local snapshot implementation stages each backup inside a fresh private directory beneath the destination parent. On POSIX, the directory is mode 0700 and the temporary SQLite file is mode 0600 before SQLite opens it; the verified snapshot is published by a no-overwrite hard link. A regression test observes both permissions at the publication boundary while the final parent is deliberately mode 0777. This narrows temporary-path replacement risk in a shared parent, but does not protect the completed backup from an overly permissive parent ACL. The change does not implement encryption, off-host upload, object locking, manifest signing, key rotation, automated retention, production ACLs or scheduled restore drills.
 
 ## References
 
