@@ -77,6 +77,8 @@ DRY_RUN remains the default. Live operations require a trusted host-issued, oper
 - External references, server variables, request bodies, arrays, objects, cookies, headers, form parameters, secured operations and non-GET methods are skipped.
 - Exactly one fixed HTTPS server URL is supported and it must match the trusted base URL.
 - Redirects are blocked. Request timeout and response size are bounded.
+- Private, loopback and link-local IP literals are rejected; URL paths, parameter strings, constructed URL length, OpenAPI document size, path count and discovered operation count are bounded.
+- Credential-like parameter names are excluded from discovery, and only declared scalar path/query values can be sent.
 - Credential-like keys in API responses cause the result to be blocked.
 - No API key, bearer token, cookie or other credential is accepted by this adapter version.
 
