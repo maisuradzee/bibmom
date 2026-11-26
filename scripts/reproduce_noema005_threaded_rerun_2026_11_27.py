@@ -193,12 +193,13 @@ def validate_against_summary(actual: dict[str, Any], expected: dict[str, Any]) -
             raise ValueError(f"serial math.fsum comparison mismatch for {mode}")
 
 
-def reproduce(root: Path = ROOT) -> dict[str, Any]:
-    summary = json.loads((root / "data/noema-005/threaded-rerun-2026-11-27.json").read_text(encoding="utf-8"))
+def reproduce(root: Path = ROOT, summary_path: Path | None = None) -> dict[str, Any]:
+    selected_summary = summary_path or (root / "data/noema-005/threaded-rerun-2026-11-27.json")
+    summary = json.loads(selected_summary.read_text(encoding="utf-8"))
     if summary.get("schema_version") != 1 or summary.get("status") != "preliminary":
         raise ValueError("unexpected summary schema or status")
-    if summary.get("workflow_run", {}).get("id") != 45897707859:
-        raise ValueError("unexpected workflow run")
+    if not isinstance(summary.get("workflow_run", {}).get("id"), int) or summary["workflow_run"]["id"] <= 0:
+        raise ValueError("invalid workflow run identifier")
 
     actual = {}
     for mode in ("free_threaded", "gil_enabled"):
@@ -214,9 +215,12 @@ def reproduce(root: Path = ROOT) -> dict[str, Any]:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true", help="compare recomputed values with frozen summary")
-    parser.parse_args()
-    reproduce()
-    print("NOEMA-005 run 45897707859 reproduction: PASS")
+    parser.add_argument("--summary", type=Path, help="summary JSON path relative to repository root; defaults to the original 2026-11-27 run")
+    args = parser.parse_args()
+    summary_path = (ROOT / args.summary) if args.summary and not args.summary.is_absolute() else args.summary
+    reproduce(summary_path=summary_path)
+    run_id = json.loads((summary_path or SUMMARY_PATH).read_text(encoding="utf-8"))["workflow_run"]["id"]
+    print(f"NOEMA-005 run {run_id} reproduction: PASS")
     return 0
 
 
