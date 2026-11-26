@@ -8,10 +8,10 @@
       "title": "მცურავი წერტილის ჯამის სიზუსტე: ალგორითმი და რიგითობა",
       "date": "2026-11-25",
       "category": "რიცხვითი ანალიზი",
-      "summary": "კონტროლირებული ტესტები აჩვენებს, რომ შეკრების რიგითობამ შეიძლება შედეგი შეცვალოს. 330-კონფიგურაციან sharded-reduction სიმულაციაში compensation state-მა 330/330 სწორი შედეგი შეინარჩუნა. რეალურ CPU threads-ზე x86-64 და ARM64 გარემოებში Neumaier compensation-state merge-მა ყველა შემოწმებულ კონფიგურაციაში სწორად დამრგვალებული შედეგი მიიღო. ARM64-ზე ორ დამოუკიდებელ Actions batch-ში შედეგი 384/384 იყო; scalar Neumaier — 336/384, naive scalar — 0/384. CPU-time/wall-time >1.05 threshold-ის რაოდენობა ორ batch-ს შორის მცირედ იცვლებოდა (free-threaded 208/288→211/288; GIL-enabled 2/288→1/288), ამიტომ ეს მხოლოდ აღწერითი მაჩვენებელია და არა წარმადობის endpoint. მეორე batch-ის ოთხივე runtime cell-ში median wall-time speedup 1.0-ზე ნაკლები იყო; ზოგადი აჩქარება არ დადასტურებულა. წინასწარი, დამოუკიდებლად არარეცენზირებული შედეგია.",
+      "summary": "კონტროლირებული ტესტები აჩვენებს, რომ შეკრების რიგითობამ შეიძლება შედეგი შეცვალოს. 330-კონფიგურაციან sharded-reduction სიმულაციაში compensation state-მა 330/330 სწორი შედეგი შეინარჩუნა. რეალურ CPU threads-ზე x86-64 და ARM64 გარემოებში Neumaier compensation-state merge-მა ყველა შემოწმებულ კონფიგურაციაში სწორად დამრგვალებული შედეგი მიიღო. ARM64-ზე სამ დამოუკიდებელ Actions batch-ში შედეგი 576/576 იყო; scalar Neumaier — 504/576, naive scalar — 0/576. CPU-time/wall-time >1.05 threshold-ის რაოდენობა batch-ებს შორის იცვლებოდა (free-threaded 208/288→211/288→214/288; GIL-enabled 2/288→1/288→0/288), ამიტომ ეს მხოლოდ აღწერითი მაჩვენებელია. მესამე batch-ში macOS free-threaded უჯრედის median speedup 1.003 იყო, დანარჩენი სამი უჯრედი 1.0-ზე დაბლა; სამი გაზომვით ზოგადი აჩქარება არ დადასტურებულა. წინასწარი, დამოუკიდებლად არარეცენზირებული შედეგია.",
       "file": "research/preprints/NOEMA-2026-005-floating-point-summation.md",
       "status": "preliminary",
-      "version": "1.5",
+      "version": "1.6",
       "sources": [
         {
           "title": "The Accuracy of Floating Point Summation",

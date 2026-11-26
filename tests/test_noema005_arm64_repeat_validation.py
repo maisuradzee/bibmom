@@ -86,6 +86,49 @@ class Noema005Arm64RepeatValidationTests(unittest.TestCase):
         for value in self.repeat["input_sha256"].values():
             self.assertRegex(value, r"^[0-9a-f]{64}$")
 
+    def test_third_batch_is_bound_to_its_exact_successful_head(self):
+        third = self.repeat["third_batch_verification"]
+        self.assertEqual(third["benchmark_run"]["id"], 45756074975)
+        self.assertEqual(third["benchmark_run"]["head_sha"], "a77c0d5b659c1ad9e73e15ed718b2baf34a8839a")
+        self.assertEqual(third["benchmark_run"]["conclusion"], "success")
+        self.assertEqual(third["quality_run"]["head_sha"], third["benchmark_run"]["head_sha"])
+        self.assertEqual(third["quality_run"]["conclusion"], "success")
+        self.assertEqual(third["x86_64_thread_benchmark_run"]["head_sha"], third["benchmark_run"]["head_sha"])
+
+    def test_third_batch_accuracy_reproduces_across_all_four_cells(self):
+        third = self.repeat["third_batch_verification"]
+        self.assertEqual(len(third["runner_reports"]), 4)
+        self.assertEqual(third["aggregate"]["accuracy"]["naive_scalar"], {"correct": 0, "total": 192})
+        self.assertEqual(third["aggregate"]["accuracy"]["neumaier_scalar"], {"correct": 168, "total": 192})
+        self.assertEqual(third["aggregate"]["accuracy"]["neumaier_state"], {"correct": 192, "total": 192})
+        self.assertEqual(third["aggregate"]["cpu_parallelism_samples_above_1_05"]["gil_enabled"], {"count": 0, "total": 288})
+        self.assertEqual(third["aggregate"]["cpu_parallelism_samples_above_1_05"]["free_threaded"], {"count": 214, "total": 288})
+
+    def test_three_batch_accuracy_and_timing_variability_are_reported(self):
+        comparison = self.repeat["third_batch_verification"]["three_batch_comparison"]
+        self.assertEqual(comparison["cumulative_accuracy"]["naive_scalar"], "0/576")
+        self.assertEqual(comparison["cumulative_accuracy"]["neumaier_scalar"], "504/576")
+        self.assertEqual(comparison["cumulative_accuracy"]["neumaier_state"], "576/576")
+        self.assertEqual(comparison["cpu_parallelism_threshold_counts"]["gil_enabled"], ["2/288", "1/288", "0/288"])
+        self.assertEqual(comparison["cpu_parallelism_threshold_counts"]["free_threaded"], ["208/288", "211/288", "214/288"])
+
+    def test_third_batch_speedup_does_not_claim_general_acceleration(self):
+        third = self.repeat["third_batch_verification"]["aggregate"]
+        self.assertTrue(third["one_cell_marginally_above_one"])
+        self.assertLess(third["median_neumaier_state_speedup_by_runtime_cell"]["macos_free_threaded"], 1.01)
+        self.assertTrue(all(
+            third["median_neumaier_state_speedup_by_runtime_cell"][key] < 1.0
+            for key in ("ubuntu_gil_enabled", "ubuntu_free_threaded", "macos_gil_enabled")
+        ))
+
+    def test_third_batch_artifact_hashes_are_recorded(self):
+        for report in self.repeat["third_batch_verification"]["runner_reports"]:
+            self.assertRegex(report["report"]["sha256"], r"^[0-9a-f]{64}$")
+            self.assertRegex(report["artifact"]["zip_sha256"], r"^[0-9a-f]{64}$")
+            self.assertGreater(report["report"]["bytes"], 0)
+            self.assertGreater(report["artifact"]["zip_bytes"], 0)
+            self.assertEqual(report["artifact"]["retention_days"], 30)
+
 
 if __name__ == "__main__":
     unittest.main()

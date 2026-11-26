@@ -137,3 +137,13 @@ GitHub საცავი public-ია. Pages build draft/review ფაილ�
 - ოფიციალური Python 3.14 free-threading HOWTO ადასტურებს, რომ free-threaded build-ს შეუძლია CPU ბირთვებზე thread-ების პარალელური შესრულება, მაგრამ ყველა workload ავტომატურად არ ჩქარდება და build-ს აქვს single-thread/memory overhead. GitHub runner-ის მიმდინარე reference ადასტურებს ubuntu-24.04-arm-ის 4 CPU-სა და macos-15 ARM64 M1-ის 3 CPU-ს.
 - ARM64 workflow-ის path filter შევიწროვდა: კატალოგის, preprint-ის, შედეგების არქივისა და summary-test-ის მხოლოდ დოკუმენტური ცვლილება აღარ იწყებს ძვირადღირებულ benchmark-ს; workflow, benchmark code, validator, core tests ან replication protocol-ის ცვლილება კვლავ იწყებს.
 - კვლევის სტატუსი რჩება `preliminary`; დამოუკიდებელი გარე რეცენზია არ ჩატარებულა. PR-ის merge და Pages deployment ამ ეტაპზე ჯერ არ არის დადასტურებული.
+
+
+## 2026-11-26 — NOEMA-005 ARM64 მესამე გამეორება
+
+- მესამე დამოუკიდებელი ARM64 benchmark: [run 45756074975](https://github.com/maisuradzee/bibmom/actions/runs/45756074975) — ოთხივე Ubuntu/macOS × GIL/free-threaded job SUCCESS; ზუსტი benchmark head `a77c0d5b659c1ad9e73e15ed718b2baf34a8839a`.
+- იმავე head-ზე [quality/site run 45756074962](https://github.com/maisuradzee/bibmom/actions/runs/45756074962) და [x86-64 CPU-thread benchmark run 45756074982](https://github.com/maisuradzee/bibmom/actions/runs/45756074982) SUCCESS.
+- ოთხივე მესამე-batch raw artifact ჩამოიტვირთა და SHA-256-ით შემოწმდა. Artifact ID, archive digest, report digest, bytes და runner metadata დაემატა `data/noema-005/arm64-repeat-validation-2026-11-26.json`-ს.
+- სამივე ARM64 batch-ში Neumaier-state ზუსტი შედეგი შენარჩუნდა: **576/576**; scalar Neumaier **504/576**; naive scalar **0/576**.
+- Timing შედეგები არასტაბილურია: CPU/wall >1.05 threshold free-threaded რეჟიმში 208/288 → 211/288 → 214/288; GIL-enabled 2/288 → 1/288 → 0/288. მესამე batch-ში macOS free-threaded state-method median speedup 1.003 იყო; დანარჩენი სამი runtime-cell median 1.0-ზე ნაკლები. სამი repetition-ით ეს არ არის სანდო აჩქარების მტკიცებულება.
+- კვლევის სტატუსი რჩება `preliminary`; გარე რეცენზია არ ჩატარებულა. PR #23-ის merge/deployment სტატუსი უნდა დადასტურდეს ცალკე.
