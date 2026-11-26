@@ -217,3 +217,31 @@ This is the latest verified state after merging the two research changes and the
 | NOEMA-2026-007 Last-Mile Action Gap | Draft; PR #34 merged; exact-head CI success | Obtain authorized municipal aggregate delivery/acknowledgement/action data; Georgia WRP warning base is too small |
 | NOEMA-INFRA-001 reliability | Engineering; PR #19 divergent 32 ahead / 52 behind | Port backup/restore to a clean current-main branch and run an exact-head restore drill |
 
+
+
+
+## NOEMA run audit — 2026-11-26 (AquaSignal event store + exact binary64 conversion)
+
+This section supersedes earlier status snapshots above where the main SHA, AquaSignal persistence state, NOEMA-005 converter status or PR divergence counts differ.
+
+- **Current main:** `fa0e9ce16392c90340becc4194818eb615a93697` (PR #40 merge commit).
+- **PR #40 — AquaSignal local event store:** merged after exact-head verification. [Quality CI 45806582839](https://github.com/maisuradzee/bibmom/actions/runs/45806582839) passed 288 Python tests, including 11 event-store tests, frozen research reproductions, site build and publication-boundary checks. [CPU-thread workflow 45806582809](https://github.com/maisuradzee/bibmom/actions/runs/45806582809) passed GIL-enabled and free-threaded jobs. POSIX filesystem boundary now requires a current-user-owned mode-0700 parent, opens with `O_NOFOLLOW`, verifies a regular current-user-owned file and applies mode 0600 before SQLite opens it.
+- **PR #38:** closed as superseded by PR #40; its branch was behind current main and was not merged.
+- **PR #39 — NOEMA-005 exact binary64 conversion:** Draft/open, head `38f69c1f6943266eefc626e4674a15b28e23abb5`, mergeable=true. [Quality CI 45805534507](https://github.com/maisuradzee/bibmom/actions/runs/45805534507) and [native x86-64/ARM64 matrix 45805534509](https://github.com/maisuradzee/bibmom/actions/runs/45805534509) passed. The bounded 2,560-bit exact accumulator now has a guard/sticky-bit, ties-to-even converter; boundary self-tests cover normal/subnormal, positive/negative ties, cancellation and overflow. Independent MPFR/SoftFloat cross-check and generated rational cases remain required; no performance or publication claim is made.
+- **PR #19 — backup/restore:** Draft/open, 32 commits ahead / 54 behind current main, `mergeable=false`; its backup code is not in main. Selective port to a clean branch is safer than blind rebase.
+- **PR #27 — Adaptive Integration Engine:** Draft/open, 37 commits ahead / 48 behind current main, `mergeable=false`; earlier credential-normalization and capability-policy fingerprint findings remain unresolved. Do not merge without a clean refresh and exact-head review.
+- **NOEMA-2026-007:** no new municipal dataset or field evidence this cycle. LRF's source-published WRP reproduction remains 487 exact matches, 17 within tolerance and 37 Gallup-only of 541; NOEMA has not independently rerun the respondent-level microdata. Georgia's warning-question base remains 99, below the report's 100-response country threshold.
+- **Catalogue:** 1 preliminary / 0 published. No independent external numerical-method review or AquaSignal field validation has been completed.
+- **Main post-merge quality / Pages:** no run for merge SHA `fa0e9ce` was returned by the workflow-run lookup at audit time. Therefore this document does not claim that Pages has deployed the merge commit; the successful PR exact-head CI is not a substitute for main deployment confirmation.
+- **Public-data boundary:** only synthetic AquaSignal fixtures and public-source summaries are present. No operator telemetry, private laboratory records, credentials, personal data, new Supabase project or external database was added.
+
+### Active portfolio
+
+| Stream | Status | Next verified step |
+|---|---|---|
+| NOEMA-2026-006 AquaSignal | active / prototype; event store merged; synthetic-only | encrypted/off-host backup and restore controls; then authorized paired sensor/lab data and preregistered field validation |
+| NOEMA-2026-005 numerical reduction | active / preliminary; exact converter PR #39 Draft, exact-head CI success | independent MPFR/SoftFloat cross-check and generated rational cases; physical hardware and representative workloads |
+| NOEMA-2026-007 Last-Mile Action Gap | active / draft | obtain authorized municipal aggregate delivery/acknowledgement/action data; Georgia WRP sample is too small |
+| NOEMA-INFRA-001 reliability | active / engineering; PR #19 divergent | clean current-main port, exact-head CI and restore drill; then encrypted off-host retention |
+
+NOEMA progresses during scheduled runs only; this audit does not claim continuous background work.

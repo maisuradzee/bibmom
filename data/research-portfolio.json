@@ -81,14 +81,11 @@
       "blockers": [
         "Authorized paired sensor/laboratory data, a site data dictionary and approved Water Safety Plan limits remain unavailable under explicit reuse permission.",
         "No field validation or independent external review has been completed.",
-        "The new SQLite event store is a local prototype; encrypted/off-host backup, retention/rotation, signed external checkpoints and production access control remain unimplemented.",
-        "The clean-branch exact-head CI for the filesystem hardening is pending.",
-        "No encrypted/off-host backup, retention/rotation, signed external checkpoint, restore drill or production access-control integration exists.",
-        "Authorized paired sensor/laboratory data and field validation remain unavailable."
+        "The event store remains local only: encrypted/off-host backup, retention/rotation, signed external checkpoints, restore drills and production access control are not implemented."
       ],
       "status": "active",
-      "status_detail": "The append-only SQLite event-store prototype has been ported onto a clean branch from current main and hardened: on POSIX it requires a current-user-owned 0700 parent directory, opens the database with O_NOFOLLOW, verifies a regular file owned by the current user and applies mode 0600 before SQLite opens it. Synthetic tests cover private-directory rejection and database symlink rejection in addition to replay, stale snapshots, tampering and concurrency. Exact-head CI is pending. This remains a local prototype with no authorized sensor/laboratory data or field validation.",
-      "next_step": "Complete exact-head quality CI and review the event-store recovery contract. Before any production use, add encrypted/off-host backups, retention/rotation, signed external checkpoints, restore drills and host ACL integration; separately obtain explicitly authorized paired sensor/laboratory data for a preregistered field evaluation.",
+      "status_detail": "PR #40 was merged into main at fa0e9ce16392c90340becc4194818eb615a93697. Exact-head quality CI 45806582839 passed 288 Python tests, including 11 AquaSignal event-store tests, frozen research reproductions, site build and publication-boundary checks; CPU-thread workflow 45806582809 passed both GIL-enabled and free-threaded jobs. The local SQLite event store now enforces a current-user-owned POSIX 0700 parent, O_NOFOLLOW open, regular-file/current-user ownership and 0600 file mode. This remains a local synthetic prototype: no authorized sensor/laboratory data, field validation, encrypted off-host backup or production ACL integration.",
+      "next_step": "Before production use, implement encrypted/off-host backup, retention/rotation, signed external checkpoints, restore drills and host ACL integration. Separately obtain explicitly authorized paired sensor/laboratory data and site-approved Water Safety Plan limits for a preregistered field evaluation.",
       "success_metrics": [
         "საველე ტესტში წინასწარ განსაზღვრულ reference labels-თან შედარებული sensitivity და positive predictive value",
         "false-alert rate და detection delay წინასწარ განსაზღვრულ baseline-თან შედარებით",
@@ -213,14 +210,14 @@
         "Pairwise reduction may be faster on a fixture while returning an incorrect result; timing is only meaningful after accuracy passes."
       ],
       "blockers": [
-        "The native C/OpenMP experiment currently has one local x86-64 run; independent ARM64 and hosted x86-64 replication are pending.",
-        "Five repetitions and two synthetic cancellation fixtures do not establish general accuracy or performance.",
-        "The exact superaccumulator is a fixture-level exact comparator and does not yet expose a general correctly-rounded floating-point result.",
-        "External numerical-method review and representative application workloads remain outstanding."
+        "The converter is bounded by the 2,560-bit accumulator; overflow of the accumulator itself is unsupported.",
+        "Boundary self-tests and hosted CI are not an independent proof; MPFR/SoftFloat cross-check and generated rational cases remain outstanding.",
+        "The native experiment still uses two synthetic cancellation fixtures; representative application workloads and memory-bandwidth tests remain outstanding.",
+        "Hosted x86-64/ARM64 CI is not independent physical-hardware replication; external numerical-method review remains outstanding."
       ],
       "status": "active",
-      "status_detail": "A native C11/OpenMP experiment was added as a draft sub-experiment. One local Linux x86-64 run (GCC 14.2.0, LDBL_MANT_DIG=64, five visible CPUs) covered 50 cases: two cancellation layouts, five serial methods and five OpenMP methods at 1/2/4/8 threads, with one warm-up and five measured repetitions. Serial and OpenMP Neumaier and exact-superaccumulator paths matched the known integer reference in 5/5 runs on both layouts. Native long double passed the interleaved triplet but failed grouped cancellation; pairwise and naive failed both. Exact OpenMP median speedups over matching serial exact were 1.67–2.09x at 2/4/8 workers on triplets and 1.86–2.01x on grouped cancellation in this single host only. The independent ARM64/x86-64 CI matrix and its raw artifacts are pending; the new sub-experiment remains draft and does not alter the existing preliminary study's status.",
-      "next_step": "Run the exact-head x86-64 and ARM64 native CI matrix; compare architecture-specific long-double behavior and exact-superaccumulator accuracy. Then implement general correctly-rounded output, add representative vector/memory-bandwidth workloads and repeat with independent compilers/runtime versions.",
+      "status_detail": "The native C11/OpenMP experiment is present in main, while Draft PR #39 adds a bounded exact-integer-unit-to-binary64 round-to-nearest-even converter. Exact-head quality CI 45805534507 and native x86-64/ARM64 matrix 45805534509 both passed on head 38f69c1f6943266eefc626e4674a15b28e23abb5. The C self-test covers normal/subnormal boundaries, positive and negative halfway ties, cancellation and overflow. This is boundary-test evidence only: MPFR/SoftFloat independent cross-check, generated rational cases, representative application workloads and physical-hardware replication remain outstanding; no general speedup claim is made.",
+      "next_step": "Independently cross-check exact-to-binary64 conversion against MPFR or SoftFloat and generated rational cases; then add representative memory-bandwidth-bound workloads and repeat on pinned physical x86-64 and ARM64 hardware with uncertainty intervals.",
       "success_metrics": [
         "exact-reference accuracy თითოეული მეთოდისა და runtime-ის მიხედვით",
         "median wall-time და uncertainty interval წინასწარ განსაზღვრული repetition protocol-ით",
@@ -462,15 +459,12 @@
         "audit hash chain without signed external checkpoint does not prevent all tampering scenarios"
       ],
       "blockers": [
-        "PR #19 is 32 commits ahead / 46 behind current main and mergeable=false; a careful merge/rebase and new exact-head CI are required.",
-        "Backups are not encrypted or stored off-host; retention/rotation and scheduled restore drills are not implemented.",
-        "Backup encryption, off-host storage, retention/rotation and scheduled restore drills remain unimplemented.",
-        "PR #19 is 32 commits ahead / 52 behind current main and must not be merged blindly.",
+        "PR #19 is 32 commits ahead / 54 behind current main and mergeable=false; blind merge/rebase is unsafe.",
         "Backup encryption, off-host storage, retention/rotation and scheduled restore drills remain unimplemented."
       ],
       "status": "active",
-      "status_detail": "PR #19 remains open but is materially divergent from current main: 32 commits ahead / 52 behind, merge base f777eb530443e5be33ce6d28591eeb75e2df0fd0. Audit confirms its backup_to()/restore_from_backup() implementation and CLI are not present in current main's JobQueue; the older branch's passing CI is not current-main evidence. Follow-up review comment records the updated divergence and recommends a clean branch from current main with selective porting rather than a blind rebase. Backups remain local and unencrypted; off-host retention/rotation and scheduled restore drills are absent.",
-      "next_step": "Create a clean branch from current main and selectively port the verified SQLite online backup/restore implementation and CLI; rerun all exact-head CI and a restore drill that verifies WAL inclusion, source immutability, owner-only permissions, no-overwrite behavior and integrity checks. Then implement encrypted off-host storage, retention/rotation and scheduled restore exercises.",
+      "status_detail": "PR #19 remains Draft/open and diverged from current main: 32 commits ahead / 54 behind, mergeable=false. Its backup_to()/restore_from_backup() implementation and CLI are not present in current main; the older branch's successful CI is not evidence for current main. No new backup code was merged in this cycle.",
+      "next_step": "Create a clean branch from current main and selectively port the verified SQLite online backup/restore implementation and CLI; rerun exact-head CI and a restore drill covering WAL inclusion, source immutability, owner-only permissions, no-overwrite behavior and integrity checks. Then add encrypted off-host storage, retention/rotation and scheduled restore exercises.",
       "success_metrics": [
         "backup includes committed WAL data",
         "restore rejects WAL-mode header and corrupted audit data before destination creation",
