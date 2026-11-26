@@ -70,6 +70,9 @@ jobs:
           test -f noema_core/aquasignal.py
           test -f noema_core/mission.py
           test -f noema_core/mission.json
+          test -f noema_core/integrations.py
+          test -f tests/test_integrations.py
+          test -f docs/ADAPTIVE_INTEGRATION.md
           test -f scripts/validate_mission.py
           test -f tests/test_aquasignal.py
           test -f tests/test_mission_core.py
