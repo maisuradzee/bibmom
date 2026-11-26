@@ -3,6 +3,7 @@
   "experiment_id": "NOEMA-2026-005-OPENMP-001",
   "status": "frozen_ci_summary",
   "source_report_sha256": "af4d30bb78b0d7c5882a697eba49a57f21eeccb14786be0b567168fd3d64ee33",
+  "archive_git_blob_sha": "0551d114fcfbb703ae1d8fc254bee3271cec0a7e",
   "github_artifact_digest": "sha256:a0458834e48029a2fdcc85ade6fcb70fe2d6344b76055604e8dc20efdb1fcbe6",
   "provenance": {
     "captured_at_utc": "2026-11-26T09:24:55.721827+00:00",
