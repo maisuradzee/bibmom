@@ -27,7 +27,7 @@ The existing real-thread benchmark ran on Linux x86-64 only. The earlier cross-p
 
 ### REPRODUCED RESULT
 
-None at protocol creation. A result will be classified as reproduced only after the GitHub Actions jobs complete on both ARM64 runner families and their JSON reports pass the validator.
+**REPRODUCED RESULT (2026-11-26):** all four ARM64 runner/runtime cells completed successfully on the final PR head `4fe358edd532d1861544951682e9125f67a4e156`. Each cell ran 48 configurations × 3 repetitions (144 measured runs). Neumaier-state reduction matched the correctly rounded exact reference in **192/192** runs; Neumaier scalar partials matched in 168/192; naive scalar partials matched in 0/192. Free-threaded cells recorded a process-CPU/wall-time ratio above 1.05 in 208/288 samples; GIL-enabled cells recorded 2/288, both in the macOS naive-scalar group. This ratio is evidence of aggregate CPU use, not a wall-time speedup.
 
 ### INFERENCE
 
@@ -94,13 +94,31 @@ The CI job must run the existing threaded-reduction unit tests, validate the rep
 ## შემოწმების სტატუსი
 
 - პროტოკოლი, ARM64 runner მატრიცა, report validator და validator-ის unit tests დაემატა ცალკე research branch-ზე.
-- Ubuntu ARM64-ის ორივე runtime და macOS ARM64-ის GIL-enabled runtime წარმატებით დასრულდა; macOS ARM64 free-threaded job ამ სტატუსის დაფიქსირების მომენტში ჯერ მიმდინარეობს.
-- სრული ხარისხის CI-მ პირველ ცდაზე draft validator-ზე ჩავარდა, რადგან ეს დოკუმენტი არ იყენებდა repository-ის სავალდებულო ქართულ metadata/heading ფორმატს. ეს დოკუმენტი გასწორებულია; ახალი commit-ის შემდეგ სრული CI ხელახლა უნდა შესრულდეს.
-- სანამ ოთხივე job არ დასრულდება და JSON არტეფაქტები არ შემოწმდება, ARM64 შედეგი არ არის გამოცხადებული.
+- ოთხივე ARM64 runner/runtime job წარმატებით დასრულდა; თითოეულში benchmark, report validator და არსებული real-thread unit tests წარმატებულია.
+- ხარისხის CI-მ პირველ ცდაზე ამ დოკუმენტის ქართული metadata/heading ფორმატის გამო ვერ გაიარა; ფორმატი გასწორდა და საბოლოო head-ზე quality/site CI წარმატებით დასრულდა.
+- ოთხივე JSON არტეფაქტი ჩამოიტვირთა, SHA-256-ით შემოწმდა და შეჯამებული შედეგები ჩაიწერა `data/noema-005/arm64-threaded-benchmark-summary-2026-11-26.json`-ში.
+- საბოლოო ARM64 workflow: [run 45752987940](https://github.com/maisuradzee/bibmom/actions/runs/45752987940); quality/site CI: [run 45752987825](https://github.com/maisuradzee/bibmom/actions/runs/45752987825). ორივე ზუსტად საბოლოო PR head-ს `4fe358edd532d1861544951682e9125f67a4e156` უკავშირდება.
 
 ## Results and interpretation
 
-**Not yet measured.** No ARM64 benchmark result is claimed in this protocol. Results will be added only after the corresponding Actions artifacts have been downloaded and independently inspected. Timing comparisons will remain runner-specific and descriptive; no universal performance claim will be made from these hosted virtual machines.
+### Reproduced results
+
+| Runner/runtime | Neumaier state accuracy | CPU/wall samples >1.05 | Median state speedup vs matching serial |
+|---|---:|---:|---:|
+| Ubuntu 24.04 ARM64, GIL enabled | 48/48 | 0/144 | 0.738 |
+| Ubuntu 24.04 ARM64, free-threaded | 48/48 | 108/144 | 0.666 |
+| macOS 15 ARM64, GIL enabled | 48/48 | 0/144 for the state method (2/144 across all methods) | 0.908 |
+| macOS 15 ARM64, free-threaded | 48/48 | 100/144 | 0.922 |
+
+Across all four cells, the state method matched the reference in 192/192 measured runs. The scalar Neumaier partial method matched in 168/192, while naive scalar partials matched in 0/192. The median speedup across all 48 cases for the state method remained below 1.0 in every runtime cell. Individual worker groups produced isolated ratios slightly above 1.0, but the three-repetition profile does not establish a general speedup.
+
+Free-threaded mode showed clear aggregate multi-thread CPU use on both ARM64 runner families: 108/144 samples on Ubuntu ARM64 and 100/144 on macOS ARM64 crossed the 1.05 CPU/wall threshold. GIL-enabled mode showed no such repeatable signal; two crossings occurred only in one macOS naive-scalar sample group. CPU-time/wall-time above one indicates concurrent CPU consumption; it does not imply faster completion.
+
+At eight workers, median `tracemalloc` peak for the state method was about 60 KB in GIL-enabled runs and about 731 KB in free-threaded runs on both runner families. This is a Python-allocation metric, not process RSS or total native memory.
+
+The x86-64 reference on the previous main snapshot showed 108/144 free-threaded samples and 0/144 GIL-enabled samples above the same threshold. This is descriptive only: the x86 and ARM64 jobs used different hosted runners and CPUs, so the difference cannot be attributed causally to the instruction-set architecture.
+
+The verified aggregate, per-worker state-method summaries, input hashes, raw-report SHA-256 values and artifact digests are stored in `data/noema-005/arm64-threaded-benchmark-summary-2026-11-26.json`. The original raw JSON artifacts are retained by GitHub Actions until 2026-12-26; the committed summary preserves the measured aggregates and provenance after that expiry.
 
 ## Limitations, uncertainty, ethics and safety
 
@@ -115,8 +133,8 @@ The CI job must run the existing threaded-reduction unit tests, validate the rep
 
 ## შემდეგი ნაბიჯები
 
-1. Run the four ARM64 CI jobs and inspect each report.
-2. Persist only verified result JSON and SHA-256 provenance in `data/noema-005/`.
-3. Update the existing NOEMA-005 preprint and catalogue summary only if all report checks pass.
-4. Compare ARM64 results with the x86-64 baseline, explicitly noting runner differences.
-5. Consider a native-code benchmark only after the pure-Python replication is complete.
+1. Extend the replication to Windows ARM64 or another independently hosted ARM64 environment, if a verifiable CPython build is available.
+2. Compare the Python ThreadPoolExecutor path with a small native C/OpenMP reduction on the same runner.
+3. Repeat the timing profile with at least 20 measured repetitions and report dispersion, not only medians.
+4. Add process RSS/native-allocation measurement alongside `tracemalloc`.
+5. Seek independent review of the protocol, implementation and interpretation before changing the study status from preliminary.
