@@ -83,5 +83,8 @@ int main(int argc,char **argv){
     0,
 #endif
     omp_get_num_procs(),DBL_MANT_DIG,LDBL_MANT_DIG,sizeof(double),sizeof(long double),repeat,n,bytes,repeat,WARM,REP,total,rss);
-    for(int i=0;i<total;++i)print_case(&results[i],i==0);printf("]}\n");free(values);return 0;
+    for(int i=0;i<total;++i) { print_case(&results[i],i==0); }
+    printf("]}\n");
+    free(values);
+    return 0;
 }
