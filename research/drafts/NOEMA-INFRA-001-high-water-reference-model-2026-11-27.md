@@ -82,3 +82,17 @@ NIST SP 800-209 (2020) ხაზს უსვამს, რომ backup-ის 
 ## ცვლილებების ისტორია
 
 - 2026-11-27: დაემატა local SQLite reference model და 10 conformance-style unit test; production trust-domain claim არ კეთდება.
+
+
+## შემოწმების სტატუსი
+
+- ლოკალურ სატესტო გარემოში ახალი reference model-ის 10/10 unit test წარმატებით შესრულდა.
+- GitHub Actions-ის პირველმა quality run-მა დრაფტის validator-ზე შეაჩერა მუშაობა, რადგან შაბლონის ორი სავალდებულო სათაური აკლდა; სათაურები დაემატა და exact-head CI თავიდან მოწმდება.
+- არც provider adapter, არც external trust-domain service, არც რეალური backup/restore deployment არ შექმნილა.
+
+## შემდეგი ნაბიჯები
+
+1. დაასრულე exact-head quality CI, მათ შორის draft validation, schema validation, სრული unit suite და site/publication-boundary checks.
+2. დამოუკიდებლად გადახედე SQLite concurrency semantics-სა და failure cases-ს; შეინარჩუნე მკაფიო განსხვავება local conformance model-სა და external authority-ს შორის.
+3. მხოლოდ პასუხისმგებელი trust-domain owner-ისა და provider-ის დამტკიცების შემდეგ შექმენი ცალკე adapter; დაამატე multi-process, crash-after-commit/unknown-outcome, timeout, backup/restore და rollback-failure injection.
+4. ჩაატარე off-host clean-host restore drill, რომელიც მოიცავს manifest, data, configuration, software dependencies, keys და access-control metadata-ს.
