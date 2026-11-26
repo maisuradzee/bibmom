@@ -409,3 +409,44 @@ The backup manifest runtime validator verifies only Draft 2020-12 structure and 
 3. Acquire explicitly authorized paired sensor/laboratory data and site-approved Water Safety Plan limits before AquaSignal field claims.
 4. Obtain official Georgia municipal/basin warning-to-action data dictionary and privacy approval before NOEMA-007 pilot.
 5. For NOEMA-005, prioritize independent physical x86-64/ARM64 replication and representative memory-bandwidth workloads; do not infer general speedup from hosted synthetic timing.
+
+
+## NOEMA run audit — 2026-11-26 (memory-backed reduction, disclosure control and high-water synchronization)
+
+- **Main at start of this run:** `b97b30de2c4a25127c81f3ca601203104f9421fd`.
+- **Main quality CI:** [45876917282](https://github.com/maisuradzee/bibmom/actions/runs/45876917282) SUCCESS.
+- **Main Pages deployment:** [45876917200](https://github.com/maisuradzee/bibmom/actions/runs/45876917200) build/deploy SUCCESS for the same main SHA. Branch-only research changes below have not been deployed to Pages.
+
+### Work completed on independent research branches
+
+- **NOEMA-2026-005 / PR #87** — [PR](https://github.com/maisuradzee/bibmom/pull/87), head `252814eb84cb77437f34a77708a11f0a4f01b531`. A frozen memory-backed benchmark negative test was corrected: recompressing a ZIP changes the archive digest, so the test now updates the temporary archive digest metadata before asserting that the embedded report digest is rejected. Exact-head quality CI [45882424047](https://github.com/maisuradzee/bibmom/actions/runs/45882424047), memory-backed benchmark workflow [45882424158](https://github.com/maisuradzee/bibmom/actions/runs/45882424158), and actual CPU-thread workflow [45882424037](https://github.com/maisuradzee/bibmom/actions/runs/45882424037) all SUCCESS. The archived 96 MiB / 15-case result is from workflow [45880304260](https://github.com/maisuradzee/bibmom/actions/runs/45880304260), tested head `6720fbdf57f33d28c6d1030ccd1d399d5aec1462`. Neumaier-state was correct in 5/5 runs at 2/4/8 workers; the four-worker median was 2.351x versus serial Neumaier on one hosted x86-64 runner. The runner exposed four CPUs; eight requested workers are oversubscribed. No memory-controller counters were collected, so effective input throughput is not DRAM bandwidth. This is not physical-hardware replication or a general speedup claim. The draft and portfolio now accurately distinguish the frozen single-host result from pending independent replication.
+
+- **NOEMA-INFRA-001 / PR #85** — [PR](https://github.com/maisuradzee/bibmom/pull/85), head `d726c3002631b243553972e03bb8433e32cd65b9`. The provider-neutral high-water design branch was reconciled with current main; compare reports ahead 3 / behind 0 and GitHub reports mergeable=true. Exact-head quality CI [45882259770](https://github.com/maisuradzee/bibmom/actions/runs/45882259770) and actual CPU-thread workflow [45882259726](https://github.com/maisuradzee/bibmom/actions/runs/45882259726) both SUCCESS. The PR remains Draft pending independent security/architecture review and an approved owner for the separate trust/recovery domain. No compare-and-advance service, cloud provider, database, production key custody, immutable retention or clean-host restore is deployed.
+
+- **NOEMA-2026-007 / PR #88** — [PR](https://github.com/maisuradzee/bibmom/pull/88), head `404783b4fba30884844207f89f04acf29f8b59e7`. The synthetic cross-release counterexample remains: individually valid aggregates 80 and 79 can reveal a difference of 1 if the cohorts are nested. A source-backed refinement from NIST SP 800-226 (2025), Sections 2.4–2.5, now states that event-level privacy protects events rather than necessarily protecting a person with repeated contributions; user-level privacy is the safer default where feasible; and privacy loss composes across releases. The design now requires an explicit privacy unit, contribution bounds, adjacency, sensitivity, ε/δ, utility/bias assessment and a cumulative accountant before any differential-privacy claim. Exact-head quality CI [45882571593](https://github.com/maisuradzee/bibmom/actions/runs/45882571593) and actual CPU-thread workflow [45882571578](https://github.com/maisuradzee/bibmom/actions/runs/45882571578) both SUCCESS. No real event, survey, personal or operational data was used; no DP mechanism or parameters were selected. Draft remains pending independent privacy review and data-controller approval.
+
+### Portfolio status
+
+| Stream | Status | Current blocker / next step |
+|---|---|---|
+| NOEMA-2026-006 AquaSignal | Active prototype; signed Ed25519 checkpoint verifier is on main | Independent security review; authorized paired sensor/lab data; site-approved Water Safety Plan limits; field validation |
+| NOEMA-2026-005 numerical reduction | Active preliminary; frozen memory-backed hosted result and exact-head CI are verified on PR #87 | Second buffer size, representative scientific workload, independently selected physical x86-64/ARM64 hardware and external numerical-method review |
+| NOEMA-2026-007 warning-to-action gap | Active draft; synthetic differencing risk and NIST privacy-unit refinement on PR #88 | Trusted cohort/query lineage, release ledger, approved privacy unit and controller review; authorized Georgia event-level data remains unavailable |
+| NOEMA-INFRA-001 backup/provenance | Active engineering/design; high-water protocol synchronized and CI-checked on PR #85 | Independent security review, trust-domain owner, approved RPO/RTO, provider and recovery ownership |
+
+### Research interpretation and safety boundary
+
+- The memory-backed benchmark is a **REPRODUCED RESULT** for one hosted x86-64 run only; it does not establish general parallel speedup.
+- The 80-versus-79 disclosure example is a **REPRODUCED RESULT** from synthetic fixtures; it is not a real disclosure incident.
+- The NIST unit-of-privacy and composition requirements are **FACT** from the cited guidance; applying them to repeated NOEMA-007 resident contributions is an **INFERENCE** until the actual data model is approved.
+- The high-water protocol is an **architecture proposal**, not an implemented service.
+- All four streams remain active. No study was promoted to Published; the public catalogue remains 1 preliminary / 0 published. All three PRs remain Draft pending their respective independent reviews.
+- Only public source metadata, code, design documentation and synthetic fixtures were used. No private/operator/laboratory data, credentials, signing keys, new Supabase project or another project's database was added.
+- This work was performed during this scheduled run only; no continuous background execution is claimed.
+
+### Next priorities
+
+1. Obtain independent numerical-method review and repeat NOEMA-005 on physical x86-64 and ARM64 systems with a second buffer size and representative workloads.
+2. Obtain independent security review and a named owner for the INFRA high-water trust domain before implementing any service or selecting storage.
+3. Complete NOEMA-007 query/cohort lineage and cumulative release-ledger design; obtain privacy review and data-controller approval before any real aggregate release.
+4. For AquaSignal, obtain authorized paired sensor/lab data and site-approved operational limits before field evaluation.
