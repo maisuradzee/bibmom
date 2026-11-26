@@ -78,3 +78,8 @@ This is an integration framework, not proof of a completed live integration or u
 ## First concrete adapter
 
 The first bounded implementation is documented in [GitHub Public Repository Adapter](GITHUB_PUBLIC_ADAPTER.md). It provides only public repository metadata and UTF-8 text-file reads from one configured repository; no write operations are available.
+
+
+## Schema-driven REST adapter
+
+[OpenAPI Read Adapter](OPENAPI_READ_ADAPTER.md) derives a safe set of public GET operations from a trusted OpenAPI 3.0/3.1 JSON document. It does not generate or execute arbitrary code and skips secured or non-GET operations.
