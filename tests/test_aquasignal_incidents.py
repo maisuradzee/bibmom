@@ -177,5 +177,16 @@ class AquaSignalIncidentLifecycleTests(unittest.TestCase):
                 now=self.now + timedelta(minutes=1)
             )
 
+
+    def test_event_ids_are_unique_across_assessment_and_operator_actions(self):
+        with self.assertRaisesRegex(IncidentError, "event_id already used for different content"):
+            acknowledge_incident(
+                self.opened,
+                event_id="evt-1",
+                operator_id="operator-test-1",
+                reference="work-order-test-1",
+                now=self.now + timedelta(minutes=1),
+            )
+
 if __name__ == "__main__":
     unittest.main()
