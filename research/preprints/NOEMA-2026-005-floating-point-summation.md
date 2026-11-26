@@ -220,6 +220,11 @@ x86-64 წინა შედეგებთან შედარება მ�
 15. Python Software Foundation. (documentation version 3.14.10 released 2026-10-25; individual page has no separate publication date). *Python 3.14 time library reference*. https://docs.python.org/3.14/library/time.html. Accessed 2026-11-25.
 16. Python Software Foundation. (documentation version 3.14.10 released 2026-10-25; individual page has no separate publication date). *Python 3.14 tracemalloc library reference*. https://docs.python.org/3.14/library/tracemalloc.html. Accessed 2026-11-25.
 
+
+17. GitHub. (documentation snapshot accessed 2026-11-26; page does not state a publication date). *GitHub-hosted runners reference*. https://docs.github.com/en/actions/reference/runners/github-hosted-runners. Accessed 2026-11-26.
+18. GitHub. (2025-01-16). *Linux arm64 hosted runners now available for free in public repositories (Public Preview)*. https://github.blog/changelog/2025-01-16-linux-arm64-hosted-runners-now-available-for-free-in-public-repositories-public-preview/. Accessed 2026-11-26.
+19. Python Software Foundation. (documentation version 3.14.10 released 2026-10-25; individual page has no separate publication date). *Python 3.14 free-threading HOWTO*. https://docs.python.org/3.14/howto/free-threading-python.html. Accessed 2026-11-26.
+
 ## შემდეგი ნაბიჯები
 
 1. ARM64-ის შემდეგი გამეორება Windows ARM64-ზე ან სხვა დამოუკიდებელ ARM64 runner-ზე.
