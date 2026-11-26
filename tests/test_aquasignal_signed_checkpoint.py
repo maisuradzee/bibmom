@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import copy
 import hashlib
 import json
 import tempfile
@@ -126,7 +125,7 @@ class AquaSignalSignedCheckpointTests(unittest.TestCase):
 
     def test_higher_sequence_advances_external_high_water_state(self):
         payload, signature = self.make_signed(sequence=10)
-        state = TrustedCheckpointState(9, "0" * 64)
+        state = TrustedCheckpointState(STORE_ID, 9, "0" * 64)
         result = self.verify(payload, signature, trusted_state=state)
         self.assertEqual(result["next_trusted_state"]["sequence"], 10)
 
