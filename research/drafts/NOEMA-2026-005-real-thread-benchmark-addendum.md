@@ -161,3 +161,32 @@ Free-threaded Neumaier-state median CPU-time/wall-time ratio worker count 1/2/4/
 
 - 2026-11-25 — დაემატა რეალური ThreadPoolExecutor benchmark, GIL-mode detection, native thread ID verification, CPU/wall timing, memory tracing და GIL-enabled local control JSON.
 - 2026-11-25 — PR #21-ის head `00084792c6d3265b7b046e013ece362f76cf88f6`-ზე quality/site (176 tests) და actual CPU-thread benchmark workflows წარმატებით დასრულდა; PR squash-ით merged commit `e84f2b9679c923c673319fc28fc6da5d1e021702`-ში. Pages deployment run `45551962965` წარმატებით დასრულდა.
+
+
+## Repeat run — 2026-11-26, workflow 45850716742
+
+The exact PR-70 head `48bf7aeea44af78ee85f97463a15894330ddba4c` triggered a fresh hosted run of the existing real-thread workflow. Both GIL-enabled and free-threaded CPython 3.14.4 jobs completed successfully on the same hosted x86-64 runner family (four available CPUs). Each mode executed 48 threaded cases, three repetitions per case, with distinct native thread IDs.
+
+### REPRODUCED RESULT — accuracy and median wall-time speedup
+
+| Runtime | Method | Correct runs | Median speedup vs matching serial |
+|---|---|---:|---:|
+| GIL enabled | Naive scalar | 0/48 | 0.4918× |
+| GIL enabled | Scalar Neumaier | 42/48 | 0.7443× |
+| GIL enabled | Neumaier (sum, correction) state merge | 48/48 | 0.7539× |
+| Free-threaded | Naive scalar | 0/48 | 0.3183× |
+| Free-threaded | Scalar Neumaier | 42/48 | 0.9947× |
+| Free-threaded | Neumaier (sum, correction) state merge | 48/48 | 0.9519× |
+
+The free-threaded state-merge cases used more process CPU time than wall time (median process-CPU/wall ratio 2.084), which is evidence of parallel CPU consumption in this synthetic run, **not** evidence of end-to-end acceleration. Its median wall-time speedup remained below 1; a few individual free-threaded cases exceeded 1, but the per-method median did not. No general speedup is claimed.
+
+### Provenance
+
+- GIL-enabled artifact: `noema005-threaded-gil-enabled`, artifact ID `15132333526`; ZIP SHA-256 `b1b84fa96480fd989e6b866800004146f36a8c08b05859d3678cf32a3c094be4`; raw report SHA-256 `b984326a68847e2fac9b3c205a4ef4b3fb59d10e27210460c2061fc9c8ba8eaa`.
+- Free-threaded artifact: `noema005-threaded-free-threaded`, artifact ID `15132228583`; ZIP SHA-256 `f8adbcd890c436267b6efb2f907b0d1b210d3c1f4e6ea7f2ac7500f987363f41`; raw report SHA-256 `f23804a230c96358082a6ae6189761e0a571ae4fadc241a4456cccddeb9b24e1`.
+- Both artifacts were retained by GitHub Actions until 2026-12-26. Frozen aggregate metadata is stored in `data/noema-005/threaded-rerun-2026-11-26.json` and checked by `scripts/validate_noema005_threaded_rerun.py`.
+
+### INFERENCE and limitations
+
+Free-threaded CPython exposed parallel CPU use but did not produce a median wall-time improvement for this workload. This is consistent with overhead and workload-size limitations, but does not identify the bottleneck. The experiment uses a single hosted virtual x86-64 runner, not independently selected physical hardware; the synthetic cases do not represent memory-bandwidth-bound production arrays. Traced Python allocation peaks are not process RSS and must not be compared directly across runtime modes. The research remains **preliminary** pending independent numerical-method review and replication on independent physical x86-64 and ARM64 systems.
+
