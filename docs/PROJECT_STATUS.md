@@ -245,3 +245,41 @@ This section supersedes earlier status snapshots above where the main SHA, AquaS
 | NOEMA-INFRA-001 reliability | active / engineering; PR #19 divergent | clean current-main port, exact-head CI and restore drill; then encrypted off-host retention |
 
 NOEMA progresses during scheduled runs only; this audit does not claim continuous background work.
+
+
+## NOEMA run audit — 2026-11-26 (run 7)
+
+### Main and merged research changes
+
+- Base main for the current infrastructure branch: ed3cffa6ed3045985f413b140ad83dc783cdbe17.
+- PR #42 merged as 32bd0ea18c40865322bc89f5424d9f84a12ac307: bounded exact integer-unit to binary64 conversion with round-to-nearest, ties-to-even.
+- PR #43 merged as ed3cffa6ed3045985f413b140ad83dc783cdbe17: frozen 275-input exact-rounding oracle protocol and CI result. The native C converter matched the Python integer and Decimal references 275/275 on both hosted x86-64 and ARM64 jobs. This is reproduced CI evidence, not MPFR/SoftFloat, formal proof or physical-hardware replication.
+- PR #39 was closed as superseded by PR #42; its history was retained.
+- PR #29 is merged; AquaSignal remains a synthetic/operator-decision-support prototype without paired field sensor/laboratory validation.
+
+### Current working changes
+
+- PR #44 is the clean current-main port of local verified SQLite backup/restore and operational observability. It includes online backup, WAL inclusion, immutable archive checks, payload/result hashes, audit-chain validation, no-overwrite restore, metrics CLI, health reporting and payload-free supervisor logs.
+- The port adds an explicit rejection for final-component symlink backup/restore destinations, including broken symlinks, with a regression test.
+- The current implementation is local and unencrypted. Off-host upload, age encryption, signed manifests, key rotation, retention and restore drills remain design-only. RPO/RTO, provider and key custody are not selected.
+- PR #19 is the older divergent source branch and is not merged. PR #44 is the clean replacement candidate; close #19 only after #44 has passed final exact-head CI and is merged.
+- PR #27 remains a separate draft with credential-normalization and capability-policy review findings. Its branch is 37 commits ahead / 62 behind current main; do not merge without a clean refresh and exact-head security review.
+- PR #5 is a database/RLS proposal only (7 commits ahead / 76 behind); its SQL is explicitly marked not executed. No Supabase project or database was created.
+- PR #7 is an older cross-platform simulation workflow only (3 commits ahead / 76 behind). It is not merged; current main already has x86-64/ARM64 native OpenMP validation, while Windows/macOS simulation coverage remains optional follow-up.
+
+### Portfolio status
+
+| Stream | Status | Next step |
+|---|---|---|
+| NOEMA-2026-006 AquaSignal | active / prototype; synthetic-only | obtain authorized paired sensor/lab data; preregister field validation; retain operator confirmation and no automatic actuator |
+| NOEMA-2026-005 numerical reduction | active / preliminary; exact converter merged; 275-input oracle CI passed on x86-64 and ARM64 | MPFR/SoftFloat cross-check, accumulator overflow rejection, realistic memory-bound workloads and pinned physical hardware |
+| NOEMA-2026-007 Last-Mile Action Gap | active / discovery draft | authorized municipal aggregate delivery/acknowledgement/action data; no new local field dataset this cycle |
+| NOEMA-INFRA-001 reliability | active / engineering; clean backup/restore port in PR #44 | exact-head CI and restore drill; then provider/key/RPO/RTO decision and encrypted off-host implementation |
+
+### Publication, deployment and privacy
+
+- Public research catalogue remains 1 preliminary / 0 published. No new research was promoted to Published without independent review.
+- The PR #44 quality workflow validates the research catalogue, frozen NOEMA-003/005 results, site build and publication boundary; this does not prove that a main-branch Pages deployment completed.
+- No main Pages deployment for merge commit ed3cffa was confirmed during this audit; do not claim the live site includes PR #43 until a successful deployment job is observed.
+- Only public documentation, source links, synthetic fixtures and software tests were added. No operator telemetry, private laboratory data, credentials, secret keys, new Supabase project or external database was added.
+- NOEMA operates during scheduled runs only; this audit does not claim continuous background execution.
