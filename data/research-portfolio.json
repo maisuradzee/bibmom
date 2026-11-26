@@ -172,11 +172,12 @@
         "The native experiment currently covers two synthetic cancellation fixtures only; representative application workloads and memory-bandwidth tests remain outstanding.",
         "Five repetitions on hosted runners show material timing variance, especially on x86-64; pinned-hardware repetition and uncertainty intervals are required before performance conclusions.",
         "The exact superaccumulator is an exact integer-domain comparator for known fixture sums; a general correctly-rounded binary64 result is not implemented.",
-        "External numerical-method review remains outstanding."
+        "External numerical-method review remains outstanding.",
+        "The new exact-to-binary64 converter has boundary self-tests but no exact-head CI result or independent MPFR/SoftFloat cross-check yet."
       ],
       "status": "active",
-      "status_detail": "The native C11/OpenMP sub-experiment now has exact-head x86-64 and ARM64 CI evidence. Run 45802426194 completed 50 cases on each architecture; both raw reports passed the validator and recorded the same source SHA-256 96cf598a83934b78a6a382faaca9ddeea1f75656bf282e9295bea9125361f7a2. Neumaier and exact superaccumulator matched both fixtures 5/5 on both architectures. Native long double passed grouped cancellation on ARM64 (LDBL_MANT_DIG=113) but failed on x86-64 (64). Naive and the tested pairwise tree failed both fixtures. Timing was variable on x86-64; ARM64 showed better single-batch scaling, but this is not sufficient for general performance claims. The native sub-experiment remains draft; the existing study remains preliminary.",
-      "next_step": "Implement general exact-to-binary64 round-to-nearest-even conversion; add representative array sizes and memory-bandwidth-bound inputs; repeat on pinned x86-64/ARM64 hardware with more repetitions and uncertainty intervals; compare binned and error-free-transformation algorithms; request independent numerical-method review.",
+      "status_detail": "A bounded exact-integer-unit-to-binary64 round-to-nearest-even converter has been added on a separate research branch. Its boundary self-test covers normal/subnormal values, positive and negative halfway ties, cancellation and overflow. Exact-head x86-64/ARM64 CI and an independent MPFR/SoftFloat cross-check are pending; existing native C11/OpenMP accuracy evidence remains limited to two synthetic cancellation fixtures.",
+      "next_step": "Complete exact-head x86-64/ARM64 CI; independently cross-check the converter against MPFR or SoftFloat and generated rational cases; then add representative memory-bandwidth-bound inputs and pinned-hardware timing with uncertainty intervals.",
       "success_metrics": [
         "exact-reference accuracy თითოეული მეთოდისა და runtime-ის მიხედვით",
         "median wall-time და uncertainty interval წინასწარ განსაზღვრული repetition protocol-ით",
