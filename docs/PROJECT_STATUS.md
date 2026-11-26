@@ -3,12 +3,13 @@
 - **განახლდა:** 2026-11-26
 - **საცავი:** https://github.com/maisuradzee/bibmom
 - **ძირითადი branch:** main
-- **ბოლო დადასტურებული engineering merge:** PR #69 — commit 990ba166c7422257291ba2abfc9278ea7099c654; PR #68 (NOEMA-007) merged immediately before it.
+- **მიმდინარე main:** `002b4ddc50a28658d97be26f8e4706b960daece3` (PR #73 merge)
+- **ბოლო დადასტურებული engineering merge:** PR #73 — NOEMA-007 anticipatory-action evidence; მანამდე PR #72 AquaSignal external checkpoint comparison და PR #70 portfolio/status sync merged.
 - **NOEMA-005:** PR #63-ით დაემატა 2,068-case full-width/tie-adjacent MPFR 4.2.1 oracle; hosted x86-64 და ARM64 თითოეულზე 2,068/2,068 bitwise match. PR #66-ით ორიგინალური CPU-thread artifact ZIP-ების SHA-256 და raw report aggregates დამოუკიდებლად გადამოწმდა. Neumaier state merge 48/48, scalar Neumaier 42/48, naive 0/48; wall-time speedup არ დადასტურებულა. კვლევა preliminary რჩება.
 - **NOEMA-INFRA-001:** PR #57 same-host restore-drill, PR #64 strict non-secret manifest schema და PR #69 executable Draft 2020-12 runtime validator main-შია; off-host encryption, detached signature verification, key custody, provider retention და clean-host recovery ჯერ არ განხორციელებულა.
-- **Latest main quality CI:** run 45850024686 — SUCCESS, 354 Python tests.
-- **Latest verified CPU-thread workflow:** PR #66 exact head, run 45844363177 — GIL-enabled და free-threaded ორივე SUCCESS.
-- **Latest main Pages deployment:** run 45850024682 — build და deploy SUCCESS for main `990ba166c7422257291ba2abfc9278ea7099c654`.
+- **Latest verified quality CI:** PR #73 exact head, run 45853282017 — SUCCESS; ახალი NOEMA-007 frozen reproduction, full Python suite, site build და publication-boundary checks ყველა წარმატებულია. Main post-merge quality run for `002b4dd` ამ audit-ში ჯერ არ დადასტურებულა.
+- **Latest verified CPU-thread workflow:** PR #73 exact head, run 45853281867 — GIL-enabled და free-threaded ორივე SUCCESS. PR #71 run 45850716742-იც ორივე runtime-ზე SUCCESS, თუმცა მისი Draft branch ახლა main-ს ორი commit-ით ჩამორჩება.
+- **Latest confirmed Pages deployment:** run 45850024682 — build და deploy SUCCESS for `990ba166c7422257291ba2abfc9278ea7099c654`; deployment for current main `002b4dd` ამ audit-ში ჯერ არ დადასტურებულა.
 
 ## მიმდინარე მდგომარეობა
 
@@ -41,6 +42,7 @@
 
 ## მიმდინარე ღია Draft PR-ები
 
+- PR #71 — NOEMA-005 real-thread rerun and artifact provenance; Draft/open; exact-head quality run 45850716864 and CPU-thread run 45850716742 passed, but the branch is now two commits behind current main and must be refreshed/revalidated before any merge.
 - PR #46 — adaptive integration core capability-binding security hardening; Draft/open; exact-head CI run 45813255101 was successful on its earlier head, but the PR has not been revalidated against the latest main and remains unmerged.
 - PR #27 — adaptive integration engine foundation; Draft/open; previous quality checks are historical and must be rerun on a refreshed exact head before merge.
 - PR #7 — NOEMA-005 deterministic 330-case cross-platform simulation; this does not test real threaded runtime.
@@ -369,3 +371,20 @@ The action-readiness contract separates endpoint delivery receipts from survey-b
 
 The backup manifest runtime validator verifies only Draft 2020-12 structure and declared formats. It does not verify signatures, ciphertext, provider retention or restored database contents.
 
+
+## NOEMA run audit — 2026-11-26 (after PR #72 and PR #73)
+
+- **Current main:** `002b4ddc50a28658d97be26f8e4706b960daece3`. PR #72 merged AquaSignal checkpoint comparison; PR #73 merged NOEMA-007's 2025 UNDRR/WMO anticipatory-action source snapshot and frozen arithmetic.
+- **AquaSignal / NOEMA-2026-006:** PR #72 exact-head quality CI 45853277201 passed. The store can compare its locally verified final SHA-256 chain hash and event count with caller-supplied trusted checkpoint values. It does not authenticate the checkpoint, prevent rollback, or implement remote storage. Field data and Water Safety Plan approval remain unavailable.
+- **NOEMA-007:** PR #73 exact-head quality CI 45853282017 passed, including the new reproduction, full Python tests, site build and publication-boundary check. CPU-thread workflow 45853281867 passed both GIL-enabled and free-threaded jobs. The source-reported 2025 aggregates are 262 active frameworks in 75 countries, 146 activations in 54 countries, 9.6 million directly reached people and USD 119.9 million pre-arranged financing. NOEMA reproduced only the 154-to-262 growth arithmetic (70.1299%). This is not independent activation-level analysis or proof of comprehension, verified protective action or avoided loss.
+- **NOEMA-005:** PR #71 remains Draft/open and is now two commits behind main. Exact-head quality run 45850716864 and CPU-thread run 45850716742 passed. The rerun's Neumaier-state method was accurate in 48/48 cases for each runtime, but median wall-time speedup was 0.7539× (GIL) and 0.9519× (free-threaded), both below 1. One hosted x86-64 VM and synthetic fixtures do not constitute independent physical-hardware replication.
+- **NOEMA-INFRA-001:** PR #69 runtime metadata validator is merged. No encrypted off-host backup, detached signature verification, key custody, provider retention or clean-host recovery is claimed.
+- **Public-safety boundary:** no operator telemetry, laboratory records, personal data, real backup manifest, credentials, signing keys, new Supabase project or external database was added.
+- **Deployment:** post-merge Pages deployment for current main `002b4dd` was not verified in this audit. The last confirmed Pages deployment remains run 45850024682 for commit `990ba166c7422257291ba2abfc9278ea7099c654`.
+
+### Next priorities
+
+1. Refresh PR #71 onto current main and rerun its exact-head quality and CPU-thread workflows; keep it Draft/preliminary pending independent numerical review and representative physical x86-64/ARM64 workloads.
+2. For AquaSignal, define a signed monotonic checkpoint envelope and a separately administered trust anchor; obtain authorized paired sensor/lab data before any field-performance claim.
+3. For NOEMA-007, seek official Georgia basin/municipal data dictionary and explicit permission for aggregate event-level warning/after-action data; do not infer local effectiveness from global aggregates.
+4. For NOEMA-INFRA-001, require approved RPO/RTO, provider, key custody and retention before implementing off-host backup.
