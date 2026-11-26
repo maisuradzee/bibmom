@@ -69,10 +69,10 @@
       ],
       "blockers": [
         "Real paired sensor/laboratory data, data dictionary and site-approved Water Safety Plan limits are not yet available under an explicit reuse permission.",
-        "PR #29 incident lifecycle remains Draft/open and needs independent review before integration."
+        "PR #29 is diverged from current main (8 commits ahead / 1 behind) after PR #28 merged; refresh, rerun exact-head CI and obtain independent review before integration."
       ],
       "status": "active",
-      "status_detail": "Main contains a synthetic-test-backed operator-side rules engine. Draft PR #29 adds an operator-controlled incident lifecycle; its latest exact-head quality CI passed after clearance was tightened to match the complete recorded SignalAssessment. No real sensor/laboratory data or field validation is available.",
+      "status_detail": "PR #29 now includes complete SignalAssessment evidence binding and a chronology invariant: a CLOSED incident cannot predate operator acknowledgement. Exact-head quality CI passed on e71353f (240 Python tests plus frozen research/site checks). No real sensor/laboratory data or field validation is available; PR #29 is 8 commits ahead and 1 behind current main after PR #28 merged, so it requires refresh and another exact-head run.",
       "next_step": "Obtain an authorized operator data dictionary and permitted paired sensor/laboratory records; preregister baseline, sensitivity, PPV, false-alert rate and detection delay before any field pilot.",
       "success_metrics": [
         "საველე ტესტში წინასწარ განსაზღვრულ reference labels-თან შედარებული sensitivity და positive predictive value",
@@ -137,11 +137,13 @@
         "სამი repetition timing-ის მაღალი სიმძლავრის სტატისტიკურ დასკვნას არ იძლევა"
       ],
       "blockers": [
-        "დამოუკიდებელი გარე რეცენზია ჯერ არ ჩატარებულა; native C/OpenMP შედარება ჯერ არ შესრულებულა"
+        "The checked-in native OpenMP report has 10 cases while cases_expected is 20; replace it with a complete provenance-backed report and add a regression test before merge.",
+        "PR #30 is diverged from current main (4 commits ahead / 1 behind) after PR #28 merged; refresh and rerun exact-head CI.",
+        "Independent hardware replication and external numerical-method review are still outstanding."
       ],
       "status": "active",
-      "status_detail": "Preliminary; ოთხ ARM64 batch-ში Neumaier-state იყო 768/768, scalar Neumaier 672/768, naive scalar 0/768; ზოგადი wall-time speedup არ დადასტურებულა.",
-      "next_step": "შევადაროთ native C/OpenMP reduction და ალტერნატიული accumulator-ები იმავე frozen input-ზე; გავზარდოთ repetitions და დავამატოთ დამოუკიდებელი replication.",
+      "status_detail": "Preliminary. Existing ARM64 CPU-thread batches: Neumaier compensation-state 768/768, scalar Neumaier 672/768, naive scalar 0/768; no general wall-time speedup was established. PR #30 adds native C/OpenMP and exact-head CI passed: 20 cases, real 1/2/4/8 worker counts, Neumaier-state exact in all 5 repetitions per layout/worker. One Ubuntu 24.04 x86-64 runner showed exploratory median speedups from 0.995x to 3.591x; this is not independent hardware replication or a general performance claim. The committed local JSON currently contains only 10 of 20 expected cases and must not be used as a frozen result.",
+      "next_step": "Repair or retire the incomplete frozen local JSON, add a frozen-report validator, refresh PR #30 onto current main and rerun exact-head CI; then compare pairwise-tree, long-double and binned/exact accumulators and obtain independent hardware replication.",
       "success_metrics": [
         "exact-reference accuracy თითოეული მეთოდისა და runtime-ის მიხედვით",
         "median wall-time და uncertainty interval წინასწარ განსაზღვრული repetition protocol-ით",
@@ -346,12 +348,12 @@
         "audit hash chain without signed external checkpoint does not prevent all tampering scenarios"
       ],
       "blockers": [
-        "PR #19 is diverged from current main by 6 commits and must be refreshed/rebased before merge; exact-head CI must be rerun.",
+        "PR #19 is diverged from current main (32 commits ahead / 7 behind) and mergeable=false; a careful refresh/rebase and new exact-head CI are required.",
         "Backups are not encrypted or stored off-host; retention/rotation and scheduled restore drills are not implemented."
       ],
       "status": "active",
-      "status_detail": "PR #19's WAL-header regression fixture and backup/restore CLI passed quality CI on its current branch head. The branch is now known to be diverged from main (32 commits ahead, 6 behind); rebase and exact-head CI are required before merge. Backups remain local and unencrypted.",
-      "next_step": "Refresh PR #19 onto current main, resolve any integration conflicts, rerun the complete exact-head quality suite and a restore drill; then design encrypted off-host backup, retention/rotation and scheduled restore verification.",
+      "status_detail": "PR #19's WAL-header regression fixture and backup/restore CLI passed quality CI on its older head. After PR #28 merged, the branch is 32 commits ahead / 7 behind current main and GitHub reports mergeable=false; its previous CI is not current-main merge evidence. Backups remain local and unencrypted.",
+      "next_step": "Refresh PR #19 onto current main without losing the existing backup/observability work; rerun the full exact-head quality suite and restore drill, then design encrypted off-host backup, retention/rotation and scheduled restore verification.",
       "success_metrics": [
         "backup includes committed WAL data",
         "restore rejects WAL-mode header and corrupted audit data before destination creation",
