@@ -2,6 +2,7 @@
 
 from .jobs import (
     AuditVerification,
+    DatabaseSnapshot,
     ClaimedJob,
     InvalidJob,
     Job,
@@ -59,6 +60,7 @@ __all__ = [
     "WaterReading",
     "evaluate_readings",
     "AuditVerification",
+    "DatabaseSnapshot",
     "ClaimedJob",
     "InvalidJob",
     "Job",
