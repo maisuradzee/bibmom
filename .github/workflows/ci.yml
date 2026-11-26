@@ -36,6 +36,13 @@ jobs:
           test -f data/noema-007/mhews-2026-derived-results.json
           test -f scripts/reproduce_noema007_mhews_snapshot.py
           test -f tests/test_noema007_mhews_snapshot.py
+          test -f data/noema-007/wmo-roadmaps-2026-source-snapshot.json
+          test -f data/noema-007/wmo-roadmaps-2026-derived-results.json
+          test -f data/noema-007/action-readiness-observation.schema.json
+          test -f noema_core/action_readiness.py
+          test -f scripts/reproduce_noema007_wmo_roadmaps.py
+          test -f tests/test_noema007_wmo_roadmaps.py
+          test -f tests/test_noema007_action_readiness.py
           test -f research/TEMPLATE.md
           test -f scripts/validate_research.py
           test -f scripts/validate_drafts.py
@@ -108,6 +115,10 @@ jobs:
         run: python scripts/validate_drafts.py
       - name: Validate research index
         run: python scripts/validate_research.py
+      - name: Reproduce NOEMA-007 WMO roadmap aggregates
+        run: python scripts/reproduce_noema007_wmo_roadmaps.py --check
+      - name: Validate NOEMA-007 action-readiness aggregate contract
+        run: python -m unittest discover -s tests -p 'test_noema007_action_readiness.py' -v
       - name: Validate NOEMA mission and autonomy policy
         run: python scripts/validate_mission.py
       - name: Validate durable job queue
