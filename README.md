@@ -19,6 +19,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - `docs/AQUASIGNAL_MVP.md` — წყლის ხარისხის ოპერატორული ადრეული სიგნალის პროტოტიპის არქიტექტურა.
 - `docs/AQUASIGNAL_EVENT_STORE.md` — ინციდენტების კერძო, append-only SQLite event store-ის უსაფრთხოების საზღვრები და აღდგენის შეზღუდვები.
 - `docs/OFFSITE_BACKUP_ARCHITECTURE.md` — off-host backup/recovery არქიტექტურა; local detached Ed25519 manifest verification უკვე პროტოტიპად არსებობს, მაგრამ encryption/decryption, provider retention, anti-rollback high-water და clean-host restore ჯერ არ არის დანერგილი; `data/noema-backup-manifest.schema.json` განსაზღვრავს მკაცრ, საიდუმლო მასალის არმქონე metadata contract-ს.
+- `docs/MONOTONIC_HIGH_WATER_PROTOCOL.md` — signed backup generation-ების provider-neutral atomic compare-and-advance კონტრაქტი, concurrency/failure matrix და restore-ის rollback semantics; design-only, production service არ არსებობს.
 - `noema_core/aquasignal.py` — AquaSignal-ის დეტერმინისტული, მხოლოდ გადაწყვეტილების მხარდამჭერი წესების ძრავა.
 - `noema_core/aquasignal_store.py` — ინციდენტების replay-ზე დაფუძნებული SQLite persistence, SHA-256 audit chain და unsigned caller-supplied checkpoint-ის hash/count comparison.
 - `noema_core/aquasignal_checkpoint.py` — exact canonical payload-ზე detached Ed25519 checkpoint verification, event-chain head matching და caller-managed external monotonic high-water guard; private keys და high-water storage ამ public prototype-ში არ ინახება.
