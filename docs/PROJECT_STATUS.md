@@ -493,3 +493,34 @@ The backup manifest runtime validator verifies only Draft 2020-12 structure and 
 - NOEMA-007 preflight არ არის differential privacy და არ ამოწმებს რეალურ cohort overlap-ს. NOEMA-005-ის hosted synthetic შედეგები არ ამტკიცებს ზოგად speedup-ს. INFRA-001-ის დიზაინი არ უდრის production backup/recovery სერვისს.
 - მხოლოდ საჯარო წყაროების metadata, დოკუმენტაცია და synthetic fixtures გამოიყენეს. პირადი/ოპერატორული მონაცემი, credentials, signing keys ან ახალი Supabase პროექტი არ დამატებულა.
 - სამუშაო შესრულდა ამ დაგეგმილი ციკლის ფარგლებში; უწყვეტი background execution არ იგულისხმება.
+
+
+## NOEMA scheduled research run audit — 2026-11-27
+
+**Verified base:** main snapshot `8a69e6d91a6151f61ace784e1d3161833ce4c94b`. The required README, research standard, project status, research template, catalogue, portfolio, schemas, open PRs, issues and recent commit history were reviewed. Four active streams remain in the portfolio; no stream was added, paused or marked complete.
+
+### Work advanced in this run
+
+- **NOEMA-2026-006 AquaSignal:** added the primary legal source for Government Resolution No.424 (31 August 2026, effective 1 September 2026) to the source-access inventory. The record distinguishes the new prospective registry for fresh drinking-water extraction wells deeper than 20 m from pre-existing wells and household wells; records that the passport may contain owner identity/contact information; and makes clear that field/lab results are attached only where sampling was performed. Added a strict access state, regression tests, research interpretation, README link and portfolio update. No owner data, coordinates, sample records or credentials were copied.
+- **NOEMA-2026-007 Last-Mile Action Gap:** created separate Draft PR #93 with a machine-readable crosswalk to WMO's 2024 EW4All M&E Toolkit. It maps G-3, 3.2.1b, 4.2, 4.3.1, G-6 and 4.4, and specifies denominator and interpretation boundaries. The UNDRR COP31 4/5 and 1/3 statement is recorded as source-reported but method-unverified and is not used as a baseline.
+- **NOEMA-2026-005:** audit only this run; remains preliminary. Existing hosted-thread and memory-backed benchmark claims remain limited to their archived synthetic workloads and hosted runner conditions; no physical-hardware replication or robust general speedup was established in this run.
+- **NOEMA-INFRA-001:** audit only this run; remains engineering. The high-water protocol in PR #85 is still a proposal; no production CAS authority, encryption/key custody, immutable off-host retention or clean-host restore was deployed.
+
+### Exact-head verification
+
+- AquaSignal PR #92 branch `research/aquasignal-data-access-2026-11-27`: head `399ba94741fc527514faa27b1ea1ef9803eeefde`; quality CI [45897403462](https://github.com/maisuradzee/bibmom/actions/runs/45897403462) SUCCESS; GIL-enabled and free-threaded CPU-thread workflow [45897403575](https://github.com/maisuradzee/bibmom/actions/runs/45897403575) SUCCESS.
+- NOEMA-007 PR #93 branch `research/noema007-ew4all-crosswalk-2026-11-27`: head `eb8b530c0b5fca11b1fe2efa6e5645db78b4dcb9`; exact-head CI status is pending separate verification.
+- PR #91 aggregate-release preflight remains Draft/open and its earlier exact-head CI [45890862593](https://github.com/maisuradzee/bibmom/actions/runs/45890862593) succeeded. PR #87 memory-backed benchmark and PR #85 high-water protocol remain Draft/open. Their evidence boundaries have not changed.
+- No PR was merged, no direct write to main occurred, and no new Pages deployment is claimed.
+
+### Discovery and limitations
+
+The new legal register is a prospective administrative source, not proof of complete groundwater-well coverage, a public API, a repeated sampling series or permission for secondary use. The 2021–2025 NEA RAR archive announced on 26 November remains unextracted; its binary could not be inspected in this run. The NOEMA-007 crosswalk is a measurement design only; no local warning event, survey or after-action data was available. No causal impact, operational alerting performance or local population coverage is claimed.
+
+### Next priorities
+
+1. Obtain the NEA archive through an inspectable official download path and verify its internal documents, hashes, metadata and reuse terms before extracting any public-safe facts.
+2. Request a privacy-reviewed data dictionary and de-identified coverage information for the new well register; keep household and pre-existing well coverage explicit.
+3. For NOEMA-007, obtain authorized warning/after-action aggregate data and preregister a local survey design with timely receipt, comprehension, feasible action and verification denominators.
+4. Continue NOEMA-005 only with representative memory-bandwidth workloads and independent physical x86-64/ARM64 replication.
+5. Keep INFRA-001 blocked at architecture level until a separately owned trust domain and recovery path are approved.
