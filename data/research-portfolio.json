@@ -113,7 +113,8 @@
         "Native C11/OpenMP comparison of serial and 1/2/4/8-thread naive, long-double, recursive pairwise, Neumaier-state and fixed-width exact-superaccumulator reductions on two frozen cancellation layouts",
         "One warm-up and five timed repetitions per case; record actual native thread counts, monotonic wall time, process CPU time, process peak RSS and compiler/runtime provenance",
         "Independent MPFR 4.2.1 oracle: represent the exact signed integer in 2,624-bit precision, divide by 2^1074 exactly, then convert with MPFR_RNDN; compare bit patterns against the C converter and Python Decimal on hosted x86-64 and ARM64. The native workflow asserts pkg-config reports MPFR 4.2.1.",
-        "Deterministic full-width MPFR 4.2.1 oracle extension: 1,024 seeded signed values plus 1,044 tie-adjacent values; compare C output bitwise against MPFR_RNDN, Python integer and 1,200-digit Decimal references on hosted x86-64/ARM64."
+        "Deterministic full-width MPFR 4.2.1 oracle extension: 1,024 seeded signed values plus 1,044 tie-adjacent values; compare C output bitwise against MPFR_RNDN, Python integer and 1,200-digit Decimal references on hosted x86-64/ARM64.",
+        "Run actual ThreadPoolExecutor native-thread experiment on CPython 3.14.4 GIL-enabled and free-threaded builds: 2 layouts × 4 worker counts × 2 partitions × 3 reduction methods × 3 repetitions, with native thread ID validation and process CPU/wall timing."
       ],
       "sources": [
         {
@@ -355,6 +356,38 @@
           "url": "https://github.com/maisuradzee/bibmom/actions/runs/45839774795",
           "type": "internal_ci_result",
           "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA-005 real CPU-thread experiment draft",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/blob/main/research/drafts/NOEMA-2026-005-real-cpu-threads-2026-11-26.md",
+          "type": "internal_experiment_report",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA-005 real CPU-thread aggregate summary",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/real-cpu-thread-summary-2026-11-26.json",
+          "type": "frozen_aggregate_result",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA-005 actual CPU-thread benchmark workflow",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45840219895",
+          "type": "internal_ci_experiment",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA-005 CPU-thread summary validation CI",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45840219937",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26"
         }
       ],
       "data_needs": [
@@ -376,7 +409,7 @@
         "Hosted x86-64/ARM64 CI is not independent physical-hardware replication; external numerical-method review remains outstanding."
       ],
       "status": "active",
-      "status_detail": "The clean-base full-width MPFR 4.2.1 oracle extension passed on exact head 9e980ac1d74ae3b4de10074456afc8829813036d. Quality CI 45839774795 passed 317 Python tests; native workflow 45839837589 passed on hosted x86-64 and ARM64. Each architecture matched the C converter against MPFR_RNDN and independent Python integer/Decimal references for all 2,068 deterministic inputs: 1,024 seeded signed values with bit length selected from 1–2,559 plus 1,044 tie-adjacent values. This is hosted reproducible software evidence, not exhaustive proof, independent physical-hardware replication or a performance claim. NOEMA-005 remains preliminary pending independent numerical review and representative workloads.",
+      "status_detail": "The clean-base full-width MPFR 4.2.1 oracle extension passed on exact head 9e980ac1d74ae3b4de10074456afc8829813036d (317 Python tests; hosted x86-64 and ARM64 MPFR jobs). On exact head b4df9c9c1f7d2142c8d48e487a73977be70b9966, the actual CPU-thread workflow 45840219895 passed both GIL-enabled and free-threaded jobs: each ran 48 cases × 3 repetitions with distinct native thread IDs. Naive partial sums were correct in 0/48 runs; Neumaier scalar partials in 42/48; preserving each worker's (sum, correction) pair through merge was correct in 48/48. The scalar variant failed grouped-cancellation with 2 workers/contiguous and 8 workers/contiguous in both runtimes. For 2–8 workers, process CPU/wall ratio was 1.004–1.031 in GIL-enabled CPython and 1.880–3.922 in free-threaded CPython, but the hosted runners differ in provider/platform and are not a controlled causal comparison. Threaded Neumaier-state speedup remained below 1 in both runs (0.667–0.961 and 0.579–0.798 respectively): no speedup was observed for this synthetic workload. Quality CI 45840219937 and native MPFR x86-64/ARM64 workflow 45840219897 passed on the same head. This is hosted reproducible software evidence, not physical-hardware replication, representative application performance or formal proof. NOEMA-005 remains preliminary.",
       "next_step": "Obtain independent numerical-method review of the checked signed accumulator and MPFR converter; then evaluate pairwise, Neumaier, long-double and exact methods on representative memory-bandwidth-bound workloads and repeat on independently selected physical x86-64/ARM64 systems with uncertainty intervals.",
       "success_metrics": [
         "exact-reference accuracy თითოეული მეთოდისა და runtime-ის მიხედვით",
@@ -385,7 +418,8 @@
         "independent replication-ის შედეგების თანხვედრა",
         "positive and negative signed 2,560-bit overflow are rejected without mutating the prior accumulator state",
         "MPFR 4.2.1 version is asserted in native x86-64/ARM64 CI and converter output matches MPFR_RNDN plus Python Decimal on the frozen synthetic suite",
-        "Full-width MPFR oracle: 2,068/2,068 bitwise matches on each hosted x86-64 and ARM64 job, with MPFR 4.2.1 pinned."
+        "Full-width MPFR oracle: 2,068/2,068 bitwise matches on each hosted x86-64 and ARM64 job, with MPFR 4.2.1 pinned.",
+        "Actual CPU-thread experiment: 48/48 correct runs for Neumaier (sum, correction) state merge in both GIL-enabled and free-threaded CPython; raw artifacts and aggregate summary retained with SHA-256 provenance."
       ],
       "last_reviewed": "2026-11-26"
     },
