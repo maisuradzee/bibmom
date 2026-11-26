@@ -46,3 +46,16 @@ class AquaSignalSourceAccessInventoryTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+    def test_well_registry_is_not_mistaken_for_public_sample_data(self):
+        source = next(item for item in self.instance["sources"] if item["id"] == "GEORGIA_WELL_REGISTRY_RULE_424")
+        self.assertEqual(source["matrix"], "groundwater_well_registry")
+        self.assertEqual(source["access_status"], "official_regulation_only_registry_access_unverified")
+        self.assertIs(source["sample_level_schema_verified"], False)
+        self.assertIs(source["reuse_terms_verified"], False)
+
+    def test_registry_inventory_contains_no_owner_or_contact_data(self):
+        source = next(item for item in self.instance["sources"] if item["id"] == "GEORGIA_WELL_REGISTRY_RULE_424")
+        serialized = json.dumps(source, ensure_ascii=False).casefold()
+        for forbidden in ("personal_number", "owner_name", "phone_number", "email_address", "owner_contact"):
+            self.assertNotIn(forbidden, serialized)
