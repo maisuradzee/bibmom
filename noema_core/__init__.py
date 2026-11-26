@@ -18,6 +18,7 @@ from .worker import (
     Worker,
 )
 from .github_public import GitHubPublicAdapterError, GitHubPublicRepositoryAdapter
+from .openapi_read import OpenAPIReadAdapter, OpenAPIReadAdapterError
 from .integrations import (
     AdapterNotFound,
     AdapterRegistry,
@@ -70,6 +71,8 @@ from .mission import (
 __all__ = [
     "GitHubPublicAdapterError",
     "GitHubPublicRepositoryAdapter",
+    "OpenAPIReadAdapter",
+    "OpenAPIReadAdapterError",
     "AdapterNotFound",
     "AdapterRegistry",
     "ExecutionMode",
