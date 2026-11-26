@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import hashlib
+import json
 import os
 import sqlite3
 import tempfile
@@ -143,6 +145,36 @@ class AquaSignalStoreTests(unittest.TestCase):
         report = self.store.verify()
         self.assertFalse(report["valid"])
         self.assertIn("payload hash mismatch", report["error"])
+
+    def test_hash_chain_detects_tampering_after_payload_digest_is_recomputed(self):
+        self.store.append(self.open_incident())
+        with sqlite3.connect(self.database) as connection:
+            connection.execute("DROP TRIGGER aquasignal_events_no_update")
+            row = connection.execute(
+                "SELECT payload_json FROM incident_events WHERE sequence = 1"
+            ).fetchone()
+            payload = json.loads(row[0])
+            payload["reason"] = "synthetic tampering with recomputed payload digest"
+            tampered_json = json.dumps(
+                payload,
+                ensure_ascii=False,
+                sort_keys=True,
+                separators=(",", ":"),
+                allow_nan=False,
+            )
+            tampered_digest = hashlib.sha256(tampered_json.encode("utf-8")).hexdigest()
+            connection.execute(
+                """
+                UPDATE incident_events
+                SET payload_json = ?, payload_sha256 = ?
+                WHERE sequence = 1
+                """,
+                (tampered_json, tampered_digest),
+            )
+
+        report = self.store.verify()
+        self.assertFalse(report["valid"])
+        self.assertIn("event hash mismatch", report["error"])
 
     def test_independent_incidents_can_append_concurrently_without_breaking_global_chain(self):
         incidents = []
