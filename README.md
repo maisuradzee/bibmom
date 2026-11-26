@@ -19,6 +19,12 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - `docs/AQUASIGNAL_MVP.md` — წყლის ხარისხის ოპერატორული ადრეული სიგნალის პროტოტიპის არქიტექტურა.
 - `noema_core/aquasignal.py` — AquaSignal-ის დეტერმინისტული, მხოლოდ გადაწყვეტილების მხარდამჭერი წესების ძრავა.
 - `noema_core/mission.json` და `noema_core/mission.py` — მანქანურად წაკითხვადი მისია, ინფორმაციის წვდომის პოლიტიკა და ავტონომიური მოქმედებების წესები.
+- `noema_core/integrations.py` — ადაპტერებზე დაფუძნებული ინტეგრაციის ძრავა: discovery, capability validation, dry-run, scoped grants და არსებული worker-ების უსაფრთხო გაფართოება.
+- `noema_core/github_public.py` — GitHub-ის მხოლოდ წაკითხვის საჯარო repository adapter, შეზღუდული API scope-ითა და ფაილის ტექსტური ვალიდაციით.
+- `noema_core/openapi_read.py` — OpenAPI 3.0/3.1 JSON დოკუმენტიდან საჯარო GET ოპერაციების, პარამეტრებისა და სქემების ავტომატური აღმოჩენა.
+- `docs/OPENAPI_READ_ADAPTER.md` — schema-driven REST adapter-ის გამოყენებისა და შეზღუდვების ინსტრუქცია.
+- `docs/GITHUB_PUBLIC_ADAPTER.md` — პირველი რეალური adapter-ის გამოყენების ინსტრუქცია და უსაფრთხოების საზღვრები.
+- `docs/ADAPTIVE_INTEGRATION.md` — ინტეგრაციის კონტრაქტი, უფლებების მოდელი და გამოყენების ინსტრუქცია.
 - `noema_core/jobs.py`, `noema_core/worker.py`, `noema_core/supervisor.py`, `noema_core/workflows.py`, `noema_core/scheduler.py` და `noema_core/service.py` — მდგრადი დავალებების რიგი, allowlisted worker, supervisor loop, DAG workflow-ები, ინტერვალური განრიგი და გაშვებადი სერვისის bootstrap.
 - `assets/styles.css` და `assets/articles.css` — მთავარი გვერდისა და კვლევითი სტატიების ვიზუალური სტილები.
 - `data/research.json` — საჯარო, ვერსიაკონტროლირებადი კვლევების კატალოგი; `data/research.schema.json` განსაზღვრავს ჩანაწერების სტრუქტურას. ეს არის ამჟამინდელი სტატიკური კატალოგი და არა Supabase/სერვერული მონაცემთა ბაზა.
@@ -56,7 +62,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 
 ## სერვისის გაშვება
 
-NOEMA-ს ერთჰოსტიანი runtime ირთვება ბრძანებით `python -m noema_core.service`. `--check` ამოწმებს mission policy-ს, SQLite/audit მთლიანობასა და შიდა self-check განრიგს. სერვისი ჩაშენებულად ასრულებს მხოლოდ მისიის, queue-ისა და runtime გარემოს ლოკალურ თვითშემოწმებას; გარე ინფორმაციის connector-ები ჯერ არ არის ჩართული. Linux `systemd`-ის ინსტალაციის ინსტრუქცია და უსაფრთხოების პარამეტრები აღწერილია [SERVICE_DEPLOYMENT.md](docs/SERVICE_DEPLOYMENT.md); unit ფაილი: `deploy/systemd/noema.service`.
+NOEMA-ს ერთჰოსტიანი runtime ირთვება ბრძანებით `python -m noema_core.service`. `--check` ამოწმებს mission policy-ს, SQLite/audit მთლიანობასა და შიდა/ინტეგრაციის განრიგის კონფიგურაციას, მაგრამ გარე API-ს არ იძახებს. სერვისი დამატებით ყოველ 6 საათში ერთხელ კითხულობს მხოლოდ წინასწარ კონფიგურირებული საჯარო GitHub საცავის metadata-ს; პირველი მოთხოვნა 6 საათის შემდეგ იგეგმება. GitHub adapter-ს აქვს მხოლოდ metadata-ის ნებართვა ამ runtime-ში — ფაილების წაკითხვა და write მოქმედებები გამორთულია. Linux `systemd`-ის ინსტალაციის ინსტრუქცია და უსაფრთხოების პარამეტრები აღწერილია [SERVICE_DEPLOYMENT.md](docs/SERVICE_DEPLOYMENT.md); unit ფაილი: `deploy/systemd/noema.service`.
 
 ## ტექნიკური სამუშაოების მართვა
 

@@ -17,6 +17,22 @@ from .worker import (
     RunOutcome,
     Worker,
 )
+from .github_public import GitHubPublicAdapterError, GitHubPublicRepositoryAdapter
+from .openapi_read import OpenAPIReadAdapter, OpenAPIReadAdapterError
+from .integrations import (
+    AdapterNotFound,
+    AdapterRegistry,
+    ExecutionMode,
+    IntegrationAdapter,
+    IntegrationCapability,
+    IntegrationDescriptor,
+    IntegrationEffect,
+    IntegrationEngine,
+    IntegrationError,
+    IntegrationGrant,
+    IntegrationPlan,
+    IntegrationResult,
+)
 from .workflows import (
     InvalidWorkflow,
     WorkflowEngine,
@@ -53,6 +69,22 @@ from .mission import (
 )
 
 __all__ = [
+    "GitHubPublicAdapterError",
+    "GitHubPublicRepositoryAdapter",
+    "OpenAPIReadAdapter",
+    "OpenAPIReadAdapterError",
+    "AdapterNotFound",
+    "AdapterRegistry",
+    "ExecutionMode",
+    "IntegrationAdapter",
+    "IntegrationCapability",
+    "IntegrationDescriptor",
+    "IntegrationEffect",
+    "IntegrationEngine",
+    "IntegrationError",
+    "IntegrationGrant",
+    "IntegrationPlan",
+    "IntegrationResult",
     "AquaSignalError",
     "SignalAssessment",
     "WaterControlLimits",

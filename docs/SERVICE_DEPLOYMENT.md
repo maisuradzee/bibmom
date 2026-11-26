@@ -10,7 +10,7 @@
 - ინტერვალურ Scheduler-ს;
 - Worker Supervisor-ს graceful shutdown-ით და შეზღუდული error backoff-ით.
 
-ამ build-ში CLI წინასწარ არეგისტრირებს მხოლოდ სამ ადგილობრივ self-check handler-ს: mission configuration validation, SQLite/audit integrity check და runtime environment report. ისინი ყოველ 300 წამში სრულდება (შეიძლება ინტერვალის შეცვლა გაშვების პარამეტრით). **ეს ჯერ არ არის გარე ინფორმაციის მოძიების ან ახალი კვლევის ავტომატური სისტემა** — გარე წყაროების connector-ები და მათი permission/provenance მოდული ცალკე ტექნიკური ფენებია.
+სერვისი არეგისტრირებს სამ ადგილობრივ self-check handler-ს (mission configuration, SQLite/audit integrity და runtime environment) და ინტეგრაციის სამ handler-ს (discovery, dry-run planning და ნდობით მინიჭებული read-only execution). Self-check ყოველ 300 წამში სრულდება. დამატებით, მხოლოდ `github.repo.metadata` ოპერაცია ეძლევა live grant-ს და public repository metadata-ის სინქრონიზაცია დაგეგმილია ყოველ 6 საათში; პირველი მოთხოვნა სერვისის გაშვებიდან 6 საათის შემდეგ შესრულდება. Default target არის `maisuradzee/bibmom`; პარამეტრები შესაძლებელია `build_service()`-ის trusted host configuration-ით შეცვალო. ეს ინტეგრაცია არ კითხულობს repository ფაილებს, არ იყენებს GitHub token-ს და არ აქვს write მოქმედებები.
 
 ## სწრაფი შემოწმება
 
@@ -22,7 +22,7 @@ Repository root-იდან გაუშვი:
 python -m noema_core.service --check --db /tmp/noema-check.sqlite3
 ```
 
-შემოწმება ქმნის/ამოწმებს ადგილობრივ DB-ს, mission policy-სა და built-in self-check schedule-ს. წარმატებისას აბრუნებს JSON health report-ს და exit code 0-ს; ხარვეზისას — არანულოვან exit code-ს.
+შემოწმება ქმნის/ამოწმებს ადგილობრივ DB-ს, mission policy-ს, self-check schedule-სა და GitHub metadata schedule-ის კონფიგურაციას. `--check` გარე ქსელურ მოთხოვნას არ აგზავნის. წარმატებისას აბრუნებს JSON health report-ს და exit code 0-ს; ხარვეზისას — არანულოვან exit code-ს.
 
 სერვისის foreground რეჟიმში გასაშვებად:
 
@@ -88,5 +88,7 @@ sudo systemctl restart noema.service
 - systemd-ის watchdog heartbeat ამ build-ში არ არის ჩართული; restart policy ეყრდნობა process exit-ს.
 - interval scheduler იყენებს წამებით განსაზღვრულ ინტერვალს; cron/calendar expression და timezone-aware wall-clock schedule ჯერ არ არის.
 - ერთი ჰოსტის SQLite queue არ არის multi-host distributed queue.
-- ამ build-ში მხოლოდ შიდა diagnostics სრულდება. ახალი task type-ის დამატება მოითხოვს trusted handler-ის პროგრამულ რეგისტრაციას; payload-იდან კოდის დინამიკური ჩატვირთვა აკრძალულია.
+- გარე ინტეგრაციის ერთადერთი ნაგულისხმევი live job არის საჯარო GitHub repository metadata-ის GET მოთხოვნა. ამ job-ს კონკრეტული, metadata-only grant აქვს; repository file read და ყველა write/external/destructive capability დაბლოკილია.
+- სერვისს სჭირდება outbound HTTPS წვდომა `api.github.com`-ზე. GitHub unauthenticated API rate limits უნდა იქნეს გათვალისწინებული; adapter rate-limit-ისას ავტომატურად არ იმეორებს მოთხოვნას.
+- ახალი task type-ის დამატება მოითხოვს trusted handler-ისა და შესაბამისი grant-ის პროგრამულ რეგისტრაციას; payload-იდან კოდის ან ნებართვის დინამიკური ჩატვირთვა აკრძალულია.
 - Pages deployment აქ არ ნიშნავს სერვისის ავტომატურ ჰოსტინგს. systemd unit უნდა დააყენო შენს მიერ მართულ Linux სერვერზე.
