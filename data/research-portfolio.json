@@ -112,7 +112,7 @@
         "accuracy, CPU-time/wall-time და tracemalloc ცალ-ცალკე შეფასება; CPU-time/wall-time არ განიმარტოს როგორც wall-time speedup",
         "Native C11/OpenMP comparison of serial and 1/2/4/8-thread naive, long-double, recursive pairwise, Neumaier-state and fixed-width exact-superaccumulator reductions on two frozen cancellation layouts",
         "One warm-up and five timed repetitions per case; record actual native thread counts, monotonic wall time, process CPU time, process peak RSS and compiler/runtime provenance",
-        "Independent MPFR 4.2.2 oracle: represent the exact signed integer in 2,624-bit precision, divide by 2^1074 exactly, then convert with MPFR_RNDN; compare bit patterns against the C converter and Python Decimal on hosted x86-64 and ARM64."
+        "Independent MPFR 4.2.1 oracle: represent the exact signed integer in 2,624-bit precision, divide by 2^1074 exactly, then convert with MPFR_RNDN; compare bit patterns against the C converter and Python Decimal on hosted x86-64 and ARM64. The native workflow asserts pkg-config reports MPFR 4.2.1."
       ],
       "sources": [
         {
@@ -212,7 +212,7 @@
           "accessed_at": "2026-11-26"
         },
         {
-          "title": "GNU MPFR 4.2.2 manual — rounding modes and correctly rounded operations",
+          "title": "GNU MPFR Manual — rounding modes and correctly rounded operations (hosted library version 4.2.1)",
           "publisher": "GNU MPFR",
           "publication_date": "undated",
           "url": "https://mpfr.loria.fr/mpfr-current/mpfr.html",
@@ -258,6 +258,38 @@
           "url": "https://github.com/maisuradzee/bibmom/actions/runs/45824791814",
           "type": "internal_ci_result",
           "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA PR #58 — checked signed accumulator overflow and MPFR provenance correction",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/pull/58",
+          "type": "engineering_change_record",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA-005 exact-head quality CI for checked overflow",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45829393835",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA-005 native x86-64 and ARM64 MPFR 4.2.1 workflow",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45829393564",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA-005 GIL-enabled and free-threaded CPU-thread workflow",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45829393656",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26"
         }
       ],
       "data_needs": [
@@ -271,23 +303,24 @@
         "tracemalloc არ ზომავს სრულ RSS-ს ან ყველა native allocation-ს",
         "სამი repetition timing-ის მაღალი სიმძლავრის სტატისტიკურ დასკვნას არ იძლევა",
         "Native long double precision and representation vary by ABI; this local x86-64 host reports 64 significand bits.",
-        "The fixed-width exact superaccumulator is validated against known synthetic integer sums only; a general correctly-rounded conversion is not implemented.",
+        "The exact converter has a hosted MPFR 4.2.1 cross-check; the 2,560-bit accumulator now rejects signed overflow but remains fixed-width and is not arbitrary precision or formally verified.",
         "Pairwise reduction may be faster on a fixture while returning an incorrect result; timing is only meaningful after accuracy passes."
       ],
       "blockers": [
         "The native experiment still uses two synthetic cancellation fixtures; representative application workloads and memory-bandwidth tests remain outstanding.",
         "Hosted x86-64/ARM64 CI is not independent physical-hardware replication; external numerical-method review remains outstanding.",
-        "The exact reduction accumulator's add/merge helpers still use fixed-width modular arithmetic; the new signed-range guard protects the decimal oracle harness, not arbitrary accumulation outside the documented finite benchmark bound.",
-        "The signed 2,560-bit accumulator's add/merge operations still use fixed-width modular arithmetic; general checked-overflow detection and regression tests are not yet implemented."
+        "Checked signed 2,560-bit add/merge overflow rejection is merged, but arbitrary precision, formal proof, representative scientific workloads and independent numerical-method review remain outstanding."
       ],
       "status": "active",
-      "status_detail": "PR #52 was merged into main at 8b52e349c1acdab10412e84c294b188eac6cd084. On exact head 506ebfabb63fd1bc1f1633bdc9767ae3c61d268e, quality CI 45824791797, actual CPU-thread workflow 45824791997 and native x86-64/ARM64 MPFR workflow 45824791814 all passed. The MPFR suite checked 467 valid synthetic signed inputs per hosted architecture against MPFR_RNDN and Python Decimal; signed-range rejection now uses actual newline-terminated inputs. This is hosted REPRODUCED RESULT evidence, not physical-hardware replication, formal proof, representative workload validation or a performance result.",
-      "next_step": "Add explicit checked-overflow detection to the exact accumulator add/merge operations and regression tests. Then test representative memory-bandwidth-bound workloads on pinned physical x86-64/ARM64 hardware with uncertainty intervals, and obtain independent numerical-method review.",
+      "status_detail": "PR #52 MPFR converter cross-check and PR #58 checked signed add/merge guard are merged into main (PR #58 merge commit 54758dbd3f60298cc1440d30fe44f6f5531f647a). The hosted MPFR version was re-audited: both Ubuntu architectures report 4.2.1, not 4.2.2; the workflow now asserts 4.2.1. Each hosted architecture matched 467 synthetic signed inputs against MPFR_RNDN and Python Decimal, and the native accumulator workflow validated 50 cases per architecture. PR #58 exact-head quality CI 45829393835 passed 312 Python tests (one skipped); native x86-64/ARM64 workflow 45829393564 and actual GIL-enabled/free-threaded CPU-thread workflow 45829393656 both passed. Each CPU-thread runtime ran 48 cases with three repetitions and distinct native thread IDs. These are hosted reproducible tests, not independent physical-hardware replication, formal proof or a performance claim. The study remains preliminary pending independent review and representative workloads.",
+      "next_step": "Obtain independent numerical-method review of the checked signed accumulator and MPFR converter; then evaluate pairwise, Neumaier, long-double and exact methods on representative memory-bandwidth-bound workloads and repeat on independently selected physical x86-64/ARM64 systems with uncertainty intervals.",
       "success_metrics": [
         "exact-reference accuracy თითოეული მეთოდისა და runtime-ის მიხედვით",
         "median wall-time და uncertainty interval წინასწარ განსაზღვრული repetition protocol-ით",
         "peak RSS და traced Python allocation ცალ-ცალკე",
-        "independent replication-ის შედეგების თანხვედრა"
+        "independent replication-ის შედეგების თანხვედრა",
+        "positive and negative signed 2,560-bit overflow are rejected without mutating the prior accumulator state",
+        "MPFR 4.2.1 version is asserted in native x86-64/ARM64 CI and converter output matches MPFR_RNDN plus Python Decimal on the frozen synthetic suite"
       ],
       "last_reviewed": "2026-11-26"
     },
@@ -485,7 +518,8 @@
         "synthetic database backup/restore round-trip, WAL-mode negative case, tampered audit და no-overwrite regression tests",
         "GitHub Actions-ის exact-head CI და mergeability verification",
         "შემდგომ ეტაპზე encrypted off-host backup, retention/rotation და scheduled restore drills",
-        "On POSIX, stage each local SQLite snapshot in a fresh 0700 directory with a 0600 temporary database file; verify both permissions at the atomic no-overwrite publication boundary."
+        "On POSIX, stage each local SQLite snapshot in a fresh 0700 directory with a 0600 temporary database file; verify both permissions at the atomic no-overwrite publication boundary.",
+        "The restore-drill CLI requires an existing database, verifies it, creates an online SQLite snapshot and restores it into a second new path inside a temporary directory; it compares job/audit counts and the final audit-chain hash, confirms the backup bytes remain unchanged, and emits aggregate-only JSON without job IDs or payloads."
       ],
       "sources": [
         {
@@ -607,35 +641,69 @@
           "url": "https://github.com/maisuradzee/bibmom/actions/runs/45823674172",
           "type": "internal_deployment_result",
           "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA PR #57 — isolated same-host SQLite restore drill CLI",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/pull/57",
+          "type": "engineering_change_record",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA PR #57 exact-head quality CI",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45828180990",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA main quality CI after restore-drill merge",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45828456980",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA Pages deployment after restore-drill merge",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45828456789",
+          "type": "internal_deployment_result",
+          "accessed_at": "2026-11-26"
         }
       ],
       "data_needs": [
         "synthetic SQLite databases with rollback-journal and WAL header states",
         "backup/restore test fixtures and immutable source hash",
-        "CI job logs and exact commit SHA"
+        "CI job logs and exact commit SHA",
+        "Operator-approved non-production database for a real restore drill; record elapsed time and aggregate recovery evidence only."
       ],
       "risks": [
         "immutable=1 SQLite connection may mask the stored WAL journal mode",
         "same-host backup does not protect against host/disk loss",
         "backup is currently unencrypted and has no off-host retention automation",
         "audit hash chain without signed external checkpoint does not prevent all tampering scenarios",
-        "Private staging-directory permissions are POSIX-specific; the final backup remains subject to the destination parent's ACL and can be exposed if that parent is too permissive."
+        "Private staging-directory permissions are POSIX-specific; the final backup remains subject to the destination parent's ACL and can be exposed if that parent is too permissive.",
+        "The restore-drill CLI validates a same-host temporary filesystem round-trip only; it does not validate encrypted off-host storage, provider object versions, key recovery or clean-host disaster recovery."
       ],
       "blockers": [
-        "Backup encryption, off-host storage, retention/rotation and scheduled restore drills remain unimplemented.",
-        "Encrypted/off-host backup, signed manifest, retention/rotation, provider integration and scheduled restore drills are design-only; no storage provider, key custodian, RPO/RTO or retention policy has been selected.",
-        "Encrypted/off-host backup, signed manifest, retention/rotation, provider integration and scheduled restore drills are not implemented; no storage provider, key custodian, RPO/RTO or retention policy has been selected."
+        "Encrypted off-host storage, signed manifest, provider integration, key custody, retention/rotation and an approved RPO/RTO remain unimplemented; the new CLI drill is same-host only and has not yet been run against an operator-approved deployed/staging database."
       ],
       "status": "active",
-      "status_detail": "PR #51 was merged into main at 2908637906c6ac3491ed766e3a8e7519c68bb196. Exact-head quality CI 45823405171 passed the SQLite backup/restore CLI, all Python tests, frozen research reproductions, site build and publication-boundary checks. Main quality CI 45823674080 and Pages deployment 45823674172 also succeeded for the merge commit. On POSIX, local snapshots are staged in a 0700 directory with a 0600 SQLite file before no-overwrite publication. This is local staging hardening only; it does not encrypt or move backups off-host.",
-      "next_step": "Run an operator-approved restore drill and measure recovery time/data loss. Then select provider, key custodian, RPO/RTO and retention policy before implementing age encryption, signed manifests, off-host object versions, key rotation and scheduled restore verification.",
+      "status_detail": "PR #51 POSIX private staging hardening and PR #57 local restore-drill CLI are merged. PR #57 exact-head quality CI 45828180990 passed 311 Python tests (one skipped), including both restore-drill tests; CPU-thread workflow 45828181011 passed both GIL-enabled and free-threaded jobs. Main quality CI 45828456980 and Pages deployment 45828456789 succeeded for main commit 5ba61c8932e5dccfa3edc35fc7d8cbed60bb2170. The CLI runs an isolated same-host backup/restore, checks source/restored integrity, job and audit counts, final audit hash and unchanged backup bytes, and omits payloads and job IDs. This is a local smoke drill, not off-host disaster-recovery evidence.",
+      "next_step": "Run restore-drill on an operator-approved non-production instance with representative NOEMA data and retain only aggregate counts, elapsed time and integrity result. Then approve RPO/RTO, provider, key custodian and retention policy before implementing age encryption, signed manifests, versioned off-host storage, key rotation and scheduled clean-host restore drills.",
       "success_metrics": [
         "backup includes committed WAL data",
         "restore rejects WAL-mode header and corrupted audit data before destination creation",
         "restore never overwrites an existing destination and does not mutate source bytes",
         "complete unit tests, frozen research reproductions, site build and publication-boundary checks pass",
         "restore drill and encrypted off-host backup policy are documented and later independently tested",
-        "On POSIX, a test observes the staging directory at 0700 and the SQLite snapshot at 0600 immediately before no-overwrite publication, even when the destination parent is 0777."
+        "On POSIX, a test observes the staging directory at 0700 and the SQLite snapshot at 0600 immediately before no-overwrite publication, even when the destination parent is 0777.",
+        "restore-drill returns success only when source and restored databases are valid, job/audit counts and final audit hash match, and the backup bytes remain unchanged",
+        "restore-drill output contains aggregate metadata only and explicitly identifies the same-host-only evidence boundary"
       ],
       "last_reviewed": "2026-11-26"
     }
