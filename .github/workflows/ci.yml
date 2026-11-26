@@ -27,6 +27,9 @@ jobs:
           test -f requirements-site.txt
           test -f data/research.json
           test -f data/noema-005/real-cpu-thread-summary-2026-11-26.json
+          test -f data/noema-005/threaded-artifact-provenance-audit-2026-11-26.json
+          test -f research/drafts/NOEMA-2026-005-thread-artifact-provenance-audit-2026-11-26.md
+          test -f tests/test_noema005_thread_artifact_audit.py
           test -f scripts/validate_noema005_cpu_thread_summary.py
           test -f tests/test_noema005_cpu_thread_summary.py
           test -f data/noema-007/mhews-2026-source-snapshot.json
@@ -109,6 +112,8 @@ jobs:
         run: python scripts/validate_mission.py
       - name: Validate durable job queue
         run: python scripts/validate_job_queue.py
+      - name: Validate NOEMA-005 raw artifact provenance audit
+        run: python -m unittest discover -s tests -p 'test_noema005_thread_artifact_audit.py' -v
       - name: Validate frozen NOEMA-005 real CPU-thread benchmark summary
         run: python scripts/validate_noema005_cpu_thread_summary.py
       - name: Validate runnable NOEMA service entrypoint
