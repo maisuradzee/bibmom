@@ -43,10 +43,6 @@ class AquaSignalSourceAccessInventoryTests(unittest.TestCase):
         candidate["sources"][0]["access_status"] = "verified_live_api"
         self.assertTrue(list(self.validator.iter_errors(candidate)))
 
-
-if __name__ == "__main__":
-    unittest.main()
-
     def test_well_registry_is_not_mistaken_for_public_sample_data(self):
         source = next(item for item in self.instance["sources"] if item["id"] == "GEORGIA_WELL_REGISTRY_RULE_424")
         self.assertEqual(source["matrix"], "groundwater_well_registry")
@@ -59,3 +55,7 @@ if __name__ == "__main__":
         serialized = json.dumps(source, ensure_ascii=False).casefold()
         for forbidden in ("personal_number", "owner_name", "phone_number", "email_address", "owner_contact"):
             self.assertNotIn(forbidden, serialized)
+
+
+if __name__ == "__main__":
+    unittest.main()
