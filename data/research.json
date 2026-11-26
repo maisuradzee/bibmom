@@ -1,17 +1,17 @@
 {
   "project": "NOEMA",
   "schema_version": 2,
-  "updated_at": "2026-11-25",
+  "updated_at": "2026-11-26",
   "research": [
     {
       "id": "NOEMA-2026-005",
       "title": "მცურავი წერტილის ჯამის სიზუსტე: ალგორითმი და რიგითობა",
       "date": "2026-11-25",
       "category": "რიცხვითი ანალიზი",
-      "summary": "კონტროლირებული ტესტები აჩვენებს, რომ შეკრების რიგითობამ შეიძლება შედეგი შეცვალოს. 330-კონფიგურაციან sharded-reduction სიმულაციაში compensation state-მა 330/330 სწორი შედეგი შეინარჩუნა. რეალურ CPU threads-ზე CPython 3.14.4 GIL-enabled და 3.14.4t free-threaded რეჟიმებში Neumaier compensation-state merge-მა 48/48 configuration-ში სწორი შედეგი მიიღო; scalar partial-მა 42/48, ხოლო naive scalar-მა 0/48. Free-threaded რეჟიმში 108/144 CPU-time/wall-time ნიმუში 1.05-ს აჭარბებდა, თუმცა serial baseline-ზე wall-time speedup არ დაფიქსირდა. წინასწარი, დამოუკიდებლად არარეცენზირებული შედეგია.",
+      "summary": "კონტროლირებული ტესტები აჩვენებს, რომ შეკრების რიგითობამ შეიძლება შედეგი შეცვალოს. 330-კონფიგურაციან sharded-reduction სიმულაციაში compensation state-მა 330/330 სწორი შედეგი შეინარჩუნა. რეალურ CPU threads-ზე x86-64 და ARM64 გარემოებში Neumaier compensation-state merge-მა ყველა შემოწმებულ კონფიგურაციაში სწორად დამრგვალებული შედეგი მიიღო. ARM64-ზე სამ დამოუკიდებელ Actions batch-ში შედეგი 576/576 იყო; scalar Neumaier — 504/576, naive scalar — 0/576. CPU-time/wall-time >1.05 threshold-ის რაოდენობა batch-ებს შორის იცვლებოდა (free-threaded 208/288→211/288→214/288; GIL-enabled 2/288→1/288→0/288), ამიტომ ეს მხოლოდ აღწერითი მაჩვენებელია. მესამე batch-ში macOS free-threaded უჯრედის median speedup 1.003 იყო, დანარჩენი სამი უჯრედი 1.0-ზე დაბლა; სამი გაზომვით ზოგადი აჩქარება არ დადასტურებულა. წინასწარი, დამოუკიდებლად არარეცენზირებული შედეგია.",
       "file": "research/preprints/NOEMA-2026-005-floating-point-summation.md",
       "status": "preliminary",
-      "version": "1.3",
+      "version": "1.6",
       "sources": [
         {
           "title": "The Accuracy of Floating Point Summation",
@@ -218,6 +218,30 @@
           "publication_note": "Python 3.14.10 documentation version released 2026-10-25; the individual page does not state a separate publication date.",
           "accessed_at": "2026-11-25",
           "version": "Python 3.14.10 documentation"
+        },
+        {
+          "title": "GitHub-hosted runners reference",
+          "authors": [
+            "GitHub"
+          ],
+          "citation": "GitHub. GitHub-hosted runners reference. Official GitHub Actions documentation.",
+          "url": "https://docs.github.com/en/actions/reference/runners/github-hosted-runners",
+          "type": "official-documentation",
+          "publication_date": "2026-11",
+          "publication_note": "Page does not state an original publication date; 2026-11 records the accessed documentation snapshot, not a claimed publication date.",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Linux arm64 hosted runners now available for free in public repositories",
+          "authors": [
+            "GitHub"
+          ],
+          "citation": "GitHub. (2025-01-16). Linux arm64 hosted runners now available for free in public repositories (Public Preview). GitHub Changelog.",
+          "url": "https://github.blog/changelog/2025-01-16-linux-arm64-hosted-runners-now-available-for-free-in-public-repositories-public-preview/",
+          "type": "official-changelog",
+          "publication_date": "2025-01-16",
+          "publication_note": "Official GitHub Changelog announcement of ARM64 hosted runners for public repositories.",
+          "accessed_at": "2026-11-26"
         }
       ],
       "methodology": {
@@ -311,7 +335,69 @@
             "data/noema-005/threaded-benchmark-free-threaded-2026-11-25.json"
           ],
           "protocol_file": "data/noema-005/threaded-benchmark-protocol.json",
-          "raw_artifact_retention_days": 30
+          "raw_artifact_retention_days": 30,
+          "arm64_replication": {
+            "experiment_id": "NOEMA-2026-005-REAL-THREADS-ARM64-001",
+            "workflow_run": "https://github.com/maisuradzee/bibmom/actions/runs/45752987940",
+            "quality_run": "https://github.com/maisuradzee/bibmom/actions/runs/45752987825",
+            "runtime_matrix": [
+              {
+                "runner": "ubuntu-24.04-arm",
+                "python_version": "3.14.4",
+                "build": "GIL-enabled",
+                "gil_enabled": true,
+                "process_cpus": 4
+              },
+              {
+                "runner": "ubuntu-24.04-arm",
+                "python_version": "3.14.4",
+                "build": "free-threaded",
+                "gil_enabled": false,
+                "process_cpus": 4
+              },
+              {
+                "runner": "macos-15",
+                "python_version": "3.14.4",
+                "build": "GIL-enabled",
+                "gil_enabled": true,
+                "process_cpus": 3
+              },
+              {
+                "runner": "macos-15",
+                "python_version": "3.14.4",
+                "build": "free-threaded",
+                "gil_enabled": false,
+                "process_cpus": 3
+              }
+            ],
+            "configurations_per_runtime": 48,
+            "measured_runs_per_runtime": 144,
+            "total_configurations": 192,
+            "total_measured_runs": 576,
+            "accuracy_across_all_runtimes": {
+              "naive_scalar": "0/192",
+              "neumaier_scalar": "168/192",
+              "neumaier_compensation_state": "192/192"
+            },
+            "cpu_time_wall_ratio_above_1_05": {
+              "gil_enabled": "2/288",
+              "free_threaded": "208/288"
+            },
+            "input_sha256": {
+              "triplet_order": "e6cc4a627d55c476cb55e6f9789ceb39282e1f787d4b0a5fc040b30428085291",
+              "grouped_cancellation": "16ae80fed695b4d02f4a42a2e7c3f5b8a5eff96e97296273c3ddcacfb19090ee"
+            },
+            "results_file": "data/noema-005/arm64-threaded-benchmark-summary-2026-11-26.json",
+            "raw_artifact_retention_days": 30,
+            "benchmark_run_head_sha": "4fe358edd532d1861544951682e9125f67a4e156",
+            "results_url": "https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/arm64-threaded-benchmark-summary-2026-11-26.json",
+            "benchmark_script": "scripts/benchmark_noema005_threaded_reduction.py",
+            "benchmark_script_url": "https://github.com/maisuradzee/bibmom/blob/main/scripts/benchmark_noema005_threaded_reduction.py",
+            "validator_script": "scripts/validate_noema005_arm64_report.py",
+            "validator_script_url": "https://github.com/maisuradzee/bibmom/blob/main/scripts/validate_noema005_arm64_report.py",
+            "protocol_file": "research/drafts/NOEMA-2026-005-arm64-replication-protocol.md",
+            "protocol_url": "https://github.com/maisuradzee/bibmom/blob/main/research/drafts/NOEMA-2026-005-arm64-replication-protocol.md"
+          }
         }
       },
       "limitations": [
@@ -320,11 +406,12 @@
         "binary32-ის ნაწილი Python-ში ემულირებულია და hardware-ის სიჩქარეს არ წარმოადგენს",
         "integer accumulator არის reference implementation და არა production-ოპტიმიზაცია",
         "დამოუკიდებელი გარე რეცენზია ჯერ არ დასრულებულა",
-        "რეალური CPU threads შემოწმდა მხოლოდ Ubuntu 24.04 x86_64 runner-ებზე; ARM, Windows, macOS, GPU და network-distributed runtime არ შემოწმებულა",
         "thread benchmark შესრულდა CPython 3.14.4/3.14.4t-ზე; 2026-11-25-ის უახლესი 3.14.10 და 3.15.2 ვერსიები არ შემოწმებულა",
         "CPU-time/wall-time ratio ასახავს პროცესის aggregate CPU მოხმარებას და არ ნიშნავს wall-time speedup-ს; ამ benchmark-ში threaded wall-time serial baseline-ზე უკეთესი არ ყოფილა",
         "tracemalloc ზომავს Python-traced allocation-ებს და არა სრულ RSS/native allocation-ს",
-        "free-threaded CPython ოფიციალურად მხარდაჭერილია Python 3.14-დან როგორც optional build; extension compatibility და workload-dependent performance კვლავ გასათვალისწინებელია"
+        "free-threaded CPython ოფიციალურად მხარდაჭერილია Python 3.14-დან როგორც optional build; extension compatibility და workload-dependent performance კვლავ გასათვალისწინებელია",
+        "რეალური CPU threads შემოწმდა Ubuntu 24.04 x86_64, Ubuntu 24.04 ARM64 და macOS 15 ARM64 hosted runner-ებზე; Windows, GPU და network-distributed runtime არ შემოწმებულა",
+        "ARM64 გამეორება შესრულდა CPython 3.14.4 GIL-enabled და free-threaded build-ებზე, ოთხ hosted runner/runtime უჯრედში და თითოეულზე სამი measured repetition-ით"
       ]
     }
   ]

@@ -1,11 +1,11 @@
 # NOEMA — მიმდინარე პროექტის მდგომარეობა
 
-- **განახლდა:** 2026-11-25 — PR #21-ის merge, main CI და GitHub Pages deployment ხელახლა გადამოწმებულია.
+- **განახლდა:** 2026-11-26 — NOEMA-005-ის ARM64 რეალური CPU-thread replication შესრულებულია ოთხ hosted runner/runtime უჯრედზე; PR #23-ის quality CI და ARM64 workflow წარმატებულია, merge/deployment ჯერ არ მომხდარა.
 - **საცავი:** [maisuradzee/bibmom](https://github.com/maisuradzee/bibmom)
-- **ძირითადი branch:** `main` — კვლევითი merge commit `e84f2b9679c923c673319fc28fc6da5d1e021702`.
-- **ბოლო სტატუს-სინქრონიზაციის branch:** `research/noema005-postmerge-status-2026-11-25` (PR #22, მხოლოდ დოკუმენტაციის გასწორება); ახალი კვლევითი ექსპერიმენტი ცალკე research branch-ზე დაიწყება.
+- **ძირითადი branch:** `main` — მიმდინარე base commit `d46c10cf384f2eba09b4d332a323c19554f552b6`; PR #23-ის ცვლილებები ჯერ branch-ზეა.
+- **მიმდინარე კვლევითი branch:** `research/noema005-arm64-replication-2026-11-26` (PR #23, მხოლოდ NOEMA-005 კვლევა, კოდი, მონაცემები, ტესტები და workflow).
 - **ბოლო კვლევითი merge:** [PR #21 — NOEMA-005 real CPU-thread benchmark](https://github.com/maisuradzee/bibmom/pull/21), squash-ით merged 2026-11-25; commit `e84f2b9679c923c673319fc28fc6da5d1e021702`.
-- **მიმდინარე NOEMA-005 კვლევითი PR:** არ არის — PR #21 merged-ია. კვლევის სტატუსი რჩება `preliminary`; დამოუკიდებელი გარე რეცენზია ჯერ არ დასრულებულა.
+- **მიმდინარე NOEMA-005 კვლევითი PR:** [PR #23 — ARM64 real-thread replication](https://github.com/maisuradzee/bibmom/pull/23), Draft; benchmark run head `4fe358edd532d1861544951682e9125f67a4e156`. ოთხივე ARM64 job და quality/site CI წარმატებულია. კვლევის სტატუსი რჩება `preliminary`; დამოუკიდებელი გარე რეცენზია ჯერ არ დასრულებულა.
 
 ## მიმდინარე სტატუსი
 
@@ -14,11 +14,11 @@
 | კვლევის სტანდარტი და შაბლონები | მზადაა | `docs/RESEARCH_STANDARD.md`, `research/TEMPLATE.md` |
 | NOEMA-002 SignBase აუდიტი | შესრულებულია | ფიქსირებული SignBase snapshot, provenance და JSON შედეგები |
 | NOEMA-003 კლიმატური ანალიზი | დრაფტი / გამეორებადი | სამი dataset-ის შედარება, HAC sensitivity, HadCRUT5 200-member ensemble და coverage consistency; ERA5 reconstruction validation gate ვერ გაიარა და საბოლოო დასკვნაში არ გამოიყენება |
-| NOEMA-005 summation კვლევა | preliminary public brief + რეალური CPU-thread გაგრძელება | განახლებული preprint, ექსპერიმენტის კოდი, შედეგები და პროტოკოლი main-შია; დამოუკიდებელი გარე რეცენზია დარჩენილია |
-| საჯარო კვლევითი კატალოგი | 1 preliminary, 0 published — main-ზე | Git JSON კატალოგი, schema version 2; არსებული NOEMA-2026-005 ჩანაწერი განახლდა, ახალი ID არ შექმნილა |
+| NOEMA-005 summation კვლევა | preliminary public brief + x86-64 და ARM64 real-thread გაგრძელება | ARM64 replication-ის შედეგები და პროტოკოლი PR #23-შია; 192/192 Neumaier-state შედეგი; დამოუკიდებელი გარე რეცენზია დარჩენილია |
+| საჯარო კვლევითი კატალოგი | main: 1 preliminary, 0 published; PR #23: ჩანაწერის v1.4 განახლება | Git JSON კატალოგი, schema version 2; არსებული NOEMA-2026-005 ჩანაწერი განახლდება ARM64 შედეგებით; ახალი ID არ შექმნილა |
 | კვლევის ბარათები და სტატუსები | კოდში დამატებულია | მთავარი გვერდი აჩვენებს preliminary და published სტატუსებს ცალ-ცალკე |
 | ღია განხილვის რეჟიმი | კოდში დამატებულია | GitHub Issues feed, ახალი განხილვის ბმული და მომხმარებლის კომენტარები GitHub-ზე |
-| CI და საიტის build | SUCCESS — main merge commit-ზე | [quality/site run 45551962844](https://github.com/maisuradzee/bibmom/actions/runs/45551962844) — 176 Python test, frozen-result reproduction, schema/catalog validation, site build და publication boundary PASS; [thread benchmark run 45551791998](https://github.com/maisuradzee/bibmom/actions/runs/45551791998) — GIL-enabled და free-threaded jobs PASS |
+| CI და საიტის build | PR #23 head-ზე SUCCESS; main deployment ჯერ არ განახლებულა | [quality/site run 45752987825](https://github.com/maisuradzee/bibmom/actions/runs/45752987825) — PASS; [ARM64 replication run 45752987940](https://github.com/maisuradzee/bibmom/actions/runs/45752987940) — 4/4 runner/runtime PASS; PR ჯერ Draft-ია |
 | GitHub Pages | DEPLOYED — წარმატება დადასტურებულია | [deployment run 45551962965](https://github.com/maisuradzee/bibmom/actions/runs/45551962965) წარმატებით დასრულდა main SHA `e84f2b9679c923c673319fc28fc6da5d1e021702`-ზე; [საიტი](https://maisuradzee.github.io/bibmom/) |
 | Supabase მონაცემთა ბაზა | ჯერ არ შექმნილა | ამჟამად გამოიყენება Git-ით ვერსიაკონტროლირებადი JSON კატალოგი; ეს არ არის სერვერული/ტრანზაქციული DB |
 | ვიზუალური AI ექსპერიმენტი | შეჩერებულია ნებართვამდე | SignBase-ის გამოსახულებებზე გამოყენების უფლება მოსაპოვებელია |
@@ -113,3 +113,37 @@ GitHub საცავი public-ია. Pages build draft/review ფაილ�
 - შემდეგი ნაბიჯებია: სრული პროფილის განმეორება სხვა Python ვერსიაზე/არქიტექტურაზე და რამდენიმე run-ზე; ზუსტი integer accumulator-ის ოპტიმიზაცია; parallel reduction tree-ების კვლევა; რეალური მონაცემთა ნაკრების შერჩევა და დამოუკიდებელი მეთოდოლოგიური რეცენზია.
 - კვლევის ყველა ექსპერიმენტი synthetic stress case-ია; real workload error rate ან უნივერსალური method ranking არ დასტურდება. საჭიროა სხვა Python ვერსიაზე/არქიტექტურაზე გამეორება, parallel reduction tree-ების შეფასება, რეალური მონაცემთა ნაკრების კვლევა და დამოუკიდებელი მეთოდოლოგიური რეცენზია.
 - main-ის კატალოგში 1 preliminary და 0 published item-ია. PR #3 merged არის 2026-11-24; მისი post-merge Pages deployment ამ ციკლში დამოუკიდებლად არ გადამოწმებულა.
+
+
+## 2026-11-26 — NOEMA-005 ARM64 replication
+
+- **საკვლევი branch/PR:** `research/noema005-arm64-replication-2026-11-26`, [PR #23](https://github.com/maisuradzee/bibmom/pull/23).
+- **ARM64 benchmark-ის შემოწმებული head:** `4fe358edd532d1861544951682e9125f67a4e156`.
+- **ახალი ექსპერიმენტი:** Ubuntu 24.04 ARM64 და macOS 15 ARM64; თითოეულზე CPython 3.14.4 GIL-enabled და free-threaded; 48 configuration × 3 repetition თითო runtime-ზე.
+- **მიგნება:** Neumaier compensation-state reduction 192/192 სწორად დამრგვალებული შედეგით; scalar Neumaier 168/192; naive scalar 0/192. Free-threaded რეჟიმში CPU/wall ratio >1.05 დაფიქსირდა 208/288 sample-ში, GIL-enabled რეჟიმში 2/288-ში. ეს CPU-ის პარალელურ გამოყენებას ასახავს და არა wall-time speedup-ს.
+- **შედეგების ფაილი:** `data/noema-005/arm64-threaded-benchmark-summary-2026-11-26.json`; raw report SHA-256 და Actions artifact digest შენახულია.
+- **CI:** [quality/site #45752987825](https://github.com/maisuradzee/bibmom/actions/runs/45752987825) PASS; [ARM64 #45752987940](https://github.com/maisuradzee/bibmom/actions/runs/45752987940) ოთხივე job PASS.
+- **deployment:** PR ჯერ Draft-ია; Pages deployment არ გაშვებულა ამ PR-ის ცვლილებებისთვის.
+- **შემდეგი პრიორიტეტი:** Windows ARM64/სხვა არქიტექტურის გამეორება, native C/OpenMP შედარება, 20+ repetition და RSS/native memory გაზომვა.
+
+
+## 2026-11-26 — NOEMA-005 ARM64 დამოუკიდებელი განმეორების აუდიტი
+
+- მეორე ARM64 benchmark batch შესრულდა PR #23-ის head `8bf2268b3179260976cea8f9260b52b182937814`-ზე; [ARM64 workflow run 45754595646](https://github.com/maisuradzee/bibmom/actions/runs/45754595646), [quality/site run 45754595614](https://github.com/maisuradzee/bibmom/actions/runs/45754595614) და [x86-64 threaded benchmark run 45754595595](https://github.com/maisuradzee/bibmom/actions/runs/45754595595) — სამივე SUCCESS ზუსტად ამ head-ზე.
+- ოთხივე ARM64 raw report ZIP ჩამოიტვირთა და შემოწმდა. report SHA-256, archive SHA-256, byte length, artifact ID, გარემო და გაზომვები ჩაიწერა `data/noema-005/arm64-repeat-validation-2026-11-26.json`-ში.
+- მეორე batch: 4 runtime cell × 48 configuration × 3 repetition = 192 configuration / 576 measured runs. Neumaier state: 192/192; scalar Neumaier: 168/192; naive scalar: 0/192.
+- პირველი batch-ის შედარება: Neumaier-state სიზუსტე ორივე batch-ში 192/192; ორ batch-ზე ჯამურად 384/384. CPU/wall >1.05 threshold-ის რაოდენობა იცვლებოდა: free-threaded 208/288 → 211/288; GIL-enabled 2/288 → 1/288. ეს ადასტურებს, რომ threshold-count run-sensitive დიაგნოსტიკაა და არა სტაბილური performance endpoint.
+- მეორე batch-ის ოთხივე runtime-cell Neumaier-state median speedup 1.0-ზე ნაკლები იყო (0.737, 0.704, 0.896, 0.676). ზოგადი wall-time აჩქარება არ დადასტურდა.
+- ოფიციალური Python 3.14 free-threading HOWTO ადასტურებს, რომ free-threaded build-ს შეუძლია CPU ბირთვებზე thread-ების პარალელური შესრულება, მაგრამ ყველა workload ავტომატურად არ ჩქარდება და build-ს აქვს single-thread/memory overhead. GitHub runner-ის მიმდინარე reference ადასტურებს ubuntu-24.04-arm-ის 4 CPU-სა და macos-15 ARM64 M1-ის 3 CPU-ს.
+- ARM64 workflow-ის path filter შევიწროვდა: კატალოგის, preprint-ის, შედეგების არქივისა და summary-test-ის მხოლოდ დოკუმენტური ცვლილება აღარ იწყებს ძვირადღირებულ benchmark-ს; workflow, benchmark code, validator, core tests ან replication protocol-ის ცვლილება კვლავ იწყებს.
+- კვლევის სტატუსი რჩება `preliminary`; დამოუკიდებელი გარე რეცენზია არ ჩატარებულა. PR-ის merge და Pages deployment ამ ეტაპზე ჯერ არ არის დადასტურებული.
+
+
+## 2026-11-26 — NOEMA-005 ARM64 მესამე გამეორება
+
+- მესამე დამოუკიდებელი ARM64 benchmark: [run 45756074975](https://github.com/maisuradzee/bibmom/actions/runs/45756074975) — ოთხივე Ubuntu/macOS × GIL/free-threaded job SUCCESS; ზუსტი benchmark head `a77c0d5b659c1ad9e73e15ed718b2baf34a8839a`.
+- იმავე head-ზე [quality/site run 45756074962](https://github.com/maisuradzee/bibmom/actions/runs/45756074962) და [x86-64 CPU-thread benchmark run 45756074982](https://github.com/maisuradzee/bibmom/actions/runs/45756074982) SUCCESS.
+- ოთხივე მესამე-batch raw artifact ჩამოიტვირთა და SHA-256-ით შემოწმდა. Artifact ID, archive digest, report digest, bytes და runner metadata დაემატა `data/noema-005/arm64-repeat-validation-2026-11-26.json`-ს.
+- სამივე ARM64 batch-ში Neumaier-state ზუსტი შედეგი შენარჩუნდა: **576/576**; scalar Neumaier **504/576**; naive scalar **0/576**.
+- Timing შედეგები არასტაბილურია: CPU/wall >1.05 threshold free-threaded რეჟიმში 208/288 → 211/288 → 214/288; GIL-enabled 2/288 → 1/288 → 0/288. მესამე batch-ში macOS free-threaded state-method median speedup 1.003 იყო; დანარჩენი სამი runtime-cell median 1.0-ზე ნაკლები. სამი repetition-ით ეს არ არის სანდო აჩქარების მტკიცებულება.
+- კვლევის სტატუსი რჩება `preliminary`; გარე რეცენზია არ ჩატარებულა. PR #23-ის merge/deployment სტატუსი უნდა დადასტურდეს ცალკე.
