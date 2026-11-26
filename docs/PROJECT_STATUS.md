@@ -4,7 +4,7 @@
 - **საცავი:** https://github.com/maisuradzee/bibmom
 - **ძირითადი branch:** main
 - **ბოლო დადასტურებული ინოვაციური merge:** PR #25 — commit 5a8eaeb0d833af65f54b1b1213979c597e75b117.
-- **NOEMA-005:** ARM64 replication და final-head verification main-შია; კვლევა რჩება preliminary.
+- **NOEMA-005:** ARM64 replication და MPFR 4.2.2 cross-check main-შია; exact-head 467/467 synthetic inputs თითო hosted x86-64/ARM64 გარემოზე დაემთხვა MPFR/Python references; add/merge overflow guard და დამოუკიდებელი physical-hardware replication დარჩენილია.
 - **NOEMA-006 AquaSignal:** PR #25 merged; DISCOVERY / RESEARCH / INNOVATION operating model და operator-side anomaly prototype main-შია.
 - **PR #25 quality CI:** run 45768832968 — SUCCESS, exact head 7f0a3f165e54983624f9f874212e17f4cd8edebd; 220 Python tests.
 - **PR #25 CPU-thread workflow:** run 45768832918 — ორივე GIL-enabled და free-threaded job SUCCESS.
@@ -19,7 +19,7 @@
 | DISCOVERY · RESEARCH · INNOVATION მოდელი | PR #25-ით main-შია | docs/NOEMA_OPERATING_MODEL.md |
 | NOEMA-002 SignBase audit | შესრულებული კვლევითი ჩანაწერი | data/audits და research archive |
 | NOEMA-003 climate analysis | დრაფტი / გამეორებადი; ERA5 validation gate ვერ გაიარა და საბოლოო დასკვნაში არ გამოიყენება | data/noema-003, scripts და tests |
-| NOEMA-005 summation | preliminary; x86-64 და ARM64 რეალური CPU-thread ტესტები | 4 ARM64 batch; Neumaier state 768/768, scalar Neumaier 672/768, naive scalar 0/768; wall-time speedup არ დადასტურებულა |
+| NOEMA-005 summation | preliminary; x86-64/ARM64 რეალური CPU-thread ტესტები და MPFR 4.2.2 rounding cross-check main-შია | Neumaier-state 768/768 ARM64 batch-ებში; MPFR oracle 467/467 თითო hosted არქიტექტურაზე; checked add/merge overflow და representative workloads დარჩენილია; wall-time speedup არ დადასტურებულა |
 | NOEMA-006 AquaSignal | draft + software prototype; საველე ვალიდაცია არ ჩატარებულა | research/drafts/NOEMA-2026-006-aquasignal-water-early-warning.md, docs/AQUASIGNAL_MVP.md, noema_core/aquasignal.py |
 | NOEMA-007 Last-Mile Action Gap | draft / discovery; UNDRR 2026: 136 ქვეყნიდან 64-ს ოთხივე pillar აქვს; 2022-ის შემდეგ capability scores თითქმის უცვლელია და preparedness 0.74-დან 0.70-მდე დაეცა; საქართველოში NEA-ის 7 აუზის გეგმებზე კონსულტაცია მიმდინარეობს; ადგილობრივი last-mile ეფექტიანობა ჯერ არ გაზომილა | research/drafts/NOEMA-2026-007-global-early-warning-action-gap.md |
 | საჯარო კვლევითი კატალოგი | 1 preliminary, 0 published | data/research.json; schema version 2. NOEMA-006 draft კატალოგში არ არის |
