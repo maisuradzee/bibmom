@@ -17,6 +17,7 @@ from .worker import (
     RunOutcome,
     Worker,
 )
+from .github_public import GitHubPublicAdapterError, GitHubPublicRepositoryAdapter
 from .integrations import (
     AdapterNotFound,
     AdapterRegistry,
@@ -67,6 +68,8 @@ from .mission import (
 )
 
 __all__ = [
+    "GitHubPublicAdapterError",
+    "GitHubPublicRepositoryAdapter",
     "AdapterNotFound",
     "AdapterRegistry",
     "ExecutionMode",
