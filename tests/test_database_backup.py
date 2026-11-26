@@ -8,7 +8,7 @@ import sqlite3
 import tempfile
 import unittest
 from unittest.mock import patch
-from contextlib import redirect_stdout
+from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
 
 from noema_core.jobs import InvalidJob, JobQueue, JobQueueError
@@ -229,6 +229,41 @@ class DatabaseBackupTests(unittest.TestCase):
         with self.assertRaises((JobQueueError, sqlite3.DatabaseError)):
             JobQueue.restore_from_backup(invalid, destination)
         self.assertFalse(destination.exists())
+
+
+    def test_restore_drill_performs_isolated_round_trip_without_exposing_payloads(self) -> None:
+        job = self._completed_job()
+        output = io.StringIO()
+        with redirect_stdout(output):
+            exit_code = jobs_cli_main(["--db", str(self.database), "restore-drill"])
+
+        report = json.loads(output.getvalue())
+        self.assertEqual(exit_code, 0)
+        self.assertTrue(report["success"])
+        self.assertTrue(report["source_integrity_valid"])
+        self.assertTrue(report["restored_integrity_valid"])
+        self.assertTrue(report["backup_source_unchanged"])
+        self.assertTrue(report["job_count_matches"])
+        self.assertTrue(report["audit_count_matches"])
+        self.assertTrue(report["audit_hash_matches"])
+        self.assertEqual(report["job_count"], 1)
+        self.assertGreaterEqual(report["duration_seconds"], 0)
+        self.assertIn("same-host", report["scope"])
+        self.assertNotIn(job.job_id, output.getvalue())
+        self.assertNotIn("backup-test-job-v1", output.getvalue())
+        self.assertNotIn("component", output.getvalue())
+
+    def test_restore_drill_requires_an_existing_database(self) -> None:
+        missing = self.root / "missing.sqlite3"
+        output = io.StringIO()
+        errors = io.StringIO()
+        with redirect_stdout(output), redirect_stderr(errors):
+            exit_code = jobs_cli_main(["--db", str(missing), "restore-drill"])
+
+        self.assertEqual(exit_code, 2)
+        self.assertFalse(missing.exists())
+        self.assertEqual(output.getvalue(), "")
+        self.assertIn("requires an existing NOEMA database", errors.getvalue())
 
 
 if __name__ == "__main__":
