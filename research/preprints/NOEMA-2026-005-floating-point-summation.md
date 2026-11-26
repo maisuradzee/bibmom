@@ -133,6 +133,74 @@ Free-threaded Neumaier-state median CPU-time/wall-time ratio 1/2/4/8 worker-ზ�
 - [Real CPU-thread benchmark script](https://github.com/maisuradzee/bibmom/blob/main/scripts/benchmark_noema005_threaded_reduction.py), [tests](https://github.com/maisuradzee/bibmom/blob/main/tests/test_benchmark_noema005_threaded_reduction.py), [protocol](https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/threaded-benchmark-protocol.json), [GIL-enabled summary](https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/threaded-benchmark-gil-enabled-2026-11-25.json) და [free-threaded summary](https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/threaded-benchmark-free-threaded-2026-11-25.json).
 - [კვლევის სრული სამუშაო ჩანაწერი](https://github.com/maisuradzee/bibmom/blob/main/research/drafts/NOEMA-2026-005-floating-summation-order.md)
 
+## ARM64 რეალური CPU-thread გამეორება (2026-11-26)
+
+**სტატუსი:** preliminary — ეს არის NOEMA-2026-005-ის გამეორებითი დამატება და არა ახალი კვლევის ID.
+
+**საკვლევი კითხვა:** ინარჩუნებს თუ არა კომპენსირებული reduction-ის სიზუსტე შედეგს რეალურ ARM64 CPU threads-ზე, როგორც GIL-enabled, ისე free-threaded CPython რეჟიმში?
+
+### მეთოდი
+
+- GitHub Actions-ის ორი ARM64 runner ოჯახი: `ubuntu-24.04-arm` (4 process-visible CPU) და `macos-15` (3 process-visible CPU).
+- თითო runner-ზე CPython 3.14.4 GIL-enabled და 3.14.4 free-threaded build.
+- 2 deterministic binary64 layout × 4 worker count (1, 2, 4, 8) × 2 partition strategy × 3 reduction methods × 3 measured repetitions.
+- თითო runtime cell: 48 configuration, 144 measured run.
+- Seed არ გამოიყენება; input values კონსტრუირებულია დეტერმინისტულად. ორივე input-ის SHA-256 ერთნაირია ოთხივე runner-ზე.
+- exact reference მიიღება input binary64 მნიშვნელობების ზუსტი რაციონალური ჯამიდან და ერთხელ binary64-ში დამრგვალებით.
+- process CPU time / wall time გამოიყენება პარალელური CPU მოხმარების ინდიკატორად; `tracemalloc` ზომავს Python allocation-ებს და არა RSS-ს.
+
+### შედეგები
+
+| ARM64 runner/runtime | Neumaier state — სწორი შედეგი | CPU/wall >1.05 | State მეთოდის მედიანური speedup |
+|---|---:|---:|---:|
+| Ubuntu, GIL enabled | 48/48 | 0/144 | 0.738 |
+| Ubuntu, free-threaded | 48/48 | 108/144 | 0.666 |
+| macOS, GIL enabled | 48/48 | 0/144 state-method samples (2/144 ყველა მეთოდზე) | 0.908 |
+| macOS, free-threaded | 48/48 | 100/144 | 0.922 |
+
+ოთხივე runtime-ზე ჯამურად:
+- **Neumaier state:** 192/192 სწორად დამრგვალებული შედეგი.
+- **Neumaier scalar partial:** 168/192.
+- **Naive scalar partial:** 0/192.
+- **Free-threaded CPU/wall threshold:** 208/288 sample.
+- **GIL-enabled CPU/wall threshold:** 2/288 sample.
+
+### ინტერპრეტაცია
+
+**FACT:** ყველა runner-ზე ყველა worker-ის native thread ID განსხვავებული იყო; workflow-მა ARM64 არქიტექტურა და რეალური GIL მდგომარეობა runtime-ზე გადაამოწმა.
+
+**REPRODUCED RESULT:** Neumaier-ის `(sum, compensation)` state-ის გადაცემამ ოთხივე ARM64 runtime-ზე ზუსტი reference შეინარჩუნა ყველა გაზომილ გამეორებაში.
+
+**INFERENCE:** free-threaded CPython-მა ორივე ARM64 runner ოჯახზე aggregate multi-core CPU execution აჩვენა. ეს არ ნიშნავს ავტომატურ wall-time აჩქარებას.
+
+**HYPOTHESIS:** compensation-state reduction-ის სიზუსტე შესაძლოა ამ ტიპის binary64 cancellation input-ებზე runtime/არქიტექტურის მიმართ მდგრადი იყოს; საჭიროა სხვა CPU-ები, უფრო ხანგრძლივი გაზომვები და რეალური workload-ები.
+
+**UNTESTED IDEA:** native C/OpenMP reduction-ის შედარება იმავე ARM64 runner-ებზე.
+
+Threaded Neumaier-state მეთოდის median speedup ყველა 48 კონფიგურაციაზე თითოეულ runtime-ში 1.0-ზე ნაკლები იყო. macOS free-threaded რეჟიმში მხოლოდ 2-worker ჯგუფის median speedup აღმოჩნდა 1.03; ეს ერთი სამჯერადი benchmark პროფილია და არა ზოგადი წარმადობის მტკიცებულება. CPU/wall >1.05 მაჩვენებელი CPU პარალელურ მოხმარებას მიუთითებს და არა უფრო სწრაფ დასრულებას.
+
+8 worker-ზე `tracemalloc` peak დაახლოებით 60 KB იყო GIL-enabled და დაახლოებით 731 KB free-threaded რეჟიმში. ეს არ არის RSS და native allocation-ებს სრულად არ მოიცავს.
+
+x86-64 წინა შედეგებთან შედარება მხოლოდ აღწერითია: runner-ები და CPU-ები განსხვავდება, ამიტომ სხვაობა მხოლოდ არქიტექტურას ვერ მიეწერება.
+
+### მონაცემები და გამეორება
+
+- შედეგების შეჯამება: `data/noema-005/arm64-threaded-benchmark-summary-2026-11-26.json`.
+- workflow: [run 45752987940](https://github.com/maisuradzee/bibmom/actions/runs/45752987940).
+- quality/site CI: [run 45752987825](https://github.com/maisuradzee/bibmom/actions/runs/45752987825).
+- final PR head: `4fe358edd532d1861544951682e9125f67a4e156`.
+- raw report JSON-ების SHA-256 და Actions artifact digest შეჯამების ფაილშია; raw artifacts 2026-12-26-მდე ინახება.
+- CI-მ ოთხივე ARM64 job, report validator, unit tests, schema/catalog validation, frozen-result reproduction და site build წარმატებით შეასრულა.
+
+### შეზღუდვები
+
+- Hosted VM-ები კონტროლირებულ ლაბორატორიულ აპარატურას არ წარმოადგენს.
+- Ubuntu და macOS runner-ები განსხვავდება CPU-ით, OS-ით და core count-ით.
+- მხოლოდ CPython 3.14.4 და სამი measured repetition შემოწმდა.
+- სინთეზური cancellation input-ები არ წარმოადგენენ ტიპურ სამეცნიერო workload-ს.
+- `tracemalloc` არ ზომავს RSS-ს ან ყველა native allocation-ს.
+- დამოუკიდებელი გარე რეცენზია ჯერ არ ჩატარებულა; კვლევის სტატუსი რჩება preliminary.
+
 ## წყაროები
 
 1. Higham, N. J. (1993, July). *The Accuracy of Floating Point Summation*. SIAM Journal on Scientific Computing, 14(4), 783–799. DOI: https://doi.org/10.1137/0914050. Accessed 2026-11-24.
@@ -154,11 +222,15 @@ Free-threaded Neumaier-state median CPU-time/wall-time ratio 1/2/4/8 worker-ზ�
 
 ## შემდეგი ნაბიჯები
 
-1. სრული benchmark-ის გამეორება მინიმუმ სამ დამოუკიდებელ run-ზე და სხვა Python ვერსიასა/არქიტექტურაზე.
-2. integer accumulator-ის ოპტიმიზაცია ისე, რომ ზუსტი reference უცვლელი დარჩეს.
-3. simulated sharded reduction-ის შემდეგ რეალური CPU threads, GPU და distributed framework-ის შემოწმება; scalar-only და compensation-state API-ების შედარება.
-4. რეალური სამეცნიერო მონაცემთა ნაკრების დამატება.
+1. ARM64-ის შემდეგი გამეორება Windows ARM64-ზე ან სხვა დამოუკიდებელ ARM64 runner-ზე.
+2. Python ThreadPoolExecutor-ის შედარება native C/OpenMP reduction-თან იმავე runner-ზე.
+3. მინიმუმ 20 measured repetition და დროის განაწილების/დისპერსიის ანგარიშგება.
+4. RSS/native allocation გაზომვის დამატება `tracemalloc`-ის პარალელურად.
 5. დამოუკიდებელი მკვლევრის მიერ მეთოდოლოგიის, ტესტებისა და წყაროების გადამოწმება.
 
 ---
 **NOEMA სტატუსი:** preliminary · წინასწარი შედეგი · დამოუკიდებელი გარე რეცენზია არ დასრულებულა.
+
+17. GitHub. (documentation snapshot accessed 2026-11-26; page does not state a publication date). *GitHub-hosted runners reference*. https://docs.github.com/en/actions/reference/runners/github-hosted-runners. Accessed 2026-11-26.
+18. GitHub. (2025-01-16). *Linux arm64 hosted runners now available for free in public repositories (Public Preview)*. https://github.blog/changelog/2025-01-16-linux-arm64-hosted-runners-now-available-for-free-in-public-repositories-public-preview/. Accessed 2026-11-26.
+19. Python Software Foundation. (documentation version 3.14.10 released 2026-10-25; individual page has no separate publication date). *Python 3.14 free-threading HOWTO*. https://docs.python.org/3.14/howto/free-threading-python.html. Accessed 2026-11-26.
