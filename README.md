@@ -20,7 +20,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - `docs/AQUASIGNAL_EVENT_STORE.md` — ინციდენტების კერძო, append-only SQLite event store-ის უსაფრთხოების საზღვრები და აღდგენის შეზღუდვები.
 - `docs/OFFSITE_BACKUP_ARCHITECTURE.md` — დაშიფრული off-host backup-ისა და ხელმოწერილი recovery manifest-ის ჯერ მხოლოდ არქიტექტურული წინადადება; `data/noema-backup-manifest.schema.json` განსაზღვრავს მკაცრ, საიდუმლო მასალის არმქონე metadata contract-ს.
 - `noema_core/aquasignal.py` — AquaSignal-ის დეტერმინისტული, მხოლოდ გადაწყვეტილების მხარდამჭერი წესების ძრავა.
-- `noema_core/aquasignal_store.py` — ინციდენტების replay-ზე დაფუძნებული SQLite persistence და SHA-256 audit chain.
+- `noema_core/aquasignal_store.py` — ინციდენტების replay-ზე დაფუძნებული SQLite persistence, SHA-256 audit chain და caller-supplied trusted checkpoint-ის hash/count comparison; ხელმოწერა და anti-rollback ცალკე ეტაპია.
 - `noema_core/action_readiness.py` — NOEMA-007-ის event/area aggregate-only warning-to-action metrics validator; endpoint receipts და survey denominators განცალკევებულია.
 - `noema_core/backup_manifest.py` — მომავალი off-host backup manifest-ის JSON Schema Draft 2020-12 runtime validator; არ ამოწმებს ხელმოწერას, დაშიფვრას ან storage-ს.
 - `noema_core/mission.json` და `noema_core/mission.py` — მანქანურად წაკითხვადი მისია, ინფორმაციის წვდომის პოლიტიკა და ავტონომიური მოქმედებების წესები.
