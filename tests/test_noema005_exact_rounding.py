@@ -140,7 +140,7 @@ class Noema005ExactRoundingOracleTests(unittest.TestCase):
 
     def test_boundary_suite_includes_overflow_tie_and_signed_extremes(self):
         values = self.cases()
-        self.assertIn(((1 << 53) - 1) << 2045 + (1 << 2044), values)
+        self.assertIn(((1 << 53) - 1) * (1 << 2045) + (1 << 2044), values)
         self.assertIn(-(1 << 2559), values)
         self.assertGreaterEqual(len(values), 250)
 
