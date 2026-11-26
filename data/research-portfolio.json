@@ -643,7 +643,8 @@
         "GitHub Actions-ის exact-head CI და mergeability verification",
         "შემდგომ ეტაპზე encrypted off-host backup, retention/rotation და scheduled restore drills",
         "On POSIX, stage each local SQLite snapshot in a fresh 0700 directory with a 0600 temporary database file; verify both permissions at the atomic no-overwrite publication boundary.",
-        "The restore-drill CLI requires an existing database, verifies it, creates an online SQLite snapshot and restores it into a second new path inside a temporary directory; it compares job/audit counts and the final audit-chain hash, confirms the backup bytes remain unchanged, and emits aggregate-only JSON without job IDs or payloads."
+        "The restore-drill CLI requires an existing database, verifies it, creates an online SQLite snapshot and restores it into a second new path inside a temporary directory; it compares job/audit counts and the final audit-chain hash, confirms the backup bytes remain unchanged, and emits aggregate-only JSON without job IDs or payloads.",
+        "Define a strict JSON Schema 2020-12 metadata envelope for future off-host backups; tests enforce closed object boundaries and exclude secret/credential fields."
       ],
       "sources": [
         {
@@ -841,8 +842,8 @@
         "Encrypted off-host storage, signed manifest, provider integration, key custody, retention/rotation and an approved RPO/RTO remain unimplemented; the new CLI drill is same-host only and has not yet been run against an operator-approved deployed/staging database."
       ],
       "status": "active",
-      "status_detail": "PR #51 POSIX private staging hardening and PR #57 local restore-drill CLI are merged. PR #57 exact-head quality CI 45828180990 passed 311 Python tests (one skipped), including both restore-drill tests; CPU-thread workflow 45828181011 passed both GIL-enabled and free-threaded jobs. Main quality CI 45828456980 and Pages deployment 45828456789 succeeded for main commit 5ba61c8932e5dccfa3edc35fc7d8cbed60bb2170. The CLI runs an isolated same-host backup/restore, checks source/restored integrity, job and audit counts, final audit hash and unchanged backup bytes, and omits payloads and job IDs. This is a local smoke drill, not off-host disaster-recovery evidence. After PR #58, main quality CI 45829643821, native workflow 45829643815 and Pages deployment 45829643782 succeeded for the current main commit. The subsequent portfolio/status sync PR #59 merged as b4e5f1fe78843a196adece7190fd65b9a7ae90ba; exact-head quality CI 45830093428 passed and main Pages deployment 45830240214 completed successfully.",
-      "next_step": "Run restore-drill on an operator-approved non-production instance with representative NOEMA data and retain only aggregate counts, elapsed time and integrity result. Then approve RPO/RTO, provider, key custodian and retention policy before implementing age encryption, signed manifests, versioned off-host storage, key rotation and scheduled clean-host restore drills.",
+      "status_detail": "The local same-host SQLite backup/restore and aggregate-only restore-drill CLI are merged in main. This cycle adds a strict JSON Schema 2020-12 contract for a future encrypted off-host manifest, with tests for SHA-256 metadata, immutable object-version identifiers, non-secret key identifiers and rejection of unlisted/credential fields. This is schema-only engineering: no provider, key custody, encryption, signature verification, off-host upload or clean-host recovery is configured or claimed.",
+      "next_step": "Run the local restore-drill only on an operator-approved non-production instance and retain aggregate evidence. Then obtain approval for RPO/RTO, provider, retention and key custodians; implement authenticated encryption, detached signature verification, versioned off-host storage and clean-host restore drills only after those decisions.",
       "success_metrics": [
         "backup includes committed WAL data",
         "restore rejects WAL-mode header and corrupted audit data before destination creation",
@@ -851,7 +852,8 @@
         "restore drill and encrypted off-host backup policy are documented and later independently tested",
         "On POSIX, a test observes the staging directory at 0700 and the SQLite snapshot at 0600 immediately before no-overwrite publication, even when the destination parent is 0777.",
         "restore-drill returns success only when source and restored databases are valid, job/audit counts and final audit hash match, and the backup bytes remain unchanged",
-        "restore-drill output contains aggregate metadata only and explicitly identifies the same-host-only evidence boundary"
+        "restore-drill output contains aggregate metadata only and explicitly identifies the same-host-only evidence boundary",
+        "The future manifest is structurally validated against a strict schema; every object rejects unlisted fields and no secret/private-key material is permitted."
       ],
       "last_reviewed": "2026-11-26"
     }
