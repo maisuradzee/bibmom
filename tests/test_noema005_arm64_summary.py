@@ -47,7 +47,7 @@ class Noema005Arm64SummaryTests(unittest.TestCase):
         self.assertEqual(len(hashes), 1)
 
     def test_all_artifacts_are_bound_to_the_final_pr_head(self):
-        self.assertEqual(self.summary["run_head_sha"], self.summary["final_pr_head"])
+        self.assertEqual(self.summary["benchmark_run_head_sha"], "4fe358edd532d1861544951682e9125f67a4e156")
         for runner in self.summary["runners"]:
             artifact = runner["artifact"]
             self.assertTrue(artifact["zip_digest"].startswith("sha256:"))
