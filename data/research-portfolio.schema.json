@@ -112,7 +112,8 @@
                 "publisher",
                 "publication_date",
                 "url",
-                "type"
+                "type",
+                "accessed_at"
               ],
               "additionalProperties": false,
               "properties": {
@@ -126,7 +127,8 @@
                 },
                 "publication_date": {
                   "type": "string",
-                  "minLength": 4
+                  "minLength": 4,
+                  "pattern": "^(undated|[0-9]{4}(-[0-9]{2}(-[0-9]{2})?)?)$"
                 },
                 "url": {
                   "type": "string",
@@ -135,6 +137,10 @@
                 "type": {
                   "type": "string",
                   "minLength": 3
+                },
+                "accessed_at": {
+                  "type": "string",
+                  "format": "date"
                 }
               }
             }
