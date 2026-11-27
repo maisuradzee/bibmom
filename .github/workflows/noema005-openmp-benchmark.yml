@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Record compiler and CPU environment
         run: |
           gcc --version | head -n 1
@@ -75,7 +75,7 @@ jobs:
       - name: Run native benchmark unit tests
         run: python -m unittest discover -s tests -p 'test_noema005_openmp.py' -v
       - name: Upload synthetic benchmark report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: noema005-native-openmp-report
           path: ${{ runner.temp }}/noema005-openmp-report.json

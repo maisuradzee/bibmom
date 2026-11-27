@@ -18,7 +18,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Test ensemble analysis
         run: python -m unittest discover -s tests -p "test_analyze_hadcrut_ensemble.py" -v
@@ -81,7 +81,7 @@ jobs:
           cat "$RUNNER_TEMP/hadcrut5-ensemble-results.json"
 
       - name: Preserve exact source inputs and results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: noema-hadcrut5-ensemble-${{ github.run_id }}
           path: |

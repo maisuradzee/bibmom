@@ -48,7 +48,7 @@ jobs:
       BENCH_SEED: ${{ inputs.seed || '20261124' }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Record benchmark environment
         run: |
