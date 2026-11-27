@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "record_id": "NOEMA007-GEORGIA-NATURAL-HAZARD-MAPPING-ZONING-MEETING-2026-10-26",
+  "study_id": "NOEMA-2026-007",
+  "evidence_status": "FACT",
+  "source": {
+    "publisher": "National Environmental Agency of Georgia",
+    "title": "Meeting regarding the development of technical regulations for the mapping and zoning of natural hazards",
+    "publication_date": "2026-10-26",
+    "url": "https://nea.gov.ge/En/News/3445",
+    "accessed_at": "2026-11-28"
+  },
+  "programme": {
+    "title": "Reducing Climate Change-Induced Risks in Georgia",
+    "partners": [
+      "Government of Georgia",
+      "United Nations Development Programme (UNDP)",
+      "Swiss Agency for Development and Cooperation (SDC)",
+      "Green Climate Fund (GCF)"
+    ],
+    "stated_focus": [
+      "development of natural hazard maps",
+      "technical regulations for zoning"
+    ]
+  },
+  "meeting": {
+    "purpose": "review ongoing work toward a unified national approach for mapping and zoning natural hazards",
+    "hazards": [
+      "floods",
+      "avalanches",
+      "landslides",
+      "mudflows"
+    ],
+    "topics": [
+      "methodological approaches",
+      "technical-legal harmonization",
+      "work plan",
+      "expected outcomes",
+      "interagency coordination"
+    ]
+  },
+  "status_boundary": {
+    "ongoing_work_reviewed": true,
+    "adoption_status": "not stated in source",
+    "map_publication_status": "not stated in source",
+    "operational_warning_metrics_reported": false
+  },
+  "interpretation_limits": [
+    "The agency notice confirms that ongoing work and coordination were discussed; it does not prove that national mapping regulations were adopted or maps were published.",
+    "The notice names floods, avalanches, landslides and mudflows but gives no basin-by-basin or municipality-level risk ranking.",
+    "No hazard probabilities, exposed-population denominators, damage estimates, map scales, model validation or uncertainty ranges are provided.",
+    "The notice reports no operational warning issuance, delivery, receipt, comprehension, feasible-action or protective-action outcomes.",
+    "Programme partnership and meeting attendance do not constitute independent technical validation of future maps."
+  ],
+  "privacy": {
+    "personal_data_included": false,
+    "exact_private_locations_included": false,
+    "event_level_records_included": false,
+    "critical_infrastructure_locations_included": false
+  }
+}
