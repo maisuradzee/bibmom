@@ -21,6 +21,7 @@ DEFAULT_SCHEMA = ROOT / "data" / "noema-006" / "water-indicator-observation.sche
 COMPARABILITY_FIELDS = (
     "indicator_id",
     "water_matrix",
+    "supply_type_scope",
     "standard_id",
     "standard_version",
     "period_start",
