@@ -50,12 +50,6 @@ class NeaGroundwaterReportAccessLeadTests(unittest.TestCase):
             "restricted_archive_bytes_included": False,
         })
 
-
-if __name__ == "__main__":
-    unittest.main()
-
-
-
 class WhoGuidelineComparatorTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
