@@ -175,3 +175,10 @@ The closed metadata contract is `data/noema-restore-attestation.schema.json`; it
 ## Strict metadata parser boundary
 
 Restore-attestation bytes are limited to 1 MiB and 64 nested JSON containers before decoding. Duplicate keys, non-standard numeric constants, invalid UTF-8 and non-object roots are rejected. This is an input-interpretation/resource bound only; it does not add signature verification, provider authentication, encryption, offsite retention or clean-host restore capability.
+
+
+## Local high-water reference model — evidence boundary (2026-11-28)
+
+The repository includes a file-backed SQLite compare-and-advance reference model in `noema_core/high_water_reference.py`. It is a local conformance model for generation monotonicity, manifest lineage, stale-state rejection, idempotent retry and writer serialization.
+
+It is not an independent trust domain. If the application host or the SQLite file is compromised, deleted or restored from an older snapshot, the local high-water state can be rolled back with it. A production deployment still requires a separately administered, durable authority; authenticated caller identity; independently trusted keys and freshness policy; provider-verified immutable object versions/retention; and a permissioned clean-host restore drill. No provider or credentials are selected by this repository change.
