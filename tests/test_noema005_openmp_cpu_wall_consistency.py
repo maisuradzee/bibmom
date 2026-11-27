@@ -21,7 +21,9 @@ class Noema005CpuWallConsistencyTests(unittest.TestCase):
         cls.schema=json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
 
     def audit(self,raw=None):
-        return audit_reports(self.raw if raw is None else raw,self.summary,
+        raw_report=self.raw if raw is None else raw
+        raw_bytes=RAW_PATH.read_bytes() if raw is None else json.dumps(raw,separators=(",",":"),ensure_ascii=False).encode("utf-8")
+        return audit_reports(raw_report,self.summary,raw_bytes,
             self.expected["source_raw_git_blob_sha"],self.expected["source_summary_git_blob_sha"])
 
     def test_cpu_list_parser(self):
