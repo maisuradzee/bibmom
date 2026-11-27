@@ -13,7 +13,7 @@
 
 - PR #161 merged as `fdfa25db97534632161e90c0a2fe768cb0c69e9c` after exact-head Quality CI [46014537233](https://github.com/maisuradzee/bibmom/actions/runs/46014537233) and [46014494741](https://github.com/maisuradzee/bibmom/actions/runs/46014494741) SUCCESS, both CPU-thread jobs [46014537203](https://github.com/maisuradzee/bibmom/actions/runs/46014537203) SUCCESS, mergeable=true and public-boundary review.
 - Post-merge main Quality CI [46014645053](https://github.com/maisuradzee/bibmom/actions/runs/46014645053) — SUCCESS (457 tests, site build and publication-boundary checks); Pages build/deploy [46014645110](https://github.com/maisuradzee/bibmom/actions/runs/46014645110) — SUCCESS.
-- PR #156 and #159 passed their exact-head checks before the Run 30 status merge, but their original base `2852b7b5ee3fa7470ebc9c3eda339fc0e6235eda` is now behind main; GitHub reports `mergeable=false`. They remain Draft and must be refreshed against current main and revalidated before any merge. PRs #155, #157 and #158 also report stale-base `mergeable=false`.
+- PRs #155–#159 use merge base `2852b7b5ee3fa7470ebc9c3eda339fc0e6235eda`, two commits behind current main. Current GitHub mergeability: #155=true, #156=true, #157=true, #158=false, #159=true. All remain Draft; #156/#159 exact-head checks passed, but rebase/refresh and exact-head revalidation are still preferred before merge so the final reviewed head includes current main changes. No research PR is merged without independent review.
 - Main currently has 33 open PRs and 0 open Issues. The research catalogue remains 1 Preliminary / 0 Published. No research PR was merged or promoted to Published in this synchronization.
 
 
