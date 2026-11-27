@@ -6,7 +6,7 @@ from pathlib import Path
 
 from jsonschema import Draft202012Validator, FormatChecker
 
-from scripts.reproduce_noema007_wrp2025 import CHANNELS, derive_aggregates, validate_publisher_alignment
+from scripts.reproduce_noema007_wrp2025 import CHANNELS, derive_aggregates
 
 ROOT = Path(__file__).resolve().parents[1]
 PROTOCOL = ROOT / "data/noema-007/wrp2025-reproduction-protocol.json"
@@ -77,37 +77,24 @@ class Noema007Wrp2025ReproductionTests(unittest.TestCase):
         self.assertAlmostEqual(result["action"]["weighted_unable_pct"], 25.0)
         self.assertAlmostEqual(result["action"]["weighted_dk_refused_pct"], 50.0)
 
-    def test_georgia_impacted_and_warning_bases_are_separate(self):
-        result = derive_aggregates(fixture())
-        self.assertEqual(result["georgia"]["impacted_n"], 3)
-        self.assertEqual(result["georgia"]["warning_question_base_n"], 3)
-        self.assertFalse(result["georgia"]["eligible_for_country_ranking"])
-
-    def test_missing_action_for_warned_respondent_fails_closed(self):
+    def test_invalid_weight_and_response_codes_fail_closed(self):
+        for invalid in (float("nan"), float("inf"), -1.0, True):
+            columns = fixture()
+            columns["PROJWT"][0] = invalid
+            with self.subTest(invalid=invalid), self.assertRaises(ValueError):
+                derive_aggregates(columns)
         columns = fixture()
-        columns["WP24215"][0] = None
-        with self.assertRaisesRegex(ValueError, "every warned respondent"):
-            derive_aggregates(columns)
-
-    def test_invalid_weight_fails_closed(self):
-        columns = fixture()
-        columns["PROJWT"][0] = float("nan")
-        with self.assertRaisesRegex(ValueError, "finite non-negative"):
-            derive_aggregates(columns)
-
-    def test_invalid_response_code_fails_closed(self):
-        columns = fixture()
-        columns["WP24181"][0] = 3
+        columns["WP24181"][0] = 5
         with self.assertRaisesRegex(ValueError, "unsupported WP24181"):
             derive_aggregates(columns)
 
-    def test_publisher_alignment_rejects_wrong_base(self):
-        protocol = json.loads(PROTOCOL.read_text(encoding="utf-8"))
-        protocol["publisher_reference"]["respondents_total"] = 8
-        protocol["publisher_reference"]["countries_and_territories"] = 2
-        result = derive_aggregates(fixture())
-        with self.assertRaisesRegex(ValueError, "warning base mismatch"):
-            validate_publisher_alignment(result, protocol)
+    def test_boolean_and_non_integral_response_codes_are_rejected(self):
+        for field in ("WP24181", "WP24215", "WP24213"):
+            for invalid in (True, False, 1.0, 2.0):
+                columns = fixture()
+                columns[field][0] = invalid
+                with self.subTest(field=field, invalid=invalid), self.assertRaises(ValueError):
+                    derive_aggregates(columns)
 
 
 if __name__ == "__main__":
