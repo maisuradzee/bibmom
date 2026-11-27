@@ -47,7 +47,7 @@ The test suite validates the strict Draft 2020-12 schema, compressed/uncompresse
 
 ## Interpretation and limits
 
-This preserves the fifth hosted run's raw evidence; it does not create a sixth experiment or independent hardware replication. The runner was a GitHub-hosted AWS x86-64 VM with four CPUs and CPython 3.14.4. The workload is synthetic cancellation data, each configuration has three repetitions, and timing uncertainty is not characterized with confidence intervals. Process CPU/wall ratio demonstrates concurrent CPU consumption, not a wall-time advantage over the best serial algorithm. Serial `math.fsum` remains the important baseline.
+This preserves the fifth hosted run's raw evidence; it does not create a sixth experiment or independent hardware replication. The two runtime reports came from GitHub-hosted AWS x86-64 VMs with four CPUs and CPython 3.14.4, but their platform strings differ (free-threaded: Linux 7.0.0-1014-aws; GIL-enabled: Linux 7.0.0-1018-aws). Cross-mode timing is therefore additionally confounded by host-image differences. The workload is synthetic cancellation data, each configuration has three repetitions, and timing uncertainty is not characterized with confidence intervals. Process CPU/wall ratio demonstrates concurrent CPU consumption, not a wall-time advantage over the best serial algorithm. Serial `math.fsum` remains the important baseline.
 
 No general performance claim or publication-status change is made. Physical x86-64/ARM64 replication, representative workloads, RSS/native allocation and memory-bandwidth measurements, and independent numerical-method review remain open.
 
