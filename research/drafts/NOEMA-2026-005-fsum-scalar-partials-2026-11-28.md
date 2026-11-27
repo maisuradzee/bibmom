@@ -63,7 +63,7 @@ The deterministic counterexample above is reproduced. Hosted runtime and memory 
 
 ## დასკვნა
 
-The scalar-partial counterexample demonstrates that accurate per-worker scalar sums can still lose information across a partition boundary. The new experiment compares that approach with the full compensation-state method; conclusions about hosted performance await exact-head CI and artifact review.
+The scalar-partial counterexample demonstrates that accurate per-worker scalar sums can still lose information across a partition boundary. Experiment 002 has now completed on six hosted runtime/runner cells; the frozen sanitized aggregate is recorded in data/noema-005/experiment-002-summary.json and the preliminary result is added to research/preprints/NOEMA-2026-005-floating-point-summation.md. No threaded configuration beat its matching serial baseline.
 
 ## წყაროები
 
@@ -71,19 +71,20 @@ The scalar-partial counterexample demonstrates that accurate per-worker scalar s
 
 ## შემდეგი ნაბიჯები
 
-1. Complete exact-head Quality CI, x86-64 benchmark and ARM64 replication workflows.
-2. Validate all four runtime artifacts against experiment 002 and recompute their SHA-256 digests before preserving aggregates.
-3. Compare numerical accuracy before interpreting timing.
+1. Obtain independent numerical-method review of the scalar-partition counterexample and the frozen aggregate.
+2. Run at least 20 measured repetitions/configuration on controlled physical x86-64 and ARM64 systems.
+3. Add representative numerical workloads, process RSS/native allocation and DRAM-bandwidth instrumentation.
 4. Keep runner-family, OS and GIL-mode denominators separate; do not pool unlike environments.
-5. Obtain independent numerical-method review and, separately, physical x86-64/ARM64 measurements with RSS and DRAM-bandwidth instrumentation.
+5. Do not claim a performance benefit unless a threaded method beats its matching serial baseline with an uncertainty interval.
 
 ## შემოწმების სტატუსი
 
-- Exact-head CI: pending.
-- Hosted experiment 002: pending.
-- Artifact hashes: not yet available for experiment 002.
-- Independent numerical review: pending.
-- Publication status: draft; not published.
+- Exact-head Quality CI: SUCCESS (PR #200; 534 tests).
+- x86-64 and ARM64 hosted experiment 002 workflows: SUCCESS.
+- Six sanitized artifact ZIP and report JSON hashes: frozen and verified in data/noema-005/experiment-002-summary.json.
+- Six legacy unsanitized artifacts: deleted; GitHub confirmed all targeted artifact lists empty.
+- Independent numerical-method review and physical-device replication: pending.
+- Publication status of this protocol note: draft; the experiment result is preliminary, not Published.
 
 ## ცვლილებების ისტორია
 
