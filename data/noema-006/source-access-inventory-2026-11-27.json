@@ -209,7 +209,7 @@
         "table1_category_frequency_total_2022": 207,
         "table1_category_frequency_total_2023": 496
       },
-      "note": "Secondary hygienic analysis of National Food Agency monitoring data (article p.1). Table 1 gives violation-type frequencies and combined categories (p.4); the authors explicitly report multiple violation types coexisting in the same sample in 2023 (p.5). These category frequencies are not unique-sample counts. No underlying NFA row-level data, unique sample identifiers, exact overlap rules or denominator crosswalk are supplied; do not interpret category-frequency shares as sample-level prevalence."
+      "note": "Secondary hygienic analysis of National Food Agency monitoring data (article p.1). Table 1 gives violation-type frequencies and combined categories (p.4). The authors explicitly report microbiological and organoleptic violations coexisting in one sample in 2020 and several combinations in 2023 (p.5); combined categories also appear in 2021-2022. These frequencies are not unique-sample counts. No underlying NFA row-level data, unique sample identifiers, exact overlap rules or denominator crosswalk are supplied; do not interpret category-frequency shares as sample-level prevalence."
     }
   ]
 }

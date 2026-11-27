@@ -54,6 +54,7 @@ class AquaSignalPublishedAggregateAuditTests(unittest.TestCase):
         self.assertEqual(result["pooled"]["microbiological_involved_share_pct"], 94.642857)
         self.assertLess(result["results"][2]["microbiological_involved_share_pct"], 90)
         self.assertTrue(result["pooled"]["exceeds_90_percent"])
+        self.assertTrue(result["source_reports_2020_multiple_violation_types_in_same_sample"])
         self.assertTrue(result["source_reports_2023_multiple_violation_types_in_same_sample"])
         self.assertTrue(result["category_frequency_is_not_unique_sample_count"])
 

@@ -111,8 +111,9 @@
       "microbiological_involved_share_pct": 94.642857,
       "exceeds_90_percent": true
     },
-    "interpretation": "The pooled Table 1 categories containing microbiological account for 94.642857% of transcribed category frequencies; the 2022 year-specific category-frequency share is 88.405797%. These are not sample-level prevalence estimates. The article explicitly reports multiple violation types coexisting in the same sample in 2023, so Table 1 categories overlap at least in that year. Under the conditional unique-sample arithmetic, Table 1 totals align with the national one-decimal-rate interval in 2020 and 2022, fall below it in 2021, and exceed it by one in 2023. This is a counting-unit/data-reconciliation question, not proof of an error. Sample-level microbiological prevalence cannot be reproduced without the underlying NFA data and exact counting rules.",
+    "interpretation": "The pooled Table 1 categories containing microbiological account for 94.642857% of transcribed category frequencies; the 2022 year-specific category-frequency share is 88.405797%. These are not sample-level prevalence estimates. The article explicitly reports microbiological and organoleptic violations coexisting in one sample in 2020 and several combinations in 2023; Table 1 also lists combined categories in 2021-2022. Category frequencies therefore overlap and cannot be treated as unique-sample counts. The conditional integer-count comparison is only a warning against that invalid assumption, not evidence of a data error. Sample-level microbiological prevalence cannot be reproduced without the underlying NFA data and exact counting rules.",
     "source_reports_2023_multiple_violation_types_in_same_sample": true,
-    "category_frequency_is_not_unique_sample_count": true
+    "category_frequency_is_not_unique_sample_count": true,
+    "source_reports_2020_multiple_violation_types_in_same_sample": true
   }
 }

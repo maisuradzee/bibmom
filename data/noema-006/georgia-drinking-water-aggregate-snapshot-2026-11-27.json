@@ -130,7 +130,7 @@
   ],
   "table1_violation_category_counts": {
     "source_locator": "JECM 2025/1, p.4, Table 1",
-    "category_count_semantics": "The article explicitly states that multiple violation types coexisted in the same sample in 2023 (p.5). Table 1 is a violation-type frequency table, not a unique-sample table at least for 2023; overlap rules for earlier years are not fully specified. Category-frequency shares must not be interpreted as sample-level prevalence.",
+    "category_count_semantics": "Table 1 contains combined violation categories in all four years. The authors explicitly state that microbiological and organoleptic violations coexisted in the same sample in 2020 and that several combinations coexisted in 2023 (p.5); the table itself lists combined categories in 2021-2022 as well. These are violation-type frequencies, not unique-sample counts. Category-frequency shares must not be interpreted as sample-level prevalence.",
     "categories": {
       "microbiological": [
         128,
