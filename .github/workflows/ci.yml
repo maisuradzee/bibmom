@@ -49,6 +49,10 @@ jobs:
           test -f data/noema-005/threaded-run36-artifact-snapshot.schema.json
           test -f scripts/reproduce_noema005_run36_threaded.py
           test -f tests/test_noema005_run36_threaded.py
+          test -f data/noema-005/experiment-002-summary.json
+          test -f data/noema-005/experiment-002-summary.schema.json
+          test -f scripts/reproduce_noema005_experiment_002.py
+          test -f tests/test_noema005_experiment_002.py
           test -f data/noema-007/mhews-2026-source-snapshot.json
           test -f data/noema-007/mhews-2026-derived-results.json
           test -f scripts/reproduce_noema007_mhews_snapshot.py
@@ -192,6 +196,10 @@ jobs:
         run: python scripts/reproduce_noema005_run36_threaded.py --check
       - name: Test NOEMA-005 Run 36 artifact aggregate reproduction
         run: python -m unittest discover -s tests -p 'test_noema005_run36_threaded.py' -v
+      - name: Reproduce NOEMA-005 experiment 002 frozen aggregate
+        run: python scripts/reproduce_noema005_experiment_002.py --check
+      - name: Test NOEMA-005 experiment 002 frozen aggregate
+        run: python -m unittest discover -s tests -p 'test_noema005_experiment_002.py' -v
       - name: Validate NOEMA-005 2026-11-26 threaded rerun summary
         run: python scripts/validate_noema005_threaded_rerun.py
       - name: Reproduce NOEMA-005 two-run threaded raw reports
