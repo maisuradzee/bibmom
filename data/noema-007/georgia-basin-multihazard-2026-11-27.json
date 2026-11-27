@@ -185,8 +185,7 @@
       "title": "Regional modeling of avalanche hazards",
       "layer_name": "(30y,100y,300y)_For_10m_rel.shp; Outlines_(30y,100y,300y)_For.shp; (30y,100y,300y)_For_MaxHeight.tif; (30y,100y,300y)_For_MaxPressure.tif",
       "geometry_types": [
-        "polygon",
-        "raster"
+        "polygon"
       ],
       "sharing_type": "public",
       "price": "free",
@@ -220,7 +219,11 @@
           "(30y,100y,300y)_For_MaxHeight.tif",
           "(30y,100y,300y)_For_MaxPressure.tif"
         ]
-      }
+      },
+      "data_formats": [
+        "shp",
+        "tif"
+      ]
     },
     {
       "id": "NEA66",
