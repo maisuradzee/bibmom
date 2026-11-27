@@ -375,3 +375,34 @@ Run 1 used the same AWS x86-64 runner family for both runtime modes. Run 2 used 
 - INFRA-001-ში შემდეგი ნაბიჯია დამოუკიდებელი security review, recovery owner, separately trusted high-water service და permissioned clean-host restore.
 - NOEMA-005-ის შემდეგი ნაბიჯია ფიზიკური მოწყობილობის controlled benchmark; NOEMA-007-ის — authorized Georgian warning/after-action aggregates.
 - `data/research.json` main-ზე უცვლელია: 3 Preliminary, 0 Published; PR #193 branch-ში NOEMA-005 Preliminary ჩანაწერი Run 36-ის ახალი aggregate-ებით განახლდა. `RESEARCH_STANDARD.md` და `research/TEMPLATE.md` გადამოწმდა; ახალი Published კვლევა არ შექმნილა.
+
+## Run 37 — scheduled research and engineering audit (2026-11-27)
+
+### Work performed
+
+- **AquaSignal:** added a metadata-only record for the National Food Agency's 2026-08-12 notice about critical hygiene/infrastructure nonconformities and suspension of a drinking-water/lemonade production process in Zugdidi. The public record omits the business name, exact street address, tax identifier and personal data. The notice does not report laboratory water results, sample count, analytes or a denominator; no contamination or prevalence claim is made.
+- **NOEMA-005:** audited the Run 36 sanitized artifact snapshot and found that full Linux kernel/glibc platform strings remained in the public runner metadata, contrary to the evidence-minimization intent. PR #193 was corrected to keep only a coarse AWS/Azure hosted-runner family; detailed platform strings and raw thread/process identifiers are excluded. Original ZIP/report hashes and numeric measurements are unchanged. The corrective exact-head CI is pending.
+- **NOEMA-007:** re-opened WMO's 2026 MHEWS report page and UNDRR/WMO's 2026-11-12 COP31 update. Source-reported context: 136 countries reported MHEWS as of August 2026; fewer than half had all four pillars; countries with substantial/comprehensive systems had nearly sixfold lower disaster death rates than countries with limited/moderate systems. This is an observational cross-country association, not a causal estimate or Georgian result. PR #194 adds strict URL hygiene to the aggregate warning/evidence-source validator; URLs are not fetched.
+- **INFRA-001:** reviewed the strict UTF-8 bytes parser in PR #191. It remains a Draft security change pending independent review; production key custody, offsite retention and clean-host restore remain unimplemented.
+
+### Portfolio and evidence state
+
+- Four active streams remain: AquaSignal, NOEMA-005, NOEMA-007 and INFRA-001.
+- No new fifth stream was added.
+- No research was promoted to published.
+- WRP respondent-level data, private identifiers, raw NFA workbooks, raw thread IDs and secrets were not committed.
+- No Supabase project was created and no other project's database was used.
+
+### Pull requests and validation
+
+- PR #190 now includes the metadata-only NFA 2026 inspection event in addition to the 2025 XLSX access lead; exact-head CI is pending.
+- PR #193 now minimizes public runner identity; the first CI attempt caught a test assertion that also matched explanatory prose. The assertion was narrowed and a fresh exact-head run is pending.
+- PR #194 adds credential-bearing URL rejection for warning and evidence-source URLs; exact-head CI is pending.
+- PR #192 carries this portfolio/status synchronization and the Run 37 audit. No new merge or Pages deployment is claimed in this audit.
+
+### Next priorities
+
+1. Obtain an authorized NFA/NEA sample-level data export and its denominator, dictionary, QA/QC and reuse terms.
+2. Complete exact-head CI and review for PR #193; retain physical x86-64/ARM64 replication as an external blocker.
+3. Run exact-head tests for PR #194 and request independent privacy/GIS/DRR review.
+4. Keep PR #191 Draft until independent security review; later require a permissioned clean-host restore before any offsite readiness claim.
