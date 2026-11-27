@@ -1,2 +1,0 @@
-# Pinned build dependency for deterministic Markdown rendering.
-Markdown==3.11.3
