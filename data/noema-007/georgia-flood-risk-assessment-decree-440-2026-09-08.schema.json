@@ -1,0 +1,294 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Georgia preliminary flood-risk assessment framework metadata",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_id",
+    "study_id",
+    "evidence_status",
+    "source",
+    "scope",
+    "competent_authority",
+    "assessment_inputs",
+    "flood_types",
+    "conditional_flood_types",
+    "significance_criteria",
+    "review",
+    "outputs_and_dependencies",
+    "interpretation_limits",
+    "privacy"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "record_id": {
+      "const": "NOEMA007-GEORGIA-FLOOD-RISK-ASSESSMENT-DECREE-440-2026-09-08"
+    },
+    "study_id": {
+      "const": "NOEMA-2026-007"
+    },
+    "evidence_status": {
+      "const": "FACT"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "publisher",
+        "document_title",
+        "decree_number",
+        "publication_date",
+        "effective_from",
+        "url",
+        "checked_at",
+        "articles"
+      ],
+      "properties": {
+        "publisher": {
+          "const": "Legislative Herald of Georgia"
+        },
+        "document_title": {
+          "type": "string",
+          "minLength": 40
+        },
+        "decree_number": {
+          "const": 440
+        },
+        "publication_date": {
+          "const": "2026-09-08"
+        },
+        "effective_from": {
+          "const": "2026-09-01"
+        },
+        "url": {
+          "const": "https://manage.matsne.gov.ge/ka/document/view/6997540"
+        },
+        "checked_at": {
+          "const": "2026-11-28"
+        },
+        "articles": {
+          "type": "array",
+          "minItems": 9,
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "river_basin_districts",
+        "transboundary",
+        "first_national_assessment_due",
+        "methodology_approval_due"
+      ],
+      "properties": {
+        "river_basin_districts": {
+          "const": "all river basin districts in Georgia"
+        },
+        "transboundary": {
+          "type": "string",
+          "minLength": 50
+        },
+        "first_national_assessment_due": {
+          "const": "2028-12-31"
+        },
+        "methodology_approval_due": {
+          "const": "2027-06-01"
+        }
+      }
+    },
+    "competent_authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "national_environment_agency",
+        "other_bodies"
+      ],
+      "properties": {
+        "national_environment_agency": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "develops_methodology",
+            "performs_and_updates_preliminary_assessments",
+            "identifies_potentially_significant_risk_areas",
+            "collects_and_stores_data",
+            "maintains_national_risk_assessment_databases"
+          ],
+          "properties": {
+            "develops_methodology": {
+              "const": true
+            },
+            "performs_and_updates_preliminary_assessments": {
+              "const": true
+            },
+            "identifies_potentially_significant_risk_areas": {
+              "const": true
+            },
+            "collects_and_stores_data": {
+              "type": "array",
+              "minItems": 6,
+              "items": {
+                "type": "string"
+              }
+            },
+            "maintains_national_risk_assessment_databases": {
+              "const": true
+            }
+          }
+        },
+        "other_bodies": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "public_and_private_entities_provide_publicly_available_data_on_agency_request",
+            "cooperation_is_within_competence"
+          ],
+          "properties": {
+            "public_and_private_entities_provide_publicly_available_data_on_agency_request": {
+              "const": true
+            },
+            "cooperation_is_within_competence": {
+              "const": true
+            }
+          }
+        }
+      }
+    },
+    "assessment_inputs": {
+      "type": "array",
+      "minItems": 13,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 10
+      }
+    },
+    "flood_types": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "fluvial",
+          "urban_pluvial",
+          "groundwater",
+          "coastal",
+          "hydraulic_infrastructure_failure"
+        ]
+      }
+    },
+    "significance_criteria": {
+      "type": "array",
+      "minItems": 6,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "probability_of_occurrence",
+          "human_health_and_safety",
+          "property_and_infrastructure",
+          "economic_activity",
+          "environment",
+          "cultural_heritage"
+        ]
+      }
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "maximum_interval_years",
+        "update_inputs"
+      ],
+      "properties": {
+        "maximum_interval_years": {
+          "const": 6
+        },
+        "update_inputs": {
+          "type": "array",
+          "minItems": 5,
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "outputs_and_dependencies": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "identified_areas_are_basis_for",
+        "hazard_maps_already_published_by_this_decree",
+        "operational_warning_service_established_by_this_decree",
+        "warning_delivery_or_response_performance_measured"
+      ],
+      "properties": {
+        "identified_areas_are_basis_for": {
+          "type": "array",
+          "minItems": 3,
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "hazard_maps_already_published_by_this_decree": {
+          "const": false
+        },
+        "operational_warning_service_established_by_this_decree": {
+          "const": false
+        },
+        "warning_delivery_or_response_performance_measured": {
+          "const": false
+        }
+      }
+    },
+    "interpretation_limits": {
+      "type": "array",
+      "minItems": 6,
+      "items": {
+        "type": "string",
+        "minLength": 40
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "private_person_data_included",
+        "exact_private_locations_included",
+        "raw_event_records_included"
+      ],
+      "properties": {
+        "private_person_data_included": {
+          "const": false
+        },
+        "exact_private_locations_included": {
+          "const": false
+        },
+        "raw_event_records_included": {
+          "const": false
+        }
+      }
+    },
+    "conditional_flood_types": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "mudflow_related",
+          "glacial_lake_outburst"
+        ]
+      }
+    }
+  }
+}
