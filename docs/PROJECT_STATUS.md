@@ -1,13 +1,13 @@
 # NOEMA — მიმდინარე პროექტის მდგომარეობა
 
-- **განახლდა:** 2026-11-27 (Run 35 — CPU-thread evidence freeze და WRP survey-input validation).
+- **განახლდა:** 2026-11-27 (Run 35 — post-merge verification).
 - **საცავი:** https://github.com/maisuradzee/bibmom
-- **ბოლო დადასტურებული main snapshot:** `8851e8f2d6af2abaf7cd931aaf55d1712d60007b` (Run 35).
-- **Main Quality CI:** [46045273572](https://github.com/maisuradzee/bibmom/actions/runs/46045273572) — SUCCESS; 491 Python tests, frozen-result/schema checks, site build და publication-boundary checks.
-- **Pages deployment:** [46045273588](https://github.com/maisuradzee/bibmom/actions/runs/46045273588) — build/deploy SUCCESS ზუსტად Run 35 main commit-ზე.
+- **ბოლო დადასტურებული main snapshot:** `1278c856857121cb0d3bf623666fe5c495a4975c` (Run 35 audit merge).
+- **Main Quality CI:** [46045601007](https://github.com/maisuradzee/bibmom/actions/runs/46045601007) — SUCCESS; 491 Python tests, frozen-result/schema checks, site build და publication-boundary checks.
+- **Pages deployment:** [46045601021](https://github.com/maisuradzee/bibmom/actions/runs/46045601021) — build/deploy SUCCESS ზუსტად Run 35 audit merge commit-ზე.
 - **ღია PR:** 38; **ღია Issue:** 0.
 - **აქტიური პორტფელი:** ოთხივე ნაკადი აქტიურია — AquaSignal, NOEMA-005, NOEMA-007 და INFRA-001.
-- **კვლევის კატალოგი:** 3 Preliminary, 0 Published. Run 35-ის ცვლილებები კვლევითი მტკიცებულებების input-validation hardening-ია და ახალ Published კვლევას არ ქმნის.
+- **კვლევის კატალოგი:** 3 Preliminary, 0 Published. Run 35-ის ცვლილებები input-validation hardening და პორტფელის აუდიტია; ახალი Published კვლევა არ შექმნილა.
 
 ## Run 11 — კვლევითი მტკიცებულებების შეჯერება და აღდგენის numeric-boundary hardening
 
@@ -328,10 +328,10 @@ Run 1 used the same AWS x86-64 runner family for both runtime modes. Run 2 used 
 
 ### Main validation
 
-- Main SHA: `8851e8f2d6af2abaf7cd931aaf55d1712d60007b`.
-- Quality CI: [46045273572](https://github.com/maisuradzee/bibmom/actions/runs/46045273572) — SUCCESS, 491 Python tests, schema/frozen-result checks, site build და publication-boundary checks.
-- Pages: [46045273588](https://github.com/maisuradzee/bibmom/actions/runs/46045273588) — build/deploy SUCCESS.
-- PR #184–#187 merged; მიმდინარე ღია PR-ები 38; ღია Issue 0.
+- Main SHA audited: `1278c856857121cb0d3bf623666fe5c495a4975c`.
+- Quality CI: [46045601007](https://github.com/maisuradzee/bibmom/actions/runs/46045601007) — SUCCESS, 491 Python tests, schema/frozen-result checks, site build და publication-boundary checks.
+- Pages: [46045601021](https://github.com/maisuradzee/bibmom/actions/runs/46045601021) — build/deploy SUCCESS.
+- PR #184–#188 merged; მიმდინარე ღია PR-ები 38; ღია Issue 0.
 - Research catalogue: 3 Preliminary, 0 Published.
 
 ### შემდეგი პრიორიტეტები
