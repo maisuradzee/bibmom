@@ -435,3 +435,35 @@ The NFA 2026-09-25 Tbilisi kindergarten investigation update reports approximate
 Main commit `e079dc8141c6a763f1eb79e13c5a56f8f0707c90` passed NOEMA Quality CI run [46056954547](https://github.com/maisuradzee/bibmom/actions/runs/46056954547) and GitHub Pages deployment run [46056954562](https://github.com/maisuradzee/bibmom/actions/runs/46056954562). The site is updated to this exact Main commit.
 
 PR #192 portfolio synchronization head `bcc7f93d95236a880f2b4ebfd0a47a96e2552a03` passed exact-head Quality CI run 46057020903. PR #191 head 1a7d4cc and PR #194 head 24e462d are rebased onto current Main; their new exact-head Quality CI runs are in progress. PR #190 and PR #193 are merged.
+
+
+## Run 37 — final post-merge status (2026-11-27)
+
+### Main
+
+- Main SHA: `4651645c16b5198723b519d47f841d4523be78f0`.
+- NOEMA Quality CI: [46057489444](https://github.com/maisuradzee/bibmom/actions/runs/46057489444) — SUCCESS, 524 Python tests, schema/frozen-result checks, site build and publication-boundary checks passed.
+- GitHub Pages: [46057489440](https://github.com/maisuradzee/bibmom/actions/runs/46057489440) — SUCCESS for the exact Main SHA above.
+- Site build: 0 published, 3 preliminary; drafts remain outside the public Pages artifact.
+
+### Merged research changes
+
+- PR #193 — NOEMA-005 Run 36 artifact reproduction and public runner identity minimization; merged as `58fe694a4656c1ca020d096af279d1a9eb752e91`.
+- PR #190 — AquaSignal NFA 2025/2026 source access and metadata; merged as `e079dc8141c6a763f1eb79e13c5a56f8f0707c90`.
+- PR #192 — Run 37 research portfolio, source metadata, draft notes and audit; merged as `4651645c16b5198723b519d47f841d4523be78f0`.
+
+### Remaining Draft work
+
+- PR #194 — URL credential hygiene for NOEMA-007; exact-head Quality CI passed at `24e462dd7e54546f4379159c9b7e6059f657e3fa`; independent privacy/GIS/DRR review remains pending.
+- PR #191 — strict restore-attestation JSON ingestion; latest head `88a6e3e3f7934cef625008fbd20b4121b88e376c` has exact-head Quality CI in progress; independent security review remains pending.
+
+### Portfolio
+
+Four streams remain active: AquaSignal, NOEMA-005, NOEMA-007 and INFRA-001. No fifth stream was added. No study was promoted to Published. The repository currently has 40 open PRs and 0 open Issues.
+
+
+### Remaining Draft PR validation update
+
+- PR #191 latest head `88a6e3e3f7934cef625008fbd20b4121b88e376c`: exact-head Quality CI [46057543397](https://github.com/maisuradzee/bibmom/actions/runs/46057543397) — SUCCESS. The parser normalizes a mocked RecursionError into the domain validation error; independent security review remains pending.
+- PR #194 head `24e462dd7e54546f4379159c9b7e6059f657e3fa`: exact-head Quality CI [46057083661](https://github.com/maisuradzee/bibmom/actions/runs/46057083661) — SUCCESS. URL hygiene is documented in RESEARCH_STANDARD; independent privacy/GIS/DRR review remains pending.
+- Neither Draft is merged or treated as Published.
