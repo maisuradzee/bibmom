@@ -76,6 +76,13 @@ class AquaSignalWrp2025WaterHarmTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "unsupported WP22443"):
             derive_aggregates(columns)
 
+    def test_boolean_and_non_integral_response_codes_are_rejected(self):
+        for invalid in (True, False, 1.0, 3.0):
+            columns = fixture()
+            columns["WP22443"][0] = invalid
+            with self.subTest(invalid=invalid), self.assertRaises(ValueError):
+                derive_aggregates(columns)
+
 
 if __name__ == "__main__":
     unittest.main()

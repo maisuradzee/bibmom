@@ -6,6 +6,7 @@ import argparse
 import hashlib
 import json
 import math
+from numbers import Integral
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
@@ -19,6 +20,19 @@ def round_half_up(value: float) -> int:
     if not math.isfinite(value) or value < 0:
         raise ValueError("rounding input must be finite and non-negative")
     return math.floor(value + 0.5 + 1e-9)
+
+
+def _valid_response_code(code: Any) -> bool:
+    """Accept integral survey codes, but never bools or float lookalikes.
+
+    Python bool is an int subtype, so membership alone would treat True as code 1.
+    numbers.Integral also accepts integer scalar types such as NumPy int64.
+    """
+    return code is None or (
+        isinstance(code, Integral)
+        and not isinstance(code, (bool,))
+        and int(code) in CODES
+    )
 
 
 def derive_aggregates(columns: Mapping[str, Sequence[Any]]) -> dict[str, Any]:
@@ -47,7 +61,7 @@ def derive_aggregates(columns: Mapping[str, Sequence[Any]]) -> dict[str, Any]:
 
     responses = columns["WP22443"]
     for index, code in enumerate(responses):
-        if code is not None and code not in CODES:
+        if not _valid_response_code(code):
             raise ValueError(f"unsupported WP22443 response code at row {index}")
 
     base = [code is not None for code in responses]
