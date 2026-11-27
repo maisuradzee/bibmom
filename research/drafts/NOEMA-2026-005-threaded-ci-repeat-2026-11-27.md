@@ -15,7 +15,8 @@
 
 - [Run 46006107242](https://github.com/maisuradzee/bibmom/actions/runs/46006107242), head `fdfc4d390fdb7cfc45f5879dbc699c3d2165a1e9`, artifacts 15201571617 (GIL-enabled) და 15201906516 (free-threaded).
 - [Run 46007383552](https://github.com/maisuradzee/bibmom/actions/runs/46007383552), head `3cfe55c5748333ccba18efd0209dd14e66ed8499`, artifacts 15200953902 (GIL-enabled) და 15200369413 (free-threaded).
-- [Run 46011557117](https://github.com/maisuradzee/bibmom/actions/runs/46011557117), head `ce095d7be7c4b96ffca423ee66a1f38157cf99e4`, artifacts 15203113651 (GIL-enabled) და 15204417524 (free-threaded). ორივე coarse runner kernel flavor `azure` იყო.\n- [Run 46024818862](https://github.com/maisuradzee/bibmom/actions/runs/46024818862), head `96e4297f9aefebb82aff41360757c48d49984d0b`, artifacts 15212332060 (GIL-enabled) და 15210818669 (free-threaded); GIL-enabled runner flavor `azure`, free-threaded `aws`.
+- [Run 46011557117](https://github.com/maisuradzee/bibmom/actions/runs/46011557117), head `ce095d7be7c4b96ffca423ee66a1f38157cf99e4`, artifacts 15203113651 (GIL-enabled) და 15204417524 (free-threaded). ორივე coarse runner kernel flavor `azure` იყო.
+- [Run 46024818862](https://github.com/maisuradzee/bibmom/actions/runs/46024818862), head `96e4297f9aefebb82aff41360757c48d49984d0b`, artifacts 15212332060 (GIL-enabled) და 15210818669 (free-threaded); GIL-enabled runner flavor `azure`, free-threaded `aws`.
 
 თითოეულ artifact-ში შესრულდა 48 კონფიგურაცია × 3 გამეორება = 144 run. ჯამში რვა artifact-ში არის 384 კონფიგურაცია და 1,152 run. მატრიცა მოიცავდა 1, 2, 4 და 8 worker-ს; `triplet_order` და `grouped_cancellation` input layout-ებს; `contiguous` და `round_robin` partition-ებს; naive scalar, Neumaier scalar და Neumaier state მეთოდებს. თითო input-ში იყო 196,608 binary64 მნიშვნელობა და ზუსტი ჯამი 65,536.
 
@@ -42,7 +43,13 @@ CI-მ გადაამოწმა თითო worker-ის განსხ
 | GIL / azure (repeat 3) | Neumaier state | 48/48 | 0.7603× | 1.0091 |
 | Free / azure (repeat 3) | naive scalar | 0/48 | 0.3526× | 2.5835 |
 | Free / azure (repeat 3) | Neumaier scalar | 42/48 | 1.2009× | 2.6056 |
-| Free / azure (repeat 3) | Neumaier state | 48/48 | 1.1491× | 2.2683 |\n| GIL / azure (repeat 4) | naive scalar | 0/48 | 0.5091× | 1.0120 |\n| GIL / azure (repeat 4) | Neumaier scalar | 42/48 | 0.7755× | 1.0084 |\n| GIL / azure (repeat 4) | Neumaier state | 48/48 | 0.7687× | 1.0072 |\n| Free / aws (repeat 2) | naive scalar | 0/48 | 0.1719× | 2.6014 |\n| Free / aws (repeat 2) | Neumaier scalar | 42/48 | 0.7125× | 2.5425 |\n| Free / aws (repeat 2) | Neumaier state | 48/48 | 0.7102× | 2.6191 |
+| Free / azure (repeat 3) | Neumaier state | 48/48 | 1.1491× | 2.2683 |
+| GIL / azure (repeat 4) | naive scalar | 0/48 | 0.5091× | 1.0120 |
+| GIL / azure (repeat 4) | Neumaier scalar | 42/48 | 0.7755× | 1.0084 |
+| GIL / azure (repeat 4) | Neumaier state | 48/48 | 0.7687× | 1.0072 |
+| Free / aws (repeat 2) | naive scalar | 0/48 | 0.1719× | 2.6014 |
+| Free / aws (repeat 2) | Neumaier scalar | 42/48 | 0.7125× | 2.5425 |
+| Free / aws (repeat 2) | Neumaier state | 48/48 | 0.7102× | 2.6191 |
 
 Neumaier state-ის worker-count მედიანები:
 
@@ -71,7 +78,15 @@ Neumaier state-ის worker-count მედიანები:
 | Free / azure repeat 3 | 1 | 1.0032 | 0.7426× |
 | Free / azure repeat 3 | 2 | 1.9666 | 1.1129× |
 | Free / azure repeat 3 | 4 | 3.4115 | 1.1887× |
-| Free / azure repeat 3 | 8 | 3.3496 | 1.1662× |\n| GIL / azure repeat 4 | 1 | 1.0012 | 0.7757× |\n| GIL / azure repeat 4 | 2 | 1.0053 | 0.7778× |\n| GIL / azure repeat 4 | 4 | 1.0115 | 0.7589× |\n| GIL / azure repeat 4 | 8 | 1.0149 | 0.7274× |\n| Free / aws repeat 2 | 1 | 0.9946 | 0.6708× |\n| Free / aws repeat 2 | 2 | 1.9721 | 0.5907× |\n| Free / aws repeat 2 | 4 | 3.7083 | 0.7163× |\n| Free / aws repeat 2 | 8 | 3.4248 | 0.7066× |
+| Free / azure repeat 3 | 8 | 3.3496 | 1.1662× |
+| GIL / azure repeat 4 | 1 | 1.0012 | 0.7757× |
+| GIL / azure repeat 4 | 2 | 1.0053 | 0.7778× |
+| GIL / azure repeat 4 | 4 | 1.0115 | 0.7589× |
+| GIL / azure repeat 4 | 8 | 1.0149 | 0.7274× |
+| Free / aws repeat 2 | 1 | 0.9946 | 0.6708× |
+| Free / aws repeat 2 | 2 | 1.9721 | 0.5907× |
+| Free / aws repeat 2 | 4 | 3.7083 | 0.7163× |
+| Free / aws repeat 2 | 8 | 3.4248 | 0.7066× |
 
 ყველა რვა artifact-ში Neumaier state-მა 48/48 correctly-rounded run მიიღო; Neumaier scalar-მა 42/48; naive scalar-მა 0/48. GIL-enabled Azure repeat-ები ახლოს იყო (0.7577×, 0.7551×, 0.7603× და 0.7687×; დიაპაზონი 0.0136). Free-threaded Azure repeat-ებმა 1.2494× და 1.1491× აჩვენა, ხოლო free-threaded AWS run-ებში median speedup 0.7024× და 0.7102× იყო (დიაპაზონი 0.0078). მეოთხე წყვილში GIL-enabled Neumaier state იყო 0.7687×, free-threaded AWS კი 0.7102×; ორივე median speedup 1.0-ზე დაბალია. GIL run-ში 0/144 process-CPU/wall sample აღემატებოდა 1.05-ს; free-threaded run-ში 108/144 აღემატებოდა 1.05-ს, მაქსიმუმი 3.9282 იყო ოთხი CPU affinity-ის პირობებში. ეს აჩვენებს CPU concurrency-ს, მაგრამ არა wall-time აჩქარებას ამ კონკრეტულ run-ში. Runner flavor-ის განსხვავება მიზეზობრიობას არ ამტკიცებს.
 
@@ -111,10 +126,19 @@ Free-threaded 4-worker შემთხვევაში სამივე run 
 4. Chunk-size and reduction-tree sweeps with confidence intervals.
 5. Independent numerical-method review before any publication status.
 
-## Run 31 — fourth hosted repeat pair\n\n- Workflow: [46024818862](https://github.com/maisuradzee/bibmom/actions/runs/46024818862), exact head `96e4297f9aefebb82aff41360757c48d49984d0`. ორივე GIL-enabled და free-threaded job წარმატებით დასრულდა; თითოეულმა 48 კონფიგურაცია × 3 გამეორება შეასრულა.\n- GIL-enabled Azure: Neumaier state 48/48 correctly rounded, median speedup 0.7687×, median process-CPU/wall 1.0072; worker median speedups 0.7757× / 0.7778× / 0.7589× / 0.7274× (1/2/4/8 workers). CPU/wall >1.05: 0/144 samples.\n- Free-threaded AWS: Neumaier state 48/48 correctly rounded, median speedup 0.7102×, median process-CPU/wall 2.6191; worker median speedups 0.6708× / 0.5907× / 0.7163× / 0.7066×. CPU/wall >1.05: 108/144 samples; maximum 3.9282 with four-CPU affinity.\n- Naive scalar remained 0/48 correctly rounded; Neumaier scalar 42/48 in both modes. All eight snapshots exclude native thread IDs and retain only coarse architecture/runtime/worker-count metadata.\n- Artifact ZIP SHA-256: GIL `6bd7e985d7484a47ed2229be6ff556c6ec4aca3fd667e291a6a36634c2b63316`; free `bc66af2518e7582e1bed579ef49b42ec45b9f7f3042c59a5d850e27399e818fc`. Source report SHA-256: GIL `8e8dccce31af84588a8c64ee6e86b543279d311e5c794f405d792ec88d12e78e`; free `9ce24df2b3a7ac5b2d6948117d5721c4602d2cb7d40ee69d71a4c661515e3f8b`.\n- **INFERENCE:** native CPU concurrency was observed in the free-threaded run, but median wall-time speedup remained below 1.0. The GIL-enabled and free-threaded modes ran on different hosted images; no causal cross-runtime comparison is justified. The four-worker affinity is an upper bound, and the eight-worker cases oversubscribe it.\n\n## შემოწმების სტატუსი
+## Run 31 — fourth hosted repeat pair
 
-- ექვსი frozen sanitized snapshot: ოთხი GIL-enabled და ოთხი free-threaded; 48 cases და 144 runs თითო artifact-ში.
-- CI validator ამოწმებს უკვე შენახულ ექვს snapshot-ს, manifest-ის hash-ებს, schema-სა და raw sample-ებიდან ხელახლა გამოთვლილ summary-ს; CI ავტომატურად არ ჩამოტვირთავს ორიგინალ artifact ZIP-ებს.
+- Workflow: [46024818862](https://github.com/maisuradzee/bibmom/actions/runs/46024818862), exact head `96e4297f9aefebb82aff41360757c48d49984d0`. ორივე GIL-enabled და free-threaded job წარმატებით დასრულდა; თითოეულმა 48 კონფიგურაცია × 3 გამეორება შეასრულა.
+- GIL-enabled Azure: Neumaier state 48/48 correctly rounded, median speedup 0.7687×, median process-CPU/wall 1.0072; worker median speedups 0.7757× / 0.7778× / 0.7589× / 0.7274× (1/2/4/8 workers). CPU/wall >1.05: 0/144 samples.
+- Free-threaded AWS: Neumaier state 48/48 correctly rounded, median speedup 0.7102×, median process-CPU/wall 2.6191; worker median speedups 0.6708× / 0.5907× / 0.7163× / 0.7066×. CPU/wall >1.05: 108/144 samples; maximum 3.9282 with four-CPU affinity.
+- Naive scalar remained 0/48 correctly rounded; Neumaier scalar 42/48 in both modes. All eight snapshots exclude native thread IDs and retain only coarse architecture/runtime/worker-count metadata.
+- Artifact ZIP SHA-256: GIL `6bd7e985d7484a47ed2229be6ff556c6ec4aca3fd667e291a6a36634c2b63316`; free `bc66af2518e7582e1bed579ef49b42ec45b9f7f3042c59a5d850e27399e818fc`. Source report SHA-256: GIL `8e8dccce31af84588a8c64ee6e86b543279d311e5c794f405d792ec88d12e78e`; free `9ce24df2b3a7ac5b2d6948117d5721c4602d2cb7d40ee69d71a4c661515e3f8b`.
+- **INFERENCE:** native CPU concurrency was observed in the free-threaded run, but median wall-time speedup remained below 1.0. The GIL-enabled and free-threaded modes ran on different hosted images; no causal cross-runtime comparison is justified. The four-worker affinity is an upper bound, and the eight-worker cases oversubscribe it.
+
+## შემოწმების სტატუსი
+
+- რვა frozen sanitized snapshot: ოთხი GIL-enabled და ოთხი free-threaded; 48 cases და 144 runs თითო artifact-ში.
+- CI validator ამოწმებს უკვე შენახულ რვა snapshot-ს, manifest-ის hash-ებს, schema-სა და raw sample-ებიდან ხელახლა გამოთვლილ summary-ს; CI ავტომატურად არ ჩამოტვირთავს ორიგინალ artifact ZIP-ებს.
 - ცალკე reproducer CLI იღებს ორიგინალ artifact ZIP-ს და თავიდან ქმნის sanitized JSON snapshot-სა და provenance fields-ს. Run 29-ში ექვსივე ორიგინალი ZIP და source JSON SHA-256-ით გადამოწმდა. მანამდე აღმოჩენილი ორი free-threaded snapshot აღდგა შესაბამისი source artifact-ებიდან; მესამე repeat pair-ის დამატების შემდეგ Run 46011557117-ის GIL-enabled snapshot-შიც გამოვლინდა ერთი ზედმეტი Base64 padding/სიგრძის დაზიანება. იგი ხელახლა შეიქმნა ორიგინალი artifact ZIP-იდან; regenerated gzip SHA-256 დაემთხვა manifest-ში არსებულ `30efa08d70a6c7555283d567ab6f68567430cb96af3aba7066049c89f1926175` მნიშვნელობას. რვავე snapshot ახლა ინახავს 4 workflow run × 2 runtime pair-ს; raw measurement values არ შეცვლილა.
 - `sanitized_gzip_sha256` არის საცავში შენახული ზუსტი compressed bytes-ის hash. gzip/deflate output შეიძლება Python/zlib runtime-ებს შორის განსხვავდებოდეს; cross-runtime reproduction-ისას JSON payload და source ZIP/report hashes უნდა შედარდეს, ხოლო stored-byte hash მხოლოდ კონკრეტულ არტეფაქტს ეკუთვნის.
 - Validator: schema, source manifest, sample medians, CPU/wall ratios, per-worker summary და speedup-vs-serial formula ხელახლა მოწმდება; recursive public-boundary tests ყველა nested object-ში კრძალავს host/runner/device/native-thread identity keys-ს და ამოწმებს, რომ coarse architecture/CPU-count metadata დაშვებულია.
