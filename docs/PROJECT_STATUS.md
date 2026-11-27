@@ -1,14 +1,15 @@
 # NOEMA — მიმდინარე პროექტის მდგომარეობა
 
-- **განახლდა:** 2026-11-27 (run 17, verified main snapshot)
+- **განახლდა:** 2026-11-27 (run 18, verified pre-audit main snapshot)
 - **საცავი:** https://github.com/maisuradzee/bibmom
-- **მდგომარეობის snapshot main:** cc2825245e336b170b54edd241920acd3670b30b (PR #110 run-17 audit/status merge)
-- **Main quality CI:** [45934165599](https://github.com/maisuradzee/bibmom/actions/runs/45934165599) — validate job SUCCESS for the exact main snapshot.
-- **GitHub Pages deployment:** [45934165591](https://github.com/maisuradzee/bibmom/actions/runs/45934165591) — build and deploy jobs SUCCESS for the exact main snapshot.
+- **მდგომარეობის snapshot main:** 0a6dbe4c4c0c18f49540f966c89d6b53b99425bf (verified main before run-18 audit PR)
+- **Main quality CI:** [45934655564](https://github.com/maisuradzee/bibmom/actions/runs/45934655564) — validate job SUCCESS for the exact main snapshot.
+- **GitHub Pages deployment:** [45934655643](https://github.com/maisuradzee/bibmom/actions/runs/45934655643) — build and deploy jobs SUCCESS for the exact main snapshot.
+- **Run 18 audit:** [docs/run-audits/2026-11-27-run-18.md](run-audits/2026-11-27-run-18.md) — two independent streams advanced: NOEMA-005 local KVM native-thread reruns and NOEMA-007 AER/mobility-inclusive review schema; both research PRs remain Draft.
 - **Run 17 audit:** [docs/run-audits/2026-11-27-run-17.md](run-audits/2026-11-27-run-17.md) — separate AquaSignal legal data-access and NOEMA-007 flood-risk governance updates in Draft PRs #108 and #109; exact-head quality CI passed for both.
 - **Run 16 audit:** [docs/run-audits/2026-11-27-run-16.md](run-audits/2026-11-27-run-16.md) — NOEMA-007 heat-health readiness discovery and NOEMA-005 ARM64 worker/traced-allocation analysis added in separate Draft PRs #103 and #104.
 - **Merged in current main:** PR #97 (AquaSignal official NEA groundwater RAR URL/retrieval boundary), PR #102 (run-15 status/audit synchronization) and PR #105 and #106 (run-16 status/audit and post-merge status synchronization), PR #107 (run-16 source/CI correction), and PR #110 (run-17 audit/status). PR #106's base snapshot CI and Pages deployment passed.
-- **Open research/engineering PRs:** #109, #108, #104, #103, #101, #100, #99, #93, #91, #88, #87, #85, #46, #27, #7 and #5 (16 open research/engineering PRs; status-only PR #110 is separate; 0 open Issues).
+- **Open research/engineering PRs:** #112, #109, #108, #104, #103, #101, #100, #99, #93, #91, #88, #87, #85, #46, #27, #7 and #5 (17 open research/engineering PRs; status-only PR #110 is separate; 0 open Issues).
 - **Public research catalogue:** 1 preliminary, 0 published. No research item was promoted to Published.
 
 ## მიმდინარე მდგომარეობა
@@ -17,14 +18,21 @@
 |---|---|---|
 | NOEMA mission/autonomy core | შეზღუდული, ტესტირებადი foundation | noema_core/mission.json, mission.py, jobs/worker/workflow/scheduler/supervisor/service |
 | DISCOVERY · RESEARCH · INNOVATION | ერთიანი სამუშაო მოდელი | docs/NOEMA_OPERATING_MODEL.md |
-| NOEMA-005 numerical reduction | active / preliminary | Main-ში x86-64/ARM64 real-thread კვლევა; PR #99-ში ხუთი hosted rerun/raw archive; PR #104-ში ARM64 worker-scaling და traced-allocation-ის derived analysis. ფიზიკური კონტროლირებადი hardware, representative workloads და external numerical review აკლია. |
+| NOEMA-005 numerical reduction | active / preliminary | PR #87-ზე დაემატა ორი ადგილობრივი 96 MiB OpenMP/KVM rerun, 15-კონფიგურაციანი raw JSON ანგარიშები და ხუთი provenance/accuracy ტესტი; exact-head quality CI 45945835133 SUCCESS. ერთი KVM x86-64 VM, 4-CPU quota; 8-worker oversubscribed. ფიზიკური hardware და representative workload ჯერ არ არის. |
 | NOEMA-006 AquaSignal | active / prototype | Main-ში NEA122 catalogue metadata და NEA 2021–2025 RAR direct URL; PR #108-ში Article 32(3) NEA data-request route, Article 31(3) NFA role და Resolution No.424 registry boundary. Archive და sample-level payload კვლავ უცნობია; PR #108 Draft-ია. |
-| NOEMA-007 Last-Mile Action Gap | active / draft | Main-ში global evidence და aggregate-only measurement design; PR #100-ში basin/spatial catalogue, PR #103-ში heat-health readiness, PR #109-ში Article 34 flood-risk role map. Local warning-event/after-action aggregates და approved map/plan versions ჯერ არ არის დადასტურებული. |
+| NOEMA-007 Last-Mile Action Gap | active / draft | PR #112-ზე დაემატა 2026-07-15 UNDRR-led After-Event Review მეთოდოლოგიის crosswalk, mobile-population inclusion-ის review protocol და დახურული aggregate-only finding-register schema; 8 synthetic schema checks და exact-head quality/CPU CI SUCCESS. ქართული event data/field pilot არ არსებობს. |
 | NOEMA-INFRA-001 reliability | active / engineering | Main-ში local manifest/hash/signature validation; PR #101-ში single-host SQLite high-water reference model. External trust domain, off-host retention და clean-host restore არ არსებობს. |
 | საჯარო კვლევითი კატალოგი | 1 preliminary, 0 published | data/research.json; Draft კვლევები არ არის Published. |
-| Main quality CI | SUCCESS | run 45934165599 — exact verified main SHA cc2825245e336b170b54edd241920acd3670b30b. |
-| GitHub Pages | DEPLOYED | run 45934165591 — build და deploy SUCCESS exact main SHA cc2825245e336b170b54edd241920acd3670b30b-ზე. https://maisuradzee.github.io/bibmom/ |
+| Main quality CI | SUCCESS | run 45934655564 — exact verified main SHA 0a6dbe4c4c0c18f49540f966c89d6b53b99425bf. |
+| GitHub Pages | DEPLOYED | run 45934655643 — build და deploy SUCCESS exact main SHA 0a6dbe4c4c0c18f49540f966c89d6b53b99425bf-ზე. https://maisuradzee.github.io/bibmom/ |
 | Supabase | NOEMA-სთვის ახალი პროექტი არ შექმნილა | Git-ით ვერსიაკონტროლირებადი JSON/SQLite reference architecture; სხვა პროექტის ბაზა არ გამოიყენება. |
+
+## Run 18 — ზუსტი PR და CI მდგომარეობა
+
+- **PR #87 — NOEMA-005 memory-backed native reduction:** head `87b4253bac196714e1637226df427a9afafc9fd3`; [quality CI 45945835133](https://github.com/maisuradzee/bibmom/actions/runs/45945835133) SUCCESS. Added two raw local KVM JSON reports and five regression tests. The exact C source blob/SHA-256 was checked against PR #87's source revision. The PR is still based on `b97b30de2c4a25127c81f3ca601203104f9421fd`, behind current main; GitHub reports `mergeable=false`. The original source-revision benchmark and CPU-thread workflows remain documented separately; no physical-host claim is made.
+- **PR #112 — NOEMA-007 mobility-aware early-warning inclusion:** head `ba0839cfd76efb023a9c8e78604028eff0ea250e`; [quality CI 45945550160](https://github.com/maisuradzee/bibmom/actions/runs/45945550160) and [CPU-thread workflow 45945550181](https://github.com/maisuradzee/bibmom/actions/runs/45945550181) SUCCESS. Added the AER method note, closed public-safe finding-register schema and eight synthetic schema tests. Base is exact current main `0a6dbe4c4c0c18f49540f966c89d6b53b99425bf`; GitHub reports `mergeable=true`. It remains Draft pending independent review and a permissioned Georgian event-review mandate.
+- Earlier validation failures on these branches were corrected: draft metadata/headings now satisfy the repository validator; the local benchmark reports are stored as validated JSON (not the first failed compressed representation). Final-head CI above is the authoritative result.
+- **Main snapshot:** quality CI [45934655564](https://github.com/maisuradzee/bibmom/actions/runs/45934655564) and Pages build/deploy [45934655643](https://github.com/maisuradzee/bibmom/actions/runs/45934655643) SUCCESS on exact main `0a6dbe4c4c0c18f49540f966c89d6b53b99425bf`. No research PR was merged in run 18; no Pages deployment was claimed for PR branches.
 
 ## Run 17 — ზუსტი PR და CI მდგომარეობა
 
