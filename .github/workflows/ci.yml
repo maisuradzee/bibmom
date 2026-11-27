@@ -43,6 +43,9 @@ jobs:
           test -f data/noema-005/threaded-ci-repeat.schema.json
           test -f data/noema-005/raw/threaded-ci-repeat-2026-11-27-gil-enabled.json.gz.b64
           test -f data/noema-005/raw/threaded-ci-repeat-2026-11-27-free-threaded.json.gz.b64
+          test -f data/noema-005/raw/threaded-ci-repeat-2026-11-27-run-46007383552-gil-enabled.json.gz.b64
+          test -f data/noema-005/raw/threaded-ci-repeat-2026-11-27-run-46007383552-free-threaded.json.gz.b64
+          test -f data/noema-005/threaded-ci-repeat-manifest-2026-11-27.json
           test -f scripts/reproduce_noema005_threaded_ci_artifacts.py
           test -f scripts/validate_noema005_threaded_ci_repeat.py
           test -f tests/test_noema005_threaded_ci_repeat.py
