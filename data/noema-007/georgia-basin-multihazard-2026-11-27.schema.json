@@ -12,7 +12,8 @@
     "local_planning_signal",
     "institutional_capability_signal",
     "not_reported_in_sources",
-    "interpretation_guardrails"
+    "interpretation_guardrails",
+    "spatial_data_catalogue"
   ],
   "properties": {
     "schema_version": {
@@ -30,8 +31,8 @@
     },
     "sources": {
       "type": "array",
-      "minItems": 4,
-      "maxItems": 4,
+      "minItems": 5,
+      "maxItems": 5,
       "items": {
         "type": "object",
         "additionalProperties": false,
@@ -152,6 +153,128 @@
       "items": {
         "type": "string",
         "minLength": 20
+      }
+    },
+    "spatial_data_catalogue": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "title",
+          "layer_name",
+          "geometry_types",
+          "sharing_type",
+          "price",
+          "catalogue_date",
+          "storage",
+          "portal_map_url",
+          "direct_download_confirmed",
+          "reuse_license_confirmed",
+          "data_payload_obtained",
+          "scope"
+        ],
+        "properties": {
+          "id": {
+            "enum": [
+              "NEA55",
+              "NEA66",
+              "NEA123",
+              "NEA124"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "minLength": 5
+          },
+          "layer_name": {
+            "type": "string",
+            "minLength": 3
+          },
+          "geometry_types": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "point",
+                "polygon",
+                "raster"
+              ]
+            }
+          },
+          "sharing_type": {
+            "const": "public"
+          },
+          "price": {
+            "const": "free"
+          },
+          "catalogue_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "storage": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "portal_map_url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "direct_download_confirmed": {
+            "const": false
+          },
+          "reuse_license_confirmed": {
+            "const": false
+          },
+          "data_payload_obtained": {
+            "const": false
+          },
+          "scope": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "regions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "return_periods_years": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              },
+              "forest_scenarios": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "visible_asset_names": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "map_scale": {
+                "type": "string"
+              },
+              "station_status": {
+                "type": "string"
+              }
+            }
+          }
+        }
       }
     }
   }
