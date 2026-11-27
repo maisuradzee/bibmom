@@ -23,12 +23,12 @@ from pathlib import Path
 from typing import Iterable, Sequence
 
 STUDY_ID = "NOEMA-2026-005"
-EXPERIMENT_ID = "NOEMA-2026-005-REAL-THREADS-001"
+EXPERIMENT_ID = "NOEMA-2026-005-REAL-THREADS-002"
 DEFAULT_REPEAT_COUNT = 65_536
 DEFAULT_WORKERS = (1, 2, 4, 8)
 LAYOUTS = ("triplet_order", "grouped_cancellation")
 PARTITIONS = ("contiguous", "round_robin")
-METHODS = ("threaded_naive_scalar", "threaded_neumaier_scalar", "threaded_neumaier_state")
+METHODS = ("threaded_naive_scalar", "threaded_neumaier_scalar", "threaded_neumaier_state", "threaded_fsum_partials")
 LARGE, SMALL = 1e16, 1.0
 
 
@@ -98,9 +98,15 @@ def _worker(values, worker_index, worker_count, partition, method, barrier):
         for index in indices:
             partial += values[index]
         payload = partial
-    else:
+    elif method == "threaded_fsum_partials":
+        # math.fsum is accurate within this worker, but returning one rounded
+        # scalar can discard residuals needed when workers are merged.
+        payload = math.fsum(values[index] for index in indices)
+    elif method in ("threaded_neumaier_scalar", "threaded_neumaier_state"):
         state = neumaier_state(values[index] for index in indices)
         payload = state[0] + state[1] if method == "threaded_neumaier_scalar" else state
+    else:
+        raise ValueError(f"unknown threaded reduction method: {method}")
     return {"payload": payload, "native_thread_id": native_id,
             "started_ns": started, "ended_ns": time.perf_counter_ns()}
 
@@ -121,10 +127,14 @@ def run_threaded_once(values: Sequence[float], worker_count: int,
     if len(native_ids) != worker_count:
         raise RuntimeError(f"expected {worker_count} native threads, got {len(native_ids)}")
     payloads = [item["payload"] for item in items]
-    if method in ("threaded_naive_scalar", "threaded_neumaier_scalar"):
+    if method in (
+        "threaded_naive_scalar", "threaded_neumaier_scalar", "threaded_fsum_partials"
+    ):
         result = math.fsum(payloads)
-    else:
+    elif method == "threaded_neumaier_state":
         result = neumaier_sum(component for pair in payloads for component in pair)
+    else:
+        raise ValueError(f"unknown threaded reduction method: {method}")
     return {"result": result, "wall_ns": wall_ns, "process_cpu_ns": cpu_ns,
             "cpu_wall_ratio": cpu_ns / wall_ns if wall_ns else None,
             "native_thread_ids": native_ids, "native_thread_count": len(native_ids)}
@@ -231,8 +241,13 @@ def run_benchmark(repeat_count=DEFAULT_REPEAT_COUNT, workers=DEFAULT_WORKERS,
                 raise ValueError(f"worker count {count} exceeds input length")
             for partition in PARTITIONS:
                 for method in METHODS:
-                    baseline = (serial_by_method["serial_naive"] if method == "threaded_naive_scalar"
-                                else serial_by_method["serial_neumaier"])
+                    baseline_method = {
+                        "threaded_naive_scalar": "serial_naive",
+                        "threaded_neumaier_scalar": "serial_neumaier",
+                        "threaded_neumaier_state": "serial_neumaier",
+                        "threaded_fsum_partials": "serial_math_fsum",
+                    }[method]
+                    baseline = serial_by_method[baseline_method]
                     record = _measure_threaded(values, count, partition, method, expected,
                                                baseline, warmups, repetitions)
                     threaded_results.append({"layout": layout, **record})
@@ -261,7 +276,11 @@ def run_benchmark(repeat_count=DEFAULT_REPEAT_COUNT, workers=DEFAULT_WORKERS,
                          "cpu_timer": "time.process_time_ns (process-wide user+system CPU time)",
                          "memory_metric": "tracemalloc peak delta; Python allocations only, not RSS/native allocations",
                          "thread_identity": "threading.get_native_id; one distinct native thread per worker",
-                         "merge_policy": "scalar partials via math.fsum; compensation pairs via Neumaier",
+                         "merge_policy": (
+                             "naive and Neumaier scalar partials merge via math.fsum; "
+                             "worker-local math.fsum scalar partials merge via math.fsum; "
+                             "Neumaier (sum, correction) pairs merge via Neumaier"
+                         ),
                          "expected_gil_mode": expected_gil, "performance_threshold": None},
             "inputs": inputs, "serial_baselines": serial_results,
             "threaded_cases": threaded_results,
