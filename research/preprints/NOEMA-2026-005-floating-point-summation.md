@@ -377,3 +377,36 @@ x86-64 წინა შედეგებთან შედარება მ�
 3. დაამატე process RSS/native allocation და memory-bandwidth გაზომვები.
 4. შეადარე pairwise, long-double და exact/superaccumulator ალგორითმები.
 5. მოითხოვე დამოუკიდებელი numerical-method review; Published სტატუსი არ მიენიჭოს ამ ეტაპზე.
+
+## 2026-11-27 — hosted ARM64 real-thread replication (Run 33)
+
+### FACT
+
+Four GitHub-hosted ARM64 runner/runtime cells completed: Ubuntu 24.04 ARM and macOS 15 ARM64, each with GIL-enabled and free-threaded CPython 3.14.4. Each cell ran 48 configurations × 3 measured repetitions (one warm-up), for 192 configurations and 576 measured runs overall. The exact-head benchmark workflow was [46032894362](https://github.com/maisuradzee/bibmom/actions/runs/46032894362); Quality CI was [46032894345](https://github.com/maisuradzee/bibmom/actions/runs/46032894345).
+
+### REPRODUCED RESULT
+
+| Hosted ARM64 runner | Runtime | Naive exact | Scalar Neumaier exact | Neumaier state exact | Median speedup: naive / scalar / state |
+|---|---|---:|---:|---:|---:|
+| Ubuntu 24.04 ARM | GIL | 0/48 | 42/48 | 48/48 | 0.4940× / 0.7365× / 0.7334× |
+| Ubuntu 24.04 ARM | Free-threaded | 0/48 | 42/48 | 48/48 | 0.1787× / 0.6423× / 0.6401× |
+| macOS 15 ARM64 | GIL | 0/48 | 42/48 | 48/48 | 0.4025× / 0.7368× / 0.8375× |
+| macOS 15 ARM64 | Free-threaded | 0/48 | 42/48 | 48/48 | 0.2135× / 0.6458× / 0.6202× |
+
+Across the four cells, Neumaier state was correctly rounded in 192/192 configurations, scalar Neumaier in 168/192 and naive scalar in 0/192. Process CPU/wall >1.05 occurred in 202/288 free-threaded samples and 4/288 GIL-enabled samples. Nevertheless, every runner/runtime cell had median speedup below 1.0 for all three methods. This workload did not show a median wall-time speedup from threading.
+
+Artifact ZIP SHA-256 values were recomputed from the downloaded ZIP bytes and matched GitHub artifact API digests; raw report SHA-256 values are recorded in [the aggregate summary](../../data/noema-005/arm64-threaded-benchmark-summary-2026-11-27.json). Raw reports and native thread IDs are not committed.
+
+### INFERENCE
+
+Free-threaded builds showed aggregate CPU use beyond elapsed wall time for many multi-worker samples, but this did not translate into lower median wall time. Thread scheduling, partitioning and merge overhead appear to dominate the small deterministic cancellation workload. CPU/wall >1.05 is not a throughput or speedup metric.
+
+### LIMITATIONS
+
+These are hosted ARM64 CI runners, not independently controlled physical devices or external-laboratory replication. Only three measured repetitions per configuration were run. Inputs are synthetic cancellation fixtures. Memory was measured with tracemalloc peak delta only; process RSS, native allocations and DRAM bandwidth were not measured. macOS reported three process CPUs; Ubuntu reported four CPUs and a four-CPU affinity mask, so absolute cross-runner comparisons are confounded. Independent numerical review is still outstanding.
+
+### HYPOTHESIS / UNTESTED IDEA
+
+A larger representative workload, native reduction kernel, alternative chunk sizes or memory-bandwidth-bound arrays may change the balance. The next test should use at least 20 measured repetitions on controlled physical x86-64 and ARM64 hosts, with RSS/native allocation, DRAM bandwidth, per-thread CPU clocks and uncertainty intervals.
+
+**NOEMA status remains preliminary; no published status is claimed.**
