@@ -23,3 +23,10 @@ public step summary.
 A cleanup workflow targets the known experiment-002 runs that uploaded
 unsanitized artifacts before this boundary was added. Deletion is reported
 only after GitHub confirms the artifact list is empty.
+
+
+## Run 38 verification
+
+PR #200's exact-head x86-64 and ARM64 workflows uploaded six sanitized JSON reports. The six ZIP digests and six report JSON digests were recomputed and frozen in data/noema-005/experiment-002-summary.json. The sanitizer validated distinct native thread identities for every worker/repetition before removing those IDs and detailed host-build strings.
+
+Legacy unsanitized experiment-002 artifacts from runs 46063057964, 46063057969, 46063291466, 46063291702, 46063405483 and 46063405600 were targeted by cleanup run 46064057021. The final six lists were empty; run 46063405483 had two artifacts deleted and run 46063405600 had four deleted. No raw native thread ID or detailed host-build string was committed.

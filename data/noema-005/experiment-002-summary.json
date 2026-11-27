@@ -1,0 +1,511 @@
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-005",
+  "experiment_id": "NOEMA-2026-005-REAL-THREADS-002",
+  "date": "2026-11-28",
+  "status": "preliminary",
+  "evidence_status": "REPRODUCED RESULT",
+  "protocol": {
+    "python_version": "3.14.10",
+    "runtime_modes": [
+      "gil_enabled",
+      "free_threaded"
+    ],
+    "runner_cells": [
+      "x86_64-ubuntu",
+      "arm64-ubuntu",
+      "arm64-macos"
+    ],
+    "layouts": [
+      "triplet_order",
+      "grouped_cancellation"
+    ],
+    "worker_counts": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "partitions": [
+      "contiguous",
+      "round_robin"
+    ],
+    "methods": [
+      "threaded_naive_scalar",
+      "threaded_neumaier_scalar",
+      "threaded_neumaier_state",
+      "threaded_fsum_partials"
+    ],
+    "warmups": 1,
+    "repetitions": 3,
+    "configurations_per_cell": 64,
+    "measured_runs_per_cell": 192
+  },
+  "workflow_runs": {
+    "quality_ci": 46064056899,
+    "x86_64_benchmark": 46064056998,
+    "arm64_benchmark": 46064056947,
+    "legacy_artifact_cleanup": 46064057021,
+    "workflow_head_sha": "f13b9da71adb1cdbbb2305f6e598663015dd44eb"
+  },
+  "cells": [
+    {
+      "cell_id": "arm64-macos-free",
+      "runner": "arm64-macos",
+      "architecture": "arm64",
+      "gil_mode": "free_threaded",
+      "python_version": "3.14.10",
+      "configurations": 64,
+      "measured_runs": 192,
+      "native_thread_identity_validated": true,
+      "privacy_sanitization_version": 1,
+      "artifact": {
+        "run_id": 46064056947,
+        "artifact_id": 15230296811,
+        "artifact_name": "noema005-arm64-macos-15-arm64-free-threaded",
+        "artifact_zip_sha256": "071216948a776f3f21a2f4a2d55915e9fc048c33c0ae36238b2ef8164cfe8e55",
+        "report_filename": "noema005-arm64-macos-15-arm64-free-threaded-public.json",
+        "report_json_sha256": "eec10f148bc036f623f6b3fdbef677f4f469176a928fcd261a8edb8aad971b7a"
+      },
+      "methods": {
+        "threaded_naive_scalar": {
+          "correct_runs": 0,
+          "total_runs": 48,
+          "median_speedup": 0.262713,
+          "min_speedup": 0.142101,
+          "max_speedup": 0.905775,
+          "speedup_gt_1_configurations": 0,
+          "cpu_wall_gt_1_05_configurations": 12
+        },
+        "threaded_neumaier_scalar": {
+          "correct_runs": 42,
+          "total_runs": 48,
+          "median_speedup": 0.571729,
+          "min_speedup": 0.189233,
+          "max_speedup": 0.923642,
+          "speedup_gt_1_configurations": 0,
+          "cpu_wall_gt_1_05_configurations": 10
+        },
+        "threaded_neumaier_state": {
+          "correct_runs": 48,
+          "total_runs": 48,
+          "median_speedup": 0.719826,
+          "min_speedup": 0.3236,
+          "max_speedup": 0.953674,
+          "speedup_gt_1_configurations": 0,
+          "cpu_wall_gt_1_05_configurations": 12
+        },
+        "threaded_fsum_partials": {
+          "correct_runs": 42,
+          "total_runs": 48,
+          "median_speedup": 0.074695,
+          "min_speedup": 0.043822,
+          "max_speedup": 0.162227,
+          "speedup_gt_1_configurations": 0,
+          "cpu_wall_gt_1_05_configurations": 11
+        }
+      }
+    },
+    {
+      "cell_id": "arm64-macos-gil",
+      "runner": "arm64-macos",
+      "architecture": "arm64",
+      "gil_mode": "gil_enabled",
+      "python_version": "3.14.10",
+      "configurations": 64,
+      "measured_runs": 192,
+      "native_thread_identity_validated": true,
+      "privacy_sanitization_version": 1,
+      "artifact": {
+        "run_id": 46064056947,
+        "artifact_id": 15229901626,
+        "artifact_name": "noema005-arm64-macos-15-arm64-gil-enabled",
+        "artifact_zip_sha256": "692012b425a6057784a8ac527d21d73183f438bff74d7eaa52156d2370c54324",
+        "report_filename": "noema005-arm64-macos-15-arm64-gil-enabled-public.json",
+        "report_json_sha256": "8170e46a516a4c875293394fc9fda30b0b7ed5b9c73b0ea1c0daba24d08eb56a"
+      },
+      "methods": {
+        "threaded_naive_scalar": {
+          "correct_runs": 0,
+          "total_runs": 48,
+          "median_speedup": 0.516435,
+          "min_speedup": 0.253893,
+          "max_speedup": 0.601499,
+          "speedup_gt_1_configurations": 0,
+          "cpu_wall_gt_1_05_configurations": 0
+        },
+        "threaded_neumaier_scalar": {
+          "correct_runs": 42,
+          "total_runs": 48,
+          "median_speedup": 0.715113,
+          "min_speedup": 0.524808,
+          "max_speedup": 0.780917,
+          "speedup_gt_1_configurations": 0,
+          "cpu_wall_gt_1_05_configurations": 0
+        },
+        "threaded_neumaier_state": {
+          "correct_runs": 48,
+          "total_runs": 48,
+          "median_speedup": 0.714269,
+          "min_speedup": 0.495553,
+          "max_speedup": 0.802169,
+          "speedup_gt_1_configurations": 0,
+          "cpu_wall_gt_1_05_configurations": 0
+        },
+        "threaded_fsum_partials": {
+          "correct_runs": 42,
+          "total_runs": 48,
+          "median_speedup": 0.193933,
+          "min_speedup": 0.118084,
+          "max_speedup": 0.286832,
+          "speedup_gt_1_configurations": 0,
+          "cpu_wall_gt_1_05_configurations": 0
+        }
+      }
+    },
+    {
+      "cell_id": "arm64-ubuntu-free",
+      "runner": "arm64-ubuntu",
+      "architecture": "arm64",
+      "gil_mode": "free_threaded",
+      "python_version": "3.14.10",
+      "configurations": 64,
+      "measured_runs": 192,
+      "native_thread_identity_validated": true,
+      "privacy_sanitization_version": 1,
+      "artifact": {
+        "run_id": 46064056947,
+        "artifact_id": 15230426266,
+        "artifact_name": "noema005-arm64-ubuntu-24.04-arm-free-threaded",
+        "artifact_zip_sha256": "789a3bb54477f4845690b86f597daa6d38d0605b9b6a2917fb03f0b26fbce158",
+        "report_filename": "noema005-arm64-ubuntu-24.04-arm-free-threaded-public.json",
+        "report_json_sha256": "834402039bd9620a679927023f89c7ed69813988f47be187d86dfde034e5ceda"
+      },
+      "methods": {
+        "threaded_naive_scalar": {
+          "correct_runs": 0,
+          "total_runs": 48,
+          "median_speedup": 0.185162,
+          "min_speedup": 0.159889,
+          "max_speedup": 0.392279,
+          "speedup_gt_1_configurations": 0,
+          "cpu_wall_gt_1_05_configurations": 12
+        },
+        "threaded_neumaier_scalar": {
+          "correct_runs": 42,
+          "total_runs": 48,
+          "median_speedup": 0.682321,
+          "min_speedup": 0.526682,
+          "max_speedup": 0.803933,
+          "speedup_gt_1_configurations": 0,
+          "cpu_wall_gt_1_05_configurations": 12
+        },
+        "threaded_neumaier_state": {
+          "correct_runs": 48,
+          "total_runs": 48,
+          "median_speedup": 0.705763,
+          "min_speedup": 0.528561,
+          "max_speedup": 0.811191,
+          "speedup_gt_1_configurations": 0,
+          "cpu_wall_gt_1_05_configurations": 12
+        },
+        "threaded_fsum_partials": {
+          "correct_runs": 42,
+          "total_runs": 48,
+          "median_speedup": 0.050252,
+          "min_speedup": 0.041891,
+          "max_speedup": 0.094739,
+          "speedup_gt_1_configurations": 0,
+          "cpu_wall_gt_1_05_configurations": 12
+        }
+      }
+    },
+    {
+      "cell_id": "arm64-ubuntu-gil",
+      "runner": "arm64-ubuntu",
+      "architecture": "arm64",
+      "gil_mode": "gil_enabled",
+      "python_version": "3.14.10",
+      "configurations": 64,
+      "measured_runs": 192,
+      "native_thread_identity_validated": true,
+      "privacy_sanitization_version": 1,
+      "artifact": {
+        "run_id": 46064056947,
+        "artifact_id": 15230285966,
+        "artifact_name": "noema005-arm64-ubuntu-24.04-arm-gil-enabled",
+        "artifact_zip_sha256": "303e57dc66be3e503f9d487d70574651d30b0642e6fae6c391f548e2282967b4",
+        "report_filename": "noema005-arm64-ubuntu-24.04-arm-gil-enabled-public.json",
+        "report_json_sha256": "ed14934f880dc2ce12ed1f04d2c5ad5f10a090d0f9c1e5eda64e10d8d7785065"
+      },
+      "methods": {
+        "threaded_naive_scalar": {
+          "correct_runs": 0,
+          "total_runs": 48,
+          "median_speedup": 0.490038,
+          "min_speedup": 0.439922,
+          "max_speedup": 0.517117,
+          "speedup_gt_1_configurations": 0,
+          "cpu_wall_gt_1_05_configurations": 0
+        },
+        "threaded_neumaier_scalar": {
+          "correct_runs": 42,
+          "total_runs": 48,
+          "median_speedup": 0.746778,
+          "min_speedup": 0.718445,
+          "max_speedup": 0.763482,
+          "speedup_gt_1_configurations": 0,
+          "cpu_wall_gt_1_05_configurations": 0
+        },
+        "threaded_neumaier_state": {
+          "correct_runs": 48,
+          "total_runs": 48,
+          "median_speedup": 0.748245,
+          "min_speedup": 0.720472,
+          "max_speedup": 0.761988,
+          "speedup_gt_1_configurations": 0,
+          "cpu_wall_gt_1_05_configurations": 0
+        },
+        "threaded_fsum_partials": {
+          "correct_runs": 42,
+          "total_runs": 48,
+          "median_speedup": 0.108417,
+          "min_speedup": 0.097178,
+          "max_speedup": 0.113389,
+          "speedup_gt_1_configurations": 0,
+          "cpu_wall_gt_1_05_configurations": 0
+        }
+      }
+    },
+    {
+      "cell_id": "x86_64-ubuntu-free",
+      "runner": "x86_64-ubuntu",
+      "architecture": "x86_64",
+      "gil_mode": "free_threaded",
+      "python_version": "3.14.10",
+      "configurations": 64,
+      "measured_runs": 192,
+      "native_thread_identity_validated": true,
+      "privacy_sanitization_version": 1,
+      "artifact": {
+        "run_id": 46064056998,
+        "artifact_id": 15230156748,
+        "artifact_name": "noema005-threaded-free-threaded",
+        "artifact_zip_sha256": "3b957c3a55c3e732967a37a1f5fc8a6bd609141d2e0a0564d482655048c1dddd",
+        "report_filename": "noema005-threaded-free-threaded-public.json",
+        "report_json_sha256": "9bb5a24d35fcf6cbb9bfb01506404f2fabfafd1e775b1b35f6fcb77f4008da2c"
+      },
+      "methods": {
+        "threaded_naive_scalar": {
+          "correct_runs": 0,
+          "total_runs": 48,
+          "median_speedup": 0.199294,
+          "min_speedup": 0.145227,
+          "max_speedup": 0.513883,
+          "speedup_gt_1_configurations": 0,
+          "cpu_wall_gt_1_05_configurations": 12
+        },
+        "threaded_neumaier_scalar": {
+          "correct_runs": 42,
+          "total_runs": 48,
+          "median_speedup": 0.751107,
+          "min_speedup": 0.620624,
+          "max_speedup": 0.951345,
+          "speedup_gt_1_configurations": 0,
+          "cpu_wall_gt_1_05_configurations": 12
+        },
+        "threaded_neumaier_state": {
+          "correct_runs": 48,
+          "total_runs": 48,
+          "median_speedup": 0.756892,
+          "min_speedup": 0.622236,
+          "max_speedup": 0.966795,
+          "speedup_gt_1_configurations": 0,
+          "cpu_wall_gt_1_05_configurations": 12
+        },
+        "threaded_fsum_partials": {
+          "correct_runs": 42,
+          "total_runs": 48,
+          "median_speedup": 0.059372,
+          "min_speedup": 0.043917,
+          "max_speedup": 0.147913,
+          "speedup_gt_1_configurations": 0,
+          "cpu_wall_gt_1_05_configurations": 12
+        }
+      }
+    },
+    {
+      "cell_id": "x86_64-ubuntu-gil",
+      "runner": "x86_64-ubuntu",
+      "architecture": "x86_64",
+      "gil_mode": "gil_enabled",
+      "python_version": "3.14.10",
+      "configurations": 64,
+      "measured_runs": 192,
+      "native_thread_identity_validated": true,
+      "privacy_sanitization_version": 1,
+      "artifact": {
+        "run_id": 46064056998,
+        "artifact_id": 15230710899,
+        "artifact_name": "noema005-threaded-gil-enabled",
+        "artifact_zip_sha256": "4e061ed399d9d41e714a27942771fd8efdda83ab9931048f43d9480b2a6e6228",
+        "report_filename": "noema005-threaded-gil-enabled-public.json",
+        "report_json_sha256": "77254270b8b6cb552a720e4a184b9160831c8f10a88cbc6f7d156a2c1f77f4ac"
+      },
+      "methods": {
+        "threaded_naive_scalar": {
+          "correct_runs": 0,
+          "total_runs": 48,
+          "median_speedup": 0.568829,
+          "min_speedup": 0.431154,
+          "max_speedup": 0.740597,
+          "speedup_gt_1_configurations": 0,
+          "cpu_wall_gt_1_05_configurations": 0
+        },
+        "threaded_neumaier_scalar": {
+          "correct_runs": 42,
+          "total_runs": 48,
+          "median_speedup": 0.77148,
+          "min_speedup": 0.731653,
+          "max_speedup": 0.792491,
+          "speedup_gt_1_configurations": 0,
+          "cpu_wall_gt_1_05_configurations": 0
+        },
+        "threaded_neumaier_state": {
+          "correct_runs": 48,
+          "total_runs": 48,
+          "median_speedup": 0.773336,
+          "min_speedup": 0.729732,
+          "max_speedup": 0.810485,
+          "speedup_gt_1_configurations": 0,
+          "cpu_wall_gt_1_05_configurations": 0
+        },
+        "threaded_fsum_partials": {
+          "correct_runs": 42,
+          "total_runs": 48,
+          "median_speedup": 0.133188,
+          "min_speedup": 0.110196,
+          "max_speedup": 0.146035,
+          "speedup_gt_1_configurations": 0,
+          "cpu_wall_gt_1_05_configurations": 0
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "cell_count": 6,
+    "total_configurations": 384,
+    "total_measured_runs": 1152,
+    "configurations_beating_matching_serial_baseline": 0,
+    "per_method": {
+      "threaded_naive_scalar": {
+        "correct_runs": 0,
+        "total_runs": 288,
+        "median_speedup_min_across_cells": 0.185162,
+        "median_speedup_max_across_cells": 0.568829,
+        "max_speedup_any_configuration": 0.905775,
+        "speedup_gt_1_configurations": 0,
+        "cpu_wall_gt_1_05_configurations": {
+          "gil_enabled": 0,
+          "free_threaded": 36
+        }
+      },
+      "threaded_neumaier_scalar": {
+        "correct_runs": 252,
+        "total_runs": 288,
+        "median_speedup_min_across_cells": 0.571729,
+        "median_speedup_max_across_cells": 0.77148,
+        "max_speedup_any_configuration": 0.951345,
+        "speedup_gt_1_configurations": 0,
+        "cpu_wall_gt_1_05_configurations": {
+          "gil_enabled": 0,
+          "free_threaded": 34
+        }
+      },
+      "threaded_neumaier_state": {
+        "correct_runs": 288,
+        "total_runs": 288,
+        "median_speedup_min_across_cells": 0.705763,
+        "median_speedup_max_across_cells": 0.773336,
+        "max_speedup_any_configuration": 0.966795,
+        "speedup_gt_1_configurations": 0,
+        "cpu_wall_gt_1_05_configurations": {
+          "gil_enabled": 0,
+          "free_threaded": 36
+        }
+      },
+      "threaded_fsum_partials": {
+        "correct_runs": 252,
+        "total_runs": 288,
+        "median_speedup_min_across_cells": 0.050252,
+        "median_speedup_max_across_cells": 0.193933,
+        "max_speedup_any_configuration": 0.286832,
+        "speedup_gt_1_configurations": 0,
+        "cpu_wall_gt_1_05_configurations": {
+          "gil_enabled": 0,
+          "free_threaded": 35
+        }
+      }
+    },
+    "scalar_partial_failure_pattern": {
+      "methods": [
+        "threaded_neumaier_scalar",
+        "threaded_fsum_partials"
+      ],
+      "layout": "grouped_cancellation",
+      "partition": "contiguous",
+      "worker_counts": [
+        2,
+        8
+      ],
+      "failed_repetitions_per_configuration": 3,
+      "affected_configurations_per_cell_per_method": 2
+    }
+  },
+  "legacy_artifact_cleanup": {
+    "all_targeted_artifact_lists_empty": true,
+    "deleted_artifacts_by_run": {
+      "46063057964": 0,
+      "46063057969": 0,
+      "46063291466": 0,
+      "46063291702": 0,
+      "46063405483": 2,
+      "46063405600": 4
+    }
+  },
+  "privacy": {
+    "sanitized_artifacts": true,
+    "raw_native_thread_ids_in_artifacts": false,
+    "detailed_platform_build_strings_in_artifacts": false,
+    "raw_native_thread_ids_committed": false,
+    "sanitizer_version": 1
+  },
+  "limitations": [
+    "The workload is synthetic and intentionally cancellation-heavy; it does not estimate error frequency in production scientific workloads.",
+    "Each configuration has one warmup and three measured repetitions; timing distributions are exploratory.",
+    "GitHub-hosted virtual runners are not physical-device replication; Ubuntu and macOS runner families are not controlled same-hardware comparisons.",
+    "The benchmark records tracemalloc peak, not total RSS, native allocator usage or DRAM bandwidth.",
+    "All observed threaded configurations were slower than their matching serial baseline; no general wall-time speedup is demonstrated.",
+    "The experiment does not test GPU, network-distributed reduction, Windows, or production extension workloads."
+  ],
+  "sources": [
+    {
+      "title": "Python 3.14.10 math.fsum()",
+      "publisher": "Python Software Foundation",
+      "url": "https://docs.python.org/3.14/library/math.html#math.fsum",
+      "supports": "Official documentation describes math.fsum as tracking multiple intermediate partial sums and notes IEEE-754/rounding assumptions plus a possible least-significant-bit double-rounding caveat on some non-Windows builds."
+    },
+    {
+      "title": "NOEMA-005 x86-64 experiment 002",
+      "url": "https://github.com/maisuradzee/bibmom/actions/runs/46064056998"
+    },
+    {
+      "title": "NOEMA-005 ARM64 experiment 002",
+      "url": "https://github.com/maisuradzee/bibmom/actions/runs/46064056947"
+    },
+    {
+      "title": "NOEMA-005 legacy artifact cleanup",
+      "url": "https://github.com/maisuradzee/bibmom/actions/runs/46064057021"
+    }
+  ]
+}

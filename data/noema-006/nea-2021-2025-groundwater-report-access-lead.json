@@ -53,7 +53,11 @@
     "The 2026-06-24 law sets 2027-09-01 statutory milestones for relevant methodology approval and groundwater nitrate-risk-zone identification; the NEA announcement that a method was prepared does not prove formal approval or completion.",
     "The announced report concerns groundwater monitoring and must not be merged with NFA food/drinking-water inspection records or treated as a distributed-network/bottled-water dataset without matrix confirmation.",
     "Archive reuse and redistribution terms are not stated in the announcement and must be confirmed before publishing extracted data.",
-    "No nitrate threshold, local contamination prevalence, exposure level or public-health outcome is inferred from the announcement alone."
+    "No nitrate threshold, local contamination prevalence, exposure level or public-health outcome is inferred from the announcement alone.",
+    "The WHO 2026 edition gives drinking-water guideline values of 50 mg/L as nitrate ion and 3 mg/L as nitrite ion, with a combined concentration-to-guideline ratio not exceeding 1; the chemical fact sheet lists its assessment date as 2016.",
+    "WHO guideline values are global health-based guidance, not Georgian law, and are not automatically applicable to raw groundwater unless its intended use and matrix are confirmed as drinking-water.",
+    "The WHO fact sheet identifies bottle-fed infants as the most sensitive population and notes that microbial contamination and gastrointestinal infection can increase methaemoglobinaemia risk when nitrate is present.",
+    "Excessive boiling can concentrate nitrate; boiling is not a nitrate-removal treatment."
   ],
   "privacy": {
     "personal_data_included": false,
@@ -61,5 +65,26 @@
     "exact_site_coordinates_included": false,
     "raw_sample_records_included": false,
     "restricted_archive_bytes_included": false
+  },
+  "external_drinking_water_guideline": {
+    "publisher": "World Health Organization",
+    "edition_title": "Guidelines for drinking-water quality: fourth edition incorporating the first, second and third addenda",
+    "edition_date": "2026-06-17",
+    "publication_url": "https://www.who.int/publications/i/item/9789240121225",
+    "chemical_fact_sheet_pdf_url": "https://cdn.who.int/media/docs/default-source/wash-documents/water-safety-and-quality/dwq-guidelines-4/gdwq_4ed_with_third-addenda_chemical-fact-sheets.pdf",
+    "nitrate_guideline_value_mg_per_l": 50,
+    "nitrate_basis": "as nitrate ion",
+    "nitrite_guideline_value_mg_per_l": 3,
+    "nitrite_basis": "as nitrite ion",
+    "combined_ratio_limit": 1,
+    "combined_ratio_formula": "C_nitrate/GV_nitrate + C_nitrite/GV_nitrite <= 1",
+    "nitrate_to_nitrate_nitrogen_conversion_factor": 0.226,
+    "nitrite_to_nitrite_nitrogen_conversion_factor": 0.304,
+    "applies_to": "drinking-water",
+    "most_sensitive_population": "bottle-fed infants",
+    "fact_sheet_assessment_date": 2016,
+    "not_georgian_legal_limit": true,
+    "not_automatically_applicable_to_raw_groundwater": true,
+    "interpretation": "WHO health-based guidance; verify Georgian national requirements and intended water use/matrix before comparing."
   }
 }

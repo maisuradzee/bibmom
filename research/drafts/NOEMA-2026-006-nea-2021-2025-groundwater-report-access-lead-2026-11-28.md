@@ -95,3 +95,28 @@ A new official NEA source has become available for AquaSignal and should be prio
 ## ცვლილებების ისტორია
 
 - 2026-11-28: added metadata-only access lead from the NEA announcement and official law amendment.
+
+
+## WHO 2026 drinking-water comparator — not Georgian law
+
+The WHO's current 2026 fourth edition incorporating the first, second and third addenda was published on 2026-06-17. Its nitrate/nitrite chemical fact sheet gives:
+- **Nitrate:** 50 mg/L as nitrate ion.
+- **Nitrite:** 3 mg/L as nitrite ion.
+- **Combined occurrence:** the sum of the nitrate and nitrite concentration-to-guideline ratios should not exceed 1:
+  `C_nitrate/GV_nitrate + C_nitrite/GV_nitrite <= 1`.
+- **Conversion factors:** 1 mg/L nitrate ion = 0.226 mg/L nitrate-nitrogen; 1 mg/L nitrite ion = 0.304 mg/L nitrite-nitrogen.
+
+The same fact sheet lists its **assessment date as 2016**. The 2026 publication date therefore must not be described as a new 2026 toxicological re-derivation of these values.
+
+The guideline values are global health-based guidance for **drinking-water**, not Georgian statutory limits. They are not automatically applicable to raw groundwater or every monitoring point; first confirm whether a sample represents water intended for human consumption, the analytical reporting basis (ion versus nitrogen), and the applicable Georgian legal standard.
+
+WHO identifies bottle-fed infants as the most sensitive subgroup and notes that microbial contamination and gastrointestinal infection can increase methaemoglobinaemia risk when nitrate is present. It also warns that excessive boiling can concentrate nitrate; boiling is not a nitrate-removal treatment.
+
+- **FACT:** the 2026 WHO edition contains the 50 mg/L nitrate, 3 mg/L nitrite and combined-ratio guidance; the fact sheet assessment date is 2016.
+- **INFERENCE:** these values can serve as an international drinking-water comparator after the sample matrix and intended use are confirmed.
+- **UNTESTED IDEA:** a future AquaSignal rule could calculate the combined ratio from paired nitrate/nitrite measurements with explicit units and source provenance.
+- **Not claimed:** Georgian legal compliance, raw-groundwater exceedance, local exposure or a health outcome.
+
+WHO sources:
+1. 2026 edition landing page: https://www.who.int/publications/i/item/9789240121225
+2. Official chemical fact sheets PDF: https://cdn.who.int/media/docs/default-source/wash-documents/water-safety-and-quality/dwq-guidelines-4/gdwq_4ed_with_third-addenda_chemical-fact-sheets.pdf (nitrate/nitrite, pp. 466–471).
