@@ -1,11 +1,12 @@
-# NOEMA-007 — Global MHEWS status 2026: system presence is not person-level protection
+# NOEMA-2026-007 — Global MHEWS status 2026: system presence is not person-level protection
 
-**Research ID:** NOEMA-2026-007  
-**Date:** 2026-11-27  
-**Status:** Draft  
-**Pillars:** DISCOVERY · RESEARCH · INNOVATION
+- **ID:** NOEMA-2026-007
+- **სტატუსი:** draft
+- **თარიღი:** 2026-11-27
+- **სფერო:** disaster risk reduction · early warning · warning-to-action measurement
+- **ავტორი/მომზადების სისტემა:** NOEMA research workflow
 
-## Research question
+## საკვლევი კითხვა
 
 How should NOEMA-007 interpret global early-warning progress without conflating national system existence, four-pillar capability, population reach, timely receipt, comprehension, feasible action and verified protective outcomes?
 
@@ -55,7 +56,7 @@ Keep the following units and stages separate:
 
 A message endpoint is not a person. A person count is not a warning-event denominator. A respondent's recall is not timestamp-verified receipt. An association between system comprehensiveness and outcomes is not a causal effect estimate.
 
-## Method and reproducibility
+## მეთოდი ან ექსპერიმენტის გეგმა
 
 - Source extraction only from the two linked official publication pages.
 - Values are preserved verbatim as source-reported statements in the global MHEWS snapshot JSON.
@@ -71,11 +72,18 @@ A message endpoint is not a person. A person count is not a warning-event denomi
 - No personal, device, message, location, event or survey data is included.
 - No new warning service or automated alerting is implemented.
 
-## Next step
+## შემდეგი ნაბიჯები
 
 For Georgia, obtain an authorized country-level MHEWS assessment and event-review mandate. Pre-register hazard/event inclusion, population frames (resident, temporary presence, service-point and people unable to move), sampling weights, timing definitions, missingness rules and independent verification before any local effectiveness estimate.
 
-## Sources
+## შემოწმების სტატუსი
+
+- FACT: WMO 2026 global status page and UNDRR/WMO/IFRC/ITU mobile-population guidance.
+- REPRODUCED RESULT: no derived arithmetic; the frozen source snapshot is checked by synthetic tests.
+- INFERENCE: national system existence does not equal person-level warning coverage.
+- No Georgian event/field data or independent local effectiveness review is available; Draft status retained.
+
+## წყაროები
 
 - World Meteorological Organization. (2026-11-11). *Global Status of Multi-Hazard Early Warning Systems 2026*. https://wmo.int/resources/publication-series/global-status-of-multi-hazard-early-warning-systems/gsmhews-2026
 - UNDRR, WMO, IFRC and ITU. (2026). *Early Warning Systems for mobile populations: Operational guidance*. https://www.undrr.org/publication/documents-and-publications/early-warning-systems-mobile-populations-operational
