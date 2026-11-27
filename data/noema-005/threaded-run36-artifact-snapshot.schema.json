@@ -1,0 +1,420 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NOEMA-005 Run 36 sanitized hosted threaded-artifact snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "study_id",
+    "date",
+    "status",
+    "evidence_status",
+    "method",
+    "protocol",
+    "input_hashes",
+    "configuration_order",
+    "source_reports",
+    "derived_summary",
+    "interpretation",
+    "privacy",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "study_id": {
+      "const": "NOEMA-2026-005"
+    },
+    "date": {
+      "const": "2026-11-27"
+    },
+    "status": {
+      "const": "preliminary"
+    },
+    "evidence_status": {
+      "const": "REPRODUCED_RESULT"
+    },
+    "method": {
+      "type": "string",
+      "minLength": 80
+    },
+    "protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "runtime",
+        "architecture",
+        "workers",
+        "partitions",
+        "methods",
+        "warmups",
+        "repetitions",
+        "repeat_count",
+        "values_per_fixture",
+        "memory_metric"
+      ],
+      "properties": {
+        "runtime": {
+          "const": "CPython 3.14.4"
+        },
+        "architecture": {
+          "const": "x86_64"
+        },
+        "workers": {
+          "const": [
+            1,
+            2,
+            4,
+            8
+          ]
+        },
+        "partitions": {
+          "const": [
+            "contiguous",
+            "round_robin"
+          ]
+        },
+        "methods": {
+          "const": [
+            "threaded_naive_scalar",
+            "threaded_neumaier_scalar",
+            "threaded_neumaier_state"
+          ]
+        },
+        "warmups": {
+          "const": 1
+        },
+        "repetitions": {
+          "const": 3
+        },
+        "repeat_count": {
+          "const": 65536
+        },
+        "values_per_fixture": {
+          "const": 196608
+        },
+        "memory_metric": {
+          "type": "string",
+          "minLength": 20
+        }
+      }
+    },
+    "input_hashes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "triplet_order",
+        "grouped_cancellation"
+      ],
+      "properties": {
+        "triplet_order": {
+          "const": "e6cc4a627d55c476cb55e6f9789ceb39282e1f787d4b0a5fc040b30428085291"
+        },
+        "grouped_cancellation": {
+          "const": "16ae80fed695b4d02f4a42a2e7c3f5b8a5eff96e97296273c3ddcacfb19090ee"
+        }
+      }
+    },
+    "configuration_order": {
+      "type": "array",
+      "minItems": 16,
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "layout",
+          "partition",
+          "worker_count"
+        ],
+        "properties": {
+          "layout": {
+            "enum": [
+              "triplet_order",
+              "grouped_cancellation"
+            ]
+          },
+          "partition": {
+            "enum": [
+              "contiguous",
+              "round_robin"
+            ]
+          },
+          "worker_count": {
+            "enum": [
+              1,
+              2,
+              4,
+              8
+            ]
+          }
+        }
+      }
+    },
+    "source_reports": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "pr_number",
+          "workflow_run_id",
+          "tested_head_sha",
+          "mode",
+          "artifact_id",
+          "archive_byte_length",
+          "archive_sha256",
+          "report_byte_length",
+          "report_sha256",
+          "generated_at_utc",
+          "runner",
+          "input_hashes",
+          "correctly_rounded_runs_by_method",
+          "neumaier_state"
+        ],
+        "properties": {
+          "pr_number": {
+            "enum": [
+              190,
+              191
+            ]
+          },
+          "workflow_run_id": {
+            "enum": [
+              46048328705,
+              46048363044
+            ]
+          },
+          "tested_head_sha": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{40}$"
+          },
+          "mode": {
+            "enum": [
+              "gil_enabled",
+              "free_threaded"
+            ]
+          },
+          "artifact_id": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "archive_byte_length": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "archive_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "report_byte_length": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "report_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "generated_at_utc": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "runner": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "machine",
+              "cpu_affinity_count",
+              "python_version",
+              "gil_enabled",
+              "free_threaded_build",
+              "hosted_linux_provider"
+            ],
+            "properties": {
+              "machine": {
+                "const": "x86_64"
+              },
+              "cpu_affinity_count": {
+                "const": 4
+              },
+              "python_version": {
+                "const": "3.14.4"
+              },
+              "gil_enabled": {
+                "type": "boolean"
+              },
+              "free_threaded_build": {
+                "type": "boolean"
+              },
+              "hosted_linux_provider": {
+                "enum": [
+                  "aws",
+                  "azure"
+                ]
+              }
+            }
+          },
+          "input_hashes": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "triplet_order",
+              "grouped_cancellation"
+            ],
+            "properties": {
+              "triplet_order": {
+                "const": "e6cc4a627d55c476cb55e6f9789ceb39282e1f787d4b0a5fc040b30428085291"
+              },
+              "grouped_cancellation": {
+                "const": "16ae80fed695b4d02f4a42a2e7c3f5b8a5eff96e97296273c3ddcacfb19090ee"
+              }
+            }
+          },
+          "correctly_rounded_runs_by_method": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "threaded_naive_scalar",
+              "threaded_neumaier_scalar",
+              "threaded_neumaier_state"
+            ],
+            "properties": {
+              "threaded_naive_scalar": {
+                "$ref": "#/$defs/runCounts"
+              },
+              "threaded_neumaier_scalar": {
+                "$ref": "#/$defs/runCounts"
+              },
+              "threaded_neumaier_state": {
+                "$ref": "#/$defs/runCounts"
+              }
+            }
+          },
+          "neumaier_state": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "median_speedup",
+              "median_cpu_wall_ratio",
+              "peak_traced_python_bytes",
+              "cpu_parallelism_runs_above_1_05",
+              "native_thread_count_validated_cases"
+            ],
+            "properties": {
+              "median_speedup": {
+                "$ref": "#/$defs/speedups"
+              },
+              "median_cpu_wall_ratio": {
+                "$ref": "#/$defs/positiveFloats"
+              },
+              "peak_traced_python_bytes": {
+                "$ref": "#/$defs/nonnegativeInts"
+              },
+              "cpu_parallelism_runs_above_1_05": {
+                "$ref": "#/$defs/parallelCounts"
+              },
+              "native_thread_count_validated_cases": {
+                "const": 16
+              }
+            }
+          }
+        }
+      }
+    },
+    "derived_summary": {
+      "type": "object"
+    },
+    "interpretation": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "string",
+        "minLength": 30
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "raw_reports_committed",
+        "native_thread_ids_committed",
+        "process_ids_committed",
+        "host_instance_ids_committed"
+      ],
+      "properties": {
+        "raw_reports_committed": {
+          "const": false
+        },
+        "native_thread_ids_committed": {
+          "const": false
+        },
+        "process_ids_committed": {
+          "const": false
+        },
+        "host_instance_ids_committed": {
+          "const": false
+        }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "string",
+        "minLength": 20
+      }
+    }
+  },
+  "$defs": {
+    "runCounts": {
+      "type": "array",
+      "minItems": 16,
+      "maxItems": 16,
+      "items": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 3
+      }
+    },
+    "speedups": {
+      "type": "array",
+      "minItems": 16,
+      "maxItems": 16,
+      "items": {
+        "type": "number",
+        "exclusiveMinimum": 0
+      }
+    },
+    "positiveFloats": {
+      "type": "array",
+      "minItems": 16,
+      "maxItems": 16,
+      "items": {
+        "type": "number",
+        "exclusiveMinimum": 0
+      }
+    },
+    "nonnegativeInts": {
+      "type": "array",
+      "minItems": 16,
+      "maxItems": 16,
+      "items": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "parallelCounts": {
+      "type": "array",
+      "minItems": 16,
+      "maxItems": 16,
+      "items": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 3
+      }
+    }
+  }
+}
