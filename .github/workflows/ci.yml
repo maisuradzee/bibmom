@@ -9,7 +9,7 @@
           python -m pip install --disable-pip-version-check numpy==2.3.4
       - name: Validate required files
         id: check_01_validate_required_files
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: |
           test -f index.html
           test -f assets/styles.css
@@ -159,113 +159,113 @@
           test -f research/protocols/NOEMA-002-blind-coding-protocol.md
       - name: Bounded automatic draft repair and revalidation preflight
         id: bounded_draft_recovery
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         env:
           RECOVERY_REPORT: ${{ runner.temp }}/noema-ci-recovery-report.json
         run: python scripts/ci_recovery.py --fix --report "$RECOVERY_REPORT"
       - name: Validate draft completeness
         id: check_02_validate_draft_completeness
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: python scripts/validate_drafts.py
       - name: Validate research index
         id: check_03_validate_research_index
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: python scripts/validate_research.py
       - name: Reproduce NOEMA-007 WMO roadmap aggregates
         id: check_04_reproduce_noema_007_wmo_roadmap_aggreg
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: python scripts/reproduce_noema007_wmo_roadmaps.py --check
       - name: Reproduce NOEMA-007 anticipatory-action aggregates
         id: check_05_reproduce_noema_007_anticipatory_actio
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: python scripts/reproduce_noema007_anticipatory_action.py --check
       - name: Validate AquaSignal source-access inventory schema
         id: check_06_validate_aquasignal_source_access_inve
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: python -m unittest discover -s tests -p 'test_noema006_source_access_inventory.py' -v
       - name: Validate AquaSignal WRP 2025 water-harm protocol and frozen result
         id: check_07_validate_aquasignal_wrp_2025_water_har
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: python -m unittest discover -s tests -p 'test_aquasignal_wrp2025_water_harm.py' -v
       - name: Validate NOEMA-007 action-readiness aggregate contract
         id: check_08_validate_noema_007_action_readiness_ag
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: python -m unittest discover -s tests -p 'test_noema007_action_readiness.py' -v
       - name: Validate NOEMA-007 WRP 2025 reproduction protocol and frozen aggregate
         id: check_09_validate_noema_007_wrp_2025_reproducti
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: python -m unittest discover -s tests -p 'test_noema007_wrp2025_reproduction.py' -v
       - name: Validate NOEMA mission and autonomy policy
         id: check_10_validate_noema_mission_and_autonomy_po
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: python scripts/validate_mission.py
       - name: Validate durable job queue
         id: check_11_validate_durable_job_queue
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: python scripts/validate_job_queue.py
       - name: Validate NOEMA-005 raw artifact provenance audit
         id: check_12_validate_noema_005_raw_artifact_proven
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: python -m unittest discover -s tests -p 'test_noema005_thread_artifact_audit.py' -v
       - name: Validate frozen NOEMA-005 real CPU-thread benchmark summary
         id: check_13_validate_frozen_noema_005_real_cpu_thr
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: python scripts/validate_noema005_cpu_thread_summary.py
       - name: Validate NOEMA-005 Run 34 two-pair threaded summary
         id: check_14_validate_noema_005_run_34_two_pair_thr
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: python -m unittest discover -s tests -p 'test_noema005_threaded_run_summary.py' -v
       - name: Reproduce NOEMA-005 Run 36 sanitized hosted artifact aggregates
         id: check_15_reproduce_noema_005_run_36_sanitized_h
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: python scripts/reproduce_noema005_run36_threaded.py --check
       - name: Test NOEMA-005 Run 36 artifact aggregate reproduction
         id: check_16_test_noema_005_run_36_artifact_aggrega
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: python -m unittest discover -s tests -p 'test_noema005_run36_threaded.py' -v
       - name: Reproduce NOEMA-005 experiment 002 frozen aggregate
         id: check_17_reproduce_noema_005_experiment_002_fro
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: python scripts/reproduce_noema005_experiment_002.py --check
       - name: Test NOEMA-005 experiment 002 frozen aggregate
         id: check_18_test_noema_005_experiment_002_frozen_a
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: python -m unittest discover -s tests -p 'test_noema005_experiment_002.py' -v
       - name: Validate NOEMA-005 2026-11-26 threaded rerun summary
         id: check_19_validate_noema_005_2026_11_26_threaded
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: python scripts/validate_noema005_threaded_rerun.py
       - name: Reproduce NOEMA-005 two-run threaded raw reports
         id: check_20_reproduce_noema_005_two_run_threaded_r
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: python scripts/reproduce_noema005_threaded_reruns.py --check
       - name: Test NOEMA-005 two-run threaded raw-report reproduction
         id: check_21_test_noema_005_two_run_threaded_raw_re
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: python -m unittest discover -s tests -p 'test_noema005_threaded_reruns.py' -v
       - name: Validate runnable NOEMA service entrypoint
         id: check_22_validate_runnable_noema_service_entryp
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: python -m noema_core.service --check --db "$RUNNER_TEMP/noema-service-check.sqlite3"
       - name: Validate offsite backup manifest schema contract
         id: check_23_validate_offsite_backup_manifest_schem
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: python -m unittest discover -s tests -p 'test_offsite_backup_manifest_schema.py' -v
       - name: Validate backup manifest against Draft 2020-12 at runtime
         id: check_24_validate_backup_manifest_against_draft
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: python -m unittest discover -s tests -p 'test_backup_manifest_runtime_validation.py' -v
       - name: Verify backup artifact digests against manifest
         id: check_25_verify_backup_artifact_digests_against
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: python -m unittest discover -s tests -p 'test_backup_artifact_verification.py' -v
       - name: Verify detached Ed25519 backup manifest signature
         id: check_26_verify_detached_ed25519_backup_manifes
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: python -m unittest discover -s tests -p 'test_backup_manifest_signature.py' -v
       - name: Validate SQLite backup and restore CLI
         id: check_27_validate_sqlite_backup_and_restore_cli
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: |
           DB="$RUNNER_TEMP/noema-ops.sqlite3"
           BACKUP="$RUNNER_TEMP/noema-ops-backup.sqlite3"
@@ -277,11 +277,11 @@
           python -m noema_core.jobs_cli --db "$RESTORED" metrics
       - name: Run Python unit tests
         id: check_28_run_python_unit_tests
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: python -m unittest discover -s tests -v
       - name: Reproduce NOEMA-003 trend analysis and compare frozen results
         id: check_29_reproduce_noema_003_trend_analysis_and
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: |
           python scripts/analyze_noema003.py --output "$RUNNER_TEMP/noema003-results.json"
           python - "$RUNNER_TEMP/noema003-results.json" <<'PY'
@@ -297,7 +297,7 @@
           PY
       - name: Reproduce NOEMA-003 cross-dataset comparison and check frozen results
         id: check_30_reproduce_noema_003_cross_dataset_comp
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: |
           python scripts/compare_noema003_datasets.py --output "$RUNNER_TEMP/noema003-cross-results.json"
           python - "$RUNNER_TEMP/noema003-cross-results.json" <<'PY'
@@ -313,7 +313,7 @@
           PY
       - name: Reproduce HadCRUT5 200-member trend distribution and verify source hashes
         id: check_31_reproduce_hadcrut5_200_member_trend_di
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: |
           SNAP="data/noema-003/hadcrut5-5.2.0.0"
           python scripts/analyze_hadcrut_ensemble.py \
@@ -344,7 +344,7 @@
           PY
       - name: Reproduce NOEMA-005 summation experiment and compare frozen results
         id: check_32_reproduce_noema_005_summation_experime
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: |
           python scripts/simulate_noema005_summation.py --output "$RUNNER_TEMP/noema005-results.json"
           python - "$RUNNER_TEMP/noema005-results.json" <<'PY'
@@ -370,7 +370,7 @@
           PY
       - name: Run NOEMA-005 runtime and memory benchmark smoke test
         id: check_33_run_noema_005_runtime_and_memory_bench
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: |
           python scripts/benchmark_noema005_summation.py \
             --sizes 128,512 --warmups 1 --repetitions 2 \
@@ -396,7 +396,7 @@
           PY
       - name: Reproduce NOEMA-005 sharded reduction simulation and compare frozen results
         id: check_34_reproduce_noema_005_sharded_reduction_
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: |
           python --version
           python -c "import platform; print(platform.platform())"
@@ -414,11 +414,11 @@
           PY
       - name: Run finite-sample simulation smoke test
         id: check_35_run_finite_sample_simulation_smoke_tes
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: python scripts/short_sequence_bias_simulation.py --trials 2000
       - name: Build public site and verify publication boundary
         id: check_36_build_public_site_and_verify_publicati
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: |
           python scripts/build_site.py --output "$RUNNER_TEMP/noema-site"
           test -f "$RUNNER_TEMP/noema-site/index.html"
@@ -428,7 +428,7 @@
           test ! -d "$RUNNER_TEMP/noema-site/research/published"
       - name: Verify pinned SignBase 2.0 audit snapshot
         id: check_37_verify_pinned_signbase_2_0_audit_snaps
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: |
           BASE="https://raw.githubusercontent.com/christianbentz/PaleoSigns/b376bd87d9676fbf63f8555d03e06b4c28113740/data/signBase"
           curl --fail --location --silent --show-error "$BASE/Sb2Artifact-2025-03-06.csv" --output /tmp/signbase-objects.csv
@@ -440,7 +440,7 @@
           diff -u data/audits/signbase-v2-audit-2026-11-23.json /tmp/signbase-audit.json
       - name: Check HTML document basics
         id: check_38_check_html_document_basics
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        continue-on-error: true
         run: |
           grep -q '<html lang="ka">' index.html
           grep -q '<title>NOEMA' index.html
@@ -492,6 +492,8 @@
                   handle.write(f"- Files with safe repairs: **{len(recovery['files_with_safe_repairs'])}**\n")
                   handle.write(f"- Remaining draft errors after repair: **{len(recovery['remaining_validation_errors'])}**\n")
           print(json.dumps(report, ensure_ascii=False, indent=2))
+          if failures:
+              raise SystemExit(1)
           PY
       - name: Upload CI recovery and diagnostics report
         if: always()
