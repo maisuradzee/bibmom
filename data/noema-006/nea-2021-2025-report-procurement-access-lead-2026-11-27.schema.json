@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://maisuradzee.github.io/bibmom/schemas/aquasignal-nea-report-procurement-access-lead.schema.json",
+  "title": "AquaSignal NEA report procurement access lead",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "study_id",
+    "record_id",
+    "evidence_status",
+    "source_authority",
+    "tender_id",
+    "contract_number",
+    "contract_signed_date",
+    "contract_valid_through",
+    "contractual_delivery_window",
+    "deliverables",
+    "contract_value_gel_excluding_vat",
+    "delivery_location",
+    "source_urls",
+    "interpretation",
+    "next_access_step",
+    "privacy_boundary"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "study_id": {
+      "const": "NOEMA-2026-006"
+    },
+    "record_id": {
+      "const": "AQUASIGNAL-NEA-REPORT-CONTRACT-ACCESS-2026-11-27"
+    },
+    "evidence_status": {
+      "const": "FACT"
+    },
+    "source_authority": {
+      "const": "National Environmental Agency of Georgia"
+    },
+    "tender_id": {
+      "const": "NAT260019441"
+    },
+    "contract_number": {
+      "const": "T-100801"
+    },
+    "contract_signed_date": {
+      "const": "2026-10-09"
+    },
+    "contract_valid_through": {
+      "const": "2026-12-31"
+    },
+    "contractual_delivery_window": {
+      "type": "string"
+    },
+    "deliverables": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "kind"
+        ],
+        "properties": {
+          "kind": {
+            "enum": [
+              "printed_groundwater_report",
+              "final_electronic_pdf",
+              "cd_media",
+              "printed_nitrate_field_methodology"
+            ]
+          },
+          "copies": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "pages_min": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "pages_max": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "a3_maps": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "format": {
+            "type": "string"
+          },
+          "interactive_table_of_contents_required": {
+            "type": "boolean"
+          },
+          "public_access_confirmed": {
+            "type": "boolean"
+          },
+          "content_description": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "contract_value_gel_excluding_vat": {
+      "const": 4200
+    },
+    "delivery_location": {
+      "type": "string",
+      "minLength": 20
+    },
+    "source_urls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "official_contract_pdf",
+        "nea_announcement",
+        "tender_notice"
+      ],
+      "properties": {
+        "official_contract_pdf": {
+          "type": "string",
+          "format": "uri"
+        },
+        "nea_announcement": {
+          "type": "string",
+          "format": "uri"
+        },
+        "tender_notice": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "interpretation": {
+      "type": "string",
+      "minLength": 100
+    },
+    "next_access_step": {
+      "type": "string",
+      "minLength": 40
+    },
+    "privacy_boundary": {
+      "type": "string",
+      "minLength": 40
+    }
+  }
+}
