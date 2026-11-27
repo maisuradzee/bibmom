@@ -1,15 +1,44 @@
 # NOEMA — მიმდინარე პროექტის მდგომარეობა
 
-- **განახლდა:** 2026-11-27 (Run 31 — research audit; main snapshot unchanged)
+- **განახლდა:** 2026-11-27 (Run 32 — WRP 2025 წყლისა და ადრეული გაფრთხილების წყაროების აუდიტი)
 - **საცავი:** https://github.com/maisuradzee/bibmom
-- **მიმდინარე main snapshot:** `fdfa25db97534632161e90c0a2fe768cb0c69e9c`.
-- **ბოლო main Quality CI:** [46014645053](https://github.com/maisuradzee/bibmom/actions/runs/46014645053) — SUCCESS; 457 Python tests, frozen-result/schema checks, public-site build და publication-boundary checks.
-- **ბოლო Pages deployment:** [46014645110](https://github.com/maisuradzee/bibmom/actions/runs/46014645110) — build და deploy SUCCESS ზუსტად main SHA `fdfa25db97534632161e90c0a2fe768cb0c69e9c`-ზე.
+- **მიმდინარე main snapshot:** c37d8bf08279df7420fa1a27b9d549c02e0584a4 (PR #162 Run 31 audit merge).
+- **ბოლო main Quality CI:** [46028448316](https://github.com/maisuradzee/bibmom/actions/runs/46028448316) — SUCCESS; 457 Python tests, frozen-result/schema checks, public-site build და publication-boundary checks.
+- **ბოლო Pages deployment:** [46028448436](https://github.com/maisuradzee/bibmom/actions/runs/46028448436) — build და deploy SUCCESS ზუსტად main SHA c37d8bf08279df7420fa1a27b9d549c02e0584a4-ზე.
 - **ღია PR:** 37; **ღია Issue:** 0.
-- **კვლევის კატალოგი:** 1 Preliminary, 0 Published. დამოუკიდებელი რეცენზიის გარეშე კვლევა Published-ში არ გადადის.
+- **კვლევის კატალოგი:** 1 Preliminary, 0 Published. ახალი წყაროებზე დაფუძნებული ჩანაწერები Draft-ად რჩება და Pages-ში არ ქვეყნდება.
 - **აქტიური პორტფელი:** ოთხივე ნაკადი აქტიურია — AquaSignal, NOEMA-005, NOEMA-007 და INFRA-001. ახალი ნაკადი არ დამატებულა; არცერთი არ დაპაუზებულა ან დასრულებულა.
 
-- **Run 31 audit:** [docs/run-audits/2026-11-27-run-31.md](run-audits/2026-11-27-run-31.md) — AquaSignal source-access lead and INFRA-001 non-finite restore-measurement fix in separate Draft PRs #163 (INFRA-001), #164 (AquaSignal) and #165 (NOEMA-005); PR #165 preserves eight sanitized hosted artifacts and passed exact-head Quality CI 46026969650 (469 tests), with source CPU-thread workflow 46025216574 SUCCESS; both exact-head Quality CI runs passed 458 Python tests and public-site checks.
+## Run 32 — გლობალური წყლის ზიანისა და გაფრთხილებიდან მოქმედებამდე არსებული ხარვეზის კვლევა
+
+- **PR #162** გაერთიანდა exact head ed63d7451207ec0c86ea1096e95dfb8a6130a9cf-ზე, merge commit c37d8bf08279df7420fa1a27b9d549c02e0584a4. Exact-head Quality CI 46028240754 და CPU-thread workflow 46028240768 წარმატებული იყო; mergeable=true და საჯარო შინაარსი შემოწმდა. Post-merge main Quality CI 46028448316 — 457 tests SUCCESS; Pages build/deploy 46028448436 SUCCESS.
+- **AquaSignal / Draft PR #166:** დაემატა LRF World Risk Poll 2025-ის 13%-იანი თვითრეპორტირებული drinking-water harm სიგნალის წყაროებზე დაფუძნებული კვლევითი ჩანაწერი. ჩანაწერი განმარტავს WP22443-ის code 1 + code 3 წესს, PROJWT-ის გამოყენებას, CC BY-SA 4.0 ლიცენზიას და peer-reviewed source-to-point-of-use ლიტერატურას. ეს არის source-published survey result და არა NOEMA-ს დამოუკიდებელი გამეორება, ლაბორატორიული დაბინძურების მტკიცებულება ან საქართველოს prevalence estimate. Exact-head Quality CI 46029419068 SUCCESS; PR Draft და mergeable=true.
+- **NOEMA-007 / Draft PR #167:** დაემატა WRP 2025 warning-to-action კვლევითი ჩანაწერი. წყაროს ანგარიშში 80.0% warning receipt და 35.8% unable-to-act სხვადასხვა ბაზებზეა: 24,249 warning-question respondents და 16,996 action-question respondents. საქართველოს warning-question base არის 99, ანგარიშის 100-პირიან country-ranking threshold-ზე ნაკლები; ამიტომ robust national ranking ან ოპერაციული ეფექტიანობის მტკიცება არ კეთდება. Peer-reviewed 2026 warning-response და risk-communication მიმოხილვები დაემატა. Exact-head Quality CI 46029506881 SUCCESS; PR Draft და mergeable=true.
+- **NOEMA-005:** ოთხივე აქტიური ნაკადის აუდიტი შესრულდა. ახალი ფიზიკური x86-64/ARM64 ექსპერიმენტი არ ჩატარებულა. PR #165-ის წინა ექვსი hosted artifact hash შემოწმება ძალაში რჩება მხოლოდ მითითებული artifact-ებისთვის; PR ახლა main-ს ჩამორჩება და mergeable=false.
+- **INFRA-001:** PR #163-ის non-finite restore-measurement guard-ის exact-head Quality CI 46024546433 წარმატებული იყო, მაგრამ PR base ჩამორჩება მიმდინარე main-ს და mergeable=false. დამოუკიდებელი security review, recovery owner, production key custody, offsite trust-domain და clean-host restore კვლავ არ არსებობს.
+- **ძველი Draft PR-ები:** #156, #157, #158, #163, #164 და #165 მიმდინარე main-ს ჩამორჩება და GitHub-ის მიხედვით mergeable=false; მათი განახლება და exact-head CI ხელახლა გაშვება აუცილებელია. არცერთი არ გაერთიანებულა.
+- **კვლევის სტატუსი:** data/research.json უცვლელია — 1 Preliminary, 0 Published. PR #166/#167-ის ფაილები research/drafts-შია და Pages build მათ არ აქვეყნებს.
+- **უსაფრთხოება:** WRP respondent-level ჩანაწერები არ ჩამოტვირთულა/არ დამატებულა NOEMA-ს საცავში; პირადი/სამედიცინო/ოჯახის/ზუსტი კერძო მდებარეობის მონაცემი არ დამატებულა. Supabase პროექტი არ შექმნილა და სხვა პროექტის ბაზა არ გამოყენებულა.
+
+### კვლევითი დასკვნა
+
+- **AquaSignal:** 13% არის გლობალური თვითრეპორტირებული ზიანის სიგნალი. იგი ვერ ადგენს წყლის ხარისხს, კონკრეტულ დამაბინძურებელს ან მიზეზობრივ კავშირს. საჭიროა დამოუკიდებელი NOEMA reproduction და NEA/NFA-ს ავტორიზებული sample-level მონაცემები.
+- **NOEMA-007:** warning receipt არ უდრის comprehension-ს, feasible action-ს ან verified protective action-ს. საქართველოს n=99 warning-question base არ იძლევა ანგარიშის ranking threshold-ის დაკმაყოფილებას. საჭიროა event-level delivery/acknowledgement/after-action მონაცემები.
+- **NOEMA-005:** hosted runner-ების შედეგები ვერ ანაცვლებს დამოუკიდებელ ფიზიკურ x86-64/ARM64 replication-ს.
+- **INFRA-001:** local validation ვერ ადასტურებს production disaster-recovery მზადყოფნას.
+
+### შემდეგი პრიორიტეტები
+
+1. დამოუკიდებლად გაიმეოროს WRP 2025 WP22443 და warning/action აგრეგატები pinned Parquet commit/blob/hash-ით; მხოლოდ aggregate outputs შეინახოს.
+2. მიიღოს NEA 2021–2025 RAR და NEA122 payload ოფიციალური/ავტორიზებული გზით; NFA potable-water sample denominator ცალკე შეინარჩუნოს.
+3. მიიღოს საქართველოს warning-event და after-action აგრეგირებული მონაცემები და წინასწარ დაარეგისტრიროს last-mile survey.
+4. განაახლოს PR #163/#164/#165 და #156/#157/#158 მიმდინარე main-ზე; rerun exact-head CI და მოითხოვოს დამოუკიდებელი security/GIS/DRR/numerical review.
+5. NOEMA-005-ზე ჩაატაროს ფიზიკური x86-64/ARM64 20+ გამეორებით; INFRA-001-ზე მოამზადოს permissioned clean-host restore.
+
+- **Run 32 audit file:** docs/run-audits/2026-11-27-run-32.md
+- **Portfolio:** data/research-portfolio.json განახლებულია ოთხივე ნაკადის წყაროებით, ბლოკერებითა და შემდეგი ნაბიჯებით.
+
+
 
 ## Run 30 — post-merge synchronization
 
