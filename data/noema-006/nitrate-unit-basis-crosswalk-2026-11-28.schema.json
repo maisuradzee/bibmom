@@ -30,7 +30,7 @@
     "sources": {
       "type": "array",
       "minItems": 4,
-      "maxItems": 4,
+      "maxItems": 5,
       "items": {
         "type": "object",
         "additionalProperties": false,
@@ -70,6 +70,10 @@
               "type": "string",
               "minLength": 20
             }
+          },
+          "assessment_date": {
+            "type": "string",
+            "pattern": "^[0-9]{4}$"
           }
         }
       }
