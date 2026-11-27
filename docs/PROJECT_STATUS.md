@@ -2,15 +2,15 @@
 
 - **განახლდა:** 2026-11-27 (run 26, post-merge verified main snapshot)
 - **საცავი:** https://github.com/maisuradzee/bibmom
-- **მდგომარეობის snapshot main:** 2469d0c82e065db0a1fe1982f457a1b66fb45ba6 (PR #149 source-translation correction)
-- **Main quality CI:** [45994175616](https://github.com/maisuradzee/bibmom/actions/runs/45994175616) — SUCCESS for exact main snapshot `2469d0c82e065db0a1fe1982f457a1b66fb45ba6`.
-- **GitHub Pages deployment:** [45994175596](https://github.com/maisuradzee/bibmom/actions/runs/45994175596) — build and deploy SUCCESS for exact main snapshot `2469d0c82e065db0a1fe1982f457a1b66fb45ba6`.
+- **მდგომარეობის snapshot main:** 27edcf226bd27981c32b935d66c697321384a84c (PR #150 Run 26 portfolio/status audit merged)
+- **Main quality CI:** [45994569018](https://github.com/maisuradzee/bibmom/actions/runs/45994569018) — SUCCESS for exact main snapshot `27edcf226bd27981c32b935d66c697321384a84c`.
+- **GitHub Pages deployment:** [45994568948](https://github.com/maisuradzee/bibmom/actions/runs/45994568948) — build and deploy SUCCESS for exact main snapshot `27edcf226bd27981c32b935d66c697321384a84c`.
 - **PR #113 — run-18 audit/status:** merged as `c507a91a213435cf6992abf37c233426882cb973`; exact post-merge quality CI [45946337600](https://github.com/maisuradzee/bibmom/actions/runs/45946337600) and Pages build/deploy [45946337647](https://github.com/maisuradzee/bibmom/actions/runs/45946337647) both SUCCESS.
 - **Run 18 audit:** [docs/run-audits/2026-11-27-run-18.md](run-audits/2026-11-27-run-18.md) — two independent streams advanced: NOEMA-005 local KVM native-thread reruns and NOEMA-007 AER/mobility-inclusive review schema; both research PRs remain Draft.
 - **Run 17 audit:** [docs/run-audits/2026-11-27-run-17.md](run-audits/2026-11-27-run-17.md) — separate AquaSignal legal data-access and NOEMA-007 flood-risk governance updates in Draft PRs #108 and #109; exact-head quality CI passed for both.
 - **Run 16 audit:** [docs/run-audits/2026-11-27-run-16.md](run-audits/2026-11-27-run-16.md) — NOEMA-007 heat-health readiness discovery and NOEMA-005 ARM64 worker/traced-allocation analysis added in separate Draft PRs #103 and #104.
 - **Merged in current main:** PR #97 (AquaSignal official NEA groundwater RAR URL/retrieval boundary), PR #102 (run-15 status/audit synchronization) and PR #105 and #106 (run-16 status/audit and post-merge status synchronization), PR #107 (run-16 source/CI correction), and PR #110 (run-17 audit/status), and PR #113 (run-18 audit/status). PR #113's exact main quality CI and Pages build/deploy passed.
-- **Open research/engineering PRs:** 25 (0 open Issues). Current active Drafts include #144 AquaSignal 2025 NEA aggregate + definition provenance, #145 NOEMA-007 feasible timely-receipt window, #146 INFRA-001 local high-water reference model and #148 NOEMA-005 local container reproduction. These four branches still target the prior `0b22644` base snapshot and require refresh/revalidation before merge. PR #149 documentation-only source-translation correction is merged as `2469d0c`.
+- **Open research/engineering PRs:** 25 (0 open Issues). Current active Drafts include #144 AquaSignal 2025 NEA aggregate + definition provenance, #145 NOEMA-007 feasible timely-receipt window, #146 INFRA-001 local high-water reference model and #148 NOEMA-005 local container reproduction. These four branches still target the prior `0b22644` base snapshot and require refresh/revalidation before merge. PR #149 documentation-only source-translation correction is merged as `2469d0c`; PR #150 Run 26 portfolio/status audit is merged as `27edcf`.
 - **Public research catalogue:** 1 preliminary, 0 published. No research item was promoted to Published.
 - **Run 25 audit:** [docs/run-audits/2026-11-27-run-25.md](run-audits/2026-11-27-run-25.md) — three independent clean-base Draft PRs with exact-head Quality CI and CPU-thread workflow success; a new official NEA 2025 aggregate report was found and encoded safely.
 - **Run 26 audit:** [docs/run-audits/2026-11-27-run-26.md](run-audits/2026-11-27-run-26.md) — AquaSignal source-term correction and reporting-frame reconciliation, NOEMA-005 frozen-report packaging/derived-metric audit, and a review of the two unchanged NOEMA-007/INFRA-001 Draft streams.
@@ -194,3 +194,10 @@
 - **Portfolio:** four active streams remain; no fifth stream added and none paused/completed. Research catalogue remains 1 Preliminary / 0 Published. Open PRs: 25; open Issues: 0. PRs #144–#148 remain Draft/stale-base; do not merge until refreshed against current main and exact-head checks are repeated.
 - **Evidence/safety:** NEA's 2025-09-18 network disclosure (72 groundwater points, 238 surface-water locations, 12 Black Sea locations) and 2025 annual report counts (74 laboratory-sampling points, 73 listed-parameter points, 124 combined reported groundwater monitoring points) are different reporting frames; no 72→74 trend or unique-site count is inferred. The 681 laboratory sample counts are not a compliance denominator or water-safety estimate. No personal, household, private-well-owner, health, device, location-tracking, credential or restricted data was added. No new Supabase project was created and no other project's database was used.
 - Full methodology, source boundaries and next steps: [Run 26 audit](run-audits/2026-11-27-run-26.md).
+
+
+### Run 26 post-merge synchronization
+
+- PR #150 merged as `27edcf226bd27981c32b935d66c697321384a84c`.
+- Exact post-merge main Quality CI [45994569018](https://github.com/maisuradzee/bibmom/actions/runs/45994569018) and GitHub Pages build/deploy [45994568948](https://github.com/maisuradzee/bibmom/actions/runs/45994568948) both succeeded.
+- The merged Run 26 portfolio records all four active streams, source-frame distinctions, AquaSignal's corrected control-well terminology, and the NOEMA-005 frozen-report packaging/derived-metric audit.
