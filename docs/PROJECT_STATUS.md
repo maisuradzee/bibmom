@@ -34,8 +34,8 @@
 | NOEMA-007 Last-Mile Action Gap | active / draft | PR #112 retains the mobility/AER finding-register proposal; PR #117 adds a pre-registered sampling contract and semantic validator for distinct resident/time-location/partner/service-point/endpoint frames, probability-only population estimates and separate endpoint/person denominators. Exact-head quality CI 45947883409 and both CPU-thread jobs 45947883396 SUCCESS. Synthetic fixtures only; no Georgian event/field pilot. |
 | NOEMA-INFRA-001 reliability | active / engineering | Main retains local manifest/hash/signature verification; PR #101 is the single-host high-water reference model; PR #118 adds a strict restore-attestation contract that distinguishes local round-trip from offsite clean-host completeness and blocks stale generation/RPO/RTO overruns. Exact-head quality CI 45947828733 and both CPU-thread jobs 45947828727 SUCCESS. No provider, external high-water authority or clean-host restore is deployed. |
 | საჯარო კვლევითი კატალოგი | 1 preliminary, 0 published | data/research.json; Draft კვლევები არ არის Published. |
-| Main quality CI | SUCCESS | run 45934655564 — exact verified main SHA 0a6dbe4c4c0c18f49540f966c89d6b53b99425bf. |
-| GitHub Pages | DEPLOYED | run 45934655643 — build და deploy SUCCESS exact main SHA 0a6dbe4c4c0c18f49540f966c89d6b53b99425bf-ზე. https://maisuradzee.github.io/bibmom/ |
+| Main quality CI | Last verified SUCCESS | run 45946337600 — exact main snapshot c507a91a213435cf6992abf37c233426882cb973; later current main 84512d4fa57235b06842568ef933a72b2edcd698 is not independently verified in this run. |
+| GitHub Pages | Last verified DEPLOYED | run 45946337647 — build და deploy SUCCESS exact main snapshot c507a91a213435cf6992abf37c233426882cb973-ზე; 84512d4 current main snapshot-ის deployment ჯერ დაუდასტურებელია. https://maisuradzee.github.io/bibmom/ |
 | Supabase | NOEMA-სთვის ახალი პროექტი არ შექმნილა | Git-ით ვერსიაკონტროლირებადი JSON/SQLite reference architecture; სხვა პროექტის ბაზა არ გამოიყენება. |
 
 ## Run 18 — ზუსტი PR და CI მდგომარეობა
