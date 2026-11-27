@@ -162,3 +162,11 @@ The WHO's fourth edition incorporating the third addendum is the current interna
 
 - [WHO 2026 Guidelines](https://www.who.int/publications/i/item/9789240121225)
 - [WHO 2026 chemical fact sheets PDF](https://cdn.who.int/media/docs/default-source/wash-documents/water-safety-and-quality/dwq-guidelines-4/gdwq_4ed_with_third-addenda_chemical-fact-sheets.pdf?sfvrsn=77d972e1_5)
+
+
+## NOEMA-007 — Georgia preliminary flood-risk assessment framework (2026-11-28)
+
+- Government Decree №440/2026 establishes preliminary assessment of potential flood-risk areas across Georgia's river-basin districts, with methodology approval due by 2027-06-01 and the first national assessment due by 2028-12-31.
+- Assessment inputs include historical events/impacts, basin and topographic data, hydrology/meteorology, geology/geomorphology, land use, settlements, critical infrastructure, ecological/cultural assets and climate information.
+- The decree is a statutory risk-discovery and prioritization framework; it does not itself publish hazard/risk maps or establish operational alert delivery, comprehension or warning-response effectiveness.
+- [Research note](research/drafts/NOEMA-2026-007-georgia-flood-risk-assessment-framework-2026-11-28.md) preserves evidence labels, milestones and data gaps.
