@@ -419,3 +419,12 @@ The NFA 2026-09-25 Tbilisi kindergarten investigation update reports approximate
 - PR #193 exact-head Quality CI and CPU-thread workflow both succeeded after replacing full runner platform strings with coarse provider-family metadata.
 - PR #194 exact-head Quality CI and CPU-thread workflow both succeeded; its URL hygiene guard remains Draft pending independent review.
 - PR #190 and PR #192 had new commits after their first CI attempts; latest exact-head checks are being re-evaluated. No Main merge or deployment is claimed from those Draft PRs.
+
+
+### Main merge update — 2026-11-27
+
+- PR #193 (NOEMA-005 Run 36 artifact reproduction and public runner metadata minimization) merged as `58fe694a4656c1ca020d096af279d1a9eb752e91`. Research remains Preliminary; no peer-reviewed publication claim is made.
+- PR #190 (AquaSignal NFA 2025/2026 source access and metadata) merged as `e079dc8141c6a763f1eb79e13c5a56f8f0707c90`. The 750 sample figure remains a plan target, and the 694 investigation count remains combined food/water; actual water-only counts/results are not available.
+- PR #192 is refreshed onto the latest main and carries Run 37 portfolio/audit updates; exact-head CI is pending.
+- PR #191 remains Draft pending independent security review. PR #194 remains Draft pending fresh exact-head CI and independent privacy/GIS/DRR review.
+- Main CI and Pages deployment for the new main tip must be checked separately; no deployment is claimed until its deploy job succeeds.
