@@ -1,0 +1,40 @@
+name: NOEMA-005 OpenMP CPU/wall consistency audit
+
+on:
+  push:
+    branches:
+      - research/noema005-openmp-cpu-wall-audit-2026-11-27
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/noema005-openmp-cpu-wall-audit.yml'
+      - 'data/noema-005/native-openmp-raw-report-2026-11-26.json'
+      - 'data/noema-005/native-openmp-ci-summary-2026-11-26.json'
+      - 'data/noema-005/native-openmp-cpu-wall-consistency-audit-2026-11-27.json'
+      - 'data/noema-005/native-openmp-cpu-wall-consistency-audit.schema.json'
+      - 'scripts/audit_noema005_openmp_cpu_wall_consistency.py'
+      - 'tests/test_noema005_openmp_cpu_wall_consistency.py'
+      - 'research/drafts/NOEMA-2026-005-openmp-cpu-wall-consistency-audit-2026-11-27.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: noema005-openmp-cpu-wall-audit-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Reproduce frozen CPU/wall consistency audit
+        run: python scripts/audit_noema005_openmp_cpu_wall_consistency.py --check
+      - name: Validate schema and mutation tests
+        run: python -m unittest discover -s tests -p 'test_noema005_openmp_cpu_wall_consistency.py' -v
