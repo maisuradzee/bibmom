@@ -275,7 +275,7 @@
           "WSE.tif",
           "Flood_extent.shp"
         ],
-        "layer_interpretation": "Catalogue-described hydraulic-model outputs; no model run, raster, feature or local forecast was retrieved."
+        "layer_interpretation": "Catalogue-described hydraulic-model outputs; no model run, raster or feature was retrieved, and these are not a current forecast."
       },
       "data_formats": [
         "shp",
