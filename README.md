@@ -31,7 +31,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - `data/research.json` — საჯარო, ვერსიაკონტროლირებადი კვლევების კატალოგი; `data/research.schema.json` განსაზღვრავს ჩანაწერების სტრუქტურას. ეს არის ამჟამინდელი სტატიკური კატალოგი და არა Supabase/სერვერული მონაცემთა ბაზა.
 - `data/research-portfolio.json` და `data/research-portfolio.schema.json` — 3–5 აქტიური კვლევითი ნაკადის საერთო პორტფელი, თითოეული ნაკადის კითხვით, მეთოდით, წყაროებით, რისკებით, სტატუსითა და შემდეგი ნაბიჯით.
 - `data/noema-003/` — NOAA-ს ფიქსირებული მონაცემთა ამონარიდი, NASA/HadCRUT5/NOAA snapshot-ები, provenance metadata და გამეორებადი შედეგები.
-- `data/noema-005/` — binary64 ჯამის რიგითობის ექსპერიმენტის გაყინული შედეგები, ზუსტი reference შედარება და runtime/CPU-thread benchmark არტეფაქტები.
+- `data/noema-005/` — binary64 ჯამის რიგითობის ექსპერიმენტის გაყინული შედეგები, ზუსტი reference შედარება და runtime/CPU-thread benchmark არტეფაქტები; 2026-11-27-ის hosted GIL/free-threaded repeat sanitized `.json.gz.b64` ფორმით ინახება, thread IDs-ისა და დეტალური host build-ის გარეშე.
 - `data/noema-007/` — UNDRR/WMO 2026 early-warning და anticipatory-action aggregate snapshots, reproducible arithmetic და privacy-safe action-readiness schema; რეალური event-level მონაცემი ჯერ არ არსებობს.
 - `research/drafts/` — სამუშაო ჩანაწერები; Pages არტეფაქტში არ შედის, თუმცა საჯარო GitHub საცავში იკითხება.
 - `research/preprints/` — წინასწარი, მომხმარებლისთვის მკაფიო გაფრთხილებით გამოჩენილი კვლევები.
@@ -40,6 +40,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - `.github/workflows/ci.yml` — საბაზისო შემოწმებები.
 - `scripts/build_site.py` — Markdown კვლევების უსაფრთხო HTML-გვერდებად გარდაქმნა და საჯარო არტეფაქტის აწყობა.
 - `scripts/validate_drafts.py` — დრაფტების მინიმალური სარედაქციო სისრულის ავტომატური შემოწმება.
+- `scripts/reproduce_noema005_threaded_ci_artifacts.py` და `scripts/validate_noema005_threaded_ci_repeat.py` — hosted CPU-thread artifact-ების უსაფრთხო სანიტიზაცია, SHA-256 provenance და frozen-result reproduction.
 - `requirements-site.txt` — ფიქსირებული Markdown renderer ვერსია.
 - `.github/workflows/deploy.yml` — საჯარო ფაილების შერჩევა და Pages deployment.
 
