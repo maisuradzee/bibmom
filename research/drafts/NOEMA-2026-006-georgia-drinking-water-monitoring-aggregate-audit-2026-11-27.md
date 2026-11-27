@@ -182,3 +182,17 @@ JECM-ის 2025/1 ნომრის მე-4 გვერდის Table 1-შ
 
 წყარო: Bakradze et al. (2025), *State Control and Monitoring Trends of Drinking Water Quality in Georgia*, JECM 2025/1, გვ. 4, Table 1. DOI: https://doi.org/10.52340/jecm.2025.01.25; PDF: https://journals.4science.ge/index.php/jecm/article/download/3442/3462/5026.
 
+
+
+## 2026-11-27 source-indicator clarification
+
+A direct reading of the full JECM article PDF resolves one important classification issue, but not the numerical discrepancy.
+
+- **FACT — JECM 2023 (49.5%):** Figure 3 describes the share of samples with violations of the drinking-water technical regulation. It is a broad all-standard non-compliance measure, not an E. coli-only percentage. Table 1 separately enumerates violation-category frequencies; the article reports microbiological violations as the main category and documents co-occurring categories. Locator: JECM 2025/1, p.3 Figure 3 and pp.4–5 Table 1/discussion.
+- **FACT — UNECE/WHO 2023 narrative (44.5%):** the government-submitted report describes the share of drinking-water quality-control samples that did not meet standards and says the non-compliance was mainly due to microbiological indicators. Locator: p.16. It is also a broad all-standard narrative, not the E. coli-only table value.
+- **FACT — UNECE/WHO Table 4.i (40.3%):** this is explicitly E. coli-specific for 2024. Locator: p.56, Table 4.i. The same 40.3% also appears in the narrative for all-standard non-compliance on p.16; equal numeric values do not prove equal indicator definitions.
+- **INFERENCE:** the JECM 49.5% and UNECE/WHO 44.5% values are conceptually similar broad non-compliance indicators, so the earlier label “not directly comparable” was too strong if read as meaning different indicator classes. The better classification is **conceptually similar but numerically unreconciled**.
+- **UNRESOLVED:** the sources do not provide a common 2023 denominator, identical sampling frame, selection design or indicator crosswalk. The 5.0 percentage-point difference must not be averaged, silently corrected or treated as a continuous trend.
+- **SOURCE-METADATA CORRECTION:** the JECM PDF's verified download path is `https://journals.4science.ge/index.php/jecm/article/download/3442/3462`; the previous URL included an extra trailing path segment. The journal article is published in JECM 2025/1, but formal peer-review procedure remains independently unverified.
+
+The deterministic audit now emits the three indicator descriptions and the revised status. This is a source-classification correction only; no raw NFA samples were obtained and no operational AquaSignal alert is supported.

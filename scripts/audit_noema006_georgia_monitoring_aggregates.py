@@ -190,7 +190,10 @@ def audit_snapshot(snapshot: dict) -> dict:
                 "jecm_pct": float(jecm_2023),
                 "unece_narrative_pct": float(unece_2023),
                 "difference_percentage_points": _six(jecm_2023 - unece_2023),
-                "status": "unresolved_not_directly_comparable",
+                "jecm_indicator": "All technical-regulation non-compliance among drinking-water monitoring samples; the article says microbiological violations were the main category, but 49.5% is not an E. coli-only rate (JECM 2025/1, p.3 Figure 3 and pp.4-5 Table 1/discussion).",
+                "unece_narrative_indicator": "All drinking-water quality-standard non-compliance; the government-submitted narrative says non-compliance was mainly due to microbiological indicators, but 44.5% is not identified as the Table 4.i E. coli-only rate (UNECE/WHO report, p.16).",
+                "unece_table_4i_indicator": "E. coli-specific non-compliance; current value 40.3% for 2024 (UNECE/WHO report, p.56, Table 4.i).",
+                "status": "conceptually_similar_but_numerically_unreconciled",
             },
             {
                 "year": 2024,
@@ -202,8 +205,9 @@ def audit_snapshot(snapshot: dict) -> dict:
         "table1_category_reconciliation": table1_audit,
         "conclusion": (
             "The published aggregates are not sufficient for an operational local water-safety signal. "
-            "2020 and 2021 denominators do not reconcile; 2023 source values differ; the 2024 E. coli "
-            "and all-standard contexts must remain separate."
+            "2020 and 2021 denominators do not reconcile; the 2023 broad all-standard values (JECM 49.5%, "
+            "UNECE/WHO narrative 44.5%) are conceptually similar but numerically unreconciled; the 2024 "
+            "E. coli-specific table value must remain separate from the all-standard narrative."
         ),
     }
 

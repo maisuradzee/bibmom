@@ -18,12 +18,12 @@
       "publisher": "Experimental and Clinical Medicine Georgia",
       "publication_date": "2025-03-01",
       "doi": "10.52340/jecm.2025.01.25",
-      "url": "https://journals.4science.ge/index.php/jecm/article/download/3442/3462/5026",
+      "url": "https://journals.4science.ge/index.php/jecm/article/download/3442/3462",
       "accessed_at": "2026-11-27",
       "locators": [
-        "pp. 2–4, Figures 1–3 and Table 1"
+        "pp. 2–5, Figures 1–3 and Table 1; p.3 Figure 3 reports all technical-regulation non-compliance; pp.4–5 describe violation categories and overlaps"
       ],
-      "review_status": "Formal peer-review procedure for this article was not independently verified from accessible journal policy pages."
+      "review_status": "Journal article and issue publication are verified; the journal's formal peer-review procedure was not independently verified from accessible policy pages."
     },
     {
       "id": "UNECE-GEORGIA-6TH-CYCLE-2025",
@@ -119,7 +119,7 @@
     "jecm_2023_national_all_standard_noncompliance_pct": 49.5,
     "unece_2023_narrative_all_standard_noncompliance_pct": 44.5,
     "difference_percentage_points": 5,
-    "comparability": "unresolved; no common sample frame, denominator or indicator crosswalk is supplied"
+    "comparability": "Both 2023 figures describe broad drinking-water standard/technical-regulation non-compliance, not an E. coli-only rate. JECM reports 49.5% among its 2023 monitoring samples; the UNECE/WHO government-submitted narrative reports 44.5% and says non-compliance was mainly microbiological. Their 5.0 percentage-point difference remains numerically unreconciled because the UNECE narrative gives no 2023 sample denominator or sample-frame details, while JECM does not publish its full sample-selection design. Do not merge them into one time series. The UNECE Table 4.i is a separate E. coli-specific indicator."
   },
   "limitations": [
     "Published figures are transcribed aggregates, not raw sample-level observations.",

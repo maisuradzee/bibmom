@@ -64,6 +64,16 @@ class AquaSignalPublishedAggregateAuditTests(unittest.TestCase):
         self.assertEqual([row["table1_total_compatible_if_categories_are_unique_samples"] for row in rows], [True, False, True, False])
         self.assertTrue(all(row["counting_semantics"].startswith("unverified_") for row in rows))
 
+    def test_2023_broad_noncompliance_values_are_not_ecoli_and_remain_unreconciled(self):
+        check = audit_snapshot(self.snapshot)["cross_source_checks"][0]
+        self.assertEqual(check["difference_percentage_points"], 5.0)
+        self.assertEqual(check["status"], "conceptually_similar_but_numerically_unreconciled")
+        self.assertIn("not E. coli-specific", check["jecm_indicator"])
+        self.assertIn("not the E. coli-only", check["unece_narrative_indicator"])
+        self.assertIn("E. coli-specific", check["unece_table_4i_indicator"])
+        jecm = next(source for source in self.snapshot["sources"] if source["id"] == "JECM-2025-01-25")
+        self.assertEqual(jecm["url"], "https://journals.4science.ge/index.php/jecm/article/download/3442/3462")
+
     def test_missing_table1_category_is_rejected(self):
         snapshot = copy.deepcopy(self.snapshot)
         del snapshot["table1_violation_category_counts"]["categories"]["microbiological"]

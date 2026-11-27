@@ -50,7 +50,10 @@
       "jecm_pct": 49.5,
       "unece_narrative_pct": 44.5,
       "difference_percentage_points": 5,
-      "status": "unresolved_not_directly_comparable"
+      "status": "conceptually_similar_but_numerically_unreconciled",
+      "jecm_indicator": "All technical-regulation non-compliance among drinking-water monitoring samples; not E. coli-specific (JECM 2025/1, p.3 Figure 3 and pp.4-5 Table 1/discussion).",
+      "unece_narrative_indicator": "All drinking-water quality-standard non-compliance, mainly due to microbiological indicators; not the E. coli-only Table 4.i rate (UNECE/WHO report, p.16).",
+      "unece_table_4i_indicator": "E. coli-specific non-compliance; 2024 current value 40.3% (UNECE/WHO report, p.56, Table 4.i)."
     },
     {
       "year": 2024,
@@ -59,7 +62,7 @@
       "status": "same_numeric_value_distinct_indicator_context"
     }
   ],
-  "conclusion": "The published aggregates are not sufficient for an operational local water-safety signal. 2020 and 2021 denominators do not reconcile; 2023 source values differ; the 2024 E. coli and all-standard contexts must remain separate.",
+  "conclusion": "The published aggregates are not sufficient for an operational local water-safety signal. 2020 and 2021 denominators do not reconcile; the 2023 broad all-standard values (JECM 49.5%, UNECE/WHO narrative 44.5%) are conceptually similar but numerically unreconciled; the 2024 E. coli-specific table value must remain separate from the all-standard narrative.",
   "table1_category_reconciliation": {
     "source_locator": "JECM 2025/1, p.4, Table 1",
     "method": "Sum transcribed Table 1 categories by year; count every category whose name includes microbiological (including combined categories); derive the integer-count interval compatible with the published one-decimal national rate using half-width 0.05 percentage points. Treat row totals as unique samples only conditionally because the article does not define category exclusivity.",
