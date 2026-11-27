@@ -40,6 +40,13 @@ jobs:
           test -f data/noema-005/raw/run-45867519546-free-threaded.json.gz.b64
           test -f scripts/reproduce_noema005_threaded_reruns.py
           test -f tests/test_noema005_threaded_reruns.py
+          test -f data/noema-005/threaded-ci-repeat.schema.json
+          test -f data/noema-005/raw/threaded-ci-repeat-2026-11-27-gil-enabled.json.gz.b64
+          test -f data/noema-005/raw/threaded-ci-repeat-2026-11-27-free-threaded.json.gz.b64
+          test -f scripts/reproduce_noema005_threaded_ci_artifacts.py
+          test -f scripts/validate_noema005_threaded_ci_repeat.py
+          test -f tests/test_noema005_threaded_ci_repeat.py
+          test -f research/drafts/NOEMA-2026-005-threaded-ci-repeat-2026-11-27.md
           test -f scripts/validate_noema005_cpu_thread_summary.py
           test -f tests/test_noema005_cpu_thread_summary.py
           test -f data/noema-007/mhews-2026-source-snapshot.json
@@ -165,6 +172,10 @@ jobs:
         run: python scripts/reproduce_noema005_threaded_reruns.py --check
       - name: Test NOEMA-005 two-run threaded raw-report reproduction
         run: python -m unittest discover -s tests -p 'test_noema005_threaded_reruns.py' -v
+      - name: Validate NOEMA-005 2026-11-27 hosted CPU-thread frozen reports
+        run: python scripts/validate_noema005_threaded_ci_repeat.py
+      - name: Test NOEMA-005 hosted CPU-thread artifact reproduction
+        run: python -m unittest discover -s tests -p 'test_noema005_threaded_ci_repeat.py' -v
       - name: Validate runnable NOEMA service entrypoint
         run: python -m noema_core.service --check --db "$RUNNER_TEMP/noema-service-check.sqlite3"
       - name: Validate offsite backup manifest schema contract
