@@ -41,7 +41,8 @@
         "Resolve the direct RAR archive URL linked by NEA's 2026-11-26 announcement; record the retrieval failure as an execution-environment limitation and do not infer archive contents or licence.",
         "Add a metadata-first same-period indicator comparability gate: require identical indicator definition, water matrix, standard/version, period, geography, sampling frame/design, inclusion rule and analytical method; validate numerator/denominator and source-rounded percentage before allowing descriptive comparison.",
         "Preserve the JECM 2023 49.5% and Government-submitted 44.5% source reports as non-comparable until their denominator, matrix, standard, sampling frame, inclusion rule and method are reconciled; unknown metadata remain null.",
-        "Require explicit supply_type_scope metadata in addition to water_matrix, following WHO 2026 surveillance guidance that piped-only observation may miss other supplies and that small/community supply surveillance needs a designed sampling frame."
+        "Require explicit supply_type_scope metadata in addition to water_matrix, following WHO 2026 surveillance guidance that piped-only observation may miss other supplies and that small/community supply surveillance needs a designed sampling frame.",
+        "For any official anomaly or surveillance finding, retain the issuing authority's recommended remedial action and separately sourced follow-up status; publication of a result must never be treated as proof that corrective action occurred."
       ],
       "sources": [
         {
@@ -292,7 +293,8 @@
         "A source inventory must keep surface, groundwater, marine and potable-network observations distinct and identify whether sample-level provenance, method, units, QA/QC and reuse permission exist before ingestion.",
         "Every future imported observation retains matrix, station/sample identity, collection and publication timestamps, analyte, unit, method, QA/QC, source-page provenance and reuse permission; records missing mandatory fields are blocked.",
         "No surface-water, groundwater, marine-water or potable-network observation is merged into another matrix or evaluated against an unapproved threshold.",
-        "Any 2024 E. coli trend statement preserves the published denominator limitation and reports sample-level coverage only when the underlying counts are obtained."
+        "Any 2024 E. coli trend statement preserves the published denominator limitation and reports sample-level coverage only when the underlying counts are obtained.",
+        "Every displayed anomaly has a separately sourced official follow-up status; unknown remains unknown until the responsible authority publishes closure evidence."
       ],
       "last_reviewed": "2026-11-27"
     },
