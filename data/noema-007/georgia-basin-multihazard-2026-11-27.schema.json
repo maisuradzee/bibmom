@@ -175,7 +175,8 @@
           "direct_download_confirmed",
           "reuse_license_confirmed",
           "data_payload_obtained",
-          "scope"
+          "scope",
+          "data_formats"
         ],
         "properties": {
           "id": {
@@ -201,8 +202,7 @@
             "items": {
               "enum": [
                 "point",
-                "polygon",
-                "raster"
+                "polygon"
               ]
             }
           },
@@ -272,6 +272,17 @@
               "station_status": {
                 "type": "string"
               }
+            }
+          },
+          "data_formats": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "shp",
+                "tif"
+              ]
             }
           }
         }
