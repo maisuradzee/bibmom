@@ -14,10 +14,6 @@ on:
 permissions:
   contents: read
 
-concurrency:
-  group: aquasignal-wrp2025-water-harm-\${{ github.ref }}
-  cancel-in-progress: false
-
 jobs:
   reproduce:
     runs-on: ubuntu-24.04
@@ -37,10 +33,15 @@ jobs:
         run: curl --fail --location --silent --show-error --retry 3 --retry-delay 2 "$SOURCE_URL" --output "$RUNNER_TEMP/WRP_2025.parquet"
       - name: Independently reproduce water-harm aggregate
         run: python scripts/reproduce_aquasignal_wrp2025_water_harm.py --input "$RUNNER_TEMP/WRP_2025.parquet" --output "$RUNNER_TEMP/aquasignal-wrp2025-water-harm.json"
+      - name: Stage aggregate-only output
+        run: cp "$RUNNER_TEMP/aquasignal-wrp2025-water-harm.json" aquasignal-wrp2025-water-harm.json
       - name: Upload aggregate-only result
         uses: actions/upload-artifact@v7
         with:
           name: aquasignal-wrp2025-water-harm-aggregate-only
-          path: \${{ runner.temp }}/aquasignal-wrp2025-water-harm.json
+          path: aquasignal-wrp2025-water-harm.json
           if-no-files-found: error
           retention-days: 30
+      - name: Remove staged aggregate
+        if: always()
+        run: rm -f aquasignal-wrp2025-water-harm.json
