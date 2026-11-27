@@ -1,13 +1,15 @@
 # NOEMA — მიმდინარე პროექტის მდგომარეობა
 
-- **განახლდა:** 2026-11-27 (Run 30 — post-merge synchronization)
+- **განახლდა:** 2026-11-27 (Run 31 — research audit; main snapshot unchanged)
 - **საცავი:** https://github.com/maisuradzee/bibmom
 - **მიმდინარე main snapshot:** `fdfa25db97534632161e90c0a2fe768cb0c69e9c`.
 - **ბოლო main Quality CI:** [46014645053](https://github.com/maisuradzee/bibmom/actions/runs/46014645053) — SUCCESS; 457 Python tests, frozen-result/schema checks, public-site build და publication-boundary checks.
 - **ბოლო Pages deployment:** [46014645110](https://github.com/maisuradzee/bibmom/actions/runs/46014645110) — build და deploy SUCCESS ზუსტად main SHA `fdfa25db97534632161e90c0a2fe768cb0c69e9c`-ზე.
-- **ღია PR:** 33; **ღია Issue:** 0.
+- **ღია PR:** 36; **ღია Issue:** 0.
 - **კვლევის კატალოგი:** 1 Preliminary, 0 Published. დამოუკიდებელი რეცენზიის გარეშე კვლევა Published-ში არ გადადის.
 - **აქტიური პორტფელი:** ოთხივე ნაკადი აქტიურია — AquaSignal, NOEMA-005, NOEMA-007 და INFRA-001. ახალი ნაკადი არ დამატებულა; არცერთი არ დაპაუზებულა ან დასრულებულა.
+
+- **Run 31 audit:** [docs/run-audits/2026-11-27-run-31.md](run-audits/2026-11-27-run-31.md) — AquaSignal source-access lead and INFRA-001 non-finite restore-measurement fix in separate Draft PRs #164 and #163; both exact-head Quality CI runs passed 458 Python tests and public-site checks.
 
 ## Run 30 — post-merge synchronization
 
