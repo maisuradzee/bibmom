@@ -21,13 +21,15 @@ def snapshot_paths():
 
 
 _FORBIDDEN_PUBLIC_KEYS = {
-    "hostname", "host_name", "runner_name", "runner_id", "device_id", "machine_id",
-    "username", "user_name", "user_id", "pid", "tid", "thread_id", "native_thread_id",
-    "native_thread_ids", "native_thread_ids_by_run", "cgroup_path", "cgroup_membership",
-    "kernel_release", "kernel_version", "os_release", "home_directory", "workspace_path",
-    "artifact_path", "private_ip", "ip_address", "mac_address", "serial_number",
-    "instance_id", "instance_name", "cpu_model", "processor_name",
+    "hostname", "host_name", "host_id", "host_kernel", "machine_name", "runner_name", "runner_id",
+    "device_id", "machine_id", "container_id", "cloud_instance_id", "node_name",
+    "username", "user_name", "user_id", "pid", "process_id", "tid", "thread_id", "thread_ident",
+    "worker_thread_ids", "native_id", "native_thread_id", "native_thread_ids", "native_thread_ids_by_run",
+    "cgroup_path", "cgroup_membership", "kernel_release", "kernel_version", "kernel_build", "os_release",
+    "home_directory", "workspace_path", "artifact_path", "private_ip", "ip_address", "mac_address",
+    "serial_number", "instance_id", "instance_name", "cpu_model", "processor_name",
 }
+_FORBIDDEN_PUBLIC_KEYS = frozenset(re.sub(r"[^a-z0-9]", "", key.casefold()) for key in _FORBIDDEN_PUBLIC_KEYS)
 
 
 def _assert_public_sanitization(value):
@@ -36,8 +38,7 @@ def _assert_public_sanitization(value):
         for key, child in value.items():
             if isinstance(key, str):
                 normalized = re.sub(r"[^a-z0-9]", "", key.casefold())
-                forbidden = {re.sub(r"[^a-z0-9]", "", item) for item in _FORBIDDEN_PUBLIC_KEYS}
-                if normalized in forbidden:
+                if normalized in _FORBIDDEN_PUBLIC_KEYS:
                     raise ValueError("public snapshot contains a prohibited host or identity field")
             _assert_public_sanitization(child)
     elif isinstance(value, list):
