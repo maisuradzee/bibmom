@@ -420,3 +420,10 @@ Across the four reports, Neumaier-state was correctly rounded in 192/192 configu
 The exact artifact and raw-report SHA-256 values are recorded in [the aggregate summary](../../data/noema-005/x86-threaded-benchmark-summary-2026-11-27.json). Raw reports and native thread IDs are not committed.
 
 **Status remains preliminary; no Published status is claimed.**
+
+### Run 33c — matched AWS GIL/free-threaded counterexample (2026-11-27)
+
+A third workflow run, [46035393777](https://github.com/maisuradzee/bibmom/actions/runs/46035393777), produced a matched AWS-hosted GIL/free-threaded x86-64 pair. Neumaier-state median speedup was 0.7646× with GIL and 0.7034× free-threaded; the free-threaded run showed process CPU/wall >1.05 in multi-worker samples but did not improve median wall time at any worker count. This contrasts with the matched Azure pair, where the free-threaded median was 1.3172× versus 0.7809× for GIL. The second workflow (46034729099) remains mixed-backend (AWS GIL, Azure free) and is not directly comparable.
+
+Across all six reports (288 configurations, 864 measured runs), Neumaier state remained 288/288 correctly rounded, scalar Neumaier 252/288 and naive scalar 0/288. Free-threaded CPU/wall >1.05 occurred in 324/432 samples versus 0/432 GIL-enabled. The result is therefore **backend-dependent**, not evidence of a general free-threaded speedup. Hosted synthetic evidence only; three repetitions per configuration, no physical-host replication, RSS/native allocation or DRAM bandwidth. See the [six-report aggregate and artifact hashes](../../data/noema-005/x86-threaded-benchmark-summary-2026-11-27.json).
+
