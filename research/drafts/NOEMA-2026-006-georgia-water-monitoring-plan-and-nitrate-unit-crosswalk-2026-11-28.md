@@ -26,7 +26,7 @@ Government Decree №447 of 15 September 2026 approves the rules for planning an
 
 The rule distinguishes observational, operational and investigative monitoring. Operational monitoring is directed at at-risk water bodies and significant pressures and is described as monthly or quarterly. Investigative monitoring is incident/problem-specific. Monitoring points must be representative and selected on a risk basis; the network is periodically reviewed. Until groundwater bodies are defined, the rule applies to hydrogeological units.
 
-The listed Annex 1 and Annex 2 DOCX file was not downloaded or inspected in this run. No annex parameter list, station count or sample frequency is asserted.
+The official Matsne page lists one corrected Annex DOCX (46,049 bytes), but the DOCX bytes were not downloaded or inspected. A secondary Legali.ge transcription of the annex tables was reviewed on 2026-11-28 as a discovery aid only. It reports surface-water nutrient (including nitrate) indicative monthly frequencies and groundwater chemical-composition sampling at least twice yearly before initial status assessment and at least annually after that assessment; at-risk groundwater operational chemistry is shown as quarterly or risk-based. These are transcribed schedule provisions, not evidence that samples were actually collected at those frequencies. Because the primary DOCX bytes remain uninspected, all annex-specific extraction remains provisional and must be reconciled against the official attachment before operational use.
 
 ## FACT — EEA C11 nitrate units are not uniform across matrices
 
@@ -78,7 +78,7 @@ Add a source-specific adapter for NEA's 2021–2025 groundwater report after an 
 - Reviewed the WHO 2022 nitrate/nitrite conversion statement and the 2026 WHO guideline publication page.
 - Reviewed Government Decree №58/2014 and Law №1766 for scope boundaries and transition timing.
 - Implemented only a small Decimal-based unit conversion helper with synthetic tests.
-- No RAR, NFA XLSX, raw sample file, annex DOCX or restricted dataset was downloaded.
+- No RAR, NFA XLSX, raw sample file, official annex DOCX bytes or restricted dataset was downloaded. Annex-table details were read only from a secondary transcription on Legali.ge and are not treated as primary-source verification.
 - No current nitrate concentration, contamination prevalence, health exposure or regulatory compliance result is inferred.
 - Rounded conversion factor is not suitable as the sole basis for a legal pass/fail decision near a limit.
 - Legal status and the future drinking-water regulation require independent Georgian legal review.
@@ -86,7 +86,7 @@ Add a source-specific adapter for NEA's 2021–2025 groundwater report after an 
 ## შემოწმების სტატუსი
 
 - Source pages for Decree №447, EEA C11, WHO conversion factor, Decree №58/2014 and Law №1766 were checked on 2026-11-28.
-- Decree №447 annex DOCX was listed but not downloaded or inspected.
+- Matsne lists the corrected 46,049-byte Annex DOCX; its bytes remain uninspected. Legali.ge's secondary transcription was reviewed for discovery only; Annex 1/2 details remain provisional until checked against the official attachment.
 - The nitrate conversion helper and synthetic tests were added in this branch; GitHub Actions exact-head CI is pending after the draft metadata correction.
 - No sample-level data, laboratory results, contamination estimate or compliance decision was generated.
 
@@ -101,10 +101,11 @@ AquaSignal now has a unit-safe nitrate conversion primitive that preserves the o
 3. WHO, Nitrate and nitrite chemical fact sheet (2022): https://cdn.who.int/media/docs/default-source/wash-documents/water-safety-and-quality/chemical-fact-sheets-2022/nitrate-and-nitrite-fact-sheet-2022.pdf
 4. Government of Georgia, Decree №58/2014: https://www.matsne.gov.ge/ka/document/view/2196792
 5. Government of Georgia, Law №1766 (24 June 2026): https://manage.matsne.gov.ge/ka/document/view/6904700
+6. Legali.ge, secondary transcription of Government Decree №447 and its Annexes 1–2 (reviewed 2026-11-28; not a substitute for the official Matsne DOCX): https://www.legali.ge/law/7000572/
 
 ## შემდეგი ნაბიჯები
 
 1. Obtain the NEA 2021–2025 archive and official data dictionary through an authorized channel.
-2. Inspect Decree №447 Annex 1 and Annex 2 and record only verified parameters/methods.
+2. Retrieve the corrected 46,049-byte Annex DOCX from Matsne, verify its SHA-256 and reconcile the provisional Legali.ge transcription of Annex 1/2 parameters, methods and frequency tables against the primary attachment.
 3. Obtain the NEA 2026 annual monitoring plan after the 1 December submission deadline and compare planned with observed monitoring only when actual collection/result denominators are published.
 4. Obtain independent water-chemistry and Georgian legal review before any operational threshold mapping.
