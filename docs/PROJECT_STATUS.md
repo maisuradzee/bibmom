@@ -528,5 +528,14 @@ Run38 AquaSignal historical baseline/legal crosswalk details: [research draft](.
 ## Post-Run38 research-standard synchronization
 
 - PR #214 merged the final portfolio/status synchronization at `8f6203c9a7d671a57c63ec34231b69d60338edc2`.
-- PR #215 adds the five-label evidence taxonomy and a template-contract test; exact-head Quality CI run 46069021881 passed 582 tests and site build (0 Published, 3 Preliminary).
+- PR #215 adds the five-label evidence taxonomy and a template-contract test; final exact-head Quality CI run 46069188841 passed 584 tests and site build (0 Published, 3 Preliminary).
 - The main Pages deployment for `8f6203c9a7d671a57c63ec34231b69d60338edc2` was not independently verified; a PR site build is not treated as a production deployment.
+
+
+## Final evidence-standard merge record
+
+- PR #215 merged at `9d2841be14be7fd56b498c0aaac9d1410a585ef8`.
+- Final exact-head Quality CI: [46069188841](https://github.com/maisuradzee/bibmom/actions/runs/46069188841) — SUCCESS, 584 Python tests, publication-boundary checks and site build (0 Published, 3 Preliminary).
+- This final PR head included the template/standard contract and the post-Run38 status/audit synchronization.
+- Repository search returned 0 open PRs and 0 open issues before this final status-only PR.
+- No post-merge Pages deployment job was verified for `9d2841be14be7fd56b498c0aaac9d1410a585ef8`; the successful PR site build is not treated as a production Pages deployment.
