@@ -108,5 +108,45 @@ class RiskBaselineFreshnessTests(unittest.TestCase):
         self.assertEqual(result["licence_status"], "verified_reuse")
 
 
+    def test_source_url_rejects_user_info_credentials(self):
+        for url in (
+            "https://user:password@example.gov.ge/dataset",
+            "https://user@example.gov.ge/dataset",
+            "https://@example.gov.ge/dataset",
+        ):
+            record = sample_metadata()
+            record["source_url"] = url
+            with self.subTest(url=url), self.assertRaises(RiskBaselineMetadataError):
+                validate_source_metadata(record)
+
+    def test_source_url_rejects_encoded_secret_query_and_fragment_names(self):
+        for url in (
+            "https://example.gov.ge/data?access%5Ftoken=redacted",
+            "https://example.gov.ge/data?X-Amz-Signature=redacted",
+            "https://example.gov.ge/data#id_token=redacted",
+            "https://example.gov.ge/data?api-key=redacted",
+        ):
+            record = sample_metadata()
+            record["source_url"] = url
+            with self.subTest(url=url), self.assertRaises(RiskBaselineMetadataError):
+                validate_source_metadata(record)
+
+    def test_source_url_allows_non_secret_catalogue_selectors(self):
+        record = sample_metadata()
+        record["source_url"] = "https://portal.example.gov.ge/catalog?Links-sort=ResponsiblePerson-asc#dataset"
+        validate_source_metadata(record)
+
+    def test_source_url_rejects_invalid_port_and_whitespace(self):
+        for url in (
+            "https://example.gov.ge:99999/dataset",
+            "https://example.gov.ge/data path",
+            "https://example.gov.ge/data\n?view=1",
+        ):
+            record = sample_metadata()
+            record["source_url"] = url
+            with self.subTest(url=url), self.assertRaises(RiskBaselineMetadataError):
+                validate_source_metadata(record)
+
+
 if __name__ == "__main__":
     unittest.main()
