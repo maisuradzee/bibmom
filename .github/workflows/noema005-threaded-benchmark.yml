@@ -9,6 +9,8 @@ on:
       - tests/test_benchmark_noema005_threaded_reduction.py
       - data/noema-005/threaded-benchmark-protocol.json
       - .github/workflows/noema005-threaded-benchmark.yml
+      - scripts/sanitize_noema005_threaded_report.py
+      - tests/test_sanitize_noema005_threaded_report.py
   pull_request:
     branches: [main]
     paths:
@@ -59,7 +61,6 @@ jobs:
           import sys
           import sysconfig
           print(f"implementation={platform.python_implementation()}")
-          print(f"platform={platform.platform()}")
           print(f"machine={platform.machine()}")
           print(f"cpu_count={os.cpu_count()}")
           print(f"Py_GIL_DISABLED={sysconfig.get_config_var('Py_GIL_DISABLED')}")
@@ -75,6 +76,9 @@ jobs:
 
       - name: Run threaded reduction unit tests
         run: python -m unittest discover -s tests -p 'test_benchmark_noema005_threaded_reduction.py' -v
+
+      - name: Run public-artifact sanitizer tests
+        run: python -m unittest discover -s tests -p 'test_sanitize_noema005_threaded_report.py' -v
 
       - name: Run actual CPU-thread benchmark
         run: >-
@@ -96,18 +100,29 @@ jobs:
           assert report["experiment_id"] == "NOEMA-2026-005-REAL-THREADS-002"
           assert len(report["inputs"]) == 2
           assert len(report["threaded_cases"]) == 2 * 4 * 2 * 4
-          assert all(case["native_thread_counts"] == [case["worker_count"]] * 3
-                     for case in report["threaded_cases"])
-          assert all(case["runs"] == 3 for case in report["threaded_cases"])
+          for case in report["threaded_cases"]:
+              assert case["native_thread_counts"] == [case["worker_count"]] * 3
+              assert case["runs"] == 3
+              ids_by_run = case["native_thread_ids_by_run"]
+              assert len(ids_by_run) == 3
+              assert all(len(ids) == case["worker_count"] and len(set(ids)) == case["worker_count"]
+                         for ids in ids_by_run)
           print("PASS: 64 threaded cases, 3 repetitions each, distinct native thread IDs")
           print("GIL:", report["environment"]["gil_enabled"])
           print("CPU:", report["environment"]["cpu_count_process"])
           PY
 
-      - name: Upload measured JSON result
+      - name: Sanitize report before public artifact upload
+        run: >-
+          python scripts/sanitize_noema005_threaded_report.py
+          "$RUNNER_TEMP/noema005-threaded-${{ matrix.mode }}.json"
+          "$RUNNER_TEMP/noema005-threaded-${{ matrix.mode }}-public.json"
+          --runner-family github-hosted
+
+      - name: Upload sanitized JSON result
         uses: actions/upload-artifact@v7
         with:
           name: noema005-threaded-${{ matrix.mode }}
-          path: ${{ runner.temp }}/noema005-threaded-${{ matrix.mode }}.json
+          path: ${{ runner.temp }}/noema005-threaded-${{ matrix.mode }}-public.json
           if-no-files-found: error
           retention-days: 30
