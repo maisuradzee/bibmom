@@ -131,6 +131,27 @@ class RiskBaselineFreshnessTests(unittest.TestCase):
             with self.subTest(url=url), self.assertRaises(RiskBaselineMetadataError):
                 validate_source_metadata(record)
 
+    def test_source_url_rejects_double_encoded_secret_parameter_names(self):
+        for url in (
+            "https://example.gov.ge/data?%2561ccess%255Ftoken=redacted",
+            "https://example.gov.ge/data?%2561pi%252Dkey=redacted",
+            "https://example.gov.ge/data#route?%2569d%255Ftoken=redacted",
+        ):
+            record = sample_metadata()
+            record["source_url"] = url
+            with self.subTest(url=url), self.assertRaises(RiskBaselineMetadataError):
+                validate_source_metadata(record)
+
+    def test_source_url_rejects_semicolon_delimited_secret_parameter_names(self):
+        for url in (
+            "https://example.gov.ge/data?view=1;access_token=redacted",
+            "https://example.gov.ge/data#route;X-Amz-Signature=redacted",
+        ):
+            record = sample_metadata()
+            record["source_url"] = url
+            with self.subTest(url=url), self.assertRaises(RiskBaselineMetadataError):
+                validate_source_metadata(record)
+
     def test_source_url_allows_non_secret_catalogue_selectors(self):
         record = sample_metadata()
         record["source_url"] = "https://portal.example.gov.ge/catalog?Links-sort=ResponsiblePerson-asc#dataset"
