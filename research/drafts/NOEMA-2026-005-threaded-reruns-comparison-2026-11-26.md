@@ -1,8 +1,8 @@
-# NOEMA-2026-005 — two-run real-thread comparison and raw-report reproduction
+# NOEMA-2026-005 — hosted real-thread reruns and raw-report reproduction
 
 - **ID:** NOEMA-2026-005
 - **სტატუსი:** draft
-- **თარიღი:** 2026-11-26
+- **თარიღი:** 2026-11-27
 - **სფერო:** floating-point reduction, numerical accuracy and CPU-thread performance
 - **მტკიცებულების სტატუსი:** preliminary / reproduced raw-report aggregates
 
@@ -12,9 +12,9 @@
 
 ## მოკლე შეჯამება
 
-ამ გაშვებაში ხელახლა ჩამოიტვირთა და SHA-256-ით შემოწმდა ორი დამოუკიდებელი GitHub Actions run-ის raw report artifacts. წინა run 45850716742-ის archive/report hash-ები ზუსტად დაემთხვა frozen summary-ს. ახალი run 45867519546-ის ორივე raw JSON report ხელახლა აგრეგირდა და compressed raw report-ები ამ PR-ში ინახება.
+ამ შედარებაში გადამოწმებულია სამი hosted GitHub Actions run: 45850716742, 45867519546 და ახალი 45897707859. მესამე run-ის ორივე artifact ZIP-ის SHA-256 დაემთხვა GitHub API metadata-ს; raw JSON report-ები დამოუკიდებლად დაიჰეშა, ხელახლა აგრეგირდა და gzip+base64 ფორმით ამ PR-ში ინახება.
 
-Neumaier-state მეთოდმა ორივე run-ში 48/48 სწორად დამრგვალებული შედეგი შეინარჩუნა GIL-enabled და free-threaded რეჟიმებში. GIL-enabled median speedup 0.7539×-დან 0.7744×-მდე შეიცვალა. Free-threaded median 0.9519×-დან 1.0181×-მდე გადავიდა: ერთმა run-მა 1.0 ზღვარი ოდნავ გადაკვეთა, მეორემ — არა. ამიტომ ეს არ ადასტურებს გამეორებად ან პორტატულ აჩქარებას.
+Neumaier-state მეთოდმა სამივე run-ში 48/48 სწორად დამრგვალებული შედეგი შეინარჩუნა შესაბამის runtime-ებში. მესამე hosted run-ში free-threaded median speedup 1.2589× იყო matching serial Neumaier baseline-თან, ხოლო GIL-enabled — 0.7576×. ეს ერთი ახალი run-ის შედეგია და არა პორტატული აჩქარების მტკიცებულება; serial math.fsum ამ fixture-ებზე threaded Neumaier-state-ზე მნიშვნელოვნად სწრაფი დარჩა.
 
 ## მეთოდი ან ექსპერიმენტის გეგმა
 
@@ -92,3 +92,134 @@ Neumaier-state მეთოდმა ორივე run-ში 48/48 სწო�
 3. დაამატე process RSS/native allocation და memory-bandwidth გაზომვები.
 4. შეადარე pairwise, long-double და exact/superaccumulator ალგორითმები.
 5. მოითხოვე დამოუკიდებელი numerical-method review; Published სტატუსი არ მიენიჭოს ამ ეტაპზე.
+
+
+## მესამე hosted run — 2026-11-27 (GitHub Actions 45897707859)
+
+### შედეგები
+
+| Runtime | Method | Correct | Median speedup vs matching serial baseline | Median CPU/wall |
+|---|---|---:|---:|---:|
+| Free-threaded | Naive scalar | 0/48 | 0.4238× | 2.251 |
+| Free-threaded | Scalar Neumaier | 42/48 | 1.3086× | 2.554 |
+| Free-threaded | Neumaier state | 48/48 | 1.2589× | 2.418 |
+| GIL-enabled | Naive scalar | 0/48 | 0.5096× | 1.010 |
+| GIL-enabled | Scalar Neumaier | 42/48 | 0.7524× | 1.003 |
+| GIL-enabled | Neumaier state | 48/48 | 0.7576× | 1.003 |
+
+Free-threaded Neumaier-state median speedup by worker count was 0.7733× (1 worker), 1.2125× (2), 1.3546× (4) and 1.3090× (8). On a runner with four available CPUs, 8 workers were slower than 4 workers by this median. Native thread identity matched configured worker count in all 16 cases per runtime. CPU-time/wall-time exceeded 1.05 in 36/48 measured runs in free-threaded mode and 0/48 in GIL-enabled mode.
+
+### Accuracy finding
+
+Scalar Neumaier partials produced correctly rounded results in 42/48 configurations in both runtimes; the full Neumaier compensation-state merge produced 48/48. The six scalar failures occurred in the grouped-cancellation fixture at 2- and 8-worker settings across the two partition strategies. This supports preserving the full (sum, correction) state across partition boundaries for these test inputs.
+
+### Performance caveat
+
+The reported free-threaded 1.2589× median is versus the matching serial Neumaier baseline only. Serial math.fsum was substantially faster: the four-worker contiguous threaded Neumaier-state path took 14.8–16.3× the serial math.fsum wall time on the free-threaded fixtures. The benchmark therefore demonstrates CPU parallelism in the free-threaded Python runtime, not an overall speed advantage over a well-optimized serial algorithm.
+
+### Provenance and reproduction
+
+- Run: https://github.com/maisuradzee/bibmom/actions/runs/45897707859
+- Exact tested head: b827c8cb4517311f7d441c336e1f44d6717f2cf5
+- Frozen summary: data/noema-005/threaded-rerun-2026-11-27.json
+- Reproduction script: scripts/reproduce_noema005_threaded_rerun_2026_11_27.py
+- Raw report archive and report hashes are recorded in the summary and preserved in data/noema-005/raw/.
+
+### Limitations
+
+This is one hosted run per runtime, three repetitions per configuration and two synthetic inputs. The free-threaded and GIL-enabled jobs used different hosted VM families (Azure/AWS), so cross-runtime timing comparison is confounded. tracemalloc does not measure RSS/native allocation or DRAM bandwidth. No physical x86-64/ARM64 replication or independent numerical review has been completed.
+
+
+## დამატებითი hosted rerun — 2026-11-27 (GitHub Actions 45910119575)
+
+### შედეგები და cross-run შედარება
+
+ახალი workflow run-მა იგივე deterministic input hashes და იგივე protocol ხელახლა გაუშვა: CPython 3.14.4, ოთხი ხელმისაწვდომი CPU, 1/2/4/8 worker, ორი partition, სამი reduction method და სამი repetition. თითო runtime-ზე კვლავ 48 configuration / 144 timed run შესრულდა.
+
+| Runtime | Method | Previous run 458977 | New run 459101 | New median speedup vs matching serial Neumaier |
+|---|---|---:|---:|---:|
+| Free-threaded | Naive scalar | 0/48 | 0/48 | 0.4264× |
+| Free-threaded | Scalar Neumaier | 42/48 | 42/48 | 1.2459× |
+| Free-threaded | Neumaier state | 48/48 | 48/48 | 1.2565× |
+| GIL-enabled | Naive scalar | 0/48 | 0/48 | 0.5053× |
+| GIL-enabled | Scalar Neumaier | 42/48 | 42/48 | 0.7571× |
+| GIL-enabled | Neumaier state | 48/48 | 48/48 | 0.7601× |
+
+Neumaier-state median speedup changed only from 1.2589× to 1.2565× in free-threaded mode and from 0.7576× to 0.7601× in GIL-enabled mode. The free-threaded 4-worker median was 1.3891× (previously 1.3546×); the GIL-enabled 4-worker median was 0.7533× (previously 0.7503×). Process CPU/wall ratio exceeded 1.05 in 36/48 free-threaded runs and 0/48 GIL-enabled runs in both executions.
+
+### Interpretation
+
+**REPRODUCED_RESULT:** on two hosted executions with identical synthetic input hashes, full Neumaier-state merging again retained 48/48 correctly rounded results, while scalar partial merging retained 42/48 and naive scalar 0/48. The close median-speedup values are a cross-run consistency observation for these hosted runner classes, not a general performance guarantee or independent physical-hardware replication.
+
+**Performance boundary:** serial math.fsum remained substantially faster than four-worker threaded Neumaier-state: the new run's threaded path took 15.3–15.8× serial math.fsum wall time in free-threaded mode and 22.5–23.8× in GIL-enabled mode. The >1.0 free-threaded speedup is relative only to serial Neumaier, not to the best serial method.
+
+### Provenance
+
+- Workflow: https://github.com/maisuradzee/bibmom/actions/runs/45910119575
+- Tested PR head: c84fd8151c544acf50ee915c4069a68ad716b23d
+- Frozen summary: data/noema-005/threaded-rerun-2026-11-27b.json
+- Free-threaded raw report: data/noema-005/raw/run-45910119575-free-threaded.json.gz.b64 (archived and reproduced in this PR).
+- GIL-enabled artifact ZIP SHA-256: b59bc555196c593e344febf8b62a4356996382227b5ee9fd0961fe4fecd7d7b5; decompressed report SHA-256: d5667252fce07a07d430f22c20534c1829524a71afc739b7b8202d838a42af75. The GIL report was downloaded and inspected in this execution, but its raw bytes are not mirrored in this PR; artifact 15159148673 remains available until 2026-12-26.
+- The generalized reproduction script verifies the archived free-threaded report for run 459101 and both raw reports for run 458977. The GIL-enabled 459101 aggregate is retained with artifact provenance but is not independently reproducible from repository bytes.
+
+### Limitations
+
+The two runs use hosted x86-64 CI VMs, not independently controlled physical machines. The GIL-enabled and free-threaded jobs use different provider families (AWS/Azure), and their CPU models/host contention are not controlled. The fixtures remain synthetic, repetitions are three, and tracemalloc does not measure RSS/native allocations or DRAM bandwidth. Independent physical x86-64/ARM64 replication and external numerical-method review remain open. The study remains preliminary.
+
+
+## მესამე hosted repeat — 2026-11-27 (GitHub Actions 45910842404)
+
+ეს run იმავე input SHA-256-ებსა და იმავე protocol-ს იყენებდა. ორივე runtime job წარმატებით დასრულდა.
+
+| Runtime | Method | Correct | Median speedup vs matching serial Neumaier | CPU/wall >1.05 |
+|---|---|---:|---:|---:|
+| Free-threaded | Naive scalar | 0/48 | 0.3072× | 12/16 cases |
+| Free-threaded | Scalar Neumaier | 42/48 | 1.1771× | 12/16 cases |
+| Free-threaded | Neumaier state | 48/48 | 1.1718× | 12/16 cases |
+| GIL-enabled | Naive scalar | 0/48 | 0.4952× | 0/16 cases |
+| GIL-enabled | Scalar Neumaier | 42/48 | 0.7587× | 0/16 cases |
+| GIL-enabled | Neumaier state | 48/48 | 0.7604× | 0/16 cases |
+
+Neumaier-state worker medians were 0.7691×, 1.1212×, 1.2861× and 1.1825× for 1/2/4/8 workers in free-threaded mode; GIL-enabled medians were 0.7645×, 0.7648×, 0.7597× and 0.7310×. Four-worker threaded Neumaier-state still took 14.4–15.1× serial math.fsum wall time in free-threaded mode and 22.5–23.0× in GIL-enabled mode.
+
+### Three-run interpretation
+
+Across the three hosted executions (45897707859, 45910119575 and 45910842404), correctness counts remained identical: Neumaier-state 48/48, scalar Neumaier 42/48 and naive scalar 0/48 in both runtimes. Free-threaded median speedup versus matching serial Neumaier varied from 1.1718× to 1.2589×; GIL-enabled remained 0.7576×–0.7604×. The spread in free-threaded timing is material and reinforces that the >1.0 result is workload/runner-specific, not a robust general speedup. Serial math.fsum remained substantially faster than the threaded path in all measured fixtures.
+
+### Provenance and limits
+
+- Workflow: https://github.com/maisuradzee/bibmom/actions/runs/45910842404
+- Tested head: d3da8974f7b1871fbd83bfdac9eee7ce41559f57
+- Free-threaded ZIP/report SHA-256: 1d1ff6cee26100bfac801ff0eeb53c82f1dc4327dbc8774903121f278b39f3c9 / ecb198ab88b45c00b7d05cb65be5735456d296f9bb0200e60bc67fb82e1c0141
+- GIL-enabled ZIP/report SHA-256: ea78b4344d91441631b4600a71d9c69cd159b56266c6057e687eec09c28eff85 / e11b337e316552a12caed4c231b5bd0ac2f8d3aa46b8968ae33b4488a5bac598
+- Both artifacts remain available until 2026-12-26 but are not yet mirrored in repository raw files.
+- Hosted x86-64 VMs only; AWS/Azure family mismatch between runtime modes; synthetic cancellation inputs; three repetitions; no physical x86-64/ARM64 replication, confidence intervals, RSS/native allocation/DRAM bandwidth or independent numerical-method review.
+
+
+## მეოთხე hosted verification — 2026-11-27 (GitHub Actions 45911225040)
+
+ეს run იგივე frozen input hashes-სა და protocol-ს იყენებდა; ორივე job წარმატებით დასრულდა.
+
+| Runtime | Method | Correct | Median speedup vs matching serial Neumaier | CPU/wall >1.05 |
+|---|---|---:|---:|---:|
+| Free-threaded | Naive scalar | 0/48 | 0.1652× | 12/16 cases |
+| Free-threaded | Scalar Neumaier | 42/48 | 0.7165× | 12/16 cases |
+| Free-threaded | Neumaier state | 48/48 | 0.7161× | 12/16 cases |
+| GIL-enabled | Naive scalar | 0/48 | 0.4988× | 0/16 cases |
+| GIL-enabled | Scalar Neumaier | 42/48 | 0.7564× | 0/16 cases |
+| GIL-enabled | Neumaier state | 48/48 | 0.7620× | 0/16 cases |
+
+Neumaier-state worker medians: free-threaded 0.6963×/0.6329×/0.7446×/0.7219× and GIL-enabled 0.7751×/0.7733×/0.7564×/0.7297× for 1/2/4/8 workers. Four-worker threaded Neumaier-state took 21.0–24.0× serial math.fsum wall time in free-threaded mode and 22.3–23.4× in GIL-enabled mode.
+
+### Updated conclusion
+
+The fourth run is a critical counterexample to any interpretation of the earlier free-threaded >1.0 medians as robust: on this hosted AWS x86-64 run the free-threaded Neumaier-state median fell to 0.7161× versus matching serial Neumaier. Across four hosted executions, the free-threaded median spans 0.7161×–1.2589×, while GIL-enabled stays 0.7576×–0.7620×. Correctness counts remain stable (48/48 state, 42/48 scalar, 0/48 naive). This is strong evidence that accuracy behavior is reproducible on these fixtures but timing is highly runner-dependent. No general performance advantage is established.
+
+### Provenance and limits
+
+- Workflow: https://github.com/maisuradzee/bibmom/actions/runs/45911225040
+- Tested head: d9687a7e171d7532cfa176fafd9a16a81b3060a7
+- Free-threaded ZIP/report SHA-256: 40d2aeaacc2824ea5c8291b42fa58ed03648d1ce88c20e17e68ce2bdc934c10f / 6c6764fc89e1af9522a11dbd9236cf832443008ee3b3b18118c0caa3ff86ca64
+- GIL-enabled ZIP/report SHA-256: 0bda4d0c709069f1253844539bb68710bdfc8efe9e3742560bc788ded2b58451 / 3e5beb460808df29de1be1cb21c5304652995ee0c07a6b0d9d7f402ac1b3292b
+- Artifacts 15159883448 and 15159968172 expire 2026-12-26; raw bytes are not yet mirrored in the repository.
+- The free-threaded job ran on an AWS x86-64 hosted VM, unlike the earlier Azure free-threaded runs; provider/host variation is a confound, not a causal explanation.

@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-005",
+  "experiment_id": "NOEMA-2026-005-REAL-THREADS-001",
+  "date": "2026-11-27",
+  "evidence_status": "REPRODUCED_RESULT",
+  "workflow_run": {
+    "id": 45911409646,
+    "url": "https://github.com/maisuradzee/bibmom/actions/runs/45911409646",
+    "tested_head_sha": "fffce46168d6add7126c1693dcbfd3c99c24c45a",
+    "artifact_expiry": "2026-12-26"
+  },
+  "bundle": {
+    "path": "data/noema-005/raw/run-45911409646-reports.json.xz.b64",
+    "encoding": "base64(xz JSON object keyed by run_id:runtime_mode)",
+    "compressed_sha256": "5e6113f9f5759833dfa7d9b60667cca80caa53f4c2836e9ba54587a25cc1b768",
+    "uncompressed_sha256": "6e68f7435a5f7c3498f1c84e9cead7a54c171271c9e0e80bcfece9b50e00420e",
+    "uncompressed_bytes": 123384,
+    "reports": 2
+  },
+  "artifacts": [
+    {
+      "artifact_id": 15160042501,
+      "name": "noema005-threaded-free-threaded",
+      "runtime_mode": "free-threaded",
+      "zip_bytes": 7803,
+      "zip_sha256": "30c54cd38719e9b3f4349de04c779804fd3e11c8ba936286c7850817e3e9b1c3",
+      "report_sha256": "8e9fca28a7e663d4beb5efdd77e72933fc295f527f21a009d5c2f5d3ad8b13be",
+      "report_bytes": 56875,
+      "platform": "Linux-7.0.0-1014-aws-x86_64-with-glibc2.39",
+      "python_version": "3.14.4",
+      "machine": "x86_64",
+      "cpu_affinity_count": 4,
+      "accuracy": {
+        "threaded_naive_scalar": "0/48",
+        "threaded_neumaier_scalar": "42/48",
+        "threaded_neumaier_state": "48/48"
+      },
+      "native_thread_count_matches_worker_count": true
+    },
+    {
+      "artifact_id": 15159784923,
+      "name": "noema005-threaded-gil-enabled",
+      "runtime_mode": "gil-enabled",
+      "zip_bytes": 7642,
+      "zip_sha256": "92680d137ece89c8c0f8ad442ab9d72f9d83041f50cc1dad345b6ffc3a92dffb",
+      "report_sha256": "a2c584d816219244ef82552cc69d8bf7d4567120bd8078e281c0ddee71b2ccdd",
+      "report_bytes": 56790,
+      "platform": "Linux-7.0.0-1018-aws-x86_64-with-glibc2.39",
+      "python_version": "3.14.4",
+      "machine": "x86_64",
+      "cpu_affinity_count": 4,
+      "accuracy": {
+        "threaded_naive_scalar": "0/48",
+        "threaded_neumaier_scalar": "42/48",
+        "threaded_neumaier_state": "48/48"
+      },
+      "native_thread_count_matches_worker_count": true
+    }
+  ],
+  "limitations": [
+    "GitHub-hosted AWS x86-64 virtual machines are not independently controlled physical hardware.",
+    "Each configuration has three measured repetitions; timing uncertainty is not characterized by a confidence interval.",
+    "Inputs are synthetic cancellation fixtures, not representative application workloads.",
+    "Process CPU/wall ratio is evidence of concurrent CPU consumption, not proof of wall-time superiority over the best serial algorithm.",
+    "The artifact ZIP hashes bind the downloaded GitHub artifacts; the archived bundle preserves exact decompressed JSON report bytes, not the original ZIP containers."
+  ]
+}

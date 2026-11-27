@@ -1,17 +1,17 @@
 {
   "project": "NOEMA",
   "schema_version": 2,
-  "updated_at": "2026-11-26",
+  "updated_at": "2026-11-27",
   "research": [
     {
       "id": "NOEMA-2026-005",
       "title": "მცურავი წერტილის ჯამის სიზუსტე: ალგორითმი და რიგითობა",
-      "date": "2026-11-26",
+      "date": "2026-11-27",
       "category": "რიცხვითი ანალიზი",
-      "summary": "კონტროლირებული ტესტები აჩვენებს, რომ შეკრების რიგითობამ შეიძლება შედეგი შეცვალოს. 330-კონფიგურაციან sharded-reduction სიმულაციაში compensation state-მა 330/330 სწორი შედეგი შეინარჩუნა. რეალურ CPU threads-ზე x86-64 და ARM64 გარემოებში Neumaier compensation-state merge-მა ყველა შემოწმებულ კონფიგურაციაში სწორად დამრგვალებული შედეგი მიიღო. ARM64-ზე ოთხ დამოუკიდებელ Actions batch-ში Neumaier-state შედეგი 768/768 იყო; scalar Neumaier — 672/768, naive scalar — 0/768. CPU-time/wall-time >1.05 threshold-ის რაოდენობა batch-ებს შორის იცვლებოდა (free-threaded 208/288→211/288→214/288→207/288; GIL-enabled 2/288→1/288→0/288→0/288), ამიტომ ეს მხოლოდ აღწერითი მაჩვენებელია. Timing შედეგები არასტაბილურია: ერთ batch-ში ერთი macOS free-threaded cell-ის median speedup 1.003 იყო, ხოლო საბოლოო PR-head batch-ში ოთხივე cell 1.0-ზე დაბლა დარჩა. ზოგადი wall-time აჩქარება არ დადასტურებულა. წინასწარი, დამოუკიდებლად არარეცენზირებული შედეგია. 2026-11-26-ის მეორე x86-64 hosted rerun-ზე Neumaier-state კვლავ 48/48 სწორი იყო ორივე runtime-ში. GIL-enabled median speedup 0.7744×, free-threaded — 1.0181×; წინა free-threaded median 0.9519× იყო. ერთი run-ის 1.0181× შედეგი run-to-run variability-ს ფონზე არ ადასტურებს ზოგად აჩქარებას; raw reports და reproduction script დაემატა.",
+      "summary": "კონტროლირებული ტესტები აჩვენებს, რომ შეკრების რიგითობამ შეიძლება შედეგი შეცვალოს. 330-კონფიგურაციან sharded-reduction სიმულაციაში compensation state-მა 330/330 სწორი შედეგი შეინარჩუნა. რეალურ CPU threads-ზე x86-64 და ARM64 გარემოებში Neumaier compensation-state merge-მა ყველა შემოწმებულ კონფიგურაციაში სწორად დამრგვალებული შედეგი მიიღო. ARM64-ზე ოთხ დამოუკიდებელ Actions batch-ში Neumaier-state შედეგი 768/768 იყო; scalar Neumaier — 672/768, naive scalar — 0/768. CPU-time/wall-time >1.05 threshold-ის რაოდენობა batch-ებს შორის იცვლებოდა (free-threaded 208/288→211/288→214/288→207/288; GIL-enabled 2/288→1/288→0/288→0/288), ამიტომ ეს მხოლოდ აღწერითი მაჩვენებელია. Timing შედეგები არასტაბილურია: ერთ batch-ში ერთი macOS free-threaded cell-ის median speedup 1.003 იყო, ხოლო საბოლოო PR-head batch-ში ოთხივე cell 1.0-ზე დაბლა დარჩა. ზოგადი wall-time აჩქარება არ დადასტურებულა. წინასწარი, დამოუკიდებლად არარეცენზირებული შედეგია. 2026-11-26-ის მეორე x86-64 hosted rerun-ზე Neumaier-state კვლავ 48/48 სწორი იყო ორივე runtime-ში. GIL-enabled median speedup 0.7744×, free-threaded — 1.0181×; წინა free-threaded median 0.9519× იყო. ერთი run-ის 1.0181× შედეგი run-to-run variability-ს ფონზე არ ადასტურებს ზოგად აჩქარებას; raw reports და reproduction script დაემატა. 2026-11-27 hosted x86-64 rerun (run 45897707859): Neumaier-state remained 48/48 correctly rounded in both runtimes; scalar Neumaier 42/48; naive 0/48. Free-threaded median speedup was 1.2589× versus matching serial Neumaier (range 0.7637×–1.4846×), with 36/48 measured runs above 1.05 CPU-time/wall-time; GIL-enabled median was 0.7576× and 0/48 runs crossed that CPU/wall threshold. Four workers gave the highest Neumaier-state worker-count median (1.3546×) on a four-CPU runner; eight workers were lower (1.3090×). This is one synthetic hosted run, not physical-hardware replication. Serial math.fsum remained substantially faster than the Python-threaded Neumaier-state path on these fixtures, so no overall algorithm speed advantage is claimed. Two further hosted repeats on the same frozen input hashes (Actions 45910119575 and 45910842404) again produced 48/48 Neumaier-state, 42/48 scalar Neumaier and 0/48 naive results in both runtimes. Free-threaded Neumaier-state median speedups versus matching serial Neumaier were 1.2565x and 1.1718x; GIL-enabled medians were 0.7601x and 0.7604x. Across the three 2026-11-27 hosted runs, free-threaded median speedup varied from 1.1718x to 1.2589x, showing meaningful runner/timing variability rather than a robust portable speedup. These are hosted x86-64 synthetic runs, not physical-hardware replication. The 459108 raw artifacts remain time-limited to 2026-12-26 and are not yet mirrored in the repository. A fourth hosted verification run (45911225040) on the same input hashes again reproduced the accuracy counts, but the free-threaded median speedup fell to 0.7161x versus matching serial Neumaier while GIL-enabled was 0.7620x. This directly demonstrates that the >1.0 free-threaded result is not robust across hosted runner instances; the study makes no general speedup claim. Run 459112 artifacts were SHA-256 checked but are not mirrored in the repository and expire 2026-12-26.",
       "file": "research/preprints/NOEMA-2026-005-floating-point-summation.md",
       "status": "preliminary",
-      "version": "1.8",
+      "version": "2.0",
       "sources": [
         {
           "title": "The Accuracy of Floating Point Summation",
@@ -254,6 +254,54 @@
           "publication_date": "2026-11-26",
           "publication_note": "Two CPython 3.14.4 runtime jobs on one hosted x86-64 runner with four available CPUs; archive and raw-report SHA-256 values were checked; results are preliminary and synthetic.",
           "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA-005 actual CPU-thread benchmark run 45897707859",
+          "authors": [
+            "NOEMA research workflow"
+          ],
+          "citation": "NOEMA. (2026-11-27). NOEMA-005 hosted real CPU-thread benchmark, GitHub Actions run 45897707859; raw reports and SHA-256 provenance preserved in the public repository.",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45897707859",
+          "type": "reproducible-computational-record",
+          "publication_date": "2026-11-27",
+          "publication_note": "One hosted x86-64 run with CPython 3.14.4, separate GIL-enabled AWS and free-threaded Azure VMs, four available CPUs, 48 configurations and three repetitions per runtime. Synthetic cancellation inputs only; results remain preliminary.",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "NOEMA-005 hosted CPU-thread rerun 45910119575",
+          "authors": [
+            "NOEMA research workflow"
+          ],
+          "citation": "NOEMA. (2026-11-27). NOEMA-005 hosted real CPU-thread benchmark, GitHub Actions run 45910119575.",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45910119575",
+          "type": "reproducible-computational-record",
+          "publication_date": "2026-11-27",
+          "publication_note": "Fresh hosted repeat on the same deterministic input hashes; both runtime artifacts downloaded and inspected. Free-threaded raw report is archived in the repository; GIL-enabled raw bytes are not mirrored. Synthetic inputs, three repetitions, hosted x86-64 only.",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "NOEMA-005 hosted CPU-thread rerun 45910842404",
+          "authors": [
+            "NOEMA research workflow"
+          ],
+          "citation": "NOEMA. (2026-11-27). NOEMA-005 hosted real CPU-thread benchmark, GitHub Actions run 45910842404.",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45910842404",
+          "type": "reproducible-computational-record",
+          "publication_date": "2026-11-27",
+          "publication_note": "Third hosted repeat on the same deterministic input hashes; both runtime artifact ZIP and decompressed report SHA-256 values were verified and aggregates independently recomputed. Raw bytes are not mirrored; artifacts expire 2026-12-26. Synthetic inputs, three repetitions, hosted x86-64 only.",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "NOEMA-005 fourth hosted CPU-thread verification run 45911225040",
+          "authors": [
+            "NOEMA research workflow"
+          ],
+          "citation": "NOEMA. (2026-11-27). NOEMA-005 hosted real CPU-thread benchmark, GitHub Actions run 45911225040.",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45911225040",
+          "type": "reproducible-computational-record",
+          "publication_date": "2026-11-27",
+          "publication_note": "Fourth hosted execution on the same deterministic input hashes. Neumaier-state remained 48/48 correctly rounded; free-threaded median speedup was 0.7161x and GIL-enabled 0.7620x versus matching serial Neumaier. Raw report artifacts are SHA-256 verified but not mirrored; expire 2026-12-26.",
+          "accessed_at": "2026-11-27"
         }
       ],
       "methodology": {
@@ -425,6 +473,46 @@
           "reproduction_script": "scripts/reproduce_noema005_threaded_reruns.py",
           "summary_file": "data/noema-005/threaded-reruns-2026-11-26.json",
           "key_finding": "Neumaier-state accuracy was 48/48 in both runs and both runtime modes. GIL-enabled median speedup remained below 1.0 (0.7539x then 0.7744x). Free-threaded median moved from 0.9519x to 1.0181x, demonstrating run-to-run sensitivity rather than a robust speedup."
+        },
+        "real_thread_rerun_2026_11_27": {
+          "workflow_run": "https://github.com/maisuradzee/bibmom/actions/runs/45897707859",
+          "tested_head_sha": "b827c8cb4517311f7d441c336e1f44d6717f2cf5",
+          "summary_file": "data/noema-005/threaded-rerun-2026-11-27.json",
+          "reproduction_script": "scripts/reproduce_noema005_threaded_rerun_2026_11_27.py",
+          "raw_reports": [
+            {
+              "mode": "free-threaded",
+              "path": "data/noema-005/raw/run-45897707859-free-threaded.json.gz.b64",
+              "report_sha256": "cec5b9de1fae8a3a8c1790a468e8a74bcb3a5566dc12721e645d61da63e785a1",
+              "archive_sha256": "1a048a2c22e342a3adb15107363a2b36fdff9f8c26440f959d14858a4df7f910"
+            },
+            {
+              "mode": "GIL-enabled",
+              "path": "data/noema-005/raw/run-45897707859-gil-enabled.json.gz.b64",
+              "report_sha256": "8ebf2ca7fc53c528a8d8edfee18a5a281f482e4ba71a376aea63ae8d865eaa52",
+              "archive_sha256": "9b865c09bb0388e60a3f4c51daddd615123de290768ad3c5bd39688dd86b2cb2"
+            }
+          ],
+          "accuracy": {
+            "naive_scalar": "0/48",
+            "scalar_neumaier": "42/48",
+            "neumaier_compensation_state": "48/48"
+          },
+          "free_threaded_neumaier_state": {
+            "median_speedup_vs_serial_neumaier": 1.2589,
+            "median_by_workers": {
+              "1": 0.7733,
+              "2": 1.2125,
+              "4": 1.3546,
+              "8": 1.309
+            },
+            "cpu_wall_runs_above_1_05": "36/48"
+          },
+          "gil_enabled_neumaier_state": {
+            "median_speedup_vs_serial_neumaier": 0.7576,
+            "cpu_wall_runs_above_1_05": "0/48"
+          },
+          "caveat": "The reported speedup is versus matching serial Neumaier, not serial math.fsum. The latter was 14.8–16.3 times faster than four-worker threaded Neumaier-state on the free-threaded fixtures. The two runtime modes used different hosted VM families."
         }
       },
       "limitations": [
@@ -438,7 +526,13 @@
         "tracemalloc ზომავს Python-traced allocation-ებს და არა სრულ RSS/native allocation-ს",
         "free-threaded CPython ოფიციალურად მხარდაჭერილია Python 3.14-დან როგორც optional build; extension compatibility და workload-dependent performance კვლავ გასათვალისწინებელია",
         "რეალური CPU threads შემოწმდა Ubuntu 24.04 x86_64, Ubuntu 24.04 ARM64 და macOS 15 ARM64 hosted runner-ებზე; Windows, GPU და network-distributed runtime არ შემოწმებულა",
-        "ARM64 გამეორება შესრულდა CPython 3.14.4 GIL-enabled და free-threaded build-ებზე, ოთხ hosted runner/runtime უჯრედში და თითოეულზე სამი measured repetition-ით"
+        "ARM64 გამეორება შესრულდა CPython 3.14.4 GIL-enabled და free-threaded build-ებზე, ოთხ hosted runner/runtime უჯრედში და თითოეულზე სამი measured repetition-ით",
+        "2026-11-27 rerun is one hosted x86-64 experiment; GIL-enabled and free-threaded modes used different AWS/Azure VM families, so cross-mode timing is confounded.",
+        "The 1.2589× free-threaded median is relative to serial Neumaier, while serial math.fsum was 14.8–16.3× faster than the four-worker threaded Neumaier-state implementation on these fixtures; no overall algorithm speed advantage is established.",
+        "Across three 2026-11-27 hosted x86-64 runs, free-threaded median speedup versus matching serial Neumaier varied from 1.1718x to 1.2589x; this is timing variability, not a robust portable speedup.",
+        "Raw reports from run 45910842404 are verified from GitHub Actions artifacts but not yet mirrored in the repository; those artifacts expire 2026-12-26.",
+        "Fourth hosted execution 45911225040 returned a free-threaded median speedup of 0.7161x versus serial Neumaier (GIL-enabled 0.7620x), confirming that earlier >1.0 hosted free-threaded medians are not robust across runner instances.",
+        "Raw reports for run 45911225040 are verified from Actions artifacts but not mirrored in the repository; artifact retention expires 2026-12-26."
       ]
     }
   ]
