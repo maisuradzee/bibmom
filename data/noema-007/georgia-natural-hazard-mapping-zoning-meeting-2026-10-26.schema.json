@@ -1,0 +1,200 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Georgia natural-hazard mapping and zoning coordination signal",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_id",
+    "study_id",
+    "evidence_status",
+    "source",
+    "programme",
+    "meeting",
+    "status_boundary",
+    "interpretation_limits",
+    "privacy"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "record_id": {
+      "const": "NOEMA007-GEORGIA-NATURAL-HAZARD-MAPPING-ZONING-MEETING-2026-10-26"
+    },
+    "study_id": {
+      "const": "NOEMA-2026-007"
+    },
+    "evidence_status": {
+      "const": "FACT"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "publisher",
+        "title",
+        "publication_date",
+        "url",
+        "accessed_at"
+      ],
+      "properties": {
+        "publisher": {
+          "const": "National Environmental Agency of Georgia"
+        },
+        "title": {
+          "const": "Meeting regarding the development of technical regulations for the mapping and zoning of natural hazards"
+        },
+        "publication_date": {
+          "const": "2026-10-26"
+        },
+        "url": {
+          "const": "https://nea.gov.ge/En/News/3445"
+        },
+        "accessed_at": {
+          "const": "2026-11-28"
+        }
+      }
+    },
+    "programme": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "partners",
+        "stated_focus"
+      ],
+      "properties": {
+        "title": {
+          "const": "Reducing Climate Change-Induced Risks in Georgia"
+        },
+        "partners": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "Government of Georgia",
+              "United Nations Development Programme (UNDP)",
+              "Swiss Agency for Development and Cooperation (SDC)",
+              "Green Climate Fund (GCF)"
+            ]
+          }
+        },
+        "stated_focus": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "development of natural hazard maps",
+              "technical regulations for zoning"
+            ]
+          }
+        }
+      }
+    },
+    "meeting": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "purpose",
+        "hazards",
+        "topics"
+      ],
+      "properties": {
+        "purpose": {
+          "type": "string",
+          "minLength": 40
+        },
+        "hazards": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "floods",
+              "avalanches",
+              "landslides",
+              "mudflows"
+            ]
+          }
+        },
+        "topics": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "methodological approaches",
+              "technical-legal harmonization",
+              "work plan",
+              "expected outcomes",
+              "interagency coordination"
+            ]
+          }
+        }
+      }
+    },
+    "status_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ongoing_work_reviewed",
+        "adoption_status",
+        "map_publication_status",
+        "operational_warning_metrics_reported"
+      ],
+      "properties": {
+        "ongoing_work_reviewed": {
+          "const": true
+        },
+        "adoption_status": {
+          "const": "not stated in source"
+        },
+        "map_publication_status": {
+          "const": "not stated in source"
+        },
+        "operational_warning_metrics_reported": {
+          "const": false
+        }
+      }
+    },
+    "interpretation_limits": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "string",
+        "minLength": 60
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "personal_data_included",
+        "exact_private_locations_included",
+        "event_level_records_included",
+        "critical_infrastructure_locations_included"
+      ],
+      "properties": {
+        "personal_data_included": {
+          "const": false
+        },
+        "exact_private_locations_included": {
+          "const": false
+        },
+        "event_level_records_included": {
+          "const": false
+        },
+        "critical_infrastructure_locations_included": {
+          "const": false
+        }
+      }
+    }
+  }
+}
