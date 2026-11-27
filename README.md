@@ -32,7 +32,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - `data/research-portfolio.json` და `data/research-portfolio.schema.json` — 3–5 აქტიური კვლევითი ნაკადის საერთო პორტფელი, თითოეული ნაკადის კითხვით, მეთოდით, წყაროებით, რისკებით, სტატუსითა და შემდეგი ნაბიჯით.
 - `data/noema-003/` — NOAA-ს ფიქსირებული მონაცემთა ამონარიდი, NASA/HadCRUT5/NOAA snapshot-ები, provenance metadata და გამეორებადი შედეგები.
 - `data/noema-005/` — binary64 ჯამის რიგითობის ექსპერიმენტის გაყინული შედეგები, ზუსტი reference შედარება და runtime/CPU-thread benchmark არტეფაქტები.
-- `data/noema-007/` — UNDRR/WMO 2026 early-warning და anticipatory-action aggregate snapshots, reproducible arithmetic და privacy-safe action-readiness schema; რეალური event-level მონაცემი ჯერ არ არსებობს.
+- `data/noema-007/` — UNDRR/WMO early-warning და anticipatory-action aggregate snapshots, reproducible arithmetic და privacy-safe action-readiness schema; 2026 MHEWS global status snapshot ინარჩუნებს country-level system/pillar denominators-ს და არ ამტკიცებს person-level coverage-ს ან causality. რეალური event-level მონაცემი ჯერ არ არსებობს.
 - `research/drafts/` — სამუშაო ჩანაწერები; Pages არტეფაქტში არ შედის, თუმცა საჯარო GitHub საცავში იკითხება.
 - `research/preprints/` — წინასწარი, მომხმარებლისთვის მკაფიო გაფრთხილებით გამოჩენილი კვლევები.
 - `research/published/` — სრული გამოქვეყნების საკონტროლო სიის გამვლელი კვლევები.
