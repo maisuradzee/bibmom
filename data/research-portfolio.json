@@ -693,7 +693,10 @@
         "Define and test an event/area aggregate-only action-readiness contract with separate endpoint and survey denominators, small-cell suppression and explicit release approvals.",
         "Freeze UNDRR/WMO source-reported 2025 anticipatory-action framework, activation, direct-reach and pre-arranged-financing aggregates; independently reproduce only the 154-to-262 framework growth arithmetic and preserve unit/causality limits.",
         "Crosswalk NOEMA-007 fields against WMO's August 2024 EW4All M&E Toolkit indicators G-3, 3.2.1b, 4.2, 4.3.1, G-6 and 4.4; keep endpoint, person, respondent, warning-event, plan/finance and exposed-population units separate.",
-        "Preserve UNDRR COP31's 4/5 warning-receipt and 1/3 unable-to-act statement as source-reported only because the underlying sample frame, denominator, weighting and uncertainty were not identified; do not use it as a baseline."
+        "Preserve UNDRR COP31's 4/5 warning-receipt and 1/3 unable-to-act statement as source-reported only because the underlying sample frame, denominator, weighting and uncertainty were not identified; do not use it as a baseline.",
+        "Review the 2026 UNDRR/WMO/IFRC/ITU operational guidance for mobile populations and identify whether the existing warning-to-action measurement crosswalk captures temporary presence, mobility and inability to move.",
+        "Design a mobility-aware pilot as an inclusion layer within the official MHEWS: multi-channel delivery, trusted local relays, accessible/language-appropriate formats and separate delivery/receipt/comprehension/feasibility/action measures.",
+        "Use only authority-approved coarse area/time aggregates and voluntary partner-led surveys; do not collect individual GPS, phone/device identifiers, nationality or migration status in the public research workflow."
       ],
       "sources": [
         {
@@ -895,6 +898,30 @@
           "url": "https://www.undrr.org/news/cop31-leaders-back-long-term-future-early-warnings-all",
           "type": "official_global_status_update",
           "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "Early Warning Systems for mobile populations: Operational guidance",
+          "publisher": "UNDRR, WMO, IFRC and ITU",
+          "publication_date": "2026-07-15",
+          "url": "https://www.undrr.org/publication/documents-and-publications/early-warning-systems-mobile-populations-operational",
+          "type": "official_operational_guidance",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "Launch of the Operational Guidance on Early Warning Systems for Mobile Populations",
+          "publisher": "UNDRR, WMO, ITU, IFRC and IOM",
+          "publication_date": "2026-07-22",
+          "url": "https://www.undrr.org/event/launch-operational-guidance-early-warning-systems-mobile-populations",
+          "type": "official_guidance_launch",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "Global Status of Multi-Hazard Early Warning Systems 2026 — four-pillar country counts",
+          "publisher": "UNDRR",
+          "publication_date": "2026-11-11",
+          "url": "https://www.undrr.org/reports/global-status-mhews-2026",
+          "type": "official_global_report",
+          "accessed_at": "2026-11-27"
         }
       ],
       "data_needs": [
@@ -905,7 +932,10 @@
         "after-action review-ები და community feedback",
         "For any local pilot: permissioned warning-event and after-action aggregates with issue time, action deadline, hazard/geographic scope, unique event IDs and plan linkage.",
         "A pre-registered last-mile survey sampling frame, invitations, completions, response rate, weighting, timely-receipt measure, comprehension instrument and feasibility/action outcomes.",
-        "Plan-level trigger and pre-arranged finance availability, activation/disbursement timestamps and evacuation-specific exposed-population denominator, if those indicators are evaluated."
+        "Plan-level trigger and pre-arranged finance availability, activation/disbursement timestamps and evacuation-specific exposed-population denominator, if those indicators are evaluated.",
+        "Authority-approved coarse area/time warning-delivery aggregates that distinguish permanent residential, work/school, transit and temporary-shelter contexts only where locally justified and safe.",
+        "Community-partner validated, voluntary survey denominators for timely receipt, comprehension, trust, feasible action and non-response; no individual location history or migration-status field.",
+        "Channel availability and accessibility metadata by broad area and language/format, plus approved warning message versions and responsible authority."
       ],
       "risks": [
         "ოფიციალურ უწყებებთან დუბლირება ან გაფრთხილების წყაროს ავტორიტეტის დაბნევა",
@@ -914,7 +944,11 @@
         "ციფრული არხების მიუწვდომლობა, ენობრივი/შეზღუდული შესაძლებლობის ბარიერები",
         "გაფრთხილების მიღება მოქმედების შესაძლებლობას არ უდრის; მიზეზობრივი ეფექტის დადგენა რთულია",
         "UNDRR COP31's 4/5 warning-receipt and 1/3 unable-to-act statement has no underlying method in the cited page and must not be treated as a calibrated global baseline.",
-        "Warning receipt, timely receipt, comprehension, feasibility, action and avoided loss are distinct stages; combining marginal rates or inferring causal impact would be invalid."
+        "Warning receipt, timely receipt, comprehension, feasibility, action and avoided loss are distinct stages; combining marginal rates or inferring causal impact would be invalid.",
+        "Mobility-sensitive categories can become proxies for nationality, migration status or legal status; do not infer or store those traits.",
+        "Endpoint counts and repeated delivery across channels are not unique people reached; deduplication must not require persistent device tracking.",
+        "Small or rare mobile-population aggregates may enable re-identification even after direct identifiers are removed; require controller/privacy review and cross-release disclosure controls.",
+        "A mobility-aware layer must not issue warnings, rank people by presumed vulnerability or replace official evacuation/response authority."
       ],
       "blockers": [
         "საქართველოს მოქმედი მუნიციპალური emergency plan-ების და 2026 ICT სისტემის საჯარო data dictionary-ის სრული ვერსიები ჯერ არ არის მოპოვებული",
@@ -926,11 +960,12 @@
         "The WMO roadmap article publishes aggregate findings, not the underlying country-by-country roadmap dataset; NOEMA cannot independently reanalyse the 35 roadmaps from this source alone.",
         "The aggregate action-readiness contract is unpiloted; the minimum cell-size floor of 10 is a prototype default, not a guarantee of anonymisation or a substitute for local privacy review.",
         "The UNDRR/WMO release provides published aggregates rather than the underlying country/activation-level records; NOEMA cannot independently verify reach, comprehension, protective action or avoided loss from this snapshot.",
-        "No authorized Georgian event-level warning/after-action data, representative last-mile survey, financing activation records or evacuation-specific exposed-population denominator is available."
+        "No authorized Georgian event-level warning/after-action data, representative last-mile survey, financing activation records or evacuation-specific exposed-population denominator is available.",
+        "No Georgian municipality/basin-level evidence currently establishes the size, composition or warning-channel barriers of mobile populations; a community-partner-led sampling frame and authorised local data are required."
       ],
       "status": "active",
-      "status_detail": "PR #62 merged the UNDRR MHEWS 2026 country-level snapshot and arithmetic. PR #68 merged as f12a116c86514994ec40c4a953ba6a4f0a4656fc; exact-head quality CI 45849048113 succeeded. The new WMO 2026 roadmap snapshot reproduces 20/35 = 57.1429% of 35 government-validated roadmaps with clear budget allocations and approximately USD 69 million mean among those 20. An aggregate-only action-readiness validator and strict schema now keep endpoint receipts separate from survey-based receipt, comprehension, feasible action, self-reported action and verified action. Synthetic tests only; no field data, local effectiveness measurement or causal claim. Post-merge main CI 45850024686 passed 354 tests and Pages build/deploy 45850024682 succeeded. Scheduled-cycle audit 2026-11-27: PR #88 synthetic cross-release disclosure audit remains Draft at head cdaff77b748801163701aef427ab215bccc4f587 with quality CI 45883830584 successful. Follow-up PR #91 adds a metadata-only fail-closed aggregate-batch preflight; latest exact-head 65892bf3330491b596d6748e69f9831dbfc8d869 passed quality CI 45890862593 including focused tests, full unit suite and publication-boundary build. Neither PR implements a trusted overlap detector, persistent atomic ledger, authentication or differential privacy. PR #88 is based on b97b30de, behind main; PR #91 is based on current main. Both remain Draft pending independent privacy/security review. Scheduled-cycle audit 2026-11-27: Draft PR #93 adds a machine-readable crosswalk to WMO's 2024 EW4All M&E Toolkit (G-3, 3.2.1b, 4.2, 4.3.1, G-6, 4.4), with denominator and interpretation boundaries. It identifies that endpoint counts are not people covered, respondent action counts are not warning-event rates, and generic verified action is not evacuation coverage. UNDRR's 4/5 and 1/3 COP31 statement is recorded as method-unverified and not used as a baseline. No local event or survey data was added; the crosswalk remains a measurement design pending independent DRR/privacy review.",
-      "next_step": "Obtain authorized Georgian warning-event and after-action aggregates, then pre-register a last-mile survey with a defined sampling frame, response/non-response handling, timely receipt, comprehension, feasibility and action denominators. Keep plan/finance and evacuation-specific metrics separate; do not infer causal impact from descriptive counts.",
+      "status_detail": "PR #62 merged the UNDRR MHEWS 2026 country-level snapshot and arithmetic. PR #68 merged as f12a116c86514994ec40c4a953ba6a4f0a4656fc; exact-head quality CI 45849048113 succeeded. The new WMO 2026 roadmap snapshot reproduces 20/35 = 57.1429% of 35 government-validated roadmaps with clear budget allocations and approximately USD 69 million mean among those 20. An aggregate-only action-readiness validator and strict schema now keep endpoint receipts separate from survey-based receipt, comprehension, feasible action, self-reported action and verified action. Synthetic tests only; no field data, local effectiveness measurement or causal claim. Post-merge main CI 45850024686 passed 354 tests and Pages build/deploy 45850024682 succeeded. Scheduled-cycle audit 2026-11-27: PR #88 synthetic cross-release disclosure audit remains Draft at head cdaff77b748801163701aef427ab215bccc4f587 with quality CI 45883830584 successful. Follow-up PR #91 adds a metadata-only fail-closed aggregate-batch preflight; latest exact-head 65892bf3330491b596d6748e69f9831dbfc8d869 passed quality CI 45890862593 including focused tests, full unit suite and publication-boundary build. Neither PR implements a trusted overlap detector, persistent atomic ledger, authentication or differential privacy. PR #88 is based on b97b30de, behind main; PR #91 is based on current main. Both remain Draft pending independent privacy/security review. Scheduled-cycle audit 2026-11-27: Draft PR #93 adds a machine-readable crosswalk to WMO's 2024 EW4All M&E Toolkit (G-3, 3.2.1b, 4.2, 4.3.1, G-6, 4.4), with denominator and interpretation boundaries. It identifies that endpoint counts are not people covered, respondent action counts are not warning-event rates, and generic verified action is not evacuation coverage. UNDRR's 4/5 and 1/3 COP31 statement is recorded as method-unverified and not used as a baseline. No local event or survey data was added; the crosswalk remains a measurement design pending independent DRR/privacy review. Run 18 (2026-11-27): Draft addendum adds a mobility-aware inclusion dimension using UNDRR/WMO/IFRC/ITU 2026 operational guidance and UNDRR MHEWS 2026 country-level pillar counts. This is source-grounded design work only; no Georgian mobile-population prevalence, local delivery coverage or field effectiveness was measured. No individual location or migration-status data are proposed.",
+      "next_step": "Extend the WMO EW4All measurement crosswalk with mobility-aware presence contexts, then co-design one authorised Georgia basin/municipality pilot with local community partners; no personal movement data or warning authority is to be added.",
       "success_metrics": [
         "გაფრთხილების მიღწევის, სწორად გაგებისა და feasible action-ის წილი",
         "alert-to-acknowledgement და alert-to-action დრო",
@@ -939,7 +974,10 @@
         "after-action review-ის completeness და corrective action closure rate",
         "Capability coverage/quality and operational effectiveness (delivery, comprehension, feasible action and outcomes) are reported as separate measures.",
         "Each reported delivery, comprehension and action metric states its own numerator, denominator and unit; endpoint receipts are never labelled as people reached.",
-        "No public aggregate is released without data-controller and privacy-reviewer approval and a documented small-cell suppression policy."
+        "No public aggregate is released without data-controller and privacy-reviewer approval and a documented small-cell suppression policy.",
+        "Timely warning receipt, comprehension and feasible action are reported separately for locally approved presence contexts, with explicit sampling frames and no individual tracking.",
+        "Coverage of accessible/language-appropriate channels and trusted local relays is measured at coarse area/time level; endpoints are not labelled as people.",
+        "Privacy review confirms that no persistent individual movement history, device identifier or migration-status field is required for the published aggregate."
       ],
       "last_reviewed": "2026-11-27"
     },
