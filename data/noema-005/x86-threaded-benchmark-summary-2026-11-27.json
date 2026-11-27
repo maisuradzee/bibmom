@@ -162,7 +162,8 @@
         "raw_report_sha256": "85a21b49fffc3c67ae713443015d81d0aaba827bef947bdca260eacd6b729c8c",
         "raw_report_bytes": 56937,
         "expires_at": "2026-12-27T16:32:34Z"
-      }
+      },
+      "quality_run_conclusion": "success"
     },
     {
       "workflow_run_id": 46034414138,
@@ -239,7 +240,8 @@
         "raw_report_sha256": "d2657ace459434ac717e9149e7272cfa6ef6f6ad3e569ef42cad92bf09fd2f95",
         "raw_report_bytes": 56859,
         "expires_at": "2026-12-27T16:32:36Z"
-      }
+      },
+      "quality_run_conclusion": "success"
     },
     {
       "workflow_run_id": 46034729099,
@@ -316,7 +318,8 @@
         "raw_report_sha256": "c7925d9097e52fb85e6724e966ed656d37f72b8b4dcfd6470bae9d57813f0037",
         "raw_report_bytes": 56795,
         "expires_at": "2026-12-27T16:34:45Z"
-      }
+      },
+      "quality_run_conclusion": "success"
     },
     {
       "workflow_run_id": 46034729099,
@@ -393,7 +396,8 @@
         "raw_report_sha256": "787144bd3298444d76388cc136a2c7fb4a5062e64cea1dfbb0017a20d61a612d",
         "raw_report_bytes": 56868,
         "expires_at": "2026-12-27T16:34:53Z"
-      }
+      },
+      "quality_run_conclusion": "success"
     },
     {
       "workflow_run_id": 46035393777,
