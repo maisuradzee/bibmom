@@ -154,3 +154,11 @@ Two raw workflow reports from run `45867519546` are preserved as gzip+base64 fil
 - [INFRA-001 PR #224](https://github.com/maisuradzee/bibmom/pull/224): local SQLite high-water compare-and-advance reference model; exact-head CI passed, Draft pending independent security review.
 - [NOEMA-007 PR #225](https://github.com/maisuradzee/bibmom/pull/225): Georgia Decree №440/2026 preliminary flood-risk framework and future statutory milestones; exact-head CI passed, Draft pending independent disaster-risk/legal review.
 - Research PRs #223–225 remain Draft and unmerged. The separate status/portfolio PR #226 merged as Main SHA `639ad4485dbf7fc73e523245844cd4bdc663849b`; Main Quality CI and Pages deployment succeeded. See [PROJECT_STATUS.md](docs/PROJECT_STATUS.md) for exact run IDs. No research implementation from #223–225 is on Main.
+
+
+## AquaSignal — current WHO drinking-water guidance (17 June 2026)
+
+The WHO's fourth edition incorporating the third addendum is the current international comparator. Its chemical fact sheet retains nitrate at 50 mg/L as nitrate ion, nitrite at 3 mg/L as nitrite ion, the combined nitrate/nitrite ratio requirement (sum of concentration-to-guideline ratios no greater than 1), and the conversion factor 1 mg/L as nitrate ion = 0.226 mg/L as nitrate-nitrogen. These WHO values are not Georgian legal limits; Government Decree №58/2014's nitrite requirement is recorded separately. A combined ratio requires paired measurements from the same sample and matrix; no such calculation is made without paired data.
+
+- [WHO 2026 Guidelines](https://www.who.int/publications/i/item/9789240121225)
+- [WHO 2026 chemical fact sheets PDF](https://cdn.who.int/media/docs/default-source/wash-documents/water-safety-and-quality/dwq-guidelines-4/gdwq_4ed_with_third-addenda_chemical-fact-sheets.pdf?sfvrsn=77d972e1_5)
