@@ -2,11 +2,11 @@
 
 - **განახლდა:** 2026-11-27 (run 16, verified main snapshot)
 - **საცავი:** https://github.com/maisuradzee/bibmom
-- **მდგომარეობის snapshot main:** 2753e5bbc6c5e9551c0c71d1edfef163711b696e (PR #105)
-- **Main quality CI:** [45928254985](https://github.com/maisuradzee/bibmom/actions/runs/45928254985) — validate job SUCCESS for the exact main snapshot.
-- **GitHub Pages deployment:** [45928255099](https://github.com/maisuradzee/bibmom/actions/runs/45928255099) — build and deploy jobs SUCCESS for the exact main snapshot.
+- **მდგომარეობის snapshot main:** 965e2ac58467220e830a663b48bba58f383648fc (PR #106 status-only follow-up)
+- **Main quality CI:** [45928441338](https://github.com/maisuradzee/bibmom/actions/runs/45928441338) — validate job SUCCESS for the exact main snapshot.
+- **GitHub Pages deployment:** [45928441209](https://github.com/maisuradzee/bibmom/actions/runs/45928441209) — build and deploy jobs SUCCESS for the exact main snapshot.
 - **Run 16 audit:** [docs/run-audits/2026-11-27-run-16.md](run-audits/2026-11-27-run-16.md) — NOEMA-007 heat-health readiness discovery and NOEMA-005 ARM64 worker/traced-allocation analysis added in separate Draft PRs #103 and #104.
-- **Merged in current main:** PR #97 (AquaSignal official NEA groundwater RAR URL/retrieval boundary), PR #102 (run-15 status/audit synchronization) and PR #105 (run-16 status/audit synchronization). PR #105's exact main CI and Pages deployment passed.
+- **Merged in current main:** PR #97 (AquaSignal official NEA groundwater RAR URL/retrieval boundary), PR #102 (run-15 status/audit synchronization) and PR #105 and #106 (run-16 status/audit and post-merge status synchronization). PR #106's base snapshot CI and Pages deployment passed.
 - **Open research/engineering PRs:** #104, #103, #101, #100, #99, #93, #91, #88, #87, #85, #46, #27, #7 and #5 (14 open PRs; 0 open Issues).
 - **Public research catalogue:** 1 preliminary, 0 published. No research item was promoted to Published.
 
@@ -21,15 +21,15 @@
 | NOEMA-007 Last-Mile Action Gap | active / draft | Main-ში global evidence და aggregate-only measurement design; PR #100-ში საქართველოს ათი spatial catalogue layer; PR #103-ში heat-health readiness addendum. Local warning-event/health-outcome aggregates და formal heat-health plan status ჯერ არ არის დადასტურებული. |
 | NOEMA-INFRA-001 reliability | active / engineering | Main-ში local manifest/hash/signature validation; PR #101-ში single-host SQLite high-water reference model. External trust domain, off-host retention და clean-host restore არ არსებობს. |
 | საჯარო კვლევითი კატალოგი | 1 preliminary, 0 published | data/research.json; Draft კვლევები არ არის Published. |
-| Main quality CI | SUCCESS | run 45928254985 — exact main SHA. |
-| GitHub Pages | DEPLOYED | run 45928255099 — build და deploy SUCCESS exact main SHA-ზე. https://maisuradzee.github.io/bibmom/ |
+| Main quality CI | SUCCESS | run 45928441338 — exact verified baseline SHA. |
+| GitHub Pages | DEPLOYED | run 45928441209 — build და deploy SUCCESS exact verified baseline SHA-ზე. https://maisuradzee.github.io/bibmom/ |
 | Supabase | NOEMA-სთვის ახალი პროექტი არ შექმნილა | Git-ით ვერსიაკონტროლირებადი JSON/SQLite reference architecture; სხვა პროექტის ბაზა არ გამოიყენება. |
 
 ## Run 16 — ზუსტი PR და CI მდგომარეობა
 
 ### ახალი კვლევითი სამუშაო
 
-- **PR #103 — NOEMA-007 Georgia heat-health readiness:** head `e9172ddfebb047f0ddc4295dc31e914d9dfbd8b0`; [quality CI 45927960420](https://github.com/maisuradzee/bibmom/actions/runs/45927960420) SUCCESS; [actual CPU-thread workflow 45927960496](https://github.com/maisuradzee/bibmom/actions/runs/45927960496) — GIL-enabled და free-threaded jobs SUCCESS. Draft; primary NCDC guidance, formal plan status, authorized aggregate data და independent public-health/privacy review აკლია.
+- **PR #103 — NOEMA-007 Georgia heat-health readiness:** current head `bcd205d7837f901be19098c6780fa2b56e8ddd95` (supersedes earlier `e9172ddfebb047f0ddc4295dc31e914d9dfbd8b0`); [quality CI 45928568372](https://github.com/maisuradzee/bibmom/actions/runs/45928568372) SUCCESS; [actual CPU-thread workflow 45928568397](https://github.com/maisuradzee/bibmom/actions/runs/45928568397) — GIL-enabled და free-threaded jobs SUCCESS. Draft; primary NCDC guidance, formal plan status, authorized aggregate data და independent public-health/privacy review აკლია.
 - **PR #104 — NOEMA-005 ARM64 scaling analysis:** head `d7c4f4b315a3b8f5fae83961f762cf87f9bf9979`; [quality CI 45928005822](https://github.com/maisuradzee/bibmom/actions/runs/45928005822) SUCCESS. ეს არის frozen summary-ის derived analysis და არა ახალი CPU experiment. Draft; raw ARM64 reports, controlled physical hardware და external review კვლავ საჭიროა.
 
 ### არსებული ღია Draft PR-ები
@@ -38,7 +38,7 @@
 - **PR #100 — NOEMA-007 Georgia multi-hazard spatial catalogue:** head `e407d87bf99d3aec96416d706e94c6fd5b52f36d`; quality CI 45921999557 SUCCESS. Base snapshot 5829188241; current main-ზე refresh/revalidation საჭიროა.
 - **PR #101 — INFRA-001 local high-water reference:** head `8102e874604c40476c08e4638943d82a1217a7ca`; quality CI 45922148800 და CPU-thread workflow 45922148866 SUCCESS. Base snapshot 5829188241; current main-ზე refresh/revalidation საჭიროა; independent security/architecture review და separate trust-domain owner აკლია.
 - **PR #93, #91, #88, #87, #85, #46, #27, #7, #5:** ღია Draft/engineering proposals; თითოეულს სჭირდება scope triage, current-main refresh და შესაბამისი exact-head revalidation იქამდე, სანამ merge განიხილება.
-- **PR #102:** გაერთიანებულია main-ში; PR #95 დახურულია როგორც superseded by #101.
+- **PR #102, #105 და #106:** გაერთიანებულია main-ში; PR #95 დახურულია როგორც superseded by #101.
 
 არცერთი PR #99–#104 არ გაერთიანებულა ამ ციკლში. Draft სტატუსი შენარჩუნებულია იქ, სადაც დამოუკიდებელი რეცენზია, ავტორიზებული მონაცემი ან production trust boundary ჯერ არ არსებობს.
 
