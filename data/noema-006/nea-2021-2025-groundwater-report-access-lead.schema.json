@@ -1,0 +1,229 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AquaSignal metadata-only NEA 2021-2025 groundwater report access lead",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_id",
+    "study_id",
+    "evidence_status",
+    "source",
+    "report_scope",
+    "regulatory_context",
+    "interpretation_limits",
+    "privacy"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "record_id": {
+      "const": "AQUASIGNAL-NEA-GW-2021-2025"
+    },
+    "study_id": {
+      "const": "NOEMA-2026-006"
+    },
+    "evidence_status": {
+      "const": "FACT"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "publisher",
+        "title_ka",
+        "title_en",
+        "announcement_url",
+        "announcement_date",
+        "archive_url",
+        "archive_format",
+        "archive_retrieval_status",
+        "archive_sha256",
+        "archive_contents_inspected",
+        "reuse_terms_status",
+        "accessed_at"
+      ],
+      "properties": {
+        "publisher": {
+          "const": "National Environmental Agency of Georgia"
+        },
+        "title_ka": {
+          "type": "string",
+          "minLength": 30
+        },
+        "title_en": {
+          "type": "string",
+          "minLength": 30
+        },
+        "announcement_url": {
+          "const": "https://www.nea.gov.ge/Ge/News/3461"
+        },
+        "announcement_date": {
+          "const": "2026-11-26"
+        },
+        "archive_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "archive_format": {
+          "const": "RAR"
+        },
+        "archive_retrieval_status": {
+          "const": "not_retrieved"
+        },
+        "archive_sha256": {
+          "type": "null"
+        },
+        "archive_contents_inspected": {
+          "const": false
+        },
+        "reuse_terms_status": {
+          "const": "not_stated_in_announcement"
+        },
+        "accessed_at": {
+          "const": "2026-11-28"
+        }
+      }
+    },
+    "report_scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "coverage_start_year",
+        "coverage_end_year",
+        "monitoring_domain",
+        "announced_components",
+        "field_methodology_title_ka",
+        "field_methodology_focus",
+        "sample_count",
+        "station_count",
+        "analyte_denominators",
+        "result_rows",
+        "site_coordinates",
+        "time_series_rows",
+        "archive_contents_inspected"
+      ],
+      "properties": {
+        "coverage_start_year": {
+          "const": 2021
+        },
+        "coverage_end_year": {
+          "const": 2025
+        },
+        "monitoring_domain": {
+          "const": "groundwater_fresh_drinking_water"
+        },
+        "announced_components": {
+          "type": "array",
+          "minItems": 4,
+          "items": {
+            "type": "string"
+          }
+        },
+        "field_methodology_title_ka": {
+          "type": "string",
+          "minLength": 20
+        },
+        "field_methodology_focus": {
+          "type": "string",
+          "minLength": 30
+        },
+        "sample_count": {
+          "type": "null"
+        },
+        "station_count": {
+          "type": "null"
+        },
+        "analyte_denominators": {
+          "type": "null"
+        },
+        "result_rows": {
+          "type": "null"
+        },
+        "site_coordinates": {
+          "type": "null"
+        },
+        "time_series_rows": {
+          "type": "null"
+        },
+        "archive_contents_inspected": {
+          "const": false
+        }
+      }
+    },
+    "regulatory_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "publisher",
+        "law_title_ka",
+        "law_url",
+        "law_date",
+        "groundwater_nitrate_risk_zone_identification_due",
+        "relevant_methodology_approval_due",
+        "approval_or_completion_verified"
+      ],
+      "properties": {
+        "publisher": {
+          "const": "Legislative Herald of Georgia"
+        },
+        "law_title_ka": {
+          "type": "string",
+          "minLength": 20
+        },
+        "law_url": {
+          "const": "https://manage.matsne.gov.ge/ka/document/view/6904700"
+        },
+        "law_date": {
+          "const": "2026-06-24"
+        },
+        "groundwater_nitrate_risk_zone_identification_due": {
+          "const": "2027-09-01"
+        },
+        "relevant_methodology_approval_due": {
+          "const": "2027-09-01"
+        },
+        "approval_or_completion_verified": {
+          "const": false
+        }
+      }
+    },
+    "interpretation_limits": {
+      "type": "array",
+      "minItems": 7,
+      "items": {
+        "type": "string",
+        "minLength": 40
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "personal_data_included",
+        "business_identifiers_included",
+        "exact_site_coordinates_included",
+        "raw_sample_records_included",
+        "restricted_archive_bytes_included"
+      ],
+      "properties": {
+        "personal_data_included": {
+          "const": false
+        },
+        "business_identifiers_included": {
+          "const": false
+        },
+        "exact_site_coordinates_included": {
+          "const": false
+        },
+        "raw_sample_records_included": {
+          "const": false
+        },
+        "restricted_archive_bytes_included": {
+          "const": false
+        }
+      }
+    }
+  }
+}
