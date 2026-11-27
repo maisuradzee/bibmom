@@ -290,3 +290,10 @@ The pinned LRF WRP 2025 Parquet was downloaded on an ephemeral GitHub Actions ru
 WP22443 base: 143,459 respondents, 140 countries/territories, zero missing. PROJWT-weighted code 1 (personally experienced) 7.106988%, rounded 7%; code 3 (both) 5.850209%, rounded 6%; publisher rounded sum 13%. Unrounded combined value: 12.957198%. All six response categories and DK/refused remain in the denominator.
 
 Evidence boundary: WP22443 is self-reported serious harm over the past two years, not laboratory contamination, compliance, exposure attribution or a Georgian prevalence estimate. Only aggregate JSON was uploaded; no respondent-level records were committed. Main Quality CI first stopped at draft validation because the heading did not begin with NOEMA-; the corrected preprint now uses the required NOEMA-2026-006 title and will be rechecked in PR #183. The NEA RAR, NFA denominator and paired sample-level data remain blockers.
+
+
+### NOEMA-005 — two additional hosted x86-64 real-thread run pairs
+
+Workflow runs [46042334393](https://github.com/maisuradzee/bibmom/actions/runs/46042334393) and [46043232025](https://github.com/maisuradzee/bibmom/actions/runs/46043232025) produced four aggregate-only artifacts (48 configurations and 144 measured threaded runs per artifact; 576 runs total). Across 192 configurations: Neumaier-state was correctly rounded in 192/192 runs, scalar Neumaier in 168/192, naive scalar in 0/192. No configuration beat its matching serial baseline (0/192). Free-threaded process CPU/wall ratio exceeded 1.05 in 72/96 configurations; GIL-enabled in 0/96. Native thread counts matched requested worker counts.
+
+Run 1 used the same AWS x86-64 runner family for both runtime modes. Run 2 used AWS for free-threaded and Azure for GIL-enabled, so Run 2 is not a matched cross-mode comparison. These are hosted x86-64 synthetic results, not physical-device or ARM64 replication. tracemalloc is Python allocation accounting only, not RSS/native memory; DRAM bandwidth was not measured. The frozen aggregate summary and four artifact ZIP/JSON hashes are in data/noema-005/threaded-run-2026-11-27-summary.json.
