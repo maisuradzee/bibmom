@@ -1,8 +1,8 @@
 # NOEMA-2026-007 — Georgia river-basin multi-hazard readiness: source-grounded local case
 
 - **ID:** NOEMA-2026-007 (continuation; no new stream)
-- **Date:** 2026-11-27
-- **Status:** draft
+- **თარიღი:** 2026-11-27
+- **სტატუსი:** draft
 - **Evidence classes:** FACT, INFERENCE, HYPOTHESIS and UNTESTED IDEA are separated below
 - **Scope:** local application of the global warning-to-action measurement gap
 
@@ -57,3 +57,28 @@ No personal, device, message-body, household-location or operational telemetry d
 The source snapshot is stored in `data/noema-007/georgia-basin-multihazard-2026-11-27.json` with a closed Draft 2020-12 schema. Tests protect the seven-versus-eleven interpretation boundary, hazard taxonomy, explicit absence of last-mile outcome measures and the privacy boundary. The snapshot is a source-grounded inventory, not a risk map, forecast, impact assessment or evidence of programme completion.
 
 No field data, survey, warning-event microdata, plan implementation record or causal evaluation was available in this cycle. Status remains draft pending authorised local data and independent disaster-risk-reduction/privacy review.
+
+## საკვლევი კითხვა
+
+როგორ გაიზომოს ოფიციალური მრავალსაფრთხიანი გაფრთხილებიდან დროულ, გასაგებ და რეალურად შესაძლებელ დამცავ მოქმედებამდე გზა საქართველოს მდინარის აუზებში?
+
+## მეთოდი ან ექსპერიმენტის გეგმა
+
+- გამოიყენე მხოლოდ NEA-ს ოფიციალური განცხადებები და დეპარტამენტის ფუნქციების გვერდი.
+- შეინახე წყაროს თარიღი, URL, ზუსტი მტკიცება და მონაცემთა საზღვარი JSON snapshot-ში.
+- მკაფიოდ განასხვავე კონსულტაციაზე განხილული 7 აუზი და პროგრამის 11 აუზის მიზანი; არ გამოთვალო მათგან განხორციელების პროცენტი.
+- გაუშვი JSON Schema და interpretation/privacy regression tests.
+
+## წყაროები
+
+- [NEA — შვიდი მდინარის აუზის მრავალსაფრთხიანი გეგმების კონსულტაცია, 25.11.2026](https://nea.gov.ge/En/News/3459)
+- [NEA — ადრეული გაფრთხილების სისტემების განვითარება, 16.11.2026](https://nea.gov.ge/En/News/3457)
+- [NEA — გეოლოგიის დეპარტამენტის ფუნქციები](https://nea.gov.ge/ge/Departments/Geology)
+
+## შემდეგი ნაბიჯები
+
+მიიღე უფლებამოსილი ერთი აუზის გეგმა და warning-event/after-action აგრეგატები; წინასწარ განსაზღვრე eligible-population denominator, survey sampling frame, timely receipt, comprehension, feasibility და verified-action საზომები. ჩაატარე დამოუკიდებელი DRR/privacy review.
+
+## შემოწმების სტატუსი
+
+წყაროების snapshot და ტესტები დაემატა ცალკე research branch-ზე. exact-head quality CI ამ revision-ზე ჯერ pending-ია. საველე მონაცემი, warning-event microdata ან ეფექტიანობის შეფასება არ ჩატარებულა; კვლევა რჩება draft.
