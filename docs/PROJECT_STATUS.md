@@ -7,7 +7,7 @@
 - **GitHub Pages deployment:** [45910920490](https://github.com/maisuradzee/bibmom/actions/runs/45910920490) — build and deploy jobs SUCCESS for the exact main SHA.
 - **Run 15 audit:** [docs/run-audits/2026-11-27-run-15.md](run-audits/2026-11-27-run-15.md) — four streams reviewed; NOEMA-007 catalogue expanded to ten layers in Draft PR #100; INFRA high-water reference hardened in Draft PR #101; NOEMA-005 five-run archive retained in Draft PR #99.
 - **Merged in the current main snapshot:** PR #97 — official NEA groundwater RAR URL and retrieval boundary. PR #92 is the preceding AquaSignal data-access merge.
-- **Open research/engineering PRs:** #99, #100, #101, #93, #91, #88, #87, #85, #46, #27, #7 and #5 (12 open Draft PRs; no open Issues). PR #95 was closed as superseded by #101.
+- **Open research/engineering PRs:** #99, #100, #101, #93, #91, #88, #87, #85, #46, #27, #7 and #5 (13 open Draft PRs; no open Issues). PR #95 was closed as superseded by #101.
 - **Public research catalogue:** 1 preliminary, 0 published. No research item was promoted to Published.
 
 ## მიმდინარე მდგომარეობა
@@ -39,6 +39,7 @@
 - **PR #7:** deterministic simulation; not real threaded-runtime evidence.
 - **PR #5:** database/RLS proposal; no new database project or migration was performed.
 - **PR #95:** closed as superseded by #101; same six paths were ported to current main with additional path-boundary validation.
+- **PR #102:** this run-15 status/audit synchronization; exact-head quality and CPU-thread CI pending.
 
 ## აქტიური კვლევითი ნაკადები
 
