@@ -10,7 +10,7 @@ import argparse
 import hashlib
 import json
 import math
-from numbers import Integral
+from numbers import Integral, Real
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
@@ -65,7 +65,7 @@ def derive_aggregates(columns: Mapping[str, Sequence[Any]]) -> dict[str, Any]:
 
     weights: list[float] = []
     for index, raw in enumerate(values["PROJWT"]):
-        if raw is None or isinstance(raw, bool):
+        if raw is None or isinstance(raw, bool) or not isinstance(raw, Real):
             raise ValueError(f"PROJWT[{index}] must be a finite non-negative number")
         try:
             weight = float(raw)
