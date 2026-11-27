@@ -77,6 +77,12 @@ class WaterComparabilityTests(unittest.TestCase):
         self.assertEqual(result["status"], "NOT_COMPARABLE")
         self.assertIn("sampling_frame_id", result["mismatched_fields"])
 
+    def test_published_rounding_tolerance_is_half_of_last_reported_unit(self):
+        left = comparable_record("obs_0000000000000001", 99, 200, 49.5)
+        right = comparable_record("obs_0000000000000002", 100, 201, 49.8)
+        result = compare_same_period_indicators(left, right, schema_path=self.schema)
+        self.assertEqual(result["status"], "DESCRIPTIVELY_COMPARABLE")
+
     def test_reported_percentage_must_reconcile_with_counts(self):
         left = comparable_record("obs_0000000000000001", 99, 200, 48.0)
         right = comparable_record("obs_0000000000000002", 89, 200, 44.5)
