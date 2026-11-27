@@ -602,6 +602,6 @@ Run38 AquaSignal historical baseline/legal crosswalk details: [research draft](.
 - Decree №440 does not measure alert issuance, delivery, receipt, comprehension, feasible action or protective action.
 - No personal, child, respondent, business-contact, precise private-location, raw sample, restricted archive, credential or key material was added to the public repository.
 - No new Supabase project was created and no other project's database was used.
-- No PR was merged in Run 40; PRs #223–225 remain Draft pending their stated independent reviews. Main and Pages therefore remain at the baseline SHA above; no Run 40 deployment is claimed.
+- No research PR #223–225 was merged in Run 40; all three remain Draft pending their stated independent reviews. The separate status/portfolio synchronization PR #226 contains no research implementation. Main and Pages therefore remain at the baseline SHA above until that documentation-only PR is merged and its deployment is verified.
 - The portfolio remains four active streams, three Preliminary catalogue entries and zero Published studies.
 - Next priorities: inspect Decree №447 Annex 1/2 and obtain the NEA annual monitoring plan after 2026-12-01; obtain authorized NEA/NFA sample data and dictionary; complete NOEMA-005 physical-device replication with at least 20 repetitions plus RSS/DRAM measurements; monitor the Decree №440 methodology and 2028 assessment milestones; assign an independent recovery owner and design an external high-water trust domain.
