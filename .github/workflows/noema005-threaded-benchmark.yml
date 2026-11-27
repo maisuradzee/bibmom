@@ -9,12 +9,6 @@ on:
       - tests/test_benchmark_noema005_threaded_reduction.py
       - data/noema-005/threaded-benchmark-protocol.json
       - .github/workflows/noema005-threaded-benchmark.yml
-      - data/noema-005/threaded-benchmark-*.json
-      - data/research.json
-      - research/drafts/NOEMA-2026-005-real-thread-benchmark-addendum.md
-      - research/preprints/NOEMA-2026-005-floating-point-summation.md
-      - docs/PROJECT_STATUS.md
-      - README.md
   pull_request:
     branches: [main]
     paths:
@@ -22,12 +16,6 @@ on:
       - tests/test_benchmark_noema005_threaded_reduction.py
       - data/noema-005/threaded-benchmark-protocol.json
       - .github/workflows/noema005-threaded-benchmark.yml
-      - data/noema-005/threaded-benchmark-*.json
-      - data/research.json
-      - research/drafts/NOEMA-2026-005-real-thread-benchmark-addendum.md
-      - research/preprints/NOEMA-2026-005-floating-point-summation.md
-      - docs/PROJECT_STATUS.md
-      - README.md
   workflow_dispatch:
 
 permissions:

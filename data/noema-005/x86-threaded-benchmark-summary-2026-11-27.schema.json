@@ -1,0 +1,695 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://maisuradzee.github.io/bibmom/schemas/noema005-x86-run33-summary.schema.json",
+  "title": "NOEMA-005 x86-64 Run 33 hosted repeat summary",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "study_id",
+    "experiment_id",
+    "date",
+    "base_main_commit",
+    "protocol",
+    "input_sha256",
+    "aggregate",
+    "reports",
+    "limitations",
+    "validation_scope"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "study_id": {
+      "const": "NOEMA-2026-005"
+    },
+    "experiment_id": {
+      "const": "NOEMA-2026-005-REAL-THREADS-X86-REPEAT-001"
+    },
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "base_main_commit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repeat_count",
+        "value_count_per_layout",
+        "workers",
+        "layouts",
+        "partitions",
+        "methods",
+        "warmups",
+        "repetitions",
+        "random_seed",
+        "baseline",
+        "reference",
+        "cpu_metric",
+        "memory_metric"
+      ],
+      "properties": {
+        "repeat_count": {
+          "const": 65536
+        },
+        "value_count_per_layout": {
+          "const": 196608
+        },
+        "workers": {
+          "const": [
+            1,
+            2,
+            4,
+            8
+          ]
+        },
+        "layouts": {
+          "const": [
+            "triplet_order",
+            "grouped_cancellation"
+          ]
+        },
+        "partitions": {
+          "const": [
+            "contiguous",
+            "round_robin"
+          ]
+        },
+        "methods": {
+          "const": [
+            "threaded_naive_scalar",
+            "threaded_neumaier_scalar",
+            "threaded_neumaier_state"
+          ]
+        },
+        "warmups": {
+          "const": 1
+        },
+        "repetitions": {
+          "const": 3
+        },
+        "random_seed": {
+          "type": "null"
+        },
+        "baseline": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reference": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cpu_metric": {
+          "type": "string",
+          "minLength": 1
+        },
+        "memory_metric": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "input_sha256": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "triplet_order",
+        "grouped_cancellation"
+      ],
+      "properties": {
+        "triplet_order": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "grouped_cancellation": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "aggregate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "hosted_x86_64_reports",
+        "threaded_configurations",
+        "measured_runs",
+        "accuracy",
+        "cpu_wall_samples_above_1_05",
+        "free_threaded_azure_neumaier_state_median_speedups",
+        "matched_azure_pair_run",
+        "matched_azure_pair",
+        "second_run_gil_backend",
+        "second_run_free_threaded_backend",
+        "input_hashes_identical",
+        "interpretation",
+        "free_threaded_aws_neumaier_state_median_speedup",
+        "matched_aws_pair_run",
+        "matched_aws_pair"
+      ],
+      "properties": {
+        "hosted_x86_64_reports": {
+          "const": 6
+        },
+        "threaded_configurations": {
+          "const": 288
+        },
+        "measured_runs": {
+          "const": 864
+        },
+        "accuracy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "naive_scalar",
+            "neumaier_scalar",
+            "neumaier_state"
+          ],
+          "properties": {
+            "naive_scalar": {
+              "$ref": "#/$defs/count0_288"
+            },
+            "neumaier_scalar": {
+              "$ref": "#/$defs/count252_288"
+            },
+            "neumaier_state": {
+              "$ref": "#/$defs/count288_288"
+            }
+          }
+        },
+        "cpu_wall_samples_above_1_05": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "gil_enabled",
+            "free_threaded"
+          ],
+          "properties": {
+            "gil_enabled": {
+              "$ref": "#/$defs/count0_432"
+            },
+            "free_threaded": {
+              "$ref": "#/$defs/count324_432"
+            }
+          }
+        },
+        "free_threaded_azure_neumaier_state_median_speedups": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "type": "number",
+            "exclusiveMinimum": 1
+          }
+        },
+        "matched_azure_pair_run": {
+          "const": 46034414138
+        },
+        "matched_azure_pair": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "gil_enabled_neumaier_state_median_speedup",
+            "free_threaded_neumaier_state_median_speedup"
+          ],
+          "properties": {
+            "gil_enabled_neumaier_state_median_speedup": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "exclusiveMaximum": 1
+            },
+            "free_threaded_neumaier_state_median_speedup": {
+              "type": "number",
+              "exclusiveMinimum": 1
+            }
+          }
+        },
+        "second_run_gil_backend": {
+          "const": "aws"
+        },
+        "second_run_free_threaded_backend": {
+          "const": "azure"
+        },
+        "input_hashes_identical": {
+          "const": true
+        },
+        "interpretation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "free_threaded_aws_neumaier_state_median_speedup": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "exclusiveMaximum": 1
+        },
+        "matched_aws_pair_run": {
+          "const": 46035393777
+        },
+        "matched_aws_pair": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "gil_enabled_neumaier_state_median_speedup",
+            "free_threaded_neumaier_state_median_speedup"
+          ],
+          "properties": {
+            "gil_enabled_neumaier_state_median_speedup": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "exclusiveMaximum": 1
+            },
+            "free_threaded_neumaier_state_median_speedup": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "exclusiveMaximum": 1
+            }
+          }
+        }
+      }
+    },
+    "reports": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {
+        "$ref": "#/$defs/report"
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "validation_scope": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "$defs": {
+    "count0": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "correct",
+        "total"
+      ],
+      "properties": {
+        "correct": {
+          "const": 0
+        },
+        "total": {
+          "const": 192
+        }
+      }
+    },
+    "count168": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "correct",
+        "total"
+      ],
+      "properties": {
+        "correct": {
+          "const": 168
+        },
+        "total": {
+          "const": 192
+        }
+      }
+    },
+    "count192": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "correct",
+        "total"
+      ],
+      "properties": {
+        "correct": {
+          "const": 192
+        },
+        "total": {
+          "const": 192
+        }
+      }
+    },
+    "count0_288": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "correct",
+        "total"
+      ],
+      "properties": {
+        "correct": {
+          "const": 0
+        },
+        "total": {
+          "const": 288
+        }
+      }
+    },
+    "count216_288": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "count",
+        "total"
+      ],
+      "properties": {
+        "count": {
+          "const": 216
+        },
+        "total": {
+          "const": 288
+        }
+      }
+    },
+    "report": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "workflow_run_id",
+        "workflow_run_url",
+        "quality_run_id",
+        "head_sha",
+        "runner_label",
+        "cloud_backend",
+        "runtime_mode",
+        "environment",
+        "accuracy",
+        "cpu_wall_samples_above_1_05",
+        "median_speedup_by_method",
+        "neumaier_state_by_worker",
+        "artifact",
+        "quality_run_conclusion"
+      ],
+      "properties": {
+        "workflow_run_id": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "workflow_run_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "quality_run_id": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "head_sha": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "runner_label": {
+          "const": "ubuntu-24.04"
+        },
+        "cloud_backend": {
+          "enum": [
+            "azure",
+            "aws"
+          ]
+        },
+        "runtime_mode": {
+          "enum": [
+            "gil-enabled",
+            "free-threaded"
+          ]
+        },
+        "environment": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "python_implementation",
+            "python_version",
+            "machine",
+            "platform",
+            "processor",
+            "cpu_count_process",
+            "cpu_affinity_count",
+            "gil_enabled",
+            "free_threaded_build"
+          ],
+          "properties": {
+            "python_implementation": {
+              "const": "CPython"
+            },
+            "python_version": {
+              "const": "3.14.4"
+            },
+            "machine": {
+              "const": "x86_64"
+            },
+            "platform": {
+              "type": "string",
+              "minLength": 1
+            },
+            "processor": {
+              "const": "x86_64"
+            },
+            "cpu_count_process": {
+              "const": 4
+            },
+            "cpu_affinity_count": {
+              "const": 4
+            },
+            "gil_enabled": {
+              "type": "boolean"
+            },
+            "free_threaded_build": {
+              "type": "boolean"
+            }
+          }
+        },
+        "accuracy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "naive_scalar",
+            "neumaier_scalar",
+            "neumaier_state"
+          ],
+          "properties": {
+            "naive_scalar": {
+              "const": "0/48"
+            },
+            "neumaier_scalar": {
+              "const": "42/48"
+            },
+            "neumaier_state": {
+              "const": "48/48"
+            }
+          }
+        },
+        "cpu_wall_samples_above_1_05": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "naive_scalar",
+            "neumaier_scalar",
+            "neumaier_state"
+          ],
+          "properties": {
+            "naive_scalar": {
+              "type": "string",
+              "pattern": "^\\d+/48$"
+            },
+            "neumaier_scalar": {
+              "type": "string",
+              "pattern": "^\\d+/48$"
+            },
+            "neumaier_state": {
+              "type": "string",
+              "pattern": "^\\d+/48$"
+            }
+          }
+        },
+        "median_speedup_by_method": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "naive_scalar",
+            "neumaier_scalar",
+            "neumaier_state"
+          ],
+          "properties": {
+            "naive_scalar": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "neumaier_scalar": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "neumaier_state": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            }
+          }
+        },
+        "neumaier_state_by_worker": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "workers",
+              "median_speedup",
+              "median_cpu_wall_ratio",
+              "median_peak_traced_python_bytes",
+              "correctly_rounded_runs",
+              "total_runs"
+            ],
+            "properties": {
+              "workers": {
+                "enum": [
+                  1,
+                  2,
+                  4,
+                  8
+                ]
+              },
+              "median_speedup": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "median_cpu_wall_ratio": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "median_peak_traced_python_bytes": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "correctly_rounded_runs": {
+                "const": 12
+              },
+              "total_runs": {
+                "const": 12
+              }
+            }
+          }
+        },
+        "artifact": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "name",
+            "zip_digest",
+            "raw_report_sha256",
+            "raw_report_bytes",
+            "expires_at"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "name": {
+              "type": "string",
+              "minLength": 1
+            },
+            "zip_digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            "raw_report_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "raw_report_bytes": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "expires_at": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "quality_run_conclusion": {
+          "enum": [
+            "success",
+            "failure_test_assertion"
+          ]
+        }
+      }
+    },
+    "count252_288": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "correct",
+        "total"
+      ],
+      "properties": {
+        "correct": {
+          "const": 252
+        },
+        "total": {
+          "const": 288
+        }
+      }
+    },
+    "count288_288": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "correct",
+        "total"
+      ],
+      "properties": {
+        "correct": {
+          "const": 288
+        },
+        "total": {
+          "const": 288
+        }
+      }
+    },
+    "count0_432": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "count",
+        "total"
+      ],
+      "properties": {
+        "count": {
+          "const": 0
+        },
+        "total": {
+          "const": 432
+        }
+      }
+    },
+    "count324_432": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "count",
+        "total"
+      ],
+      "properties": {
+        "count": {
+          "const": 324
+        },
+        "total": {
+          "const": 432
+        }
+      }
+    }
+  }
+}

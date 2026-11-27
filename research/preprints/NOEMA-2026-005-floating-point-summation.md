@@ -410,3 +410,25 @@ These are hosted ARM64 CI runners, not independently controlled physical devices
 A larger representative workload, native reduction kernel, alternative chunk sizes or memory-bandwidth-bound arrays may change the balance. The next test should use at least 20 measured repetitions on controlled physical x86-64 and ARM64 hosts, with RSS/native allocation, DRAM bandwidth, per-thread CPU clocks and uncertainty intervals.
 
 **NOEMA status remains preliminary; no published status is claimed.**
+
+## 2026-11-27 — x86-64 hosted repeats (Run 33)
+
+Two additional hosted workflow runs produced four x86-64 reports. Two free-threaded Azure reports had Neumaier-state median speedups of 1.3172× and 1.1740× across the full worker matrix; their 2/4/8-worker medians were above 1.0, while the 1-worker case remained below 1.0. The matched Azure GIL report from workflow 46034414138 had a Neumaier-state median of 0.7809×. The GIL report from workflow 46034729099 ran on AWS while its free-threaded report ran on Azure and is not a matched runtime comparison.
+
+Across the four reports, Neumaier-state was correctly rounded in 192/192 configurations, scalar Neumaier in 168/192 and naive scalar in 0/192. Free-threaded process CPU/wall >1.05 occurred in 216/288 samples; GIL-enabled in 0/288. These are hosted synthetic results with three measured repetitions per configuration. The Azure result is promising but remains preliminary: one matched Azure GIL/free-threaded workflow pair, a second free-threaded Azure repeat, no physical-device replication, no RSS/native allocation or DRAM-bandwidth measurement, and no independent numerical review.
+
+The exact artifact and raw-report SHA-256 values are recorded in [the aggregate summary](../../data/noema-005/x86-threaded-benchmark-summary-2026-11-27.json). Raw reports and native thread IDs are not committed.
+
+**Status remains preliminary; no Published status is claimed.**
+
+### Run 33c — matched AWS GIL/free-threaded counterexample (2026-11-27)
+
+A third workflow run, [46035393777](https://github.com/maisuradzee/bibmom/actions/runs/46035393777), produced a matched AWS-hosted GIL/free-threaded x86-64 pair. Neumaier-state median speedup was 0.7646× with GIL and 0.7034× free-threaded; the free-threaded run showed process CPU/wall >1.05 in multi-worker samples but did not improve median wall time at any worker count. This contrasts with the matched Azure pair, where the free-threaded median was 1.3172× versus 0.7809× for GIL. The second workflow (46034729099) remains mixed-backend (AWS GIL, Azure free) and is not directly comparable.
+
+Across all six reports (288 configurations, 864 measured runs), Neumaier state remained 288/288 correctly rounded, scalar Neumaier 252/288 and naive scalar 0/288. Free-threaded CPU/wall >1.05 occurred in 324/432 samples versus 0/432 GIL-enabled. The result is therefore **backend-dependent**, not evidence of a general free-threaded speedup. Hosted synthetic evidence only; three repetitions per configuration, no physical-host replication, RSS/native allocation or DRAM bandwidth. See the [six-report aggregate and artifact hashes](../../data/noema-005/x86-threaded-benchmark-summary-2026-11-27.json).
+
+
+
+## 2026-11-27 — cross-architecture synthesis
+
+Run 33 x86-64 and ARM64 hosted summaries share the same CPython 3.14.4 protocol and input SHA-256 values. Across ten runner/runtime reports (480 configurations, 1,440 measured runs), Neumaier-state was exact-reference-correct in 480/480, scalar Neumaier in 420/480 and naive scalar in 0/480. Only two x86-64 Azure free-threaded report medians exceeded 1.0; all four ARM64 reports, all GIL-enabled reports and the x86-64 AWS free-threaded report remained below 1.0. The data are backend/runner-dependent hosted synthetic evidence and do not establish an architecture effect or general free-threading speedup. No new benchmark was run in this synthesis. Physical-device replication, 20+ repetitions, RSS/native memory, DRAM bandwidth and independent numerical review remain outstanding. **Status remains preliminary; no Published status is claimed.**
