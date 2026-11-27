@@ -1,13 +1,13 @@
 # NOEMA — მიმდინარე პროექტის მდგომარეობა
 
-- **განახლდა:** 2026-11-27 (Run 35 — post-merge verification).
+- **განახლდა:** 2026-11-27 (Run 36 — NFA 2025 source discovery და restore-attestation strict JSON ingestion).
 - **საცავი:** https://github.com/maisuradzee/bibmom
-- **ბოლო დადასტურებული main snapshot:** `1278c856857121cb0d3bf623666fe5c495a4975c` (Run 35 audit merge).
-- **Main Quality CI:** [46045601007](https://github.com/maisuradzee/bibmom/actions/runs/46045601007) — SUCCESS; 491 Python tests, frozen-result/schema checks, site build და publication-boundary checks.
-- **Pages deployment:** [46045601021](https://github.com/maisuradzee/bibmom/actions/runs/46045601021) — build/deploy SUCCESS ზუსტად Run 35 audit merge commit-ზე.
-- **ღია PR:** 38; **ღია Issue:** 0.
+- **მიმდინარე main snapshot აუდიტის დაწყებისას:** `107a5fa7bd95037a19f149d247456eb6106fe054`.
+- **ბოლო დადასტურებული main Quality CI:** [46045601007](https://github.com/maisuradzee/bibmom/actions/runs/46045601007) — SUCCESS, 491 Python tests; ეს run დოკუმენტებში მითითებულ `1278c856857121cb0d3bf623666fe5c495a4975c` audit-merge snapshot-ზეა.
+- **ბოლო დადასტურებული Pages deployment:** [46045601021](https://github.com/maisuradzee/bibmom/actions/runs/46045601021) — build/deploy SUCCESS იმავე `1278c856857121cb0d3bf623666fe5c495a4975c` snapshot-ზე; შემდგომი `107a5fa` documentation-only commit-ის ცალკე Pages run ამ აუდიტში არ დადასტურებულა.
+- **ღია PR:** 42 (მათ შორის Run 36-ის #190, #191, #192 და #193); **ღია Issue:** 0.
 - **აქტიური პორტფელი:** ოთხივე ნაკადი აქტიურია — AquaSignal, NOEMA-005, NOEMA-007 და INFRA-001.
-- **კვლევის კატალოგი:** 3 Preliminary, 0 Published. Run 35-ის ცვლილებები input-validation hardening და პორტფელის აუდიტია; ახალი Published კვლევა არ შექმნილა.
+- **კვლევის კატალოგი:** 3 Preliminary, 0 Published. Run 36-ის ორი ახალი კვლევითი/საინჟინრო ცვლილება Draft PR-ებად რჩება; ახალი Published კვლევა არ შექმნილა.
 
 ## Run 11 — კვლევითი მტკიცებულებების შეჯერება და აღდგენის numeric-boundary hardening
 
@@ -340,3 +340,98 @@ Run 1 used the same AWS x86-64 runner family for both runtime modes. Run 2 used 
 2. NOEMA-007: მონაცემთა კონტროლერის მიერ დამტკიცებული ქართული event-level warning/after-action aggregate-ები და წინასწარ განსაზღვრული denominators.
 3. NOEMA-005: ფიზიკური x86-64/ARM64 კონტროლირებული benchmark, 20+ repetitions, RSS/native memory და DRAM bandwidth.
 4. INFRA-001: დამოუკიდებელი recovery owner, trust-domain, key custody და permissioned clean-host restore.
+
+
+## Run 36 — NFA 2025 access lead და restore-attestation parser hardening
+
+### შესრულებული სამუშაო
+
+- **AquaSignal / PR #190 (Draft):** NFA-ს ოფიციალური 2026-01-08 გვერდი დააფიქსირებს 2025 Food Department-ის ადმინისტრაციულ მაჩვენებლებს და XLSX endpoint-ს, რომელიც აღწერილია როგორც საკვებისა და სასმელი წყლის მონიტორინგის ნიმუშებში გამოვლენილი დარღვევები. XLSX payload არ ჩამოტვირთულა, არ დაიჰეშა და არ გაიხსნა. წყლის ცალკე მნიშვნელი, სრული ტესტირებული ნიმუშების frame და reuse terms უცნობია. Metadata-only JSON, closed schema, 5 test და draft note დაემატა.
+- **INFRA-001 / PR #191 (Draft):** დაემატა `load_restore_attestation_bytes()` და `evaluate_restore_attestation_bytes()`: ზუსტი UTF-8 bytes, 1 MiB ზღვარი, recursive duplicate-key rejection, NaN/Infinity token rejection და object-root მოთხოვნა. დაემატა 6 synthetic regression test. ეს არ ამოწმებს evidence signatures-ს და არ ქმნის production recovery trust-domain-ს.
+- **NOEMA-007:** pinned WRP 2025 warning/action reproduction run 46041436183-ის reproduce job ხელახლა შემოწმდა — SUCCESS. ახალი ქართული operational event/after-action მონაცემები არ მიგვიღია.
+- **NOEMA-005 / PR #193 (Draft):** PR #190 და #191-ის CPU-thread workflow-ებიდან ოთხი hosted x86-64 artifact ჩამოიტვირთა; ZIP/report SHA-256, input hashes და native-thread counts შემოწმდა. 192 configuration / 576 measured run: Neumaier-state 192/192 სწორად დამრგვალდა, scalar Neumaier 168/192, naive 0/192. Free-threaded Neumaier-state CPU/wall >1.05 იყო 72/96 measured run-ში (24/32 configuration), GIL-enabled 0/96-ში. Median speedup PR190 free-threaded 1.145852x-დან PR191 free-threaded 0.947358x-მდე შეიცვალა; სტაბილური აჩქარება არ დასტურდება. PR193 ინახავს მხოლოდ aggregate snapshot-ს და ავიწროებს benchmark workflow path filters-ს, რათა დოკუმენტაციის PR-ებმა ახალი benchmark არ გამოიწვიოს. ფიზიკური x86-64/ARM64, RSS/native memory და DRAM bandwidth კვლავ ბლოკერებია.
+
+### კვლევითი მიგნებები და მტკიცებულების საზღვრები
+
+- **FACT:** NFA-ს ოფიციალური გვერდი 2025 წელს 21,874 Food Department inspection-ს, 10,521 გადამოწმებულ business operator-ს და 554 critical non-compliance operator-ს ასახელებს; იმავე გვერდიდან ხელმისაწვდომია combined food/drinking-water violations XLSX ბმული.
+- **INFERENCE:** violations-only ფაილი ვერ იძლევა non-compliance prevalence-ს სრული tested-sample denominator-ისა და sampling frame-ის გარეშე.
+- **HYPOTHESIS:** data-controller-approved, de-identified წყლის აგრეგატები შეიძლება გამოყენებულ იქნეს provenance-preserving მონიტორინგისთვის.
+- **UNTESTED IDEA:** ავტორიზებული aggregate export-ის private staging adapter და disclosure-reviewed public output.
+- NFA XLSX-ის payload, SHA-256, worksheet/column inventory, row count, water-only denominator და reuse terms უცნობია. 2025 NFA access lead არ ავსებს ცალკე 2024 E. coli მაჩვენებლის დაკარგულ მნიშვნელს.
+- RFC 8259 §4 duplicate object names-ის შემთხვევაში parser-ებს შორის განსხვავებულ ქცევას აღწერს; Python 3.14 JSON decoder დოკუმენტაცია ასახელებს object_pairs_hook-სა და non-standard NaN/Infinity-ის ნაგულისხმევ მიღებას. PR #191 strict bytes API ამ ორ ambiguity-ს input boundary-ზე კეტავს.
+
+### Exact-head CI
+
+- PR #190 head `b7503f4c2d5f02feacfef4e4e792cacaf45f8546`: Quality CI [46048328724](https://github.com/maisuradzee/bibmom/actions/runs/46048328724) — SUCCESS, 496 Python tests; CPU-thread workflow [46048328705](https://github.com/maisuradzee/bibmom/actions/runs/46048328705) — GIL-enabled და free-threaded jobs ორივე SUCCESS. საწყისი PR-head run draft validator-ის სავალდებულო ქართული heading-ების გამო ჩავარდა; დრაფტი შაბლონს მოვარგე და ახალ exact head-ზე CI წარმატებით გავიდა.
+- PR #191 head `e888bb5c445f81b4ff6ab4f1974019c86daed9f5`: Quality CI [46048363033](https://github.com/maisuradzee/bibmom/actions/runs/46048363033) — SUCCESS, 497 Python tests; CPU-thread workflow [46048363044](https://github.com/maisuradzee/bibmom/actions/runs/46048363044) — GIL-enabled და free-threaded jobs ორივე SUCCESS.
+- PR #193 head `30af18b90ec4340a0c5039c8030497199210bc90`: Quality CI [46049582648](https://github.com/maisuradzee/bibmom/actions/runs/46049582648) — SUCCESS, 498 Python tests; Run 36 frozen aggregate reproduction, schema, site build and publication boundary SUCCESS. CPU-thread workflow [46049582641](https://github.com/maisuradzee/bibmom/actions/runs/46049582641) — GIL-enabled და free-threaded jobs ორივე SUCCESS. ეს workflow run PR #193-ში workflow path-filter ცვლილების დასამოწმებლად გაეშვა; მისი ახალი artifacts Run 36 snapshot-ში არ შედის.
+- ორივე PR Draft-ად დარჩა; ამ ციკლში არცერთი არ გაერთიანებულა. მათი mergeability=true ამ ჩანაწერში დადასტურებული არ არის.
+- Main-ის ბოლო დადასტურებული Quality CI/Pages runs ზემოთ მითითებული 1278 snapshot-ისთვისაა; მიმდინარე main 107a-ზე ახალი deployment არ დამიდასტურებია.
+
+### უსაფრთხოება და შემდეგი ნაბიჯები
+
+- საჯარო საცავში არ დაემატა XLSX payload, respondent-level მონაცემი, operator/personal identifier, credential, private key ან production database content.
+- NFA XLSX-ის მიღებამდე საჭიროა data-controller authorization, private inspection, schema, სრული denominator, privacy review და reuse terms.
+- INFRA-001-ში შემდეგი ნაბიჯია დამოუკიდებელი security review, recovery owner, separately trusted high-water service და permissioned clean-host restore.
+- NOEMA-005-ის შემდეგი ნაბიჯია ფიზიკური მოწყობილობის controlled benchmark; NOEMA-007-ის — authorized Georgian warning/after-action aggregates.
+- `data/research.json` main-ზე უცვლელია: 3 Preliminary, 0 Published; PR #193 branch-ში NOEMA-005 Preliminary ჩანაწერი Run 36-ის ახალი aggregate-ებით განახლდა. `RESEARCH_STANDARD.md` და `research/TEMPLATE.md` გადამოწმდა; ახალი Published კვლევა არ შექმნილა.
+
+## Run 37 — scheduled research and engineering audit (2026-11-27)
+
+### Work performed
+
+- **AquaSignal:** added a metadata-only record for the National Food Agency's 2026-08-12 notice about critical hygiene/infrastructure nonconformities and suspension of a drinking-water/lemonade production process in Zugdidi. The public record omits the business name, exact street address, tax identifier and personal data. The notice does not report laboratory water results, sample count, analytes or a denominator; no contamination or prevalence claim is made.
+- **NOEMA-005:** audited the Run 36 sanitized artifact snapshot and found that full Linux kernel/glibc platform strings remained in the public runner metadata, contrary to the evidence-minimization intent. PR #193 was corrected to keep only a coarse AWS/Azure hosted-runner family; detailed platform strings and raw thread/process identifiers are excluded. Original ZIP/report hashes and numeric measurements are unchanged. The corrective exact-head CI is pending.
+- **NOEMA-007:** re-opened WMO's 2026 MHEWS report page and UNDRR/WMO's 2026-11-12 COP31 update. Source-reported context: 136 countries reported MHEWS as of August 2026; fewer than half had all four pillars; countries with substantial/comprehensive systems had nearly sixfold lower disaster death rates than countries with limited/moderate systems. This is an observational cross-country association, not a causal estimate or Georgian result. PR #194 adds strict URL hygiene to the aggregate warning/evidence-source validator; URLs are not fetched.
+- **INFRA-001:** reviewed the strict UTF-8 bytes parser in PR #191. It remains a Draft security change pending independent review; production key custody, offsite retention and clean-host restore remain unimplemented.
+
+### Portfolio and evidence state
+
+- Four active streams remain: AquaSignal, NOEMA-005, NOEMA-007 and INFRA-001.
+- No new fifth stream was added.
+- No research was promoted to published.
+- WRP respondent-level data, private identifiers, raw NFA workbooks, raw thread IDs and secrets were not committed.
+- No Supabase project was created and no other project's database was used.
+
+### Pull requests and validation
+
+- PR #190 now includes the metadata-only NFA 2026 inspection event in addition to the 2025 XLSX access lead; exact-head CI is pending.
+- PR #193 now minimizes public runner identity; the first CI attempt caught a test assertion that also matched explanatory prose. The assertion was narrowed and a fresh exact-head run is pending.
+- PR #194 adds credential-bearing URL rejection for warning and evidence-source URLs; exact-head CI is pending.
+- PR #192 carries this portfolio/status synchronization and the Run 37 audit. No new merge or Pages deployment is claimed in this audit.
+
+### Next priorities
+
+1. Obtain an authorized NFA/NEA sample-level data export and its denominator, dictionary, QA/QC and reuse terms.
+2. Complete exact-head CI and review for PR #193; retain physical x86-64/ARM64 replication as an external blocker.
+3. Run exact-head tests for PR #194 and request independent privacy/GIS/DRR review.
+4. Keep PR #191 Draft until independent security review; later require a permissioned clean-host restore before any offsite readiness claim.
+
+
+### AquaSignal additional official NFA source review
+
+The NFA 2026 State Control Programme (official PDF, accessed 2026-11-27) plans 550 base drinking-water samples: K=1.5 × A=365 = 547.5, rounded to 550, plus approximately 200 additional bottled-water samples, total 750 planned. It also says monitoring of produced bottled-water volume is not planned. These are programme targets, not actual sample counts or results.
+
+The NFA 2026-09-25 Tbilisi kindergarten investigation update reports approximately 70 inspected facilities and 694 combined food/drinking-water samples. It separately reports 129 food samples tested with no violations. The 694 count is not a water-only denominator; the 129 compliant results are food-only. Water-only sample counts and results remain unavailable. No claim is made that drinking water caused the reported norovirus-associated gastroenteritis cases.
+
+### Run 37 validation update
+
+- PR #193 exact-head Quality CI and CPU-thread workflow both succeeded after replacing full runner platform strings with coarse provider-family metadata.
+- PR #194 exact-head Quality CI and CPU-thread workflow both succeeded; its URL hygiene guard remains Draft pending independent review.
+- PR #190 and PR #192 had new commits after their first CI attempts; latest exact-head checks are being re-evaluated. No Main merge or deployment is claimed from those Draft PRs.
+
+
+### Main merge update — 2026-11-27
+
+- PR #193 (NOEMA-005 Run 36 artifact reproduction and public runner metadata minimization) merged as `58fe694a4656c1ca020d096af279d1a9eb752e91`. Research remains Preliminary; no peer-reviewed publication claim is made.
+- PR #190 (AquaSignal NFA 2025/2026 source access and metadata) merged as `e079dc8141c6a763f1eb79e13c5a56f8f0707c90`. The 750 sample figure remains a plan target, and the 694 investigation count remains combined food/water; actual water-only counts/results are not available.
+- PR #192 is refreshed onto the latest main and carries Run 37 portfolio/audit updates; exact-head CI is pending.
+- PR #191 remains Draft pending independent security review. PR #194 remains Draft pending fresh exact-head CI and independent privacy/GIS/DRR review.
+- Main CI and Pages deployment for the new main tip must be checked separately; no deployment is claimed until its deploy job succeeds.
+
+
+### Verified Main CI and deployment — 2026-11-27
+
+Main commit `e079dc8141c6a763f1eb79e13c5a56f8f0707c90` passed NOEMA Quality CI run [46056954547](https://github.com/maisuradzee/bibmom/actions/runs/46056954547) and GitHub Pages deployment run [46056954562](https://github.com/maisuradzee/bibmom/actions/runs/46056954562). The site is updated to this exact Main commit.
+
+PR #192 portfolio synchronization head `bcc7f93d95236a880f2b4ebfd0a47a96e2552a03` passed exact-head Quality CI run 46057020903. PR #191 head 1a7d4cc and PR #194 head 24e462d are rebased onto current Main; their new exact-head Quality CI runs are in progress. PR #190 and PR #193 are merged.

@@ -22,6 +22,12 @@ class Noema007MhewsSnapshotTests(unittest.TestCase):
             (ROOT / "data/noema-007/mhews-2026-derived-results.json").read_text(encoding="utf-8")
         )
 
+    def test_mhews_context_draft_has_required_status_metadata_and_sections(self):
+        draft = (ROOT / "research/drafts/NOEMA-2026-007-mhews-2026-implementation-gap-context-2026-11-27.md").read_text(encoding="utf-8")
+        self.assertIn("- **თარიღი:** 2026-11-27", draft)
+        self.assertIn("- **სტატუსი:** draft", draft)
+        for heading in ("საკვლევი კითხვა", "მეთოდი ან ექსპერიმენტის გეგმა", "წყაროები", "შემდეგი ნაბიჯები", "შემოწმების სტატუსი"):
+            self.assertIn("## " + heading, draft)
     def test_source_snapshot_reproduces_frozen_arithmetic(self):
         self.assertEqual(reproduce(self.snapshot), self.frozen)
 
