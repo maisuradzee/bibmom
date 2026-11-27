@@ -1,5 +1,25 @@
 # NOEMA — მიმდინარე პროექტის მდგომარეობა
 
+- **განახლდა:** 2026-11-27 (run 28, research branches and exact-head CI audited)
+- **საცავი:** https://github.com/maisuradzee/bibmom
+- **მდგომარეობის snapshot main:** 2852b7b5ee3fa7470ebc9c3eda339fc0e6235eda
+- **Main quality CI:** [45994809027](https://github.com/maisuradzee/bibmom/actions/runs/45994809027) — SUCCESS for exact main snapshot.
+- **GitHub Pages deployment:** [45994808987](https://github.com/maisuradzee/bibmom/actions/runs/45994808987) — SUCCESS for the same main snapshot; no Pages deployment was triggered by this run because main was not changed.
+- **Run 28 audit:** [docs/run-audits/2026-11-27-run-28.md](run-audits/2026-11-27-run-28.md) — NOEMA-007 metadata-only risk-baseline freshness evaluator and NOEMA-005 cgroup v2 mount-root path-resolution hardening; both remain Draft.
+- **Run 28 PR #156:** [NOEMA-007 freshness evaluator](https://github.com/maisuradzee/bibmom/pull/156), head `ff5fda252376bfe1e499556ec175cd805d61b68f`; exact Quality CI [46005429117](https://github.com/maisuradzee/bibmom/actions/runs/46005429117) SUCCESS; CPU-thread workflow [46005429130](https://github.com/maisuradzee/bibmom/actions/runs/46005429130) both jobs SUCCESS.
+- **Run 28 PR #157:** [NOEMA-005 cgroup path-resolution tests](https://github.com/maisuradzee/bibmom/pull/157), head `37f2d3576faade1c0963c31362698b0c45c11f7b`; exact Quality CI [46005644572](https://github.com/maisuradzee/bibmom/actions/runs/46005644572) SUCCESS. No new OpenMP timing result is claimed by this path-resolution change.
+- **Run 28 PR #159:** [NOEMA-005 hosted GIL/free-threaded repeat](https://github.com/maisuradzee/bibmom/pull/159), head currently `8691f1c2d10227760c8567b00074846ae267f478`; exact-head Quality CI and CPU-thread workflow are pending at this status update. Two prior hosted runs (46006107242, 46007383552) are preserved as four sanitized artifacts and 576 repetitions; see the run audit.
+- **Related PR #155:** [NOEMA-007 dynamic risk-baseline freshness discovery](https://github.com/maisuradzee/bibmom/pull/155), remains Draft and is not merged.
+- **Open research/engineering PRs:** 33 (0 open Issues) after PR #159 was opened; this count includes PR #158. PRs #156 and #157 are separate clean-base research branches; #144, #145, #146 and #148 still require their own base refresh and exact-head revalidation.
+- **Research catalogue:** 1 preliminary, 0 published. No research item was promoted to Published.
+- **Main was not modified in this run.** Research PRs were not merged because they remain Draft and need independent domain review and/or real-world evidence.
+
+## Run 28 — research and engineering audit
+
+- Two independent streams advanced: NOEMA-007 freshness evaluator and NOEMA-005 cgroup mount-root path-resolution hardening.
+- AquaSignal and INFRA-001 were reviewed; blockers remain, and no artificial progress or production-readiness claim was added.
+- Full portfolio and evidence limits: [Run 28 audit](run-audits/2026-11-27-run-28.md).
+
 - **განახლდა:** 2026-11-27 (run 26, post-merge verified main snapshot)
 - **საცავი:** https://github.com/maisuradzee/bibmom
 - **მდგომარეობის snapshot main:** 27edcf226bd27981c32b935d66c697321384a84c (PR #150 Run 26 portfolio/status audit merged)
