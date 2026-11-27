@@ -18,7 +18,7 @@ Path mapping ამოღებულია ცალკე pure helper-ში �
 - membership-ის ზუსტ დამთხვევას;
 - sibling სახელებს საერთო ტექსტური prefix-ით (`/system.slice2` და `/system.slice`);
 - relative, repeated-separator და parent-traversal input-ებს;
-- mountinfo-ში escaped space, tab და backslash ველებს.
+- mountinfo-ში escaped space, tab, newline და backslash ველებს; escaped backslash-ის შემდეგ literal `\\012` მიმდევრობაც ხელუხლებლად რჩება.
 
 ეს helper არ კითხულობს system files-ს, არ პოულობს mount-ებს და არ ადგენს CPU capacity-ს.
 
