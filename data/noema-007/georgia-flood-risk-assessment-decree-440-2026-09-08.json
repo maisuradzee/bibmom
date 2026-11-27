@@ -69,9 +69,7 @@
     "urban_pluvial",
     "groundwater",
     "coastal",
-    "hydraulic_infrastructure_failure",
-    "mudflow_related",
-    "glacial_lake_outburst"
+    "hydraulic_infrastructure_failure"
   ],
   "significance_criteria": [
     "probability_of_occurrence",
@@ -113,5 +111,9 @@
     "private_person_data_included": false,
     "exact_private_locations_included": false,
     "raw_event_records_included": false
-  }
+  },
+  "conditional_flood_types": [
+    "mudflow_related",
+    "glacial_lake_outburst"
+  ]
 }
