@@ -18,12 +18,12 @@
 | NOEMA mission/autonomy core | შეზღუდული, ტესტირებადი foundation | noema_core/mission.json, mission.py, jobs/worker/workflow/scheduler/supervisor/service |
 | DISCOVERY · RESEARCH · INNOVATION | ერთიანი სამუშაო მოდელი | docs/NOEMA_OPERATING_MODEL.md |
 | NOEMA-005 numerical reduction | active / preliminary | Main-ში x86-64/ARM64 real-thread კვლევა; PR #99-ში ხუთი hosted rerun/raw archive; PR #104-ში ARM64 worker-scaling და traced-allocation-ის derived analysis. ფიზიკური კონტროლირებადი hardware, representative workloads და external numerical review აკლია. |
-| NOEMA-006 AquaSignal | active / prototype | Main-ში NEA122 catalogue metadata და NEA 2021–2025 RAR direct URL; archive არ არის მოპოვებული/ჰეშირებული, sample-level schema და reuse terms უცნობია. |
-| NOEMA-007 Last-Mile Action Gap | active / draft | Main-ში global evidence და aggregate-only measurement design; PR #100-ში საქართველოს ათი spatial catalogue layer; PR #103-ში heat-health readiness addendum. Local warning-event/health-outcome aggregates და formal heat-health plan status ჯერ არ არის დადასტურებული. |
+| NOEMA-006 AquaSignal | active / prototype | Main-ში NEA122 catalogue metadata და NEA 2021–2025 RAR direct URL; PR #108-ში Article 32(3) NEA data-request route, Article 31(3) NFA role და Resolution No.424 registry boundary. Archive და sample-level payload კვლავ უცნობია; PR #108 Draft-ია. |
+| NOEMA-007 Last-Mile Action Gap | active / draft | Main-ში global evidence და aggregate-only measurement design; PR #100-ში basin/spatial catalogue, PR #103-ში heat-health readiness, PR #109-ში Article 34 flood-risk role map. Local warning-event/after-action aggregates და approved map/plan versions ჯერ არ არის დადასტურებული. |
 | NOEMA-INFRA-001 reliability | active / engineering | Main-ში local manifest/hash/signature validation; PR #101-ში single-host SQLite high-water reference model. External trust domain, off-host retention და clean-host restore არ არსებობს. |
 | საჯარო კვლევითი კატალოგი | 1 preliminary, 0 published | data/research.json; Draft კვლევები არ არის Published. |
-| Main quality CI | SUCCESS | run 45928441338 — exact verified baseline SHA. |
-| GitHub Pages | DEPLOYED | run 45928441209 — build და deploy SUCCESS exact verified baseline SHA-ზე. https://maisuradzee.github.io/bibmom/ |
+| Main quality CI | SUCCESS | run 45928792884 — exact verified main SHA 2291b3bbe326ab2d8416023acdb05bfabd807e2d. |
+| GitHub Pages | DEPLOYED | run 45928792907 — build და deploy SUCCESS exact main SHA 2291b3bbe326ab2d8416023acdb05bfabd807e2d-ზე. https://maisuradzee.github.io/bibmom/ |
 | Supabase | NOEMA-სთვის ახალი პროექტი არ შექმნილა | Git-ით ვერსიაკონტროლირებადი JSON/SQLite reference architecture; სხვა პროექტის ბაზა არ გამოიყენება. |
 
 ## Run 17 — ზუსტი PR და CI მდგომარეობა
