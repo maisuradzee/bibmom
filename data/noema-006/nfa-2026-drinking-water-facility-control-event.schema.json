@@ -1,0 +1,167 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AquaSignal metadata-only NFA drinking-water facility control event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "study_id",
+    "evidence_status",
+    "event",
+    "measurement",
+    "source",
+    "privacy",
+    "interpretation_limits"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "study_id": {
+      "const": "NOEMA-2026-006"
+    },
+    "evidence_status": {
+      "const": "FACT"
+    },
+    "event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_date",
+        "region",
+        "municipality",
+        "facility_category",
+        "inspection_type",
+        "findings",
+        "enforcement"
+      ],
+      "properties": {
+        "event_date": {
+          "const": "2026-08-12"
+        },
+        "region": {
+          "const": "Samegrelo-Zemo Svaneti"
+        },
+        "municipality": {
+          "const": "Zugdidi"
+        },
+        "facility_category": {
+          "const": "drinking_water_and_lemonade_production"
+        },
+        "inspection_type": {
+          "const": "unscheduled_state_control"
+        },
+        "findings": {
+          "type": "array",
+          "minItems": 4,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "critical_hygiene_nonconformity",
+              "infrastructure_nonconformity",
+              "labelling_nonconformity",
+              "expired_product_sale_reported"
+            ]
+          }
+        },
+        "enforcement": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "fine_reported",
+              "production_process_suspended"
+            ]
+          }
+        }
+      }
+    },
+    "measurement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "water_sample_results_reported",
+        "sample_count",
+        "analyte_results",
+        "tested_sample_denominator"
+      ],
+      "properties": {
+        "water_sample_results_reported": {
+          "const": false
+        },
+        "sample_count": {
+          "type": "null"
+        },
+        "analyte_results": {
+          "type": "null"
+        },
+        "tested_sample_denominator": {
+          "type": "null"
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "publisher",
+        "title",
+        "publication_date",
+        "url",
+        "accessed_at"
+      ],
+      "properties": {
+        "publisher": {
+          "const": "National Food Agency of Georgia"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 10
+        },
+        "publication_date": {
+          "const": "2026-08-12"
+        },
+        "url": {
+          "const": "https://nfa.gov.ge/En/News/Details/1824"
+        },
+        "accessed_at": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "business_name_committed",
+        "street_address_committed",
+        "tax_identifier_committed",
+        "personal_data_committed"
+      ],
+      "properties": {
+        "business_name_committed": {
+          "const": false
+        },
+        "street_address_committed": {
+          "const": false
+        },
+        "tax_identifier_committed": {
+          "const": false
+        },
+        "personal_data_committed": {
+          "const": false
+        }
+      }
+    },
+    "interpretation_limits": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "string",
+        "minLength": 20
+      }
+    }
+  }
+}
