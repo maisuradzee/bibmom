@@ -11,7 +11,7 @@ import json
 from pathlib import Path
 import re
 from typing import Any, Mapping
-from urllib.parse import parse_qsl, urlsplit
+from urllib.parse import parse_qsl, unquote_plus, urlsplit
 
 from jsonschema import Draft202012Validator, FormatChecker
 
@@ -30,6 +30,26 @@ _SENSITIVE_URL_PARAMETER_NAMES = {
     "x_amz_signature", "xamzsignature", "x_amz_security_token", "xamzsecuritytoken",
 }
 
+_NORMALIZED_SENSITIVE_URL_PARAMETER_NAMES = frozenset(
+    re.sub(r"[^a-z0-9]", "", name.casefold()) for name in _SENSITIVE_URL_PARAMETER_NAMES
+)
+
+
+def _is_sensitive_url_parameter_name(name: str) -> bool:
+    """Match common credential names after bounded repeated URL decoding."""
+    candidate = name
+    for _ in range(4):
+        normalized = re.sub(r"[^a-z0-9]", "", candidate.casefold())
+        if normalized in _NORMALIZED_SENSITIVE_URL_PARAMETER_NAMES or normalized.endswith(
+            ("token", "secret", "password", "signature", "credential")
+        ):
+            return True
+        decoded = unquote_plus(candidate)
+        if decoded == candidate:
+            break
+        candidate = decoded
+    return False
+
 
 def _validate_public_source_url(value: str) -> None:
     """Reject credential-bearing URLs before source metadata can enter a public record."""
@@ -47,16 +67,22 @@ def _validate_public_source_url(value: str) -> None:
         raise RiskBaselineMetadataError("source_url must not contain user-info credentials")
 
     for component in (parts.query, parts.fragment):
-        try:
-            pairs = parse_qsl(component, keep_blank_values=True, strict_parsing=False, max_num_fields=100)
-        except ValueError as exc:
-            raise RiskBaselineMetadataError("source_url has too many query or fragment fields") from exc
-        for name, _ in pairs:
-            normalized = re.sub(r"[^a-z0-9]", "", name.casefold())
-            if normalized in _SENSITIVE_URL_PARAMETER_NAMES or normalized.endswith(
-                ("token", "secret", "password", "signature", "credential")
-            ):
-                raise RiskBaselineMetadataError("source_url must not contain credential-like query or fragment parameters")
+        # Support both common query separators. A separate parse for each
+        # separator avoids treating a semicolon-delimited credential as value text.
+        for separator in ("&", ";"):
+            try:
+                pairs = parse_qsl(
+                    component,
+                    keep_blank_values=True,
+                    strict_parsing=False,
+                    max_num_fields=100,
+                    separator=separator,
+                )
+            except ValueError as exc:
+                raise RiskBaselineMetadataError("source_url has too many query or fragment fields") from exc
+            for name, _ in pairs:
+                if _is_sensitive_url_parameter_name(name):
+                    raise RiskBaselineMetadataError("source_url must not contain credential-like query or fragment parameters")
 
 
 def _parse_date(value: Any, field: str, *, nullable: bool = False) -> date | None:
