@@ -101,6 +101,29 @@
         "no_substantive_content_extracted": true,
         "document_scope_from_link_title": "2025 geological-process results and 2026 forecast"
       }
+    },
+    {
+      "id": "mepa-geospatial-portal-spatial-data-inventory",
+      "publisher": "Ministry of Environmental Protection and Agriculture of Georgia",
+      "title": "Spatial data inventory — NEA geological, hydrological, meteorological and avalanche layers",
+      "publication_date": "undated",
+      "url": "https://portal.mepa.gov.ge/Ge/User/data?Links-sort=ResponsiblePerson-asc",
+      "accessed_at": "2026-11-27",
+      "source_claims": {
+        "catalogue_fields": [
+          "identifier",
+          "layer title",
+          "technical layer name",
+          "geometry type",
+          "sharing type",
+          "price",
+          "storage location",
+          "portal location",
+          "server location",
+          "catalogue date"
+        ],
+        "scope_note": "Catalogue metadata only; public/free classification does not prove a direct download endpoint or a reusable open-data licence."
+      }
     }
   ],
   "local_planning_signal": {
@@ -155,5 +178,115 @@
     "Do not infer that a public mobile application reaches every exposed person or that app delivery equals comprehension or protective action.",
     "NOEMA-007 is an evaluation/measurement layer only; it must not issue duplicate official warnings or override competent authorities.",
     "Only privacy-reviewed, permissioned aggregates may be used in public research; no person, device, message or exact household-location records are included."
+  ],
+  "spatial_data_catalogue": [
+    {
+      "id": "NEA55",
+      "title": "Regional modeling of avalanche hazards",
+      "layer_name": "(30y,100y,300y)_For_10m_rel.shp; Outlines_(30y,100y,300y)_For.shp; (30y,100y,300y)_For_MaxHeight.tif; (30y,100y,300y)_For_MaxPressure.tif",
+      "geometry_types": [
+        "polygon",
+        "raster"
+      ],
+      "sharing_type": "public",
+      "price": "free",
+      "catalogue_date": "2025-07-28",
+      "storage": [
+        "SQL SDE server",
+        "GISSQLFC01\\\\nea_snow_avalanch"
+      ],
+      "portal_map_url": null,
+      "direct_download_confirmed": false,
+      "reuse_license_confirmed": false,
+      "data_payload_obtained": false,
+      "scope": {
+        "regions": [
+          "Northeast",
+          "Northwest",
+          "Southwest"
+        ],
+        "return_periods_years": [
+          30,
+          100,
+          300
+        ],
+        "forest_scenarios": [
+          "with forest",
+          "without forest"
+        ],
+        "visible_asset_names": [
+          "(30y,100y,300y)_For_10m_rel.shp",
+          "Outlines_(30y,100y,300y)_For.shp",
+          "(30y,100y,300y)_For_MaxHeight.tif",
+          "(30y,100y,300y)_For_MaxPressure.tif"
+        ]
+      }
+    },
+    {
+      "id": "NEA66",
+      "title": "Geological hazards — Tbilisi zoning",
+      "layer_name": "Zonireba_Tbilisi_Geologia",
+      "geometry_types": [
+        "polygon"
+      ],
+      "sharing_type": "public",
+      "price": "free",
+      "catalogue_date": "2026-03-06",
+      "storage": [
+        "SQL SDE server",
+        "personal computer"
+      ],
+      "portal_map_url": null,
+      "direct_download_confirmed": false,
+      "reuse_license_confirmed": false,
+      "data_payload_obtained": false,
+      "scope": {
+        "map_scale": "1:25000"
+      }
+    },
+    {
+      "id": "NEA123",
+      "title": "Hydrological stations",
+      "layer_name": "Hydro_Geo_Eng",
+      "geometry_types": [
+        "point"
+      ],
+      "sharing_type": "public",
+      "price": "free",
+      "catalogue_date": "2026-03-09",
+      "storage": [
+        "SQL SDE server",
+        "personal computer"
+      ],
+      "portal_map_url": null,
+      "direct_download_confirmed": false,
+      "reuse_license_confirmed": false,
+      "data_payload_obtained": false,
+      "scope": {
+        "station_status": "active stations; exact locations are described in the catalogue"
+      }
+    },
+    {
+      "id": "NEA124",
+      "title": "Meteorological stations and observation posts",
+      "layer_name": "Meteo_Geo_Eng",
+      "geometry_types": [
+        "point"
+      ],
+      "sharing_type": "public",
+      "price": "free",
+      "catalogue_date": "2026-03-09",
+      "storage": [
+        "SQL SDE server",
+        "personal computer"
+      ],
+      "portal_map_url": null,
+      "direct_download_confirmed": false,
+      "reuse_license_confirmed": false,
+      "data_payload_obtained": false,
+      "scope": {
+        "station_status": "active stations and posts; exact locations are described in the catalogue"
+      }
+    }
   ]
 }
