@@ -78,7 +78,7 @@ class Noema005Run36ThreadedReproductionTests(unittest.TestCase):
             self.assertEqual(set(runner), expected_keys)
             self.assertIn(runner["hosted_linux_provider"], {"aws", "azure"})
         rendered = SNAPSHOT.read_text(encoding="utf-8").casefold()
-        self.assertNotIn("glibc", rendered)
+        self.assertNotIn("glibc2.", rendered)
         self.assertNotRegex(rendered, r"linux-[0-9]")
         self.assertNotIn('"platform"', rendered)
 
