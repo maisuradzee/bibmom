@@ -18,7 +18,9 @@
       "3(4)",
       "3(6)",
       "3(9)",
-      "4(2)"
+      "4(2)",
+      "3(2)",
+      "3(3)"
     ]
   },
   "scope": {
@@ -114,7 +116,8 @@
     "The document is a legal control map, not evidence that any supplier performed the required sampling or response.",
     "No actual sample counts, laboratory results, compliance findings or exposure estimates are included.",
     "The current transition/repeal status after the 2027-09-01 milestones requires independent legal review before operational compliance use.",
-    "This structured record is a research aid only and must not be treated as legal advice or an authoritative compliance opinion."
+    "This structured record is a research aid only and must not be treated as legal advice or an authoritative compliance opinion.",
+    "Minimum sampling frequencies in Table 7 are regulatory requirements conditioned on population served and source type; they are not observed sample counts or proof of compliance."
   ],
   "privacy": {
     "personal_data_included": false,
@@ -122,5 +125,73 @@
     "exact_site_coordinates_included": false,
     "raw_sample_records_included": false,
     "restricted_archive_bytes_included": false
+  },
+  "legal_transition_review_required": true,
+  "sampling_frequency_requirements": {
+    "article": "3(2)-(3), Table 7",
+    "groundwater_distribution": {
+      "population_categories": [
+        "up_to_20000",
+        "20000_to_100000",
+        "over_100000"
+      ],
+      "annual_minimum_samples": {
+        "microbiological": [
+          12,
+          24,
+          365
+        ],
+        "organoleptic": [
+          12,
+          24,
+          365
+        ],
+        "general_indicators": [
+          4,
+          6,
+          12
+        ],
+        "inorganic_organic": [
+          1,
+          1,
+          1
+        ],
+        "radiological": [
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    "surface_water_distribution": {
+      "population_categories": [
+        "up_to_100000",
+        "over_100000"
+      ],
+      "annual_minimum_samples": {
+        "microbiological": [
+          365,
+          365
+        ],
+        "organoleptic": [
+          365,
+          365
+        ],
+        "general_indicators": [
+          12,
+          24
+        ],
+        "inorganic_organic": [
+          4,
+          12
+        ],
+        "radiological": [
+          1,
+          1
+        ]
+      }
+    },
+    "process_parameters": "Residual chlorine and residual ozone are monitored at least hourly; other treatment reagents are monitored at least once per shift.",
+    "special_case": "For a groundwater distribution system supplying 20,000 people, microbiological and organoleptic samples are taken monthly."
   }
 }

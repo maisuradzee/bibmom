@@ -48,7 +48,9 @@
         "Record the NFA 2025 violations workbook as metadata-only until authorized retrieval; inspect any payload in a controlled private workspace and do not estimate prevalence from a violations-only file.",
         "Record the NFA 2026-08-12 Zugdidi drinking-water/lemonade facility inspection as a municipality-level regulatory-control event, explicitly separate from laboratory sample results and prevalence.",
         "Compare the NFA 2026 planned drinking-water sampling allocation with actual collection/completion data only when published; preserve distributed-network, bottled-water and food/water investigation matrices as separate denominators.",
-        "WHO 2026 comparator cross-check: nitrate 50 mg/L as nitrate ion, nitrite 3 mg/L as nitrite ion, combined ratio <=1; fact sheet assessment date 2016. Treat as drinking-water guidance only, not Georgian law or an automatic raw-groundwater threshold."
+        "WHO 2026 comparator cross-check: nitrate 50 mg/L as nitrate ion, nitrite 3 mg/L as nitrite ion, combined ratio <=1; fact sheet assessment date 2016. Treat as drinking-water guidance only, not Georgian law or an automatic raw-groundwater threshold.",
+        "Map Decree №58/2014 operational controls by supply mode: consumer tap, tank/cistern outlet, bottled filling/retail, and food-production water points; record supplier monitoring/response duties, emergency enhancement, repeat-sample triggers, routine analytes and accredited-lab requirement. Do not apply drinking-water compliance rules automatically to raw groundwater; legal transition after 2027-09-01 needs review.",
+        "Minimum annual sample counts are source-type and population-dependent under Article 3(2)/Table 7; process checks for residual chlorine/ozone and other reagents have separate hourly/per-shift frequencies. These are legal minimums, not observed sample counts."
       ],
       "sources": [
         {
@@ -395,6 +397,15 @@
           "type": "engineering_research_pull_request",
           "accessed_at": "2026-11-28",
           "note": "Historical 2016-2017 aggregate only; no raw sample data or current exposure claim."
+        },
+        {
+          "title": "Georgia Government Decree №58/2014 — drinking-water operational control articles",
+          "publisher": "Legislative Herald of Georgia",
+          "publication_date": "2014-01-15",
+          "url": "https://matsne.gov.ge/ka/document/view/2196792",
+          "type": "official_legal_text",
+          "accessed_at": "2026-11-28",
+          "note": "Articles 1(2)-(3), 1(5)-(7), 3(2)-(4), 3(6), 3(9), Table 7, 4(2). Legal transition/repeal status after 2027-09-01 requires review; this is not legal advice."
         }
       ],
       "data_needs": [
