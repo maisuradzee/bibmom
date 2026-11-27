@@ -17,7 +17,14 @@ from noema_core.aquasignal_incidents import (
     close_incident,
     record_assessment,
 )
-from noema_core.aquasignal_store import AquaSignalStore, IncidentStoreError
+from noema_core.aquasignal_store import (
+    GENESIS_HASH,
+    AquaSignalStore,
+    IncidentStoreError,
+    _decode_event_payload,
+    _event_hash,
+    _event_to_dict,
+)
 
 
 class AquaSignalStoreTests(unittest.TestCase):
@@ -74,6 +81,92 @@ class AquaSignalStoreTests(unittest.TestCase):
         )
         self.store.append(closed)
         return opened, alert, ack, normal, closed
+
+    def test_event_payload_decoder_accepts_exact_canonical_store_event(self):
+        event = self.open_incident().events[0]
+        payload = json.dumps(
+            _event_to_dict(event), ensure_ascii=False, sort_keys=True,
+            separators=(",", ":"), allow_nan=False,
+        )
+        self.assertEqual(_decode_event_payload(payload), event)
+
+    def test_event_payload_decoder_rejects_duplicate_keys_at_every_depth(self):
+        event = self.open_incident().events[0]
+        payload = json.dumps(
+            _event_to_dict(event), ensure_ascii=False, sort_keys=True,
+            separators=(",", ":"), allow_nan=False,
+        )
+        duplicate_top = payload.replace(
+            '"event_id":"synthetic-evt-1"',
+            '"event_id":"synthetic-evt-1","event_id":"synthetic-evt-1"', 1,
+        )
+        duplicate_nested = payload.replace(
+            '"status":"WATCH"', '"status":"WATCH","status":"WATCH"', 1,
+        )
+        for malformed in (duplicate_top, duplicate_nested):
+            with self.subTest(payload=malformed[:80]):
+                with self.assertRaisesRegex(IncidentStoreError, "duplicate JSON object key"):
+                    _decode_event_payload(malformed)
+
+    def test_event_payload_decoder_rejects_nonstandard_and_overflowed_numbers(self):
+        event = self.open_incident().events[0]
+        payload = json.dumps(
+            _event_to_dict(event), ensure_ascii=False, sort_keys=True,
+            separators=(",", ":"), allow_nan=False,
+        )
+        malformed_constant = payload.replace('"latest_value":0.9', '"latest_value":NaN', 1)
+        malformed_overflow = payload.replace('"latest_value":0.9', '"latest_value":1e9999', 1)
+        with self.assertRaisesRegex(IncidentStoreError, "non-standard JSON constant"):
+            _decode_event_payload(malformed_constant)
+        with self.assertRaisesRegex(IncidentStoreError, "strict UTF-8 JSON"):
+            _decode_event_payload(malformed_overflow)
+
+    def test_event_payload_decoder_rejects_noncanonical_or_unknown_fields(self):
+        event = self.open_incident().events[0]
+        payload = json.dumps(
+            _event_to_dict(event), ensure_ascii=False, sort_keys=True,
+            separators=(",", ":"), allow_nan=False,
+        )
+        with self.assertRaisesRegex(IncidentStoreError, "not canonical JSON"):
+            _decode_event_payload(" " + payload)
+        document = json.loads(payload)
+        document["unreviewed_extra"] = "ignored by old parser"
+        unknown = json.dumps(
+            document, ensure_ascii=False, sort_keys=True,
+            separators=(",", ":"), allow_nan=False,
+        )
+        with self.assertRaisesRegex(IncidentStoreError, "unexpected or missing fields"):
+            _decode_event_payload(unknown)
+
+    def test_verify_rejects_duplicate_event_keys_even_if_unkeyed_hashes_are_recomputed(self):
+        opened = self.open_incident()
+        self.store.append(opened)
+        with sqlite3.connect(self.database) as connection:
+            row = connection.execute(
+                "SELECT payload_json FROM incident_events WHERE sequence = 1"
+            ).fetchone()
+            original_payload = row[0]
+            duplicate_payload = original_payload.replace(
+                '"event_id":"synthetic-evt-1"',
+                '"event_id":"synthetic-evt-1","event_id":"synthetic-evt-1"', 1,
+            )
+            event = _decode_event_payload(original_payload)
+            payload_digest = hashlib.sha256(duplicate_payload.encode("utf-8")).hexdigest()
+            event_digest = _event_hash(
+                1, opened.incident_id, event, payload_digest, GENESIS_HASH,
+            )
+            connection.execute("DROP TRIGGER aquasignal_events_no_update")
+            connection.execute(
+                """
+                UPDATE incident_events
+                SET payload_json = ?, payload_sha256 = ?, event_hash = ?
+                WHERE sequence = 1
+                """,
+                (duplicate_payload, payload_digest, event_digest),
+            )
+        report = self.store.verify()
+        self.assertFalse(report["valid"])
+        self.assertIn("duplicate JSON object key", report["error"])
 
     def test_round_trip_replays_full_operator_controlled_lifecycle(self):
         _, _, _, _, closed = self.complete_lifecycle()
