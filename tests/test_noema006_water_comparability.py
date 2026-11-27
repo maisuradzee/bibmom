@@ -19,6 +19,9 @@ def comparable_record(observation_id: str, numerator: int, denominator: int, per
         "source_id": "synthetic-source",
         "authority": "Synthetic authority",
         "indicator_id": "broad_noncompliance",
+        "count_unit": "samples",
+        "numerator_definition_id": "noncompliant-samples-v1",
+        "denominator_definition_id": "all-valid-samples-v1",
         "water_matrix": "potable_network",
         "supply_type_scope": "borehole_tubewell",
         "standard_id": "GE-WATER-STD",
@@ -99,6 +102,29 @@ class WaterComparabilityTests(unittest.TestCase):
         right = comparable_record("obs_0000000000000002", 100, 201, 49.8)
         result = compare_same_period_indicators(left, right, schema_path=self.schema)
         self.assertEqual(result["status"], "DESCRIPTIVELY_COMPARABLE")
+
+    def test_missing_count_unit_or_count_definitions_block_comparison(self):
+        left = comparable_record("obs_0000000000000001", 99, 200, 49.5)
+        right = comparable_record("obs_0000000000000002", 89, 200, 44.5)
+        left["denominator_definition_id"] = None
+        result = compare_same_period_indicators(left, right, schema_path=self.schema)
+        self.assertEqual(result["status"], "INSUFFICIENT_METADATA")
+        self.assertIn("denominator_definition_id", result["missing_fields"])
+        self.assertIsNone(result["difference_percentage_points"])
+
+    def test_different_count_units_or_definitions_are_not_comparable(self):
+        left = comparable_record("obs_0000000000000001", 99, 200, 49.5)
+        right = comparable_record("obs_0000000000000002", 89, 200, 44.5)
+        right["count_unit"] = "sites"
+        result = compare_same_period_indicators(left, right, schema_path=self.schema)
+        self.assertEqual(result["status"], "NOT_COMPARABLE")
+        self.assertIn("count_unit", result["mismatched_fields"])
+
+        right = comparable_record("obs_0000000000000002", 89, 200, 44.5)
+        right["denominator_definition_id"] = "all-supply-sites-v1"
+        result = compare_same_period_indicators(left, right, schema_path=self.schema)
+        self.assertEqual(result["status"], "NOT_COMPARABLE")
+        self.assertIn("denominator_definition_id", result["mismatched_fields"])
 
     def test_reported_percentage_must_reconcile_with_counts(self):
         left = comparable_record("obs_0000000000000001", 99, 200, 48.0)
