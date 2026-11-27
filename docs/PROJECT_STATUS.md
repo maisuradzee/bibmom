@@ -2,10 +2,10 @@
 
 - **განახლდა:** 2026-11-28 (Run 38 — NOEMA-005 experiment 002, AquaSignal NEA groundwater access lead, strict event parsing and public-artifact privacy boundary).
 - **საცავი:** https://github.com/maisuradzee/bibmom
-- **Run 38-ის merge-ების შემდეგ main snapshot:** `974445f6b43bdf612b089cdd53c5d5019f3f0f4c`.
-- **ბოლო დადასტურებული PR-head Quality CI:** PR #200 — 534 tests; PR #202 — 539 tests; PR #204 — 544 tests; ყველა ზუსტი head-ისთვის SUCCESS.
+- **Run 38-ის merge-ების შემდეგ main snapshot:** `261129e5acbce3739d3b3e35640932012860562d`.
+- **ბოლო დადასტურებული PR-head Quality CI:** PR #200 — 534 tests; PR #202 — 539 tests; PR #204 — 544 tests; PR #205 — exact-head Quality CI SUCCESS; PR #206 — exact-head Quality CI SUCCESS; PR #207 — exact-head Quality CI SUCCESS.
 - **ბოლო დადასტურებული benchmark/cleanup:** PR #200 x86-64 და ARM64 workflows SUCCESS; legacy-artifact cleanup run [46064057021](https://github.com/maisuradzee/bibmom/actions/runs/46064057021) SUCCESS და ექვსი ძველი raw artifact list ცარიელია.
-- **Pages:** PR #204 site build SUCCESS (3 Preliminary, 0 Published); post-merge deployment ამ Run38 main snapshot-ზე ცალკე არ დადასტურებულა. წინა main deployment-ის მტკიცებულება არ უნდა ჩაითვალოს ამ snapshot-ის deployment-ად.
+- **Pages:** PR #204 site build SUCCESS (3 Preliminary, 0 Published); PR #205–#207 არ ცვლიდა გამოქვეყნებულ კვლევას. Post-merge deployment ამ main snapshot-ზე ცალკე არ დადასტურებულა. წინა main deployment-ის მტკიცებულება არ უნდა ჩაითვალოს ამ snapshot-ის deployment-ად.
 - **აქტიური პორტფელი:** ოთხივე ნაკადი აქტიურია — AquaSignal, NOEMA-005, NOEMA-007 და INFRA-001.
 - **კვლევის კატალოგი:** 3 Preliminary, 0 Published; NOEMA-005-ის არსებული Preliminary ჩანაწერი განახლდა experiment 002-ის frozen aggregate-ით. AquaSignal-ის NEA წყარო კვლავ metadata-only Draft-ია.
 
@@ -30,15 +30,18 @@
 - ახალი ავტორიზებული ქართული alert-to-action ოპერაციული მონაცემები არ მიღებულა. WMO cross-country შედეგები დარჩა კონტექსტად და არა საქართველოს ეფექტიანობის ან მიზეზშედეგობრივი მტკიცებულებად.
 
 ### INFRA-001 — engineering hardening, production recovery ჯერ არ დადასტურებულა
-- AquaSignal event payload parser და NOEMA-005 public-artifact sanitizer/cleanup აუმჯობესებს მონაცემთა სანდოობასა და საჯარო evidence boundary-ს.
+- AquaSignal event payload parser/64 KiB bound, NOEMA-005 public-artifact sanitizer/cleanup და INFRA-001 backup-manifest depth limit აუმჯობესებს მონაცემთა სანდოობასა და საჯარო evidence boundary-ს.
 - Offsite backup, დამოუკიდებელი key custody, recovery owner, high-water authority და clean-host restore კვლავ დაუდასტურებელია.
 
 ### PR / CI
 - PR #200 — merged; exact-head Quality 534 tests, x86-64/ARM64 workflows და cleanup SUCCESS.
 - PR #202 — merged; exact-head Quality 539 tests და CPU workflow SUCCESS.
 - PR #204 — merged; exact-head Quality 544 tests და site build SUCCESS.
+- PR #205 — merged; 64 KiB UTF-8 event payload limit, exact-head Quality CI SUCCESS.
+- PR #206 — merged; backup-manifest JSON nesting depth limit, exact-head Quality CI SUCCESS.
+- PR #207 — merged; CPU benchmark workflow now runs on relevant PR paths only; exact-head Quality/CPU CI SUCCESS.
 - PR #196/#201/#203 დაიხურა, როგორც rebased PR-ებით superseded; PR #197/#198/#199-ის commits PR #200-ის merge-ში მოხვდა.
-- Run38 documentation/frozen-result synchronization PR მიმდინარეა; Main-ში პირდაპირი commit არ შესრულებულა.
+- Run38 documentation/frozen-result synchronization PR #208-ის rebase ვერსია მიმდინარეა; Main-ში პირდაპირი commit არ შესრულებულა.
 
 ### შეზღუდვები და შემდეგი პრიორიტეტები
 1. NEA RAR-ის ავტორიზებული მიღება, SHA-256, file inventory, data dictionary, station/sample denominators და reuse review.
