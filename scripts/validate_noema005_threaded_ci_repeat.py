@@ -81,5 +81,5 @@ def validate_all():
         if hashlib.sha256(compressed).hexdigest()!=record["sanitized_gzip_sha256"]: raise ValueError(f"sanitized gzip hash mismatch: {key}")
         validate(load_snapshot(path),schema,record)
         print(f"{key}: schema, provenance and frozen-result validation PASS")
-    if len(manifest["records"])!=6: raise ValueError("expected six hosted artifacts")
+    if len(manifest["records"])!=8: raise ValueError("expected eight hosted artifacts")
 if __name__=="__main__": validate_all()
