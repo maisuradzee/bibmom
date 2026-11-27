@@ -53,3 +53,13 @@ class Noema007GeorgiaBasinSnapshotTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+    def test_large_annual_bulletin_is_linked_but_not_misrepresented_as_reviewed_data(self):
+        bulletin = next(
+            source for source in self.snapshot["sources"]
+            if source["id"] == "nea-geological-bulletin-2025-linked-but-not-retrieved"
+        )
+        claims = bulletin["source_claims"]
+        self.assertEqual(claims["content_length_bytes"], 704801491)
+        self.assertEqual(claims["retrieval_status"], "not_fetched_due_to_tool_limit")
+        self.assertTrue(claims["no_substantive_content_extracted"])
