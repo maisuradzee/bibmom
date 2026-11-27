@@ -2,7 +2,10 @@ from __future__ import annotations
 import base64,gzip,json,math,statistics
 from pathlib import Path
 from jsonschema import Draft202012Validator,FormatChecker
-from scripts.reproduce_noema005_threaded_ci_artifacts import summarize
+try:
+    from .reproduce_noema005_threaded_ci_artifacts import summarize
+except ImportError:
+    from reproduce_noema005_threaded_ci_artifacts import summarize
 
 ROOT=Path(__file__).resolve().parents[1]
 SCHEMA=ROOT/"data/noema-005/threaded-ci-repeat.schema.json"
