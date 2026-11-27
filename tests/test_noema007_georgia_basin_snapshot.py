@@ -61,6 +61,33 @@ class Noema007GeorgiaBasinSnapshotTests(unittest.TestCase):
         self.assertEqual(claims["retrieval_status"], "not_fetched_due_to_tool_limit")
         self.assertTrue(claims["no_substantive_content_extracted"])
 
+
+    def test_public_free_catalogue_metadata_does_not_imply_download_or_reuse_rights(self):
+        layers = self.snapshot["spatial_data_catalogue"]
+        self.assertEqual({layer["id"] for layer in layers}, {"NEA55", "NEA66", "NEA123", "NEA124"})
+        for layer in layers:
+            self.assertEqual(layer["sharing_type"], "public")
+            self.assertEqual(layer["price"], "free")
+            self.assertIsNone(layer["portal_map_url"])
+            self.assertFalse(layer["direct_download_confirmed"])
+            self.assertFalse(layer["reuse_license_confirmed"])
+            self.assertFalse(layer["data_payload_obtained"])
+
+    def test_avalanche_catalogue_exposes_three_return_periods_and_two_forest_scenarios(self):
+        avalanche = next(layer for layer in self.snapshot["spatial_data_catalogue"] if layer["id"] == "NEA55")
+        self.assertEqual(avalanche["scope"]["return_periods_years"], [30, 100, 300])
+        self.assertEqual(set(avalanche["scope"]["forest_scenarios"]), {"with forest", "without forest"})
+        self.assertEqual(set(avalanche["scope"]["regions"]), {"Northeast", "Northwest", "Southwest"})
+
+    def test_tbilisi_hazard_zoning_and_station_layers_are_catalogued_without_coordinates(self):
+        layers = {layer["id"]: layer for layer in self.snapshot["spatial_data_catalogue"]}
+        self.assertEqual(layers["NEA66"]["scope"]["map_scale"], "1:25000")
+        self.assertEqual(layers["NEA123"]["geometry_types"], ["point"])
+        self.assertEqual(layers["NEA124"]["geometry_types"], ["point"])
+        serialized = json.dumps(self.snapshot, ensure_ascii=False).lower()
+        self.assertNotIn("latitude", serialized)
+        self.assertNotIn("longitude", serialized)
+
 if __name__ == "__main__":
     unittest.main()
 
