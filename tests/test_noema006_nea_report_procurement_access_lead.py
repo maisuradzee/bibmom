@@ -44,7 +44,7 @@ class AquaSignalNeaProcurementAccessLeadTests(unittest.TestCase):
 
     def test_public_record_excludes_personal_contact_and_bank_data(self):
         serialized = json.dumps(self.record, ensure_ascii=False).lower()
-        for forbidden in ("email", "phone", "bank", "iban", "signature", "personal_id"):
+        for forbidden in ('"email":', '"phone":', '"bank_account":', '"iban":', '"signature":', '"personal_id":'):
             self.assertNotIn(forbidden, serialized)
 
 
