@@ -35,7 +35,7 @@ def parse_cpu_list(value: str | None) -> int | None:
 
 
 def _git_blob_sha(data: bytes) -> str:
-    return hashlib.sha1(b"blob " + str(len(data)).encode() + b"\\0" + data).hexdigest()
+    return hashlib.sha1(b"blob " + str(len(data)).encode() + b"\0" + data).hexdigest()
 
 
 def audit_reports(raw: dict, summary: dict, raw_bytes: bytes, raw_blob_sha: str, summary_blob_sha: str) -> dict:
