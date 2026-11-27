@@ -76,6 +76,7 @@ class Noema007GeorgiaBasinSnapshotTests(unittest.TestCase):
     def test_avalanche_catalogue_exposes_three_return_periods_and_two_forest_scenarios(self):
         avalanche = next(layer for layer in self.snapshot["spatial_data_catalogue"] if layer["id"] == "NEA55")
         self.assertEqual(avalanche["scope"]["return_periods_years"], [30, 100, 300])
+        self.assertEqual(set(avalanche["data_formats"]), {"shp", "tif"})
         self.assertEqual(set(avalanche["scope"]["forest_scenarios"]), {"with forest", "without forest"})
         self.assertEqual(set(avalanche["scope"]["regions"]), {"Northeast", "Northwest", "Southwest"})
 
