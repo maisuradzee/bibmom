@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-006",
+  "snapshot_date": "2026-11-27",
+  "source": {
+    "title": "National Environmental Agency 2025 annual report",
+    "publisher": "National Environmental Agency of Georgia",
+    "url": "https://nea.gov.ge/en/Download/File/1444",
+    "report_year": 2025,
+    "locator": "Water resources monitoring: groundwater pp. 10–12; surface waters p. 13 (page locations from report contents)",
+    "accessed_at": "2026-11-27"
+  },
+  "groundwater": {
+    "source_reported_total_points": 124,
+    "planned_monitoring_points": 74,
+    "field_instrumental_study_points": 50,
+    "laboratory_sampling_points": 74,
+    "laboratory_sample_count": 681,
+    "reported_sample_counts_by_analysis_group": {
+      "chemical": 147,
+      "microbiological": 147,
+      "heavy_metals": 158,
+      "petroleum_products": 82,
+      "pesticides": 147
+    },
+    "nitrate_field_study_points": {
+      "total": 50,
+      "wells": 19,
+      "springs": 30,
+      "household_wells": 1
+    },
+    "points_with_listed_parameter_coverage": 73
+  },
+  "surface_water": {
+    "sampling_points": 238,
+    "sample_count": 2571,
+    "matrix_separation_note": "Surface-water counts are kept separate from groundwater monitoring and must not be pooled into drinking-water compliance or groundwater trends."
+  },
+  "limitations": [
+    "These are source-reported annual aggregate counts, not sample-level analytical results or unique sample identifiers.",
+    "The report lists 74 laboratory-sampling points and separately lists parameter coverage at 73 groundwater points; their relationship is not explained and must not be inferred.",
+    "The 681 laboratory sample counts by analysis group are not a compliance numerator or denominator and may not represent unique physical samples.",
+    "No station/sample dictionary, coordinates, sample dates, analyte values, units, LOD/LOQ, standard versions, lab QA/QC or reuse terms are supplied in this aggregate snapshot.",
+    "The 2025 annual report is distinct from the 2021–2025 groundwater RAR announced on 2026-11-26; the RAR archive was not retrieved."
+  ]
+}
