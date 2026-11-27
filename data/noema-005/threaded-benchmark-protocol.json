@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "study_id": "NOEMA-2026-005",
-  "experiment_id": "NOEMA-2026-005-REAL-THREADS-001",
+  "experiment_id": "NOEMA-2026-005-REAL-THREADS-002",
   "status": "draft_protocol",
-  "question": "Does retaining each worker's Neumaier (sum, compensation) state preserve a correctly rounded result under actual OS-thread scheduling, and how do wall time, aggregate process CPU time, and Python-traced peak memory differ between GIL-enabled and free-threaded CPython?",
+  "question": "Under actual OS-thread scheduling, how do naive scalar partials, scalar Neumaier partials, full Neumaier (sum, compensation) states, and worker-local math.fsum scalar partials compare for correctly rounded results, wall time, aggregate process CPU time, and Python-traced peak memory in GIL-enabled and free-threaded CPython?",
   "synthetic_input": {
     "layouts": {
       "triplet_order": "[1e16, 1.0, -1e16] repeated N times",
@@ -41,7 +41,8 @@
     "methods": [
       "threaded_naive_scalar",
       "threaded_neumaier_scalar",
-      "threaded_neumaier_state"
+      "threaded_neumaier_state",
+      "threaded_fsum_partials"
     ],
     "serial_baselines": [
       "serial_naive",
@@ -64,14 +65,16 @@
   },
   "merge_rules": {
     "scalar_partial": "each worker returns one float; scalar partials are merged with math.fsum",
-    "compensation_state": "each worker returns (sum, compensation); all components are merged with Neumaier compensation"
+    "compensation_state": "each worker returns (sum, compensation); all components are merged with Neumaier compensation",
+    "worker_local_fsum_scalar": "each worker applies math.fsum to its partition and returns one rounded float; the rounded worker scalars are merged with math.fsum. This is intentionally a comparison method, not assumed equivalent to one global math.fsum."
   },
   "validation": [
     "assert GIL-enabled and free-threaded interpreter modes explicitly",
     "record Python version, platform, architecture, CPU count and CPU affinity when available",
     "record input SHA-256 for canonical big-endian binary64 values",
     "require one distinct native thread per configured worker",
-    "run unit tests for exact reference, partitions, state merge and result metadata",
+    "run unit tests for exact reference, partitions, all four reduction methods, baseline pairing and result metadata",
+    "retain a deterministic scalar-partial counterexample where worker-local math.fsum values lose a residual across a partition boundary",
     "do not impose universal performance thresholds"
   ],
   "limitations": [
@@ -81,10 +84,20 @@
     "thread pool startup and scheduling are included in the measured operation",
     "process CPU time is process-wide and can be affected by host scheduling and CPU quotas",
     "tracemalloc measures Python-traced allocations, not total RSS or every native allocation",
+    "worker-local math.fsum returns one rounded scalar per partition; its final merge is not equivalent to applying math.fsum once to the complete input, and the synthetic counterexample intentionally demonstrates this loss",
     "no GPU, NumPy/BLAS, OpenMP, process pool or network-distributed execution is tested",
     "The CI matrix pins CPython 3.14.4/3.14.4t; as of 2026-11-25 the latest 3.14 patch is 3.14.10, so current-patch replication remains outstanding."
   ],
   "sources": [
+    {
+      "title": "math — Mathematical functions — Python 3.14.10 documentation",
+      "publisher": "Python Software Foundation",
+      "publication_date": "2026-10-25",
+      "url": "https://docs.python.org/3.14/library/math.html#math.fsum",
+      "type": "official_runtime_documentation",
+      "accessed_at": "2026-11-28",
+      "supports": "math.fsum tracks multiple intermediate partial sums for an accurate floating-point sum; the documentation also records IEEE-754/rounding assumptions and a possible least-significant-bit double-rounding caveat on some non-Windows builds."
+    },
     {
       "title": "PEP 703 — Making the Global Interpreter Lock Optional in CPython",
       "authors": [
