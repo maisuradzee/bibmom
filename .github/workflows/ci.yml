@@ -112,6 +112,10 @@ jobs:
           test -f docs/OFFSITE_BACKUP_ARCHITECTURE.md
           test -f data/noema-backup-manifest.schema.json
           test -f noema_core/backup_manifest.py
+          test -f data/noema-restore-attestation.schema.json
+          test -f noema_core/restore_attestation.py
+          test -f tests/test_restore_attestation_gate.py
+          test -f docs/RESTORE_ATTESTATION_GATE.md
           test -f scripts/validate_noema_backup_manifest.py
           test -f tests/test_backup_manifest_runtime_validation.py
           test -f scripts/verify_noema_backup_artifacts.py
@@ -171,6 +175,8 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_backup_artifact_verification.py' -v
       - name: Verify detached Ed25519 backup manifest signature
         run: python -m unittest discover -s tests -p 'test_backup_manifest_signature.py' -v
+      - name: Validate fail-closed restore-drill attestation gate
+        run: python -m unittest discover -s tests -p 'test_restore_attestation_gate.py' -v
       - name: Validate SQLite backup and restore CLI
         run: |
           DB="$RUNNER_TEMP/noema-ops.sqlite3"
