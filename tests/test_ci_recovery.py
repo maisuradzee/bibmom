@@ -84,6 +84,9 @@ A method description remains unchanged.
             after_second = draft.read_text(encoding="utf-8")
             self.assertEqual(after_first, after_second)
             self.assertEqual(first["remaining_validation_errors"], [])
+            self.assertTrue(first["unified_patch"])
+            self.assertIn("Date", first["unified_patch"])
+            self.assertIn("თარიღი", first["unified_patch"])
             self.assertEqual(second["files_with_safe_repairs"], [])
             self.assertFalse(second["safe_repairs_applied"])
 
