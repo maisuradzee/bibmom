@@ -253,6 +253,11 @@ class SQLiteHighWaterReference:
                 (proposed.stream_id,),
             ).fetchone()
             current = _state_from_row(row) if row else None
+            # Validate persisted state before the idempotent-retry shortcut.
+            # Otherwise a corrupted state_version can be returned as accepted
+            # because _candidate_matches_state intentionally ignores that field.
+            if current is not None:
+                _validate_expected_state(current)
 
             if current is not None and _candidate_matches_state(proposed, current):
                 connection.execute("COMMIT")

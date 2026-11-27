@@ -251,6 +251,26 @@ class HighWaterReferenceTests(unittest.TestCase):
                         None, candidate(1, "a", ZERO_SHA256, version)
                     )
 
+    def test_compare_and_advance_rejects_corrupted_state_before_idempotent_retry(self) -> None:
+        accepted = self.genesis().state
+        with sqlite3.connect(self.database) as connection:
+            connection.execute(
+                "UPDATE high_water_state SET state_version = ? WHERE stream_id = ?",
+                (accepted.state_version + 1, accepted.stream_id),
+            )
+
+        # The candidate's immutable metadata matches the stored row. The
+        # persisted state_version is nevertheless corrupt and must not be
+        # accepted by the idempotent-retry path.
+        retry = candidate(
+            accepted.generation,
+            "a",
+            ZERO_SHA256,
+            "object-v1",
+        )
+        with self.assertRaises(InvalidAdvanceError):
+            self.store.compare_and_advance(accepted, retry)
+
     def test_read_rejects_corrupted_persisted_state(self) -> None:
         self.genesis()
         with sqlite3.connect(self.database) as connection:
