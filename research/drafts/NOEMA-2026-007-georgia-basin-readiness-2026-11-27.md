@@ -90,19 +90,28 @@ The NEA Geology Department page links the official 2025 geological-process resul
 
 The linked PDF is 704,801,491 bytes. The retrieval tool rejected it as too large, so the bulletin's contents were not inspected and no hazard counts, locations, forecasts or outcome values have been extracted. This is a retrieval/tool limit, not evidence that the official server is unavailable. The source snapshot records it as `linked_not_fetched`; a smaller official summary, chapter extract or permissioned data export is the next safe route.
 
-## Additional local spatial-data discovery — official geospatial catalogue
+## Expanded local spatial-data discovery — official geospatial catalogue
 
-The Ministry's spatial-data inventory exposes four relevant catalogue records:
+A page-by-page audit of the Ministry's spatial-data inventory identified ten relevant NEA catalogue records. The inventory distinguishes spatial geometry from station-system metadata and model output; it does not provide the feature payloads in the rows inspected.
 
-| ID | Layer | Catalogue metadata | Important limitation |
+| ID | Catalogue layer | What the row establishes | Access/interpretation boundary |
 |---|---|---|---|
-| NEA55 | Regional avalanche-hazard modelling | Public/free; 3 regions; 30/100/300-year return periods; with/without forest scenarios; visible SHP/TIF asset names | Stored in SQL SDE; no portal map URL in the row; payload not retrieved |
-| NEA66 | Tbilisi geological-hazard zoning | Public/free polygon layer; 1:25,000 scale | SQL SDE/local PC; no portal map URL |
-| NEA123 | Hydrological stations | Public/free point layer for active stations | SQL SDE/local PC; no portal map URL |
-| NEA124 | Meteorological stations and posts | Public/free point layer for active stations/posts | SQL SDE/local PC; no portal map URL |
+| NEA38 | Main river basin/sub-basin polygons | Public/free; catalogue date 2025-10-16; portal map `/Ge/user/map/16`; six visible technical sub-basin layer names | A map URL exists, but a downloadable feature service, complete layer set and reuse licence are not confirmed |
+| NEA54 | Flood-hazard modelling | Public/free; catalogue date 2025-07-28; hydraulic-model assets for arrival time, depth, duration, velocity, water-surface elevation and flood extent; listed return periods 2/5/25/50/100/500 years | SQL SDE storage; no portal map/download endpoint or payload retrieved; model scenarios are not current forecasts |
+| NEA55 | Regional avalanche modelling | Public/free; three regions (Northeast, Northwest, Southwest); 30/100/300-year scenarios; with/without-forest scenarios; SHP/TIF asset names | SQL SDE storage; no portal map/download endpoint or payload retrieved |
+| NEA56 | Local avalanche modelling by basin/sub-basin | Public/free; 30/100/300-year scenarios; relief, maximum height/pressure, accumulation and velocity asset names | Stored on disks/local computers; separate from NEA55; no payload retrieved; no forest-scenario claim is made |
+| NEA57 | Clidata station metadata | Public/free polygon layer `Meteo_Network`; catalogue date 2025-07-28 | Metadata about stations in Clidata, not meteorological time-series observations |
+| NEA58 | Aquarius station metadata | Public/free polygon layer `Hydro_Network`; catalogue date 2025-07-28 | Metadata about stations in Aquarius, not hydrological time-series observations |
+| NEA65 | Recorded landslide outlines | Public/free polygon layer; catalogue date 2025-07-28 | Recorded outlines are not, by themselves, susceptibility, active movement or a forecast |
+| NEA66 | Tbilisi geological-hazard zoning | Public/free polygon layer; scale 1:25,000; catalogue date 2026-03-06 | SQL SDE/local PC; no portal map/download endpoint or payload retrieved |
+| NEA123 | Hydrological stations | Public/free point layer for active stations; catalogue date 2026-03-09 | SQL SDE/local PC; exact point features and reuse terms not retrieved |
+| NEA124 | Meteorological stations/posts | Public/free point layer for active stations/posts; catalogue date 2026-03-09 | SQL SDE/local PC; exact point features and reuse terms not retrieved |
 
-Source: [Ministry geospatial portal — spatial-data inventory](https://portal.mepa.gov.ge/Ge/User/data?Links-sort=ResponsiblePerson-asc). The NEA55 row is also visible on the catalogue's second page.
+The official catalogue rows were checked on three pages:
+- [Page 2 — flood layers, basin polygons and Tbilisi geology](https://portal.mepa.gov.ge/En/User/data?Links-page=2&Links-sort=Descrioption-desc)
+- [Page 5 — avalanche, station metadata and geological layers](https://portal.mepa.gov.ge/En/User/data?Links-page=5&Links-sort=GeoDataId-desc)
+- [Page 6 — active hydrological/meteorological station points and landslide layer](https://portal.mepa.gov.ge/En/User/data?Links-page=6&Links-sort=UnitName-desc)
 
-**Interpretation:** this is a useful spatial-data discovery signal for a Georgian multi-hazard evaluation pilot: hazard zones and monitoring-station layers are catalogued. It does not establish that the payloads can be downloaded, that the catalogue's public/free label grants an open reuse licence, or that station/hazard layers are operationally current. The source snapshot records metadata only; no coordinates or actual features are copied.
+**Important distinctions:** NEA55 is the regional avalanche model; NEA56 is a separate local basin/sub-basin model. NEA57 and NEA58 are station metadata for Clidata and Aquarius, not observation feeds. NEA65 is a recorded-landslide outline layer, not a forecast. NEA54's return periods and model assets are catalogue descriptions, not event probabilities validated for a particular place or a current warning.
 
-The NEA55 catalogue describes 30-, 100- and 300-year return-period scenarios and two forest conditions. These are model scenarios in a catalogue description, not a local event forecast or a measured probability of a specific near-term event.
+The rows classify these layers as public/free, but this is not an open-data licence. A portal map for NEA38 is not proof of direct feature download. No payload, coordinates, CRS, model rasters, time series, update cadence or reuse permission was obtained. The snapshot stores catalogue metadata only and intentionally contains no household, station-coordinate or event-level operational records.
