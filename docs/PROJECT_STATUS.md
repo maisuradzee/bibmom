@@ -97,3 +97,15 @@
 - **INFRA-001:** PR #122 head `794c08716d0a4c216e4d9958e9fe79792019e03d`; Quality CI 45948753708 and CPU-thread workflow 45948753734 SUCCESS; Draft.
 - Main `68d1aefbf8fa32d8bfecbfca798eadc7eb2c36a9`: Quality CI 45951718946 SUCCESS; Pages build/deploy 45948563354 SUCCESS. Catalogue remains 1 Preliminary, 0 Published. At the audit snapshot before this status PR there were 22 open PRs and 0 open non-PR issues. No merges, no new Supabase project, and no other project's database used.
 - Full methods, source boundaries, limitations, file list and next steps: [Run 20 audit](run-audits/2026-11-27-run-20.md).
+
+
+## Run 21 — 2026-11-27
+
+- **AquaSignal / NOEMA-2026-006:** [PR #123](https://github.com/maisuradzee/bibmom/pull/123), head `487ff547f6a8b456d4c336a616538020df134b34`, Draft, mergeable=true. Source metadata and portfolio now distinguish the Government of Georgia's UNECE/WHO submission from an independent survey; the report says Georgia is not a Party to the Protocol and did not set 2022–2024 target indicators. Sample-source field, E. coli denominator and urban/rural rows are blank; small rural systems were included in 2024. The 2023 JECM 49.5% and government narrative 44.5% remain unreconciled. Exact-head Quality CI 45961315691 and CPU-thread workflow 45961315674 SUCCESS.
+- **NOEMA-005:** [PR #124](https://github.com/maisuradzee/bibmom/pull/124), current observed head `9b42586ef21a6371a881dcae191dd9404075c5b0`, ready for review, mergeable=true. The v2 frozen gzip archive was restored to the deterministic 8,533-byte object matching the manifest; exact-head Quality CI 45961553472 and OpenMP audit 45961553450 SUCCESS; actual CPU-thread workflow 45961553457 was IN PROGRESS at the last check.
+- **NOEMA-005 cgroup follow-up:** [PR #126](https://github.com/maisuradzee/bibmom/pull/126), head `d294403ce85d1f01b83e2d5d9b03205ea7a83edd`, Draft, stacked on PR #124. Added a synthetic test for unknown worker cgroup membership and a research note. It must be refreshed against the final parent head and exact-head CI rerun before merge.
+- **NOEMA-007:** remains Draft; no authorized Georgian event/after-action data or field partner was obtained in this run.
+- **INFRA-001:** remains engineering/Draft; separate trust-domain owner, key custody and clean-host restore evidence remain missing.
+- Main snapshot `563cad6fed0c18583f09471e88ea55d5d5c51078`: Quality CI 45957075745 SUCCESS; Pages build/deploy 45957075729 SUCCESS. At this audit snapshot: 22 open PRs, 0 open non-PR issues; catalogue 1 Preliminary, 0 Published. No research item was promoted to Published.
+- Full methods, evidence labels, source links, limitations and next steps: [Run 21 audit](run-audits/2026-11-27-run-21.md).
+
