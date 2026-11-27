@@ -389,5 +389,13 @@
         "expires_at": "2026-12-27T16:34:53Z"
       }
     }
-  ]
+  ],
+  "limitations": [
+    "Only three measured repetitions per configuration; uncertainty intervals are not available.",
+    "GitHub-hosted x86-64 VMs are not physical-device or external-laboratory replication.",
+    "The second workflow's GIL-enabled report ran on AWS while its free-threaded report ran on Azure; that pair is confounded.",
+    "Inputs are deterministic synthetic cancellation fixtures, not representative production workloads.",
+    "tracemalloc measures Python-traced allocations only; process RSS, native allocator usage and DRAM bandwidth were not measured."
+  ],
+  "validation_scope": "Four raw JSON reports were downloaded; all four ZIP SHA-256 values were recomputed locally and matched GitHub artifact API digests; raw report SHA-256 values and aggregate metrics are preserved. Raw reports and native thread IDs are not committed."
 }
