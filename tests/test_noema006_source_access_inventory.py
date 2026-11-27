@@ -81,7 +81,7 @@ class AquaSignalSourceAccessInventoryTests(unittest.TestCase):
         self.assertIs(source["reuse_terms_verified"], False)
         self.assertNotEqual(source["id"], current_archive["id"])
         self.assertNotEqual(source["observation_period"], current_archive["observation_period"])
-        self.assertIn("no PDF bytes", source["note"])
+        self.assertIn("no payload bytes", source["note"])
         self.assertIn("Departments/Geology/Biulettins", source["note"])
 
     def test_source_ids_are_unique(self):
