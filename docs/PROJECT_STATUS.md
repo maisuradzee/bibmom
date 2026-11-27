@@ -2,10 +2,10 @@
 
 - **განახლდა:** 2026-11-27 (Run 11 — cross-architecture benchmark synthesis და restore numeric-boundary hardening)
 - **საცავი:** https://github.com/maisuradzee/bibmom
-- **მიმდინარე main snapshot:** `d4f06672208d808f8827b1528b9a07abe107d111`.
-- **Main Quality CI:** [46034992060](https://github.com/maisuradzee/bibmom/actions/runs/46034992060) — SUCCESS; 470 Python tests, frozen-result/schema checks, site build და publication-boundary checks.
-- **Pages deployment:** [46034991929](https://github.com/maisuradzee/bibmom/actions/runs/46034991929) — build/deploy SUCCESS ზუსტად მიმდინარე main SHA-ზე.
-- **ღია PR:** 42; **ღია Issue:** 0.
+- **ბოლო დადასტურებული main snapshot:** `ce1184eaab9e0664548b2716064d2924b76ab79b` (Run 11 portfolio/status merge).
+- **Main Quality CI:** [46038637190](https://github.com/maisuradzee/bibmom/actions/runs/46038637190) — SUCCESS; 470 Python tests, frozen-result/schema checks, site build და publication-boundary checks.
+- **Pages deployment:** [46038637203](https://github.com/maisuradzee/bibmom/actions/runs/46038637203) — build/deploy SUCCESS ზუსტად Run 11 merge commit-ზე.
+- **ღია PR:** 41; **ღია Issue:** 0.
 - **აქტიური პორტფელი:** ოთხივე ნაკადი აქტიურია — AquaSignal, NOEMA-005, NOEMA-007 და INFRA-001.
 - **კვლევის კატალოგი:** 1 Preliminary, 0 Published. ახალი კვლევითი მასალა Draft/Preliminary საზღვრებში რჩება; Published სტატუსი არ მინიჭებულა.
 
@@ -18,7 +18,7 @@
 - **AquaSignal / Draft PR #178:** ოფიციალური სახელმწიფო შესყიდვების ხელშეკრულება T-100801 (NAT260019441) ადასტურებს 50 ბეჭდურ ანგარიშს, საბოლოო ინტერაქტიული სარჩევის PDF-ის მომზადებას, 50 CD-ს და 70 ნიტრატების მეთოდოლოგიის ბროშურას. ეს ქმნის NEA-სგან საბოლოო PDF-ის/საჯარო გაცნობის მოთხოვნის ოფიციალურ გზას, მაგრამ არ ადასტურებს საჯარო ჩამოტვირთვას, დასრულებულ მიწოდებას, CD-ის ზუსტ შიგთავსს ან reuse უფლებას. PR შეიცავს მხოლოდ საჯარო კონტრაქტის მეტამონაცემს და არა მიმწოდებლის პირად საკონტაქტო/საბანკო მონაცემებს.
 - **NOEMA-007:** WRP 2025-ის pinned Parquet source commit შენარჩუნებულია, მაგრამ 7,070,416-byte payload ვერ იქნა მიღებული UTF-8-only GitHub fetch გზით. NOEMA-ს დამოუკიდებელი aggregate reproduction, local Parquet SHA-256 ან საქართველოს ოპერაციული warning-effectiveness შედეგი არ არსებობს. საქართველოს warning-question base 99 რჩება source ranking threshold 100-ზე ქვემოთ.
 - **INFRA-001 evidence boundary:** finite-number guard არის ადგილობრივი validation fix. არც provider, production key, offsite trust-domain, external high-water authority ან clean-host restore არ გამოყენებულა/არ ჩატარებულა. RFC 8259 §6 JSON number grammar-იდან NaN/Infinity-ს გამორიცხავს; Python-ის default decoder ამ tokens-ს extension-ად იღებს.
-- **Portfolio synchronization:** ოთხივე stream-ის source metadata, status_detail და next steps განახლებულია ცალკე portfolio/status PR-ში; ამ audit-ის merge-მდე schema validation-ის შედეგს დაელოდეთ.
+- **Portfolio synchronization:** PR #177 exact-head CI-ის შემდეგ გაერთიანდა commit `ce1184eaab9e0664548b2716064d2924b76ab79b`-ში; ოთხივე stream-ის source metadata, status_detail და next steps main-შია. Merge commit-ზე Quality CI და Pages deploy წარმატებულია.
 
 ### Run 11-ის შეზღუდვები და შემდეგი ნაბიჯები
 
