@@ -10,8 +10,18 @@
 - **Run 17 audit:** [docs/run-audits/2026-11-27-run-17.md](run-audits/2026-11-27-run-17.md) — separate AquaSignal legal data-access and NOEMA-007 flood-risk governance updates in Draft PRs #108 and #109; exact-head quality CI passed for both.
 - **Run 16 audit:** [docs/run-audits/2026-11-27-run-16.md](run-audits/2026-11-27-run-16.md) — NOEMA-007 heat-health readiness discovery and NOEMA-005 ARM64 worker/traced-allocation analysis added in separate Draft PRs #103 and #104.
 - **Merged in current main:** PR #97 (AquaSignal official NEA groundwater RAR URL/retrieval boundary), PR #102 (run-15 status/audit synchronization) and PR #105 and #106 (run-16 status/audit and post-merge status synchronization), PR #107 (run-16 source/CI correction), and PR #110 (run-17 audit/status), and PR #113 (run-18 audit/status). PR #113's exact main quality CI and Pages build/deploy passed.
-- **Open research/engineering PRs:** #112, #109, #108, #104, #103, #101, #100, #99, #93, #91, #88, #87, #85, #46, #27, #7 and #5 (17 open research/engineering PRs; status-only PR #110 is separate; 0 open Issues).
+- **Open research/engineering PRs:** #117, #118, #112, #109, #108, #104, #103, #101, #100, #99, #93, #91, #88, #87, #85, #46, #27, #7 and #5 (19 open research/engineering PRs; run-19 status/audit PR #119 is separate; 0 open Issues).
 - **Public research catalogue:** 1 preliminary, 0 published. No research item was promoted to Published.
+
+
+## Run 19 — exact research/engineering PR state
+
+- **Main base snapshot:** `84512d4fa57235b06842568ef933a72b2edcd698`.
+- **PR #117 — NOEMA-007 mobile-inclusive AER sampling pre-registration:** head `75abf94f3d7c9cc905415844ce60a06614699a6b`; [quality CI 45947883409](https://github.com/maisuradzee/bibmom/actions/runs/45947883409) SUCCESS; [actual CPU-thread workflow 45947883396](https://github.com/maisuradzee/bibmom/actions/runs/45947883396) both GIL-enabled and free-threaded jobs SUCCESS; GitHub mergeable=true. Draft; not merged pending independent accessibility/privacy review and a competent-authority event-review mandate.
+- **PR #118 — INFRA-001 restore attestation gate:** current head `aea303043083a33846704a92fcd148ed004ec9aa`; source metadata refreshed to TUF v1.0.37 (last modified 2026-10-08). Exact-head quality CI [45948345409](https://github.com/maisuradzee/bibmom/actions/runs/45948345409) SUCCESS; exact-head CPU-thread workflow [45948345376](https://github.com/maisuradzee/bibmom/actions/runs/45948345376) — GIL-enabled and free-threaded jobs SUCCESS. GitHub mergeable=true. Draft; not merged pending independent security review, recovery-owner assignment and a permissioned clean-host restore drill.
+- **Superseded drafts:** PR #115 closed in favor of #117; PR #116 closed in favor of #118. Their replacement branches were recreated from the current main base; no code was merged from the superseded drafts.
+- **Open PRs at this snapshot:** 19 research/engineering PRs plus status/audit PR #119 (20 total); **open Issues:** 0. Research catalogue remains 1 Preliminary / 0 Published.
+- **Deployment:** neither research PR was merged; no Pages deployment is claimed for either PR branch. Latest verified Pages deployment remains the c507a91 main snapshot above.
 
 ## მიმდინარე მდგომარეობა
 
@@ -19,13 +29,13 @@
 |---|---|---|
 | NOEMA mission/autonomy core | შეზღუდული, ტესტირებადი foundation | noema_core/mission.json, mission.py, jobs/worker/workflow/scheduler/supervisor/service |
 | DISCOVERY · RESEARCH · INNOVATION | ერთიანი სამუშაო მოდელი | docs/NOEMA_OPERATING_MODEL.md |
-| NOEMA-005 numerical reduction | active / preliminary | PR #87-ზე დაემატა ორი ადგილობრივი 96 MiB OpenMP/KVM rerun, 15-კონფიგურაციანი raw JSON ანგარიშები და ხუთი provenance/accuracy ტესტი; exact-head quality CI 45945835133 SUCCESS. ერთი KVM x86-64 VM, 4-CPU quota; 8-worker oversubscribed. ფიზიკური hardware და representative workload ჯერ არ არის. |
+| NOEMA-005 numerical reduction | active / preliminary | PR #87-ის ორი 96 MiB KVM raw JSON ანგარიში დამოუკიდებლად გადაითვალა run 19-ში; source SHA და cgroup პარამეტრები ემთხვევა. Neumaier-state median speedup ორ გაშვებას შორის 12.2–17.5%-ით იცვლება worker-ის მიხედვით; ერთი virtualized x86-64 host, 4-CPU quota. ფიზიკური hardware და representative workload ჯერ არ არის. |
 | NOEMA-006 AquaSignal | active / prototype | Main-ში NEA122 catalogue metadata და NEA 2021–2025 RAR direct URL; PR #108-ში Article 32(3) NEA data-request route, Article 31(3) NFA role და Resolution No.424 registry boundary. Archive და sample-level payload კვლავ უცნობია; PR #108 Draft-ია. |
-| NOEMA-007 Last-Mile Action Gap | active / draft | PR #112-ზე დაემატა 2026-07-15 UNDRR-led After-Event Review მეთოდოლოგიის crosswalk, mobile-population inclusion-ის review protocol და დახურული aggregate-only finding-register schema; 8 synthetic schema checks და exact-head quality/CPU CI SUCCESS. ქართული event data/field pilot არ არსებობს. |
-| NOEMA-INFRA-001 reliability | active / engineering | Main-ში local manifest/hash/signature validation; PR #101-ში single-host SQLite high-water reference model. External trust domain, off-host retention და clean-host restore არ არსებობს. |
+| NOEMA-007 Last-Mile Action Gap | active / draft | PR #112 retains the mobility/AER finding-register proposal; PR #117 adds a pre-registered sampling contract and semantic validator for distinct resident/time-location/partner/service-point/endpoint frames, probability-only population estimates and separate endpoint/person denominators. Exact-head quality CI 45947883409 and both CPU-thread jobs 45947883396 SUCCESS. Synthetic fixtures only; no Georgian event/field pilot. |
+| NOEMA-INFRA-001 reliability | active / engineering | Main retains local manifest/hash/signature verification; PR #101 is the single-host high-water reference model; PR #118 adds a strict restore-attestation contract and distinguishes local round-trip from offsite clean-host completeness. Current TUF v1.0.37 head passed exact-head quality CI 45948345409 and both CPU jobs in 45948345376. No provider, external high-water authority or clean-host restore is deployed. |
 | საჯარო კვლევითი კატალოგი | 1 preliminary, 0 published | data/research.json; Draft კვლევები არ არის Published. |
-| Main quality CI | SUCCESS | run 45934655564 — exact verified main SHA 0a6dbe4c4c0c18f49540f966c89d6b53b99425bf. |
-| GitHub Pages | DEPLOYED | run 45934655643 — build და deploy SUCCESS exact main SHA 0a6dbe4c4c0c18f49540f966c89d6b53b99425bf-ზე. https://maisuradzee.github.io/bibmom/ |
+| Main quality CI | Last verified SUCCESS | run 45946337600 — exact main snapshot c507a91a213435cf6992abf37c233426882cb973; later current main 84512d4fa57235b06842568ef933a72b2edcd698 is not independently verified in this run. |
+| GitHub Pages | Last verified DEPLOYED | run 45946337647 — build და deploy SUCCESS exact main snapshot c507a91a213435cf6992abf37c233426882cb973-ზე; 84512d4 current main snapshot-ის deployment ჯერ დაუდასტურებელია. https://maisuradzee.github.io/bibmom/ |
 | Supabase | NOEMA-სთვის ახალი პროექტი არ შექმნილა | Git-ით ვერსიაკონტროლირებადი JSON/SQLite reference architecture; სხვა პროექტის ბაზა არ გამოიყენება. |
 
 ## Run 18 — ზუსტი PR და CI მდგომარეობა
