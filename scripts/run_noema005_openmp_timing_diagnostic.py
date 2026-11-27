@@ -140,6 +140,17 @@ def _capacity(environment: dict[str, Any], thread_union: list[int]) -> float | N
     return min(candidates) if candidates else None
 
 def validate_report(report: dict[str, Any], schema_path: Path = SCHEMA) -> None:
+    forbidden = {"pid", "tid", "hostname", "username", "cgroup_path", "runner_name", "device_id"}
+    def walk(value: Any) -> None:
+        if isinstance(value, dict):
+            if forbidden.intersection(value):
+                raise ValueError("report contains a prohibited host or identity field")
+            for child in value.values():
+                walk(child)
+        elif isinstance(value, list):
+            for child in value:
+                walk(child)
+    walk(report)
     schema = json.loads(schema_path.read_text(encoding="utf-8"))
     Draft202012Validator.check_schema(schema)
     Draft202012Validator(schema).validate(report)
@@ -175,18 +186,6 @@ def validate_report(report: dict[str, Any], schema_path: Path = SCHEMA) -> None:
         raise ValueError("summary anomaly count does not reproduce")
     if not math.isclose(report["summary"]["max_process_cpu_wall_ratio"], max(ratios), rel_tol=1e-8, abs_tol=1e-8):
         raise ValueError("summary maximum ratio does not reproduce")
-    forbidden = {"pid", "tid", "hostname", "username", "cgroup_path", "runner_name", "device_id"}
-    def walk(value: Any) -> None:
-        if isinstance(value, dict):
-            if forbidden.intersection(value):
-                raise ValueError("report contains a prohibited host or identity field")
-            for child in value.values():
-                walk(child)
-        elif isinstance(value, list):
-            for child in value:
-                walk(child)
-    walk(report)
-
 def build_report(raw_runs: list[dict[str, Any]], environment: dict[str, Any], source_sha256: str,
                  compiler_version: str, workers: list[int], repetitions: int, work_items: int) -> dict[str, Any]:
     runs = []
