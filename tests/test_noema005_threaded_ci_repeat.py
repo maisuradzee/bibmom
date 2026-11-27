@@ -1,6 +1,6 @@
 from __future__ import annotations
 import json,unittest
-from scripts.validate_noema005_threaded_ci_repeat import MANIFEST,SCHEMA,load_snapshot,snapshot_paths,validate
+from scripts.validate_noema005_threaded_ci_repeat import MANIFEST,SCHEMA,_assert_public_sanitization,load_snapshot,snapshot_paths,validate
 
 class Noema005ThreadedRepeatTests(unittest.TestCase):
     def setUp(self):
@@ -31,4 +31,32 @@ class Noema005ThreadedRepeatTests(unittest.TestCase):
     def test_all_snapshots_exclude_native_thread_ids(self):
         for key,(doc,_) in self.reports.items():
             with self.subTest(key=key): self.assertTrue(all("native_thread_ids_by_run" not in c for c in doc["threaded_cases"]))
+
+    def test_public_boundary_rejects_identity_keys_at_every_nesting_depth(self):
+        unsafe_documents = (
+            {"protocol": {"nested": {"hostname": "private-host"}}},
+            {"inputs": [{"details": {"native_thread_ids_by_run": [[101, 102]]}}]},
+            {"serial_baselines": [{"runner_id": "runner-1"}]},
+            {"summary": {"kernel_release": "private-build-string"}},
+            {"manifest": {"records": [{"device_id": "device-1"}]}},
+        )
+        for document in unsafe_documents:
+            with self.subTest(document=document), self.assertRaises(ValueError):
+                _assert_public_sanitization(document)
+
+    def test_public_boundary_allows_coarse_non_identity_environment_metadata(self):
+        _assert_public_sanitization({
+            "environment": {
+                "machine_architecture": "x86_64",
+                "cpu_count_os": 4,
+                "cpu_affinity_count": 4,
+                "python_version": "3.14.4",
+            },
+            "source": {
+                "workflow_run_id": 123,
+                "artifact_id": 456,
+                "artifact_name": "noema005-threaded-gil-enabled.zip",
+            },
+        })
+
 if __name__=="__main__": unittest.main()
