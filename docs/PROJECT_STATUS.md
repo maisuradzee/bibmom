@@ -9,7 +9,7 @@
 - **Run 28 PR #156:** [NOEMA-007 freshness evaluator](https://github.com/maisuradzee/bibmom/pull/156), head `ff5fda252376bfe1e499556ec175cd805d61b68f`; exact Quality CI [46005429117](https://github.com/maisuradzee/bibmom/actions/runs/46005429117) SUCCESS; CPU-thread workflow [46005429130](https://github.com/maisuradzee/bibmom/actions/runs/46005429130) both jobs SUCCESS.
 - **Run 28 PR #157:** [NOEMA-005 cgroup path-resolution tests](https://github.com/maisuradzee/bibmom/pull/157), head `37f2d3576faade1c0963c31362698b0c45c11f7b`; exact Quality CI [46005644572](https://github.com/maisuradzee/bibmom/actions/runs/46005644572) SUCCESS. No new benchmark result is claimed.
 - **Related PR #155:** [NOEMA-007 dynamic risk-baseline freshness discovery](https://github.com/maisuradzee/bibmom/pull/155), remains Draft and is not merged.
-- **Open research/engineering PRs:** 30 (0 open Issues) at audit time. PRs #156 and #157 are separate clean-base research branches; #144, #145, #146 and #148 still require their own base refresh and exact-head revalidation.
+- **Open research/engineering PRs:** 31 (0 open Issues) at audit time before this status PR; 32 including PR #158. PRs #156 and #157 are separate clean-base research branches; #144, #145, #146 and #148 still require their own base refresh and exact-head revalidation.
 - **Research catalogue:** 1 preliminary, 0 published. No research item was promoted to Published.
 - **Main was not modified in this run.** Research PRs were not merged because they remain Draft and need independent domain review and/or real-world evidence.
 
