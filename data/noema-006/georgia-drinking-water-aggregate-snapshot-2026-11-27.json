@@ -127,5 +127,77 @@
     "The JECM article does not provide raw data or a complete sample-level denominator and selection design.",
     "The UNECE/WHO report does not provide sample denominators or urban/rural E. coli values in the cited table.",
     "No causal, temporal trend, municipal ranking or current water-safety conclusion is supported by these aggregates."
-  ]
+  ],
+  "table1_violation_category_counts": {
+    "source_locator": "JECM 2025/1, p.4, Table 1",
+    "category_count_semantics": "The article labels these as violation-type frequencies and includes combined categories. It does not explicitly state whether rows are mutually exclusive unique-sample counts; all count reconciliation below is conditional on that assumption.",
+    "categories": {
+      "microbiological": [
+        128,
+        205,
+        177,
+        453
+      ],
+      "organoleptic": [
+        4,
+        1,
+        7,
+        12
+      ],
+      "chemical": [
+        2,
+        2,
+        11,
+        3
+      ],
+      "physico_chemical": [
+        0,
+        4,
+        1,
+        2
+      ],
+      "microbiological_and_organoleptic": [
+        2,
+        4,
+        2,
+        11
+      ],
+      "microbiological_and_physico_chemical": [
+        0,
+        6,
+        1,
+        6
+      ],
+      "organoleptic_and_physico_chemical": [
+        0,
+        1,
+        0,
+        2
+      ],
+      "chemical_and_microbiological": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "organoleptic_physico_chemical_and_microbiological": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "physico_chemical_chemical_and_microbiological": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "physico_chemical_and_chemical": [
+        0,
+        0,
+        5,
+        0
+      ]
+    }
+  }
 }

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import argparse
-from decimal import Decimal, InvalidOperation
+from decimal import Decimal, InvalidOperation, ROUND_CEILING
 import json
 from pathlib import Path
 import sys
@@ -52,6 +52,24 @@ def validate_snapshot(snapshot: dict) -> None:
     for value in national_rates:
         if isinstance(value, bool) or not isinstance(value, (int, float)) or not 0 <= value <= 100:
             raise ValueError("national rates must be numeric percentages between 0 and 100")
+    table1 = snapshot.get("table1_violation_category_counts")
+    if not isinstance(table1, dict) or not isinstance(table1.get("categories"), dict):
+        raise ValueError("table1_violation_category_counts.categories is required")
+    categories = table1["categories"]
+    if not categories:
+        raise ValueError("Table 1 categories must not be empty")
+    for name, counts in categories.items():
+        if not isinstance(name, str) or not name:
+            raise ValueError("Table 1 category names must be non-empty strings")
+        if not isinstance(counts, list) or len(counts) != len(years):
+            raise ValueError(f"Table 1 category {name!r} count length mismatch")
+        for value in counts:
+            if type(value) is not int or value < 0:
+                raise ValueError(f"Table 1 category {name!r} counts must be non-negative integers")
+    if not isinstance(table1.get("source_locator"), str) or not table1["source_locator"]:
+        raise ValueError("Table 1 source locator is required")
+    if not isinstance(table1.get("category_count_semantics"), str) or len(table1["category_count_semantics"]) < 30:
+        raise ValueError("Table 1 category-count semantics must be documented")
 
 
 def _six(value: Decimal) -> float:
@@ -98,6 +116,49 @@ def audit_snapshot(snapshot: dict) -> dict:
     jecm_2023 = Decimal(str(context["jecm_2023_national_all_standard_noncompliance_pct"]))
     unece_2023 = Decimal(str(context["unece_2023_narrative_all_standard_noncompliance_pct"]))
     unece = snapshot["unece_context"]
+    table1 = snapshot["table1_violation_category_counts"]
+    category_counts = table1["categories"]
+    table1_results = []
+    pooled_total = 0
+    pooled_microbiological = 0
+    for index, year in enumerate(years):
+        category_total = sum(values[index] for values in category_counts.values())
+        microbiological_total = sum(
+            values[index] for name, values in category_counts.items()
+            if "microbiological" in name
+        )
+        national_count = snapshot["national_sample_counts"][index]
+        national_rate = Decimal(str(snapshot["national_noncompliance_pct"][index]))
+        lower = Decimal(national_count) * (national_rate - Decimal("0.05")) / Decimal("100")
+        upper = Decimal(national_count) * (national_rate + Decimal("0.05")) / Decimal("100")
+        implied_min = int(lower.to_integral_value(rounding=ROUND_CEILING))
+        implied_max = int(upper.to_integral_value(rounding=ROUND_CEILING)) - 1
+        share = Decimal(microbiological_total) * Decimal("100") / Decimal(category_total) if category_total else Decimal("0")
+        table1_results.append({
+            "year": year,
+            "table1_category_total": category_total,
+            "microbiological_involved_category_count": microbiological_total,
+            "microbiological_involved_share_pct": _six(share),
+            "national_rate_implied_unique_count_min": implied_min,
+            "national_rate_implied_unique_count_max": implied_max,
+            "table1_total_compatible_if_categories_are_unique_samples": implied_min <= category_total <= implied_max,
+            "counting_semantics": "unverified_category_frequency_not_assumed_unique_sample_count",
+        })
+        pooled_total += category_total
+        pooled_microbiological += microbiological_total
+    pooled_share = Decimal(pooled_microbiological) * Decimal("100") / Decimal(pooled_total) if pooled_total else Decimal("0")
+    table1_audit = {
+        "source_locator": table1["source_locator"],
+        "method": "Sum transcribed Table 1 categories by year; count every category whose name includes microbiological (including combined categories); derive the integer-count interval compatible with the published one-decimal national rate using half-width 0.05 percentage points. Treat row totals as unique samples only conditionally because the article does not define category exclusivity.",
+        "results": table1_results,
+        "pooled": {
+            "table1_category_total": pooled_total,
+            "microbiological_involved_category_count": pooled_microbiological,
+            "microbiological_involved_share_pct": _six(pooled_share),
+            "exceeds_90_percent": pooled_share > Decimal("90"),
+        },
+        "interpretation": "The pooled Table 1 categories containing microbiological account for more than 90% of transcribed category counts, while the 2022 year-specific share is below 90%. The Table 1 total falls outside the integer count interval implied by the national one-decimal rate in 2021-2023 if rows are treated as unique samples. The paper does not clearly define whether the category frequencies are mutually exclusive unique samples; this is an unresolved reconciliation question, not proof of an error.",
+    }
     return {
         "study_id": snapshot["study_id"],
         "snapshot_id": snapshot["snapshot_id"],
@@ -122,6 +183,7 @@ def audit_snapshot(snapshot: dict) -> dict:
                 "status": "same_numeric_value_distinct_indicator_context",
             },
         ],
+        "table1_category_reconciliation": table1_audit,
         "conclusion": (
             "The published aggregates are not sufficient for an operational local water-safety signal. "
             "2020 and 2021 denominators do not reconcile; 2023 source values differ; the 2024 E. coli "

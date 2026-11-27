@@ -59,5 +59,58 @@
       "status": "same_numeric_value_distinct_indicator_context"
     }
   ],
-  "conclusion": "The published aggregates are not sufficient for an operational local water-safety signal. 2020 and 2021 denominators do not reconcile; 2023 source values differ; the 2024 E. coli and all-standard contexts must remain separate."
+  "conclusion": "The published aggregates are not sufficient for an operational local water-safety signal. 2020 and 2021 denominators do not reconcile; 2023 source values differ; the 2024 E. coli and all-standard contexts must remain separate.",
+  "table1_category_reconciliation": {
+    "source_locator": "JECM 2025/1, p.4, Table 1",
+    "method": "Sum transcribed Table 1 categories by year; count every category whose name includes microbiological (including combined categories); derive the integer-count interval compatible with the published one-decimal national rate using half-width 0.05 percentage points. Treat row totals as unique samples only conditionally because the article does not define category exclusivity.",
+    "results": [
+      {
+        "year": 2020,
+        "table1_category_total": 136,
+        "microbiological_involved_category_count": 130,
+        "microbiological_involved_share_pct": 95.588235,
+        "national_rate_implied_unique_count_min": 136,
+        "national_rate_implied_unique_count_max": 136,
+        "table1_total_compatible_if_categories_are_unique_samples": true,
+        "counting_semantics": "unverified_category_frequency_not_assumed_unique_sample_count"
+      },
+      {
+        "year": 2021,
+        "table1_category_total": 225,
+        "microbiological_involved_category_count": 217,
+        "microbiological_involved_share_pct": 96.444444,
+        "national_rate_implied_unique_count_min": 227,
+        "national_rate_implied_unique_count_max": 227,
+        "table1_total_compatible_if_categories_are_unique_samples": false,
+        "counting_semantics": "unverified_category_frequency_not_assumed_unique_sample_count"
+      },
+      {
+        "year": 2022,
+        "table1_category_total": 207,
+        "microbiological_involved_category_count": 183,
+        "microbiological_involved_share_pct": 88.405797,
+        "national_rate_implied_unique_count_min": 207,
+        "national_rate_implied_unique_count_max": 207,
+        "table1_total_compatible_if_categories_are_unique_samples": true,
+        "counting_semantics": "unverified_category_frequency_not_assumed_unique_sample_count"
+      },
+      {
+        "year": 2023,
+        "table1_category_total": 496,
+        "microbiological_involved_category_count": 477,
+        "microbiological_involved_share_pct": 96.169355,
+        "national_rate_implied_unique_count_min": 495,
+        "national_rate_implied_unique_count_max": 495,
+        "table1_total_compatible_if_categories_are_unique_samples": false,
+        "counting_semantics": "unverified_category_frequency_not_assumed_unique_sample_count"
+      }
+    ],
+    "pooled": {
+      "table1_category_total": 1064,
+      "microbiological_involved_category_count": 1007,
+      "microbiological_involved_share_pct": 94.642857,
+      "exceeds_90_percent": true
+    },
+    "interpretation": "The pooled Table 1 categories containing microbiological account for more than 90% of transcribed category counts, while the 2022 year-specific share is below 90%. The Table 1 total falls outside the integer count interval implied by the national one-decimal rate in 2021-2023 if rows are treated as unique samples. The paper does not clearly define whether the category frequencies are mutually exclusive unique samples; this is an unresolved reconciliation question, not proof of an error."
+  }
 }

@@ -16,7 +16,8 @@
     "regional_noncompliance_pct",
     "unece_context",
     "cross_source_context",
-    "limitations"
+    "limitations",
+    "table1_violation_category_counts"
   ],
   "properties": {
     "study_id": {
@@ -219,6 +220,77 @@
       "items": {
         "type": "string",
         "minLength": 10
+      }
+    },
+    "table1_violation_category_counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_locator",
+        "category_count_semantics",
+        "categories"
+      ],
+      "properties": {
+        "source_locator": {
+          "type": "string",
+          "minLength": 5
+        },
+        "category_count_semantics": {
+          "type": "string",
+          "minLength": 30
+        },
+        "categories": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "microbiological",
+            "organoleptic",
+            "chemical",
+            "physico_chemical",
+            "microbiological_and_organoleptic",
+            "microbiological_and_physico_chemical",
+            "organoleptic_and_physico_chemical",
+            "chemical_and_microbiological",
+            "organoleptic_physico_chemical_and_microbiological",
+            "physico_chemical_chemical_and_microbiological",
+            "physico_chemical_and_chemical"
+          ],
+          "properties": {
+            "microbiological": {
+              "$ref": "#/$defs/counts"
+            },
+            "organoleptic": {
+              "$ref": "#/$defs/counts"
+            },
+            "chemical": {
+              "$ref": "#/$defs/counts"
+            },
+            "physico_chemical": {
+              "$ref": "#/$defs/counts"
+            },
+            "microbiological_and_organoleptic": {
+              "$ref": "#/$defs/counts"
+            },
+            "microbiological_and_physico_chemical": {
+              "$ref": "#/$defs/counts"
+            },
+            "organoleptic_and_physico_chemical": {
+              "$ref": "#/$defs/counts"
+            },
+            "chemical_and_microbiological": {
+              "$ref": "#/$defs/counts"
+            },
+            "organoleptic_physico_chemical_and_microbiological": {
+              "$ref": "#/$defs/counts"
+            },
+            "physico_chemical_chemical_and_microbiological": {
+              "$ref": "#/$defs/counts"
+            },
+            "physico_chemical_and_chemical": {
+              "$ref": "#/$defs/counts"
+            }
+          }
+        }
       }
     }
   },
