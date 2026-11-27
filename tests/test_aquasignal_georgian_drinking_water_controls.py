@@ -61,6 +61,7 @@ class GeorgianDrinkingWaterOperationalControlsTests(unittest.TestCase):
         self.assertFalse(self.record["privacy"]["raw_sample_records_included"])
 
     def test_transition_and_legal_review_limit_are_explicit(self):
+        self.assertTrue(self.record["legal_transition_review_required"])
         note = self.record["transition_note"]
         self.assertIn("2027-09-01", note)
         limits = " ".join(self.record["interpretation_limits"]).lower()
