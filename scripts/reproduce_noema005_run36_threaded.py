@@ -6,6 +6,7 @@ import argparse
 import hashlib
 import json
 import math
+import re
 import statistics
 import sys
 import zipfile
@@ -155,6 +156,20 @@ def derive_summary(snapshot: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+
+def _coarse_hosted_linux_provider(platform: Any) -> str:
+    """Retain only a coarse provider family, never kernel/glibc build identity."""
+    if not isinstance(platform, str) or "linux" not in platform.casefold():
+        raise ValueError("raw runner platform must identify a hosted Linux environment")
+    providers = [
+        provider for provider in ("aws", "azure")
+        if re.search(rf"(?:^|[-_.]){provider}(?:[-_.]|$)", platform.casefold())
+    ]
+    if len(providers) != 1:
+        raise ValueError("raw runner platform has no unique approved coarse provider family")
+    return providers[0]
+
+
 def _sanitize_raw_report(report: dict[str, Any], mode: str) -> dict[str, Any]:
     env = report.get("environment", {})
     protocol = report.get("protocol", {})
@@ -220,7 +235,7 @@ def _sanitize_raw_report(report: dict[str, Any], mode: str) -> dict[str, Any]:
     return {
         "runner": {
             "machine": env["machine"],
-            "platform": env["platform"],
+            "hosted_linux_provider": _coarse_hosted_linux_provider(env.get("platform")),
             "cpu_affinity_count": env["cpu_affinity_count"],
             "python_version": env["python_version"],
             "gil_enabled": env["gil_enabled"],
