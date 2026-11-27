@@ -28,7 +28,7 @@ CPU/wall-time ratios are interpretable only when the process and worker executio
 
 - **FACT:** The failed run 45958358815 checked out commit `0f91aef39df3bcb913f94b20a9174023781b4deb`.
 - **FACT:** In that snapshot, `test_v2_withholds_capacity_when_worker_cgroup_differs` cleared `effective_cpu_capacity`, `cpu_wall_anomaly_threshold` and `cpu_wall_anomaly`, but left `known_cpu_capacity_upper_bound` and `cpu_wall_anomaly_threshold_basis` at non-null fixture defaults.
-- **INFERENCE:** The validator's rejection was correct because the fixture retained capacity-derived claims while asserting that the worker/process cgroup evidence was invalid.
+- **INFERENCE:** The validator's rejection was correct because the fixture retained capacity-derived claims while asserting that the worker/process cgroup evidence was invalid. The added unknown-membership case now verifies the same fail-closed rule for `null` membership.
 - **FACT:** The current parent-branch fixture clears all capacity-derived fields before validating a mismatched worker cgroup.
 - **ENGINEERING CHANGE:** A synthetic unit test now covers `thread_cgroup_matches_process = null`; it accepts the report only when all capacity-derived fields are withheld and rejects a non-null upper-bound claim.
 
@@ -59,12 +59,11 @@ The fixture inconsistency is explained by the checked-out source: two fields wer
 - This is a test/validator follow-up, not a benchmark result.
 - It does not explain the previously observed process-CPU/wall-time anomaly.
 - It does not measure task-clock, context switches, memory bandwidth, RSS or physical-hardware scaling.
-- The exact-head quality workflow still needs to pass.
-- The separate frozen v2 archive digest check has failed on the parent branch and remains an independent blocker.
+- Exact-head Quality CI 45963898743 passed on commit `00e05360026717da380dc345ad9cc6aa8eafc397`, including the full unit suite, frozen-result reproduction and site/publication-boundary checks. The parent frozen v2 archive was corrected and validated in PR #124; that PR is now merged. No new benchmark was executed in this follow-up.
 
 ## დასკვნა
 
-The triggering test failure was caused by an internally inconsistent fixture, not by evidence that the capacity-withholding rule is wrong. The additional unverified-membership test strengthens that rule. The PR must remain Draft until the exact-head quality workflow and all required checks succeed.
+The triggering test failure was caused by an internally inconsistent fixture, not by evidence that the capacity-withholding rule is wrong. The additional unverified-membership test strengthens that rule. The exact-head quality workflow passed. This follow-up remains an engineering validation change, not a performance result; independent numerical-method review and physical-hardware replication remain outstanding.
 
 ## წყაროები
 
@@ -75,16 +74,16 @@ The triggering test failure was caused by an internally inconsistent fixture, no
 
 ## შემდეგი ნაბიჯები
 
-1. Run the exact-head quality workflow again after this draft is brought into compliance.
-2. Preserve the frozen v2 report's raw artifact and manifest; investigate the separate compressed-archive SHA-256 mismatch before using that frozen reproduction.
-3. Independently repeat the timing experiment with per-thread CPU clocks, worker affinity, `/proc/self/cgroup`, effective cpuset, complete quota ancestry and external task-clock counters.
+1. Retain the exact-head CI run as evidence for this validator change.
+2. Independently repeat the timing experiment with per-thread CPU clocks, worker affinity, `/proc/self/cgroup`, effective cpuset, complete quota ancestry and external task-clock counters.
+3. Keep physical-device replication and external numerical-method review separate from hosted-runner validation.
 
 ## შემოწმების სტატუსი
 
-- **Draft validation:** failed on the previous commit because this note lacked the repository-required metadata and section headings; this revision supplies them.
-- **Unit tests:** no passing exact-head result is claimed yet.
+- **Draft validation:** passed in exact-head Quality CI 45963898743.
+- **Unit tests and frozen-result reproduction:** passed in exact-head Quality CI 45963898743.
 - **Benchmark execution:** not performed in this follow-up.
-- **Publication:** not eligible; independent review and successful CI remain outstanding.
+- **Publication:** not eligible; independent review and physical-hardware replication remain outstanding.
 
 ## ცვლილებების ისტორია
 
