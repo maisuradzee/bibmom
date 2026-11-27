@@ -68,6 +68,20 @@ class Noema005Run36ThreadedReproductionTests(unittest.TestCase):
         text = SNAPSHOT.read_text(encoding="utf-8")
         self.assertNotIn("native_thread_ids_by_run", text)
 
+    def test_public_snapshot_retains_only_coarse_runner_provider(self):
+        expected_keys = {
+            "machine", "hosted_linux_provider", "cpu_affinity_count",
+            "python_version", "gil_enabled", "free_threaded_build",
+        }
+        for report in self.snapshot["source_reports"]:
+            runner = report["runner"]
+            self.assertEqual(set(runner), expected_keys)
+            self.assertIn(runner["hosted_linux_provider"], {"aws", "azure"})
+        rendered = SNAPSHOT.read_text(encoding="utf-8").casefold()
+        self.assertNotIn("glibc", rendered)
+        self.assertNotRegex(rendered, r"linux-[0-9]")
+        self.assertNotIn('"platform"', rendered)
+
     def test_original_artifact_hashes_are_sha256_shaped(self):
         for report in self.snapshot["source_reports"]:
             self.assertRegex(report["archive_sha256"], re.compile(r"^[0-9a-f]{64}$"))
