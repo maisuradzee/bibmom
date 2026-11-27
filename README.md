@@ -162,11 +162,3 @@ The WHO's fourth edition incorporating the third addendum is the current interna
 
 - [WHO 2026 Guidelines](https://www.who.int/publications/i/item/9789240121225)
 - [WHO 2026 chemical fact sheets PDF](https://cdn.who.int/media/docs/default-source/wash-documents/water-safety-and-quality/dwq-guidelines-4/gdwq_4ed_with_third-addenda_chemical-fact-sheets.pdf?sfvrsn=77d972e1_5)
-
-
-## INFRA-001 — local high-water reference model (current-main refresh, 2026-11-28)
-
-- `noema_core/high_water_reference.py` provides a file-backed SQLite conformance model for atomic compare-and-advance of backup generations, manifest lineage, stale-state rejection and idempotent retry.
-- The current-main refresh validates canonical ASCII stream identifiers and persisted state on read; synthetic two-thread tests cover one local writer winner from a shared expected state.
-- This is not an external anti-rollback authority. The SQLite file shares the host's trust/rollback domain; production still needs a separately administered service, authenticated callers, independent keys/freshness, provider-verified immutable object versions and a permissioned clean-host restore.
-- [Research note](research/drafts/NOEMA-INFRA-001-high-water-reference-model-2026-11-28.md) documents the threat boundary and untested deployment requirements.
