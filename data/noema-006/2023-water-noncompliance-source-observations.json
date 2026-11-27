@@ -25,7 +25,10 @@
       "denominator": null,
       "reported_percent": 49.5,
       "reported_precision_decimals": 1,
-      "supply_type_scope": null
+      "supply_type_scope": null,
+      "count_unit": null,
+      "numerator_definition_id": null,
+      "denominator_definition_id": null
     },
     {
       "schema_version": 1,
@@ -48,7 +51,10 @@
       "denominator": null,
       "reported_percent": 44.5,
       "reported_precision_decimals": 1,
-      "supply_type_scope": null
+      "supply_type_scope": null,
+      "count_unit": null,
+      "numerator_definition_id": null,
+      "denominator_definition_id": null
     }
   ],
   "expected_comparison_status": "INSUFFICIENT_METADATA",
