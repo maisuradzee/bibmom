@@ -15,6 +15,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Parse all GitHub Actions workflow files
         run: |
+          go run github.com/rhysd/actionlint/cmd/actionlint@latest .github/workflows/*.yml
           ruby - <<'RUBY'
           require "yaml"
           Dir.glob(".github/workflows/*.{yml,yaml}").sort.each do |path|
