@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-006",
+  "record_id": "AQUASIGNAL-NEA-REPORT-CONTRACT-ACCESS-2026-11-27",
+  "evidence_status": "FACT",
+  "source_authority": "National Environmental Agency of Georgia",
+  "tender_id": "NAT260019441",
+  "contract_number": "T-100801",
+  "contract_signed_date": "2026-10-09",
+  "contract_valid_through": "2026-12-31",
+  "contractual_delivery_window": "within 20 calendar days after contract signing",
+  "deliverables": [
+    {
+      "kind": "printed_groundwater_report",
+      "copies": 50,
+      "pages_min": 285,
+      "pages_max": 295,
+      "a3_maps": 2
+    },
+    {
+      "kind": "final_electronic_pdf",
+      "format": "PDF",
+      "interactive_table_of_contents_required": true,
+      "public_access_confirmed": false
+    },
+    {
+      "kind": "cd_media",
+      "copies": 50,
+      "content_description": "information supplied by the procuring authority",
+      "public_access_confirmed": false
+    },
+    {
+      "kind": "printed_nitrate_field_methodology",
+      "copies": 70,
+      "pages_min": 48,
+      "pages_max": 52
+    }
+  ],
+  "contract_value_gel_excluding_vat": 4200,
+  "delivery_location": "National Environmental Agency administrative building, 150 Davit Aghmashenebeli Avenue, Tbilisi, 9th floor",
+  "source_urls": {
+    "official_contract_pdf": "https://tenders.procurement.gov.ge/public/library/files.php?file=677451&mode=contract",
+    "nea_announcement": "https://nea.gov.ge/ajs/News/3461",
+    "tender_notice": "https://tenders.procurement.gov.ge/public/?go=704959&lang=ge"
+  },
+  "interpretation": "The official contract confirms a final electronic PDF preparation deliverable and 50 CD media units containing information supplied by the procuring authority. It does not establish that the PDF or CD contents are publicly accessible, that the CD contains the complete report, that delivery was completed, or that a public reuse licence exists.",
+  "next_access_step": "Request from NEA the final electronic PDF or public inspection route, acceptance/delivery status, exact CD contents, and explicit reuse/licence terms; do not contact the supplier or ingest data automatically.",
+  "privacy_boundary": "Only public procurement contract metadata is recorded. Personal contact details, bank details, signatures, and any non-public report contents are excluded."
+}
