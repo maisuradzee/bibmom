@@ -44,7 +44,7 @@ def load_frozen_report() -> dict:
     if round(max(ratios), 9) != report["summary"]["max_process_cpu_wall_ratio"]:
         raise ValueError("report maximum ratio does not reproduce")
     for worker, expected in manifest["summary"]["median_process_cpu_wall_ratio_by_worker"].items():
-        selected = [run["process_cpu_ns"] / run["wall_ns"] for run in runs if run["requested_workers"] == int(worker)]
+        selected = [round(run["process_cpu_ns"] / run["wall_ns"], 9) for run in runs if run["requested_workers"] == int(worker)]
         if round(statistics.median(selected), 9) != expected:
             raise ValueError(f"median ratio mismatch for {worker} workers")
     if not math.isclose(report["summary"]["max_process_cpu_wall_ratio"], max(ratios), rel_tol=1e-8):
