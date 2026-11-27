@@ -2,10 +2,11 @@
 """Audit native OpenMP process-CPU time against the reported effective CPU set."""
 from __future__ import annotations
 import argparse
+import hashlib
 import json
 from pathlib import Path
-import subprocess
 import sys
+from scripts.validate_noema005_openmp_report import validate_report
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_RAW = ROOT / "data/noema-005/native-openmp-raw-report-2026-11-26.json"
@@ -30,7 +31,14 @@ def parse_cpu_list(value: str | None) -> int | None:
     return len(cpus)
 
 
-def audit_reports(raw: dict, summary: dict, raw_blob_sha: str, summary_blob_sha: str) -> dict:
+def _git_blob_sha(data: bytes) -> str:
+    return hashlib.sha1(b"blob " + str(len(data)).encode() + b"\\0" + data).hexdigest()
+
+
+def audit_reports(raw: dict, summary: dict, raw_bytes: bytes, raw_blob_sha: str, summary_blob_sha: str) -> dict:
+    errors = validate_report(summary, raw, raw_bytes)
+    if errors:
+        raise ValueError("source report validation failed: " + "; ".join(errors))
     provenance = summary.get("provenance", {})
     cpu_count = parse_cpu_list(provenance.get("cgroup_cpuset_cpus"))
     if cpu_count is None:
@@ -103,12 +111,13 @@ def main() -> int:
     args=parser.parse_args()
     try:
         raw_bytes=args.raw.read_bytes()
+        summary_bytes=args.summary.read_bytes()
         raw=json.loads(raw_bytes)
-        summary=json.loads(args.summary.read_text(encoding="utf-8"))
-        raw_blob_sha=subprocess.run(["git","hash-object",str(args.raw)],check=True,capture_output=True,text=True).stdout.strip()
-        summary_blob_sha=subprocess.run(["git","hash-object",str(args.summary)],check=True,capture_output=True,text=True).stdout.strip()
-        result=audit_reports(raw,summary,raw_blob_sha,summary_blob_sha)
-    except (OSError,json.JSONDecodeError,ValueError,subprocess.SubprocessError) as exc:
+        summary=json.loads(summary_bytes)
+        raw_blob_sha=_git_blob_sha(raw_bytes)
+        summary_blob_sha=_git_blob_sha(summary_bytes)
+        result=audit_reports(raw,summary,raw_bytes,raw_blob_sha,summary_blob_sha)
+    except (OSError,json.JSONDecodeError,ValueError) as exc:
         print(f"ERROR: {exc}",file=sys.stderr)
         return 2
     rendered=json.dumps(result,ensure_ascii=False,indent=2,sort_keys=True)+"\n"
