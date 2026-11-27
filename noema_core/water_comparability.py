@@ -8,6 +8,7 @@ population-safety estimate.
 from __future__ import annotations
 
 import json
+from datetime import date
 from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
 from pathlib import Path
 from typing import Any
@@ -60,6 +61,12 @@ def _validate_observation(
             "water-indicator schema validation failed: " + "; ".join(details)
         )
 
+    period_start = observation["period_start"]
+    period_end = observation["period_end"]
+    if period_start is not None and period_end is not None:
+        if date.fromisoformat(period_end) < date.fromisoformat(period_start):
+            raise WaterComparabilityError("period_end cannot precede period_start")
+
     numerator = observation["numerator"]
     denominator = observation["denominator"]
     if numerator is not None and denominator is not None:
@@ -110,6 +117,7 @@ def compare_same_period_indicators(
         for field in COMPARABILITY_FIELDS
         if left[field] is None or right[field] is None
         or left[field] == "" or right[field] == ""
+        or left[field] == "unknown" or right[field] == "unknown"
     })
     if missing:
         return {
