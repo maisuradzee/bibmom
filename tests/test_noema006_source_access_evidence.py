@@ -3,6 +3,8 @@ import unittest
 from copy import deepcopy
 from pathlib import Path
 
+from jsonschema import Draft202012Validator, FormatChecker
+
 from noema_core.source_access_evidence import (
     derive_access_state,
     validate_source_access_document,
@@ -11,12 +13,24 @@ from noema_core.source_access_evidence import (
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data/noema-006/source-access-evidence-2026-11-27.json"
+SCHEMA = ROOT / "data/noema-006/source-access-evidence.schema.json"
 
 
 class SourceAccessEvidenceTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.document = json.loads(DATA.read_text(encoding="utf-8"))
+        cls.schema = json.loads(SCHEMA.read_text(encoding="utf-8"))
+        Draft202012Validator.check_schema(cls.schema)
+        cls.schema_validator = Draft202012Validator(cls.schema, format_checker=FormatChecker())
+
+    def test_frozen_document_matches_closed_draft_2020_12_schema(self):
+        self.assertEqual(list(self.schema_validator.iter_errors(self.document)), [])
+
+    def test_schema_rejects_unknown_source_fields(self):
+        candidate = deepcopy(self.document)
+        candidate["sources"][0]["private_owner_data"] = "must not be accepted"
+        self.assertTrue(list(self.schema_validator.iter_errors(candidate)))
 
     def test_frozen_public_sources_are_valid_and_metadata_only(self):
         self.assertEqual(validate_source_access_document(self.document), [])
