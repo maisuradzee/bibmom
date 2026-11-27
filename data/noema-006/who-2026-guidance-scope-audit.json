@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "record_id": "AQUASIGNAL-WHO-2026-THIRD-ADDENDUM-NITRATE-NITRITE-SCOPE",
+  "study_id": "NOEMA-2026-006",
+  "evidence_status": "FACT",
+  "source": {
+    "publisher": "World Health Organization",
+    "title": "Guidelines for drinking-water quality: fourth edition incorporating the first, second and third addenda",
+    "publication_date": "2026-06-17",
+    "isbn": "978-92-4-012122-5",
+    "url": "https://www.who.int/publications/i/item/9789240121225",
+    "chemical_fact_sheet_pdf_url": "https://cdn.who.int/media/docs/default-source/wash-documents/water-safety-and-quality/dwq-guidelines-4/gdwq_4ed_with_third-addenda_chemical-fact-sheets.pdf?sfvrsn=77d972e1_5",
+    "printed_pages": "466-472",
+    "accessed_at": "2026-11-28"
+  },
+  "chemical_fact_sheet": {
+    "analytes": [
+      "nitrate",
+      "nitrite"
+    ],
+    "assessment_date": "2016",
+    "nitrate_guideline_value": "50",
+    "nitrate_unit": "mg/L as nitrate ion (NO3-)",
+    "nitrite_guideline_value": "3",
+    "nitrite_unit": "mg/L as nitrite ion (NO2-)",
+    "combined_rule": "C_nitrate/50 + C_nitrite/3 <= 1",
+    "nitrate_to_nitrate_nitrogen_factor": "0.226",
+    "nitrite_to_nitrite_nitrogen_factor": "0.304"
+  },
+  "third_addendum_update_scope": {
+    "updated_topics": [
+      "explicit consideration and support for small water supplies",
+      "water safety plans and sanitary inspections",
+      "microbial pathogens and pathogen-specific fact sheets",
+      "pesticides used for vector control in drinking-water"
+    ],
+    "nitrate_nitrite_reassessment_identified_in_update_summary": false,
+    "interpretation": "The 2026 consolidated volume contains the nitrate/nitrite fact sheet, but the fact sheet itself states an assessment date of 2016. The WHO summary of the third-addendum updates does not identify nitrate/nitrite as a newly reassessed chemical topic."
+  },
+  "interpretation_limits": [
+    "The 2026-06-17 date is the publication date of the consolidated fourth edition incorporating the third addendum; it is not the nitrate/nitrite chemical assessment date.",
+    "The WHO values are international drinking-water guidance, not Georgian law or an automatic threshold for raw environmental groundwater.",
+    "A combined nitrate/nitrite ratio requires paired measurements from the same sample, collection time and water matrix, reported on compatible ion bases.",
+    "No paired Georgian sample-level data are available in this record; no combined ratio or local compliance result is calculated.",
+    "The 0.226 and 0.304 conversion factors are source-published rounded factors and must not be used as the sole basis for a near-threshold legal decision."
+  ],
+  "privacy": {
+    "raw_sample_records_included": false,
+    "personal_data_included": false,
+    "exact_site_coordinates_included": false
+  }
+}
