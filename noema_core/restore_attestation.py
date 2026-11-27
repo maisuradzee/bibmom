@@ -8,6 +8,7 @@ those facts independently before constructing an attestation.
 from __future__ import annotations
 
 import json
+import math
 from pathlib import Path
 from typing import Any
 
@@ -73,6 +74,28 @@ def evaluate_restore_attestation(
             details.append(f"{location}: {error.message}")
         raise RestoreAttestationError("restore attestation schema validation failed: " + "; ".join(details))
 
+    # JSON Schema's numeric minimum is not a finiteness check. Python's default
+    # JSON decoder can also admit NaN/Infinity tokens, so reject them before
+    # any RPO/RTO comparison. bool is deliberately not a measurement.
+    measurements = document["measurements"]
+    for field in (
+        "restore_duration_seconds",
+        "data_loss_seconds",
+        "rpo_target_seconds",
+        "rto_target_seconds",
+    ):
+        value = measurements[field]
+        if value is None:
+            continue
+        try:
+            finite = not isinstance(value, bool) and math.isfinite(value)
+        except (OverflowError, TypeError):
+            finite = False
+        if not finite:
+            raise RestoreAttestationError(
+                f"measurements.{field} must be a finite number"
+            )
+
     evidence_by_kind: dict[str, dict[str, Any]] = {}
     for item in document["evidence"]:
         if item["kind"] in evidence_by_kind:
@@ -130,7 +153,6 @@ def evaluate_restore_attestation(
         if after < before or after < restored:
             missing.append("trusted_high_water_must_not_decrease_and_must_cover_restored_generation")
 
-    measurements = document["measurements"]
     rpo = measurements["rpo_target_seconds"]
     rto = measurements["rto_target_seconds"]
     if rpo is None or rto is None:

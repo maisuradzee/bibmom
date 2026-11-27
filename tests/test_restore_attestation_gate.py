@@ -137,6 +137,36 @@ class RestoreAttestationGateTests(unittest.TestCase):
         result = evaluate_restore_attestation(record)
         self.assertIn("owner_approved_recovery_policy", result["reasons"])
 
+    def test_non_finite_restore_measurements_and_targets_are_rejected(self):
+        cases = (
+            ("restore_duration_seconds", float("nan")),
+            ("restore_duration_seconds", float("inf")),
+            ("restore_duration_seconds", float("-inf")),
+            ("data_loss_seconds", float("nan")),
+            ("data_loss_seconds", float("inf")),
+            ("data_loss_seconds", float("-inf")),
+            ("rpo_target_seconds", float("nan")),
+            ("rpo_target_seconds", float("inf")),
+            ("rpo_target_seconds", float("-inf")),
+            ("rto_target_seconds", float("nan")),
+            ("rto_target_seconds", float("inf")),
+            ("rto_target_seconds", float("-inf")),
+        )
+        for field, value in cases:
+            record = offsite_attestation()
+            record["measurements"][field] = value
+            with self.subTest(field=field, value=value), self.assertRaisesRegex(
+                ValueError, rf"measurements\\.{field} must be a finite number"
+            ):
+                evaluate_restore_attestation(record)
+
+    def test_boolean_measurements_are_not_numeric(self):
+        for field in ("restore_duration_seconds", "data_loss_seconds", "rpo_target_seconds", "rto_target_seconds"):
+            record = offsite_attestation()
+            record["measurements"][field] = True
+            with self.subTest(field=field), self.assertRaises(ValueError):
+                evaluate_restore_attestation(record)
+
     def test_unknown_or_secret_fields_are_rejected(self):
         record = local_attestation()
         record["private_key"] = "not allowed"
