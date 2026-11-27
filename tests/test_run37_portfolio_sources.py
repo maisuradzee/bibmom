@@ -41,7 +41,7 @@ class Run37PortfolioSourceTests(unittest.TestCase):
         urls = {source["url"] for source in warning["sources"]}
         self.assertIn("https://wmo.int/media/news/cop31-leaders-back-long-term-future-early-warnings-all", urls)
         self.assertTrue(any("cross-country association" in risk for risk in warning["risks"]))
-        self.assertTrue(any("not presented as causal" in metric for metric in warning["success_metrics"]))
+        self.assertTrue(any("never presented as causal" in metric for metric in warning["success_metrics"]))
 
     def test_noema005_and_infra_limits_remain_explicit(self):
         numerical = self.streams["NOEMA-2026-005"]
