@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-006",
+  "experiment_id": "AQUASIGNAL-WRP2025-WATER-HARM-REPRO-001",
+  "evidence_status": "REPRODUCTION_PROTOCOL",
+  "source": {
+    "repository": "lrfoundation/world_risk_poll_data",
+    "commit": "f2b810c3c4333de6347ad2c9eade3c48ae17be4c",
+    "path": "WRP_2025/WRP_2025.parquet",
+    "git_blob_sha1": "3e785688e067ded5fdfbe9b50721023ecea87826",
+    "byte_length": 7070416,
+    "sha256": "07b4632826e13ec1975ec977b0e057b528547c6f7805c0838abc1586b78da56b",
+    "license": "CC BY-SA 4.0",
+    "raw_url": "https://raw.githubusercontent.com/lrfoundation/world_risk_poll_data/f2b810c3c4333de6347ad2c9eade3c48ae17be4c/WRP_2025/WRP_2025.parquet",
+    "dictionary_url": "https://github.com/lrfoundation/world_risk_poll_data/blob/f2b810c3c4333de6347ad2c9eade3c48ae17be4c/WRP_2025/WRP_2025_data_dictionary.csv",
+    "publisher_method_url": "https://github.com/lrfoundation/world_risk_poll_data/blob/f2b810c3c4333de6347ad2c9eade3c48ae17be4c/reports/WRP_2025/core_the_quiet_hazards/README.md"
+  },
+  "variables": {
+    "weight": "PROJWT",
+    "water_harm": "WP22443"
+  },
+  "response_codes": {
+    "1": "yes_personally_experienced",
+    "2": "yes_know_someone",
+    "3": "both_personally_and_know_someone",
+    "4": "no",
+    "98": "dont_know",
+    "99": "refused"
+  },
+  "publisher_reference": {
+    "respondents_total": 143459,
+    "countries_and_territories": 140,
+    "expected_question_base": 143459,
+    "expected_missing": 0,
+    "personally_harmed_publisher_rounded_sum_pct": 13,
+    "rounding": "round each weighted category percentage to a whole number using half-up, then add code 1 and code 3"
+  },
+  "method": {
+    "base": "Rows where WP22443 is non-null; DK and refused remain in the denominator.",
+    "weighting": "PROJWT population-projection weight; weighted category sum divided by the sum of PROJWT over all non-missing WP22443 rows.",
+    "personal_harm": "The publisher's personally-harmed measure adds rounded code 1 (yes, personally) and code 3 (both).",
+    "rounding": "floor(weighted_percentage + 0.5 + 1e-9), matching the pinned publisher reproduction code."
+  },
+  "privacy": {
+    "raw_microdata_committed": false,
+    "respondent_ids_committed": false,
+    "workflow_uploads_aggregate_only": true
+  },
+  "limitations": [
+    "WP22443 is self-reported serious harm in the past two years, not a laboratory measure of contamination or drinking-water compliance.",
+    "The global weighted estimate is not a Georgian prevalence estimate and cannot replace NEA or NFA sample-level water-quality data.",
+    "The publisher's reported 13 percent is the sum of separately rounded weighted categories 1 and 3; it is not the rounded unweighted share or a direct contaminant prevalence."
+  ]
+}
