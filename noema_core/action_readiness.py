@@ -237,7 +237,16 @@ def validate_action_readiness_record(record: Mapping[str, Any]) -> None:
 def compute_action_readiness_metrics(record: Mapping[str, Any]) -> dict[str, Any]:
     """Return rates with explicit denominators; never treat endpoint receipts as people."""
     validate_action_readiness_record(record)
-    result: dict[str, Any] = {"channel_delivery_confirmation": []}
+    privacy = record["privacy"]
+    result: dict[str, Any] = {
+        "channel_delivery_confirmation": [],
+        "privacy_approval_evidence": {
+            "data_controller_approval_declared": privacy["data_controller_approved"],
+            "privacy_reviewer_approval_declared": privacy["privacy_reviewer_approved"],
+            "evidence_status": "caller_declared_not_independently_verified",
+            "publication_authorized_by_validator": False,
+        },
+    }
     for item in record["channels"]:
         denominator = item["attempted_endpoints"]
         result["channel_delivery_confirmation"].append({
