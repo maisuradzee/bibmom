@@ -55,6 +55,12 @@ if __name__ == "__main__":
     unittest.main()
 
 
+
+class WhoGuidelineComparatorTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.record = json.loads(RECORD_PATH.read_text(encoding="utf-8"))
+
     def test_who_2026_comparator_is_drinking_water_guidance_not_georgian_law(self):
         guidance = self.record["external_drinking_water_guideline"]
         self.assertEqual(guidance["nitrate_guideline_value_mg_per_l"], 50)
