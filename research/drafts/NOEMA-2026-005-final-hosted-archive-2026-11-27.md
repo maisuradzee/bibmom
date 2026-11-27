@@ -1,8 +1,8 @@
 # NOEMA-2026-005 — exact-head hosted raw-report archive
 
 - **ID:** NOEMA-2026-005 (continuation; no new study)
-- **Date:** 2026-11-27
-- **Status:** draft / preliminary
+- **თარიღი:** 2026-11-27
+- **სტატუსი:** draft / preliminary
 - **Evidence class:** REPRODUCED_RESULT for report integrity and deterministic aggregates; hosted timing remains preliminary
 
 ## Purpose
@@ -50,3 +50,27 @@ The test suite validates the strict Draft 2020-12 schema, compressed/uncompresse
 This preserves the fifth hosted run's raw evidence; it does not create a sixth experiment or independent hardware replication. The runner was a GitHub-hosted AWS x86-64 VM with four CPUs and CPython 3.14.4. The workload is synthetic cancellation data, each configuration has three repetitions, and timing uncertainty is not characterized with confidence intervals. Process CPU/wall ratio demonstrates concurrent CPU consumption, not a wall-time advantage over the best serial algorithm. Serial `math.fsum` remains the important baseline.
 
 No general performance claim or publication-status change is made. Physical x86-64/ARM64 replication, representative workloads, RSS/native allocation and memory-bandwidth measurements, and independent numerical-method review remain open.
+
+## საკვლევი კითხვა
+
+ინარჩუნებს თუ არა სრული Neumaier state სიზუსტეს რეალურ CPU threads-ზე, და რამდენად გამეორებადია ამ შედეგის raw-report provenance?
+
+## მეთოდი ან ექსპერიმენტის გეგმა
+
+- ჩამოტვირთე ორივე GitHub Actions artifact ZIP და შეადარე ZIP SHA-256 GitHub artifact API digest-ს.
+- შეინახე ზუსტი UTF-8 JSON report bytes gzip/base64 bundle-ში.
+- გაუშვი `scripts/validate_noema005_final_hosted_archive.py --check` და შესაბამისი unit tests.
+
+## წყაროები
+
+- [Final exact-head workflow run 45911409646](https://github.com/maisuradzee/bibmom/actions/runs/45911409646)
+- [GitHub artifact API — free-threaded artifact](https://api.github.com/repos/maisuradzee/bibmom/actions/artifacts/15160042501)
+- [GitHub artifact API — GIL-enabled artifact](https://api.github.com/repos/maisuradzee/bibmom/actions/artifacts/15159784923)
+
+## შემდეგი ნაბიჯები
+
+ფიზიკური x86-64/ARM64 მოწყობილობებზე მინიმუმ 20 გამეორება თითო კონფიგურაციაზე, representative workload-ები, RSS/native allocation, memory bandwidth და დამოუკიდებელი numerical-method review.
+
+## შემოწმების სტატუსი
+
+ამ დამატების წინანდელ PR head-ზე CPU-thread workflow ორივე runtime-ში წარმატებული იყო, მაგრამ quality workflow-მა draft completeness metadata-ის ფორმატი უარყო. ეს commit ასწორებს სავალდებულო სარედაქციო metadata-ს; ახალი exact-head quality CI ჯერ გასაშვებია. კვლევა რჩება preliminary.
