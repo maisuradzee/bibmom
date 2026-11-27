@@ -1,9 +1,15 @@
 from __future__ import annotations
 
 import copy
+import json
 import unittest
+from unittest.mock import patch
 
-from noema_core.restore_attestation import evaluate_restore_attestation
+from noema_core.restore_attestation import (
+    RestoreAttestationError,
+    evaluate_restore_attestation,
+    evaluate_restore_attestation_bytes,
+)
 
 
 def local_attestation():
@@ -183,6 +189,48 @@ class RestoreAttestationGateTests(unittest.TestCase):
         record["private_key"] = "not allowed"
         with self.assertRaises(ValueError):
             evaluate_restore_attestation(record)
+
+    def test_strict_byte_parser_accepts_valid_utf8_object(self):
+        payload = json.dumps(local_attestation(), separators=(",", ":")).encode("utf-8")
+        result = evaluate_restore_attestation_bytes(payload)
+        self.assertEqual(result["decision"], "LOCAL_CHECKLIST_COMPLETE")
+
+    def test_strict_byte_parser_rejects_duplicate_keys(self):
+        payload = b'{"schema_version":1,"schema_version":1}'
+        with self.assertRaisesRegex(RestoreAttestationError, "duplicate JSON object key"):
+            evaluate_restore_attestation_bytes(payload)
+
+    def test_strict_byte_parser_rejects_nonstandard_json_constants(self):
+        payload = json.dumps(local_attestation()).replace(
+            '"restore_duration_seconds": 12.5',
+            '"restore_duration_seconds": NaN',
+        ).encode("utf-8")
+        with self.assertRaisesRegex(RestoreAttestationError, "non-standard JSON constant"):
+            evaluate_restore_attestation_bytes(payload)
+
+    def test_strict_byte_parser_rejects_overflowing_numeric_measurement(self):
+        payload = json.dumps(local_attestation()).replace(
+            '"restore_duration_seconds": 12.5',
+            '"restore_duration_seconds": 1e999',
+        ).encode("utf-8")
+        with self.assertRaisesRegex(RestoreAttestationError, "finite number"):
+            evaluate_restore_attestation_bytes(payload)
+
+    def test_strict_byte_parser_normalizes_excessive_nesting_error(self):
+        with patch("noema_core.restore_attestation.json.loads", side_effect=RecursionError("too deep")):
+            with self.assertRaisesRegex(RestoreAttestationError, "nesting exceeds the parser safety limit"):
+                evaluate_restore_attestation_bytes(b"{}")
+    def test_strict_byte_parser_rejects_invalid_utf8_and_non_object_roots(self):
+        with self.assertRaisesRegex(RestoreAttestationError, "valid UTF-8 JSON"):
+            evaluate_restore_attestation_bytes(bytes([255]))
+        with self.assertRaisesRegex(RestoreAttestationError, "root must be a JSON object"):
+            evaluate_restore_attestation_bytes(b"[]")
+
+    def test_strict_byte_parser_enforces_one_megabyte_limit_and_bytes_input(self):
+        with self.assertRaisesRegex(RestoreAttestationError, "byte length"):
+            evaluate_restore_attestation_bytes(b" " * (1024 * 1024 + 1))
+        with self.assertRaisesRegex(RestoreAttestationError, "exact bytes"):
+            evaluate_restore_attestation_bytes("{}")
 
 
 if __name__ == "__main__":
