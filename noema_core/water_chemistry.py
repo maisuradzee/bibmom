@@ -12,10 +12,11 @@ from enum import Enum
 from math import isfinite
 from typing import Any
 
-# WHO's nitrate/nitrite fact sheet gives 1 mg/L as nitrate ion = 0.226 mg/L
-# as nitrate-nitrogen. This published factor is rounded; preserve source basis
-# and source precision for legal/compliance work rather than treating the
-# converted Decimal as a higher-accuracy laboratory result.
+# The current WHO consolidated edition (2026-06-17) retains the nitrate
+# conversion factor 1 mg/L as nitrate ion = 0.226 mg/L as nitrate-nitrogen;
+# its fact sheet still states an assessment date of 2016. The published factor
+# is rounded, so preserve source basis/precision and never use this conversion
+# alone for a near-threshold legal/compliance decision.
 NO3_TO_NO3_N_FACTOR = Decimal("0.226")
 
 
