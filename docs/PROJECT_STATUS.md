@@ -428,3 +428,10 @@ The NFA 2026-09-25 Tbilisi kindergarten investigation update reports approximate
 - PR #192 is refreshed onto the latest main and carries Run 37 portfolio/audit updates; exact-head CI is pending.
 - PR #191 remains Draft pending independent security review. PR #194 remains Draft pending fresh exact-head CI and independent privacy/GIS/DRR review.
 - Main CI and Pages deployment for the new main tip must be checked separately; no deployment is claimed until its deploy job succeeds.
+
+
+### Verified Main CI and deployment — 2026-11-27
+
+Main commit `e079dc8141c6a763f1eb79e13c5a56f8f0707c90` passed NOEMA Quality CI run [46056954547](https://github.com/maisuradzee/bibmom/actions/runs/46056954547) and GitHub Pages deployment run [46056954562](https://github.com/maisuradzee/bibmom/actions/runs/46056954562). The site is updated to this exact Main commit.
+
+PR #192 portfolio synchronization head `bcc7f93d95236a880f2b4ebfd0a47a96e2552a03` passed exact-head Quality CI run 46057020903. PR #191 head 1a7d4cc and PR #194 head 24e462d are rebased onto current Main; their new exact-head Quality CI runs are in progress. PR #190 and PR #193 are merged.
