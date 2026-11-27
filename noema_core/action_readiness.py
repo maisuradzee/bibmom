@@ -26,7 +26,7 @@ AREA_LEVELS = {"river_basin", "municipality", "region"}
 SAMPLING_METHODS = {"probability", "stratified_probability", "administrative_census", "convenience"}
 EVENT_ID = re.compile(r"^evt_[a-f0-9]{16}$")
 AREA_CODE = re.compile(r"^[A-Z0-9][A-Z0-9_-]{1,31}$")
-UTC_TIMESTAMP = re.compile(r"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,6})?Z$")
+UTC_TIMESTAMP = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\\.\d{1,6})?Z$")
 
 
 def _object(value: Any, name: str, required: set[str], allowed: set[str] | None = None) -> Mapping[str, Any]:
