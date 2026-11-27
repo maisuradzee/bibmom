@@ -20,6 +20,7 @@ def comparable_record(observation_id: str, numerator: int, denominator: int, per
         "authority": "Synthetic authority",
         "indicator_id": "broad_noncompliance",
         "water_matrix": "potable_network",
+        "supply_type_scope": "borehole_tubewell",
         "standard_id": "GE-WATER-STD",
         "standard_version": "2024",
         "period_start": "2023-01-01",
@@ -68,6 +69,22 @@ class WaterComparabilityTests(unittest.TestCase):
         result = compare_same_period_indicators(left, right, schema_path=self.schema)
         self.assertEqual(result["status"], "NOT_COMPARABLE")
         self.assertIn("water_matrix", result["mismatched_fields"])
+
+    def test_different_supply_type_scopes_are_not_comparable(self):
+        left = comparable_record("obs_0000000000000001", 99, 200, 49.5)
+        right = comparable_record("obs_0000000000000002", 89, 200, 44.5)
+        right["supply_type_scope"] = "piped_network"
+        result = compare_same_period_indicators(left, right, schema_path=self.schema)
+        self.assertEqual(result["status"], "NOT_COMPARABLE")
+        self.assertIn("supply_type_scope", result["mismatched_fields"])
+
+    def test_missing_supply_type_scope_is_insufficient_metadata(self):
+        left = comparable_record("obs_0000000000000001", 99, 200, 49.5)
+        right = comparable_record("obs_0000000000000002", 89, 200, 44.5)
+        left["supply_type_scope"] = None
+        result = compare_same_period_indicators(left, right, schema_path=self.schema)
+        self.assertEqual(result["status"], "INSUFFICIENT_METADATA")
+        self.assertIn("supply_type_scope", result["missing_fields"])
 
     def test_different_sampling_frames_are_not_comparable(self):
         left = comparable_record("obs_0000000000000001", 99, 200, 49.5)
