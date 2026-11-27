@@ -55,6 +55,62 @@ class RestoreAttestationError(ValueError):
     """Raised when a restore-drill attestation is structurally invalid."""
 
 
+_MAX_ATTESTATION_BYTES = 1024 * 1024
+
+
+def _reject_duplicate_json_keys(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    """Reject ambiguous duplicate keys at every JSON object depth."""
+    result: dict[str, Any] = {}
+    for key, value in pairs:
+        if key in result:
+            raise RestoreAttestationError(f"duplicate JSON object key: {key}")
+        result[key] = value
+    return result
+
+
+def _reject_nonstandard_json_constant(value: str) -> None:
+    """Reject Python's non-standard NaN/Infinity JSON extensions."""
+    raise RestoreAttestationError(f"non-standard JSON constant is not permitted: {value}")
+
+
+def load_restore_attestation_bytes(
+    attestation_bytes: bytes,
+) -> dict[str, Any]:
+    """Parse bounded exact UTF-8 JSON and reject duplicate/non-standard values.
+
+    This prevents different JSON parsers from interpreting duplicate keys
+    differently. It does not authenticate the resulting evidence.
+    """
+    if not isinstance(attestation_bytes, bytes):
+        raise RestoreAttestationError("restore attestation must be supplied as exact bytes")
+    if not attestation_bytes or len(attestation_bytes) > _MAX_ATTESTATION_BYTES:
+        raise RestoreAttestationError("restore attestation byte length is outside the permitted bound")
+    try:
+        document = json.loads(
+            attestation_bytes.decode("utf-8"),
+            object_pairs_hook=_reject_duplicate_json_keys,
+            parse_constant=_reject_nonstandard_json_constant,
+        )
+    except RestoreAttestationError:
+        raise
+    except RecursionError as exc:
+        raise RestoreAttestationError("restore attestation nesting exceeds the parser safety limit") from exc
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise RestoreAttestationError("restore attestation must be valid UTF-8 JSON") from exc
+    if not isinstance(document, dict):
+        raise RestoreAttestationError("restore attestation root must be a JSON object")
+    return document
+
+
+def evaluate_restore_attestation_bytes(
+    attestation_bytes: bytes,
+    schema_path: str | Path = DEFAULT_SCHEMA,
+) -> dict[str, Any]:
+    """Strictly parse exact bytes, then evaluate checklist completeness."""
+    document = load_restore_attestation_bytes(attestation_bytes)
+    return evaluate_restore_attestation(document, schema_path)
+
+
 def evaluate_restore_attestation(
     document: Any,
     schema_path: str | Path = DEFAULT_SCHEMA,
