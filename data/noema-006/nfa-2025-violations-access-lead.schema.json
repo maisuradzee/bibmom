@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AquaSignal NFA 2025 monitoring-violations access lead",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "study_id", "source", "reported_2025_context", "file_scope", "drinking_water_sample_denominator", "denominator_status", "evidence_status", "interpretation_limits", "privacy"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "study_id": {"const": "NOEMA-2026-006"},
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["publisher", "page_title", "publication_date", "page_url", "file_url", "file_label", "observed_content_type", "retrieval_status", "byte_length", "sha256", "reuse_terms", "accessed_at"],
+      "properties": {
+        "publisher": {"const": "National Food Agency of Georgia"},
+        "page_title": {"type": "string", "minLength": 5},
+        "publication_date": {"const": "2026-01-08"},
+        "page_url": {"const": "https://nfa.gov.ge/Ge/IdentifiedViolations/1713"},
+        "file_url": {"const": "https://nfa.gov.ge/Ge/Files/Download/8918"},
+        "file_label": {"type": "string", "minLength": 10},
+        "observed_content_type": {"const": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"},
+        "retrieval_status": {"const": "not_retrieved"},
+        "byte_length": {"type": "null"},
+        "sha256": {"type": "null"},
+        "reuse_terms": {"const": "not_verified"},
+        "accessed_at": {"const": "2026-11-27"}
+      }
+    },
+    "reported_2025_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["inspections_total", "scheduled_inspections", "unscheduled_inspections", "recognition_related_inspections", "business_operators_rechecked", "critical_noncompliance_operators"],
+      "properties": {
+        "inspections_total": {"const": 21874},
+        "scheduled_inspections": {"const": 9241},
+        "unscheduled_inspections": {"const": 1833},
+        "recognition_related_inspections": {"const": 279},
+        "business_operators_rechecked": {"const": 10521},
+        "critical_noncompliance_operators": {"const": 554}
+      }
+    },
+    "file_scope": {"const": "combined_food_and_drinking_water_sample_violations"},
+    "drinking_water_sample_denominator": {"type": "null"},
+    "denominator_status": {"const": "not_published_on_landing_page"},
+    "evidence_status": {"const": "FACT"},
+    "interpretation_limits": {"type": "array", "minItems": 5, "items": {"type": "string", "minLength": 20}},
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["raw_payload_committed", "row_level_data_extracted", "operator_or_personal_data_committed"],
+      "properties": {
+        "raw_payload_committed": {"const": false},
+        "row_level_data_extracted": {"const": false},
+        "operator_or_personal_data_committed": {"const": false}
+      }
+    }
+  }
+}
