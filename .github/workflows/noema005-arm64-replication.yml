@@ -7,6 +7,8 @@ on:
       - .github/workflows/noema005-arm64-replication.yml
       - scripts/sanitize_noema005_threaded_report.py
       - tests/test_sanitize_noema005_threaded_report.py
+      - scripts/sanitize_noema005_threaded_report.py
+      - tests/test_sanitize_noema005_threaded_report.py
       - scripts/benchmark_noema005_threaded_reduction.py
       - scripts/validate_noema005_arm64_report.py
       - tests/test_benchmark_noema005_threaded_reduction.py
