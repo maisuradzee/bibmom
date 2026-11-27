@@ -2,7 +2,7 @@
 
 **Date:** 2026-11-27  
 **Evidence status:** Preliminary discovery and measurement design; no local health outcome analysis  
-**Parent study:** [NOEMA-2026-007](./NOEMA-2026-007-georgia-heat-health-readiness-2026-11-27.md)
+**Parent study:** NOEMA-2026-007 — the portfolio's existing warning-to-action research stream.
 
 ## Research question
 
