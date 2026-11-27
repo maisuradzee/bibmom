@@ -23,10 +23,10 @@ DATE_VALUE = re.compile(r"\d{4}-\d{2}-\d{2}")
 URL_PATTERN = re.compile(r"https?://[^\s\])}>]+", re.IGNORECASE)
 
 DATE_ALIASES = re.compile(
-    r"^(- \*\*)(?:Date|Updated|Last updated|Date / last updated)(\*\*:\s*)(\d{4}-\d{2}-\d{2})(.*)$",
+    r"^(- \*\*)(?:Date|Updated|Last updated|Date / last updated):(\*\*\s*)(\d{4}-\d{2}-\d{2})(.*)$",
     re.IGNORECASE,
 )
-STATUS_ALIAS = re.compile(r"^(- \*\*)Status(\*\*:\s*)(.+?)\s*$", re.IGNORECASE)
+STATUS_ALIAS = re.compile(r"^(- \*\*)Status:(\*\*\s*)(.+?)\s*$", re.IGNORECASE)
 
 HEADING_ALIASES = {
     "research question": "საკვლევი კითხვა",
@@ -52,7 +52,7 @@ def _normalize_draft(text: str) -> tuple[str, list[str]]:
         date_match = DATE_ALIASES.match(line)
         if date_match and not re.match(r"^- \*\*თარიღი:\*\*", line):
             normalized.append(
-                f"{date_match.group(1)}თარიღი{date_match.group(2)}"
+                f"{date_match.group(1)}თარიღი:{date_match.group(2)}"
                 f"{date_match.group(3)}{date_match.group(4)}"
             )
             repairs.append("metadata.date_label")
@@ -61,7 +61,7 @@ def _normalize_draft(text: str) -> tuple[str, list[str]]:
         status_match = STATUS_ALIAS.match(line)
         if status_match and not re.match(r"^- \*\*სტატუსი:\*\*", line):
             normalized.append(
-                f"{status_match.group(1)}სტატუსი{status_match.group(2)}"
+                f"{status_match.group(1)}სტატუსი:{status_match.group(2)}"
                 f"{status_match.group(3)}"
             )
             repairs.append("metadata.status_label")
