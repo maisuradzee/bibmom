@@ -523,3 +523,10 @@ Run38 AquaSignal historical baseline/legal crosswalk details: [research draft](.
 - Exact-head Quality CI: [46068511890](https://github.com/maisuradzee/bibmom/actions/runs/46068511890) — SUCCESS, 578 Python tests, schema validation, frozen-result reproduction, publication-boundary checks and site build (0 Published, 3 Preliminary).
 - Repository query returned 0 open PRs and 0 open issues at this final audit.
 - No post-merge Pages deployment job was verified for `b3b347bec68e8c22f2781476d55148d576ae028a`; the successful PR site build is not treated as a production Pages deployment.
+
+
+## Post-Run38 research-standard synchronization
+
+- PR #214 merged the final portfolio/status synchronization at `8f6203c9a7d671a57c63ec34231b69d60338edc2`.
+- PR #215 adds the five-label evidence taxonomy and a template-contract test; exact-head Quality CI run 46069021881 passed 582 tests and site build (0 Published, 3 Preliminary).
+- The main Pages deployment for `8f6203c9a7d671a57c63ec34231b69d60338edc2` was not independently verified; a PR site build is not treated as a production deployment.
