@@ -47,6 +47,12 @@ def synthetic_record():
             "action_reported_assessed_n": 90,
             "protective_action_reported_n": 50,
             "protective_action_verified_n": 30,
+            "timely_receipt_assessed_n": 70,
+            "timely_received_n": 55,
+            "timely_receipt_minimum_lead_seconds": 900,
+            "timely_receipt_basis": "respondent_recall",
+            "timely_receipt_rule_reference": "synthetic-playbook-v1",
+            "timely_receipt_rule_source_url": "https://example.org/synthetic-playbook-v1",
         },
         "privacy": {
             "aggregation_only": True,
@@ -108,6 +114,14 @@ class ActionReadinessTests(unittest.TestCase):
         with self.assertRaisesRegex(ActionReadinessValidationError, "privacy_reviewer_approved"):
             validate_action_readiness_record(record)
 
+    def test_privacy_approval_flags_are_not_treated_as_verified_release_authority(self):
+        result = compute_action_readiness_metrics(synthetic_record())
+        approval = result["privacy_approval_evidence"]
+        self.assertTrue(approval["data_controller_approval_declared"])
+        self.assertTrue(approval["privacy_reviewer_approval_declared"])
+        self.assertEqual(approval["evidence_status"], "caller_declared_not_independently_verified")
+        self.assertFalse(approval["publication_authorized_by_validator"])
+
     def test_timestamps_must_be_utc_and_chronological(self):
         record = synthetic_record()
         record["warning"]["issued_at_utc"] = "2026-11-25T08:00:00+04:00"
@@ -125,6 +139,89 @@ class ActionReadinessTests(unittest.TestCase):
         self.assertEqual(channel["denominator_unit"], "message_endpoints_not_people")
         self.assertEqual(result["survey_metrics"]["message_comprehension"]["rate"], round(60 / 70, 6))
         self.assertEqual(result["survey_metrics"]["protective_action_self_report"]["rate"], round(50 / 90, 6))
+
+    def test_timely_receipt_has_its_own_respondent_denominator(self):
+        result = compute_action_readiness_metrics(synthetic_record())
+        metric = result["survey_metrics"]["self_reported_timely_warning_receipt"]
+        self.assertEqual(metric["numerator"], 55)
+        self.assertEqual(metric["denominator"], 70)
+        self.assertEqual(metric["denominator_unit"], "respondents_reporting_receipt_and_assessed_for_timing")
+        self.assertEqual(metric["rate"], round(55 / 70, 6))
+        self.assertEqual(metric["minimum_lead_seconds"], 900)
+        self.assertEqual(metric["measurement_basis"], "respondent_recall")
+        self.assertEqual(metric["rule_documentation_status"], "provided_not_independently_verified")
+        self.assertEqual(metric["rate_status"], "descriptive_rule_source_unverified")
+        self.assertFalse(metric["cross_event_comparison_permitted"])
+
+    def test_legacy_survey_without_timing_fields_remains_valid(self):
+        record = synthetic_record()
+        for key in (
+            "timely_receipt_assessed_n", "timely_received_n",
+            "timely_receipt_minimum_lead_seconds", "timely_receipt_basis",
+            "timely_receipt_rule_reference", "timely_receipt_rule_source_url",
+        ):
+            record["survey"].pop(key)
+        result = compute_action_readiness_metrics(record)
+        self.assertIsNone(result["survey_metrics"]["self_reported_timely_warning_receipt"])
+
+    def test_timing_fields_must_be_supplied_together(self):
+        record = synthetic_record()
+        record["survey"].pop("timely_receipt_basis")
+        with self.assertRaisesRegex(ActionReadinessValidationError, "supplied together"):
+            validate_action_readiness_record(record)
+
+    def test_timing_assessments_cannot_exceed_warning_receipts(self):
+        record = synthetic_record()
+        record["survey"]["timely_receipt_assessed_n"] = 81
+        with self.assertRaisesRegex(ActionReadinessValidationError, "cannot exceed"):
+            validate_action_readiness_record(record)
+
+    def test_timely_receipts_cannot_exceed_timing_assessments(self):
+        record = synthetic_record()
+        record["survey"]["timely_received_n"] = 71
+        with self.assertRaisesRegex(ActionReadinessValidationError, "cannot exceed timing"):
+            validate_action_readiness_record(record)
+
+    def test_timing_threshold_and_basis_are_explicit(self):
+        record = synthetic_record()
+        for invalid in (-1, 0):
+            record = synthetic_record()
+            record["survey"]["timely_receipt_minimum_lead_seconds"] = invalid
+            with self.assertRaisesRegex(ActionReadinessValidationError, "positive integer"):
+                validate_action_readiness_record(record)
+        record = synthetic_record()
+        record["survey"]["timely_receipt_basis"] = "device_log"
+        with self.assertRaisesRegex(ActionReadinessValidationError, "respondent_recall"):
+            validate_action_readiness_record(record)
+
+    def test_timing_rate_is_not_computed_without_rule_source(self):
+        record = synthetic_record()
+        record["survey"]["timely_receipt_rule_reference"] = None
+        record["survey"]["timely_receipt_rule_source_url"] = None
+        metric = compute_action_readiness_metrics(record)["survey_metrics"]["self_reported_timely_warning_receipt"]
+        self.assertIsNone(metric["rate"])
+        self.assertEqual(metric["rate_status"], "not_computed_missing_rule_source")
+        self.assertEqual(metric["numerator"], 55)
+        self.assertEqual(metric["denominator"], 70)
+
+    def test_timing_rule_reference_and_url_must_be_supplied_together(self):
+        record = synthetic_record()
+        record["survey"]["timely_receipt_rule_source_url"] = None
+        with self.assertRaisesRegex(ActionReadinessValidationError, "supplied together"):
+            validate_action_readiness_record(record)
+
+    def test_timing_rule_url_must_be_https(self):
+        record = synthetic_record()
+        record["survey"]["timely_receipt_rule_source_url"] = "http://example.org/rule"
+        with self.assertRaisesRegex(ActionReadinessValidationError, "must be HTTPS"):
+            validate_action_readiness_record(record)
+
+    def test_zero_timing_denominator_is_not_imputed(self):
+        record = synthetic_record()
+        record["survey"]["timely_receipt_assessed_n"] = 0
+        record["survey"]["timely_received_n"] = 0
+        result = compute_action_readiness_metrics(record)
+        self.assertIsNone(result["survey_metrics"]["self_reported_timely_warning_receipt"]["rate"])
 
     def test_missing_survey_is_not_imputed_as_zero(self):
         record = synthetic_record()
@@ -146,6 +243,27 @@ class ActionReadinessTests(unittest.TestCase):
         visit(schema)
         self.assertEqual(schema["$schema"], "https://json-schema.org/draft/2020-12/schema")
 
+
+
+    def test_minimum_lead_must_fit_warning_issue_to_deadline_window(self):
+        record = synthetic_record()
+        record["survey"]["timely_receipt_minimum_lead_seconds"] = 7201
+        with self.assertRaisesRegex(ActionReadinessValidationError, "cannot exceed the warning issue-to-deadline window"):
+            validate_action_readiness_record(record)
+
+    def test_minimum_lead_equal_to_available_window_is_allowed(self):
+        record = synthetic_record()
+        record["survey"]["timely_receipt_minimum_lead_seconds"] = 7200
+        validate_action_readiness_record(record)
+        metric = compute_action_readiness_metrics(record)["survey_metrics"]["self_reported_timely_warning_receipt"]
+        self.assertEqual(metric["available_warning_lead_seconds"], 7200.0)
+
+    def test_zero_available_warning_window_is_rejected(self):
+        record = synthetic_record()
+        record["warning"]["action_deadline_utc"] = record["warning"]["issued_at_utc"]
+        record["survey"]["timely_receipt_minimum_lead_seconds"] = 1
+        with self.assertRaisesRegex(ActionReadinessValidationError, "cannot exceed the warning issue-to-deadline window"):
+            validate_action_readiness_record(record)
 
 if __name__ == "__main__":
     unittest.main()
