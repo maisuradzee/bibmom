@@ -88,3 +88,8 @@ NOEMA-007 ახლა ცალკე გამოყოფს timely receipt-�
 ## Run 23 follow-up — event-specific threshold provenance
 
 დამატებულია `timely_receipt_rule_reference` და `timely_receipt_rule_source_url`. ორივე უნდა იყოს ერთად წარმოდგენილი ან ორივე null. წყაროს გარეშე validator ინახავს numerator/denominator-ს, მაგრამ rate-ს არ ითვლის. წყაროს არსებობის შემთხვევაშიც იგი მონიშნულია `provided_not_independently_verified`; validator არ ამოწმებს დოკუმენტის ნამდვილობას, კომპეტენტური უწყების უფლებამოსილებას ან დამტკიცების ფაქტს. Cross-event comparison ყოველთვის false რჩება, სანამ hazard/action-specific წესების დამოუკიდებელი მეთოდოლოგიური ჰარმონიზაცია არ დასრულდება. Synthetic tests იყენებს example.org-ს და არ წარმოადგენს ნამდვილ ქართულ playbook-ს.
+
+
+## Privacy approval evidence boundary
+
+`data_controller_approved` და `privacy_reviewer_approved` ველები არის caller-ის მიერ წარმოდგენილი დეკლარაციები. Python validator არ ამოწმებს ხელმოწერას, უფლებამოსილების რეესტრს ან approval artifact-ს. `compute_action_readiness_metrics` ამიტომ აბრუნებს `caller_declared_not_independently_verified` სტატუსს და `publication_authorized_by_validator=false`. რეალური გამოქვეყნება მოითხოვს ცალკე, უფლებამოსილ release workflow-სა და შემოწმებად approval evidence-ს; ამ პროტოტიპის boolean-ები publication gate არ არის.
