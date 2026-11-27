@@ -1,0 +1,229 @@
+{
+  "schema_version": 1,
+  "reviewed_on": "2026-11-27",
+  "project": "NOEMA-2026-007",
+  "evidence_boundary": "Official framework and report metadata plus a proposed measurement crosswalk. No local warning events, survey responses, personal records, operational logs or causal impact data are included.",
+  "sources": [
+    {
+      "id": "WMO_EW4ALL_ME_TOOLKIT_2024",
+      "title": "Early Warnings for All: Toolkit for Monitoring & Evaluation (v1.0)",
+      "publisher": "World Meteorological Organization and Early Warnings for All partners",
+      "publication_date": "2024-08",
+      "url": "https://wmo.int/sites/default/files/2024-09/EW4ALL%20ME%20Toolkit_Final%20Version%201_August2024.pdf",
+      "type": "official_monitoring_evaluation_framework",
+      "accessed_at": "2026-11-27"
+    },
+    {
+      "id": "IFRC_ANTICIPATORY_ACTION_GOVERNMENT_SYSTEMS_2025",
+      "title": "Strengthening National Disaster Risk Management Systems through the Integration of Anticipatory Action",
+      "publisher": "International Federation of Red Cross and Red Crescent Societies",
+      "publication_date": "2025-09",
+      "url": "https://www.ifrc.org/sites/default/files/2025-09/Strengthening_National_Disaster_Risk_Management_Systems_through_integration_of_anticipatory_action.pdf",
+      "type": "official_research_report",
+      "accessed_at": "2026-11-27"
+    },
+    {
+      "id": "UNDRR_GLOBAL_STATUS_MHEWS_2026",
+      "title": "COP31 leaders back a long-term future for Early Warnings for All",
+      "publisher": "United Nations Office for Disaster Risk Reduction",
+      "publication_date": "2026-11-12",
+      "url": "https://www.undrr.org/news/cop31-leaders-back-long-term-future-early-warnings-all",
+      "type": "official_global_status_update",
+      "accessed_at": "2026-11-27"
+    },
+    {
+      "id": "UNDRR_EW4ALL_ME_COURSE_2025",
+      "title": "Monitoring & Evaluation of Early Warning for All",
+      "publisher": "UNDRR, ITU and UNITAR",
+      "publication_date": "2025-08-08",
+      "url": "https://www.undrr.org/resource/training-course/monitoring-evaluation-early-warning-all",
+      "type": "official_capacity_building_resource",
+      "accessed_at": "2026-11-27"
+    }
+  ],
+  "context_signals": [
+    {
+      "id": "UNDRR_COP31_WARNING_TO_ACTION_STATEMENT",
+      "claim": "The UNDRR COP31 article reports the WMO Secretary-General as saying that four in five people hit by a disaster in the previous five years received advance warning, while one in three were unable to act even after receiving a warning.",
+      "source_id": "UNDRR_GLOBAL_STATUS_MHEWS_2026",
+      "evidence_status": "source_reported_statement_method_not_verified",
+      "used_as_quantitative_baseline": false,
+      "limitations": [
+        "The article page does not identify the underlying survey or administrative dataset, sample frame, weighting, denominator definition, uncertainty interval or country coverage for this statement.",
+        "The two proportions are not used to calibrate NOEMA metrics, estimate Georgia performance or infer a causal effect."
+      ]
+    },
+    {
+      "id": "IFRC_LOCAL_PLANS_AND_OPERATIONALITY",
+      "claim": "The IFRC 2025 report states that 66 countries had local plans to act on early warning information in 2024, and notes that the Sendai Framework Monitor does not specify whether such plans are linked to anticipatory action rather than preparedness/rapid response or whether they are operational.",
+      "source_id": "IFRC_ANTICIPATORY_ACTION_GOVERNMENT_SYSTEMS_2025",
+      "evidence_status": "source_reported_report_finding",
+      "used_as_quantitative_baseline": false,
+      "limitations": [
+        "The 66-country count is attributed in the report to UNDRR reporting and is not a NOEMA re-analysis.",
+        "The report's global overview is not a local effectiveness dataset and does not establish warning receipt, comprehension or protective action for a specific population."
+      ]
+    }
+  ],
+  "mappings": [
+    {
+      "id": "G-3",
+      "official_indicator": "Number of people per 100,000 covered by early warning information through local governments or national dissemination mechanisms.",
+      "source_id": "WMO_EW4ALL_ME_TOOLKIT_2024",
+      "pillar": "warning_dissemination_and_communication",
+      "unit": "people_per_100000",
+      "denominator_unit": "defined_population_in_the_geographic_coverage_frame",
+      "current_noema_measure": [
+        "channels[].attempted_endpoints",
+        "channels[].confirmed_endpoints",
+        "survey.received_warning_n"
+      ],
+      "alignment": "not_equivalent",
+      "gap": "Message endpoints are not unique people, and respondent self-reported receipt among completed surveys is not a population coverage denominator. The current contract has no deduplicated exposed-population frame or sampling weights.",
+      "proposed_measurement": [
+        "Define the target geographic population and population reference date from an authoritative source.",
+        "Report channel endpoints separately from unique people reached; use an authorized deduplication method if person-level reach is estimated.",
+        "Use a representative survey with documented frame, response rate, non-response treatment and weights to estimate population receipt, reporting uncertainty."
+      ],
+      "interpretation_boundary": "Do not divide confirmed endpoints by population and label the result people covered. Do not infer that a person read, understood or acted on an endpoint."
+    },
+    {
+      "id": "3.2.1b",
+      "official_indicator": "Last-mile stakeholder groups indicate receiving timely and understandable early warnings that enabled them to take action.",
+      "source_id": "WMO_EW4ALL_ME_TOOLKIT_2024",
+      "pillar": "warning_dissemination_and_communication",
+      "unit": "surveyed_last_mile_stakeholders",
+      "denominator_unit": "respondents_in_the_defined_last_mile_sampling_frame",
+      "current_noema_measure": [
+        "survey.received_warning_n",
+        "survey.comprehension_assessed_n",
+        "survey.comprehension_correct_n",
+        "survey.action_feasibility_assessed_n",
+        "survey.action_feasible_n",
+        "survey.protective_action_reported_n"
+      ],
+      "alignment": "partial",
+      "gap": "The current schema separates receipt, comprehension, feasibility and self-reported action, but does not explicitly measure whether receipt occurred before the action deadline or whether the same respondent both understood the warning and had a feasible action opportunity.",
+      "proposed_measurement": [
+        "Add a separately defined timely-receipt measure based on reported receipt before the warning's action deadline; do not infer personal receipt time from endpoint delivery receipts.",
+        "Use a pre-specified comprehension instrument covering hazard, affected area, expected timing and recommended action.",
+        "Record feasibility constraints and self-reported action as separate outcomes; publish joint cross-tabs only after privacy and disclosure review."
+      ],
+      "interpretation_boundary": "A combined received-and-understood-and-acted rate requires a common respondent cohort and explicit joint numerator. Multiplying separate marginal rates is not valid without assumptions about their joint distribution."
+    },
+    {
+      "id": "4.2",
+      "official_indicator": "Percentage increase in the number of early warnings leading to early actions.",
+      "source_id": "WMO_EW4ALL_ME_TOOLKIT_2024",
+      "pillar": "preparedness_and_response",
+      "unit": "percentage_change_in_warning_events_with_early_action",
+      "denominator_unit": "eligible_warning_events_with_a_defined_action_opportunity",
+      "current_noema_measure": [
+        "event_id",
+        "survey.protective_action_reported_n",
+        "survey.protective_action_verified_n"
+      ],
+      "alignment": "not_equivalent",
+      "gap": "The current survey counts respondents, not the number of warning events that led to an early action. There is no defined baseline period, eligible-warning-event denominator or event-level action linkage.",
+      "proposed_measurement": [
+        "Define an eligible warning event and the action opportunity before examining outcomes.",
+        "Count unique eligible warning events with at least one pre-specified early action, retaining the warning-event denominator.",
+        "Pre-register comparable baseline and follow-up periods, hazard mix and geographic scope; report absolute counts alongside percentage change."
+      ],
+      "interpretation_boundary": "A change in event counts is not a causal impact estimate. Changes in hazard frequency, warning thresholds, reporting completeness and event eligibility can change the numerator or denominator."
+    },
+    {
+      "id": "4.3.1",
+      "official_indicator": "Amount of pre-agreed financing available for anticipatory-action activations.",
+      "source_id": "WMO_EW4ALL_ME_TOOLKIT_2024",
+      "pillar": "preparedness_and_response",
+      "unit": "currency_amount_and_disbursement_time",
+      "denominator_unit": "approved_anticipatory_action_plan_or_activation",
+      "current_noema_measure": [
+        "survey.action_feasibility_assessed_n",
+        "survey.action_feasible_n"
+      ],
+      "alignment": "not_implemented",
+      "gap": "Perceived or reported feasibility is not evidence that pre-arranged funds, supplies or transport are available. The current record has no approved budget, trigger-linked allocation, release date or disbursement latency.",
+      "proposed_measurement": [
+        "Record only authorized plan-level finance metadata: currency, amount, funding source class, approval status, trigger condition and reporting period.",
+        "Measure trigger-to-authorization and authorization-to-availability intervals separately.",
+        "Keep funding availability distinct from expenditure, assistance delivered and beneficiary outcomes."
+      ],
+      "interpretation_boundary": "A budget allocation is not necessarily cash available at the trigger, disbursement, expenditure or proof of effective action."
+    },
+    {
+      "id": "G-6",
+      "official_indicator": "Percentage of the population exposed to or at risk from disasters protected through pre-emptive evacuation following early warning.",
+      "source_id": "WMO_EW4ALL_ME_TOOLKIT_2024",
+      "pillar": "cross_pillar_impact",
+      "unit": "percent_of_exposed_or_at_risk_population",
+      "denominator_unit": "population_exposed_or_at_risk_for_the_specific_hazard_event",
+      "current_noema_measure": [
+        "survey.protective_action_reported_n",
+        "survey.protective_action_verified_n"
+      ],
+      "alignment": "not_equivalent",
+      "gap": "The current protective-action fields are hazard-generic and respondent-based. They do not identify evacuation specifically, the exposed/at-risk population denominator, or the proportion safely evacuated before impact.",
+      "proposed_measurement": [
+        "For evacuation events only, define the exposed population and geographic/time boundary using an authorized risk assessment.",
+        "Define what counts as protected and the cut-off time before impact; distinguish orders issued, departures, arrivals at safe locations and verified completion.",
+        "Report counts and uncertainty with an explicit denominator; suppress small or identifying geographic cells."
+      ],
+      "interpretation_boundary": "An evacuation order, reported departure or verified arrival are different stages. None alone proves avoided mortality or causal impact."
+    },
+    {
+      "id": "4.4",
+      "official_indicator": "Monitor availability of early warnings, associated financing, and feasibility/effectiveness of anticipatory action.",
+      "source_id": "WMO_EW4ALL_ME_TOOLKIT_2024",
+      "pillar": "preparedness_and_response",
+      "unit": "plan_and_activation_monitoring_record",
+      "denominator_unit": "defined_plan_or_activation_cohort",
+      "current_noema_measure": [
+        "survey.action_feasibility_assessed_n",
+        "survey.action_feasible_n",
+        "survey.protective_action_verified_n"
+      ],
+      "alignment": "partial",
+      "gap": "The current record includes a respondent-level feasibility measure but no plan registry, funding availability, activation status, delivery evidence or systematic after-action review.",
+      "proposed_measurement": [
+        "Link a warning event to a pre-existing plan version, trigger, accountable authority and action deadline.",
+        "Record activation decision, resource availability, implementation milestones and after-action review as distinct events.",
+        "Maintain provenance for every status transition and allow unknown/not measured rather than imputing zero."
+      ],
+      "interpretation_boundary": "Plan existence does not prove operational readiness; activation does not prove completion; completion does not establish reduced losses without a suitable evaluation design."
+    }
+  ],
+  "measurement_rules": [
+    {
+      "id": "UNIT_SEPARATION",
+      "rule": "Never combine message endpoints, unique people, survey respondents, warning events, local governments, plan activations, finance amounts and exposed populations into one denominator.",
+      "reason": "They are different statistical units and answer different questions."
+    },
+    {
+      "id": "STAGED_OUTCOMES",
+      "rule": "Report delivery, human receipt, timely receipt, comprehension, trust, feasibility, self-reported action, independently verified action and impact as separate stages.",
+      "reason": "A downstream stage cannot be inferred from an upstream proxy."
+    },
+    {
+      "id": "JOINT_DISTRIBUTION",
+      "rule": "Do not multiply marginal receipt, comprehension and action rates to estimate a joint success rate unless the joint cohort or defensible dependence assumptions are available.",
+      "reason": "Marginal rates do not identify the joint distribution."
+    },
+    {
+      "id": "MISSINGNESS",
+      "rule": "Keep unavailable, not assessed, not applicable and zero as distinct states; report survey frame, invitations, completions and non-response.",
+      "reason": "Treating missing outcomes as zero or as success biases rates."
+    },
+    {
+      "id": "CAUSAL_BOUNDARY",
+      "rule": "Do not claim avoided loss or mortality from descriptive warning/action counts; use a pre-specified comparison or other defensible evaluation design.",
+      "reason": "Observed action following a warning does not by itself establish causal impact."
+    },
+    {
+      "id": "PRIVACY",
+      "rule": "Keep person-level survey and delivery records outside the public repository; publish only reviewed aggregates with cross-release disclosure controls.",
+      "reason": "Small cells and overlapping aggregate releases can disclose sensitive information."
+    }
+  ]
+}
