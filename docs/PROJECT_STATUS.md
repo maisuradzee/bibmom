@@ -1,14 +1,31 @@
 # NOEMA — მიმდინარე პროექტის მდგომარეობა
 
-- **განახლდა:** 2026-11-27 (Run 32 — WRP 2025 წყლისა და ადრეული გაფრთხილების წყაროების აუდიტი)
+- **განახლდა:** 2026-11-27 (Run 11 — cross-architecture benchmark synthesis და restore numeric-boundary hardening)
 - **საცავი:** https://github.com/maisuradzee/bibmom
-- **Run 32-ის ბოლო დადასტურებული main snapshot:** c02ddfe61aed7619d5a5e482d85bd90acc950c5b (PR #162 Run 31 audit merge).
-- **ბოლო main Quality CI:** [46030251580](https://github.com/maisuradzee/bibmom/actions/runs/46030251580) — SUCCESS; 457 Python tests, frozen-result/schema checks, public-site build და publication-boundary checks.
-- **ბოლო Pages deployment:** [46030251571](https://github.com/maisuradzee/bibmom/actions/runs/46030251571) — build და deploy SUCCESS ზუსტად main SHA c02ddfe61aed7619d5a5e482d85bd90acc950c5b-ზე.
-- **ღია PR:** 37 (Run 32 post-merge snapshot); **ღია Issue:** 0.
-- **Draft research PRs #166/#167:** exact-head Quality CI passed on their recorded heads, but both are based on c37d8bf, behind verified main c02ddfe; GitHub now reports mergeable=false. Branch refresh and revalidation are required.
-- **კვლევის კატალოგი:** 1 Preliminary, 0 Published. ახალი წყაროებზე დაფუძნებული ჩანაწერები Draft-ად რჩება და Pages-ში არ ქვეყნდება.
-- **აქტიური პორტფელი:** ოთხივე ნაკადი აქტიურია — AquaSignal, NOEMA-005, NOEMA-007 და INFRA-001. ახალი ნაკადი არ დამატებულა; არცერთი არ დაპაუზებულა ან დასრულებულა.
+- **მიმდინარე main snapshot:** `d4f06672208d808f8827b1528b9a07abe107d111`.
+- **Main Quality CI:** [46034992060](https://github.com/maisuradzee/bibmom/actions/runs/46034992060) — SUCCESS; 470 Python tests, frozen-result/schema checks, site build და publication-boundary checks.
+- **Pages deployment:** [46034991929](https://github.com/maisuradzee/bibmom/actions/runs/46034991929) — build/deploy SUCCESS ზუსტად მიმდინარე main SHA-ზე.
+- **ღია PR:** 40; **ღია Issue:** 0.
+- **აქტიური პორტფელი:** ოთხივე ნაკადი აქტიურია — AquaSignal, NOEMA-005, NOEMA-007 და INFRA-001.
+- **კვლევის კატალოგი:** 1 Preliminary, 0 Published. ახალი კვლევითი მასალა Draft/Preliminary საზღვრებში რჩება; Published სტატუსი არ მინიჭებულა.
+
+## Run 11 — კვლევითი მტკიცებულებების შეჯერება და აღდგენის numeric-boundary hardening
+
+- **NOEMA-005 / Draft PR #175:** ექვსი hosted x86-64 და ოთხი hosted ARM64 report-ის cross-architecture aggregate synthesis. საერთო პროტოკოლი და input SHA-256-ები ემთხვევა; 10 report, 480 configuration და 1,440 measured run. Neumaier-state exact-reference 480/480, scalar Neumaier 420/480, naive scalar 0/480. მხოლოდ ორი x86-64 Azure free-threaded report-ის median speedup იყო 1.0-ზე მეტი; ოთხივე ARM64 report და x86-64 AWS free-threaded report 1.0-ზე დაბალია. ეს hosted synthetic, backend-dependent შედეგია და არა causal architecture effect ან ზოგადი free-threading speedup.
+- **NOEMA-005 exact-head checks:** PR #175 head `5f56ae3c88f0beaa2b48872f37f455a1fc9ff181`; Quality CI [46037800793](https://github.com/maisuradzee/bibmom/actions/runs/46037800793) — 482 tests SUCCESS; actual CPU-thread workflow [46037800770](https://github.com/maisuradzee/bibmom/actions/runs/46037800770) — GIL-enabled და free-threaded jobs SUCCESS; დამატებითი Quality run [46037792528](https://github.com/maisuradzee/bibmom/actions/runs/46037792528) SUCCESS. GitHub mergeable=true/clean, მაგრამ PR რჩება Draft დამოუკიდებელი numerical review-ის გამო.
+- **INFRA-001 / Draft PR #176:** finite numeric guard პორტირებულია მიმდინარე main-ზე. `restore_duration_seconds`, `data_loss_seconds`, `rpo_target_seconds` და `rto_target_seconds` მოწმდება `math.isfinite`-ით; უარყოფილია NaN, ±Infinity, ორივე boolean და ისეთი integer, რომლის finite float conversion overflow-ს იწვევს. Exact-head Quality CI [46037806779](https://github.com/maisuradzee/bibmom/actions/runs/46037806779) — 473 tests SUCCESS; დამატებითი push CI [46037798077](https://github.com/maisuradzee/bibmom/actions/runs/46037798077) SUCCESS. GitHub mergeable=true/clean, მაგრამ PR რჩება Draft დამოუკიდებელი security review-ის გამო.
+- **AquaSignal:** WHO-ს 2026-11-19 fact sheet-ის reference years ცალ-ცალკეა შენარჩუნებული: 1.7 მილიარდი ადამიანი 2022 წელს იყენებდა ფეკალური დაბინძურების მქონე წყაროს; safely managed drinking-water coverage 2024 წელს 74% იყო; დაახლოებით 505,000 წლიური დიარეით სიკვდილი WHO-ს შეფასებაა. ეს არ არის საქართველოს prevalence estimate. NEA 2021–2025 RAR-ის payload კვლავ მიუწვდომელია ამ გარემოში; მისი შიგთავსი/ლიცენზია არ არის ნავარაუდევი.
+- **NOEMA-007:** WRP 2025-ის pinned Parquet source commit შენარჩუნებულია, მაგრამ 7,070,416-byte payload ვერ იქნა მიღებული UTF-8-only GitHub fetch გზით. NOEMA-ს დამოუკიდებელი aggregate reproduction, local Parquet SHA-256 ან საქართველოს ოპერაციული warning-effectiveness შედეგი არ არსებობს. საქართველოს warning-question base 99 რჩება source ranking threshold 100-ზე ქვემოთ.
+- **INFRA-001 evidence boundary:** finite-number guard არის ადგილობრივი validation fix. არც provider, production key, offsite trust-domain, external high-water authority ან clean-host restore არ გამოყენებულა/არ ჩატარებულა. RFC 8259 §6 JSON number grammar-იდან NaN/Infinity-ს გამორიცხავს; Python-ის default decoder ამ tokens-ს extension-ად იღებს.
+- **Portfolio synchronization:** ოთხივე stream-ის source metadata, status_detail და next steps განახლებულია ცალკე portfolio/status PR-ში; ამ audit-ის merge-მდე schema validation-ის შედეგს დაელოდეთ.
+
+### Run 11-ის შეზღუდვები და შემდეგი ნაბიჯები
+
+1. NOEMA-005: კონტროლირებული ფიზიკური x86-64/ARM64 host-ები, მინიმუმ 20 repetition/configuration, RSS/native allocation და DRAM bandwidth.
+2. AquaSignal: NEA-სგან checksum-იანი ალტერნატიული RAR/HTTPS მიწოდება, sample-level data dictionary და reuse პირობები; NFA potable-water denominator ცალკე.
+3. NOEMA-007: WRP Parquet-ის binary retrieval approved path-ით და დამოუკიდებელი aggregate reproduction; შემდეგ საქართველოს authorized event-level/after-action aggregates.
+4. INFRA-001: დამოუკიდებელი recovery owner, security review, key custody, external high-water trust-domain და clean-host restore.
+5. Draft PR-ები არ გადავიდეს Published სტატუსში დამოუკიდებელი დარგობრივი/სარედაქციო რეცენზიის გარეშე.
 
 ## Run 32 — გლობალური წყლის ზიანისა და გაფრთხილებიდან მოქმედებამდე არსებული ხარვეზის კვლევა
 
