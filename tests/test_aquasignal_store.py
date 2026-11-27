@@ -99,11 +99,17 @@ class AquaSignalStoreTests(unittest.TestCase):
             _decode_event_payload("é" * (_MAX_EVENT_PAYLOAD_BYTES // 2 + 1))
 
     def test_append_rejects_oversized_event_before_persisting(self):
-        opened = self.open_incident()
-        oversized_event = replace(
-            opened.events[0], reason="x" * _MAX_EVENT_PAYLOAD_BYTES
+        oversized_assessment = replace(
+            self.assessment("WATCH"),
+            reason="x" * _MAX_EVENT_PAYLOAD_BYTES,
         )
-        oversized_incident = replace(opened, events=(oversized_event,))
+        oversized_incident = record_assessment(
+            None,
+            oversized_assessment,
+            incident_id="synthetic-oversized-inc",
+            event_id="synthetic-oversized-event",
+            now=self.now,
+        )
         with self.assertRaisesRegex(IncidentStoreError, "65536-byte limit"):
             self.store.append(oversized_incident)
         self.assertEqual(self.store.count_events(), 0)
