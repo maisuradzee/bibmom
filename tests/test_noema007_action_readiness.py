@@ -114,6 +114,14 @@ class ActionReadinessTests(unittest.TestCase):
         with self.assertRaisesRegex(ActionReadinessValidationError, "privacy_reviewer_approved"):
             validate_action_readiness_record(record)
 
+    def test_privacy_approval_flags_are_not_treated_as_verified_release_authority(self):
+        result = compute_action_readiness_metrics(synthetic_record())
+        approval = result["privacy_approval_evidence"]
+        self.assertTrue(approval["data_controller_approval_declared"])
+        self.assertTrue(approval["privacy_reviewer_approval_declared"])
+        self.assertEqual(approval["evidence_status"], "caller_declared_not_independently_verified")
+        self.assertFalse(approval["publication_authorized_by_validator"])
+
     def test_timestamps_must_be_utc_and_chronological(self):
         record = synthetic_record()
         record["warning"]["issued_at_utc"] = "2026-11-25T08:00:00+04:00"
