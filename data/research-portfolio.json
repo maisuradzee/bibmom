@@ -965,15 +965,11 @@
         },
         {
           "title": "NOEMA-005 Run 33 cross-architecture hosted synthesis",
-          "authors": [
-            "NOEMA research workflow"
-          ],
-          "citation": "NOEMA. (2026-11-27). Cross-architecture synthesis of six x86-64 and four ARM64 hosted CPU-thread reports; aggregate-only, preliminary.",
           "url": "https://github.com/maisuradzee/bibmom/pull/175",
           "type": "reproducible-computational-record",
           "publication_date": "2026-11-27",
-          "publication_note": "Same declared protocol and input SHA-256 values; 480 configurations and 1,440 measured runs. Neumaier-state 480/480 exact-reference-correct. Only two x86-64 Azure free-threaded report medians exceeded 1.0; hosted synthetic evidence only, not physical-device or causal architecture replication.",
-          "accessed_at": "2026-11-27"
+          "accessed_at": "2026-11-27",
+          "publisher": "NOEMA research workflow"
         }
       ],
       "data_needs": [
@@ -1637,27 +1633,19 @@
         },
         {
           "title": "RFC 8259 — The JavaScript Object Notation (JSON) Data Interchange Format, §6",
-          "authors": [
-            "Tim Bray, editor; IETF"
-          ],
-          "citation": "Bray, T. (Ed.). (2017). RFC 8259: The JavaScript Object Notation (JSON) Data Interchange Format, §6.",
           "url": "https://www.rfc-editor.org/rfc/rfc8259.html",
-          "type": "internet_standard",
+          "type": "internet-standard",
           "publication_date": "2017-12",
-          "publication_note": "Section 6 excludes numeric values such as Infinity and NaN from the JSON number grammar.",
-          "accessed_at": "2026-11-27"
+          "accessed_at": "2026-11-27",
+          "publisher": "Internet Engineering Task Force"
         },
         {
           "title": "NOEMA INFRA-001 finite restore-measurement guard, Run 11",
-          "authors": [
-            "NOEMA research workflow"
-          ],
-          "citation": "NOEMA. (2026-11-27). INFRA-001 finite restore-measurement guard and synthetic boundary regressions, Draft PR #176.",
           "url": "https://github.com/maisuradzee/bibmom/pull/176",
-          "type": "internal_engineering_record",
+          "type": "internal-engineering-record",
           "publication_date": "2026-11-27",
-          "publication_note": "Runtime math.isfinite guard plus tests for NaN, ±Infinity, booleans and oversized integers across all four measurement/target fields. Exact-head Quality CI succeeded; synthetic only, no production restore.",
-          "accessed_at": "2026-11-27"
+          "accessed_at": "2026-11-27",
+          "publisher": "NOEMA repository"
         }
       ],
       "data_needs": [
