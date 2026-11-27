@@ -5,7 +5,7 @@
 - **მიმდინარე main snapshot:** `d4f06672208d808f8827b1528b9a07abe107d111`.
 - **Main Quality CI:** [46034992060](https://github.com/maisuradzee/bibmom/actions/runs/46034992060) — SUCCESS; 470 Python tests, frozen-result/schema checks, site build და publication-boundary checks.
 - **Pages deployment:** [46034991929](https://github.com/maisuradzee/bibmom/actions/runs/46034991929) — build/deploy SUCCESS ზუსტად მიმდინარე main SHA-ზე.
-- **ღია PR:** 41; **ღია Issue:** 0.
+- **ღია PR:** 42; **ღია Issue:** 0.
 - **აქტიური პორტფელი:** ოთხივე ნაკადი აქტიურია — AquaSignal, NOEMA-005, NOEMA-007 და INFRA-001.
 - **კვლევის კატალოგი:** 1 Preliminary, 0 Published. ახალი კვლევითი მასალა Draft/Preliminary საზღვრებში რჩება; Published სტატუსი არ მინიჭებულა.
 
