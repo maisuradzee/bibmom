@@ -16,10 +16,10 @@ def valid_report(gil_enabled: bool = True) -> dict:
     repetitions = 3
     report = {
         "study_id": "NOEMA-2026-005",
-        "experiment_id": "NOEMA-2026-005-REAL-THREADS-001",
+        "experiment_id": "NOEMA-2026-005-REAL-THREADS-002",
         "environment": {
             "python_implementation": "CPython",
-            "python_version": "3.14.4" if gil_enabled else "3.14.4t",
+            "python_version": "3.14.10" if gil_enabled else "3.14.10t",
             "machine": "aarch64",
             "gil_enabled": gil_enabled,
             "free_threaded_build": not gil_enabled,
@@ -86,7 +86,7 @@ def valid_report(gil_enabled: bool = True) -> dict:
 class Noema005Arm64ReportValidatorTests(unittest.TestCase):
     def test_accepts_complete_arm64_gil_enabled_report(self):
         result = validate_report(valid_report(True), "enabled")
-        self.assertEqual(result["threaded_configurations"], 48)
+        self.assertEqual(result["threaded_configurations"], 64)
         self.assertEqual(result["neumaier_state_correct_runs"], 48)
 
     def test_accepts_complete_arm64_free_threaded_report(self):
@@ -106,7 +106,7 @@ class Noema005Arm64ReportValidatorTests(unittest.TestCase):
     def test_rejects_missing_configuration(self):
         report = valid_report()
         report["threaded_cases"].pop()
-        with self.assertRaisesRegex(ValueError, "expected 48"):
+        with self.assertRaisesRegex(ValueError, "expected 64"):
             validate_report(report, "enabled")
 
     def test_rejects_inaccurate_neumaier_state(self):
