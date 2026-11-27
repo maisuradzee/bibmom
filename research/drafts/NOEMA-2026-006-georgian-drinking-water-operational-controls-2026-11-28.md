@@ -27,6 +27,7 @@ The Legislative Herald's official text of Government Decree №58/2014 states:
 5. Following detection of total coliforms and/or E. coli, the regulation describes repeat sampling and simultaneous determination of chlorides, nitrates and nitrites (Article 3(6)).
 6. Routine laboratory monitoring includes organoleptic, microbiological and chemical parameters. The chemical list includes pH, ammonia, nitrate, nitrite, chlorides, oxidizability and residual chlorine (Article 3(9)).
 7. Drinking-water testing is to be performed in an accredited independent laboratory in accordance with law (Article 4(2)).
+8. Minimum annual sampling counts depend on source type and population served (Article 3(2), Table 7): groundwater systems have minimum microbiological/organoleptic counts of 12, 24 or 365 per year across the listed population bands; surface-water systems list 365 per year. A groundwater distribution system supplying 20,000 people has monthly microbiological and organoleptic sampling (Article 3(3)). Residual chlorine/ozone process monitoring is at least hourly; other reagents are checked at least once per shift (Table 7).
 
 Official source: https://matsne.gov.ge/ka/document/view/2196792
 
@@ -81,11 +82,12 @@ Other limits:
 
 A prototype is useful only if it:
 1. rejects matrix/sampling-point mismatches;
-2. preserves unit, analyte basis and detection limit;
-3. distinguishes initial from repeat samples;
-4. records independent-lab provenance;
-5. cannot mark a protective action as verified without evidence;
-6. releases only disclosure-reviewed aggregates.
+2. schedules minimum samples by source type and population served, while keeping process-parameter checks separate;
+3. preserves unit, analyte basis and detection limit;
+4. distinguishes initial from repeat samples;
+5. records independent-lab provenance;
+6. cannot mark a protective action as verified without evidence;
+7. releases only disclosure-reviewed aggregates.
 
 ## შემოწმების სტატუსი
 
@@ -99,7 +101,7 @@ A prototype is useful only if it:
 
 ## წყაროები
 
-1. Legislative Herald of Georgia, Government Decree №58/2014, 2014-01-15, Articles 1(2)-(3), 1(5)-(7), 3(4), 3(6), 3(9), 4(2): https://matsne.gov.ge/ka/document/view/2196792
+1. Legislative Herald of Georgia, Government Decree №58/2014, 2014-01-15, Articles 1(2)-(3), 1(5)-(7), 3(2)-(4), 3(6), 3(9), 4(2): https://matsne.gov.ge/ka/document/view/2196792
 2. Legislative Herald of Georgia, Law amendment dated 2026-06-24, document 6904700, including 2027-09-01 statutory milestones: https://manage.matsne.gov.ge/ka/document/view/6904700
 
 
