@@ -8,6 +8,7 @@ rewritten. Unrecognized failures remain visible to the ordinary validators.
 from __future__ import annotations
 
 import argparse
+import difflib
 import json
 import re
 from pathlib import Path
@@ -114,6 +115,7 @@ def recover_drafts(root: Path = ROOT, *, fix: bool = False) -> dict[str, Any]:
         raise ValueError("research/drafts directory does not exist")
 
     changed: list[dict[str, Any]] = []
+    patch_chunks: list[str] = []
     skipped: list[dict[str, str]] = []
 
     for path in sorted((root / "research" / "drafts").rglob("*.md")):
@@ -129,6 +131,14 @@ def recover_drafts(root: Path = ROOT, *, fix: bool = False) -> dict[str, Any]:
         if rules and repaired != original:
             relative = path.relative_to(root).as_posix()
             changed.append({"path": relative, "rules": rules})
+            patch_chunks.extend(
+                difflib.unified_diff(
+                    original.splitlines(keepends=True),
+                    repaired.splitlines(keepends=True),
+                    fromfile=f"a/{relative}",
+                    tofile=f"b/{relative}",
+                )
+            )
             if fix:
                 resolved.write_text(repaired, encoding="utf-8", newline="\n")
 
@@ -143,6 +153,7 @@ def recover_drafts(root: Path = ROOT, *, fix: bool = False) -> dict[str, Any]:
         "safe_repairs_applied": bool(fix and changed),
         "research_content_modified": False,
         "tests_or_frozen_results_modified": False,
+        "unified_patch": "".join(patch_chunks),
     }
 
 
@@ -151,9 +162,18 @@ def main() -> int:
     parser.add_argument("--root", type=Path, default=ROOT, help="NOEMA repository root")
     parser.add_argument("--fix", action="store_true", help="apply only bounded presentation repairs")
     parser.add_argument("--report", type=Path, help="write a JSON recovery report")
+    parser.add_argument("--patch", type=Path, help="write a unified patch for safe repairs")
     args = parser.parse_args()
 
     report = recover_drafts(args.root, fix=args.fix)
+    patch_text = report.pop("unified_patch")
+    if args.patch and patch_text:
+        args.patch.parent.mkdir(parents=True, exist_ok=True)
+        args.patch.write_text(patch_text, encoding="utf-8")
+        report["patch_file"] = str(args.patch)
+    else:
+        report["patch_file"] = None
+    report["patch_generated"] = bool(patch_text)
     serialized = json.dumps(report, ensure_ascii=False, indent=2) + "\n"
     if args.report:
         args.report.parent.mkdir(parents=True, exist_ok=True)
