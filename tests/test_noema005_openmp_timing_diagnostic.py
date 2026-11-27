@@ -155,5 +155,22 @@ class Noema005OpenMPTimingDiagnosticTests(unittest.TestCase):
         self.assertEqual([entry["median_process_cpu_wall_ratio"] for entry in report["summary"]["per_worker"]],
                          [0.999966709, 2.000455849, 4.001551167, 3.946946747])
 
+    def test_v2_withholds_capacity_when_worker_cgroup_membership_is_unverified(self):
+        report = sample_report_v2()
+        report["runs"][0]["threads"][0]["thread_cgroup_matches_process"] = None
+        report["runs"][0]["known_cpu_capacity_upper_bound"] = None
+        report["runs"][0]["effective_cpu_capacity"] = None
+        report["runs"][0]["cpu_wall_anomaly_threshold"] = None
+        report["runs"][0]["cpu_wall_anomaly_threshold_basis"] = None
+        report["runs"][0]["cpu_wall_anomaly"] = False
+        report["runs"][0]["thread_cgroup_unverified_count"] = 1
+        report["summary"]["thread_cgroup_unverified_count"] = 1
+        validate_report(report, SCHEMA)
+
+        # A single unverified worker must not be promoted into a capacity claim.
+        report["runs"][0]["known_cpu_capacity_upper_bound"] = 2.0
+        with self.assertRaises(ValueError):
+            validate_report(report, SCHEMA)
+
 if __name__=="__main__":
     unittest.main()

@@ -238,6 +238,8 @@ def validate_report(report: dict[str, Any], schema_path: Path = SCHEMA) -> None:
             upper, effective, basis = _capacity(environment, sorted(union), memberships,
                                                 run["process_thread_count"], run["actual_threads"])
             if upper is None:
+                # Incomplete or contradictory worker/process cgroup evidence
+                # invalidates every capacity-derived metric for this run.
                 if run["known_cpu_capacity_upper_bound"] is not None or run["effective_cpu_capacity"] is not None or run["cpu_wall_anomaly_threshold"] is not None or run["cpu_wall_anomaly_threshold_basis"] is not None or run["cpu_wall_anomaly"]:
                     raise ValueError("capacity and anomaly threshold must be withheld when thread/cgroup evidence is incomplete")
             else:
