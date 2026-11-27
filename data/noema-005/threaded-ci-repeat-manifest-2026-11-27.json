@@ -28,7 +28,7 @@
       "artifact_zip_sha256": "e7ec2737b5618c9aa05056559b75567005ce0a3c994fe179a589f55ffe134d7a",
       "source_report_sha256": "a4031091a0d8e4d76683a6a36683b7569b9bb39105500ce50107d71a6922fcba",
       "source_report_member": "noema005-threaded-free-threaded.json",
-      "sanitized_gzip_sha256": "68f4a6df9597502e5c3606ace5e97712345bc9a9bb9de44a944dc62ed02ac5b8",
+      "sanitized_gzip_sha256": "ec4674cd70b66b1f8babd0db87c25c010070c82733e26ad80cdd12491e8155df",
       "sanitized_snapshot": "threaded-ci-repeat-2026-11-27-free-threaded.json.gz.b64"
     },
     {
@@ -56,7 +56,7 @@
       "artifact_zip_sha256": "bc66d175ff78889ddf89b9d7583d2af0cf6fe20600d6dd1019fa3c7c2d566b90",
       "source_report_sha256": "6ab2b041059d1ada4a254f3e608eafcdbf4719b02d0ed6c9c49ae3c7c36087b7",
       "source_report_member": "noema005-threaded-free-threaded.json",
-      "sanitized_gzip_sha256": "d3fc08497dc71bd7ec07366d90bec87db51b4d6c36e6081b60c6dbc1b217320a",
+      "sanitized_gzip_sha256": "2f79d1c7083b7a144663b1c3e29b16c419ad11218fa67c6aed1baa787963c53a",
       "sanitized_snapshot": "threaded-ci-repeat-2026-11-27-run-46007383552-free-threaded.json.gz.b64"
     }
   ]
