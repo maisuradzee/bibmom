@@ -85,6 +85,12 @@ class Noema005PublicArtifactSanitizerTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "inconsistent native thread counts"):
             sanitize_report(raw)
 
+    def test_rejects_boolean_native_thread_counts(self):
+        raw = raw_report()
+        raw["threaded_cases"][0]["native_thread_counts"] = [True, 2]
+        with self.assertRaisesRegex(ValueError, "inconsistent native thread counts"):
+            sanitize_report(raw)
+
     def test_rejects_inconsistent_gil_metadata(self):
         raw = raw_report()
         raw["environment"]["free_threaded_build"] = True
