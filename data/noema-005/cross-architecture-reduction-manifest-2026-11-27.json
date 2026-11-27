@@ -291,5 +291,7 @@
     "Process peak RSS is whole-process high-water mark; tracemalloc is Python-traced allocation, not RSS or native allocation.",
     "No DRAM bandwidth, energy, hardware performance counters or production workload was measured.",
     "The raw artifacts have 30-day GitHub Actions retention; the SHA-256 manifest preserves provenance but not the binary bytes."
-  ]
+  ],
+  "validation_test": "tests/test_noema005_cross_architecture_manifest.py",
+  "validation_scope": "schema validation, artifact provenance fields, numerical correctness aggregates and speedup-versus-CPU-parallelism guardrails"
 }
