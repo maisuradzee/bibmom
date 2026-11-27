@@ -13,11 +13,13 @@ import stat
 from contextlib import closing
 from dataclasses import dataclass
 from datetime import datetime
+from math import isfinite
 from pathlib import Path
 from typing import Any
 
 from .aquasignal import SignalAssessment
 from .aquasignal_incidents import (
+    EVENT_KINDS,
     IncidentError,
     IncidentEvent,
     WaterIncident,
@@ -50,7 +52,17 @@ def _datetime_text(value: datetime | None) -> str | None:
 
 
 def _parse_datetime(value: str | None) -> datetime | None:
-    return datetime.fromisoformat(value) if value is not None else None
+    if value is None:
+        return None
+    if not isinstance(value, str):
+        raise IncidentStoreError("event timestamps must be ISO-8601 strings or None")
+    try:
+        parsed = datetime.fromisoformat(value)
+    except ValueError as exc:
+        raise IncidentStoreError("event timestamp is not valid ISO-8601") from exc
+    if parsed.tzinfo is None or parsed.utcoffset() is None:
+        raise IncidentStoreError("event timestamps must include a UTC offset")
+    return parsed
 
 
 def _assessment_to_dict(value: SignalAssessment | None) -> dict[str, Any] | None:
@@ -115,6 +127,125 @@ def _event_from_dict(value: dict[str, Any]) -> IncidentEvent:
         reason=value["reason"],
         assessment=_assessment_from_dict(value["assessment"]),
     )
+
+
+def _strict_json_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    result: dict[str, Any] = {}
+    for key, value in pairs:
+        if key in result:
+            raise IncidentStoreError(f"duplicate JSON object key: {key}")
+        result[key] = value
+    return result
+
+
+def _reject_json_constant(value: str) -> None:
+    raise IncidentStoreError(f"non-standard JSON constant: {value}")
+
+
+def _decode_event_payload(payload_json: str) -> IncidentEvent:
+    """Decode only the exact canonical JSON emitted by this store.
+
+    Duplicate keys, non-standard constants, overflowed numeric values, unknown
+    fields and alternate whitespace/key ordering are rejected before replay.
+    This is an ambiguity/integrity boundary, not cryptographic authentication.
+    """
+    if not isinstance(payload_json, str):
+        raise IncidentStoreError("event payload must be text")
+    try:
+        payload_json.encode("utf-8", errors="strict")
+        value = json.loads(
+            payload_json,
+            object_pairs_hook=_strict_json_object,
+            parse_constant=_reject_json_constant,
+        )
+    except IncidentStoreError:
+        raise
+    except (json.JSONDecodeError, UnicodeError, TypeError, ValueError, RecursionError) as exc:
+        raise IncidentStoreError(f"event payload is not strict UTF-8 JSON: {exc}") from exc
+
+    if not isinstance(value, dict):
+        raise IncidentStoreError("event payload root must be a JSON object")
+    if _canonical_json(value) != payload_json:
+        raise IncidentStoreError("event payload is not canonical JSON")
+
+    event_fields = {
+        "event_id", "kind", "at", "assessment_status", "observed_at",
+        "actor_id", "reference", "reason", "assessment",
+    }
+    if set(value) != event_fields:
+        raise IncidentStoreError("event payload has unexpected or missing fields")
+    if not isinstance(value["event_id"], str) or not value["event_id"].strip():
+        raise IncidentStoreError("event_id must be a non-empty string")
+    if not isinstance(value["kind"], str) or value["kind"] not in EVENT_KINDS:
+        raise IncidentStoreError("event kind is unsupported")
+    if not isinstance(value["at"], str):
+        raise IncidentStoreError("event timestamp must be an ISO-8601 string")
+    _parse_datetime(value["at"])
+    if value["assessment_status"] is not None and not isinstance(value["assessment_status"], str):
+        raise IncidentStoreError("assessment_status must be a string or None")
+    if value["observed_at"] is not None:
+        _parse_datetime(value["observed_at"])
+    for field in ("actor_id", "reference"):
+        field_value = value[field]
+        if field_value is not None and (
+            not isinstance(field_value, str) or not field_value.strip()
+        ):
+            raise IncidentStoreError(f"{field} must be a non-empty string or None")
+    if not isinstance(value["reason"], str):
+        raise IncidentStoreError("event reason must be a string")
+
+    assessment = value["assessment"]
+    if value["kind"] == "assessment":
+        if not isinstance(assessment, dict):
+            raise IncidentStoreError("assessment event requires a complete assessment object")
+        assessment_fields = {
+            "status", "asset_id", "parameter", "sensor_id", "latest_value",
+            "unit", "observed_at", "consecutive_out_of_band", "reason",
+            "requires_operator_review", "claims_water_is_safe",
+        }
+        if set(assessment) != assessment_fields:
+            raise IncidentStoreError("assessment payload has unexpected or missing fields")
+        for field in ("status", "asset_id", "parameter", "unit", "reason"):
+            if not isinstance(assessment[field], str):
+                raise IncidentStoreError(f"assessment {field} must be a string")
+        if not assessment["status"] or not assessment["asset_id"].strip() or not assessment["parameter"].strip() or not assessment["unit"].strip():
+            raise IncidentStoreError("assessment identity fields must be non-empty")
+        if assessment["sensor_id"] is not None and (
+            not isinstance(assessment["sensor_id"], str) or not assessment["sensor_id"].strip()
+        ):
+            raise IncidentStoreError("assessment sensor_id must be a non-empty string or None")
+        latest_value = assessment["latest_value"]
+        if latest_value is not None:
+            if isinstance(latest_value, bool) or not isinstance(latest_value, (int, float)):
+                raise IncidentStoreError("assessment latest_value must be a finite number or None")
+            try:
+                finite = isfinite(latest_value)
+            except OverflowError:
+                finite = False
+            if not finite:
+                raise IncidentStoreError("assessment latest_value must be a finite number or None")
+        if assessment["observed_at"] is not None:
+            _parse_datetime(assessment["observed_at"])
+        count = assessment["consecutive_out_of_band"]
+        if isinstance(count, bool) or not isinstance(count, int) or count < 0:
+            raise IncidentStoreError("assessment consecutive_out_of_band must be a non-negative integer")
+        if type(assessment["requires_operator_review"]) is not bool or type(assessment["claims_water_is_safe"]) is not bool:
+            raise IncidentStoreError("assessment review and safety flags must be booleans")
+        if value["assessment_status"] != assessment["status"] or value["observed_at"] != assessment["observed_at"]:
+            raise IncidentStoreError("assessment event metadata must match the complete assessment")
+        if value["actor_id"] is not None or value["reference"] is not None:
+            raise IncidentStoreError("assessment events cannot contain operator or reference fields")
+    else:
+        if assessment is not None or value["observed_at"] is not None:
+            raise IncidentStoreError("operator events cannot contain assessment payloads")
+        if value["actor_id"] is None or value["reference"] is None:
+            raise IncidentStoreError("operator events require actor and reference")
+        if value["kind"] == "acknowledged" and value["assessment_status"] is not None:
+            raise IncidentStoreError("acknowledgement events cannot contain assessment status")
+        if value["kind"] == "closed" and value["assessment_status"] != "NORMAL":
+            raise IncidentStoreError("closure events must retain NORMAL clearance status")
+
+    return _event_from_dict(value)
 
 
 def _canonical_json(value: Any) -> str:
@@ -339,7 +470,7 @@ class AquaSignalStore:
                 raise IncidentStoreError(f"payload hash mismatch at sequence {expected_sequence}")
             if row["previous_hash"] != previous_hash:
                 raise IncidentStoreError(f"previous hash mismatch at sequence {expected_sequence}")
-            event = _event_from_dict(json.loads(row["payload_json"]))
+            event = _decode_event_payload(row["payload_json"])
             if (
                 row["event_id"] != event.event_id
                 or row["kind"] != event.kind

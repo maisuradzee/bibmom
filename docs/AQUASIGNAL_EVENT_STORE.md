@@ -23,6 +23,20 @@ noema_core/aquasignal_store.py persists one canonical transition per row and rec
 - Every append verifies the existing database, hash chain and replayed transition history while holding a write transaction. This prevents a new event from silently extending a corrupted chain.
 - Independent incidents can be appended concurrently; SQLite serializes the global sequence using an immediate write transaction.
 
+## Strict event-payload replay boundary
+
+Every persisted incident event is written as canonical UTF-8 JSON. Replay and
+inspection accept only that exact representation: duplicate keys at any depth,
+non-standard JSON constants, overflowed non-finite numbers, unknown/missing
+fields, non-canonical whitespace/key order, and naive timestamps fail closed.
+The same decoder is used by full-chain verification and event listing.
+
+This prevents parser-dependent interpretation of a stored event. It does **not**
+authenticate the local SQLite file or turn its unkeyed SHA-256 chain into a
+digital signature. A writer with full database access can recompute unkeyed
+hashes; an independently protected checkpoint/signature and external
+high-water authority remain separate controls.
+
 ## Recovery and trust boundary
 
 The hash chain is tamper-evident, not a digital signature. A privileged attacker who can rewrite the database and recompute every hash may still alter history. A production system needs an independently stored, signed checkpoint or trusted off-host audit sink.
