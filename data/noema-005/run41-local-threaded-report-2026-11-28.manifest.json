@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-005",
+  "experiment_id": "NOEMA005-RUN41-LOCAL-THREADS-20261128",
+  "report_path": "data/noema-005/run41-local-threaded-report-2026-11-28.json.gz.b64",
+  "report_sha256": "0a5a872de4cce503f65538cfd7cb2ac6b36a6efaa3b5bb2a5bc7f0b53324a244",
+  "gzip_sha256": "439e0f85050758f6b85ff001b627679a1f43872734b1aca8a0686c100a7895ba",
+  "runner_path": "scripts/run_noema005_local_threaded_repro.py",
+  "runner_sha256": "8018d1a8df78d1f93e109f502a99642d431fd6a99c97fddf69b200959d3ca9d3",
+  "configuration_count": 48,
+  "measured_threaded_runs": 960,
+  "repetitions_per_configuration": 20,
+  "raw_threaded_wall_samples": 960
+}
