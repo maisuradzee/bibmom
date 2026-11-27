@@ -486,3 +486,6 @@ The frozen per-configuration aggregate and original archive/report hashes are in
 **NEXT TEST:** run at least 20 measured repetitions/configuration on controlled physical x86-64 and ARM64 systems, with representative numerical workloads, RSS/native allocation, DRAM bandwidth and uncertainty intervals.
 
 **NOEMA status remains preliminary; no Published status is claimed.**
+
+
+**Run 36 public-evidence minimization note:** the sanitized snapshot retains only the coarse hosted Linux provider family (`aws`/`azure`) needed to distinguish runner pools. Kernel release and glibc build strings from raw `platform` metadata are excluded; raw artifacts remain outside the public repository.
