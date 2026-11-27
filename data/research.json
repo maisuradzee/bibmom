@@ -8,10 +8,10 @@
       "title": "მცურავი წერტილის ჯამის სიზუსტე: ალგორითმი და რიგითობა",
       "date": "2026-11-27",
       "category": "რიცხვითი ანალიზი",
-      "summary": "კონტროლირებული ტესტები აჩვენებს, რომ შეკრების რიგითობამ შეიძლება შედეგი შეცვალოს. 330-კონფიგურაციან sharded-reduction სიმულაციაში compensation state-მა 330/330 სწორი შედეგი შეინარჩუნა. რეალურ CPU threads-ზე x86-64 და ARM64 გარემოებში Neumaier compensation-state merge-მა ყველა შემოწმებულ კონფიგურაციაში სწორად დამრგვალებული შედეგი მიიღო. ARM64-ზე ოთხ დამოუკიდებელ Actions batch-ში Neumaier-state შედეგი 768/768 იყო; scalar Neumaier — 672/768, naive scalar — 0/768. CPU-time/wall-time >1.05 threshold-ის რაოდენობა batch-ებს შორის იცვლებოდა (free-threaded 208/288→211/288→214/288→207/288; GIL-enabled 2/288→1/288→0/288→0/288), ამიტომ ეს მხოლოდ აღწერითი მაჩვენებელია. Timing შედეგები არასტაბილურია: ერთ batch-ში ერთი macOS free-threaded cell-ის median speedup 1.003 იყო, ხოლო საბოლოო PR-head batch-ში ოთხივე cell 1.0-ზე დაბლა დარჩა. ზოგადი wall-time აჩქარება არ დადასტურებულა. წინასწარი, დამოუკიდებლად არარეცენზირებული შედეგია. 2026-11-26-ის მეორე x86-64 hosted rerun-ზე Neumaier-state კვლავ 48/48 სწორი იყო ორივე runtime-ში. GIL-enabled median speedup 0.7744×, free-threaded — 1.0181×; წინა free-threaded median 0.9519× იყო. ერთი run-ის 1.0181× შედეგი run-to-run variability-ს ფონზე არ ადასტურებს ზოგად აჩქარებას; raw reports და reproduction script დაემატა. 2026-11-27-ის სამ hosted x86-64 GIL/free-threaded workflow pair-ში (6 artifact, 864 timed repetition) Neumaier-state-მა თითოეულ artifact-ში 48/48 correctly-rounded შედეგი მიიღო; scalar Neumaier — 42/48, naive — 0/48. GIL-enabled median speedup-ები იყო 0.7577×, 0.7551× და 0.7603×; free-threaded AWS — 0.7024×, Azure repeat-ები — 1.2494× და 1.1491×. Runner flavor-ები confounded-ია და ერთი ფიზიკური host-ის controlled comparison არ არის; ზოგადი speedup არ დასტურდება. ექვსივე ორიგინალი artifact ZIP და source JSON hash-ით დაემთხვა manifest-ს; ეს კვლავ hosted synthetic evidence-ია და არა physical-device replication. 2026-11-27 Run 33-ის ოთხ hosted ARM64 runner/runtime cell-ში (Ubuntu/macOS × GIL/free-threaded) შესრულდა 192 configuration და 576 measured run: Neumaier-state 192/192 correctly rounded, scalar Neumaier 168/192, naive 0/192. Free-threaded CPU/wall >1.05 იყო 202/288 sample-ში, GIL-enabled — 4/288; თუმცა ოთხივე cell-ში სამივე მეთოდის median speedup 1.0-ზე ნაკლებია. Artifact ZIP SHA-256 ადგილობრივად ხელახლა გამოითვალა და GitHub digest-ს დაემთხვა. ეს hosted synthetic შედეგია; სამი repetition/configuration, RSS/native allocation/DRAM bandwidth და physical-device replication ჯერ არ ჩატარებულა.",
+      "summary": "კონტროლირებული ტესტები აჩვენებს, რომ შეკრების რიგითობამ შეიძლება შედეგი შეცვალოს. 330-კონფიგურაციან sharded-reduction სიმულაციაში compensation state-მა 330/330 სწორი შედეგი შეინარჩუნა. რეალურ CPU threads-ზე x86-64 და ARM64 გარემოებში Neumaier compensation-state merge-მა ყველა შემოწმებულ კონფიგურაციაში სწორად დამრგვალებული შედეგი მიიღო. ARM64-ზე ოთხ დამოუკიდებელ Actions batch-ში Neumaier-state შედეგი 768/768 იყო; scalar Neumaier — 672/768, naive scalar — 0/768. CPU-time/wall-time >1.05 threshold-ის რაოდენობა batch-ებს შორის იცვლებოდა (free-threaded 208/288→211/288→214/288→207/288; GIL-enabled 2/288→1/288→0/288→0/288), ამიტომ ეს მხოლოდ აღწერითი მაჩვენებელია. Timing შედეგები არასტაბილურია: ერთ batch-ში ერთი macOS free-threaded cell-ის median speedup 1.003 იყო, ხოლო საბოლოო PR-head batch-ში ოთხივე cell 1.0-ზე დაბლა დარჩა. ზოგადი wall-time აჩქარება არ დადასტურებულა. წინასწარი, დამოუკიდებლად არარეცენზირებული შედეგია. 2026-11-26-ის მეორე x86-64 hosted rerun-ზე Neumaier-state კვლავ 48/48 სწორი იყო ორივე runtime-ში. GIL-enabled median speedup 0.7744×, free-threaded — 1.0181×; წინა free-threaded median 0.9519× იყო. ერთი run-ის 1.0181× შედეგი run-to-run variability-ს ფონზე არ ადასტურებს ზოგად აჩქარებას; raw reports და reproduction script დაემატა. 2026-11-27-ის სამ hosted x86-64 GIL/free-threaded workflow pair-ში (6 artifact, 864 timed repetition) Neumaier-state-მა თითოეულ artifact-ში 48/48 correctly-rounded შედეგი მიიღო; scalar Neumaier — 42/48, naive — 0/48. GIL-enabled median speedup-ები იყო 0.7577×, 0.7551× და 0.7603×; free-threaded AWS — 0.7024×, Azure repeat-ები — 1.2494× და 1.1491×. Runner flavor-ები confounded-ია და ერთი ფიზიკური host-ის controlled comparison არ არის; ზოგადი speedup არ დასტურდება. ექვსივე ორიგინალი artifact ZIP და source JSON hash-ით დაემთხვა manifest-ს; ეს კვლავ hosted synthetic evidence-ია და არა physical-device replication. 2026-11-27 Run 33-ის ოთხ hosted ARM64 runner/runtime cell-ში (Ubuntu/macOS × GIL/free-threaded) შესრულდა 192 configuration და 576 measured run: Neumaier-state 192/192 correctly rounded, scalar Neumaier 168/192, naive 0/192. Free-threaded CPU/wall >1.05 იყო 202/288 sample-ში, GIL-enabled — 4/288; თუმცა ოთხივე cell-ში სამივე მეთოდის median speedup 1.0-ზე ნაკლებია. Artifact ZIP SHA-256 ადგილობრივად ხელახლა გამოითვალა და GitHub digest-ს დაემთხვა. ეს hosted synthetic შედეგია; სამი repetition/configuration, RSS/native allocation/DRAM bandwidth და physical-device replication ჯერ არ ჩატარებულა. Run 34 added two further hosted x86-64 GIL/free-threaded workflow pairs (four artifacts, 576 threaded measurements). Across 192 configurations, Neumaier-state was correctly rounded in 192/192 runs; scalar Neumaier in 168/192; naive scalar in 0/192. No threaded configuration exceeded its matching serial baseline (0/192). Free-threaded process CPU/wall ratio exceeded 1.05 in 72/96 configurations, GIL-enabled in 0/96, showing actual multi-thread CPU use without wall-time speedup. Run 1 used the same AWS runner family for both modes; Run 2 used AWS for free-threaded and Azure for GIL-enabled, so the second cross-mode comparison is confounded. Hosted x86-64 only; preliminary.",
       "file": "research/preprints/NOEMA-2026-005-floating-point-summation.md",
       "status": "preliminary",
-      "version": "2.0",
+      "version": "2.1",
       "sources": [
         {
           "title": "The Accuracy of Floating Point Summation",
@@ -278,6 +278,30 @@
           "publication_date": "2026-11-27",
           "publication_note": "Four hosted ARM64 runner/runtime cells; 192 configurations and 576 measured runs. Neumaier-state 192/192 correct; all median speedups below 1.0. Preliminary synthetic evidence, not physical-device or external replication.",
           "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "NOEMA-005 hosted x86-64 GIL/free-threaded run pair 1",
+          "authors": [
+            "NOEMA research workflow"
+          ],
+          "citation": "NOEMA. (2026-11-27). NOEMA-005 actual CPU-thread benchmark, workflow run 46042334393; two aggregate-only artifact records.",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/46042334393",
+          "type": "reproducible-computational-record",
+          "publication_date": "2026-11-27",
+          "publication_note": "GIL-enabled and free-threaded CPython 3.14.4 on hosted x86-64 AWS runners; 48 configurations and 144 measured threaded runs per artifact; three repetitions per configuration.",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "NOEMA-005 hosted x86-64 GIL/free-threaded run pair 2",
+          "authors": [
+            "NOEMA research workflow"
+          ],
+          "citation": "NOEMA. (2026-11-27). NOEMA-005 actual CPU-thread benchmark, workflow run 46043232025; two aggregate-only artifact records.",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/46043232025",
+          "type": "reproducible-computational-record",
+          "publication_date": "2026-11-27",
+          "publication_note": "Free-threaded run on hosted AWS x86-64 and GIL-enabled run on hosted Azure x86-64; 48 configurations and 144 measured threaded runs per artifact. Cross-mode runner comparison is not matched.",
+          "accessed_at": "2026-11-27"
         }
       ],
       "methodology": {
@@ -449,6 +473,95 @@
           "reproduction_script": "scripts/reproduce_noema005_threaded_reruns.py",
           "summary_file": "data/noema-005/threaded-reruns-2026-11-26.json",
           "key_finding": "Neumaier-state accuracy was 48/48 in both runs and both runtime modes. GIL-enabled median speedup remained below 1.0 (0.7539x then 0.7744x). Free-threaded median moved from 0.9519x to 1.0181x, demonstrating run-to-run sensitivity rather than a robust speedup."
+        },
+        "real_thread_run34": {
+          "workflow_runs": [
+            46042334393,
+            46043232025
+          ],
+          "artifact_count": 4,
+          "configurations_per_artifact": 48,
+          "measured_threaded_runs_per_artifact": 144,
+          "total_configurations": 192,
+          "total_measured_threaded_runs": 576,
+          "runtime_modes": [
+            "GIL-enabled",
+            "free-threaded"
+          ],
+          "worker_counts": [
+            1,
+            2,
+            4,
+            8
+          ],
+          "methods": [
+            "threaded_naive_scalar",
+            "threaded_neumaier_scalar",
+            "threaded_neumaier_state"
+          ],
+          "partitions": [
+            "contiguous",
+            "round_robin"
+          ],
+          "layouts": [
+            "triplet_order",
+            "grouped_cancellation"
+          ],
+          "repetitions": 3,
+          "warmups": 1,
+          "cpu_affinity": 4,
+          "native_thread_count_verified": true,
+          "accuracy": {
+            "naive_scalar": "0/192 correct runs",
+            "neumaier_scalar": "168/192 correct runs",
+            "neumaier_state": "192/192 correct runs"
+          },
+          "speedup_gt_1_configurations": "0/192",
+          "cpu_wall_ratio_above_1_05": {
+            "free_threaded": "72/96 configurations",
+            "gil_enabled": "0/96 configurations"
+          },
+          "median_neumaier_state_speedup_by_run": {
+            "run_46042334393": {
+              "gil_enabled": 0.7557,
+              "free_threaded": 0.7341
+            },
+            "run_46043232025": {
+              "gil_enabled_azure": 0.7683,
+              "free_threaded_aws": 0.6839
+            }
+          },
+          "memory_measurement": "tracemalloc peak only; not RSS/native allocator memory",
+          "artifact_manifest": [
+            {
+              "run_id": 46042334393,
+              "mode": "gil_enabled",
+              "artifact_id": 15220093434,
+              "zip_sha256": "8dd6abdaf7f55db6f7a3bcfdcb5b62c44dc00715cf6394268d1e7709b1774d72",
+              "json_sha256": "94aee2906078410543eabc1b2e43d308596ebbb5cfc8b116fe004c90fe9a9ee5"
+            },
+            {
+              "run_id": 46042334393,
+              "mode": "free_threaded",
+              "artifact_id": 15220252412,
+              "zip_sha256": "8666ce2c4dfaadddbc8daee69eed32bb6a32ab53a98489ee40fc1ac915c2368e",
+              "json_sha256": "2064fd457e0704431fa2715f0da6d028e3547922728322365613d313c2c13869"
+            },
+            {
+              "run_id": 46043232025,
+              "mode": "gil_enabled",
+              "artifact_id": 15221052559,
+              "zip_sha256": "2afded43c708d7d4b1ea59c521b1e3a3ac4ef1e7d2985f9cd5f1af7404aed127",
+              "json_sha256": "51587f1752768e8d20de0fae0a1e79ee21b3fb7b838c6263edb730a5d1a25b81"
+            },
+            {
+              "run_id": 46043232025,
+              "mode": "free_threaded",
+              "artifact_id": 15220578066,
+              "zip_sha256": "a705cbee4378539a10ca8a022f291ee57211a043b113023d7b16d9aea2fd2444",
+              "json_sha256": "c8fef2434a7f002c0b72ecdc40403f85952f2c32d504d2662019ad397460be43"
+            }
+          ]
         }
       },
       "limitations": [
@@ -462,7 +575,8 @@
         "tracemalloc ზომავს Python-traced allocation-ებს და არა სრულ RSS/native allocation-ს",
         "free-threaded CPython ოფიციალურად მხარდაჭერილია Python 3.14-დან როგორც optional build; extension compatibility და workload-dependent performance კვლავ გასათვალისწინებელია",
         "რეალური CPU threads შემოწმდა Ubuntu 24.04 x86_64, Ubuntu 24.04 ARM64 და macOS 15 ARM64 hosted runner-ებზე; Windows, GPU და network-distributed runtime არ შემოწმებულა",
-        "ARM64 გამეორება შესრულდა CPython 3.14.4 GIL-enabled და free-threaded build-ებზე, ოთხ hosted runner/runtime უჯრედში და თითოეულზე სამი measured repetition-ით"
+        "ARM64 გამეორება შესრულდა CPython 3.14.4 GIL-enabled და free-threaded build-ებზე, ოთხ hosted runner/runtime უჯრედში და თითოეულზე სამი measured repetition-ით",
+        "Run 34 adds two hosted x86-64 run pairs only; one pair used a different runner platform for GIL-enabled and free-threaded modes, and no user-owned physical host or ARM64 host was tested in this run."
       ]
     },
     {
