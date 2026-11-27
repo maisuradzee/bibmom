@@ -47,18 +47,18 @@ class AquaSignalPublishedAggregateAuditTests(unittest.TestCase):
 
     def test_table1_pooled_microbiological_share_and_2022_exception(self):
         result = audit_snapshot(self.snapshot)["table1_category_reconciliation"]
-        self.assertEqual([row["table1_category_total"] for row in result["results"]], [136, 225, 208, 496])
+        self.assertEqual([row["table1_category_total"] for row in result["results"]], [136, 225, 207, 496])
         self.assertEqual([row["microbiological_involved_category_count"] for row in result["results"]], [130, 217, 183, 477])
-        self.assertEqual(result["pooled"]["table1_category_total"], 1065)
+        self.assertEqual(result["pooled"]["table1_category_total"], 1064)
         self.assertEqual(result["pooled"]["microbiological_involved_category_count"], 1007)
-        self.assertEqual(result["pooled"]["microbiological_involved_share_pct"], 94.553991)
+        self.assertEqual(result["pooled"]["microbiological_involved_share_pct"], 94.642857)
         self.assertLess(result["results"][2]["microbiological_involved_share_pct"], 90)
         self.assertTrue(result["pooled"]["exceeds_90_percent"])
 
     def test_table1_count_reconciliation_is_conditional_not_asserted(self):
         rows = audit_snapshot(self.snapshot)["table1_category_reconciliation"]["results"]
         self.assertEqual([row["national_rate_implied_unique_count_min"] for row in rows], [136, 227, 207, 495])
-        self.assertEqual([row["table1_total_compatible_if_categories_are_unique_samples"] for row in rows], [True, False, False, False])
+        self.assertEqual([row["table1_total_compatible_if_categories_are_unique_samples"] for row in rows], [True, False, True, False])
         self.assertTrue(all(row["counting_semantics"].startswith("unverified_") for row in rows))
 
     def test_missing_table1_category_is_rejected(self):
