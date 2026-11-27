@@ -120,3 +120,10 @@ The report schema is now version 2 while the validator retains compatibility wit
 **FACT:** Linux process CPU time includes all threads; cgroup v2 controller limits are hierarchical. The updated measurement therefore treats process-level metadata as insufficient unless worker membership and visible ancestor quota constraints are checked.
 
 **UNTESTED until the next workflow run:** the enhanced instrumentation has not yet produced a new hosted artifact. No conclusion is drawn about whether it changes the previous 80-run result.
+
+
+## Frozen-source provenance correction
+
+The first schema-v2 instrumentation change modified the live C source file, which caused the version-1 frozen-result reproducer to compare the old report's source digest against the new source and fail. This was a provenance defect in the reproduction path, not a failure of the historical measurements.
+
+The exact version-1 C source from the original diagnostic commit is now preserved at `scripts/archive/noema005_openmp_timing_diagnostic_v1.c`. The frozen-report reproducer hashes this archived source, while new runs compile the current schema-v2 source. Historical evidence is therefore immutable and is not silently reinterpreted using a later implementation.

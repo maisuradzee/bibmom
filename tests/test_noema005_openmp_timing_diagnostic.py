@@ -96,6 +96,12 @@ class Noema005OpenMPTimingDiagnosticTests(unittest.TestCase):
         report["environment"]["hostname"]="not-public"
         with self.assertRaises(ValueError): validate_report(report,SCHEMA)
 
+    def test_frozen_source_archive_matches_original_report_source(self):
+        import hashlib, json
+        from scripts.reproduce_noema005_openmp_timing_diagnostic import FROZEN_SOURCE, MANIFEST
+        manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
+        self.assertEqual(hashlib.sha256(FROZEN_SOURCE.read_bytes()).hexdigest(), manifest["source_sha256"])
+
     def test_frozen_hosted_artifact_reproduces(self):
         report = load_frozen_report()
         self.assertEqual(len(report["runs"]), 80)

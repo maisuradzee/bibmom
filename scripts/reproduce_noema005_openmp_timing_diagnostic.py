@@ -11,11 +11,12 @@ from pathlib import Path
 import statistics
 
 if __package__:
-    from .run_noema005_openmp_timing_diagnostic import SOURCE, validate_report
+    from .run_noema005_openmp_timing_diagnostic import validate_report
 else:
-    from run_noema005_openmp_timing_diagnostic import SOURCE, validate_report
+    from run_noema005_openmp_timing_diagnostic import validate_report
 
 ROOT = Path(__file__).resolve().parents[1]
+FROZEN_SOURCE = ROOT / "scripts/archive/noema005_openmp_timing_diagnostic_v1.c"
 ARCHIVE = ROOT / "data/noema-005/raw/openmp-timing-diagnostic-2026-11-27.json.gz.b64"
 MANIFEST = ROOT / "data/noema-005/openmp-timing-diagnostic-manifest-2026-11-27.json"
 
@@ -32,7 +33,7 @@ def load_frozen_report() -> dict:
         raise ValueError("raw report digest mismatch")
     report = json.loads(raw)
     validate_report(report)
-    source_sha = hashlib.sha256(SOURCE.read_bytes()).hexdigest()
+    source_sha = hashlib.sha256(FROZEN_SOURCE.read_bytes()).hexdigest()
     if source_sha != manifest["source_sha256"] or report["source_sha256"] != source_sha:
         raise ValueError("benchmark source SHA-256 mismatch")
     runs = report["runs"]
