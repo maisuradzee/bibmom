@@ -2,7 +2,7 @@ from __future__ import annotations
 import copy
 import unittest
 from pathlib import Path
-from scripts.run_noema005_openmp_timing_diagnostic import parse_cpu_list, parse_cpu_max, validate_report
+from scripts.run_noema005_openmp_timing_diagnostic import _relative_cgroup_path, _unescape_mount_field, parse_cpu_list, parse_cpu_max, validate_report
 from scripts.reproduce_noema005_openmp_timing_diagnostic import load_frozen_report, load_frozen_report_v2
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -46,6 +46,20 @@ def sample_report():
             "limitations":["Synthetic test fixture; not an experimental result."]}
 
 class Noema005OpenMPTimingDiagnosticTests(unittest.TestCase):
+    def test_cgroup_mount_root_path_mapping_is_segment_safe(self):
+        self.assertEqual(_relative_cgroup_path("/kubepods/pod-a/container", "/"), "kubepods/pod-a/container")
+        self.assertEqual(_relative_cgroup_path("/system.slice/container.service", "/system.slice"), "container.service")
+        self.assertEqual(_relative_cgroup_path("/system.slice", "/system.slice"), ".")
+        self.assertEqual(_relative_cgroup_path("/", "/"), ".")
+        self.assertIsNone(_relative_cgroup_path("/system.slice2/container.service", "/system.slice"))
+        self.assertIsNone(_relative_cgroup_path("system.slice/container.service", "/system.slice"))
+        self.assertIsNone(_relative_cgroup_path("/system.slice/../other", "/system.slice"))
+
+    def test_mountinfo_path_escapes_are_unescaped(self):
+        self.assertEqual(_unescape_mount_field("/run/cgroup\\040mount"), "/run/cgroup mount")
+        self.assertEqual(_unescape_mount_field("/run/cgroup\\011mount"), "/run/cgroup\\tmount")
+        self.assertEqual(_unescape_mount_field("/run/cgroup\\134mount"), "/run/cgroup\\mount")
+
     def test_cpu_list_parser(self):
         self.assertEqual(parse_cpu_list("0-3,6,8-9"),[0,1,2,3,6,8,9])
         self.assertEqual(parse_cpu_list(None),[])

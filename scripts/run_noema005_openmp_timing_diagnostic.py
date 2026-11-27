@@ -49,6 +49,28 @@ def parse_cpu_max(value: str | None) -> float | None:
         raise ValueError("invalid cgroup cpu.max quota")
     return int(parts[0]) / int(parts[1])
 
+def _relative_cgroup_path(membership: str, mount_root: str) -> str | None:
+    """Map a /proc/self/cgroup path into a cgroup2 mount without prefix aliases."""
+    if not isinstance(membership, str) or not isinstance(mount_root, str):
+        return None
+    if not membership.startswith("/") or not mount_root.startswith("/"):
+        return None
+    if "\x00" in membership or "\x00" in mount_root:
+        return None
+    normalized_root = mount_root.rstrip("/") or "/"
+    if membership == normalized_root:
+        return "."
+    if normalized_root == "/":
+        relative = membership.lstrip("/")
+        return relative or "."
+    prefix = normalized_root + "/"
+    if membership.startswith(prefix):
+        relative = membership[len(prefix):]
+        if relative and all(part not in {"", ".", ".."} for part in relative.split("/")):
+            return relative
+    return None
+
+
 def _unescape_mount_field(value: str) -> str:
     return value.replace("\\040", " ").replace("\\011", "\t").replace("\\134", "\\")
 
@@ -70,13 +92,8 @@ def _cgroup_v2_directory() -> tuple[Path | None, Path | None, bool]:
                 continue
             mount_root = _unescape_mount_field(left_fields[3])
             mount_point = Path(_unescape_mount_field(left_fields[4]))
-            if membership == mount_root:
-                relative = "."
-            elif mount_root == "/" and membership.startswith("/"):
-                relative = membership.lstrip("/")
-            elif membership.startswith(mount_root.rstrip("/") + "/"):
-                relative = membership[len(mount_root.rstrip("/")) + 1:]
-            else:
+            relative = _relative_cgroup_path(membership, mount_root)
+            if relative is None:
                 continue
             candidate = mount_point / relative
             if candidate.is_dir():
