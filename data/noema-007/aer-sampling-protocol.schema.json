@@ -1,0 +1,377 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NOEMA-007 mobile-inclusive AER sampling protocol",
+  "description": "Pre-registration contract only. It contains no event observations or participant records and does not establish that a sample is representative.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "protocol_id",
+    "study_id",
+    "status",
+    "scope",
+    "sampling_frames",
+    "measurement_rules",
+    "privacy",
+    "sources",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "protocol_id": {
+      "type": "string",
+      "pattern": "^aerproto_[0-9a-f]{16}$"
+    },
+    "study_id": {
+      "const": "NOEMA-2026-007"
+    },
+    "status": {
+      "const": "proposed"
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "hazard",
+        "area_level",
+        "event_selection_rule",
+        "time_window_rule",
+        "review_mandate_required"
+      ],
+      "properties": {
+        "hazard": {
+          "enum": [
+            "flood",
+            "landslide",
+            "debris_flow",
+            "avalanche",
+            "drought",
+            "heat",
+            "hail",
+            "wind",
+            "wildfire",
+            "other"
+          ]
+        },
+        "area_level": {
+          "enum": [
+            "river_basin",
+            "municipality",
+            "region",
+            "national"
+          ]
+        },
+        "event_selection_rule": {
+          "enum": [
+            "officially_recorded_hazard_event",
+            "official_warning_with_documented_impact",
+            "pre_registered_exercise"
+          ]
+        },
+        "time_window_rule": {
+          "enum": [
+            "official_event_timestamps_only",
+            "warning_to_action_window",
+            "pre_registered_exercise_window"
+          ]
+        },
+        "review_mandate_required": {
+          "const": true
+        }
+      }
+    },
+    "sampling_frames": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "frame_id",
+          "frame_type",
+          "source_class",
+          "sampling_method",
+          "mobility_context",
+          "denominator_kind",
+          "denominator_unit",
+          "inference_scope",
+          "weighting",
+          "limitations_codes"
+        ],
+        "properties": {
+          "frame_id": {
+            "type": "string",
+            "pattern": "^frame_[0-9a-f]{8}$"
+          },
+          "frame_type": {
+            "enum": [
+              "time_location_cluster",
+              "community_partner_aggregate",
+              "service_point_aggregate",
+              "administrative_population_frame",
+              "official_endpoint_aggregate"
+            ]
+          },
+          "source_class": {
+            "enum": [
+              "official_aggregate",
+              "community_partner_aggregate",
+              "service_point_aggregate",
+              "survey_frame",
+              "administrative_aggregate"
+            ]
+          },
+          "sampling_method": {
+            "enum": [
+              "stratified_time_location",
+              "probability_cluster",
+              "stratified_probability",
+              "partner_led_aggregate",
+              "service_point_intercept",
+              "administrative_census",
+              "convenience"
+            ]
+          },
+          "mobility_context": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "resident",
+                "temporarily_present",
+                "workplace_or_shift",
+                "transit_or_service_point",
+                "mobility_constrained",
+                "other"
+              ]
+            }
+          },
+          "denominator_kind": {
+            "enum": [
+              "eligible_people_in_frame",
+              "respondents_invited",
+              "respondents_completed",
+              "respondents_received_warning",
+              "respondents_comprehension_assessed",
+              "respondents_action_feasibility_assessed",
+              "respondents_action_reported_assessed",
+              "respondents_action_verification_assessed",
+              "endpoints_attempted",
+              "endpoints_confirmed"
+            ]
+          },
+          "denominator_unit": {
+            "enum": [
+              "people",
+              "endpoints"
+            ]
+          },
+          "inference_scope": {
+            "enum": [
+              "sample_only",
+              "frame_only",
+              "population_estimate",
+              "descriptive_only"
+            ]
+          },
+          "weighting": {
+            "enum": [
+              "none",
+              "design_weights",
+              "unknown"
+            ]
+          },
+          "limitations_codes": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "nonresponse",
+                "coverage",
+                "time_location_selection",
+                "service_point_selection",
+                "endpoint_not_person",
+                "nonprobability",
+                "undercoverage",
+                "other"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "measurement_rules": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "metric",
+          "numerator_kind",
+          "denominator_kind",
+          "unit",
+          "inference_scope",
+          "numerator_denominator_separate"
+        ],
+        "properties": {
+          "metric": {
+            "enum": [
+              "warning_delivery",
+              "survey_receipt",
+              "comprehension",
+              "feasibility",
+              "reported_action",
+              "verified_action"
+            ]
+          },
+          "numerator_kind": {
+            "enum": [
+              "endpoints_confirmed",
+              "respondents_received_warning",
+              "respondents_comprehension_correct",
+              "respondents_action_feasible",
+              "respondents_protective_action_reported",
+              "respondents_protective_action_verified"
+            ]
+          },
+          "denominator_kind": {
+            "enum": [
+              "endpoints_attempted",
+              "respondents_completed",
+              "respondents_received_warning",
+              "respondents_comprehension_assessed",
+              "respondents_action_feasibility_assessed",
+              "respondents_action_reported_assessed",
+              "respondents_action_verification_assessed"
+            ]
+          },
+          "unit": {
+            "enum": [
+              "people",
+              "endpoints"
+            ]
+          },
+          "inference_scope": {
+            "enum": [
+              "descriptive_only",
+              "frame_estimate",
+              "population_estimate"
+            ]
+          },
+          "numerator_denominator_separate": {
+            "const": true
+          }
+        }
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "direct_identifiers",
+        "precise_coordinates",
+        "device_identifiers",
+        "individual_movement_histories",
+        "legal_or_migration_status",
+        "raw_message_content",
+        "individual_health_records",
+        "no_person_level_rows_in_public_artifacts",
+        "human_privacy_review_required",
+        "cross_release_disclosure_review_required",
+        "threshold_policy_status"
+      ],
+      "properties": {
+        "direct_identifiers": {
+          "const": false
+        },
+        "precise_coordinates": {
+          "const": false
+        },
+        "device_identifiers": {
+          "const": false
+        },
+        "individual_movement_histories": {
+          "const": false
+        },
+        "legal_or_migration_status": {
+          "const": false
+        },
+        "raw_message_content": {
+          "const": false
+        },
+        "individual_health_records": {
+          "const": false
+        },
+        "no_person_level_rows_in_public_artifacts": {
+          "const": true
+        },
+        "human_privacy_review_required": {
+          "const": true
+        },
+        "cross_release_disclosure_review_required": {
+          "const": true
+        },
+        "threshold_policy_status": {
+          "enum": [
+            "not_approved",
+            "approved"
+          ]
+        }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "title",
+          "publisher",
+          "publication_date",
+          "url",
+          "accessed_at"
+        ],
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 240
+          },
+          "publisher": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 160
+          },
+          "publication_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https://"
+          },
+          "accessed_at": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "string",
+        "minLength": 20,
+        "maxLength": 700
+      }
+    }
+  }
+}
