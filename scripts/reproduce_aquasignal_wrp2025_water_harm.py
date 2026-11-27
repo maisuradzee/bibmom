@@ -172,9 +172,14 @@ def main() -> None:
     parser.add_argument("--input", type=Path, required=True)
     parser.add_argument("--output", type=Path)
     parser.add_argument("--protocol", type=Path, default=PROTOCOL_PATH)
+    parser.add_argument("--expected-result", type=Path, help="Optional frozen aggregate JSON to compare against")
     args = parser.parse_args()
     protocol = json.loads(args.protocol.read_text(encoding="utf-8"))
     result = reproduce_parquet(args.input, protocol)
+    if args.expected_result:
+        expected = json.loads(args.expected_result.read_text(encoding="utf-8"))
+        if result != expected:
+            raise SystemExit("AquaSignal WRP water-harm result differs from the frozen aggregate")
     rendered = json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True, allow_nan=False) + "\n"
     if args.output:
         args.output.parent.mkdir(parents=True, exist_ok=True)
