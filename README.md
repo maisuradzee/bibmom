@@ -22,7 +22,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - `noema_core/aquasignal.py` — AquaSignal-ის დეტერმინისტული, მხოლოდ გადაწყვეტილების მხარდამჭერი წესების ძრავა.
 - `noema_core/aquasignal_store.py` — ინციდენტების replay-ზე დაფუძნებული SQLite persistence, SHA-256 audit chain და unsigned caller-supplied checkpoint-ის hash/count comparison.
 - `noema_core/aquasignal_checkpoint.py` — exact canonical payload-ზე detached Ed25519 checkpoint verification, event-chain head matching და caller-managed external monotonic high-water guard; private keys და high-water storage ამ public prototype-ში არ ინახება.
-- `noema_core/action_readiness.py` — NOEMA-007-ის event/area aggregate-only warning-to-action metrics validator; endpoint receipts და survey denominators განცალკევებულია.
+- `noema_core/action_readiness.py` — NOEMA-007-ის event/area aggregate-only warning-to-action metrics validator; endpoint receipts, survey denominators და self-reported timely receipt განცალკევებულია.
 - `noema_core/backup_manifest.py` — strict Draft 2020-12 manifest validator, streamed plaintext/ciphertext SHA-256/byte-length verifier და caller-supplied trusted Ed25519 public key-ით exact-byte detached-signature verification; decryption, provider retention, anti-rollback და restore ცალკე ეტაპებია.
 - `noema_core/restore_attestation.py` — same-host/offsite restore-drill attestation completeness gate; it never authenticates caller-supplied evidence by itself.
 - `noema_core/mission.json` და `noema_core/mission.py` — მანქანურად წაკითხვადი მისია, ინფორმაციის წვდომის პოლიტიკა და ავტონომიური მოქმედებების წესები.
@@ -50,6 +50,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 
 - [AquaSignal — საქართველოს წყლის მონიტორინგის ქსელების ინვენტარი](research/drafts/NOEMA-2026-006-georgia-water-monitoring-inventory-2026-11-26.md) — ოფიციალური ქსელების მასშტაბი და მონაცემთა ხელმისაწვდომობის ზღვარი.
 
+- [NOEMA-007 — დროული გაფრთხილების მიღების გაზომვა](research/protocols/NOEMA-007-timely-receipt-measurement.md) — respondent-recall-ის ცალკე denominator და event-specific feasible lead-time კონტრაქტი.
 - [NOEMA-2026-001](research/drafts/2026-11-23-paleolithic-sign-systems.md) — პალეოლითური ნიშნები; მეთოდოლოგიური გადახედვა: [დამატება A](research/drafts/2026-11-23-methodological-reassessment.md).
 - [NOEMA-2026-002](research/drafts/2026-11-23-signbase-coding-audit.md) — SignBase 2.0-ის ტექსტური კოდირების აუდიტი და საბაზისო heuristic-ის ტესტი.
 - [NOEMA-2026-003](research/drafts/2026-11-23-noaa-globaltemp-trend-sensitivity.md) — NOAA GlobalTemp-ის ტენდენციის საწყისი წლის მგრძნობელობა და NASA GISTEMP/HadCRUT5-თან cross-dataset გამეორება.
