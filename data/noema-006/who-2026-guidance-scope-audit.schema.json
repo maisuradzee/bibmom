@@ -1,0 +1,174 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AquaSignal WHO 2026 consolidated-guidance scope audit",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_id",
+    "study_id",
+    "evidence_status",
+    "source",
+    "chemical_fact_sheet",
+    "third_addendum_update_scope",
+    "interpretation_limits",
+    "privacy"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "record_id": {
+      "const": "AQUASIGNAL-WHO-2026-THIRD-ADDENDUM-NITRATE-NITRITE-SCOPE"
+    },
+    "study_id": {
+      "const": "NOEMA-2026-006"
+    },
+    "evidence_status": {
+      "const": "FACT"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "publisher",
+        "title",
+        "publication_date",
+        "isbn",
+        "url",
+        "chemical_fact_sheet_pdf_url",
+        "printed_pages",
+        "accessed_at"
+      ],
+      "properties": {
+        "publisher": {
+          "const": "World Health Organization"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 30
+        },
+        "publication_date": {
+          "const": "2026-06-17"
+        },
+        "isbn": {
+          "const": "978-92-4-012122-5"
+        },
+        "url": {
+          "const": "https://www.who.int/publications/i/item/9789240121225"
+        },
+        "chemical_fact_sheet_pdf_url": {
+          "const": "https://cdn.who.int/media/docs/default-source/wash-documents/water-safety-and-quality/dwq-guidelines-4/gdwq_4ed_with_third-addenda_chemical-fact-sheets.pdf?sfvrsn=77d972e1_5"
+        },
+        "printed_pages": {
+          "const": "466-472"
+        },
+        "accessed_at": {
+          "const": "2026-11-28"
+        }
+      }
+    },
+    "chemical_fact_sheet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "analytes",
+        "assessment_date",
+        "nitrate_guideline_value",
+        "nitrate_unit",
+        "nitrite_guideline_value",
+        "nitrite_unit",
+        "combined_rule",
+        "nitrate_to_nitrate_nitrogen_factor",
+        "nitrite_to_nitrite_nitrogen_factor"
+      ],
+      "properties": {
+        "analytes": {
+          "const": [
+            "nitrate",
+            "nitrite"
+          ]
+        },
+        "assessment_date": {
+          "const": "2016"
+        },
+        "nitrate_guideline_value": {
+          "const": "50"
+        },
+        "nitrate_unit": {
+          "const": "mg/L as nitrate ion (NO3-)"
+        },
+        "nitrite_guideline_value": {
+          "const": "3"
+        },
+        "nitrite_unit": {
+          "const": "mg/L as nitrite ion (NO2-)"
+        },
+        "combined_rule": {
+          "const": "C_nitrate/50 + C_nitrite/3 <= 1"
+        },
+        "nitrate_to_nitrate_nitrogen_factor": {
+          "const": "0.226"
+        },
+        "nitrite_to_nitrite_nitrogen_factor": {
+          "const": "0.304"
+        }
+      }
+    },
+    "third_addendum_update_scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "updated_topics",
+        "nitrate_nitrite_reassessment_identified_in_update_summary",
+        "interpretation"
+      ],
+      "properties": {
+        "updated_topics": {
+          "type": "array",
+          "minItems": 4,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 15
+          }
+        },
+        "nitrate_nitrite_reassessment_identified_in_update_summary": {
+          "const": false
+        },
+        "interpretation": {
+          "type": "string",
+          "minLength": 100
+        }
+      }
+    },
+    "interpretation_limits": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "string",
+        "minLength": 40
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "raw_sample_records_included",
+        "personal_data_included",
+        "exact_site_coordinates_included"
+      ],
+      "properties": {
+        "raw_sample_records_included": {
+          "const": false
+        },
+        "personal_data_included": {
+          "const": false
+        },
+        "exact_site_coordinates_included": {
+          "const": false
+        }
+      }
+    }
+  }
+}
