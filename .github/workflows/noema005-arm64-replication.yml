@@ -10,6 +10,7 @@ on:
       - tests/test_benchmark_noema005_threaded_reduction.py
       - tests/test_validate_noema005_arm64_report.py
       - research/drafts/NOEMA-2026-005-arm64-replication-protocol.md
+      - research/drafts/NOEMA-2026-005-fsum-scalar-partials-2026-11-28.md
   workflow_dispatch:
 
 permissions:
@@ -32,25 +33,25 @@ jobs:
           - runner: ubuntu-24.04-arm
             runner_key: ubuntu-24.04-arm
             expected_os: Linux
-            python_version: "3.14.4"
+            python_version: "3.14.10"
             mode: gil-enabled
             expected_gil: enabled
           - runner: ubuntu-24.04-arm
             runner_key: ubuntu-24.04-arm
             expected_os: Linux
-            python_version: "3.14.4t"
+            python_version: "3.14.10t"
             mode: free-threaded
             expected_gil: disabled
           - runner: macos-15
             runner_key: macos-15-arm64
             expected_os: Darwin
-            python_version: "3.14.4"
+            python_version: "3.14.10"
             mode: gil-enabled
             expected_gil: enabled
           - runner: macos-15
             runner_key: macos-15-arm64
             expected_os: Darwin
-            python_version: "3.14.4t"
+            python_version: "3.14.10t"
             mode: free-threaded
             expected_gil: disabled
 
