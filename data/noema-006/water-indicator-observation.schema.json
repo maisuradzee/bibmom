@@ -139,7 +139,8 @@
         "routine_compliance",
         "risk_based",
         "convenience",
-        null
+        null,
+        "unknown"
       ]
     },
     "inclusion_rule_id": {
