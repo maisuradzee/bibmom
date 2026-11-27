@@ -24,7 +24,8 @@
       "numerator": null,
       "denominator": null,
       "reported_percent": 49.5,
-      "reported_precision_decimals": 1
+      "reported_precision_decimals": 1,
+      "supply_type_scope": null
     },
     {
       "schema_version": 1,
@@ -46,7 +47,8 @@
       "numerator": null,
       "denominator": null,
       "reported_percent": 44.5,
-      "reported_precision_decimals": 1
+      "reported_precision_decimals": 1,
+      "supply_type_scope": null
     }
   ],
   "expected_comparison_status": "INSUFFICIENT_METADATA",
