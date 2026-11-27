@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-006",
+  "evidence_status": "FACT",
+  "investigation": {
+    "publication_date": "2026-09-25",
+    "location_scope": "Tbilisi",
+    "context": "NFA-reported investigation following norovirus-associated gastroenteritis cases among children in Tbilisi kindergartens",
+    "facilities_inspected_approx": 70,
+    "combined_food_and_drinking_water_samples_collected": 694,
+    "food_samples_tested": 129,
+    "food_samples_noncompliant": 0,
+    "water_samples_collected": null,
+    "water_samples_tested": null,
+    "water_sample_results": null,
+    "remaining_combined_investigation_results": "reported_as_pending_at_publication"
+  },
+  "source": {
+    "publisher": "National Food Agency of Georgia",
+    "title": "No violations found in 129 food samples taken from kindergartens",
+    "publication_date": "2026-09-25",
+    "url": "https://www.nfa.gov.ge/en/News/Details/3868",
+    "accessed_at": "2026-11-27"
+  },
+  "privacy": {
+    "child_level_data_included": false,
+    "kindergarten_names_included": false,
+    "personal_data_included": false,
+    "exact_addresses_included": false
+  },
+  "interpretation_limits": [
+    "The 694 count is a combined food-and-drinking-water sample count; the source does not provide a water-only count.",
+    "The 129 samples reported as compliant are food samples only and must not be presented as water sample results.",
+    "The source does not establish that drinking water caused the norovirus-associated gastroenteritis cases.",
+    "The water sample results and the remaining investigation results were reported as pending at the publication date.",
+    "No kindergarten names, child-level data, personal data or exact addresses are included in this public metadata."
+  ]
+}
