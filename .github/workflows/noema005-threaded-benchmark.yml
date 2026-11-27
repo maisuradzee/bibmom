@@ -93,13 +93,13 @@ jobs:
           import sys
           from pathlib import Path
           report = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
-          assert report["experiment_id"] == "NOEMA-2026-005-REAL-THREADS-001"
+          assert report["experiment_id"] == "NOEMA-2026-005-REAL-THREADS-002"
           assert len(report["inputs"]) == 2
-          assert len(report["threaded_cases"]) == 2 * 4 * 2 * 3
+          assert len(report["threaded_cases"]) == 2 * 4 * 2 * 4
           assert all(case["native_thread_counts"] == [case["worker_count"]] * 3
                      for case in report["threaded_cases"])
           assert all(case["runs"] == 3 for case in report["threaded_cases"])
-          print("PASS: 48 threaded cases, 3 repetitions each, distinct native thread IDs")
+          print("PASS: 64 threaded cases, 3 repetitions each, distinct native thread IDs")
           print("GIL:", report["environment"]["gil_enabled"])
           print("CPU:", report["environment"]["cpu_count_process"])
           PY
