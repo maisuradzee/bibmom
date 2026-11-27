@@ -24,6 +24,7 @@ EXPECTED_METHODS = {
     "threaded_neumaier_state",
 }
 EXPECTED_WORKERS = (1, 2, 4, 8)
+EXPECTED_LAYOUTS = {"triplet_order", "grouped_cancellation"}
 EXPECTED_PARTITIONS = {"contiguous", "round_robin"}
 EXPECTED_RUNS = 3
 
@@ -78,6 +79,9 @@ def _validate_case(case: Any, method: str) -> tuple[int, str, int, float, int, i
     workers = case.get("worker_count")
     if type(workers) is not int or workers not in EXPECTED_WORKERS:
         raise ValueError(f"{method} has invalid worker_count")
+    layout = case.get("layout")
+    if not isinstance(layout, str) or layout not in EXPECTED_LAYOUTS:
+        raise ValueError(f"{method} has invalid layout")
     partition = case.get("partition")
     if not isinstance(partition, str) or partition not in EXPECTED_PARTITIONS:
         raise ValueError(f"{method} has invalid partition")
@@ -140,7 +144,7 @@ def _validate_case(case: Any, method: str) -> tuple[int, str, int, float, int, i
         positive=True,
     )
     memory = _nonnegative_int(case.get("peak_traced_python_bytes"), f"{method}.peak_traced_python_bytes")
-    return correct, partition, workers, speedup, median_ratio, memory
+    return correct, layout, partition, workers, speedup, median_ratio, memory
 
 
 def aggregate(report: dict[str, Any]) -> dict[str, Any]:
@@ -153,24 +157,29 @@ def aggregate(report: dict[str, Any]) -> dict[str, Any]:
         raise ValueError("threaded method matrix is incomplete")
 
     result: dict[str, Any] = {}
-    expected_pairs = {(workers, partition) for workers in EXPECTED_WORKERS for partition in EXPECTED_PARTITIONS}
+    expected_pairs = {
+        (layout, workers, partition)
+        for layout in EXPECTED_LAYOUTS
+        for workers in EXPECTED_WORKERS
+        for partition in EXPECTED_PARTITIONS
+    }
     for method in sorted(EXPECTED_METHODS):
         rows = [case for case in cases if case.get("method") == method]
         if len(rows) != len(expected_pairs):
             raise ValueError(f"{method} must contain exactly {len(expected_pairs)} cases")
         observed_pairs = [
-            (case.get("worker_count"), case.get("partition"))
+            (case.get("layout"), case.get("worker_count"), case.get("partition"))
             for case in rows
         ]
         if len(set(observed_pairs)) != len(observed_pairs) or set(observed_pairs) != expected_pairs:
-            raise ValueError(f"{method} worker/partition matrix is duplicate or incomplete")
+            raise ValueError(f"{method} layout/worker/partition matrix is duplicate or incomplete")
 
         correct = total = parallel = parallel_total = valid_thread_cases = 0
         speedups: list[float] = []
         cpu_wall: list[float] = []
         memory: list[int] = []
         for case in rows:
-            case_correct, _, _, speedup, ratio, peak = _validate_case(case, method)
+            case_correct, _, _, _, speedup, ratio, peak = _validate_case(case, method)
             correct += case_correct
             total += EXPECTED_RUNS
             speedups.append(speedup)

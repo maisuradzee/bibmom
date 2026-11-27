@@ -34,11 +34,11 @@ GitHub Actions run 45972740197-ზე შესრულდა ახალი C
 1. GitHub Actions artifact ZIP-ები ჩამოიტვირთა და მათი SHA-256 შედარდა artifact metadata-სთან.
 2. თითოეული extracted JSON report-ის SHA-256 ცალკე შემოწმდა.
 3. canonical binary64 input hashes შედარდა წინა run-ის მნიშვნელობებს.
-4. თითოეულ runtime-ში შემოწმდა 48 case: ორი layout, ორი partition, ოთხი worker count და სამი reduction method.
+4. თითოეულ runtime-ში შემოწმდა 48 case: ორი input layout, ორი partition, ოთხი worker count და სამი reduction method.
 5. თითოეულ case-ს ჰქონდა ერთი warm-up და სამი measured repetition.
 6. თითოეული measured run-ის native thread IDs უნდა შეესაბამებოდეს worker count-ს და იყოს უნიკალური.
 7. process_time_ns/perf_counter_ns თანაფარდობა ცალკე ინახება; იგი არ არის speedup. tracemalloc peak არის Python-traced allocation და არა RSS.
-8. `reproduce_noema005_run23.py --check` ამოწმებს extracted report SHA-ებს, canonical input hashes-ს, GIL/environment identity-ს, ზუსტ 3-method × 4-worker × 2-partition case matrix-ს, native thread identity-ს, raw timing samples-ის მედიანებს, CPU/wall ratio-სა და მის 1.05 threshold flags-ს.
+8. `reproduce_noema005_run23.py --check` ამოწმებს extracted report SHA-ებს, canonical input hashes-ს, GIL/environment identity-ს, ზუსტ 3-method × 2-layout × 4-worker × 2-partition case matrix-ს, native thread identity-ს, raw timing samples-ის მედიანებს, CPU/wall ratio-სა და მის 1.05 threshold flags-ს.
 9. სინთეზური regression tests ამოწმებს duplicate/missing matrix cell-ს, უცნობ partition-ს, არასწორ accuracy count-ს, არამდგრად/non-positive speedup-ს, negative memory-ს, raw timing/median mismatch-სა და native thread ID-ის დეფექტებს.
 
 ## შედეგები და ინტერპრეტაცია
@@ -84,7 +84,7 @@ GitHub Actions run 45972740197-ზე შესრულდა ახალი C
 
 - ორივე extracted JSON report-ის SHA-256 ემთხვევა frozen summary-ს.
 - canonical input hashes და native thread identity-ები გადამოწმებულია.
-- exact case matrix, raw timing medians და CPU/wall flags ხელახლა მოწმდება CI-ში.
+- exact layout/worker/partition case matrix, raw timing medians და CPU/wall flags ხელახლა მოწმდება CI-ში.
 - ორიგინალი ZIP archive SHA acquisition-time metadata-სთან არის შედარებული, მაგრამ archive bytes არ არის გაყინული საცავში.
 - არ ჩატარებულა physical-device replication ან external peer review.
 - სტატუსი რჩება Draft/Preliminary; Published არ არის.

@@ -55,6 +55,12 @@ class Noema005Run23Tests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "matrix is duplicate or incomplete"):
             aggregate(report)
 
+    def test_unknown_layout_is_rejected(self):
+        report = self._sample_report()
+        report["threaded_cases"][0]["layout"] = "unknown-layout"
+        with self.assertRaisesRegex(ValueError, "invalid layout"):
+            aggregate(report)
+
     def test_unknown_partition_is_rejected(self):
         report = self._sample_report()
         report["threaded_cases"][0]["partition"] = "random"
