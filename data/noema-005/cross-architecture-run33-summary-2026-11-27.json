@@ -1,0 +1,281 @@
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-005",
+  "experiment_id": "NOEMA-2026-005-CROSS-ARCH-RUN33-001",
+  "date": "2026-11-27",
+  "evidence_status": "REPRODUCED_RESULT",
+  "source_summaries": [
+    {
+      "architecture": "x86_64",
+      "source_path": "data/noema-005/x86-threaded-benchmark-summary-2026-11-27.json",
+      "source_blob_sha1": "e78aff2d128553a30bbb550013e730887437f571",
+      "source_commit": "e4863a1ae570b41a54c53389269f05846aacd13d",
+      "source_pull_request": 175,
+      "workflow_run_ids": [
+        46034414138,
+        46034729099,
+        46035393777
+      ],
+      "reports": 6,
+      "configurations": 288,
+      "measured_runs": 864,
+      "accuracy": {
+        "naive_scalar": {
+          "correct": 0,
+          "total": 288
+        },
+        "neumaier_scalar": {
+          "correct": 252,
+          "total": 288
+        },
+        "neumaier_state": {
+          "correct": 288,
+          "total": 288
+        }
+      },
+      "cpu_wall_samples_above_1_05": {
+        "gil_enabled": {
+          "count": 0,
+          "total": 432
+        },
+        "free_threaded": {
+          "count": 324,
+          "total": 432
+        }
+      },
+      "artifact_zip_digests_recomputed": true,
+      "raw_report_sha256_recorded": true
+    },
+    {
+      "architecture": "arm64",
+      "source_path": "data/noema-005/arm64-threaded-benchmark-summary-2026-11-27.json",
+      "source_blob_sha1": "34075bd02a297f6fee925ed53c1f63e1b4ac81a9",
+      "source_commit": "d4f06672208d808f8827b1528b9a07abe107d111",
+      "source_pull_request": 171,
+      "workflow_run_ids": [
+        46032894362
+      ],
+      "reports": 4,
+      "configurations": 192,
+      "measured_runs": 576,
+      "accuracy": {
+        "naive_scalar": {
+          "correct": 0,
+          "total": 192
+        },
+        "neumaier_scalar": {
+          "correct": 168,
+          "total": 192
+        },
+        "neumaier_state": {
+          "correct": 192,
+          "total": 192
+        }
+      },
+      "cpu_wall_samples_above_1_05": {
+        "gil_enabled": {
+          "count": 4,
+          "total": 288
+        },
+        "free_threaded": {
+          "count": 202,
+          "total": 288
+        }
+      },
+      "artifact_zip_digests_recomputed": true,
+      "raw_report_sha256_recorded": true
+    }
+  ],
+  "protocol": {
+    "python_version": "3.14.4",
+    "repeat_count": 65536,
+    "value_count_per_layout": 196608,
+    "workers": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "layouts": [
+      "triplet_order",
+      "grouped_cancellation"
+    ],
+    "partitions": [
+      "contiguous",
+      "round_robin"
+    ],
+    "methods": [
+      "threaded_naive_scalar",
+      "threaded_neumaier_scalar",
+      "threaded_neumaier_state"
+    ],
+    "warmups": 1,
+    "repetitions": 3,
+    "reference": "exact rational sum of input binary64 values rounded once to binary64",
+    "cpu_metric": "process_time_ns / perf_counter_ns",
+    "memory_metric": "tracemalloc peak delta only; not RSS or all native allocations"
+  },
+  "input_sha256": {
+    "triplet_order": "e6cc4a627d55c476cb55e6f9789ceb39282e1f787d4b0a5fc040b30428085291",
+    "grouped_cancellation": "16ae80fed695b4d02f4a42a2e7c3f5b8a5eff96e97296273c3ddcacfb19090ee"
+  },
+  "protocol_and_input_match": true,
+  "speedup_cells": [
+    {
+      "architecture": "x86_64",
+      "runner": "ubuntu-24.04",
+      "backend": "azure",
+      "runtime_mode": "gil_enabled",
+      "workflow_run_id": 46034414138,
+      "neumaier_state_median_speedup": 0.780854
+    },
+    {
+      "architecture": "x86_64",
+      "runner": "ubuntu-24.04",
+      "backend": "azure",
+      "runtime_mode": "free_threaded",
+      "workflow_run_id": 46034414138,
+      "neumaier_state_median_speedup": 1.317241
+    },
+    {
+      "architecture": "x86_64",
+      "runner": "ubuntu-24.04",
+      "backend": "aws",
+      "runtime_mode": "gil_enabled",
+      "workflow_run_id": 46034729099,
+      "neumaier_state_median_speedup": 0.751309
+    },
+    {
+      "architecture": "x86_64",
+      "runner": "ubuntu-24.04",
+      "backend": "azure",
+      "runtime_mode": "free_threaded",
+      "workflow_run_id": 46034729099,
+      "neumaier_state_median_speedup": 1.174008
+    },
+    {
+      "architecture": "x86_64",
+      "runner": "ubuntu-24.04",
+      "backend": "aws",
+      "runtime_mode": "gil_enabled",
+      "workflow_run_id": 46035393777,
+      "neumaier_state_median_speedup": 0.764602
+    },
+    {
+      "architecture": "x86_64",
+      "runner": "ubuntu-24.04",
+      "backend": "aws",
+      "runtime_mode": "free_threaded",
+      "workflow_run_id": 46035393777,
+      "neumaier_state_median_speedup": 0.703377
+    },
+    {
+      "architecture": "arm64",
+      "runner": "ubuntu-24.04-arm",
+      "backend": "azure",
+      "runtime_mode": "gil_enabled",
+      "workflow_run_id": 46032894362,
+      "neumaier_state_median_speedup": 0.733395
+    },
+    {
+      "architecture": "arm64",
+      "runner": "ubuntu-24.04-arm",
+      "backend": "azure",
+      "runtime_mode": "free_threaded",
+      "workflow_run_id": 46032894362,
+      "neumaier_state_median_speedup": 0.640091
+    },
+    {
+      "architecture": "arm64",
+      "runner": "macos-15-arm64",
+      "backend": "github-hosted-macos",
+      "runtime_mode": "gil_enabled",
+      "workflow_run_id": 46032894362,
+      "neumaier_state_median_speedup": 0.837476
+    },
+    {
+      "architecture": "arm64",
+      "runner": "macos-15-arm64",
+      "backend": "github-hosted-macos",
+      "runtime_mode": "free_threaded",
+      "workflow_run_id": 46032894362,
+      "neumaier_state_median_speedup": 0.620236
+    }
+  ],
+  "combined": {
+    "reports": 10,
+    "configurations": 480,
+    "measured_runs": 1440,
+    "accuracy": {
+      "naive_scalar": {
+        "correct": 0,
+        "total": 480
+      },
+      "neumaier_scalar": {
+        "correct": 420,
+        "total": 480
+      },
+      "neumaier_state": {
+        "correct": 480,
+        "total": 480
+      }
+    },
+    "cpu_wall_samples_above_1_05": {
+      "x86_64": {
+        "gil_enabled": {
+          "count": 0,
+          "total": 432
+        },
+        "free_threaded": {
+          "count": 324,
+          "total": 432
+        }
+      },
+      "arm64": {
+        "gil_enabled": {
+          "count": 4,
+          "total": 288
+        },
+        "free_threaded": {
+          "count": 202,
+          "total": 288
+        }
+      }
+    },
+    "neumaier_state_median_speedup_ranges": {
+      "x86_64": {
+        "gil_enabled": {
+          "min": 0.751309,
+          "max": 0.780854
+        },
+        "free_threaded": {
+          "min": 0.703377,
+          "max": 1.317241
+        }
+      },
+      "arm64": {
+        "gil_enabled": {
+          "min": 0.733395,
+          "max": 0.837476
+        },
+        "free_threaded": {
+          "min": 0.620236,
+          "max": 0.640091
+        }
+      }
+    },
+    "cells_above_1_0": 2,
+    "cells_below_1_0": 8,
+    "interpretation": "Across ten hosted runner/runtime reports, Neumaier-state matched the exact-reference result in 480/480 configurations; scalar Neumaier did so in 420/480 and naive scalar in 0/480. The only two Neumaier-state median speedups above 1.0 were x86-64 Azure free-threaded reports. All four ARM64 reports, all three GIL-enabled x86-64 reports and the matched AWS free-threaded x86-64 report were below 1.0. The result is backend- and runner-dependent; it is not evidence of an architecture effect or a general free-threading speedup."
+  },
+  "limitations": [
+    "All observations are GitHub-hosted synthetic workloads, not independently controlled physical-device or external-laboratory replications.",
+    "Only three measured repetitions per configuration were used; uncertainty intervals and robust 20+ repetition distributions are unavailable.",
+    "The x86-64 workflow 46034729099 paired an AWS GIL-enabled report with an Azure free-threaded report; that workflow is not a matched backend comparison.",
+    "The ARM64 Ubuntu and macOS runner families differ in available process CPUs (four versus three); absolute cross-runner differences are confounded.",
+    "The memory metric is tracemalloc peak delta only; process RSS, native allocations and DRAM bandwidth were not measured.",
+    "The shared input hashes and protocol establish identical synthetic fixtures and declared settings, but do not control CPU model, microcode, power policy, virtualization, cache topology or scheduler behavior.",
+    "No physical-hardware replication or independent numerical-method review has been completed."
+  ],
+  "validation_scope": "Aggregate-only comparison of two schema-validated source summaries. Source summary Git blob IDs, source commits, workflow IDs, artifact ZIP digest verification and raw-report hash recording are preserved. Raw reports and native thread IDs are not copied into this synthesis."
+}
