@@ -1,9 +1,10 @@
-# AquaSignal — საჯარო მონაცემთა წვდომის მტკიცებულების დონეები
+# NOEMA-2026-006 — AquaSignal — საჯარო მონაცემთა წვდომის მტკიცებულების დონეები
 
-**კვლევის ID:** NOEMA-2026-006  
-**თარიღი:** 2026-11-27  
-**სტატუსი:** Draft  
-**მიმართულებები:** DISCOVERY · RESEARCH · INNOVATION
+- **ID:** NOEMA-2026-006
+- **სტატუსი:** draft
+- **თარიღი:** 2026-11-27
+- **სფერო:** წყლის მონიტორინგი · მონაცემთა წარმომავლობა · საჯარო ინფორმაციის წვდომა
+- **ავტორი/მომზადების სისტემა:** NOEMA research workflow
 
 ## საკვლევი კითხვა
 
@@ -36,20 +37,19 @@ NEA122 არის სადგურების სივრცითი კ�
 
 ## ინოვაციური გადაწყვეტა — fail-closed access evidence state machine
 
-დაემატა noema_core/source_access_evidence.py და data/noema-006/source-access-evidence.schema.json. თითოეული წყარო იღებს ცალკე მტკიცებულების ველებს:
-
-1. კატალოგის ხილვადობა და ფასი;
-2. payload-ის მიღების მდგომარეობა და SHA-256;
-3. schema/data dictionary-ის დათვალიერება და SHA-256;
-4. reuse terms-ის დადასტურება და მისი წყარო;
-5. sample-level მონაცემის არსებობა;
-6. წერილობითი ავტორიზაცია ან დადასტურება, რომ იგი საჭირო არ არის.
+დაემატა noema_core/source_access_evidence.py და source-access-evidence JSON Schema. თითოეული წყარო იღებს ცალკე მტკიცებულების ველებს: კატალოგის ხილვადობა/ფასი, payload-ის მიღება და SHA-256, schema/data dictionary-ის დათვალიერება და SHA-256, reuse terms, sample-level მონაცემის არსებობა და წერილობითი ავტორიზაცია.
 
 მდგომარეობები პროგრესირებს მხოლოდ შესაბამისი მტკიცებულების არსებობისას: CATALOG_METADATA_ONLY, PAYLOAD_RETRIEVED_SCHEMA_UNINSPECTED, REUSE_UNVERIFIED, NO_SAMPLE_LEVEL_DATA, AUTHORIZATION_REQUIRED და CONTROLLED_INGESTION_ELIGIBLE. restricted პირობები ყოველთვის იძლევა BLOCKED_RESTRICTED შედეგს.
 
-სინთეზური ტესტები ამოწმებს, რომ public/free კატალოგის ჩანაწერი ვერ გადადის ingest-eligible მდგომარეობაში payload, schema, reuse და authorization მტკიცებულების გარეშე.
+## მეთოდი ან ექსპერიმენტის გეგმა
 
-## შეზღუდვები და უსაფრთხოება
+- ოფიციალური MEPA spatial catalogue-ის NEA122 ჩანაწერის დოკუმენტური შემოწმება.
+- NEA-ს 2026-11-26 განცხადებისა და RAR ბმულის არსებობის შემოწმება; არქივის შიგთავსი არ ჩაითვალა შემოწმებულად.
+- დახურული JSON Schema და დეტერმინისტული Python state validator.
+- სინთეზური ტესტები: public/free vs payload, hash-ის სავალდებულოობა, schema-ის მიმდევრობა, reuse evidence, authorization, duplicate source IDs და HTTPS წყაროები.
+- არანაირი HTTP retrieval ან მონაცემთა ingestion არ სრულდება ამ მოდულით.
+
+## შეზღუდვები და გაურკვევლობები
 
 - არც NEA122-ის payload ჩამოგვიტვირთავს და არც მისი schema დაგვითვალიერებია.
 - RAR არქივის შიგთავსი, ზომა, შიდა ფაილები და reuse პირობები უცნობია.
@@ -57,9 +57,16 @@ NEA122 არის სადგურების სივრცითი კ�
 - ეს მოდული არ აკეთებს HTTP retrieval-ს, ლიცენზიის იურიდიულ ინტერპრეტაციას ან მონაცემთა ingestion-ს.
 - CONTROLLED_INGESTION_ELIGIBLE მხოლოდ წინაპირობების ვალიდაციის შედეგია; იგი არ ანიჭებს სამართლებრივ უფლებას და არ იწყებს იმპორტს.
 
-## შემდეგი ნაბიჯი
+## შემდეგი ნაბიჯები
 
 NEA-სგან მოითხოვოს NEA122-ის ექსპორტის/სერვისის URL, data dictionary, CRS, აქტიური/არააქტიური სადგურის სტატუსი, განახლების cadence და reuse პირობები; RAR-ისთვის გამოიყენოს ოფიციალური ალტერნატიული ჩამოტვირთვის არხი და შიგთავსის SHA-256/ფაილების ინვენტარი მხოლოდ მიღების შემდეგ. NFA-ს სასმელი წყლის შესაბამისობის მონაცემები დარჩეს ცალკე წყაროდ.
+
+## შემოწმების სტატუსი
+
+- FACT წყაროები: ოფიციალური MEPA კატალოგი და NEA განცხადება.
+- REPRODUCED RESULT: სინთეზური unit tests უნდა შესრულდეს exact-head CI-ში.
+- INFERENCE: public/free catalogue metadata არ უდრის sample-level feed-ს ან reuse licence-ს.
+- გარე წყლის ხარისხის/სტატისტიკური რეცენზია არ ჩატარებულა; Draft სტატუსი შენარჩუნებულია.
 
 ## წყაროები
 
