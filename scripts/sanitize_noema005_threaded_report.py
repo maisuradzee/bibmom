@@ -71,7 +71,11 @@ def sanitize_report(report: dict[str, Any], runner_family: str = "github-hosted"
         ids_by_run = case.get("native_thread_ids_by_run")
         if type(workers) is not int or workers <= 0 or type(runs) is not int or runs <= 0:
             raise ValueError(f"threaded case {index} has invalid worker/run counts")
-        if not isinstance(counts, list) or counts != [workers] * runs:
+        if (
+            not isinstance(counts, list)
+            or len(counts) != runs
+            or any(type(value) is not int or value != workers for value in counts)
+        ):
             raise ValueError(f"threaded case {index} has inconsistent native thread counts")
         if not isinstance(ids_by_run, list) or len(ids_by_run) != runs:
             raise ValueError(f"threaded case {index} is missing native thread identity evidence")
