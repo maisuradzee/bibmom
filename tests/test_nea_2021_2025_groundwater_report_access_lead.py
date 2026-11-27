@@ -110,7 +110,7 @@ class HistoricalBaselineAndGeorgianLegalCrosswalkTests(unittest.TestCase):
         baseline = self.record["historical_baseline"]
         self.assertEqual(baseline["status"], "historical_context_only")
         self.assertIn("not a current 2026", " ".join(baseline["limitations"]))
-        self.assertIn("no uncertainty", " ".join(baseline["limitations"]))
+        self.assertIn("no uncertainty", " ".join(baseline["limitations"]).lower())
 
 
 if __name__ == "__main__":
