@@ -84,6 +84,23 @@
           "fresh groundwater monitoring and annual hydrogeological bulletin"
         ]
       }
+    },
+    {
+      "id": "nea-geological-bulletin-2025-linked-but-not-retrieved",
+      "publisher": "National Environmental Agency of Georgia",
+      "title": "Results of natural geological processes in Georgia in 2025 and forecast for 2026",
+      "publication_date": "undated",
+      "url": "https://ftp.mepa.gov.ge/Public/NEA/%E1%83%92%E1%83%94%E1%83%9D%E1%83%9A%E1%83%9D%E1%83%92%E1%83%98%E1%83%A3%E1%83%A0%E1%83%98%20%E1%83%91%E1%83%98%E1%83%A3%E1%83%9A%E1%83%94%E1%83%A2%E1%83%94%E1%83%9C%E1%83%98%202025%20%281%29.pdf",
+      "accessed_at": "2026-11-27",
+      "source_claims": {
+        "listed_on_geology_department_page": true,
+        "content_type": "application/pdf",
+        "content_length_bytes": 704801491,
+        "retrieval_status": "not_fetched_due_to_tool_limit",
+        "retrieval_note": "The web retrieval tool rejected the 704801491-byte PDF as too large; the document contents were not inspected.",
+        "no_substantive_content_extracted": true,
+        "document_scope_from_link_title": "2025 geological-process results and 2026 forecast"
+      }
     }
   ],
   "local_planning_signal": {
