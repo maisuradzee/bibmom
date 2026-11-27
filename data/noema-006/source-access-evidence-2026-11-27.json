@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "project": "AquaSignal",
+  "accessed_at": "2026-11-27",
+  "sources": [
+    {
+      "source_id": "NEA122",
+      "authority": "National Environmental Agency of Georgia",
+      "source_kind": "catalog_record",
+      "source_url": "https://portal.mepa.gov.ge/En/User/data?Links-sort=ResponsiblePerson-asc",
+      "catalog_record_id": "NEA122",
+      "catalog_record_date": "2026-03-06",
+      "catalog_visibility": "public",
+      "catalog_cost": "free",
+      "geometry_type": "point",
+      "technical_layer": "Groundwtaer_Monitoring_Stations_NEA",
+      "storage_location": "SQL SDE server; personal computer",
+      "portal_product_url": null,
+      "linked_resource_url": null,
+      "payload_status": "not_retrieved",
+      "payload_sha256": null,
+      "schema_status": "not_inspected",
+      "schema_sha256": null,
+      "reuse_terms_status": "not_verified",
+      "reuse_evidence": [],
+      "sample_level_status": "unknown",
+      "authorization_status": "not_obtained",
+      "evidence": [
+        {
+          "source_url": "https://portal.mepa.gov.ge/En/User/data?Links-sort=ResponsiblePerson-asc",
+          "locator": "NEA122 row; catalogue columns for sharing type, price, technical layer, storage location and portal placement; record date 2026-03-06",
+          "claim": "The catalogue lists a public/free point layer named Groundwtaer_Monitoring_Stations_NEA, but the row identifies SQL SDE/local storage and has no portal product URL.",
+          "status": "FACT"
+        }
+      ],
+      "expected_access_state": "CATALOG_METADATA_ONLY"
+    },
+    {
+      "source_id": "NEA-GW-2021-2025-RAR",
+      "authority": "National Environmental Agency of Georgia",
+      "source_kind": "report_archive",
+      "source_url": "https://nea.gov.ge/ajs/News/3461",
+      "catalog_record_id": null,
+      "catalog_record_date": "2026-11-26",
+      "catalog_visibility": "unknown",
+      "catalog_cost": "unknown",
+      "geometry_type": null,
+      "technical_layer": null,
+      "storage_location": null,
+      "portal_product_url": null,
+      "linked_resource_url": "https://ftp.mepa.gov.ge/Public/NEA/%E1%83%B0%E1%83%98%E1%83%93%E1%83%A0%E1%83%9D%E1%83%92%E1%83%94%E1%83%9A%E1%83%A3%E1%83%A0%E1%83%98%20%E1%83%90%E1%83%9C%E1%83%92%E1%83%90%E1%83%A0%E1%83%98%E1%83%A8%E1%83%98%20-%202026%20-%20%E1%83%94%E1%83%9A-%E1%83%95%E1%83%94%E1%83%A0%E1%83%A1%E1%83%98%E1%83%94%E1%83%91%E1%83%98.rar",
+      "payload_status": "link_announced_not_retrieved",
+      "payload_sha256": null,
+      "schema_status": "not_inspected",
+      "schema_sha256": null,
+      "reuse_terms_status": "not_verified",
+      "reuse_evidence": [],
+      "sample_level_status": "unknown",
+      "authorization_status": "not_obtained",
+      "evidence": [
+        {
+          "source_url": "https://nea.gov.ge/ajs/News/3461",
+          "locator": "2026-11-26 NEA announcement, report and methodology link",
+          "claim": "NEA announced the 2021–2025 groundwater monitoring report and nitrate-risk field methodology and linked a RAR archive; the archive contents were not inspected in this run.",
+          "status": "FACT"
+        }
+      ],
+      "expected_access_state": "CATALOG_METADATA_ONLY"
+    }
+  ]
+}
