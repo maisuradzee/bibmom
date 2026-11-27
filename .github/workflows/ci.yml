@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Install pinned site and research-analysis dependencies
         run: |
           python -m pip install --disable-pip-version-check -r requirements-site.txt

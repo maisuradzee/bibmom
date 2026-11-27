@@ -300,7 +300,11 @@
         "Download the original GIL-enabled and free-threaded Actions artifact ZIPs, verify archive SHA-256 against the frozen summary, and independently recompute per-case accuracy and worker-count metric aggregates.",
         "Second real CPU-thread run raw reports were archived as gzip/base64; workflow ZIP SHA-256 and decompressed raw-report SHA-256 were checked, then per-case accuracy and metric aggregates were recomputed by scripts/reproduce_noema005_threaded_reruns.py --check.",
         "Third hosted x86-64 rerun (GitHub Actions 45897707859): archive both GIL-enabled and free-threaded raw reports, verify ZIP hashes against GitHub artifact metadata, verify raw-report SHA-256 and independently reproduce per-method accuracy, median speedup, CPU/wall ratio, allocation and worker-count aggregates.",
-        "Independently compare matching raw JSON cases across separate KVM runs using the same source SHA and recorded host/cgroup provenance; report per-worker timing variation rather than pooling runs into a portable speedup."
+        "Independently compare matching raw JSON cases across separate KVM runs using the same source SHA and recorded host/cgroup provenance; report per-worker timing variation rather than pooling runs into a portable speedup.",
+        "Audit paired per-repetition process-CPU and monotonic wall-time samples; compare process CPU/wall ratios with the recorded effective cgroup CPU set, not only with requested OpenMP worker counts.",
+        "Keep correctness, timing validity, and resident-memory bandwidth as separate evidence questions; use a fail-closed rule for timing claims when resource provenance is inconsistent.",
+        "Run a controlled Linux OpenMP timing diagnostic with per-thread CPU clocks, per-thread sched_getaffinity masks, cgroup v2 cpuset/cpu.max, and an independent monotonic wall clock to investigate the archived process-CPU/wall anomaly.",
+        "Schema-v2 Linux OpenMP timer diagnostic: sample each worker's CLOCK_THREAD_CPUTIME_ID, affinity and unified cgroup membership; count process tasks; walk visible cgroup-v2 cpu.max ancestors; use an affinity/cpuset upper bound when quota-chain evidence is incomplete, and withhold exact effective capacity."
       ],
       "sources": [
         {
@@ -622,6 +626,102 @@
           "url": "https://github.com/maisuradzee/bibmom/actions/runs/45897707859",
           "type": "reproducible_hosted_experiment",
           "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "clock_gettime(2) — CLOCK_PROCESS_CPUTIME_ID semantics",
+          "publisher": "Linux man-pages project",
+          "publication_date": "undated",
+          "url": "https://man7.org/linux/man-pages/man2/clock_gettime.2.html",
+          "type": "linux_manual",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "Control Group v2 — cpuset.cpus.effective",
+          "publisher": "Linux kernel documentation",
+          "publication_date": "undated",
+          "url": "https://docs.kernel.org/admin-guide/cgroup-v2.html",
+          "type": "kernel_documentation",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "clock_gettime(2) — process and thread CPU clocks",
+          "publisher": "Linux man-pages project",
+          "publication_date": "undated",
+          "url": "https://man7.org/linux/man-pages/man2/clock_gettime.2.html",
+          "type": "linux_manual",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "sched_getaffinity(2) — calling-thread CPU affinity",
+          "publisher": "Linux man-pages project",
+          "publication_date": "undated",
+          "url": "https://man7.org/linux/man-pages/man2/sched_getaffinity.2.html",
+          "type": "linux_manual",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "Control Group v2 — cpuset.cpus.effective and cpu.max",
+          "publisher": "Linux kernel documentation",
+          "publication_date": "undated",
+          "url": "https://docs.kernel.org/admin-guide/cgroup-v2.html",
+          "type": "kernel_documentation",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "OpenMP API Specification 5.1 — omp_get_wtime",
+          "publisher": "OpenMP Architecture Review Board",
+          "publication_date": "2020-11",
+          "url": "https://www.openmp.org/spec-html/5.1/openmpsu185.html",
+          "type": "technical_specification",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "NOEMA-005 frozen per-thread timing diagnostic report",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-27",
+          "url": "https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/openmp-timing-diagnostic-manifest-2026-11-27.json",
+          "type": "frozen_hosted_experiment_result",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "NOEMA-005 schema-v2 OpenMP timing diagnostic frozen raw report",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-27",
+          "url": "https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/openmp-timing-diagnostic-v2-manifest-2026-11-27.json",
+          "type": "frozen_hosted_experiment_result",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "NOEMA-005 cross-architecture native accumulator replication (x86-64/ARM64)",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-27",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45961748438",
+          "type": "internal_cross_architecture_experiment",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "NOEMA-005 native OpenMP Neumaier-state benchmark",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-27",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45961748471",
+          "type": "internal_native_openmp_experiment",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "NOEMA-005 ARM64 GIL-enabled and free-threaded Python replication",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-27",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45961748435",
+          "type": "internal_threaded_runtime_experiment",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "NOEMA-005 cross-architecture reduction research note",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-27",
+          "url": "https://github.com/maisuradzee/bibmom/blob/main/research/drafts/NOEMA-2026-005-cross-architecture-reduction-2026-11-27.md",
+          "type": "internal_preliminary_research_note",
+          "accessed_at": "2026-11-27"
         }
       ],
       "data_needs": [
@@ -629,7 +729,8 @@
         "დამოუკიდებელი runtime-ების raw report-ები და არტეფაქტების SHA-256",
         "შემდეგ ეტაპზე native C/OpenMP ან სხვა runtime-ის იდენტურ input-ზე შედარება",
         "Archived raw JSON reports and verified artifact ZIP hashes for run 45897707859.",
-        "Independent physical x86-64 and ARM64 replication with at least 20 repetitions per configuration, representative workloads, RSS/native-allocation and memory-bandwidth measurements."
+        "Independent physical x86-64 and ARM64 replication with at least 20 repetitions per configuration, representative workloads, RSS/native-allocation and memory-bandwidth measurements.",
+        "Cross-architecture native accumulator and ARM64 GIL/free-threaded raw artifact ZIPs with SHA-256 provenance; durable repository archive before 30-day workflow retention expires."
       ],
       "risks": [
         "Hosted runner-ების CPU მოდელი, virtualization და host contention იცვლება",
@@ -642,16 +743,20 @@
         "The second free-threaded run crossed the 1.0 median speedup threshold (0.9519x to 1.0181x), but its per-case range remained broad (0.7023x–1.135x) on the same hosted runner family; this is run-to-run sensitivity, not a robust or portable speedup.",
         "The 2026-11-27 free-threaded and GIL-enabled jobs ran on different hosted VM families (Azure and AWS); direct cross-runtime timing comparison is confounded.",
         "The 1.2589x free-threaded median is versus matching serial Neumaier only; serial math.fsum was 14.8–16.3x faster than four-worker threaded Neumaier-state on these fixtures.",
-        "Run-19 reanalysis found full Neumaier-state median speedup varied -12.2% to -17.5% between two same-host KVM runs at 1/2/4/8 workers; eight workers exceed the four-CPU cgroup quota. This is timing sensitivity, not a confidence interval."
+        "Run-19 reanalysis found full Neumaier-state median speedup varied -12.2% to -17.5% between two same-host KVM runs at 1/2/4/8 workers; eight workers exceed the four-CPU cgroup quota. This is timing sensitivity, not a confidence interval.",
+        "Do not use affected native OpenMP wall-time or derived speedup values as evidence of scalable CPU throughput until the CPU-time ceiling anomaly is resolved.",
+        "The current generated-on-the-fly workload has zero resident input storage and cannot establish memory-bandwidth or large-array scaling."
       ],
       "blockers": [
         "The native experiment still uses two synthetic cancellation fixtures; representative application workloads and memory-bandwidth tests remain outstanding.",
         "Hosted x86-64/ARM64 CI is not independent physical-hardware replication; external numerical-method review remains outstanding.",
-        "No independent physical-hardware replication or representative memory-bandwidth-bound workload has been completed; external numerical-method review remains outstanding."
+        "No independent physical-hardware replication or representative memory-bandwidth-bound workload has been completed; external numerical-method review remains outstanding.",
+        "The older OpenMP archive still contains nine per-repetition process-CPU/wall ratios above 4.05; the later schema-v2 diagnostic (80/80 runs, maximum 4.0043, 0 anomalies) did not reproduce or explain the older anomaly. Keep the old raw record and investigate on physical hardware.",
+        "A controlled rerun must record per-thread CPU clocks, worker affinity, /proc/self/cgroup, effective cpuset, and external task-clock/context-switch counters."
       ],
       "status": "active",
-      "status_detail": "PR #81 merged into main as a69c3f29a7dec0f25f3a30c60f2d9f4d671807c7. Its exact-head quality CI 45872887590 and actual CPU-thread workflow 45872887552 both succeeded. The archived second raw-report set from workflow 45867519546 was rechecked: archive hashes and decompressed report hashes matched the frozen metadata, and scripts/reproduce_noema005_threaded_reruns.py --check reproduced all per-case accuracy counts and aggregate ranges. In that archived run, Neumaier-state median speedup was 0.7744x (range 0.7225–0.7935) with GIL and 1.0181x (range 0.7023–1.135) on free-threaded CPython; the prior free-threaded run was 0.9519x. The crossing of 1.0 is run-to-run variability, not evidence of a robust speedup. Both archived runs used the same hosted x86-64 runner family with 4-CPU affinity and synthetic cancellation fixtures. The study remains preliminary; representative application workloads, independent physical hardware and external numerical-method review remain outstanding. Scheduled-cycle audit 2026-11-27: PR #87 remains Draft on head 244761b6c44a2927345de4215b001bf909f8e662; exact-head quality CI 45883799154, 96-MiB memory-backed benchmark 45883799149 and actual CPU-thread workflow 45883799162 all succeeded. This is one hosted x86-64 runner family and a synthetic cancellation workload only; a second buffer size, representative workload and independent physical x86-64/ARM64 replication remain outstanding. Its base snapshot b97b30de is behind current main 8a69e6d9, so it needs refresh/revalidation before merge. Third hosted rerun (2026-11-27, Actions run 45897707859) was archived and independently reproduced in PR #94. Neumaier compensation-state merge was 48/48 correctly rounded in both runtimes; scalar Neumaier 42/48; naive 0/48. Free-threaded median speedup was 1.2589x versus matching serial Neumaier (worker medians 0.7733x/1.2125x/1.3546x/1.3090x for 1/2/4/8 workers), while GIL-enabled median was 0.7576x. CPU-time/wall-time exceeded 1.05 in 36/48 free-threaded runs and 0/48 GIL-enabled runs; native worker identity matched configured worker count in all 16 cases per runtime. Critical caveat: serial math.fsum remained 14.8–16.3x faster than the four-worker threaded Neumaier-state path on these fixtures. The two runtime modes used different hosted VM families, so cross-mode timing is confounded; this is not a general speedup claim. Run-19 independent reanalysis of PR #87's two raw 96-MiB KVM reports confirmed identical source SHA and host/cgroup settings; full Neumaier-state median speedup varied -12.2% to -17.5% across worker counts between runs. This is one virtualized x86-64 host and not physical replication or a general speedup claim.",
-      "next_step": "Replicate the same frozen inputs on independently controlled physical x86-64 and ARM64 hardware with at least 20 repetitions per configuration, confidence intervals, RSS/native-allocation and DRAM-bandwidth measurements; compare Neumaier-state against serial math.fsum, pairwise and exact accumulator on representative application workloads. Obtain independent numerical-method review.",
+      "status_detail": "PR #81 merged into main as a69c3f29a7dec0f25f3a30c60f2d9f4d671807c7. Its exact-head quality CI 45872887590 and actual CPU-thread workflow 45872887552 both succeeded. The archived second raw-report set from workflow 45867519546 was rechecked: archive hashes and decompressed report hashes matched the frozen metadata, and scripts/reproduce_noema005_threaded_reruns.py --check reproduced all per-case accuracy counts and aggregate ranges. In that archived run, Neumaier-state median speedup was 0.7744x (range 0.7225–0.7935) with GIL and 1.0181x (range 0.7023–1.135) on free-threaded CPython; the prior free-threaded run was 0.9519x. The crossing of 1.0 is run-to-run variability, not evidence of a robust speedup. Both archived runs used the same hosted x86-64 runner family with 4-CPU affinity and synthetic cancellation fixtures. The study remains preliminary; representative application workloads, independent physical hardware and external numerical-method review remain outstanding. Scheduled-cycle audit 2026-11-27: PR #87 remains Draft on head 244761b6c44a2927345de4215b001bf909f8e662; exact-head quality CI 45883799154, 96-MiB memory-backed benchmark 45883799149 and actual CPU-thread workflow 45883799162 all succeeded. This is one hosted x86-64 runner family and a synthetic cancellation workload only; a second buffer size, representative workload and independent physical x86-64/ARM64 replication remain outstanding. Its base snapshot b97b30de is behind current main 8a69e6d9, so it needs refresh/revalidation before merge. Third hosted rerun (2026-11-27, Actions run 45897707859) was archived and independently reproduced in PR #94. Neumaier compensation-state merge was 48/48 correctly rounded in both runtimes; scalar Neumaier 42/48; naive 0/48. Free-threaded median speedup was 1.2589x versus matching serial Neumaier (worker medians 0.7733x/1.2125x/1.3546x/1.3090x for 1/2/4/8 workers), while GIL-enabled median was 0.7576x. CPU-time/wall-time exceeded 1.05 in 36/48 free-threaded runs and 0/48 GIL-enabled runs; native worker identity matched configured worker count in all 16 cases per runtime. Critical caveat: serial math.fsum remained 14.8–16.3x faster than the four-worker threaded Neumaier-state path on these fixtures. The two runtime modes used different hosted VM families, so cross-mode timing is confounded; this is not a general speedup claim. Run-19 independent reanalysis of PR #87's two raw 96-MiB KVM reports confirmed identical source SHA and host/cgroup settings; full Neumaier-state median speedup varied -12.2% to -17.5% across worker counts between runs. This is one virtualized x86-64 host and not physical replication or a general speedup claim. 2026-11-27 frozen native OpenMP timing audit: report says four effective CPUs (cpuset 0-3), but nine of 80 paired OpenMP process-CPU/wall samples exceed 4.05 across five cases; maximum 13.287713. This is a timing/provenance anomaly, not a proven code defect. Neumaier accuracy remains 40/40 and naive partials 0/40. The workload has input_storage_bytes=0 and is not a resident-array bandwidth test. Final schema-v2 hosted diagnostic run 45958399175: 80 samples (20 each at 1/2/4/8 workers), 0 worker/process cgroup mismatches, 0 unverified workers, process thread count matched the OpenMP team in all 80 runs. Known affinity/cpuset upper bound 4 CPUs; threshold 4.25; maximum process-CPU/wall ratio 4.004285619; 0/80 anomalies. One visible cgroup-v2 ancestor cpu.max file was unreadable, so exact effective capacity remains null. This does not reproduce the earlier 13.287713 anomaly or identify its cause; physical hardware replication remains outstanding. Cross-architecture replication 2026-11-27 (PR #124 head d2e5b14): native C/OpenMP accumulator tests ran on hosted Linux x86-64 and ARM64 (50 cases each, 5 repetitions). Full Neumaier state and exact superaccumulator were 40/40 correctly rounded on both architectures; naive partials and pairwise tree were 0/40. long double mantissa was 64 bits on x86-64 and 113 on ARM64; x86 long double passed 5/10 serial and 20/40 OpenMP cases, ARM64 passed 10/10 and 40/40. Exact superaccumulator best tested speedup was 1.50x/1.83x on x86-64 (8 workers, triplet/grouped) and 3.37x/3.34x on ARM64 (4/8 workers). Pairwise was faster but incorrect under strict rounding. ARM64 Python-thread replication (macOS/Ubuntu, GIL and free-threaded) had Neumaier-state 48/48 correct in each environment, scalar Neumaier 42/48 and naive 0/48. Free-threaded process CPU/wall reached 3.75x Ubuntu and 2.74x macOS, but median wall speedup for Neumaier-state remained below 1.0; this is CPU parallelism without net speedup on the tested small workload. tracemalloc median was ~25 KB GIL vs ~277 KB free-threaded, not RSS. Artifacts: native accumulator run 45961748438 (x86 15181375189 SHA f8eff09d..., ARM 15180639287 SHA 3d70bb9e...); native OpenMP 45961748471 (artifact 15180639238 SHA 82207369...); ARM64 threaded run 45961748435 (four artifacts 15180264380, 15180749225, 15180908527, 15181310576; ZIP SHA values in cross-architecture draft). Hosted-runner cross-replication only; physical-device and external independent replication remain outstanding.",
+      "next_step": "Repeat the per-thread clock/affinity diagnostic on an independently controlled physical x86-64 host and a physical ARM64 host, with at least 20 repetitions per configuration, RSS/native allocation and DRAM-bandwidth measurements. Investigate the older 13.287713 archived anomaly without replacing its raw record; obtain independent numerical-method review.",
       "success_metrics": [
         "exact-reference accuracy თითოეული მეთოდისა და runtime-ის მიხედვით",
         "median wall-time და uncertainty interval წინასწარ განსაზღვრული repetition protocol-ით",
@@ -667,7 +772,9 @@
         "Third hosted rerun 45897707859: raw artifact archive and report SHA-256 values verify, and all 48 cases per runtime reproduce exactly from archived raw reports.",
         "Neumaier-state retains 48/48 correctly rounded results while scalar partial merge remains explicitly tested for the six failing grouped-cancellation configurations.",
         "Performance claims distinguish matching serial Neumaier from serial math.fsum and report CPU parallelism separately from wall-time speedup.",
-        "Raw reports share the exact C source SHA and record identical x86-64 KVM/cgroup settings; per-case accuracy counts and speedup changes are independently recomputed from both JSON files."
+        "Raw reports share the exact C source SHA and record identical x86-64 KVM/cgroup settings; per-case accuracy counts and speedup changes are independently recomputed from both JSON files.",
+        "Each timing run records process CPU, monotonic wall time, per-thread CPU clocks, per-thread affinity and effective cgroup CPU capacity; unexplained ratios above the measured capacity are retained as anomalies, not silently treated as speedup.",
+        "Frozen hosted per-thread timing diagnostic: 80/80 runs have requested=actual OpenMP threads; 0/80 CPU/wall ratios exceed four-CPU affinity plus 0.25 margin; raw JSON and SHA-256 provenance are independently reproducible."
       ],
       "last_reviewed": "2026-11-27"
     },
