@@ -1,5 +1,5 @@
 from __future__ import annotations
-import base64,gzip,hashlib,json,math,statistics
+import base64,gzip,hashlib,json,math,statistics,re
 from pathlib import Path
 from jsonschema import Draft202012Validator,FormatChecker
 try:
