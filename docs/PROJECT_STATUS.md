@@ -281,3 +281,12 @@
 - **CI correction:** the first PR's dedicated data workflow succeeded, but main Quality CI stopped at draft validation because the research note lacked the repository's required Georgian headings/date/status metadata. The corrected research record uses the required Georgian headings; a refreshed PR reruns the dedicated dataset workflow and all Quality CI checks.
 - **Portfolio:** four active streams remain. NOEMA-007's next blocker is authorised Georgian event-level warning and after-action data. AquaSignal still needs the NEA RAR or authorised alternate PDF transfer, station/sample dictionary and reuse terms. NOEMA-005 still needs physical x86-64/ARM64 replication with at least 20 repetitions per configuration and RSS/native-memory/DRAM-bandwidth measurements. INFRA-001 still needs an independent recovery owner, trust domain and clean-host restore.
 - No new Supabase project or other project's database was used. No respondent-level, private, health, location-tracking, credential or restricted data was committed.
+
+
+### AquaSignal — WRP 2025 WP22443 independent reproduction
+
+The pinned LRF WRP 2025 Parquet was downloaded on an ephemeral GitHub Actions runner. Git blob SHA-1 3e785688e067ded5fdfbe9b50721023ecea87826, byte length 7,070,416 and SHA-256 07b4632826e13ec1975ec977b0e057b528547c6f7805c0838abc1586b78da56b were verified. Workflow [46042747456](https://github.com/maisuradzee/bibmom/actions/runs/46042747456), job 140654329587, aggregate-only artifact 15221271518.
+
+WP22443 base: 143,459 respondents, 140 countries/territories, zero missing. PROJWT-weighted code 1 (personally experienced) 7.106988%, rounded 7%; code 3 (both) 5.850209%, rounded 6%; publisher rounded sum 13%. Unrounded combined value: 12.957198%. All six response categories and DK/refused remain in the denominator.
+
+Evidence boundary: WP22443 is self-reported serious harm over the past two years, not laboratory contamination, compliance, exposure attribution or a Georgian prevalence estimate. Only aggregate JSON was uploaded; no respondent-level records were committed. Main Quality CI first stopped at draft validation because the heading did not begin with NOEMA-; the corrected preprint now uses the required NOEMA-2026-006 title and will be rechecked in PR #183. The NEA RAR, NFA denominator and paired sample-level data remain blockers.

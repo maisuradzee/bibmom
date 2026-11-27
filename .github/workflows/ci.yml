@@ -67,6 +67,14 @@ jobs:
           test -f research/preprints/NOEMA-2026-007-wrp2025-warning-action-reproduction.md
           test -f data/noema-006/source-access-inventory.schema.json
           test -f data/noema-006/source-access-inventory-2026-11-27.json
+          test -f data/noema-006/wrp2025-water-harm-protocol.json
+          test -f data/noema-006/wrp2025-water-harm-protocol.schema.json
+          test -f data/noema-006/wrp2025-water-harm-result-2026-11-27.json
+          test -f data/noema-006/wrp2025-water-harm-result.schema.json
+          test -f research/preprints/NOEMA-2026-006-aquasignal-wrp2025-water-harm-reproduction.md
+          test -f scripts/reproduce_aquasignal_wrp2025_water_harm.py
+          test -f tests/test_aquasignal_wrp2025_water_harm.py
+          test -f .github/workflows/aquasignal-wrp2025-water-harm.yml
           test -f tests/test_noema006_source_access_inventory.py
           test -f research/TEMPLATE.md
           test -f scripts/validate_research.py
@@ -157,6 +165,8 @@ jobs:
         run: python scripts/reproduce_noema007_anticipatory_action.py --check
       - name: Validate AquaSignal source-access inventory schema
         run: python -m unittest discover -s tests -p 'test_noema006_source_access_inventory.py' -v
+      - name: Validate AquaSignal WRP 2025 water-harm protocol and frozen result
+        run: python -m unittest discover -s tests -p 'test_aquasignal_wrp2025_water_harm.py' -v
       - name: Validate NOEMA-007 action-readiness aggregate contract
         run: python -m unittest discover -s tests -p 'test_noema007_action_readiness.py' -v
       - name: Validate NOEMA-007 WRP 2025 reproduction protocol and frozen aggregate

@@ -466,6 +466,94 @@
       ]
     },
     {
+      "id": "NOEMA-2026-006",
+      "title": "AquaSignal — WRP 2025 სასმელ წყალთან დაკავშირებული თვითრეპორტირებული ზიანის დამოუკიდებელი გამეორება",
+      "date": "2026-11-27",
+      "category": "წყლის უსაფრთხოება / გამოკითხვის სტატისტიკური გამეორება",
+      "summary": "NOEMA-მ WRP 2025-ის WP22443 ცვლადზე დამოუკიდებლად გაიმეორა გლობალური self-reported drinking-water harm მაჩვენებელი. 143,459 რესპონდენტისა და 140 ქვეყნის მონაცემში არ-null ბაზა 143,459 იყო. PROJWT-შეწონილი code 1 (პირადად) იყო 7.106988% და code 3 (ორივე) 5.850209%; გამომცემლის half-up rounding წესით 7% + 6% = 13%. ეს არის ბოლო ორი წლის განმავლობაში თვითრეპორტირებული სერიოზული ზიანი და არა ლაბორატორიულად დადასტურებული დაბინძურება ან საქართველოს შეფასება.",
+      "file": "research/preprints/NOEMA-2026-006-aquasignal-wrp2025-water-harm-reproduction.md",
+      "status": "preliminary",
+      "version": "1.0",
+      "sources": [
+        {
+          "title": "World Risk Poll Report 2026 — The quiet hazards",
+          "authors": [
+            "Lloyd's Register Foundation"
+          ],
+          "citation": "Lloyd's Register Foundation. (2026-10-13). World Risk Poll Report 2026: The quiet hazards: How everyday risk shapes daily life. PreventionWeb publication record.",
+          "url": "https://www.preventionweb.net/publication/documents-and-publications/world-risk-poll-report-2026-quiet-hazards-how-everyday-risk-shapes-daily-life",
+          "type": "primary-report",
+          "publication_date": "2026-10-13",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "World Risk Poll 2025, Wave 4 public data release",
+          "authors": [
+            "Lloyd's Register Foundation"
+          ],
+          "citation": "Lloyd's Register Foundation. (2026-09-01). World Risk Poll 2025, Wave 4 public data release. Pinned commit f2b810c3c4333de6347ad2c9eade3c48ae17be4c.",
+          "url": "https://github.com/lrfoundation/world_risk_poll_data/tree/f2b810c3c4333de6347ad2c9eade3c48ae17be4c",
+          "type": "public-dataset",
+          "publication_date": "2026-09-01",
+          "accessed_at": "2026-11-27",
+          "version": "f2b810c3c4333de6347ad2c9eade3c48ae17be4c"
+        },
+        {
+          "title": "WRP 2025 data dictionary",
+          "authors": [
+            "Lloyd's Register Foundation"
+          ],
+          "citation": "Lloyd's Register Foundation. (2026-08-31). WRP 2025 data dictionary, pinned repository commit f2b810c3c4333de6347ad2c9eade3c48ae17be4c.",
+          "url": "https://github.com/lrfoundation/world_risk_poll_data/blob/f2b810c3c4333de6347ad2c9eade3c48ae17be4c/WRP_2025/WRP_2025_data_dictionary.csv",
+          "type": "data-dictionary",
+          "publication_date": "2026-08-31",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "The quiet hazards — reproduction method notes",
+          "authors": [
+            "Lloyd's Register Foundation"
+          ],
+          "citation": "Lloyd's Register Foundation. (2026). The quiet hazards: WP22443 weighted distribution and rounded-sum reproduction notes.",
+          "url": "https://github.com/lrfoundation/world_risk_poll_data/blob/f2b810c3c4333de6347ad2c9eade3c48ae17be4c/reports/WRP_2025/core_the_quiet_hazards/README.md",
+          "type": "reproduction-method",
+          "publication_date": "2026-10-13",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "The quiet hazards — reproduction code",
+          "authors": [
+            "Lloyd's Register Foundation"
+          ],
+          "citation": "Lloyd's Register Foundation. (2026). The quiet hazards: WP22443 category rounding implementation.",
+          "url": "https://github.com/lrfoundation/world_risk_poll_data/blob/f2b810c3c4333de6347ad2c9eade3c48ae17be4c/reports/WRP_2025/core_the_quiet_hazards/reproduce.py",
+          "type": "reproduction-code",
+          "publication_date": "2026-10-13",
+          "accessed_at": "2026-11-27"
+        }
+      ],
+      "methodology": {
+        "dataset_commit": "f2b810c3c4333de6347ad2c9eade3c48ae17be4c",
+        "git_blob_sha1": "3e785688e067ded5fdfbe9b50721023ecea87826",
+        "byte_length": 7070416,
+        "sha256": "07b4632826e13ec1975ec977b0e057b528547c6f7805c0838abc1586b78da56b",
+        "workflow_run_id": 46042747456,
+        "workflow_head_sha": "2517034f955c9a8d897a33eef131d0c3c2f2c713",
+        "workflow_job_id": 140654329587,
+        "artifact_id": 15221271518,
+        "artifact_zip_sha256": "1bbfe95a666eb31930763f487fd1959ab320e43061980b4c8cbae82549be60be",
+        "aggregate_json_sha256": "be009bee5bec7a2d2600c7f14a73f16dd1fba27eaba7855b7321d3c35a4bf53f",
+        "variable": "WP22443",
+        "weight": "PROJWT",
+        "personal_harm": "round_half_up(code_1_weighted_pct) + round_half_up(code_3_weighted_pct)"
+      },
+      "limitations": [
+        "WP22443 is self-reported serious harm in the past two years, not a laboratory measure of contamination or drinking-water compliance.",
+        "The global weighted estimate is not a Georgian prevalence estimate and cannot replace NEA or NFA sample-level water-quality data.",
+        "The publisher's 13 percent is the sum of separately rounded weighted categories 1 and 3; it is not a direct contaminant prevalence."
+      ]
+    },
+    {
       "id": "NOEMA-2026-007",
       "title": "გაფრთხილების მიღება და მოქმედების შესაძლებლობა — WRP 2025 დამოუკიდებელი გამეორება",
       "date": "2026-11-27",
