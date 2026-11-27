@@ -8,10 +8,10 @@
       "title": "მცურავი წერტილის ჯამის სიზუსტე: ალგორითმი და რიგითობა",
       "date": "2026-11-27",
       "category": "რიცხვითი ანალიზი",
-      "summary": "კონტროლირებული ტესტები აჩვენებს, რომ შეკრების რიგითობამ შეიძლება შედეგი შეცვალოს. 330-კონფიგურაციან sharded-reduction სიმულაციაში compensation state-მა 330/330 სწორი შედეგი შეინარჩუნა. რეალურ CPU threads-ზე x86-64 და ARM64 გარემოებში Neumaier compensation-state merge-მა ყველა შემოწმებულ კონფიგურაციაში სწორად დამრგვალებული შედეგი მიიღო. ARM64-ზე ოთხ დამოუკიდებელ Actions batch-ში Neumaier-state შედეგი 768/768 იყო; scalar Neumaier — 672/768, naive scalar — 0/768. CPU-time/wall-time >1.05 threshold-ის რაოდენობა batch-ებს შორის იცვლებოდა (free-threaded 208/288→211/288→214/288→207/288; GIL-enabled 2/288→1/288→0/288→0/288), ამიტომ ეს მხოლოდ აღწერითი მაჩვენებელია. Timing შედეგები არასტაბილურია: ერთ batch-ში ერთი macOS free-threaded cell-ის median speedup 1.003 იყო, ხოლო საბოლოო PR-head batch-ში ოთხივე cell 1.0-ზე დაბლა დარჩა. ზოგადი wall-time აჩქარება არ დადასტურებულა. წინასწარი, დამოუკიდებლად არარეცენზირებული შედეგია. 2026-11-26-ის მეორე x86-64 hosted rerun-ზე Neumaier-state კვლავ 48/48 სწორი იყო ორივე runtime-ში. GIL-enabled median speedup 0.7744×, free-threaded — 1.0181×; წინა free-threaded median 0.9519× იყო. ერთი run-ის 1.0181× შედეგი run-to-run variability-ს ფონზე არ ადასტურებს ზოგად აჩქარებას; raw reports და reproduction script დაემატა. 2026-11-27-ის სამ hosted x86-64 GIL/free-threaded workflow pair-ში (6 artifact, 864 timed repetition) Neumaier-state-მა თითოეულ artifact-ში 48/48 correctly-rounded შედეგი მიიღო; scalar Neumaier — 42/48, naive — 0/48. GIL-enabled median speedup-ები იყო 0.7577×, 0.7551× და 0.7603×; free-threaded AWS — 0.7024×, Azure repeat-ები — 1.2494× და 1.1491×. Runner flavor-ები confounded-ია და ერთი ფიზიკური host-ის controlled comparison არ არის; ზოგადი speedup არ დასტურდება. ექვსივე ორიგინალი artifact ZIP და source JSON hash-ით დაემთხვა manifest-ს; ეს კვლავ hosted synthetic evidence-ია და არა physical-device replication.",
+      "summary": "კონტროლირებული ტესტები აჩვენებს, რომ შეკრების რიგითობამ შეიძლება შედეგი შეცვალოს. 330-კონფიგურაციან sharded-reduction სიმულაციაში compensation state-მა 330/330 სწორი შედეგი შეინარჩუნა. რეალურ CPU threads-ზე x86-64 და ARM64 გარემოებში Neumaier compensation-state merge-მა ყველა შემოწმებულ კონფიგურაციაში სწორად დამრგვალებული შედეგი მიიღო. ARM64-ზე ოთხ დამოუკიდებელ Actions batch-ში Neumaier-state შედეგი 768/768 იყო; scalar Neumaier — 672/768, naive scalar — 0/768. CPU-time/wall-time >1.05 threshold-ის რაოდენობა batch-ებს შორის იცვლებოდა (free-threaded 208/288→211/288→214/288→207/288; GIL-enabled 2/288→1/288→0/288→0/288), ამიტომ ეს მხოლოდ აღწერითი მაჩვენებელია. Timing შედეგები არასტაბილურია: ერთ batch-ში ერთი macOS free-threaded cell-ის median speedup 1.003 იყო, ხოლო საბოლოო PR-head batch-ში ოთხივე cell 1.0-ზე დაბლა დარჩა. ზოგადი wall-time აჩქარება არ დადასტურებულა. წინასწარი, დამოუკიდებლად არარეცენზირებული შედეგია. 2026-11-26-ის მეორე x86-64 hosted rerun-ზე Neumaier-state კვლავ 48/48 სწორი იყო ორივე runtime-ში. GIL-enabled median speedup 0.7744×, free-threaded — 1.0181×; წინა free-threaded median 0.9519× იყო. ერთი run-ის 1.0181× შედეგი run-to-run variability-ს ფონზე არ ადასტურებს ზოგად აჩქარებას; raw reports და reproduction script დაემატა. 2026-11-27-ის სამ hosted x86-64 GIL/free-threaded workflow pair-ში (6 artifact, 864 timed repetition) Neumaier-state-მა თითოეულ artifact-ში 48/48 correctly-rounded შედეგი მიიღო; scalar Neumaier — 42/48, naive — 0/48. GIL-enabled median speedup-ები იყო 0.7577×, 0.7551× და 0.7603×; free-threaded AWS — 0.7024×, Azure repeat-ები — 1.2494× და 1.1491×. Runner flavor-ები confounded-ია და ერთი ფიზიკური host-ის controlled comparison არ არის; ზოგადი speedup არ დასტურდება. ექვსივე ორიგინალი artifact ZIP და source JSON hash-ით დაემთხვა manifest-ს; ეს კვლავ hosted synthetic evidence-ია და არა physical-device replication. 2026-11-27 Run 33-ის ოთხ hosted ARM64 runner/runtime cell-ში (Ubuntu/macOS × GIL/free-threaded) შესრულდა 192 configuration და 576 measured run: Neumaier-state 192/192 correctly rounded, scalar Neumaier 168/192, naive 0/192. Free-threaded CPU/wall >1.05 იყო 202/288 sample-ში, GIL-enabled — 4/288; თუმცა ოთხივე cell-ში სამივე მეთოდის median speedup 1.0-ზე ნაკლებია. Artifact ZIP SHA-256 ადგილობრივად ხელახლა გამოითვალა და GitHub digest-ს დაემთხვა. ეს hosted synthetic შედეგია; სამი repetition/configuration, RSS/native allocation/DRAM bandwidth და physical-device replication ჯერ არ ჩატარებულა.",
       "file": "research/preprints/NOEMA-2026-005-floating-point-summation.md",
       "status": "preliminary",
-      "version": "1.9",
+      "version": "2.0",
       "sources": [
         {
           "title": "The Accuracy of Floating Point Summation",
@@ -265,6 +265,18 @@
           "type": "reproducible-computational-record",
           "publication_date": "2026-11-27",
           "publication_note": "All six original artifact ZIP SHA-256 and source JSON SHA-256 values matched the committed manifest. Exact-head CI validated six sanitised snapshots. Hosted x86-64 and synthetic workload only; preliminary.",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "NOEMA-005 hosted ARM64 real-thread replication — Run 33",
+          "authors": [
+            "NOEMA research workflow"
+          ],
+          "citation": "NOEMA. (2026-11-27). Hosted ARM64 real-thread replication, GitHub Actions run 46032894362; aggregate summary and artifact digests preserved in the public repository.",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/46032894362",
+          "type": "reproducible-computational-record",
+          "publication_date": "2026-11-27",
+          "publication_note": "Four hosted ARM64 runner/runtime cells; 192 configurations and 576 measured runs. Neumaier-state 192/192 correct; all median speedups below 1.0. Preliminary synthetic evidence, not physical-device or external replication.",
           "accessed_at": "2026-11-27"
         }
       ],

@@ -1,0 +1,607 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://maisuradzee.github.io/bibmom/schemas/noema005-arm64-run33-summary.schema.json",
+  "title": "NOEMA-005 ARM64 Run 33 aggregate benchmark summary",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "study_id",
+    "experiment_id",
+    "date",
+    "base_commit",
+    "pull_request",
+    "workflow_run",
+    "quality_run",
+    "benchmark_run_head_sha",
+    "protocol",
+    "input_sha256",
+    "aggregate",
+    "runners",
+    "limitations",
+    "validation_scope"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "study_id": {
+      "const": "NOEMA-2026-005"
+    },
+    "experiment_id": {
+      "const": "NOEMA-2026-005-REAL-THREADS-ARM64-001"
+    },
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "base_commit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "pull_request": {
+      "const": 171
+    },
+    "workflow_run": {
+      "$ref": "#/$defs/workflow"
+    },
+    "quality_run": {
+      "$ref": "#/$defs/workflow"
+    },
+    "benchmark_run_head_sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repeat_count",
+        "value_count_per_layout",
+        "workers",
+        "layouts",
+        "partitions",
+        "methods",
+        "warmups",
+        "repetitions",
+        "random_seed",
+        "reference",
+        "cpu_metric",
+        "memory_metric",
+        "thread_identity"
+      ],
+      "properties": {
+        "repeat_count": {
+          "const": 65536
+        },
+        "value_count_per_layout": {
+          "const": 196608
+        },
+        "workers": {
+          "const": [
+            1,
+            2,
+            4,
+            8
+          ]
+        },
+        "layouts": {
+          "const": [
+            "triplet_order",
+            "grouped_cancellation"
+          ]
+        },
+        "partitions": {
+          "const": [
+            "contiguous",
+            "round_robin"
+          ]
+        },
+        "methods": {
+          "const": [
+            "threaded_naive_scalar",
+            "threaded_neumaier_scalar",
+            "threaded_neumaier_state"
+          ]
+        },
+        "warmups": {
+          "const": 1
+        },
+        "repetitions": {
+          "const": 3
+        },
+        "random_seed": {
+          "type": "null"
+        },
+        "reference": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cpu_metric": {
+          "type": "string",
+          "minLength": 1
+        },
+        "memory_metric": {
+          "type": "string",
+          "minLength": 1
+        },
+        "thread_identity": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "input_sha256": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "triplet_order",
+        "grouped_cancellation"
+      ],
+      "properties": {
+        "triplet_order": {
+          "$ref": "#/$defs/sha256"
+        },
+        "grouped_cancellation": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "aggregate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "arm64_runtimes",
+        "threaded_configurations",
+        "measured_runs",
+        "accuracy",
+        "cpu_wall_samples_above_1_05",
+        "input_hashes_identical",
+        "interpretation"
+      ],
+      "properties": {
+        "arm64_runtimes": {
+          "const": 4
+        },
+        "threaded_configurations": {
+          "const": 192
+        },
+        "measured_runs": {
+          "const": 576
+        },
+        "accuracy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "naive_scalar",
+            "neumaier_scalar",
+            "neumaier_state"
+          ],
+          "properties": {
+            "naive_scalar": {
+              "$ref": "#/$defs/count192_0"
+            },
+            "neumaier_scalar": {
+              "$ref": "#/$defs/count192_168"
+            },
+            "neumaier_state": {
+              "$ref": "#/$defs/count192_192"
+            }
+          }
+        },
+        "cpu_wall_samples_above_1_05": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "gil_enabled",
+            "free_threaded"
+          ],
+          "properties": {
+            "gil_enabled": {
+              "$ref": "#/$defs/count288_4"
+            },
+            "free_threaded": {
+              "$ref": "#/$defs/count288_202"
+            }
+          }
+        },
+        "input_hashes_identical": {
+          "const": true
+        },
+        "interpretation": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "runners": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "$ref": "#/$defs/runner"
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "validation_scope": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "workflow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "url",
+        "conclusion"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://github\\.com/maisuradzee/bibmom/actions/runs/"
+        },
+        "conclusion": {
+          "const": "success"
+        }
+      }
+    },
+    "count192_0": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "correct",
+        "total"
+      ],
+      "properties": {
+        "correct": {
+          "const": 0
+        },
+        "total": {
+          "const": 192
+        }
+      }
+    },
+    "count192_168": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "correct",
+        "total"
+      ],
+      "properties": {
+        "correct": {
+          "const": 168
+        },
+        "total": {
+          "const": 192
+        }
+      }
+    },
+    "count192_192": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "correct",
+        "total"
+      ],
+      "properties": {
+        "correct": {
+          "const": 192
+        },
+        "total": {
+          "const": 192
+        }
+      }
+    },
+    "count288_4": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "count",
+        "total"
+      ],
+      "properties": {
+        "count": {
+          "const": 4
+        },
+        "total": {
+          "const": 288
+        }
+      }
+    },
+    "count288_202": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "count",
+        "total"
+      ],
+      "properties": {
+        "count": {
+          "const": 202
+        },
+        "total": {
+          "const": 288
+        }
+      }
+    },
+    "ratio": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "runner": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "runner",
+        "runtime_mode",
+        "environment",
+        "accuracy",
+        "cpu_wall_samples_above_1_05",
+        "median_speedup_by_method",
+        "neumaier_state_by_worker",
+        "artifact"
+      ],
+      "properties": {
+        "runner": {
+          "enum": [
+            "ubuntu-24.04-arm",
+            "macos-15-arm64"
+          ]
+        },
+        "runtime_mode": {
+          "enum": [
+            "gil-enabled",
+            "free-threaded"
+          ]
+        },
+        "environment": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "python_implementation",
+            "python_version",
+            "machine",
+            "platform",
+            "processor",
+            "cpu_count_process",
+            "cpu_affinity_count",
+            "gil_enabled",
+            "free_threaded_build"
+          ],
+          "properties": {
+            "python_implementation": {
+              "const": "CPython"
+            },
+            "python_version": {
+              "const": "3.14.4"
+            },
+            "machine": {
+              "enum": [
+                "aarch64",
+                "arm64"
+              ]
+            },
+            "platform": {
+              "type": "string",
+              "minLength": 1
+            },
+            "processor": {
+              "type": "string",
+              "minLength": 1
+            },
+            "cpu_count_process": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "cpu_affinity_count": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 1
+            },
+            "gil_enabled": {
+              "type": "boolean"
+            },
+            "free_threaded_build": {
+              "type": "boolean"
+            }
+          }
+        },
+        "accuracy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "naive_scalar",
+            "neumaier_scalar",
+            "neumaier_state"
+          ],
+          "properties": {
+            "naive_scalar": {
+              "type": "string",
+              "pattern": "^0/48$"
+            },
+            "neumaier_scalar": {
+              "type": "string",
+              "pattern": "^42/48$"
+            },
+            "neumaier_state": {
+              "type": "string",
+              "pattern": "^48/48$"
+            }
+          }
+        },
+        "cpu_wall_samples_above_1_05": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "naive_scalar",
+            "neumaier_scalar",
+            "neumaier_state"
+          ],
+          "properties": {
+            "naive_scalar": {
+              "type": "string",
+              "pattern": "^\\d+/48$"
+            },
+            "neumaier_scalar": {
+              "type": "string",
+              "pattern": "^\\d+/48$"
+            },
+            "neumaier_state": {
+              "type": "string",
+              "pattern": "^\\d+/48$"
+            }
+          }
+        },
+        "median_speedup_by_method": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "naive_scalar",
+            "neumaier_scalar",
+            "neumaier_state"
+          ],
+          "properties": {
+            "naive_scalar": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "exclusiveMaximum": 1
+            },
+            "neumaier_scalar": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "exclusiveMaximum": 1
+            },
+            "neumaier_state": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "exclusiveMaximum": 1
+            }
+          }
+        },
+        "neumaier_state_by_worker": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "workers",
+              "median_wall_ns",
+              "median_speedup",
+              "median_cpu_wall_ratio",
+              "correctly_rounded_runs",
+              "total_runs",
+              "median_peak_traced_python_bytes",
+              "cpu_wall_samples_above_1_05",
+              "cpu_wall_samples_total"
+            ],
+            "properties": {
+              "workers": {
+                "enum": [
+                  1,
+                  2,
+                  4,
+                  8
+                ]
+              },
+              "median_wall_ns": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "median_speedup": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "exclusiveMaximum": 1
+              },
+              "median_cpu_wall_ratio": {
+                "$ref": "#/$defs/ratio"
+              },
+              "correctly_rounded_runs": {
+                "const": 12
+              },
+              "total_runs": {
+                "const": 12
+              },
+              "median_peak_traced_python_bytes": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "cpu_wall_samples_above_1_05": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 12
+              },
+              "cpu_wall_samples_total": {
+                "const": 12
+              }
+            }
+          }
+        },
+        "artifact": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "name",
+            "zip_digest",
+            "raw_report_sha256",
+            "raw_report_bytes",
+            "report_filename",
+            "expires_at"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "name": {
+              "type": "string",
+              "minLength": 1
+            },
+            "zip_digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            "raw_report_sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "raw_report_bytes": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "report_filename": {
+              "type": "string",
+              "minLength": 1
+            },
+            "expires_at": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        }
+      }
+    }
+  }
+}
