@@ -1,0 +1,51 @@
+name: NOEMA-007 WRP 2025 independent reproduction
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/reproduce_noema007_wrp2025.py
+      - tests/test_noema007_wrp2025_reproduction.py
+      - data/noema-007/wrp2025-reproduction-protocol.json
+      - data/noema-007/wrp2025-reproduction-protocol.schema.json
+      - .github/workflows/noema007-wrp2025-reproduction.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: noema007-wrp2025-reproduction-\${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13.11"
+
+      - name: Install pinned Parquet reader
+        run: python -m pip install --disable-pip-version-check pyarrow==22.0.0
+
+      - name: Download pinned public WRP 2025 Parquet
+        env:
+          SOURCE_URL: https://raw.githubusercontent.com/lrfoundation/world_risk_poll_data/f2b810c3c4333de6347ad2c9eade3c48ae17be4c/WRP_2025/WRP_2025.parquet
+        run: curl --fail --location --silent --show-error --retry 3 --retry-delay 2 "$SOURCE_URL" --output "$RUNNER_TEMP/WRP_2025.parquet"
+
+      - name: Independently reproduce warning/action aggregates
+        run: python scripts/reproduce_noema007_wrp2025.py --input "$RUNNER_TEMP/WRP_2025.parquet" --output "$RUNNER_TEMP/noema007-wrp2025-aggregate.json"
+
+      - name: Upload aggregate-only result
+        uses: actions/upload-artifact@v7
+        with:
+          name: noema007-wrp2025-aggregate-only
+          path: \${{ runner.temp }}/noema007-wrp2025-aggregate.json
+          if-no-files-found: error
+          retention-days: 30
