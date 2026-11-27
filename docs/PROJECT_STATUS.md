@@ -3,9 +3,9 @@
 - **განახლდა:** 2026-11-28 (Run 38 — NOEMA-005 experiment 002, AquaSignal NEA groundwater access lead, strict event parsing and public-artifact privacy boundary).
 - **საცავი:** https://github.com/maisuradzee/bibmom
 - **Run 38-ის merge-ების შემდეგ main snapshot:** `261129e5acbce3739d3b3e35640932012860562d`.
-- **ბოლო დადასტურებული PR-head Quality CI:** PR #200 — 534 tests; PR #202 — 539 tests; PR #204 — 544 tests; PR #205 — exact-head Quality CI SUCCESS; PR #206 — exact-head Quality CI SUCCESS; PR #207 — exact-head Quality CI SUCCESS.
+- **ბოლო დადასტურებული PR-head Quality CI:** PR #200 — 534 tests; PR #202 — 539 tests; PR #204 — 544 tests; PR #205 — exact-head Quality CI SUCCESS; PR #206 — exact-head Quality CI SUCCESS; PR #207 — exact-head Quality/CPU CI SUCCESS; PR #208 — 551 tests, frozen aggregate reproduction SUCCESS; PR #209 final branch adds WHO comparator tests and awaits CI.
 - **ბოლო დადასტურებული benchmark/cleanup:** PR #200 x86-64 და ARM64 workflows SUCCESS; legacy-artifact cleanup run [46064057021](https://github.com/maisuradzee/bibmom/actions/runs/46064057021) SUCCESS და ექვსი ძველი raw artifact list ცარიელია.
-- **Pages:** PR #204 site build SUCCESS (3 Preliminary, 0 Published); PR #205–#207 არ ცვლიდა გამოქვეყნებულ კვლევას. Post-merge deployment ამ main snapshot-ზე ცალკე არ დადასტურებულა. წინა main deployment-ის მტკიცებულება არ უნდა ჩაითვალოს ამ snapshot-ის deployment-ად.
+- **Pages:** PR #204 site build SUCCESS (3 Preliminary, 0 Published); PR #205–#207 არ ცვლიდა გამოქვეყნებულ კვლევას; PR #208/209 site build must be checked on the final head. Post-merge deployment ამ main snapshot-ზე ცალკე არ დადასტურებულა. წინა main deployment-ის მტკიცებულება არ უნდა ჩაითვალოს ამ snapshot-ის deployment-ად.
 - **აქტიური პორტფელი:** ოთხივე ნაკადი აქტიურია — AquaSignal, NOEMA-005, NOEMA-007 და INFRA-001.
 - **კვლევის კატალოგი:** 3 Preliminary, 0 Published; NOEMA-005-ის არსებული Preliminary ჩანაწერი განახლდა experiment 002-ის frozen aggregate-ით. AquaSignal-ის NEA წყარო კვლავ metadata-only Draft-ია.
 
