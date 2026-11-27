@@ -14,7 +14,7 @@ What can be measured between official multi-hazard risk planning and feasible, v
 
 1. On 25 November 2026, Georgia's National Environmental Agency reported a two-day consultation on multi-hazard risk-management plans for seven river basins: Alazani, Iori, Mtkvari, Khrami-Ktsia, Chorokhi-Acharistskali, Enguri and Rioni. The same announcement says the wider programme aims to develop risk-management and mitigation measures for climate-related hazards across eleven river basins. It lists floods, debris flows, avalanches, landslides, droughts, hailstorms and strong winds. Source: [NEA, 25 November 2026](https://nea.gov.ge/En/News/3459).
 2. On 16 November 2026, NEA described work on hazard assessment/risk zoning, hydrometeorological observation and forecasting modernization, early-warning mechanisms, a public meteo.gov.ge application, observation-network expansion and improved hazard-information access. It also described sustainability, institutional capacity, regional cooperation and cross-border hydrometeorological data exchange as programme topics. Source: [NEA, 16 November 2026](https://nea.gov.ge/En/News/3457).
-3. NEA's Geology Department describes regular spring/autumn geological monitoring in urban settlements and surrounding areas; emergency risk assessment and recommendations for geological hazards; annual bulletins and next-year forecasts; hazard-zoning maps; Tbilisi geological-hazard monitoring; GIS databases/cadastres; and instrumental monitoring at critically active landslide/debris-flow sites. Source: [NEA Geology Department](https://nea.gov.ge/ge/Departments/Geology).
+3. NEA's Geology Department describes regular spring/autumn geological monitoring in urban settlements and surrounding areas; emergency risk assessment and recommendations for geological hazards; annual bulletins and next-year forecasts; hazard-zoning maps; Tbilisi geological-hazard monitoring; GIS databases/cadastres; and instrumental monitoring at critically active landslide/debris-flow sites. Source: [NEA Geology Department](https://nea.gov.ge/ge/Departments/Geology). The same page also links a 2025 geological-process bulletin with a 2026 forecast.
 
 ## INFERENCE — the measurable gap
 
@@ -82,3 +82,10 @@ No field data, survey, warning-event microdata, plan implementation record or ca
 ## შემოწმების სტატუსი
 
 წყაროების snapshot და ტესტები დაემატა ცალკე research branch-ზე. exact-head quality CI ამ revision-ზე ჯერ pending-ია. საველე მონაცემი, warning-event microdata ან ეფექტიანობის შეფასება არ ჩატარებულა; კვლევა რჩება draft.
+
+## Data-access blocker — 2025 geological bulletin
+
+The NEA Geology Department page links the official 2025 geological-process results and 2026 forecast PDF:
+[2025 geological bulletin](https://ftp.mepa.gov.ge/Public/NEA/%E1%83%92%E1%83%94%E1%83%9D%E1%83%9A%E1%83%9D%E1%83%92%E1%83%98%E1%83%A3%E1%83%A0%E1%83%98%20%E1%83%91%E1%83%98%E1%83%A3%E1%83%9A%E1%83%94%E1%83%A2%E1%83%94%E1%83%9C%E1%83%98%202025%20%281%29.pdf).
+
+The linked PDF is 704,801,491 bytes. The retrieval tool rejected it as too large, so the bulletin's contents were not inspected and no hazard counts, locations, forecasts or outcome values have been extracted. This is a retrieval/tool limit, not evidence that the official server is unavailable. The source snapshot records it as `linked_not_fetched`; a smaller official summary, chapter extract or permissioned data export is the next safe route.
