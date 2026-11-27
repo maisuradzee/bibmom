@@ -1,12 +1,12 @@
 # NOEMA-2026-007 — Georgia flood-risk law: institutional roles and measurement boundary
 
 - **ID:** NOEMA-2026-007 (continuation; no new portfolio stream)
-- **Status:** draft
-- **Date:** 2026-11-27
+- **სტატუსი:** draft
+- **თარიღი:** 2026-11-27
 - **Scope:** Georgia river-basin planning, flood-risk governance and warning-to-action evaluation
 - **Related work:** [Georgia river-basin multi-hazard readiness](NOEMA-2026-007-georgia-basin-readiness-2026-11-27.md)
 
-## Research question
+## საკვლევი კითხვა
 
 How should NOEMA evaluate the path from official flood-risk assessment and warning to feasible protective action in Georgia while preserving the statutory roles of competent public authorities?
 
@@ -18,6 +18,10 @@ Georgia's Water Resources Management Law gives a more precise institutional stru
 - competent agencies' flood-risk management plans, coordinated with the Emergency Management Service.
 
 This flood-specific legal framework must not be conflated with the wider multi-hazard programme. NEA's 25 November 2026 consultation concerned seven named river basins, while the announcement says the wider climate-risk programme aims to develop measures for eleven basins and covers seven hazard types. Seven consultation basins divided by eleven programme-target basins is **not** a valid implementation or coverage percentage.
+
+## მეთოდი ან ექსპერიმენტის გეგმა
+
+Compare the current NEA consultation notice with the operative statutory text. Map each legal duty to its named institution, data product and missing operational evidence. Keep flood-specific duties separate from the wider multi-hazard programme.
 
 ## FACT — official source evidence
 
@@ -79,11 +83,22 @@ Use only privacy-reviewed aggregate outputs. Suppress small cells under an appro
 
 This is a documentary legal/governance analysis. No flood-risk map, local plan, warning-event record, survey or field outcome was downloaded or analysed. The 25 November consultation notice does not publish plan-approval status, map payloads, exposed-population denominators or warning effectiveness. Article 34 is flood-specific; it must not be presented as a complete statutory allocation for every hazard in the broader multi-hazard programme.
 
+## შემდეგი ნაბიჯები
+
+1. Request the current NEA preliminary flood-risk assessment and hazard-map metadata.
+2. Request the Emergency Management Service flood-risk maps and the exposed-population denominator definition for one selected basin.
+3. Obtain the approved flood-risk plan and basin/sub-basin plan references, including responsible institutions and warning/action responsibilities.
+4. Seek authorised warning-event and after-action aggregates; pre-register separate delivery, receipt, comprehension, feasibility and verified-action denominators.
+
+## შემოწმების სტატუსი
+
+This cycle completed a documentary review of the official NEA consultation notice and the operative Water Resources Management Law. No official map payload, approved plan, warning-event dataset, survey or field outcome was obtained. The note remains a draft pending authorised data, independent disaster-risk-reduction review and privacy review.
+
 ## Conclusion
 
 The next NOEMA-007 step is not to build another warning service. It is to obtain the authorised, versioned flood-hazard maps, flood-risk maps, basin plans and warning/after-action aggregates from their respective owners, then evaluate delivery, comprehension, feasibility and verified action as separate stages.
 
-## Sources
+## წყაროები
 
 1. **Law of Georgia on Water Resources Management**, 30 June 2023, consolidated text, Articles 32 and 34; relevant provisions entered into force 1 September 2026. Legislative Herald of Georgia. https://www.matsne.gov.ge/ka/document/download/5846594/3/ge/pdf
 2. **National Environmental Agency**, 25 November 2026, “Consultative meetings were held regarding multi-hazard risk-management plans for seven river basins”. https://nea.gov.ge/;/News/3459
