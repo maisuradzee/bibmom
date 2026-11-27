@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import argparse
 import base64
-import gzip
+import lzma
 import hashlib
 import json
 from pathlib import Path
@@ -31,7 +31,7 @@ def verify(root: Path = ROOT, manifest_path: Path | None = None) -> dict[str, An
     encoded = base64.b64decode(bundle_path.read_text(encoding="ascii").strip(), validate=True)
     if _sha256(encoded) != manifest["bundle"]["compressed_sha256"]:
         raise ValueError("compressed bundle SHA-256 mismatch")
-    raw_bundle = gzip.decompress(encoded)
+    raw_bundle = lzma.decompress(encoded)
     if len(raw_bundle) != manifest["bundle"]["uncompressed_bytes"]:
         raise ValueError("uncompressed bundle byte length mismatch")
     if _sha256(raw_bundle) != manifest["bundle"]["uncompressed_sha256"]:
