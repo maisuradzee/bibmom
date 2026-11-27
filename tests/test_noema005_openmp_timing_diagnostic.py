@@ -63,8 +63,10 @@ class Noema005OpenMPTimingDiagnosticTests(unittest.TestCase):
     def test_v2_withholds_capacity_when_worker_cgroup_differs(self):
         report = sample_report_v2()
         report["runs"][0]["threads"][0]["thread_cgroup_matches_process"] = False
+        report["runs"][0]["known_cpu_capacity_upper_bound"] = None
         report["runs"][0]["effective_cpu_capacity"] = None
         report["runs"][0]["cpu_wall_anomaly_threshold"] = None
+        report["runs"][0]["cpu_wall_anomaly_threshold_basis"] = None
         report["runs"][0]["cpu_wall_anomaly"] = False
         report["runs"][0]["thread_cgroup_mismatch_count"] = 1
         report["summary"]["thread_cgroup_mismatch_count"] = 1
