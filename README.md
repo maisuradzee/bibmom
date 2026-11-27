@@ -53,7 +53,6 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 
 - [AquaSignal — საქართველოს წყლის მონიტორინგის ქსელების ინვენტარი](research/drafts/NOEMA-2026-006-georgia-water-monitoring-inventory-2026-11-26.md) — ოფიციალური ქსელების მასშტაბი და მონაცემთა ხელმისაწვდომობის ზღვარი.
 - [AquaSignal — WRP 2025 drinking-water harm independent reproduction](research/preprints/NOEMA-2026-006-aquasignal-wrp2025-water-harm-reproduction.md) — WP22443-ის 7% + 6% = 13% გამომცემლის rounding rule-ით; self-reported harm და არა ლაბორატორიული contamination.
-- [AquaSignal — WRP 2025 drinking-water harm independent reproduction](research/preprints/NOEMA-2026-006-aquasignal-wrp2025-water-harm-reproduction.md) — WP22443-ის 7% + 6% = 13% გამომცემლის rounding rule-ით; self-reported harm და არა ლაბორატორიული contamination.
 - [NOEMA-2026-007 — WRP 2025 გაფრთხილების მიღებისა და მოქმედების შესაძლებლობის დამოუკიდებელი გამეორება](research/preprints/NOEMA-2026-007-wrp2025-warning-action-reproduction.md) — PROJWT-შეწონილი აგრეგატები, ზუსტი მნიშვნელები და საქართველოს 99-კაციანი ბაზის შეზღუდვა.
 
 - [NOEMA-2026-001](research/drafts/2026-11-23-paleolithic-sign-systems.md) — პალეოლითური ნიშნები; მეთოდოლოგიური გადახედვა: [დამატება A](research/drafts/2026-11-23-methodological-reassessment.md).

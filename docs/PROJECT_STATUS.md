@@ -1,13 +1,13 @@
 # NOEMA — მიმდინარე პროექტის მდგომარეობა
 
-- **განახლდა:** 2026-11-28 (Run 38 — NOEMA-005 experiment 002, AquaSignal NEA groundwater access lead, strict event parsing and public-artifact privacy boundary).
+- **განახლდა:** 2026-11-28 (Run 39 — AquaSignal historical groundwater/legal crosswalk, NOEMA-007 canonical UTC contract, research evidence taxonomy and portfolio audit).
 - **საცავი:** https://github.com/maisuradzee/bibmom
-- **Run 38-ის final research merge snapshot:** `b3b347bec68e8c22f2781476d55148d576ae028a` (PR #213 merged; this status-sync PR follows that snapshot).
+- **Run 39-ის Main snapshot:** `b7c976c481da47470423b219b8e3184c25d09395` (PR #217 final status correction merged).
 - **ბოლო დადასტურებული PR-head Quality CI:** PR #200 — 534 tests; PR #202 — 539 tests; PR #204 — 544 tests; PR #205 — exact-head Quality CI SUCCESS; PR #206 — exact-head Quality CI SUCCESS; PR #207 — exact-head Quality/CPU CI SUCCESS; PR #210 — 561 tests, frozen aggregate reproduction and WHO comparator validation SUCCESS; PR #211 — merged, 566 tests; PR #212 — merged, 575 tests, strict restore-attestation and frozen aggregate checks SUCCESS.
 - **ბოლო დადასტურებული benchmark/cleanup:** PR #200 x86-64 და ARM64 workflows SUCCESS; legacy-artifact cleanup run [46064057021](https://github.com/maisuradzee/bibmom/actions/runs/46064057021) SUCCESS და ექვსი ძველი raw artifact list ცარიელია.
-- **Pages:** PR #204 site build SUCCESS (3 Preliminary, 0 Published); PR #205–#207 არ ცვლიდა გამოქვეყნებულ კვლევას; PR #210/211/212 site builds SUCCESS (3 Preliminary, 0 Published); post-merge deployment for main SHA b3b347bec68e8c22f2781476d55148d576ae028a not verified; no deployment is claimed from a PR site build. წინა main deployment-ის მტკიცებულება არ უნდა ჩაითვალოს ამ snapshot-ის deployment-ად.
+- **Run 39 Main Quality CI:** [46069627415](https://github.com/maisuradzee/bibmom/actions/runs/46069627415) — SUCCESS, 584 Python tests; schema/frozen-result checks, site build and publication-boundary checks passed. **GitHub Pages:** [46069627539](https://github.com/maisuradzee/bibmom/actions/runs/46069627539) — SUCCESS for the exact Main SHA above.
 - **აქტიური პორტფელი:** ოთხივე ნაკადი აქტიურია — AquaSignal, NOEMA-005, NOEMA-007 და INFRA-001.
-- **კვლევის კატალოგი:** 3 Preliminary, 0 Published; NOEMA-005-ის არსებული Preliminary ჩანაწერი განახლდა experiment 002-ის frozen aggregate-ით. AquaSignal-ის NEA წყარო კვლავ metadata-only Draft-ია; WHO 2026 comparator ცალკე drinking-water guidance-ად არის დოკუმენტირებული და არა Georgian legal limit-ად.
+- **კვლევის კატალოგი:** 3 Preliminary, 0 Published; ოთხივე პორტფელის ნაკადი აქტიურია. AquaSignal-ის ისტორიული 2016–2017 baseline და Decree №58/2014 crosswalk რჩება Preliminary; NEA 2021–2025 RAR არ არის მიღებული/შემოწმებული.
 
 ## Run 38 — ექვსი hosted benchmark cell, ახალი ქართული groundwater access lead და მონაცემთა სანდოობის კონტროლები
 
@@ -521,15 +521,15 @@ Run38 AquaSignal historical baseline/legal crosswalk details: [research draft](.
 
 - PR #213 merged at `b3b347bec68e8c22f2781476d55148d576ae028a`.
 - Exact-head Quality CI: [46068511890](https://github.com/maisuradzee/bibmom/actions/runs/46068511890) — SUCCESS, 578 Python tests, schema validation, frozen-result reproduction, publication-boundary checks and site build (0 Published, 3 Preliminary).
-- Repository query returned 0 open PRs and 0 open issues at this final audit.
-- No post-merge Pages deployment job was verified for `b3b347bec68e8c22f2781476d55148d576ae028a`; the successful PR site build is not treated as a production Pages deployment.
+- Run 39 repository query found 38 open PRs and 0 open Issues; most remaining PRs are legacy Drafts on older base SHAs and need individual triage. No bulk closure was performed.
+- Post-merge Main Quality CI [46068624666](https://github.com/maisuradzee/bibmom/actions/runs/46068624666) and Pages [46068624734](https://github.com/maisuradzee/bibmom/actions/runs/46068624734) both succeeded for `b3b347bec68e8c22f2781476d55148d576ae028a`.
 
 
 ## Post-Run38 research-standard synchronization
 
 - PR #214 merged the final portfolio/status synchronization at `8f6203c9a7d671a57c63ec34231b69d60338edc2`.
 - PR #215 adds the five-label evidence taxonomy and a template-contract test; final exact-head Quality CI run 46069188841 passed 584 tests and site build (0 Published, 3 Preliminary).
-- The main Pages deployment for `8f6203c9a7d671a57c63ec34231b69d60338edc2` was not independently verified; a PR site build is not treated as a production deployment.
+- Main Quality CI [46068888158](https://github.com/maisuradzee/bibmom/actions/runs/46068888158) and Pages [46068888182](https://github.com/maisuradzee/bibmom/actions/runs/46068888182) both succeeded for `8f6203c9a7d671a57c63ec34231b69d60338edc2`.
 
 
 ## Final evidence-standard merge record
@@ -537,5 +537,37 @@ Run38 AquaSignal historical baseline/legal crosswalk details: [research draft](.
 - PR #215 merged at `9d2841be14be7fd56b498c0aaac9d1410a585ef8`.
 - Final exact-head Quality CI: [46069188841](https://github.com/maisuradzee/bibmom/actions/runs/46069188841) — SUCCESS, 584 Python tests, publication-boundary checks and site build (0 Published, 3 Preliminary).
 - This final PR head included the template/standard contract and the post-Run38 status/audit synchronization.
-- Repository search returned 0 open PRs and 0 open issues before this final status-only PR.
-- No post-merge Pages deployment job was verified for `9d2841be14be7fd56b498c0aaac9d1410a585ef8`; the successful PR site build is not treated as a production Pages deployment.
+- Run 39 repository query found 38 open PRs and 0 open Issues before the Run 39 audit PR; legacy Drafts require per-PR review.
+- Main Quality CI [46069295590](https://github.com/maisuradzee/bibmom/actions/runs/46069295590) and Pages [46069295569](https://github.com/maisuradzee/bibmom/actions/runs/46069295569) both succeeded for `9d2841be14be7fd56b498c0aaac9d1410a585ef8`.
+
+
+## Run 39 — portfolio, source and engineering audit (2026-11-28)
+
+### Main and CI
+
+- Run 39 audit base Main SHA: `b7c976c481da47470423b219b8e3184c25d09395`.
+- Main Quality CI [46069627415](https://github.com/maisuradzee/bibmom/actions/runs/46069627415): SUCCESS, 584 Python tests; schema validation, frozen-result reproduction, benchmark smoke tests, site build and publication-boundary checks passed.
+- GitHub Pages [46069627539](https://github.com/maisuradzee/bibmom/actions/runs/46069627539): SUCCESS for the exact Main SHA; site reports 0 Published and 3 Preliminary.
+- Repository snapshot before the Run 39 audit PR: 38 open PRs and 0 open Issues. Most remaining PRs are legacy Drafts based on earlier main snapshots; no bulk closure was performed because relevance and supersession need per-PR review.
+
+### Completed research/infrastructure changes
+
+- **AquaSignal — PR #213 merged** as `b3b347bec68e8c22f2781476d55148d576ae028a`. The ENI SEIS II East / EEA C11 indicator records NEA-provided groundwater nitrate data for 2016–2017: 34 of 45 monitoring sites had data, sampling was twice per year, 33/34 site averages were above 10 mg NO3/L by the indicator's “all except one” statement, and all reported averages were below 50 mg NO3/L. Western sites were reported below 1 mg NO3/L, but their count and raw site/sample values are not supplied. This is historical aggregated context, not a 2026 exposure estimate. Matsne Government Decree №58/2014 sets 50 mg/L as NO3- and 0.2 mg/L as NO2- for water within its stated scope; WHO 2026 nitrite guidance of 3 mg/L is not Georgian law. The 2021–2025 NEA RAR remains metadata-only and was not retrieved, hashed or inspected. Exact-head Quality CI [46068511890](https://github.com/maisuradzee/bibmom/actions/runs/46068511890): SUCCESS, 578 tests; post-merge Main CI [46068624666](https://github.com/maisuradzee/bibmom/actions/runs/46068624666) and Pages [46068624734](https://github.com/maisuradzee/bibmom/actions/runs/46068624734): SUCCESS.
+- **NOEMA-007 — PR #216 merged** as `5dd5ffeb9402a5228e3f6f0fff76dc6de44a6376`. Runtime and JSON Schema now share the canonical UTC shape `YYYY-MM-DDTHH:MM:SS[.ffffff]Z`; synthetic tests reject arbitrary separators, missing seconds and over-precision, while accepting valid fractional seconds. Exact-head Quality CI [46069012996](https://github.com/maisuradzee/bibmom/actions/runs/46069012996): SUCCESS, 580 tests; post-merge Main CI [46069112780](https://github.com/maisuradzee/bibmom/actions/runs/46069112780) and Pages [46069112858](https://github.com/maisuradzee/bibmom/actions/runs/46069112858): SUCCESS. This is input-contract engineering only; no Georgian operational warning dataset or effectiveness estimate was added.
+- **Research standard/template — PR #215 merged** as `9d2841be14be7fd56b498c0aaac9d1410a585ef8`. The five evidence labels FACT, REPRODUCED RESULT, INFERENCE, HYPOTHESIS and UNTESTED IDEA are explicit in the standard and template. The template requires human benefit, provenance, denominators/units, uncertainty, competing explanations and practical-solution safety/feasibility. Exact-head Quality CI [46069188841](https://github.com/maisuradzee/bibmom/actions/runs/46069188841): SUCCESS, 584 tests; Main CI/Pages for that snapshot [46069295590](https://github.com/maisuradzee/bibmom/actions/runs/46069295590) and [46069295569](https://github.com/maisuradzee/bibmom/actions/runs/46069295569): SUCCESS.
+- **Run 38 status synchronization — PR #214 merged** as `8f6203c9a7d671a57c63ec34231b69d60338edc2`; Main CI [46068888158](https://github.com/maisuradzee/bibmom/actions/runs/46068888158) and Pages [46068888182](https://github.com/maisuradzee/bibmom/actions/runs/46068888182): SUCCESS.
+- **Run 38 evidence-standard status correction — PR #217 merged** as `b7c976c481da47470423b219b8e3184c25d09395`; Main CI/Pages above: SUCCESS. It corrected the final PR #215 test count to 584; Run 39 further corrects the stale open-PR and Pages statements.
+
+### Four-stream review
+
+- **AquaSignal — active / Preliminary.** Historical baseline and legal crosswalk are source-grounded; current NEA RAR, station/sample dictionary, raw sample values, QA/QC, detection limits and reuse terms remain unavailable. Planned NFA counts are not actual water-only denominators.
+- **NOEMA-005 — active / Preliminary.** Experiment 002 remains the six-cell hosted comparison (1,152 measured runs) already frozen in Main. No new physical x86-64/ARM64 device run, RSS/native-memory measurement or DRAM-bandwidth result was performed in Run 39; hosted CPU/wall concurrency is not a speedup claim.
+- **NOEMA-007 — active / Preliminary.** Canonical timestamp input validation improved; WRP remains global survey context. No authorized Georgian event-level issued/delivered/received/comprehended/feasible/actioned/verified warning dataset is available.
+- **NOEMA-INFRA-001 — active / engineering.** Strict restore-attestation and backup-manifest parsers remain synthetic/local controls. No provider, production keys, offsite retention policy or clean-host restore is configured or verified.
+
+### Limitations, safety and next priorities
+
+- No individual NFA/NEA sample, survey respondent, child, business contact, precise private location, credential, key or restricted archive content was added to the public repository.
+- No new Supabase project was created and no other project's database was used.
+- No research was promoted to Published; the catalogue remains 3 Preliminary and 0 Published.
+- Next priorities: obtain an authorized NEA archive and dictionary; perform physical x86-64/ARM64 NOEMA-005 replication with at least 20 repetitions and RSS/DRAM measurements; obtain privacy-approved Georgian warning/after-action aggregates; and conduct an independently owned offsite clean-host restore drill.
