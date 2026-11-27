@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-007",
+  "experiment_id": "NOEMA-2026-007-WRP2025-WARNING-ACTION-REPRO-001",
+  "evidence_status": "REPRODUCED_RESULT",
+  "source": {
+    "repository": "lrfoundation/world_risk_poll_data",
+    "commit": "f2b810c3c4333de6347ad2c9eade3c48ae17be4c",
+    "path": "WRP_2025/WRP_2025.parquet",
+    "git_blob_sha1": "3e785688e067ded5fdfbe9b50721023ecea87826",
+    "byte_length": 7070416,
+    "license": "CC BY-SA 4.0",
+    "raw_url": "https://raw.githubusercontent.com/lrfoundation/world_risk_poll_data/f2b810c3c4333de6347ad2c9eade3c48ae17be4c/WRP_2025/WRP_2025.parquet",
+    "dictionary_blob_sha1": "3da85901b6875e74e599bb39f1ed92223881a539",
+    "publisher_reproduction_blob_sha1": "7e38ed4522885cf6d7481c4e1578ec92f0ef34a3",
+    "sha256": "07b4632826e13ec1975ec977b0e057b528547c6f7805c0838abc1586b78da56b"
+  },
+  "variables": {
+    "weight": "PROJWT",
+    "country": "COUNTRY_ISO3",
+    "impacted": "WP24213",
+    "warning_channels": [
+      "WP24181",
+      "WP24182",
+      "WP24183",
+      "WP24184",
+      "WP24185",
+      "WP24186",
+      "WP24187",
+      "WP24188"
+    ],
+    "ability_to_act": "WP24215"
+  },
+  "publisher_reference": {
+    "respondents_total": 143459,
+    "countries_and_territories": 140,
+    "warning_question_base": 24249,
+    "warned_respondents_action_base": 16996,
+    "weighted_warning_receipt_percent": 80,
+    "weighted_able_to_act_percent": 63.8,
+    "weighted_unable_to_act_percent": 35.8,
+    "weighted_action_dk_refused_percent": 0.5,
+    "georgia_impacted_base": 101,
+    "georgia_warning_question_base": 99,
+    "country_ranking_minimum_base": 100
+  },
+  "method": {
+    "warning_base": "Rows with non-null WP24181; all eight channel questions were asked of this base. A respondent is warned if any channel equals 1. DK, refused and does-not-apply codes are retained in the denominator and count as no warning.",
+    "action_base": "All respondents classified as warned; WP24215 codes 1, 2, 98 and 99 remain in the denominator. Ability and inability are reported separately.",
+    "weighting": "PROJWT population-projection weights; weighted numerator divided by the full asked base's weighted denominator.",
+    "georgia": "COUNTRY_ISO3=GEO; count impacted respondents and the warning-question base separately; apply the publisher's n>=100 warning-base ranking threshold."
+  },
+  "privacy": {
+    "raw_microdata_committed": false,
+    "respondent_ids_committed": false,
+    "workflow_uploads_aggregate_only": true
+  },
+  "limitations": [
+    "This is an independent calculation from the publisher's pinned public microdata, not an independent survey or operational early-warning audit.",
+    "Survey warning receipt and self-reported ability to act do not establish message timeliness, comprehension, verified protective action or avoided loss.",
+    "Georgia's warning-question base is expected to remain below the publisher's n>=100 country-ranking threshold; no national effectiveness ranking is inferred."
+  ]
+}
