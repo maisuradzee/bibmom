@@ -157,8 +157,8 @@
     },
     "spatial_data_catalogue": {
       "type": "array",
-      "minItems": 4,
-      "maxItems": 4,
+      "minItems": 10,
+      "maxItems": 10,
       "items": {
         "type": "object",
         "additionalProperties": false,
@@ -180,7 +180,13 @@
         "properties": {
           "id": {
             "enum": [
+              "NEA38",
+              "NEA54",
               "NEA55",
+              "NEA56",
+              "NEA57",
+              "NEA58",
+              "NEA65",
               "NEA66",
               "NEA123",
               "NEA124"
@@ -217,7 +223,7 @@
           },
           "storage": {
             "type": "array",
-            "minItems": 1,
+            "minItems": 0,
             "items": {
               "type": "string"
             }
@@ -270,6 +276,27 @@
               },
               "station_status": {
                 "type": "string"
+              },
+              "modelled_rivers": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "sub_basin_names": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "station_system": {
+                "type": "string"
+              },
+              "layer_interpretation": {
+                "type": "string",
+                "minLength": 20
               }
             }
           },
