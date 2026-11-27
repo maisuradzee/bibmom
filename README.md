@@ -50,6 +50,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 
 - [NOEMA-2026-006 AquaSignal](research/drafts/NOEMA-2026-006-aquasignal-water-early-warning.md) — სასმელი წყლის მონიტორინგის მონაცემების ადრეული სიგნალები; დოკუმენტური discovery, სინთეზური წესების ძრავა და ადგილობრივი event-store პროტოტიპი, საველე ვალიდაციის გარეშე.
 - [AquaSignal — საქართველოს მიწისქვეშა წყლის მონაცემებზე წვდომა და ჭაბურღილების რეგისტრაციის სამართლებრივი ფარგლები](research/drafts/NOEMA-2026-006-georgia-water-data-access-update-2026-11-27.md) — ოფიციალური 2021–2025 ანგარიშის არქივის წვდომა და 2026 წლის №424 რეგულაციით შექმნილი ახალი რეესტრის ფარგლები; პირადი მონაცემები არ არის შეტანილი.
+- [AquaSignal — NFA 2025 სასმელი წყლის მონიტორინგის დარღვევების ფაილის წვდომის კვალი](research/drafts/NOEMA-2026-006-nfa-2025-monitoring-violations-access-lead-2026-11-27.md) — ოფიციალური XLSX ბმული დაფიქსირებულია metadata-only რეჟიმში; ფაილის შიგთავსი, წყლის ცალკე მნიშვნელი და reuse პირობები ჯერ დაუდასტურებელია.
 
 - [AquaSignal — საქართველოს წყლის მონიტორინგის ქსელების ინვენტარი](research/drafts/NOEMA-2026-006-georgia-water-monitoring-inventory-2026-11-26.md) — ოფიციალური ქსელების მასშტაბი და მონაცემთა ხელმისაწვდომობის ზღვარი.
 - [AquaSignal — WRP 2025 drinking-water harm independent reproduction](research/preprints/NOEMA-2026-006-aquasignal-wrp2025-water-harm-reproduction.md) — WP22443-ის 7% + 6% = 13% გამომცემლის rounding rule-ით; self-reported harm და არა ლაბორატორიული contamination.
