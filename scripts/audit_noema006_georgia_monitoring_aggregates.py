@@ -56,8 +56,21 @@ def validate_snapshot(snapshot: dict) -> None:
     if not isinstance(table1, dict) or not isinstance(table1.get("categories"), dict):
         raise ValueError("table1_violation_category_counts.categories is required")
     categories = table1["categories"]
-    if not categories:
-        raise ValueError("Table 1 categories must not be empty")
+    expected_categories = {
+        "microbiological",
+        "organoleptic",
+        "chemical",
+        "physico_chemical",
+        "microbiological_and_organoleptic",
+        "microbiological_and_physico_chemical",
+        "organoleptic_and_physico_chemical",
+        "chemical_and_microbiological",
+        "organoleptic_physico_chemical_and_microbiological",
+        "physico_chemical_chemical_and_microbiological",
+        "physico_chemical_and_chemical",
+    }
+    if set(categories) != expected_categories:
+        raise ValueError("Table 1 category set does not match the published transcription")
     for name, counts in categories.items():
         if not isinstance(name, str) or not name:
             raise ValueError("Table 1 category names must be non-empty strings")
