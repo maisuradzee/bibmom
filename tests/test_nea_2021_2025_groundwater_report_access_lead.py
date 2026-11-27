@@ -53,3 +53,20 @@ class NeaGroundwaterReportAccessLeadTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+    def test_who_2026_comparator_is_drinking_water_guidance_not_georgian_law(self):
+        guidance = self.record["external_drinking_water_guideline"]
+        self.assertEqual(guidance["nitrate_guideline_value_mg_per_l"], 50)
+        self.assertEqual(guidance["nitrite_guideline_value_mg_per_l"], 3)
+        self.assertEqual(guidance["combined_ratio_limit"], 1)
+        self.assertEqual(guidance["fact_sheet_assessment_date"], 2016)
+        self.assertTrue(guidance["not_georgian_legal_limit"])
+        self.assertTrue(guidance["not_automatically_applicable_to_raw_groundwater"])
+
+    def test_who_conversion_factors_and_matrix_are_explicit(self):
+        guidance = self.record["external_drinking_water_guideline"]
+        self.assertEqual(guidance["applies_to"], "drinking-water")
+        self.assertEqual(guidance["nitrate_to_nitrate_nitrogen_conversion_factor"], 0.226)
+        self.assertEqual(guidance["nitrite_to_nitrite_nitrogen_conversion_factor"], 0.304)
+        self.assertIn("C_nitrate/GV_nitrate", guidance["combined_ratio_formula"])
