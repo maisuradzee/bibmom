@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import copy
 import json
+import jsonschema
 import unittest
 from pathlib import Path
 
@@ -117,6 +118,25 @@ class ActionReadinessTests(unittest.TestCase):
         record["warning"]["action_deadline_utc"] = "2026-11-25T07:00:00Z"
         with self.assertRaisesRegex(ActionReadinessValidationError, "cannot precede"):
             validate_action_readiness_record(record)
+
+    def test_timestamps_require_canonical_rfc3339_utc_shape(self):
+        invalid = (
+            "2026-11-25x08:00:00Z",
+            "2026-11-25 08:00:00Z",
+            "2026-11-25T08:00Z",
+            "2026-11-25T08:00:00.1234567Z",
+        )
+        for timestamp in invalid:
+            record = synthetic_record()
+            record["warning"]["issued_at_utc"] = timestamp
+            with self.subTest(timestamp=timestamp), self.assertRaisesRegex(
+                ActionReadinessValidationError, "canonical ISO-8601"
+            ):
+                validate_action_readiness_record(record)
+
+        record = synthetic_record()
+        record["warning"]["issued_at_utc"] = "2026-11-25T08:00:00.123456Z"
+        validate_action_readiness_record(record)
 
     def test_metrics_keep_endpoint_and_survey_denominators_separate(self):
         result = compute_action_readiness_metrics(synthetic_record())
