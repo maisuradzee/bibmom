@@ -63,6 +63,12 @@ The command rejects missing/unknown fields, malformed hashes, invalid timestamps
 
 **Important boundary:** schema validation alone proves only that the JSON document matches the declared metadata contract. The separate `verify_noema_backup_manifest_signature.py` command verifies a detached Ed25519 signature using a caller-supplied trusted public key and then verifies local plaintext/ciphertext byte hashes and lengths. Neither command decrypts ciphertext, queries provider object version/retention, validates SQLite pages, proves the backup is the newest, or performs a restore.
 
+## 3.3 Strict restore-attestation JSON ingestion
+
+The restore-attestation completeness gate also exposes `evaluate_restore_attestation_bytes()` for serialized input. It accepts exact UTF-8 bytes up to 1 MiB, rejects duplicate object keys at every nesting level, rejects the non-standard JSON constants NaN/Infinity/-Infinity, and requires an object root before schema and completeness evaluation. Use this bytes API at an untrusted file/network boundary rather than parsing an attestation with the permissive default JSON decoder.
+
+This is parser hardening only. It does not authenticate evidence signatures, establish trust in issuer keys, query a storage provider, prove a clean host, or make an offsite recovery claim. The existing dictionary API remains an in-process completeness evaluator; callers must not treat a structurally valid or self-declared attestation as proof.
+
 ## 4. Restore sequence
 
 Restore must fail closed and never overwrite an existing database:
