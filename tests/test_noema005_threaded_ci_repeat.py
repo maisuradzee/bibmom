@@ -18,7 +18,7 @@ class Noema005ThreadedRepeatTests(unittest.TestCase):
             row=next(x for x in doc["summary"]["per_method"] if x["method"]=="threaded_naive_scalar")
             with self.subTest(key=key): self.assertEqual(row["correctly_rounded_runs"],0)
     def test_gil_enabled_repeats_are_close_on_same_runner_flavor(self):
-        keys=("run-46006107242-gil-enabled","run-46007383552-gil-enabled","run-46011557117-gil-enabled","run-46024818862-gil-enabled")
+        keys=("run-46006107242-gil-enabled","run-46007383552-gil-enabled","run-46011557117-gil-enabled","run-46025216574-gil-enabled")
         values=[]
         for key in keys:
             doc,record=self.reports[key]
@@ -30,7 +30,7 @@ class Noema005ThreadedRepeatTests(unittest.TestCase):
         aws_a,ma=self.reports["run-46006107242-free-threaded"]
         azure_a,ba=self.reports["run-46007383552-free-threaded"]
         azure_b,bb=self.reports["run-46011557117-free-threaded"]
-        aws_b,mb=self.reports["run-46024818862-free-threaded"]
+        aws_b,mb=self.reports["run-46025216574-free-threaded"]
         self.assertEqual(ma["runner_kernel_flavor"],"aws")
         self.assertEqual(mb["runner_kernel_flavor"],"aws")
         self.assertEqual(ba["runner_kernel_flavor"],"azure")
@@ -62,8 +62,8 @@ class Noema005ThreadedRepeatTests(unittest.TestCase):
 
 
     def test_fourth_pair_reproduces_accuracy_and_cpu_concurrency_without_wall_speedup(self):
-        gil,_=self.reports["run-46024818862-gil-enabled"]
-        free,_=self.reports["run-46024818862-free-threaded"]
+        gil,_=self.reports["run-46025216574-gil-enabled"]
+        free,_=self.reports["run-46025216574-free-threaded"]
         for doc in (gil,free):
             self.assertEqual(len(doc["threaded_cases"]),48)
             self.assertEqual(sum(c["runs"] for c in doc["threaded_cases"]),144)
