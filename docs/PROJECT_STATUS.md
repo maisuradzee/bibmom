@@ -1,17 +1,18 @@
 # NOEMA — მიმდინარე პროექტის მდგომარეობა
 
-- **განახლდა:** 2026-11-27 (run 18, post-merge verified main snapshot)
+- **განახლდა:** 2026-11-27 (run 25, post-revert main snapshot)
 - **საცავი:** https://github.com/maisuradzee/bibmom
-- **მდგომარეობის snapshot main:** c507a91a213435cf6992abf37c233426882cb973 (PR #113 run-18 audit/status merge)
-- **Main quality CI:** [45946337600](https://github.com/maisuradzee/bibmom/actions/runs/45946337600) — validate job SUCCESS for the exact main snapshot.
-- **GitHub Pages deployment:** [45946337647](https://github.com/maisuradzee/bibmom/actions/runs/45946337647) — build and deploy jobs SUCCESS for the exact main snapshot.
+- **მდგომარეობის snapshot main:** 0b22644bb2c669d4d152487e8b3e82a38f7843df (PR #143 corrective revert; tree restored to the previously verified 21db snapshot)
+- **Last verified main quality CI:** [45981391575](https://github.com/maisuradzee/bibmom/actions/runs/45981391575) — validate job SUCCESS for prior snapshot `21db09ddf1b98de6a58929c63260de16728f4ff8`. Post-revert `0b22644` main CI has not been independently verified.
+- **Last verified GitHub Pages deployment:** [45981391564](https://github.com/maisuradzee/bibmom/actions/runs/45981391564) — build and deploy SUCCESS for prior snapshot `21db09ddf1b98de6a58929c63260de16728f4ff8`. No post-revert deploy is claimed for `0b22644`.
 - **PR #113 — run-18 audit/status:** merged as `c507a91a213435cf6992abf37c233426882cb973`; exact post-merge quality CI [45946337600](https://github.com/maisuradzee/bibmom/actions/runs/45946337600) and Pages build/deploy [45946337647](https://github.com/maisuradzee/bibmom/actions/runs/45946337647) both SUCCESS.
 - **Run 18 audit:** [docs/run-audits/2026-11-27-run-18.md](run-audits/2026-11-27-run-18.md) — two independent streams advanced: NOEMA-005 local KVM native-thread reruns and NOEMA-007 AER/mobility-inclusive review schema; both research PRs remain Draft.
 - **Run 17 audit:** [docs/run-audits/2026-11-27-run-17.md](run-audits/2026-11-27-run-17.md) — separate AquaSignal legal data-access and NOEMA-007 flood-risk governance updates in Draft PRs #108 and #109; exact-head quality CI passed for both.
 - **Run 16 audit:** [docs/run-audits/2026-11-27-run-16.md](run-audits/2026-11-27-run-16.md) — NOEMA-007 heat-health readiness discovery and NOEMA-005 ARM64 worker/traced-allocation analysis added in separate Draft PRs #103 and #104.
 - **Merged in current main:** PR #97 (AquaSignal official NEA groundwater RAR URL/retrieval boundary), PR #102 (run-15 status/audit synchronization) and PR #105 and #106 (run-16 status/audit and post-merge status synchronization), PR #107 (run-16 source/CI correction), and PR #110 (run-17 audit/status), and PR #113 (run-18 audit/status). PR #113's exact main quality CI and Pages build/deploy passed.
-- **Open research/engineering PRs:** #117, #118, #112, #109, #108, #104, #103, #101, #100, #99, #93, #91, #88, #87, #85, #46, #27, #7 and #5 (19 open research/engineering PRs; run-19 status/audit PR #119 is separate; 0 open Issues).
+- **Open research/engineering PRs:** 24 (0 open Issues). Current Run 25 clean-base Drafts: #144 AquaSignal 2025 NEA aggregate + definition provenance, #145 NOEMA-007 feasible timely-receipt window, #146 INFRA-001 local high-water reference model. Superseded branches #101, #129, #130, #134, #136, #138, #139 and #140 are closed without merging.
 - **Public research catalogue:** 1 preliminary, 0 published. No research item was promoted to Published.
+- **Run 25 audit:** [docs/run-audits/2026-11-27-run-25.md](run-audits/2026-11-27-run-25.md) — three independent clean-base Draft PRs with exact-head Quality CI and CPU-thread workflow success; a new official NEA 2025 aggregate report was found and encoded safely.
 
 
 ## Run 19 — exact research/engineering PR state
@@ -164,3 +165,19 @@
 - NOEMA-007 follow-up [PR #136](https://github.com/maisuradzee/bibmom/pull/136) constrains the positive minimum timely-receipt lead to the warning issue-to-action-deadline interval and reports the available interval. Exact-head Quality CI [45981048842](https://github.com/maisuradzee/bibmom/actions/runs/45981048842) succeeded; 24 focused tests and 471 full-suite tests passed. PR #136 remains Draft and targets parent PR #130's branch; no field data or authority-approved rule is implied.
 - Full follow-up evidence and limitations: [Run 24 follow-up audit](run-audits/2026-11-27-run-24-follow-up.md).
 
+
+
+## Run 25 — post-revert status and evidence (2026-11-27)
+
+- **Current main:** `0b22644bb2c669d4d152487e8b3e82a38f7843df`. PR #143 reverted an accidental direct-main write of the run audit file; the audit is being reintroduced only through a proper branch-based PR. No research code or data was committed directly to main. The corrective PR's exact-head Quality CI runs [45989720439](https://github.com/maisuradzee/bibmom/actions/runs/45989720439) and [45989759548](https://github.com/maisuradzee/bibmom/actions/runs/45989759548) both passed. The post-revert main push CI and Pages deployment are not independently verified.
+- **Last verified main snapshot:** `21db09ddf1b98de6a58929c63260de16728f4ff8`; Quality CI [45981391575](https://github.com/maisuradzee/bibmom/actions/runs/45981391575) SUCCESS; Pages build/deploy [45981391564](https://github.com/maisuradzee/bibmom/actions/runs/45981391564) SUCCESS. The corrective revert restores the same content tree, but no new deployment is claimed.
+- **PR #144 — AquaSignal:** head `8879ac1b0397e2f5f07c72bad6ac97e3024f01d3`, mergeable=true, Draft. Exact-head Quality CI [45990304985](https://github.com/maisuradzee/bibmom/actions/runs/45990304985) SUCCESS, including draft completeness, water-comparability schema/tests, NEA 2025 aggregate snapshot schema/tests, full Python unit suite and site/publication-boundary build. CPU-thread workflow [45990304897](https://github.com/maisuradzee/bibmom/actions/runs/45990304897) — GIL-enabled and free-threaded jobs SUCCESS.
+- **PR #145 — NOEMA-007:** head `f00aa59a48458c5eea95f101b17270a7a0046049`, mergeable=true, Draft. Exact-head Quality CI [45990379296](https://github.com/maisuradzee/bibmom/actions/runs/45990379296) SUCCESS; CPU-thread workflow [45990379332](https://github.com/maisuradzee/bibmom/actions/runs/45990379332) — both runtime jobs SUCCESS.
+- **PR #146 — INFRA-001:** head `1f493a9ec18d3930e3ea599a51eb4c3970bed876`, mergeable=true, Draft. Exact-head Quality CI [45990428306](https://github.com/maisuradzee/bibmom/actions/runs/45990428306) SUCCESS, including local high-water validation, full Python unit suite and site/publication-boundary build; CPU-thread workflow [45990428281](https://github.com/maisuradzee/bibmom/actions/runs/45990428281) — GIL-enabled and free-threaded jobs SUCCESS.
+- **AquaSignal discovery update:** the official NEA 2025 annual-report PDF is accessible at https://nea.gov.ge/en/Download/File/1444. It reports 124 groundwater monitoring points (74 planned + 50 field-instrumental), 681 lab samples from 74 points, nitrate field work at 50 points (19 wells, 30 springs, 1 household well), and separate surface-water monitoring at 238 points / 2,571 samples. It separately lists parameter coverage at 73 groundwater points. The 73/74 relationship is unresolved; sample counts are not a compliance numerator/denominator or safety estimate. The distinct 2021–2025 RAR announced 2026-11-26 remains inaccessible through the automated retrieval path.
+- **NOEMA-007:** no Georgian event or participant data was obtained. The new lead-window contract is synthetic and mathematical only; it does not authenticate the authority or deadline, and respondent recall is not timestamp-verified receipt.
+- **NOEMA-005:** no new scientific benchmark conclusion is claimed in Run 25. The CPU-thread workflows also ran on non-NOEMA-005 research branches due to repository workflow triggers; those generic CI runs are not treated as new research results. Physical x86-64/ARM64 replication, ≥20 repetitions/configuration, RSS/native allocation and memory-bandwidth measurement remain outstanding.
+- **INFRA-001:** the local SQLite reference model tests single-file compare-and-advance semantics only. It is not an independent trust domain, production anti-rollback service or clean-host restore.
+- **Portfolio:** four active streams remain; no fifth stream added, none paused/completed. Research catalogue remains 1 Preliminary / 0 Published. Repository: 24 open PRs, 0 open Issues.
+- No personal, household, private-well, health, device, location-tracking, credential or restricted data was added. No new Supabase project was created and no other project's database was used.
+- Full methodology, exact heads, evidence boundaries and next priorities: [Run 25 audit](run-audits/2026-11-27-run-25.md).
