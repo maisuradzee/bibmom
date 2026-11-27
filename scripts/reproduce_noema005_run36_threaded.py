@@ -229,8 +229,8 @@ def _sanitize_raw_report(report: dict[str, Any], mode: str) -> dict[str, Any]:
         "input_hashes": inputs,
         "correctly_rounded_runs_by_method": correctness,
         "neumaier_state": {
-            "median_speedup": [case["speedup_vs_matching_serial_baseline"] for case in state_rows],
-            "median_cpu_wall_ratio": [case["median_cpu_wall_ratio"] for case in state_rows],
+            "median_speedup": [round(case["speedup_vs_matching_serial_baseline"], 9) for case in state_rows],
+            "median_cpu_wall_ratio": [round(case["median_cpu_wall_ratio"], 9) for case in state_rows],
             "peak_traced_python_bytes": [case["peak_traced_python_bytes"] for case in state_rows],
             "cpu_parallelism_runs_above_1_05": [sum(case["cpu_parallelism_ratio_above_1_05"]) for case in state_rows],
             "native_thread_count_validated_cases": 16,
