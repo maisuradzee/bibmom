@@ -964,7 +964,9 @@
         "Define a strict JSON Schema 2020-12 metadata envelope for future off-host backups; tests enforce closed object boundaries and exclude secret/credential fields.",
         "Validate proposed backup manifests with an executable JSON Schema Draft 2020-12 validator and strict format checking; keep cryptographic and provider checks explicitly out of scope.",
         "Validate the strict manifest schema, then stream plaintext and ciphertext artifacts through SHA-256 and byte-length checks using one file descriptor; reject non-regular files, symlinks where O_NOFOLLOW exists, and obvious file mutation during hashing.",
-        "Runtime exact-byte Ed25519 detached-signature verification against caller-supplied trusted public keys, followed by streamed plaintext/ciphertext SHA-256 and byte-length checks; synthetic ephemeral-key tests only."
+        "Runtime exact-byte Ed25519 detached-signature verification against caller-supplied trusted public keys, followed by streamed plaintext/ciphertext SHA-256 and byte-length checks; synthetic ephemeral-key tests only.",
+        "Use a local SQLite BEGIN IMMEDIATE compare-and-advance reference model to test monotonic generations, previous-manifest binding, stale state, rollback, equivocation, idempotent retry and two-connection concurrent writers; explicitly keep the local file inside the same rollback domain.",
+        "Reject empty, whitespace-only and in-memory database paths because each operation opens an independent connection and requires a persistent file-backed database."
       ],
       "sources": [
         {
@@ -1158,6 +1160,14 @@
           "url": "https://theupdateframework.github.io/specification/v1.0.36/",
           "type": "security_protocol_specification",
           "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Transaction Control",
+          "publisher": "SQLite",
+          "publication_date": "undated",
+          "url": "https://www.sqlite.org/lang_transaction.html",
+          "type": "official_technical_documentation",
+          "accessed_at": "2026-11-27"
         }
       ],
       "data_needs": [
@@ -1183,7 +1193,7 @@
         "Rollback-resistant high-water state, immutable object-version/retention verification, clean-host restore, approved RPO/RTO and production ACLs remain unimplemented; no operator-approved deployed/staging database has been used."
       ],
       "status": "active",
-      "status_detail": "Main contains local strict manifest/schema validation, streamed artifact digest/length checks and exact-byte Ed25519 verification using caller-supplied public keys. PR #85 is a separate draft architecture proposal for a provider-neutral linearizable compare-and-advance high-water authority and explicit restore lineage; its exact-head quality CI 45876372188 and CPU-thread workflow 45876372172 succeeded, but the PR is not merged and no service is deployed. Production anti-rollback, key custody, immutable object retention, off-host encryption and clean-host restore remain unimplemented. Scheduled-cycle audit 2026-11-27: PR #85 remains Draft at head 68e7385a798c19b807d75c3d41b27482ba0f402c; exact-head quality CI 45883729821 and actual CPU-thread workflow 45883729845 succeeded. The PR base a19252bb is behind current main 8a69e6d9. No external high-water service, production key custody, provider retention, encryption/decryption or clean-host restore is implemented; independent security review and trust-domain ownership remain blockers.",
+      "status_detail": "Main contains local strict manifest/schema validation, streamed artifact digest/length checks and exact-byte Ed25519 verification using caller-supplied public keys. PR #85 is a separate draft architecture proposal for a provider-neutral linearizable compare-and-advance high-water authority and explicit restore lineage; its exact-head quality CI 45876372188 and CPU-thread workflow 45876372172 succeeded, but the PR is not merged and no service is deployed. Production anti-rollback, key custody, immutable object retention, off-host encryption and clean-host restore remain unimplemented. Scheduled-cycle audit 2026-11-27: PR #85 remains Draft at head 68e7385a798c19b807d75c3d41b27482ba0f402c; exact-head quality CI 45883729821 and actual CPU-thread workflow 45883729845 succeeded. The PR base a19252bb is behind current main 8a69e6d9. No external high-water service, production key custody, provider retention, encryption/decryption or clean-host restore is implemented; independent security review and trust-domain ownership remain blockers. Run 15 engineering follow-up 2026-11-27: the earlier PR #95 branch was three commits behind main, so its local reference model was ported to a fresh branch from main `5829188241ff73413ccb9798c2ecf26ee3d65f25`. The constructor now rejects empty/whitespace-only paths as well as `:memory:` (which would not persist across per-operation connections); three additional input-boundary tests bring the reference-model suite to 13 cases. Exact-head CI is pending. The implementation remains single-file/single-host SQLite only and does not provide independent rollback protection.",
       "next_step": "Obtain independent security/architecture review and an owner for the separate trust domain and recovery path. Only then implement a provider-neutral CAS interface with deterministic concurrent-writer, stale-state, timeout and point-in-time restore tests; choose provider, RPO/RTO and retention with explicit owner approval. Do not create a Supabase project or reuse another project's database.",
       "success_metrics": [
         "backup includes committed WAL data",
@@ -1201,7 +1211,8 @@
         "A synthetic manifest signature verifies only against an independently supplied trusted public key and exact manifest bytes; tampering, unknown signer and duplicate JSON keys fail closed.",
         "Both local artifact hashes and byte lengths match the signed manifest before verification succeeds.",
         "No claim of newest-backup or rollback protection until monotonic trusted state and freshness policy are independently persisted and tested.",
-        "No production disaster-recovery readiness claim until encrypted off-host artifacts are restored on a clean host against approved RPO/RTO."
+        "No production disaster-recovery readiness claim until encrypted off-host artifacts are restored on a clean host against approved RPO/RTO.",
+        "The reference constructor rejects empty, whitespace-only, in-memory and non-path database targets before opening a database."
       ],
       "last_reviewed": "2026-11-27"
     }
