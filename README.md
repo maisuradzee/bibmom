@@ -146,3 +146,11 @@ Two raw workflow reports from run `45867519546` are preserved as gzip+base64 fil
 - Georgia Decree №58/2014: nitrate 50 mg/L as NO3- and nitrite 0.2 mg/L as NO2-; WHO 2026 nitrite guidance 3 mg/L is not a Georgian compliance threshold.
 - [AquaSignal — Georgian drinking-water operational controls](research/drafts/NOEMA-2026-006-georgian-drinking-water-operational-controls-2026-11-28.md) — Decree №58/2014 sampling points, population/source-based minimum frequencies, supplier duties, emergency/repeat-sampling triggers and accredited-lab requirement; legal transition review pending; no sample results.
 - [AquaSignal — NEA 2021–2025 groundwater monitoring report and nitrate-methodology access lead](research/drafts/NOEMA-2026-006-nea-2021-2025-groundwater-report-access-lead-2026-11-28.md) — official announcement 2026-11-26; public RAR link recorded metadata-only; archive not retrieved/hashed/inspected; 2027-09-01 statutory milestone recorded separately; no sample-level results or thresholds asserted. WHO 2026 comparator (50 mg/L nitrate ion, 3 mg/L nitrite ion, combined ratio <=1) is recorded separately as drinking-water guidance, not Georgian law or an automatic raw-groundwater threshold.
+
+
+## INFRA-001 — local high-water reference model (2026-11-28)
+
+- `noema_core/high_water_reference.py` is a file-backed SQLite reference model for atomic compare-and-advance of backup generations.
+- It tests generation lineage, previous-manifest binding, stale-state rejection, rollback/equivocation rejection, exact idempotent retry and two-connection writer serialization.
+- The model is local only. Its database shares the application host's trust and rollback domain; it is not an external anti-rollback authority, provider adapter or production recovery control.
+- [Research note](research/drafts/NOEMA-INFRA-001-high-water-reference-model-2026-11-28.md) records the evidence boundary and required next steps.
