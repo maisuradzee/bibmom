@@ -217,7 +217,7 @@ class RestoreAttestationGateTests(unittest.TestCase):
 
     def test_strict_byte_parser_rejects_invalid_utf8_and_non_object_roots(self):
         with self.assertRaisesRegex(RestoreAttestationError, "valid UTF-8 JSON"):
-            evaluate_restore_attestation_bytes(b"\\xff")
+            evaluate_restore_attestation_bytes(bytes([255]))
         with self.assertRaisesRegex(RestoreAttestationError, "root must be a JSON object"):
             evaluate_restore_attestation_bytes(b"[]")
 
