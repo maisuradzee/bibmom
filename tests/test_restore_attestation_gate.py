@@ -127,7 +127,7 @@ class RestoreAttestationGateTests(unittest.TestCase):
 
     def test_unverified_evidence_signature_is_blocked(self):
         record = offsite_attestation()
-        record["evidence"][2]["signature_verified"] = False
+        record["evidence"][3]["signature_verified"] = False
         result = evaluate_restore_attestation(record)
         self.assertIn("evidence:ciphertext_digest", result["reasons"])
 
