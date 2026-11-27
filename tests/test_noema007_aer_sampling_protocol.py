@@ -85,7 +85,7 @@ class Noema007AERSamplingProtocolTests(unittest.TestCase):
         record["sampling_frames"][0]["sampling_method"] = "convenience"
         record["sampling_frames"][0]["inference_scope"] = "population_estimate"
         record["sampling_frames"][0]["weighting"] = "design_weights"
-        with self.assertRaisesRegex(AERSamplingProtocolError, "non-probability"):
+        with self.assertRaisesRegex(AERSamplingProtocolError, "probability sampling design"):
             validate_aer_sampling_protocol(record)
 
     def test_probability_population_estimate_requires_design_weights(self):
