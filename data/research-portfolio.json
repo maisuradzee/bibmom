@@ -693,7 +693,10 @@
         "Define and test an event/area aggregate-only action-readiness contract with separate endpoint and survey denominators, small-cell suppression and explicit release approvals.",
         "Freeze UNDRR/WMO source-reported 2025 anticipatory-action framework, activation, direct-reach and pre-arranged-financing aggregates; independently reproduce only the 154-to-262 framework growth arithmetic and preserve unit/causality limits.",
         "Crosswalk NOEMA-007 fields against WMO's August 2024 EW4All M&E Toolkit indicators G-3, 3.2.1b, 4.2, 4.3.1, G-6 and 4.4; keep endpoint, person, respondent, warning-event, plan/finance and exposed-population units separate.",
-        "Preserve UNDRR COP31's 4/5 warning-receipt and 1/3 unable-to-act statement as source-reported only because the underlying sample frame, denominator, weighting and uncertainty were not identified; do not use it as a baseline."
+        "Preserve UNDRR COP31's 4/5 warning-receipt and 1/3 unable-to-act statement as source-reported only because the underlying sample frame, denominator, weighting and uncertainty were not identified; do not use it as a baseline.",
+        "Map the flood-specific statutory role split in Water Resources Management Law Article 34: NEA preliminary assessment/hazard maps; Emergency Management Service risk maps for significant-risk areas; competent agencies' flood-risk plans.",
+        "Keep the statutory flood-risk framework separate from the wider multi-hazard programme for eleven river basins; record the seven-basin consultation as consultation scope, not implementation progress.",
+        "Design an authority-approved provenance chain from map/plan versions to warning events and separate delivery, timely receipt, comprehension, feasible action, verified action and after-action closure measures."
       ],
       "sources": [
         {
@@ -895,6 +898,14 @@
           "url": "https://www.undrr.org/news/cop31-leaders-back-long-term-future-early-warnings-all",
           "type": "official_global_status_update",
           "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "Law of Georgia on Water Resources Management — consolidated text, Articles 32 and 34",
+          "publisher": "Legislative Herald of Georgia",
+          "publication_date": "2023-06-30",
+          "url": "https://www.matsne.gov.ge/ka/document/download/5846594/3/ge/pdf",
+          "type": "primary_legal_source",
+          "accessed_at": "2026-11-27"
         }
       ],
       "data_needs": [
@@ -905,7 +916,11 @@
         "after-action review-ები და community feedback",
         "For any local pilot: permissioned warning-event and after-action aggregates with issue time, action deadline, hazard/geographic scope, unique event IDs and plan linkage.",
         "A pre-registered last-mile survey sampling frame, invitations, completions, response rate, weighting, timely-receipt measure, comprehension instrument and feasibility/action outcomes.",
-        "Plan-level trigger and pre-arranged finance availability, activation/disbursement timestamps and evacuation-specific exposed-population denominator, if those indicators are evaluated."
+        "Plan-level trigger and pre-arranged finance availability, activation/disbursement timestamps and evacuation-specific exposed-population denominator, if those indicators are evaluated.",
+        "Official, versioned preliminary flood-risk assessments and flood-hazard maps prepared by NEA, with map metadata and scenario definitions.",
+        "Flood-risk maps for significant-risk areas prepared by the Emergency Management Service, including the exposed-population denominator definition and map version.",
+        "Approved flood-risk plans and basin/sub-basin management-plan references, including responsible authority, issue date and warning/action responsibilities.",
+        "Authorised warning-event and after-action aggregates for one selected basin, with event IDs, validity, geography, denominators and corrective-action closure."
       ],
       "risks": [
         "ოფიციალურ უწყებებთან დუბლირება ან გაფრთხილების წყაროს ავტორიტეტის დაბნევა",
@@ -926,11 +941,13 @@
         "The WMO roadmap article publishes aggregate findings, not the underlying country-by-country roadmap dataset; NOEMA cannot independently reanalyse the 35 roadmaps from this source alone.",
         "The aggregate action-readiness contract is unpiloted; the minimum cell-size floor of 10 is a prototype default, not a guarantee of anonymisation or a substitute for local privacy review.",
         "The UNDRR/WMO release provides published aggregates rather than the underlying country/activation-level records; NOEMA cannot independently verify reach, comprehension, protective action or avoided loss from this snapshot.",
-        "No authorized Georgian event-level warning/after-action data, representative last-mile survey, financing activation records or evacuation-specific exposed-population denominator is available."
+        "No authorized Georgian event-level warning/after-action data, representative last-mile survey, financing activation records or evacuation-specific exposed-population denominator is available.",
+        "Article 34 identifies statutory flood-risk functions, but no current approved map package, plan version, exposed-population denominator or event-level warning/after-action data was obtained.",
+        "The legal role split is flood-specific; it does not establish complete institutional responsibilities or operational readiness for all seven hazards in the wider eleven-basin programme."
       ],
       "status": "active",
-      "status_detail": "PR #62 merged the UNDRR MHEWS 2026 country-level snapshot and arithmetic. PR #68 merged as f12a116c86514994ec40c4a953ba6a4f0a4656fc; exact-head quality CI 45849048113 succeeded. The new WMO 2026 roadmap snapshot reproduces 20/35 = 57.1429% of 35 government-validated roadmaps with clear budget allocations and approximately USD 69 million mean among those 20. An aggregate-only action-readiness validator and strict schema now keep endpoint receipts separate from survey-based receipt, comprehension, feasible action, self-reported action and verified action. Synthetic tests only; no field data, local effectiveness measurement or causal claim. Post-merge main CI 45850024686 passed 354 tests and Pages build/deploy 45850024682 succeeded. Scheduled-cycle audit 2026-11-27: PR #88 synthetic cross-release disclosure audit remains Draft at head cdaff77b748801163701aef427ab215bccc4f587 with quality CI 45883830584 successful. Follow-up PR #91 adds a metadata-only fail-closed aggregate-batch preflight; latest exact-head 65892bf3330491b596d6748e69f9831dbfc8d869 passed quality CI 45890862593 including focused tests, full unit suite and publication-boundary build. Neither PR implements a trusted overlap detector, persistent atomic ledger, authentication or differential privacy. PR #88 is based on b97b30de, behind main; PR #91 is based on current main. Both remain Draft pending independent privacy/security review. Scheduled-cycle audit 2026-11-27: Draft PR #93 adds a machine-readable crosswalk to WMO's 2024 EW4All M&E Toolkit (G-3, 3.2.1b, 4.2, 4.3.1, G-6, 4.4), with denominator and interpretation boundaries. It identifies that endpoint counts are not people covered, respondent action counts are not warning-event rates, and generic verified action is not evacuation coverage. UNDRR's 4/5 and 1/3 COP31 statement is recorded as method-unverified and not used as a baseline. No local event or survey data was added; the crosswalk remains a measurement design pending independent DRR/privacy review.",
-      "next_step": "Obtain authorized Georgian warning-event and after-action aggregates, then pre-register a last-mile survey with a defined sampling frame, response/non-response handling, timely receipt, comprehension, feasibility and action denominators. Keep plan/finance and evacuation-specific metrics separate; do not infer causal impact from descriptive counts.",
+      "status_detail": "PR #62 merged the UNDRR MHEWS 2026 country-level snapshot and arithmetic. PR #68 merged as f12a116c86514994ec40c4a953ba6a4f0a4656fc; exact-head quality CI 45849048113 succeeded. The new WMO 2026 roadmap snapshot reproduces 20/35 = 57.1429% of 35 government-validated roadmaps with clear budget allocations and approximately USD 69 million mean among those 20. An aggregate-only action-readiness validator and strict schema now keep endpoint receipts separate from survey-based receipt, comprehension, feasible action, self-reported action and verified action. Synthetic tests only; no field data, local effectiveness measurement or causal claim. Post-merge main CI 45850024686 passed 354 tests and Pages build/deploy 45850024682 succeeded. Scheduled-cycle audit 2026-11-27: PR #88 synthetic cross-release disclosure audit remains Draft at head cdaff77b748801163701aef427ab215bccc4f587 with quality CI 45883830584 successful. Follow-up PR #91 adds a metadata-only fail-closed aggregate-batch preflight; latest exact-head 65892bf3330491b596d6748e69f9831dbfc8d869 passed quality CI 45890862593 including focused tests, full unit suite and publication-boundary build. Neither PR implements a trusted overlap detector, persistent atomic ledger, authentication or differential privacy. PR #88 is based on b97b30de, behind main; PR #91 is based on current main. Both remain Draft pending independent privacy/security review. Scheduled-cycle audit 2026-11-27: Draft PR #93 adds a machine-readable crosswalk to WMO's 2024 EW4All M&E Toolkit (G-3, 3.2.1b, 4.2, 4.3.1, G-6, 4.4), with denominator and interpretation boundaries. It identifies that endpoint counts are not people covered, respondent action counts are not warning-event rates, and generic verified action is not evacuation coverage. UNDRR's 4/5 and 1/3 COP31 statement is recorded as method-unverified and not used as a baseline. No local event or survey data was added; the crosswalk remains a measurement design pending independent DRR/privacy review. 2026-11-27 statutory-governance update: Article 34 of the Water Resources Management Law assigns six-year preliminary flood-risk assessment and flood-hazard maps to NEA, flood-risk maps for identified significant-risk areas to the Emergency Management Service, and flood-risk planning to competent agencies in agreement with that Service. This flood-specific division is distinct from the wider multi-hazard eleven-basin programme. No official map payload, approved plan, event log or field outcome was obtained.",
+      "next_step": "Request the current NEA preliminary flood-risk assessment and hazard-map metadata, the Emergency Management Service risk maps and exposed-population denominator, and the approved flood-risk/basin plans. Then seek authorised warning-event and after-action aggregates for one basin; do not compute programme completion from the seven consultation basins versus eleven target basins.",
       "success_metrics": [
         "გაფრთხილების მიღწევის, სწორად გაგებისა და feasible action-ის წილი",
         "alert-to-acknowledgement და alert-to-action დრო",
