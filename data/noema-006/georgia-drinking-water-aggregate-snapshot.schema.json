@@ -1,0 +1,318 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AquaSignal Georgia published drinking-water aggregate snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "study_id",
+    "snapshot_id",
+    "snapshot_date",
+    "extraction_method",
+    "sources",
+    "years",
+    "national_sample_counts",
+    "regional_sample_counts",
+    "national_noncompliance_pct",
+    "regional_noncompliance_pct",
+    "unece_context",
+    "cross_source_context",
+    "limitations",
+    "table1_violation_category_counts"
+  ],
+  "properties": {
+    "study_id": {
+      "const": "NOEMA-2026-006"
+    },
+    "snapshot_id": {
+      "type": "string",
+      "minLength": 12
+    },
+    "snapshot_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "extraction_method": {
+      "type": "string",
+      "minLength": 20
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "title",
+          "authors",
+          "publisher",
+          "publication_date",
+          "url",
+          "accessed_at",
+          "locators"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 5
+          },
+          "authors": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "publisher": {
+            "type": "string"
+          },
+          "publication_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "doi": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "accessed_at": {
+            "type": "string",
+            "format": "date"
+          },
+          "locators": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "review_status": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "years": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "uniqueItems": true,
+      "items": {
+        "type": "integer",
+        "minimum": 2000,
+        "maximum": 2100
+      }
+    },
+    "national_sample_counts": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "regional_sample_counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "west_georgia",
+        "east_georgia",
+        "tbilisi"
+      ],
+      "properties": {
+        "west_georgia": {
+          "$ref": "#/$defs/counts"
+        },
+        "east_georgia": {
+          "$ref": "#/$defs/counts"
+        },
+        "tbilisi": {
+          "$ref": "#/$defs/counts"
+        }
+      }
+    },
+    "national_noncompliance_pct": {
+      "$ref": "#/$defs/rates"
+    },
+    "regional_noncompliance_pct": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "west_georgia",
+        "east_georgia",
+        "tbilisi"
+      ],
+      "properties": {
+        "west_georgia": {
+          "$ref": "#/$defs/rates"
+        },
+        "east_georgia": {
+          "$ref": "#/$defs/rates"
+        },
+        "tbilisi": {
+          "$ref": "#/$defs/rates"
+        }
+      }
+    },
+    "unece_context": {
+      "type": "object",
+      "required": [
+        "narrative_all_drinking_water_standard_noncompliance_pct",
+        "table_4i_e_coli_noncompliance_pct",
+        "urban_rural_values_reported",
+        "sample_denominators_reported",
+        "interpretation"
+      ],
+      "properties": {
+        "narrative_all_drinking_water_standard_noncompliance_pct": {
+          "type": "object"
+        },
+        "table_4i_e_coli_noncompliance_pct": {
+          "type": "object"
+        },
+        "urban_rural_values_reported": {
+          "type": "boolean"
+        },
+        "sample_denominators_reported": {
+          "type": "boolean"
+        },
+        "interpretation": {
+          "type": "string"
+        }
+      }
+    },
+    "cross_source_context": {
+      "type": "object",
+      "required": [
+        "jecm_2023_national_all_standard_noncompliance_pct",
+        "unece_2023_narrative_all_standard_noncompliance_pct",
+        "difference_percentage_points",
+        "comparability"
+      ],
+      "properties": {
+        "jecm_2023_national_all_standard_noncompliance_pct": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "unece_2023_narrative_all_standard_noncompliance_pct": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "difference_percentage_points": {
+          "type": "number"
+        },
+        "comparability": {
+          "type": "string"
+        }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 10
+      }
+    },
+    "table1_violation_category_counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_locator",
+        "category_count_semantics",
+        "categories"
+      ],
+      "properties": {
+        "source_locator": {
+          "type": "string",
+          "minLength": 5
+        },
+        "category_count_semantics": {
+          "type": "string",
+          "minLength": 30
+        },
+        "categories": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "microbiological",
+            "organoleptic",
+            "chemical",
+            "physico_chemical",
+            "microbiological_and_organoleptic",
+            "microbiological_and_physico_chemical",
+            "organoleptic_and_physico_chemical",
+            "chemical_and_microbiological",
+            "organoleptic_physico_chemical_and_microbiological",
+            "physico_chemical_chemical_and_microbiological",
+            "physico_chemical_and_chemical"
+          ],
+          "properties": {
+            "microbiological": {
+              "$ref": "#/$defs/counts"
+            },
+            "organoleptic": {
+              "$ref": "#/$defs/counts"
+            },
+            "chemical": {
+              "$ref": "#/$defs/counts"
+            },
+            "physico_chemical": {
+              "$ref": "#/$defs/counts"
+            },
+            "microbiological_and_organoleptic": {
+              "$ref": "#/$defs/counts"
+            },
+            "microbiological_and_physico_chemical": {
+              "$ref": "#/$defs/counts"
+            },
+            "organoleptic_and_physico_chemical": {
+              "$ref": "#/$defs/counts"
+            },
+            "chemical_and_microbiological": {
+              "$ref": "#/$defs/counts"
+            },
+            "organoleptic_physico_chemical_and_microbiological": {
+              "$ref": "#/$defs/counts"
+            },
+            "physico_chemical_chemical_and_microbiological": {
+              "$ref": "#/$defs/counts"
+            },
+            "physico_chemical_and_chemical": {
+              "$ref": "#/$defs/counts"
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "counts": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "rates": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 100
+      }
+    }
+  }
+}

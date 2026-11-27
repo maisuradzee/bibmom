@@ -79,7 +79,7 @@
         "table_e_coli_previous_cycle_percent_2019": 34,
         "table_e_coli_current_percent_2024": 40.3
       },
-      "note": "Food Safety Agency is identified as drinking-water control body; small rural systems were included. The report narrative and table use different reference-year frames; sample denominator and urban/rural breakdown are blank. Percentages are not population coverage."
+      "note": "Government-submitted report (cover status: Submitted 2025-04-01); its executive summary states that Georgia is not a Party to the Protocol and did not set Protocol target indicators for 2022-2024. It identifies the National Food Safety Agency as the drinking-water control body. Page 54 says sampling occurs at head facilities, treatment-facility outlets and consumer intake points, but the report's specific sample-source response field is blank. Page 16 reports broad all-standard non-compliance of 37% in 2021-2022, 44.5% in 2023 and 40.3% in 2024, mainly due to microbiological indicators. Page 56 Table 4.i is E. coli-specific (25% in 2005, 34% in 2019, 40.3% in 2024); its denominator and urban/rural rows are blank. Page 57 says small rural systems were included in the 2024 laboratory-control programme and attributes the reported 2024 increase to that inclusion. The equal 2024 value in narrative and table does not establish indicator identity. These are government-submitted sample statistics, not population exposure estimates or an independent sample-level dataset."
     },
     {
       "id": "WIS_C10",
@@ -176,6 +176,40 @@
       "sample_level_schema_verified": false,
       "reuse_terms_verified": false,
       "note": "Direct RAR URL linked from NEA's 2026-11-26 announcement. Retrieval from this execution environment failed; archive contents, internal files, data dictionary, archive hash and reuse terms remain unverified. A failed retrieval here does not establish that the official server is generally unavailable."
+    },
+    {
+      "id": "JECM_DRINKING_WATER_2020_2023",
+      "publisher": "Experimental and Clinical Medicine Georgia (article reporting NFA secondary data analysis)",
+      "publication_date": "2025-03-01",
+      "url": "https://journals.4science.ge/index.php/jecm/article/download/3442/3462/5026",
+      "matrix": "potable_network",
+      "access_status": "public_pdf_aggregate_only_denominator_not_in_table",
+      "observation_period": "2020-2023",
+      "sample_level_schema_verified": false,
+      "reuse_terms_verified": false,
+      "note": "Published secondary hygienic analysis of National Food Safety Agency 2020-2023 monitoring data; figures 1-3 report aggregate sample counts/rates and Table 1 lists violation-category frequencies. Raw NFA sample-level records, complete denominators, sample-selection design and a data dictionary are not supplied. Regional counts sum to 500 vs national 502 in 2020 and 621 vs national 599 in 2021. Table 1 includes combined violation categories; the article documents co-occurring violations, so category frequencies are not unique-sample counts and cannot be used as sample-level prevalence. The 2023 broad technical-regulation non-compliance value (49.5%) is conceptually similar to the UNECE/WHO broad narrative (44.5%) but remains numerically unreconciled. Formal peer-review procedure was not independently verified from accessible journal policy pages."
+    },
+    {
+      "id": "JECM_GEORGIA_DRINKING_WATER_2020_2023",
+      "publisher": "Journal of Experimental and Clinical Medicine (JECM), Tbilisi State Medical University",
+      "publication_date": "2025",
+      "url": "https://doi.org/10.52340/jecm.2025.01.25",
+      "matrix": "potable_network",
+      "access_status": "public_journal_article_secondary_analysis",
+      "observation_period": "2020-2023",
+      "sample_level_schema_verified": false,
+      "reuse_terms_verified": false,
+      "reported_counts": {
+        "national_samples_2020": 502,
+        "national_samples_2021": 599,
+        "national_samples_2022": 671,
+        "national_samples_2023": 1000,
+        "table1_category_frequency_total_2020": 136,
+        "table1_category_frequency_total_2021": 225,
+        "table1_category_frequency_total_2022": 207,
+        "table1_category_frequency_total_2023": 496
+      },
+      "note": "Secondary hygienic analysis of National Food Agency monitoring data (article p.1). Table 1 gives violation-type frequencies and combined categories (p.4). The authors explicitly report microbiological and organoleptic violations coexisting in one sample in 2020 and several combinations in 2023 (p.5); combined categories also appear in 2021-2022. These frequencies are not unique-sample counts. No underlying NFA row-level data, unique sample identifiers, exact overlap rules or denominator crosswalk are supplied; do not interpret category-frequency shares as sample-level prevalence."
     }
   ]
 }

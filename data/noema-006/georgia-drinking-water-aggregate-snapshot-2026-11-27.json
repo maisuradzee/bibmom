@@ -1,0 +1,203 @@
+{
+  "study_id": "NOEMA-2026-006",
+  "snapshot_id": "NOEMA-2026-006-GE-DRINKING-WATER-AGGREGATES-2025-01",
+  "snapshot_date": "2026-11-27",
+  "extraction_method": "Manual transcription of published figures/tables only; no raw sample records or personal data.",
+  "sources": [
+    {
+      "id": "JECM-2025-01-25",
+      "title": "State control and monitoring trends of drinking water quality in Georgia",
+      "authors": [
+        "Lali Bakradze",
+        "Salome Bezarashvili",
+        "Genadi Kverenchkhiladze",
+        "Nato Khunashvili",
+        "Ketevan Murjikneli",
+        "Eter Tsiklauri"
+      ],
+      "publisher": "Experimental and Clinical Medicine Georgia",
+      "publication_date": "2025-03-01",
+      "doi": "10.52340/jecm.2025.01.25",
+      "url": "https://journals.4science.ge/index.php/jecm/article/download/3442/3462",
+      "accessed_at": "2026-11-27",
+      "locators": [
+        "pp. 2–5, Figures 1–3 and Table 1; p.3 Figure 3 reports all technical-regulation non-compliance; pp.4–5 describe violation categories and overlaps"
+      ],
+      "review_status": "Journal article and issue publication are verified; the journal's formal peer-review procedure was not independently verified from accessible policy pages."
+    },
+    {
+      "id": "UNECE-GEORGIA-6TH-CYCLE-2025",
+      "title": "Summary reports in accordance with article 7 of the Protocol on Water and Health — Georgia",
+      "authors": [
+        "Government of Georgia"
+      ],
+      "publisher": "UNECE / WHO Europe",
+      "publication_date": "2025-04-01",
+      "url": "https://unece.org/sites/default/files/2025-10/Georgia_summary_report_6th_cycle_1Apr25_ENG.pdf",
+      "accessed_at": "2026-11-27",
+      "locators": [
+        "p. 16, narrative on drinking-water non-compliance",
+        "p. 56, Table 4.i E. coli",
+        "p. 57, interpretation and sampling expansion"
+      ]
+    }
+  ],
+  "years": [
+    2020,
+    2021,
+    2022,
+    2023
+  ],
+  "national_sample_counts": [
+    502,
+    599,
+    671,
+    1000
+  ],
+  "regional_sample_counts": {
+    "west_georgia": [
+      270,
+      359,
+      373,
+      515
+    ],
+    "east_georgia": [
+      214,
+      240,
+      280,
+      454
+    ],
+    "tbilisi": [
+      16,
+      22,
+      18,
+      31
+    ]
+  },
+  "national_noncompliance_pct": [
+    27.1,
+    37.9,
+    30.8,
+    49.5
+  ],
+  "regional_noncompliance_pct": {
+    "west_georgia": [
+      35.2,
+      35.4,
+      37.8,
+      55.5
+    ],
+    "east_georgia": [
+      17.3,
+      50,
+      23.2,
+      46
+    ],
+    "tbilisi": [
+      25,
+      0,
+      5.6,
+      0
+    ]
+  },
+  "unece_context": {
+    "narrative_all_drinking_water_standard_noncompliance_pct": {
+      "2023": 44.5,
+      "2024": 40.3,
+      "2021-2022": 37
+    },
+    "table_4i_e_coli_noncompliance_pct": {
+      "2005": 25,
+      "2019": 34,
+      "2024": 40.3
+    },
+    "urban_rural_values_reported": false,
+    "sample_denominators_reported": false,
+    "interpretation": "The narrative and E. coli table have different indicator contexts. The equal 2024 value does not prove that the indicators are identical."
+  },
+  "cross_source_context": {
+    "jecm_2023_national_all_standard_noncompliance_pct": 49.5,
+    "unece_2023_narrative_all_standard_noncompliance_pct": 44.5,
+    "difference_percentage_points": 5,
+    "comparability": "Both 2023 figures describe broad drinking-water standard/technical-regulation non-compliance, not an E. coli-only rate. JECM reports 49.5% among its 2023 monitoring samples; the UNECE/WHO government-submitted narrative reports 44.5% and says non-compliance was mainly microbiological. Their 5.0 percentage-point difference remains numerically unreconciled because the UNECE narrative gives no 2023 sample denominator or sample-frame details, while JECM does not publish its full sample-selection design. Do not merge them into one time series. The UNECE Table 4.i is a separate E. coli-specific indicator."
+  },
+  "limitations": [
+    "Published figures are transcribed aggregates, not raw sample-level observations.",
+    "JECM 2020 and 2021 national and regional sample counts do not reconcile.",
+    "The JECM article does not provide raw data or a complete sample-level denominator and selection design.",
+    "The UNECE/WHO report does not provide sample denominators or urban/rural E. coli values in the cited table.",
+    "No causal, temporal trend, municipal ranking or current water-safety conclusion is supported by these aggregates."
+  ],
+  "table1_violation_category_counts": {
+    "source_locator": "JECM 2025/1, p.4, Table 1",
+    "category_count_semantics": "Table 1 contains combined violation categories in all four years. The authors explicitly state that microbiological and organoleptic violations coexisted in the same sample in 2020 and that several combinations coexisted in 2023 (p.5); the table itself lists combined categories in 2021-2022 as well. These are violation-type frequencies, not unique-sample counts. Category-frequency shares must not be interpreted as sample-level prevalence.",
+    "categories": {
+      "microbiological": [
+        128,
+        205,
+        177,
+        453
+      ],
+      "organoleptic": [
+        4,
+        1,
+        7,
+        12
+      ],
+      "chemical": [
+        2,
+        2,
+        11,
+        3
+      ],
+      "physico_chemical": [
+        0,
+        4,
+        1,
+        2
+      ],
+      "microbiological_and_organoleptic": [
+        2,
+        4,
+        2,
+        11
+      ],
+      "microbiological_and_physico_chemical": [
+        0,
+        6,
+        1,
+        6
+      ],
+      "organoleptic_and_physico_chemical": [
+        0,
+        1,
+        0,
+        2
+      ],
+      "chemical_and_microbiological": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "organoleptic_physico_chemical_and_microbiological": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "physico_chemical_chemical_and_microbiological": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "physico_chemical_and_chemical": [
+        0,
+        0,
+        5,
+        0
+      ]
+    }
+  }
+}

@@ -1,0 +1,122 @@
+{
+  "study_id": "NOEMA-2026-006",
+  "snapshot_id": "NOEMA-2026-006-GE-DRINKING-WATER-AGGREGATES-2025-01",
+  "method": "Sum regional counts; compute weighted regional rates only when regional sample-count totals equal the national total. Decimal arithmetic; 0.10 percentage-point tolerance for comparing one-decimal published rates.",
+  "results": [
+    {
+      "year": 2020,
+      "national_sample_count": 502,
+      "regional_sample_count_sum": 500,
+      "regional_minus_national": -2,
+      "count_status": "denominator_mismatch",
+      "weighted_regional_noncompliance_pct": null,
+      "weighted_minus_national_percentage_points": null,
+      "rate_status": "not_evaluated"
+    },
+    {
+      "year": 2021,
+      "national_sample_count": 599,
+      "regional_sample_count_sum": 621,
+      "regional_minus_national": 22,
+      "count_status": "denominator_mismatch",
+      "weighted_regional_noncompliance_pct": null,
+      "weighted_minus_national_percentage_points": null,
+      "rate_status": "not_evaluated"
+    },
+    {
+      "year": 2022,
+      "national_sample_count": 671,
+      "regional_sample_count_sum": 671,
+      "regional_minus_national": 0,
+      "count_status": "reconciled",
+      "weighted_regional_noncompliance_pct": 30.843815,
+      "weighted_minus_national_percentage_points": 0.043815,
+      "rate_status": "within_0.10_pp_rounding_tolerance"
+    },
+    {
+      "year": 2023,
+      "national_sample_count": 1000,
+      "regional_sample_count_sum": 1000,
+      "regional_minus_national": 0,
+      "count_status": "reconciled",
+      "weighted_regional_noncompliance_pct": 49.4665,
+      "weighted_minus_national_percentage_points": -0.0335,
+      "rate_status": "within_0.10_pp_rounding_tolerance"
+    }
+  ],
+  "cross_source_checks": [
+    {
+      "year": 2023,
+      "jecm_pct": 49.5,
+      "unece_narrative_pct": 44.5,
+      "difference_percentage_points": 5,
+      "status": "conceptually_similar_but_numerically_unreconciled",
+      "jecm_indicator": "All technical-regulation non-compliance among drinking-water monitoring samples; not E. coli-specific (JECM 2025/1, p.3 Figure 3 and pp.4-5 Table 1/discussion).",
+      "unece_narrative_indicator": "All drinking-water quality-standard non-compliance, mainly due to microbiological indicators; not the E. coli-only Table 4.i rate (UNECE/WHO report, p.16).",
+      "unece_table_4i_indicator": "E. coli-specific non-compliance; current value 40.3% for 2024 (UNECE/WHO report, p.56, Table 4.i)."
+    },
+    {
+      "year": 2024,
+      "unece_narrative_all_standard_pct": 40.3,
+      "unece_table_e_coli_pct": 40.3,
+      "status": "same_numeric_value_distinct_indicator_context"
+    }
+  ],
+  "conclusion": "The published aggregates are not sufficient for an operational local water-safety signal. 2020 and 2021 denominators do not reconcile; the 2023 broad all-standard values (JECM 49.5%, UNECE/WHO narrative 44.5%) are conceptually similar but numerically unreconciled; the 2024 E. coli-specific table value must remain separate from the all-standard narrative.",
+  "table1_category_reconciliation": {
+    "source_locator": "JECM 2025/1, p.4, Table 1",
+    "method": "Sum transcribed Table 1 categories by year; count every category whose name includes microbiological (including combined categories); derive the integer-count interval compatible with the published one-decimal national rate using half-width 0.05 percentage points. Treat row totals as unique samples only conditionally because the article does not define category exclusivity.",
+    "results": [
+      {
+        "year": 2020,
+        "table1_category_total": 136,
+        "microbiological_involved_category_count": 130,
+        "microbiological_involved_share_pct": 95.588235,
+        "national_rate_implied_unique_count_min": 136,
+        "national_rate_implied_unique_count_max": 136,
+        "table1_total_compatible_if_categories_are_unique_samples": true,
+        "counting_semantics": "unverified_category_frequency_not_assumed_unique_sample_count"
+      },
+      {
+        "year": 2021,
+        "table1_category_total": 225,
+        "microbiological_involved_category_count": 217,
+        "microbiological_involved_share_pct": 96.444444,
+        "national_rate_implied_unique_count_min": 227,
+        "national_rate_implied_unique_count_max": 227,
+        "table1_total_compatible_if_categories_are_unique_samples": false,
+        "counting_semantics": "unverified_category_frequency_not_assumed_unique_sample_count"
+      },
+      {
+        "year": 2022,
+        "table1_category_total": 207,
+        "microbiological_involved_category_count": 183,
+        "microbiological_involved_share_pct": 88.405797,
+        "national_rate_implied_unique_count_min": 207,
+        "national_rate_implied_unique_count_max": 207,
+        "table1_total_compatible_if_categories_are_unique_samples": true,
+        "counting_semantics": "unverified_category_frequency_not_assumed_unique_sample_count"
+      },
+      {
+        "year": 2023,
+        "table1_category_total": 496,
+        "microbiological_involved_category_count": 477,
+        "microbiological_involved_share_pct": 96.169355,
+        "national_rate_implied_unique_count_min": 495,
+        "national_rate_implied_unique_count_max": 495,
+        "table1_total_compatible_if_categories_are_unique_samples": false,
+        "counting_semantics": "unverified_category_frequency_not_assumed_unique_sample_count"
+      }
+    ],
+    "pooled": {
+      "table1_category_total": 1064,
+      "microbiological_involved_category_count": 1007,
+      "microbiological_involved_share_pct": 94.642857,
+      "exceeds_90_percent": true
+    },
+    "interpretation": "The pooled Table 1 categories containing microbiological account for 94.642857% of transcribed category frequencies; the 2022 year-specific category-frequency share is 88.405797%. These are not sample-level prevalence estimates. The article explicitly reports microbiological and organoleptic violations coexisting in one sample in 2020 and several combinations in 2023; Table 1 also lists combined categories in 2021-2022. Category frequencies therefore overlap and cannot be treated as unique-sample counts. The conditional integer-count comparison is only a warning against that invalid assumption, not evidence of a data error. Sample-level microbiological prevalence cannot be reproduced without the underlying NFA data and exact counting rules.",
+    "source_reports_2023_multiple_violation_types_in_same_sample": true,
+    "category_frequency_is_not_unique_sample_count": true,
+    "source_reports_2020_multiple_violation_types_in_same_sample": true
+  }
+}
