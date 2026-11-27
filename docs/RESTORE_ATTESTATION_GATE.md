@@ -18,6 +18,7 @@ Two scopes are deliberately distinct:
 2. **offsite_clean_host** — requires all local checks plus exact manifest signature verification, ciphertext and plaintext digests, successful decryption, provider object-version and retention evidence, an independently administered monotonic high-water authority, clean-host evidence, service health, approved RPO/RTO targets and signed evidence references.
 
 The offsite gate rejects:
+- non-finite measurement values (`NaN`, `Infinity`, `-Infinity`) even when Python's permissive JSON decoder or an in-memory caller supplies them; such values must not bypass RPO/RTO comparisons;
 - a restored generation older than the trusted high-water generation;
 - any decrease in high-water state;
 - missing or unverified evidence classes;
@@ -29,6 +30,7 @@ The result `OFFSITE_CHECKLIST_COMPLETE` is intentionally not named “verified�
 ## Evidence and standards
 
 - **FACT:** SQLite's Online Backup API produces a snapshot corresponding to the database state when the backup sequence begins; the official documentation describes the online backup behavior and limitations: https://www.sqlite.org/backup.html
+- **FACT:** Python 3.14's JSON documentation states that the default decoder accepts `NaN`, `Infinity` and `-Infinity` as Python floats even though they are outside the JSON specification. The restore gate therefore checks finiteness at runtime rather than relying on JSON Schema's numeric minimum alone: https://docs.python.org/3.14/library/json.html
 - **FACT:** TUF v1.0.37 explicitly addresses rollback and indefinite-freeze attacks; its threat model supports keeping freshness/monotonic state outside the untrusted backup object: https://theupdateframework.github.io/specification/v1.0.37/
 - **INFERENCE:** A signed manifest plus local hashes cannot by itself prove that the selected backup is the newest or that provider retention is active. An independent high-water authority and separately verified provider evidence are needed for that claim.
 - **UNTESTED IDEA:** a real offsite restore drill on a clean host, with approved owner-controlled RPO/RTO and a separately operated high-water authority.
