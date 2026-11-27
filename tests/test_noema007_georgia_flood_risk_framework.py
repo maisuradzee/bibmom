@@ -30,7 +30,7 @@ class GeorgiaFloodRiskFrameworkTests(unittest.TestCase):
 
     def test_all_river_basin_districts_and_transboundary_scope_are_recorded(self) -> None:
         self.assertEqual(self.record["scope"]["river_basin_districts"], "all river basin districts in Georgia")
-        self.assertIn("transboundary", self.record["scope"]["transboundary"])
+        self.assertIn("relevant Georgian territory", self.record["scope"]["transboundary"])
 
     def test_risk_assessment_inputs_include_people_infrastructure_and_climate(self) -> None:
         joined = " ".join(self.record["assessment_inputs"]).lower()
