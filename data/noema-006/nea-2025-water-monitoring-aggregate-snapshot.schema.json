@@ -136,7 +136,7 @@
             "total",
             "wells",
             "springs",
-            "household_wells"
+            "control_wells"
           ],
           "properties": {
             "total": {
