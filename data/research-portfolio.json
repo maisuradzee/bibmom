@@ -349,6 +349,15 @@
           "type": "official_legislation",
           "accessed_at": "2026-11-28",
           "note": "Sets 2027-09-01 statutory milestones; does not establish completion."
+        },
+        {
+          "title": "RFC 8259 — The JavaScript Object Notation (JSON) Data Interchange Format, §9 parser limits",
+          "publisher": "Internet Engineering Task Force",
+          "publication_date": "2017-12",
+          "url": "https://www.rfc-editor.org/rfc/rfc8259#section-9",
+          "type": "internet_standard",
+          "accessed_at": "2026-11-28",
+          "note": "Permits implementation limits on JSON text size and related parser resources; it does not prescribe NOEMA's 64 KiB local event-payload limit."
         }
       ],
       "data_needs": [
@@ -1773,12 +1782,13 @@
           "note": "Runtime math.isfinite guard and synthetic tests for NaN/positive infinity in restore duration, data loss, RPO and RTO. Exact-head Quality CI 46024546433 passed 458 Python tests plus schema, site and publication-boundary checks. No production restore."
         },
         {
-          "title": "RFC 8259 — The JavaScript Object Notation (JSON) Data Interchange Format, §6",
-          "url": "https://www.rfc-editor.org/rfc/rfc8259.html",
+          "title": "RFC 8259 — The JavaScript Object Notation (JSON) Data Interchange Format, §§4 and 9",
+          "url": "https://www.rfc-editor.org/rfc/rfc8259#section-9",
           "type": "internet-standard",
           "publication_date": "2017-12",
-          "accessed_at": "2026-11-27",
-          "publisher": "Internet Engineering Task Force"
+          "accessed_at": "2026-11-28",
+          "publisher": "Internet Engineering Task Force",
+          "note": "§4 recommends unique object names for interoperability; §9 permits parser limits on maximum nesting depth and text size. The NOEMA 64-level ceiling is a local policy."
         },
         {
           "title": "NOEMA INFRA-001 finite restore-measurement guard, Run 11",
