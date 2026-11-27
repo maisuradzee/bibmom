@@ -1,13 +1,13 @@
 # NOEMA — მიმდინარე პროექტის მდგომარეობა
 
-- **განახლდა:** 2026-11-27 (Run 11 — cross-architecture benchmark synthesis და restore numeric-boundary hardening)
+- **განახლდა:** 2026-11-27 (Run 35 — CPU-thread evidence freeze და WRP survey-input validation).
 - **საცავი:** https://github.com/maisuradzee/bibmom
-- **ბოლო დადასტურებული main snapshot:** `ce1184eaab9e0664548b2716064d2924b76ab79b` (Run 11 portfolio/status merge).
-- **Main Quality CI:** [46038637190](https://github.com/maisuradzee/bibmom/actions/runs/46038637190) — SUCCESS; 470 Python tests, frozen-result/schema checks, site build და publication-boundary checks.
-- **Pages deployment:** [46038637203](https://github.com/maisuradzee/bibmom/actions/runs/46038637203) — build/deploy SUCCESS ზუსტად Run 11 merge commit-ზე.
-- **ღია PR:** 41; **ღია Issue:** 0.
+- **ბოლო დადასტურებული main snapshot:** `8851e8f2d6af2abaf7cd931aaf55d1712d60007b` (Run 35).
+- **Main Quality CI:** [46045273572](https://github.com/maisuradzee/bibmom/actions/runs/46045273572) — SUCCESS; 491 Python tests, frozen-result/schema checks, site build და publication-boundary checks.
+- **Pages deployment:** [46045273588](https://github.com/maisuradzee/bibmom/actions/runs/46045273588) — build/deploy SUCCESS ზუსტად Run 35 main commit-ზე.
+- **ღია PR:** 38; **ღია Issue:** 0.
 - **აქტიური პორტფელი:** ოთხივე ნაკადი აქტიურია — AquaSignal, NOEMA-005, NOEMA-007 და INFRA-001.
-- **კვლევის კატალოგი:** 1 Preliminary, 0 Published. ახალი კვლევითი მასალა Draft/Preliminary საზღვრებში რჩება; Published სტატუსი არ მინიჭებულა.
+- **კვლევის კატალოგი:** 3 Preliminary, 0 Published. Run 35-ის ცვლილებები კვლევითი მტკიცებულებების input-validation hardening-ია და ახალ Published კვლევას არ ქმნის.
 
 ## Run 11 — კვლევითი მტკიცებულებების შეჯერება და აღდგენის numeric-boundary hardening
 
@@ -297,3 +297,46 @@ Evidence boundary: WP22443 is self-reported serious harm over the past two years
 Workflow runs [46042334393](https://github.com/maisuradzee/bibmom/actions/runs/46042334393) and [46043232025](https://github.com/maisuradzee/bibmom/actions/runs/46043232025) produced four aggregate-only artifacts (48 configurations and 144 measured threaded runs per artifact; 576 runs total). Across 192 configurations: Neumaier-state was correctly rounded in 192/192 runs, scalar Neumaier in 168/192, naive scalar in 0/192. No configuration beat its matching serial baseline (0/192). Free-threaded process CPU/wall ratio exceeded 1.05 in 72/96 configurations; GIL-enabled in 0/96. Native thread counts matched requested worker counts.
 
 Run 1 used the same AWS x86-64 runner family for both runtime modes. Run 2 used AWS for free-threaded and Azure for GIL-enabled, so Run 2 is not a matched cross-mode comparison. These are hosted x86-64 synthetic results, not physical-device or ARM64 replication. tracemalloc is Python allocation accounting only, not RSS/native memory; DRAM bandwidth was not measured. The frozen aggregate summary and four artifact ZIP/JSON hashes are in data/noema-005/threaded-run-2026-11-27-summary.json.
+
+
+## Run 35 — CPU-thread evidence freeze და WRP survey-input validation (2026-11-27)
+
+### პორტფელის მდგომარეობა
+
+- **AquaSignal / NOEMA-2026-006 — active, preliminary:** WRP 2025 WP22443-ის pinned aggregate უცვლელია. PR #186-ის შემდეგ response code-ები მკაცრად მოწმდება: მხოლოდ integral, non-boolean და გამოქვეყნებულ კოდთა ნაკრებში არსებული მნიშვნელობები მიიღება. PROJWT წონა უნდა იყოს finite, non-negative `numbers.Real`; built-in/NumPy bool და numeric string უარყოფილია. NEA RAR/HTTPS ასლი, მონაცემთა ლექსიკონი, reuse პირობები და NFA denominator კვლავ ბლოკერია.
+- **NOEMA-005 — active, preliminary:** PR #184-ით დაემატა ოთხი hosted x86-64 artifact, 192 configuration და 576 measured threaded run. Neumaier-state 192/192 correctly-rounded, scalar Neumaier 168/192, naive scalar 0/192; threaded speedup >1.0 იყო 0/192 configuration-ში. ეს hosted synthetic evidence-ია და არა physical-device ან ARM64 replication.
+- **NOEMA-2026-007 — active, preliminary:** PR #185-მა გაამკაცრა warning/action response-code ტიპები რვა warning channel-ზე, WP24215-სა და WP24213-ზე; PR #187-მა PROJWT-ის numeric type validation გაამკაცრა. Pinned WRP aggregate და denominator-ები უცვლელია. საქართველოს უფლებამოსილი event-level warning/after-action მონაცემები კვლავ არ არსებობს.
+- **INFRA-001 — active, engineering:** ამ ციკლში production recovery არ შესრულებულა. დამოუკიდებელი recovery owner, trust-domain, key custody, immutable offsite retention და clean-host restore კვლავ აუცილებელია.
+
+### რეალურად შესრულებული სამუშაო
+
+1. **NOEMA-005 — PR #184 merged** as `e7d9652b0bfb6deb99aac58686736cda99ecbad1`. Run 34-ის ოთხი aggregate-only artifact შენარჩუნდა. Exact-head Quality CI [46044459870](https://github.com/maisuradzee/bibmom/actions/runs/46044459870) და CPU-thread workflow [46044459895](https://github.com/maisuradzee/bibmom/actions/runs/46044459895) წარმატებულია. თავდაპირველი privacy test `"thread_id"` substring-ით `thread_identity` protocol აღწერას შეცდომით კრძალავდა; ტესტი გადაკეთდა recursive JSON object-key შემოწმებად. Raw native thread identifiers საცავში არ დამატებულა.
+2. **NOEMA-007 — PR #185 merged** as `810da5e4b51b7b2dc5d4700e0fb90b4071e0dfdf`. Python-ში `bool` არის `int`-ის subclass და `True == 1`; ამიტომ response-code membership შემოწმება შეცვლილია strict `numbers.Integral` validation-ით. რვა warning channel, WP24215 და WP24213 უარყოფს bool და float lookalikes. Exact-head Quality CI [46044833779](https://github.com/maisuradzee/bibmom/actions/runs/46044833779) და WRP reproduction [46044833793](https://github.com/maisuradzee/bibmom/actions/runs/46044833793) წარმატებულია.
+3. **AquaSignal — PR #186 merged** as `b5267cb7dd7578cc46bd1b1837ce2f77e3852abf`. WP22443 response code-ები მკაცრად მოწმდება; PROJWT წონა უნდა იყოს finite non-negative real numeric value. Exact-head Quality CI [46045040482](https://github.com/maisuradzee/bibmom/actions/runs/46045040482), AquaSignal reproduction [46045040425](https://github.com/maisuradzee/bibmom/actions/runs/46045040425) და push Quality CI [46045036687](https://github.com/maisuradzee/bibmom/actions/runs/46045036687) წარმატებულია.
+4. **NOEMA-007 — PR #187 merged** as `8851e8f2d6af2abaf7cd931aaf55d1712d60007b`. PROJWT ახლა მოითხოვს `numbers.Real`-ს; უარყოფილია numeric strings, NumPy bool, NaN, ±Infinity და უარყოფითი წონები. Python/NumPy numeric scalars მხარდაჭერილია. Exact-head Quality CI [46045173173](https://github.com/maisuradzee/bibmom/actions/runs/46045173173), WRP reproduction [46045173225](https://github.com/maisuradzee/bibmom/actions/runs/46045173225) და push Quality CI [46045168260](https://github.com/maisuradzee/bibmom/actions/runs/46045168260) წარმატებულია.
+
+### მტკიცებულების სტატუსი და შეზღუდვები
+
+- **FACT:** Python-ის ოფიციალური დოკუმენტაცია განსაზღვრავს `bool`-ს როგორც `int`-ის subclass-ს; შესაბამისად, bool response code-ის რიცხვად მიღება რეალური ტიპური შეცდომაა. წყარო: https://docs.python.org/3/library/stdtypes.html#boolean-type
+- **REPRODUCED RESULT:** Run 34-ის hosted x86-64 aggregate; 576 measured threaded runs, 192 configurations, Neumaier-state 192/192 correctly-rounded. არცერთი threaded configuration არ აჯობა matching serial baseline-ს.
+- **REPRODUCED RESULT:** WRP 2025 pinned Parquet-ის warning/action და water-harm aggregate-ები dedicated ephemeral CI workflow-ებში უცვლელად მეორდება; საცავში მხოლოდ aggregate JSON ინახება.
+- **INFERENCE:** strict input types ამცირებს malformed synthetic/ingestion input-ის არასწორი კლასიფიკაციის რისკს; ეს არ ცვლის უკვე დათვლილ WRP შედეგებს და არ ადასტურებს მონაცემის წარმომავლობას ან survey methodology-ს.
+- **UNTESTED IDEA:** ფიზიკურ x86-64/ARM64-ზე 20+ გამეორება, RSS/native allocation, DRAM bandwidth და CPU-frequency measurements კვლავ არ ჩატარებულა.
+- WRP microdata მხოლოდ ephemeral runner-ზე მუშავდება. Raw respondent rows, IDs, health details და household locations საცავში არ ინახება.
+- AquaSignal-ის NEA ანგარიში/ნიტრატების მონაცემები და NOEMA-007-ის საქართველოს event-level after-action data ჯერ არ მიგვიღია.
+- INFRA-001-ის production clean-host restore არ შესრულებულა. არც ახალი Supabase პროექტი შექმნილა და არც სხვა პროექტის ბაზა გამოყენებულა.
+
+### Main validation
+
+- Main SHA: `8851e8f2d6af2abaf7cd931aaf55d1712d60007b`.
+- Quality CI: [46045273572](https://github.com/maisuradzee/bibmom/actions/runs/46045273572) — SUCCESS, 491 Python tests, schema/frozen-result checks, site build და publication-boundary checks.
+- Pages: [46045273588](https://github.com/maisuradzee/bibmom/actions/runs/46045273588) — build/deploy SUCCESS.
+- PR #184–#187 merged; მიმდინარე ღია PR-ები 38; ღია Issue 0.
+- Research catalogue: 3 Preliminary, 0 Published.
+
+### შემდეგი პრიორიტეტები
+
+1. AquaSignal: NEA-სგან ავტორიზებული HTTPS/checksum-ით დამოწმებული ანგარიშის ასლი, sample/station dictionary, reuse terms და NFA denominator.
+2. NOEMA-007: მონაცემთა კონტროლერის მიერ დამტკიცებული ქართული event-level warning/after-action aggregate-ები და წინასწარ განსაზღვრული denominators.
+3. NOEMA-005: ფიზიკური x86-64/ARM64 კონტროლირებული benchmark, 20+ repetitions, RSS/native memory და DRAM bandwidth.
+4. INFRA-001: დამოუკიდებელი recovery owner, trust-domain, key custody და permissioned clean-host restore.
