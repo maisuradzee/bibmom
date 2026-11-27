@@ -406,3 +406,16 @@ Run 1 used the same AWS x86-64 runner family for both runtime modes. Run 2 used 
 2. Complete exact-head CI and review for PR #193; retain physical x86-64/ARM64 replication as an external blocker.
 3. Run exact-head tests for PR #194 and request independent privacy/GIS/DRR review.
 4. Keep PR #191 Draft until independent security review; later require a permissioned clean-host restore before any offsite readiness claim.
+
+
+### AquaSignal additional official NFA source review
+
+The NFA 2026 State Control Programme (official PDF, accessed 2026-11-27) plans 550 base drinking-water samples: K=1.5 × A=365 = 547.5, rounded to 550, plus approximately 200 additional bottled-water samples, total 750 planned. It also says monitoring of produced bottled-water volume is not planned. These are programme targets, not actual sample counts or results.
+
+The NFA 2026-09-25 Tbilisi kindergarten investigation update reports approximately 70 inspected facilities and 694 combined food/drinking-water samples. It separately reports 129 food samples tested with no violations. The 694 count is not a water-only denominator; the 129 compliant results are food-only. Water-only sample counts and results remain unavailable. No claim is made that drinking water caused the reported norovirus-associated gastroenteritis cases.
+
+### Run 37 validation update
+
+- PR #193 exact-head Quality CI and CPU-thread workflow both succeeded after replacing full runner platform strings with coarse provider-family metadata.
+- PR #194 exact-head Quality CI and CPU-thread workflow both succeeded; its URL hygiene guard remains Draft pending independent review.
+- PR #190 and PR #192 had new commits after their first CI attempts; latest exact-head checks are being re-evaluated. No Main merge or deployment is claimed from those Draft PRs.
