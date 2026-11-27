@@ -37,7 +37,7 @@ class AquaSignalPublicInformationEvidenceTests(unittest.TestCase):
 
     def test_public_defender_sample_is_not_generalized_nationally(self):
         f002 = next(f for f in self.data["findings"] if f["id"] == "F-002")
-        self.assertIn("not a probability sample", f002["limitation"])
+        self.assertIn("does not establish a probability sample", f002["limitation"])
 
     def test_publication_design_does_not_authorize_safety_labels(self):
         requirements = " ".join(r["requirement"] for r in self.data["design_requirements"])
