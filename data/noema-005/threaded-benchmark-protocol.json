@@ -19,11 +19,11 @@
   "execution": {
     "runtime_matrix": [
       {
-        "python": "3.14.4",
+        "python": "3.14.10",
         "expected_gil_enabled": true
       },
       {
-        "python": "3.14.4t",
+        "python": "3.14.10t",
         "expected_gil_enabled": false
       }
     ],
@@ -86,7 +86,7 @@
     "tracemalloc measures Python-traced allocations, not total RSS or every native allocation",
     "worker-local math.fsum returns one rounded scalar per partition; its final merge is not equivalent to applying math.fsum once to the complete input, and the synthetic counterexample intentionally demonstrates this loss",
     "no GPU, NumPy/BLAS, OpenMP, process pool or network-distributed execution is tested",
-    "The CI matrix pins CPython 3.14.4/3.14.4t; as of 2026-11-25 the latest 3.14 patch is 3.14.10, so current-patch replication remains outstanding."
+    "The experiment uses CPython 3.14.10/3.14.10t; a future patch-level change requires a separately identified replication."
   ],
   "sources": [
     {
