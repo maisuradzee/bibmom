@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import json
 from datetime import date
-from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
+from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from typing import Any
 
@@ -84,17 +84,16 @@ def _reported_rate_matches(observation: dict[str, Any]) -> bool:
     if numerator is None or denominator is None or reported is None:
         return False
     try:
-        calculated = (Decimal(numerator) * Decimal(100) / Decimal(denominator)).quantize(
-            Decimal(1).scaleb(-precision),
-            rounding=ROUND_HALF_UP,
-        )
-        source_value = Decimal(str(reported)).quantize(
-            Decimal(1).scaleb(-precision),
-            rounding=ROUND_HALF_UP,
-        )
+        calculated = Decimal(numerator) * Decimal(100) / Decimal(denominator)
+        source_value = Decimal(str(reported))
+        last_unit = Decimal(1).scaleb(-precision)
+        if source_value.as_tuple().exponent < -precision:
+            return False
     except (InvalidOperation, TypeError, ValueError):
         return False
-    return calculated == source_value
+    # Accept any conventional nearest-rounding result without assuming the
+    # publisher's tie-breaking rule; the half-unit interval is explicit.
+    return abs(calculated - source_value) <= last_unit / Decimal(2)
 
 
 def compare_same_period_indicators(
