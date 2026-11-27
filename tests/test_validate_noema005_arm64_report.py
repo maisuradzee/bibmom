@@ -169,6 +169,13 @@ class Noema005Arm64ReportValidatorTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "invalid CPU/wall ratio"):
             validate_report(report, "enabled")
 
+    def test_rejects_integer_ratios_outside_binary64_range(self):
+        for field in ("median_cpu_wall_ratio", "speedup_vs_matching_serial_baseline"):
+            report = valid_report()
+            report["threaded_cases"][0][field] = 10**400
+            with self.subTest(field=field), self.assertRaisesRegex(ValueError, "invalid"):
+                validate_report(report, "enabled")
+
     def test_rejects_boolean_thread_ids(self):
         report = valid_report()
         case = next(item for item in report["threaded_cases"] if item["worker_count"] == 1)
