@@ -1,10 +1,13 @@
 # NOEMA-2026-006 — AquaSignal: Georgia monitoring framework and nitrate reporting-basis crosswalk
 
 - **ID:** AQUASIGNAL-GEORGIA-MONITORING-AND-NITRATE-BASIS-2026-11-28
-- **Status:** draft
+- **სტატუსი:** draft
+- **თარიღი:** 2026-11-28
 - **Evidence labels:** FACT · REPRODUCED RESULT · INFERENCE · HYPOTHESIS · UNTESTED IDEA
 - **Updated:** 2026-11-28
 - **Scope:** Georgia environmental water-resource monitoring, historical nitrate indicator metadata and drinking-water control boundaries
+
+## საკვლევი კითხვა
 
 ## Research question
 
@@ -67,6 +70,8 @@ If every observation is stored with explicit water matrix, analyte, reporting ba
 
 Add a source-specific adapter for NEA's 2021–2025 groundwater report after an authorized archive and dictionary are obtained. The adapter should retain raw source values and a separate normalized view, with a provenance link from every transformed value to its source row.
 
+## მეთოდი ან ექსპერიმენტის გეგმა
+
 ## Method and limitations
 
 - Reviewed the official Matsne text of Decree №447 and the EEA C11 indicator.
@@ -78,11 +83,26 @@ Add a source-specific adapter for NEA's 2021–2025 groundwater report after an 
 - Rounded conversion factor is not suitable as the sole basis for a legal pass/fail decision near a limit.
 - Legal status and the future drinking-water regulation require independent Georgian legal review.
 
+## შემოწმების სტატუსი
+
+- Source pages for Decree №447, EEA C11, WHO conversion factor, Decree №58/2014 and Law №1766 were checked on 2026-11-28.
+- Decree №447 annex DOCX was listed but not downloaded or inspected.
+- The nitrate conversion helper and synthetic tests were added in this branch; GitHub Actions exact-head CI is pending after the draft metadata correction.
+- No sample-level data, laboratory results, contamination estimate or compliance decision was generated.
+
 ## Innovation
 
 AquaSignal now has a unit-safe nitrate conversion primitive that preserves the original water matrix and refuses unsupported analytes/units. This is a data-quality guard only; it is not a risk score, potability decision or automated public warning.
 
-## Next steps
+## წყაროები
+
+1. Government of Georgia, Decree №447, 15 September 2026: https://www.matsne.gov.ge/ka/document/view/7000572
+2. ENI SEIS II East / EEA, C11 — Nutrients in freshwater of Georgia: https://eni-seis.eionet.europa.eu/east/indicators/c11-nutrients-in-freshwater-of-georgia
+3. WHO, Nitrate and nitrite chemical fact sheet (2022): https://cdn.who.int/media/docs/default-source/wash-documents/water-safety-and-quality/chemical-fact-sheets-2022/nitrate-and-nitrite-fact-sheet-2022.pdf
+4. Government of Georgia, Decree №58/2014: https://www.matsne.gov.ge/ka/document/view/2196792
+5. Government of Georgia, Law №1766 (24 June 2026): https://manage.matsne.gov.ge/ka/document/view/6904700
+
+## შემდეგი ნაბიჯები
 
 1. Obtain the NEA 2021–2025 archive and official data dictionary through an authorized channel.
 2. Inspect Decree №447 Annex 1 and Annex 2 and record only verified parameters/methods.
