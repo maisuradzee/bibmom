@@ -107,7 +107,7 @@
       "publisher": "Ministry of Environmental Protection and Agriculture of Georgia",
       "title": "Spatial data inventory — NEA geological, hydrological, meteorological and avalanche layers",
       "publication_date": "undated",
-      "url": "https://portal.mepa.gov.ge/Ge/User/data?Links-sort=ResponsiblePerson-asc",
+      "url": "https://portal.mepa.gov.ge/En/User/data?Links-page=5&Links-sort=GeoDataId-desc",
       "accessed_at": "2026-11-27",
       "source_claims": {
         "catalogue_fields": [
@@ -122,7 +122,24 @@
           "server location",
           "catalogue date"
         ],
-        "scope_note": "Catalogue metadata only; public/free classification does not prove a direct download endpoint or a reusable open-data licence."
+        "scope_note": "Expanded page-by-page catalogue audit. These are catalogue metadata only. Public/free does not prove direct feature download or an open reuse licence; a portal map URL, where present, is not treated as a download endpoint.",
+        "catalogue_page_urls": [
+          "https://portal.mepa.gov.ge/En/User/data?Links-page=2&Links-sort=Descrioption-desc",
+          "https://portal.mepa.gov.ge/En/User/data?Links-page=5&Links-sort=GeoDataId-desc",
+          "https://portal.mepa.gov.ge/En/User/data?Links-page=6&Links-sort=UnitName-desc"
+        ],
+        "verified_layer_ids": [
+          "NEA38",
+          "NEA54",
+          "NEA55",
+          "NEA56",
+          "NEA57",
+          "NEA58",
+          "NEA65",
+          "NEA66",
+          "NEA123",
+          "NEA124"
+        ]
       }
     }
   ],
@@ -181,6 +198,91 @@
   ],
   "spatial_data_catalogue": [
     {
+      "id": "NEA38",
+      "title": "Main river basin and sub-basin polygons",
+      "layer_name": "Rioni_Basins; Adjaristskali_Basins; Khobi_Basins; Natanebi_basins; Kintrishi_Basins; Supsa_Basins",
+      "geometry_types": [
+        "polygon"
+      ],
+      "sharing_type": "public",
+      "price": "free",
+      "catalogue_date": "2025-10-16",
+      "storage": [
+        "SQL SDE server",
+        "GIS server",
+        "portal",
+        "GISSQLFC01\\NEA_Hydrology"
+      ],
+      "portal_map_url": "https://portal.mepa.gov.ge/Ge/user/map/16",
+      "direct_download_confirmed": false,
+      "reuse_license_confirmed": false,
+      "data_payload_obtained": false,
+      "scope": {
+        "visible_asset_names": [
+          "Rioni_Basins",
+          "Adjaristskali_Basins",
+          "Khobi_Basins",
+          "Natanebi_basins",
+          "Kintrishi_Basins",
+          "Supsa_Basins"
+        ],
+        "layer_interpretation": "The catalogue row exposes six technical sub-basin layer names and a portal map. It does not establish that the map exposes a downloadable feature service or that the layer set is complete."
+      }
+    },
+    {
+      "id": "NEA54",
+      "title": "Flood-hazard modelling layers for major river basins",
+      "layer_name": "Arrival time.tif; Depth.tif; Duration.tif; Velocity.tif; WSE.tif; Flood_extent.shp",
+      "geometry_types": [
+        "polygon"
+      ],
+      "sharing_type": "public",
+      "price": "free",
+      "catalogue_date": "2025-07-28",
+      "storage": [
+        "SQL SDE server",
+        "GISSQLFC01\\NEA_HYDRAVLIC"
+      ],
+      "portal_map_url": null,
+      "direct_download_confirmed": false,
+      "reuse_license_confirmed": false,
+      "data_payload_obtained": false,
+      "scope": {
+        "modelled_rivers": [
+          "Enguri",
+          "Khobi",
+          "Rioni",
+          "Supsa",
+          "Natanebi",
+          "Kintrishi",
+          "Mtkvari",
+          "Alazani",
+          "Ktsia-Khrami"
+        ],
+        "return_periods_years": [
+          2,
+          5,
+          25,
+          50,
+          100,
+          500
+        ],
+        "visible_asset_names": [
+          "Arrival time.tif",
+          "Depth.tif",
+          "Duration.tif",
+          "Velocity.tif",
+          "WSE.tif",
+          "Flood_extent.shp"
+        ],
+        "layer_interpretation": "Catalogue-described hydraulic-model outputs; no model run, raster, feature or local forecast was retrieved."
+      },
+      "data_formats": [
+        "shp",
+        "tif"
+      ]
+    },
+    {
       "id": "NEA55",
       "title": "Regional modeling of avalanche hazards",
       "layer_name": "(30y,100y,300y)_For_10m_rel.shp; Outlines_(30y,100y,300y)_For.shp; (30y,100y,300y)_For_MaxHeight.tif; (30y,100y,300y)_For_MaxPressure.tif",
@@ -224,6 +326,109 @@
         "shp",
         "tif"
       ]
+    },
+    {
+      "id": "NEA56",
+      "title": "Local avalanche-hazard modelling by river basin/sub-basin",
+      "layer_name": "(30y,100y,300y)_For_10m_rel.shp; (30y,100y,300y)_For_MaxHeight.tif; (30y,100y,300y)_For_MaxPressure.tif; (30y,100y,300y)_For_Accumulation.tif; (30y,100y,300y)_For_Velocity.tif",
+      "geometry_types": [
+        "polygon"
+      ],
+      "sharing_type": "public",
+      "price": "free",
+      "catalogue_date": "2025-07-28",
+      "storage": [
+        "hard disks",
+        "personal computer"
+      ],
+      "portal_map_url": null,
+      "direct_download_confirmed": false,
+      "reuse_license_confirmed": false,
+      "data_payload_obtained": false,
+      "scope": {
+        "return_periods_years": [
+          30,
+          100,
+          300
+        ],
+        "visible_asset_names": [
+          "(30y,100y,300y)_For_10m_rel.shp",
+          "(30y,100y,300y)_For_MaxHeight.tif",
+          "(30y,100y,300y)_For_MaxPressure.tif",
+          "(30y,100y,300y)_For_Accumulation.tif",
+          "(30y,100y,300y)_For_Velocity.tif"
+        ],
+        "layer_interpretation": "Local avalanche modelling by basin/sub-basin; separate from NEA55 regional modelling. No forest-scenario claim is made for NEA56."
+      },
+      "data_formats": [
+        "shp",
+        "tif"
+      ]
+    },
+    {
+      "id": "NEA57",
+      "title": "Clidata climate-station metadata",
+      "layer_name": "Meteo_Network",
+      "geometry_types": [
+        "polygon"
+      ],
+      "sharing_type": "public",
+      "price": "free",
+      "catalogue_date": "2025-07-28",
+      "storage": [
+        "SQL SDE server",
+        "GISSQLFC01\\NEA_Meteorology"
+      ],
+      "portal_map_url": null,
+      "direct_download_confirmed": false,
+      "reuse_license_confirmed": false,
+      "data_payload_obtained": false,
+      "scope": {
+        "station_system": "Clidata",
+        "layer_interpretation": "Catalogue metadata about stations in the Clidata climate-data system; not a time-series observation feed."
+      }
+    },
+    {
+      "id": "NEA58",
+      "title": "Aquarius hydrological-station metadata",
+      "layer_name": "Hydro_Network",
+      "geometry_types": [
+        "polygon"
+      ],
+      "sharing_type": "public",
+      "price": "free",
+      "catalogue_date": "2025-07-28",
+      "storage": [
+        "SQL SDE server",
+        "GISSQLFC01\\NEA_Meteorology.sde/Operational_meteorological_Stations"
+      ],
+      "portal_map_url": null,
+      "direct_download_confirmed": false,
+      "reuse_license_confirmed": false,
+      "data_payload_obtained": false,
+      "scope": {
+        "station_system": "Aquarius",
+        "layer_interpretation": "Catalogue metadata about stations in the Aquarius hydrological data system; not a time-series observation feed."
+      }
+    },
+    {
+      "id": "NEA65",
+      "title": "Recorded landslide outlines",
+      "layer_name": "Landslide",
+      "geometry_types": [
+        "polygon"
+      ],
+      "sharing_type": "public",
+      "price": "free",
+      "catalogue_date": "2025-07-28",
+      "storage": [],
+      "portal_map_url": null,
+      "direct_download_confirmed": false,
+      "reuse_license_confirmed": false,
+      "data_payload_obtained": false,
+      "scope": {
+        "layer_interpretation": "Catalogue describes outlines of recorded landslides; this is not, by itself, a susceptibility model, active-movement indicator or forecast."
+      }
     },
     {
       "id": "NEA66",
