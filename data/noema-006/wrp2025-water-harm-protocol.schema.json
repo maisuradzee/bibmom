@@ -1,0 +1,203 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AquaSignal WRP 2025 water-harm reproduction protocol",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "study_id",
+    "experiment_id",
+    "evidence_status",
+    "source",
+    "variables",
+    "response_codes",
+    "publisher_reference",
+    "method",
+    "privacy",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "study_id": {
+      "const": "NOEMA-2026-006"
+    },
+    "experiment_id": {
+      "const": "AQUASIGNAL-WRP2025-WATER-HARM-REPRO-001"
+    },
+    "evidence_status": {
+      "const": "REPRODUCTION_PROTOCOL"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository",
+        "commit",
+        "path",
+        "git_blob_sha1",
+        "byte_length",
+        "sha256",
+        "license",
+        "raw_url",
+        "dictionary_url",
+        "publisher_method_url"
+      ],
+      "properties": {
+        "repository": {
+          "const": "lrfoundation/world_risk_poll_data"
+        },
+        "commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "path": {
+          "const": "WRP_2025/WRP_2025.parquet"
+        },
+        "git_blob_sha1": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "byte_length": {
+          "const": 7070416
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "license": {
+          "const": "CC BY-SA 4.0"
+        },
+        "raw_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "dictionary_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "publisher_method_url": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "variables": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "weight",
+        "water_harm"
+      ],
+      "properties": {
+        "weight": {
+          "const": "PROJWT"
+        },
+        "water_harm": {
+          "const": "WP22443"
+        }
+      }
+    },
+    "response_codes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "98",
+        "99"
+      ],
+      "properties": {
+        "1": {
+          "const": "yes_personally_experienced"
+        },
+        "2": {
+          "const": "yes_know_someone"
+        },
+        "3": {
+          "const": "both_personally_and_know_someone"
+        },
+        "4": {
+          "const": "no"
+        },
+        "98": {
+          "const": "dont_know"
+        },
+        "99": {
+          "const": "refused"
+        }
+      }
+    },
+    "publisher_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "respondents_total",
+        "countries_and_territories",
+        "expected_question_base",
+        "expected_missing",
+        "personally_harmed_publisher_rounded_sum_pct",
+        "rounding"
+      ],
+      "properties": {
+        "respondents_total": {
+          "const": 143459
+        },
+        "countries_and_territories": {
+          "const": 140
+        },
+        "expected_question_base": {
+          "const": 143459
+        },
+        "expected_missing": {
+          "const": 0
+        },
+        "personally_harmed_publisher_rounded_sum_pct": {
+          "const": 13
+        },
+        "rounding": {
+          "type": "string",
+          "minLength": 20
+        }
+      }
+    },
+    "method": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "minProperties": 4
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "raw_microdata_committed",
+        "respondent_ids_committed",
+        "workflow_uploads_aggregate_only"
+      ],
+      "properties": {
+        "raw_microdata_committed": {
+          "const": false
+        },
+        "respondent_ids_committed": {
+          "const": false
+        },
+        "workflow_uploads_aggregate_only": {
+          "const": true
+        }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "string",
+        "minLength": 20
+      }
+    }
+  }
+}
