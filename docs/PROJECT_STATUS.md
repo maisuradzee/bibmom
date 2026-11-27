@@ -2,10 +2,10 @@
 
 - **განახლდა:** 2026-11-27 (Run 32 — WRP 2025 წყლისა და ადრეული გაფრთხილების წყაროების აუდიტი)
 - **საცავი:** https://github.com/maisuradzee/bibmom
-- **მიმდინარე main snapshot:** c37d8bf08279df7420fa1a27b9d549c02e0584a4 (PR #162 Run 31 audit merge).
-- **ბოლო main Quality CI:** [46028448316](https://github.com/maisuradzee/bibmom/actions/runs/46028448316) — SUCCESS; 457 Python tests, frozen-result/schema checks, public-site build და publication-boundary checks.
-- **ბოლო Pages deployment:** [46028448436](https://github.com/maisuradzee/bibmom/actions/runs/46028448436) — build და deploy SUCCESS ზუსტად main SHA c37d8bf08279df7420fa1a27b9d549c02e0584a4-ზე.
-- **ღია PR:** 37; **ღია Issue:** 0.
+- **Run 32-ის ბოლო დადასტურებული main snapshot:** c02ddfe61aed7619d5a5e482d85bd90acc950c5b (PR #162 Run 31 audit merge).
+- **ბოლო main Quality CI:** [46030251580](https://github.com/maisuradzee/bibmom/actions/runs/46030251580) — SUCCESS; 457 Python tests, frozen-result/schema checks, public-site build და publication-boundary checks.
+- **ბოლო Pages deployment:** [46030251571](https://github.com/maisuradzee/bibmom/actions/runs/46030251571) — build და deploy SUCCESS ზუსტად main SHA c02ddfe61aed7619d5a5e482d85bd90acc950c5b-ზე.
+- **ღია PR:** 37 (Run 32 post-merge snapshot); **ღია Issue:** 0.
 - **კვლევის კატალოგი:** 1 Preliminary, 0 Published. ახალი წყაროებზე დაფუძნებული ჩანაწერები Draft-ად რჩება და Pages-ში არ ქვეყნდება.
 - **აქტიური პორტფელი:** ოთხივე ნაკადი აქტიურია — AquaSignal, NOEMA-005, NOEMA-007 და INFRA-001. ახალი ნაკადი არ დამატებულა; არცერთი არ დაპაუზებულა ან დასრულებულა.
 
