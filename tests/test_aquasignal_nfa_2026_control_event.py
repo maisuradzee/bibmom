@@ -34,6 +34,12 @@ class AquaSignalNfa2026ControlEventTests(unittest.TestCase):
         self.assertNotIn("griboedov", rendered)
         self.assertNotIn("tax_identifier", rendered.split('"privacy"')[0])
 
+    def test_draft_has_required_status_metadata_and_sections(self):
+        draft = (ROOT / "research/drafts/NOEMA-2026-006-nfa-2026-drinking-water-facility-control-event-2026-11-27.md").read_text(encoding="utf-8")
+        self.assertIn("- **თარიღი:** 2026-11-27", draft)
+        self.assertIn("- **სტატუსი:** draft", draft)
+        for heading in ("საკვლევი კითხვა", "მეთოდი ან ექსპერიმენტის გეგმა", "წყაროები", "შემდეგი ნაბიჯები", "შემოწმების სტატუსი"):
+            self.assertIn("## " + heading, draft)
     def test_scope_is_municipality_level_only(self):
         self.assertEqual(self.record["event"]["municipality"], "Zugdidi")
         self.assertNotIn("street_address", self.record["event"])
