@@ -35,12 +35,21 @@ Legacy unsanitized experiment-002 artifacts from runs 46063057964, 46063057969, 
 ## Retention and re-verification boundary — 2026-11-28
 
 The six sanitized experiment-002 ZIP artifacts are retained by GitHub Actions until
-2026-12-27. The frozen manifest records both ZIP and report-JSON SHA-256 values.
-This follow-up rechecked all six ZIP digests against GitHub artifact metadata, but
-the connector available for this run exposed artifact metadata rather than ZIP
-bytes; the six report-JSON digests were therefore not recomputed again here.
+2026-12-27. In this follow-up, all six ZIPs were downloaded, their ZIP and
+report-JSON SHA-256 values were recomputed, and both sets matched the frozen
+manifest and GitHub artifact metadata. The six reports were independently
+aggregated across 384 configurations and 1,152 measured runs; per-method
+correct-rounding counts, median-speedup ranges, maximum speedups, CPU/wall
+threshold counts and the scalar-partial failure pattern matched the frozen
+summary. A recursive key scan found no raw native thread-ID arrays, process
+IDs, host-instance IDs or detailed kernel/libc build fields. The reports retain
+only the boolean `native_thread_identity_validated` and the declared thread
+identity method, not the identifiers themselves.
+
 The optional `--artifact-dir` mode in
-`scripts/reproduce_noema005_experiment_002.py` verifies ZIP and report bytes when
-the archives are supplied. Preserve sanitized reports in a durable, reviewed
-public snapshot before artifact expiry if long-term raw-report reproduction is
+`scripts/reproduce_noema005_experiment_002.py` verifies ZIP and report bytes
+when the archives are supplied. The downloaded copies used for this follow-up
+were kept only in the working container and were not committed to the public
+repository. Preserve the sanitized reports in a durable, reviewed public
+snapshot before GitHub artifact expiry if long-term raw-report reproduction is
 required. Do not commit unsanitized reports or native thread identifiers.
