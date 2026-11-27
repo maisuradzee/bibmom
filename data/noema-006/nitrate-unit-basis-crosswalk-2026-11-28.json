@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "record_id": "AQUASIGNAL-GEORGIA-NITRATE-UNIT-BASIS-2026-11-28",
+  "study_id": "NOEMA-2026-006",
+  "evidence_status": "FACT",
+  "sources": [
+    {
+      "publisher": "ENI SEIS II East / European Environment Agency",
+      "title": "C11 — Nutrients in freshwater of Georgia",
+      "publication_date": "2020-01-20",
+      "url": "https://eni-seis.eionet.europa.eu/east/indicators/c11-nutrients-in-freshwater-of-georgia",
+      "accessed_at": "2026-11-28",
+      "supports": [
+        "River and lake nitrate is reported as mg NO3-N/L.",
+        "Groundwater nitrate is reported as mg NO3/L.",
+        "Groundwater analysis covers 2016-2017; data were available for 34 of 45 sites and sampling frequency was twice per year."
+      ]
+    },
+    {
+      "publisher": "World Health Organization",
+      "title": "Nitrate and nitrite chemical fact sheet, Guidelines for drinking-water quality, fourth edition incorporating first and second addenda",
+      "publication_date": "2022",
+      "url": "https://cdn.who.int/media/docs/default-source/wash-documents/water-safety-and-quality/chemical-fact-sheets-2022/nitrate-and-nitrite-fact-sheet-2022.pdf",
+      "accessed_at": "2026-11-28",
+      "supports": [
+        "Conversion factor: 1 mg/L as nitrate ion equals 0.226 mg/L as nitrate-nitrogen. This rounded factor is for unit conversion only, not a legal limit."
+      ]
+    },
+    {
+      "publisher": "Legislative Herald of Georgia",
+      "title": "Government Decree №58/2014 — Drinking Water Technical Regulation",
+      "publication_date": "2014-01-15",
+      "url": "https://www.matsne.gov.ge/ka/document/view/2196792",
+      "accessed_at": "2026-11-28",
+      "supports": [
+        "Nitrate limit 50 mg/L as NO3- and nitrite limit 0.2 mg/L as NO2- for water within the decree's scope."
+      ]
+    },
+    {
+      "publisher": "Legislative Herald of Georgia",
+      "title": "Government Decree №58/2014 — surface-water national maximum permissible concentrations as reported by EEA C11",
+      "publication_date": "2014-01-15",
+      "url": "https://www.matsne.gov.ge/ka/document/view/2196792",
+      "accessed_at": "2026-11-28",
+      "supports": [
+        "The EEA C11 page reports separate surface-water nitrate values of 45 mg NO3/L (10.2 mg NO3-N/L) for cyprinid waters and 40 mg NO3/L (9.0 mg NO3-N/L) for salmonid waters; these are not drinking-water limits."
+      ]
+    }
+  ],
+  "unit_contract": {
+    "analyte": "nitrate",
+    "source_units": {
+      "rivers_and_lakes": "mg NO3-N/L",
+      "groundwater": "mg NO3/L"
+    },
+    "conversion": {
+      "from": "mg NO3/L",
+      "to": "mg NO3-N/L",
+      "factor": "0.226",
+      "reverse_operation": "divide by 0.226",
+      "precision_note": "The published factor is rounded; converted values must retain source basis and must not be treated as more precise than the original measurement."
+    }
+  },
+  "comparability_guards": [
+    "Do not pool river/lake and groundwater values without an explicit basis conversion and preservation of the original source value.",
+    "Do not compare surface-water ecological thresholds with drinking-water health limits.",
+    "Do not treat raw groundwater as drinking water without confirming intended use, sampling point and legal scope.",
+    "Do not use converted rounded values for a legal pass/fail decision near a threshold; use the applicable source's native unit and legal text.",
+    "Do not infer current 2026 exposure from the 2016-2017 groundwater aggregate."
+  ],
+  "historical_context": {
+    "groundwater_period": "2016-2017",
+    "available_sites": 34,
+    "listed_sites": 45,
+    "sampling_frequency_per_year": 2,
+    "values_are_aggregated": true,
+    "raw_site_values_included": false
+  },
+  "privacy": {
+    "raw_sample_records_included": false,
+    "exact_site_coordinates_included": false,
+    "personal_data_included": false
+  }
+}
