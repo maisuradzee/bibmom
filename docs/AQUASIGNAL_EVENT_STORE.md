@@ -33,7 +33,7 @@ The same strict decoder is used by full-chain verification and event listing.
 Each event payload is limited to 64 KiB of UTF-8 at both append and replay, so
 an oversized local row is rejected before JSON parsing and an oversized event
 cannot be written through the store API. This is a local resource policy, not a
-water-quality or regulatory threshold; RFC 8259 §9 explicitly permits parsers
+water-quality or regulatory threshold; [RFC 8259 §9](https://www.rfc-editor.org/rfc/rfc8259#section-9) explicitly permits parsers
 to impose implementation limits on accepted JSON text size.
 
 This prevents parser-dependent interpretation of a stored event. It does **not**
