@@ -68,6 +68,9 @@ jobs:
           test -f scripts/reproduce_noema007_anticipatory_action.py
           test -f tests/test_noema007_anticipatory_action.py
           test -f tests/test_noema007_action_readiness.py
+          test -f data/noema-007/georgia-natural-hazard-mapping-zoning-meeting-2026-10-26.json
+          test -f data/noema-007/georgia-natural-hazard-mapping-zoning-meeting-2026-10-26.schema.json
+          test -f tests/test_noema007_hazard_mapping_zoning_signal.py
           test -f data/noema-007/wrp2025-reproduction-protocol.json
           test -f data/noema-007/wrp2025-reproduction-protocol.schema.json
           test -f data/noema-007/wrp2025-independent-reproduction-2026-11-27.json
@@ -196,6 +199,8 @@ jobs:
           python -m unittest discover -s tests -p 'test_aquasignal_who_2026_guidance_scope.py' -v
       - name: Validate AquaSignal WRP 2025 water-harm protocol and frozen result
         run: python -m unittest discover -s tests -p 'test_aquasignal_wrp2025_water_harm.py' -v
+      - name: Validate Georgia hazard mapping and zoning coordination signal
+        run: python -m unittest discover -s tests -p 'test_noema007_hazard_mapping_zoning_signal.py' -v
       - name: Validate NOEMA-007 action-readiness aggregate contract
         run: python -m unittest discover -s tests -p 'test_noema007_action_readiness.py' -v
       - name: Validate NOEMA-007 WRP 2025 reproduction protocol and frozen aggregate
