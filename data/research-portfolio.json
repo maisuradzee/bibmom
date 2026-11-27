@@ -38,7 +38,9 @@
         "Inspect the official MEPA GIS catalogue for groundwater station-layer metadata and distinguish a public/free catalogue classification from verified payload, download/API access, coordinate precision and reuse licence.",
         "Keep the spatial station registry separate from sample-level analytical observations; require different adapters and schemas for station metadata, groundwater results and potable-network compliance.",
         "Use Article 32 of Georgia's Law on Water Resources Management to distinguish NEA environmental-water monitoring data access from National Food Safety Agency drinking-water quality control.",
-        "Resolve the direct RAR archive URL linked by NEA's 2026-11-26 announcement; record the retrieval failure as an execution-environment limitation and do not infer archive contents or licence."
+        "Resolve the direct RAR archive URL linked by NEA's 2026-11-26 announcement; record the retrieval failure as an execution-environment limitation and do not infer archive contents or licence.",
+        "Add a metadata-first same-period indicator comparability gate: require identical indicator definition, water matrix, standard/version, period, geography, sampling frame/design, inclusion rule and analytical method; validate numerator/denominator and source-rounded percentage before allowing descriptive comparison.",
+        "Preserve the JECM 2023 49.5% and Government-submitted 44.5% source reports as non-comparable until their denominator, matrix, standard, sampling frame, inclusion rule and method are reconciled; unknown metadata remain null."
       ],
       "sources": [
         {
@@ -200,6 +202,14 @@
           "url": "https://ftp.mepa.gov.ge/Public/NEA/%E1%83%B0%E1%83%98%E1%83%93%E1%83%A0%E1%83%9D%E1%83%92%E1%83%94%E1%83%9A%E1%83%9D%E1%83%92%E1%83%98%E1%83%A3%E1%83%A0%E1%83%98%20%E1%83%90%E1%83%9C%E1%83%92%E1%83%90%E1%83%A0%E1%83%98%E1%83%A8%E1%83%98%20-%202026%20-%20%E1%83%94%E1%83%9A-%E1%83%95%E1%83%94%E1%83%A0%E1%83%A1%E1%83%98%E1%83%94%E1%83%91%E1%83%98.rar",
           "type": "official_report_archive_link_not_extracted",
           "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "Guidelines for drinking-water quality: fourth edition incorporating the first, second and third addenda — Chapter 5 Surveillance",
+          "publisher": "World Health Organization",
+          "publication_date": "2026",
+          "url": "https://cdn.who.int/media/docs/default-source/wash-documents/water-safety-and-quality/dwq-guidelines-4/gdwq_4ed_with_third-addenda_surveillance.pdf",
+          "type": "official_health_guideline",
+          "accessed_at": "2026-11-27"
         }
       ],
       "data_needs": [
@@ -221,7 +231,8 @@
         "Clarification of registry coverage for wells drilled before 2026-09-01 and household wells, plus a data dictionary showing whether each record has field/laboratory sampling results.",
         "For NEA catalogue record NEA122: authorised export/API URL, actual layer payload, station fields, coordinate reference system, active/inactive dates, update cadence and reuse licence.",
         "Separate National Food Safety Agency drinking-water compliance data dictionary and denominator/geographic breakdown; do not merge potable-network records with environmental groundwater station points.",
-        "An accessible copy or official alternate transfer route for the NEA 2021–2025 RAR archive, plus internal file inventory, archive digest, report/table granularity, data dictionary and reuse terms."
+        "An accessible copy or official alternate transfer route for the NEA 2021–2025 RAR archive, plus internal file inventory, archive digest, report/table granularity, data dictionary and reuse terms.",
+        "For each published compliance percentage: numerator, denominator, exact indicator definition, water matrix, standard/version, sampling frame/design, inclusion rules, geography, period and analytical method."
       ],
       "risks": [
         "ცრუ განგაში ან სენსორის drift-ის წყლის რეალურ ცვლილებად მიჩნევა",
@@ -244,7 +255,8 @@
         "The legal well-registration scope excludes pre-existing wells and NEA says household wells are excluded; registry counts must not be used as total groundwater-well coverage.",
         "Well passports request owner identity/contact data and coordinates; no personal or owner-level records may enter the public repository.",
         "The NEA122 catalogue labels the groundwater point layer public/free but lists SQL SDE/local storage and no portal-placement URL; treating this as a directly downloadable open dataset would overstate access.",
-        "A station-location layer is not a sample-result time series; joining them without stable station IDs, water-matrix identity and provenance can create false matches."
+        "A station-location layer is not a sample-result time series; joining them without stable station IDs, water-matrix identity and provenance can create false matches.",
+        "Comparing source-reported percentages without matching matrix, denominator and sampling frame can create a false national trend or municipal ranking."
       ],
       "blockers": [
         "Authorized paired sensor/laboratory data, a site data dictionary and approved Water Safety Plan limits remain unavailable under explicit reuse permission.",
