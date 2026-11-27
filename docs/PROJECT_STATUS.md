@@ -6,6 +6,7 @@
 - **ბოლო main Quality CI:** [46030251580](https://github.com/maisuradzee/bibmom/actions/runs/46030251580) — SUCCESS; 457 Python tests, frozen-result/schema checks, public-site build და publication-boundary checks.
 - **ბოლო Pages deployment:** [46030251571](https://github.com/maisuradzee/bibmom/actions/runs/46030251571) — build და deploy SUCCESS ზუსტად main SHA c02ddfe61aed7619d5a5e482d85bd90acc950c5b-ზე.
 - **ღია PR:** 37 (Run 32 post-merge snapshot); **ღია Issue:** 0.
+- **Draft research PRs #166/#167:** exact-head Quality CI passed on their recorded heads, but both are based on c37d8bf, behind verified main c02ddfe; GitHub now reports mergeable=false. Branch refresh and revalidation are required.
 - **კვლევის კატალოგი:** 1 Preliminary, 0 Published. ახალი წყაროებზე დაფუძნებული ჩანაწერები Draft-ად რჩება და Pages-ში არ ქვეყნდება.
 - **აქტიური პორტფელი:** ოთხივე ნაკადი აქტიურია — AquaSignal, NOEMA-005, NOEMA-007 და INFRA-001. ახალი ნაკადი არ დამატებულა; არცერთი არ დაპაუზებულა ან დასრულებულა.
 
