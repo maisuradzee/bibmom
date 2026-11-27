@@ -150,7 +150,7 @@ class RestoreAttestationGateTests(unittest.TestCase):
             record = offsite_attestation()
             record["measurements"][field] = value
             with self.subTest(field=field, value=value), self.assertRaisesRegex(
-                ValueError, rf"measurements\\.{field} must be a finite number"
+                ValueError, rf"measurements\.{field} must be a finite number"
             ):
                 evaluate_restore_attestation(record)
 
