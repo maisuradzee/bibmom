@@ -344,7 +344,7 @@
         "python_implementation": "CPython",
         "python_version": "3.14.4",
         "machine": "arm64",
-        "platform": "macOS-15.8.2-arm-64bit-Mach-O",
+        "platform": "macOS-15.8.2-arm64-arm-64bit-Mach-O",
         "processor": "arm",
         "cpu_count_process": 3,
         "cpu_affinity_count": null,
