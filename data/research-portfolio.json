@@ -1074,7 +1074,9 @@
         "Define a strict JSON Schema 2020-12 metadata envelope for future off-host backups; tests enforce closed object boundaries and exclude secret/credential fields.",
         "Validate proposed backup manifests with an executable JSON Schema Draft 2020-12 validator and strict format checking; keep cryptographic and provider checks explicitly out of scope.",
         "Validate the strict manifest schema, then stream plaintext and ciphertext artifacts through SHA-256 and byte-length checks using one file descriptor; reject non-regular files, symlinks where O_NOFOLLOW exists, and obvious file mutation during hashing.",
-        "Runtime exact-byte Ed25519 detached-signature verification against caller-supplied trusted public keys, followed by streamed plaintext/ciphertext SHA-256 and byte-length checks; synthetic ephemeral-key tests only."
+        "Runtime exact-byte Ed25519 detached-signature verification against caller-supplied trusted public keys, followed by streamed plaintext/ciphertext SHA-256 and byte-length checks; synthetic ephemeral-key tests only.",
+        "Validate a closed, non-secret restore-drill attestation contract that distinguishes same-host local round trips from offsite clean-host recovery.",
+        "For offsite completeness, require independent manifest/artifact/decryption/provider-retention/high-water/clean-host/service-health evidence, owner-approved RPO/RTO and non-decreasing backup generations."
       ],
       "sources": [
         {
@@ -1262,19 +1264,29 @@
           "accessed_at": "2026-11-26"
         },
         {
-          "title": "The Update Framework Specification v1.0.36",
+          "title": "The Update Framework Specification v1.0.37",
           "publisher": "The Update Framework",
-          "publication_date": "undated",
-          "url": "https://theupdateframework.github.io/specification/v1.0.36/",
+          "publication_date": "2026-10-08",
+          "url": "https://theupdateframework.github.io/specification/v1.0.37/",
           "type": "security_protocol_specification",
           "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "SQLite Backup API",
+          "publisher": "SQLite",
+          "publication_date": "undated",
+          "url": "https://www.sqlite.org/backup.html",
+          "type": "official_technical_documentation",
+          "accessed_at": "2026-11-27"
         }
       ],
       "data_needs": [
         "synthetic SQLite databases with rollback-journal and WAL header states",
         "backup/restore test fixtures and immutable source hash",
         "CI job logs and exact commit SHA",
-        "Operator-approved non-production database for a real restore drill; record elapsed time and aggregate recovery evidence only."
+        "Operator-approved non-production database for a real restore drill; record elapsed time and aggregate recovery evidence only.",
+        "Designated recovery owner and independent security reviewer for the separate trust domain.",
+        "Provider-signed object-version/retention evidence, independently verifiable high-water attestation and clean-host restore evidence before any offsite readiness claim."
       ],
       "risks": [
         "immutable=1 SQLite connection may mask the stored WAL journal mode",
@@ -1285,7 +1297,9 @@
         "The restore-drill CLI validates a same-host temporary filesystem round-trip only; it does not validate encrypted off-host storage, provider object versions, key recovery or clean-host disaster recovery.",
         "A matching unsigned manifest and matching artifact hashes do not authenticate provenance; an attacker able to replace both files and the manifest can recompute the hashes.",
         "A valid detached signature does not prove that a signed backup is the newest; rollback/freeze protection requires separately trusted monotonic state and freshness policy.",
-        "The local verifier authenticates exact manifest bytes only when the caller's public key is independently trusted; key compromise, revocation and rotation are not managed here."
+        "The local verifier authenticates exact manifest bytes only when the caller's public key is independently trusted; key compromise, revocation and rotation are not managed here.",
+        "A schema-valid or self-declared restore attestation is not proof: the caller must independently verify every evidence signature and trust anchor.",
+        "Restoring a backup generation older than the trusted high-water mark can roll back accepted state; the gate blocks this case and any decrease of high-water state."
       ],
       "blockers": [
         "No production backup encryption/decryption pipeline or off-host storage provider is configured.",
@@ -1293,8 +1307,8 @@
         "Rollback-resistant high-water state, immutable object-version/retention verification, clean-host restore, approved RPO/RTO and production ACLs remain unimplemented; no operator-approved deployed/staging database has been used."
       ],
       "status": "active",
-      "status_detail": "Main contains local strict manifest/schema validation, streamed artifact digest/length checks and exact-byte Ed25519 verification using caller-supplied public keys. PR #85 is a separate draft architecture proposal for a provider-neutral linearizable compare-and-advance high-water authority and explicit restore lineage; its exact-head quality CI 45876372188 and CPU-thread workflow 45876372172 succeeded, but the PR is not merged and no service is deployed. Production anti-rollback, key custody, immutable object retention, off-host encryption and clean-host restore remain unimplemented. Scheduled-cycle audit 2026-11-27: PR #85 remains Draft at head 68e7385a798c19b807d75c3d41b27482ba0f402c; exact-head quality CI 45883729821 and actual CPU-thread workflow 45883729845 succeeded. The PR base a19252bb is behind current main 8a69e6d9. No external high-water service, production key custody, provider retention, encryption/decryption or clean-host restore is implemented; independent security review and trust-domain ownership remain blockers.",
-      "next_step": "Obtain independent security/architecture review and an owner for the separate trust domain and recovery path. Only then implement a provider-neutral CAS interface with deterministic concurrent-writer, stale-state, timeout and point-in-time restore tests; choose provider, RPO/RTO and retention with explicit owner approval. Do not create a Supabase project or reuse another project's database.",
+      "status_detail": "Main contains local strict manifest/schema validation, streamed artifact digest/length checks and exact-byte Ed25519 verification using caller-supplied public keys. PR #85 is a separate draft architecture proposal for a provider-neutral linearizable compare-and-advance high-water authority and explicit restore lineage; its exact-head quality CI 45876372188 and CPU-thread workflow 45876372172 succeeded, but the PR is not merged and no service is deployed. Production anti-rollback, key custody, immutable object retention, off-host encryption and clean-host restore remain unimplemented. Scheduled-cycle audit 2026-11-27: PR #85 remains Draft at head 68e7385a798c19b807d75c3d41b27482ba0f402c; exact-head quality CI 45883729821 and actual CPU-thread workflow 45883729845 succeeded. The PR base a19252bb is behind current main 8a69e6d9. No external high-water service, production key custody, provider retention, encryption/decryption or clean-host restore is implemented; independent security review and trust-domain ownership remain blockers. 2026-11-27: PR #122 adds a closed non-secret restore-drill attestation schema and a pure fail-closed completeness gate. It distinguishes same-host local round trips from offsite clean-host recovery and blocks missing evidence, stale generations, high-water decrease and RPO/RTO overruns. Ten synthetic tests; no provider, credentials, private keys, production trust anchor, external high-water service or actual offsite restore. PR remains Draft pending independent security review, recovery-owner assignment and permissioned clean-host drill.",
+      "next_step": "Obtain an independent recovery owner and security review; approve RPO/RTO, key custody, immutable retention and a separate high-water authority. Then implement a provider-neutral compare-and-advance interface with concurrency/stale-state tests and perform a permissioned clean-host restore drill whose evidence is independently verified.",
       "success_metrics": [
         "backup includes committed WAL data",
         "restore rejects WAL-mode header and corrupted audit data before destination creation",
