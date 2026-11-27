@@ -31,7 +31,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - `data/research.json` — საჯარო, ვერსიაკონტროლირებადი კვლევების კატალოგი; `data/research.schema.json` განსაზღვრავს ჩანაწერების სტრუქტურას. ეს არის ამჟამინდელი სტატიკური კატალოგი და არა Supabase/სერვერული მონაცემთა ბაზა.
 - `data/research-portfolio.json` და `data/research-portfolio.schema.json` — 3–5 აქტიური კვლევითი ნაკადის საერთო პორტფელი, თითოეული ნაკადის კითხვით, მეთოდით, წყაროებით, რისკებით, სტატუსითა და შემდეგი ნაბიჯით.
 - `data/noema-003/` — NOAA-ს ფიქსირებული მონაცემთა ამონარიდი, NASA/HadCRUT5/NOAA snapshot-ები, provenance metadata და გამეორებადი შედეგები.
-- `data/noema-005/` — binary64 ჯამის რიგითობის ექსპერიმენტის გაყინული შედეგები, ზუსტი reference შედარება და runtime/CPU-thread benchmark არტეფაქტები; 2026-11-27-ის სამი hosted GIL/free-threaded repeat pair (ექვსი artifact, 864 run) sanitized `.json.gz.b64` ფორმით ინახება, thread IDs-ისა და დეტალური host build-ის გარეშე.
+- `data/noema-005/` — binary64 ჯამის რიგითობის ექსპერიმენტის გაყინული შედეგები, ზუსტი reference შედარება და runtime/CPU-thread benchmark არტეფაქტები; 2026-11-27-ის ხუთი hosted GIL/free-threaded run pair (ათი artifact, 1,440 threaded run) sanitized `.json.gz.b64` ფორმით ინახება, thread IDs-ისა და დეტალური host build-ის გარეშე.
 - `data/noema-007/` — UNDRR/WMO 2026 early-warning და anticipatory-action aggregate snapshots, privacy-safe action-readiness schema და WRP 2025-ის დამოუკიდებლად გამეორებული warning/action aggregate; Parquet მხოლოდ ephemeral CI runner-ზე იტვირთება, საცავში რჩება მხოლოდ aggregate JSON.
 - `data/noema-006/` — AquaSignal-ის WRP 2025 WP22443 water-harm aggregate, pinned source hashes და strict schema; self-reported harm ცალკეა შენარჩუნებული ლაბორატორიული წყლის ხარისხისგან.
 - `scripts/reproduce_aquasignal_wrp2025_water_harm.py` და `.github/workflows/aquasignal-wrp2025-water-harm.yml` — WP22443-ის PROJWT-შეწონილი კატეგორიები და გამომცემლის code-1 + code-3 rounding rule-ის გამეორება.
@@ -61,6 +61,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - [NOEMA-2026-003](research/drafts/2026-11-23-noaa-globaltemp-trend-sensitivity.md) — NOAA GlobalTemp-ის ტენდენციის საწყისი წლის მგრძნობელობა და NASA GISTEMP/HadCRUT5-თან cross-dataset გამეორება.
 - [NOEMA-2026-005 სამუშაო დრაფტი](research/drafts/NOEMA-2026-005-floating-summation-order.md) — სრული მეთოდოლოგია და ექსპერიმენტის ჟურნალი.
 - [NOEMA-2026-005 წინასწარი მომხმარებლის ანგარიში](research/preprints/NOEMA-2026-005-floating-point-summation.md) — საიტზე გამოსაჩენი მოკლე ანგარიში; დამოუკიდებელი რეცენზია ჯერ არ დასრულებულა.
+- Run 34-ის დამატებითი x86-64 real-thread შეჯამება: `data/noema-005/threaded-run-2026-11-27-summary.json` და Schema; 4 hosted artifact, 192 configuration, 576 measured run. Neumaier-state 192/192 სწორი, მაგრამ არცერთმა threaded configuration-მა serial baseline-ს wall-time-ით ვერ აჯობა.
 - აუდიტის გამეორებადი სკრიპტი: `scripts/audit_signbase.py`; შედეგები: `data/audits/signbase-v2-audit-2026-11-23.json`.
 - მოკლე მიმდევრობების ენტროპიის სიმულაცია: `scripts/short_sequence_bias_simulation.py`.
 - NOEMA-003-ის NOAA ანალიზი: `scripts/analyze_noema003.py`; cross-dataset შედარება და HAC ლაგების 1–6 ტესტი: `scripts/compare_noema003_datasets.py`; მონაცემთა snapshot-ები, metadata და შედეგები: `data/noema-003/`.
