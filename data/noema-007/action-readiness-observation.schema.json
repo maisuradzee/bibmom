@@ -82,7 +82,8 @@
         "source_url": {
           "type": "string",
           "format": "uri",
-          "pattern": "^https://"
+          "pattern": "^https://",
+          "maxLength": 2048
         },
         "issued_at_utc": {
           "type": "string",
@@ -294,7 +295,8 @@
           "url": {
             "type": "string",
             "format": "uri",
-            "pattern": "^https://"
+            "pattern": "^https://",
+            "maxLength": 2048
           },
           "type": {
             "type": "string",
