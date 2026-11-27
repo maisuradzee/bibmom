@@ -184,9 +184,11 @@ class ActionReadinessTests(unittest.TestCase):
 
     def test_timing_threshold_and_basis_are_explicit(self):
         record = synthetic_record()
-        record["survey"]["timely_receipt_minimum_lead_seconds"] = -1
-        with self.assertRaisesRegex(ActionReadinessValidationError, "non-negative integer"):
-            validate_action_readiness_record(record)
+        for invalid in (-1, 0):
+            record = synthetic_record()
+            record["survey"]["timely_receipt_minimum_lead_seconds"] = invalid
+            with self.assertRaisesRegex(ActionReadinessValidationError, "positive integer"):
+                validate_action_readiness_record(record)
         record = synthetic_record()
         record["survey"]["timely_receipt_basis"] = "device_log"
         with self.assertRaisesRegex(ActionReadinessValidationError, "respondent_recall"):
@@ -241,6 +243,27 @@ class ActionReadinessTests(unittest.TestCase):
         visit(schema)
         self.assertEqual(schema["$schema"], "https://json-schema.org/draft/2020-12/schema")
 
+
+
+    def test_minimum_lead_must_fit_warning_issue_to_deadline_window(self):
+        record = synthetic_record()
+        record["survey"]["timely_receipt_minimum_lead_seconds"] = 7201
+        with self.assertRaisesRegex(ActionReadinessValidationError, "cannot exceed the warning issue-to-deadline window"):
+            validate_action_readiness_record(record)
+
+    def test_minimum_lead_equal_to_available_window_is_allowed(self):
+        record = synthetic_record()
+        record["survey"]["timely_receipt_minimum_lead_seconds"] = 7200
+        validate_action_readiness_record(record)
+        metric = compute_action_readiness_metrics(record)["survey_metrics"]["self_reported_timely_warning_receipt"]
+        self.assertEqual(metric["available_warning_lead_seconds"], 7200.0)
+
+    def test_zero_available_warning_window_is_rejected(self):
+        record = synthetic_record()
+        record["warning"]["action_deadline_utc"] = record["warning"]["issued_at_utc"]
+        record["survey"]["timely_receipt_minimum_lead_seconds"] = 1
+        with self.assertRaisesRegex(ActionReadinessValidationError, "cannot exceed the warning issue-to-deadline window"):
+            validate_action_readiness_record(record)
 
 if __name__ == "__main__":
     unittest.main()

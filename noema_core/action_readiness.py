@@ -199,9 +199,14 @@ def validate_action_readiness_record(record: Mapping[str, Any]) -> None:
                 raise ActionReadinessValidationError(
                     "timely receipts cannot exceed timing assessments"
                 )
-            if type(minimum_lead) is not int or minimum_lead < 0:
+            if type(minimum_lead) is not int or minimum_lead < 1:
                 raise ActionReadinessValidationError(
-                    "timely_receipt_minimum_lead_seconds must be a non-negative integer"
+                    "timely_receipt_minimum_lead_seconds must be a positive integer"
+                )
+            available_lead_seconds = (deadline - issued).total_seconds()
+            if minimum_lead > available_lead_seconds:
+                raise ActionReadinessValidationError(
+                    "minimum timely-receipt lead cannot exceed the warning issue-to-deadline window"
                 )
             rule_reference = survey["timely_receipt_rule_reference"]
             rule_source_url = survey["timely_receipt_rule_source_url"]
@@ -293,6 +298,11 @@ def compute_action_readiness_metrics(record: Mapping[str, Any]) -> dict[str, Any
             "rate": round(numerator / denominator, 6) if denominator and survey["timely_receipt_rule_reference"] is not None else None,
             "measurement_basis": survey["timely_receipt_basis"],
             "minimum_lead_seconds": survey["timely_receipt_minimum_lead_seconds"],
+            "available_warning_lead_seconds": round(
+                (_utc(record["warning"]["action_deadline_utc"], "warning.action_deadline_utc")
+                 - _utc(record["warning"]["issued_at_utc"], "warning.issued_at_utc")).total_seconds(),
+                6,
+            ),
             "rule_reference": survey["timely_receipt_rule_reference"],
             "rule_source_url": survey["timely_receipt_rule_source_url"],
             "rule_documentation_status": (

@@ -806,7 +806,8 @@
         "Preserve UNDRR COP31's 4/5 warning-receipt and 1/3 unable-to-act statement as source-reported only because the underlying sample frame, denominator, weighting and uncertainty were not identified; do not use it as a baseline.",
         "Extend the survey contract with a separately denominated self-reported timely-receipt measure; require a paired event-specific rule reference and HTTPS source URL before computing its rate, mark supplied sources as unverified, and prohibit cross-event comparison.",
         "Keep timely receipt as respondent-recall only in this survey field; endpoint logs remain separate and are never treated as people or joined to survey respondents.",
-        "Treat privacy approval flags as unverified declarations; require a separate permissioned release workflow with verifiable approval evidence before publication."
+        "Treat privacy approval flags as unverified declarations; require a separate permissioned release workflow with verifiable approval evidence before publication.",
+        "For event-specific timely-receipt thresholds, validate that the positive minimum lead is no greater than the available interval from warning issue to action deadline; record the available interval separately. This is a mathematical feasibility check, not authority authentication."
       ],
       "sources": [
         {
@@ -1036,7 +1037,8 @@
         "გაფრთხილების მიღება მოქმედების შესაძლებლობას არ უდრის; მიზეზობრივი ეფექტის დადგენა რთულია",
         "UNDRR COP31's 4/5 warning-receipt and 1/3 unable-to-act statement has no underlying method in the cited page and must not be treated as a calibrated global baseline.",
         "Warning receipt, timely receipt, comprehension, feasibility, action and avoided loss are distinct stages; combining marginal rates or inferring causal impact would be invalid.",
-        "Privacy approval booleans are caller declarations, not authenticated approvals; the validator must never authorize publication."
+        "Privacy approval booleans are caller declarations, not authenticated approvals; the validator must never authorize publication.",
+        "A caller-supplied minimum-lead threshold can be impossible if it exceeds the warning issue-to-deadline interval; reject this configuration but do not treat the feasibility check as proof of an approved operational deadline."
       ],
       "blockers": [
         "საქართველოს მოქმედი მუნიციპალური emergency plan-ების და 2026 ICT სისტემის საჯარო data dictionary-ის სრული ვერსიები ჯერ არ არის მოპოვებული",
@@ -1063,7 +1065,8 @@
         "Each reported delivery, comprehension and action metric states its own numerator, denominator and unit; endpoint receipts are never labelled as people reached.",
         "No public aggregate is released without data-controller and privacy-reviewer approval and a documented small-cell suppression policy.",
         "Self-reported timely warning receipt among respondents reporting receipt and assessed for timing, with an event-specific minimum lead time and explicit denominator.",
-        "Timely-receipt rate is null when the event-specific lead-time rule source is absent; supplied references are explicitly labelled not independently verified."
+        "Timely-receipt rate is null when the event-specific lead-time rule source is absent; supplied references are explicitly labelled not independently verified.",
+        "A timely-receipt threshold greater than the available warning-to-action interval fails closed; an equal threshold is accepted and the available interval is explicitly reported."
       ],
       "last_reviewed": "2026-11-27"
     },

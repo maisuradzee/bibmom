@@ -93,3 +93,10 @@ NOEMA-007 ახლა ცალკე გამოყოფს timely receipt-�
 ## Privacy approval evidence boundary
 
 `data_controller_approved` და `privacy_reviewer_approved` ველები არის caller-ის მიერ წარმოდგენილი დეკლარაციები. Python validator არ ამოწმებს ხელმოწერას, უფლებამოსილების რეესტრს ან approval artifact-ს. `compute_action_readiness_metrics` ამიტომ აბრუნებს `caller_declared_not_independently_verified` სტატუსს და `publication_authorized_by_validator=false`. რეალური გამოქვეყნება მოითხოვს ცალკე, უფლებამოსილ release workflow-სა და შემოწმებად approval evidence-ს; ამ პროტოტიპის boolean-ები publication gate არ არის.
+
+
+## Run 24 follow-up — feasible minimum-lead window
+
+The event-specific minimum lead is now required to be a positive integer and no greater than the available interval between the warning issue time and the action deadline. The aggregate output records that available interval for audit. This prevents a survey record from labelling a mathematically impossible timely-receipt threshold as an observed zero rate.
+
+This is only an internal feasibility invariant. It does not authenticate the source URL, prove that the named authority approved the threshold, validate the real-world action deadline, or convert respondent recall into timestamp-verified receipt. The caller-supplied rule remains explicitly unverified, and the prototype still cannot authorize publication.

@@ -234,7 +234,7 @@
             },
             "timely_receipt_minimum_lead_seconds": {
               "type": "integer",
-              "minimum": 0
+              "minimum": 1
             },
             "timely_receipt_basis": {
               "const": "respondent_recall"
