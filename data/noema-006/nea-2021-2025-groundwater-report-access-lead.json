@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "record_id": "AQUASIGNAL-NEA-GW-2021-2025",
+  "study_id": "NOEMA-2026-006",
+  "evidence_status": "FACT",
+  "source": {
+    "publisher": "National Environmental Agency of Georgia",
+    "title_ka": "2021-2025 წლებში მიწისქვეშა მტკნარი სასმელი წყლების მონიტორინგის შედეგებისა და სადამკვირვებლო ქსელის განვითარების შესახებ",
+    "title_en": "Hydrogeological report on 2021-2025 groundwater monitoring results and observation-network development",
+    "announcement_url": "https://www.nea.gov.ge/Ge/News/3461",
+    "announcement_date": "2026-11-26",
+    "archive_url": "https://ftp.mepa.gov.ge/Public/NEA/%E1%83%B0%E1%83%98%E1%83%93%E1%83%A0%E1%83%9D%E1%83%92%E1%83%94%E1%83%9A%E1%83%9D%E1%83%92%E1%83%98%E1%83%A3%E1%83%A0%E1%83%98%20%E1%83%90%E1%83%9C%E1%83%92%E1%83%90%E1%83%A0%E1%83%98%E1%83%A8%E1%83%98%20-%202026%20-%20%E1%83%94%E1%83%9A-%E1%83%95%E1%83%94%E1%83%A0%E1%83%A1%E1%83%98%E1%83%94%E1%83%91%E1%83%98.rar",
+    "archive_format": "RAR",
+    "archive_retrieval_status": "not_retrieved",
+    "archive_sha256": null,
+    "archive_contents_inspected": false,
+    "reuse_terms_status": "not_stated_in_announcement",
+    "accessed_at": "2026-11-28"
+  },
+  "report_scope": {
+    "coverage_start_year": 2021,
+    "coverage_end_year": 2025,
+    "monitoring_domain": "groundwater_fresh_drinking_water",
+    "announced_components": [
+      "quantitative and qualitative groundwater characteristics",
+      "automatic monitoring-system operation",
+      "processing and digitization of historical hydrogeological information",
+      "monitoring observation-network development"
+    ],
+    "field_methodology_title_ka": "ნიტრატებით დაბინძურებული ან დაბინძურების რისკის ქვეშ არსებული მიწისქვეშა წყლების იდენტიფიცირება",
+    "field_methodology_focus": "identification of groundwater contaminated with nitrates or at risk of nitrate contamination",
+    "sample_count": null,
+    "station_count": null,
+    "analyte_denominators": null,
+    "result_rows": null,
+    "site_coordinates": null,
+    "time_series_rows": null,
+    "archive_contents_inspected": false
+  },
+  "regulatory_context": {
+    "publisher": "Legislative Herald of Georgia",
+    "law_title_ka": "საქართველოს კანონი „წყლის რესურსების მართვის შესახებ“ საქართველოს კანონში ცვლილების შეტანის თაობაზე",
+    "law_url": "https://manage.matsne.gov.ge/ka/document/view/6904700",
+    "law_date": "2026-06-24",
+    "groundwater_nitrate_risk_zone_identification_due": "2027-09-01",
+    "relevant_methodology_approval_due": "2027-09-01",
+    "approval_or_completion_verified": false
+  },
+  "interpretation_limits": [
+    "The NEA announcement confirms that the 2021-2025 hydrogeological report and a nitrate-risk field methodology were prepared; it does not expose the archive contents.",
+    "The linked RAR archive was not retrieved, hashed or inspected in this run.",
+    "No sample count, station count, analyte denominator, laboratory result, site coordinate or time-series row is asserted.",
+    "The 2026-06-24 law sets 2027-09-01 statutory milestones for relevant methodology approval and groundwater nitrate-risk-zone identification; the NEA announcement that a method was prepared does not prove formal approval or completion.",
+    "The announced report concerns groundwater monitoring and must not be merged with NFA food/drinking-water inspection records or treated as a distributed-network/bottled-water dataset without matrix confirmation.",
+    "Archive reuse and redistribution terms are not stated in the announcement and must be confirmed before publishing extracted data.",
+    "No nitrate threshold, local contamination prevalence, exposure level or public-health outcome is inferred from the announcement alone."
+  ],
+  "privacy": {
+    "personal_data_included": false,
+    "business_identifiers_included": false,
+    "exact_site_coordinates_included": false,
+    "raw_sample_records_included": false,
+    "restricted_archive_bytes_included": false
+  }
+}
