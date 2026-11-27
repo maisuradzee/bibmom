@@ -35,10 +35,10 @@ jobs:
       matrix:
         include:
           - mode: gil-enabled
-            python_version: "3.14.4"
+            python_version: "3.14.10"
             expected_gil: enabled
           - mode: free-threaded
-            python_version: "3.14.4t"
+            python_version: "3.14.10t"
             expected_gil: disabled
     steps:
       - name: Checkout
