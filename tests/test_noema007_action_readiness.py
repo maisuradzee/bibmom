@@ -132,6 +132,51 @@ class ActionReadinessTests(unittest.TestCase):
         result = compute_action_readiness_metrics(record)
         self.assertIsNone(result["survey_metrics"])
 
+    def test_warning_url_rejects_user_info_credentials(self):
+        record = synthetic_record()
+        record["warning"]["source_url"] = "https://user:password@example.org/warning"
+        with self.assertRaisesRegex(ActionReadinessValidationError, "user-info credentials"):
+            validate_action_readiness_record(record)
+
+    def test_evidence_url_rejects_user_info_credentials(self):
+        record = synthetic_record()
+        record["evidence_sources"][0]["url"] = "https://user@example.org/report"
+        with self.assertRaisesRegex(ActionReadinessValidationError, "user-info credentials"):
+            validate_action_readiness_record(record)
+
+    def test_source_urls_reject_encoded_secret_parameter_names(self):
+        urls = (
+            "https://example.org/warning?access_token=x",
+            "https://example.org/warning?access%255Ftoken=x",
+            "https://example.org/warning#signature=x",
+            "https://example.org/warning?public=1;api_key=x",
+        )
+        for url in urls:
+            with self.subTest(url=url):
+                record = synthetic_record()
+                record["warning"]["source_url"] = url
+                with self.assertRaisesRegex(ActionReadinessValidationError, "credential-like"):
+                    validate_action_readiness_record(record)
+
+    def test_source_urls_reject_malformed_ports_whitespace_and_too_many_fields(self):
+        urls = (
+            "https://example.org:99999/warning",
+            "https://example.org/warning with space",
+            "https://example.org/warning?" + "&".join(f"q{i}=x" for i in range(101)),
+        )
+        for url in urls:
+            with self.subTest(url=url):
+                record = synthetic_record()
+                record["warning"]["source_url"] = url
+                with self.assertRaises(ActionReadinessValidationError):
+                    validate_action_readiness_record(record)
+
+    def test_source_urls_allow_ordinary_public_selectors(self):
+        record = synthetic_record()
+        record["warning"]["source_url"] = "https://example.org/warning?year=2026&region=GE"
+        record["evidence_sources"][0]["url"] = "https://example.org/report#section-2"
+        validate_action_readiness_record(record)
+
     def test_schema_is_closed_at_every_object_boundary(self):
         schema = json.loads((ROOT / "data/noema-007/action-readiness-observation.schema.json").read_text(encoding="utf-8"))
         def visit(node):
