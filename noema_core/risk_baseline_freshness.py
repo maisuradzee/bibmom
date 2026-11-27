@@ -9,7 +9,9 @@ from __future__ import annotations
 from datetime import date, datetime, timedelta, timezone
 import json
 from pathlib import Path
+import re
 from typing import Any, Mapping
+from urllib.parse import parse_qsl, urlsplit
 
 from jsonschema import Draft202012Validator, FormatChecker
 
@@ -19,6 +21,42 @@ DEFAULT_SCHEMA = ROOT / "data" / "noema007-risk-baseline-metadata.schema.json"
 
 class RiskBaselineMetadataError(ValueError):
     """Raised when metadata or a deterministic evaluation date is invalid."""
+
+_SENSITIVE_URL_PARAMETER_NAMES = {
+    "access_token", "accesstoken", "auth", "authorization", "auth_token", "authtoken",
+    "api_key", "apikey", "key", "client_secret", "clientsecret", "credential",
+    "password", "passwd", "refresh_token", "refreshtoken", "secret", "signature",
+    "sig", "token", "id_token", "idtoken", "x_amz_credential", "xamzcredential",
+    "x_amz_signature", "xamzsignature", "x_amz_security_token", "xamzsecuritytoken",
+}
+
+
+def _validate_public_source_url(value: str) -> None:
+    """Reject credential-bearing URLs before source metadata can enter a public record."""
+    if any(ord(character) < 0x20 or character.isspace() for character in value):
+        raise RiskBaselineMetadataError("source_url must not contain whitespace or control characters")
+    try:
+        parts = urlsplit(value)
+        # Accessing .port performs urllib.parse's explicit port-range validation.
+        _ = parts.port
+    except ValueError as exc:
+        raise RiskBaselineMetadataError("source_url is malformed") from exc
+    if parts.scheme != "https" or not parts.hostname:
+        raise RiskBaselineMetadataError("source_url must be an absolute HTTPS URL with a hostname")
+    if parts.username is not None or parts.password is not None:
+        raise RiskBaselineMetadataError("source_url must not contain user-info credentials")
+
+    for component in (parts.query, parts.fragment):
+        try:
+            pairs = parse_qsl(component, keep_blank_values=True, strict_parsing=False, max_num_fields=100)
+        except ValueError as exc:
+            raise RiskBaselineMetadataError("source_url has too many query or fragment fields") from exc
+        for name, _ in pairs:
+            normalized = re.sub(r"[^a-z0-9]", "", name.casefold())
+            if normalized in _SENSITIVE_URL_PARAMETER_NAMES or normalized.endswith(
+                ("token", "secret", "password", "signature", "credential")
+            ):
+                raise RiskBaselineMetadataError("source_url must not contain credential-like query or fragment parameters")
 
 
 def _parse_date(value: Any, field: str, *, nullable: bool = False) -> date | None:
@@ -66,6 +104,7 @@ def validate_source_metadata(
             details.append(f"{location}: {error.message}")
         raise RiskBaselineMetadataError("metadata schema validation failed: " + "; ".join(details))
 
+    _validate_public_source_url(document["source_url"])
     retrieved = _parse_utc_timestamp(document["retrieved_at_utc"])
     updated = _parse_date(document["dataset_updated_date"], "dataset_updated_date", nullable=True)
     reference = _parse_date(document["dataset_reference_date"], "dataset_reference_date", nullable=True)
