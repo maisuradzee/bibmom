@@ -18,7 +18,7 @@
 
 თითოეულ artifact-ში შესრულდა 48 კონფიგურაცია × 3 გამეორება = 144 run. ჯამში ოთხ artifact-ში არის 192 კონფიგურაცია და 576 run. მატრიცა მოიცავდა 1, 2, 4 და 8 worker-ს; `triplet_order` და `grouped_cancellation` input layout-ებს; `contiguous` და `round_robin` partition-ებს; naive scalar, Neumaier scalar და Neumaier state მეთოდებს. თითო input-ში იყო 196,608 binary64 მნიშვნელობა და ზუსტი ჯამი 65,536.
 
-CI-მ გადაამოწმა თითო worker-ის განსხვავებული native thread identity. საჯარო snapshot-ში შენარჩუნებულია მხოლოდ native thread count; thread ID-ები და დეტალური host/kernel build სტრიქონები ამოღებულია. Manifest ინახავს artifact ID-ებს, workflow head SHA-ებსა და ZIP/source JSON SHA-256-ებს. Runner-ის მხოლოდ coarse kernel-flavor suffix (azure/aws) ინახება შედარების კონტექსტისთვის; ეს არ არის CPU model-ის ან cloud host-ის იდენტიფიკაცია.
+CI-მ გადაამოწმა თითო worker-ის განსხვავებული native thread identity. საჯარო snapshot-ში შენარჩუნებულია მხოლოდ native thread count; thread ID-ები და დეტალური host/kernel build სტრიქონები ამოღებულია. დამატებით, validator recursively ამოწმებს ყველა nested report/manifest object-ს და უარყოფს host, runner, device, PID/TID, native-thread-ID, cgroup path და დეტალური kernel/build identity ველებს. ეს არის key-name allow/deny guard და არა arbitrary string-value secret scanner. Manifest ინახავს artifact ID-ებს, workflow head SHA-ებსა და ZIP/source JSON SHA-256-ებს. Runner-ის მხოლოდ coarse kernel-flavor suffix (azure/aws) ინახება შედარების კონტექსტისთვის; ეს არ არის CPU model-ის ან cloud host-ის იდენტიფიკაცია.
 
 ## შედეგები
 
@@ -100,6 +100,6 @@ Free-threaded 4-worker შემთხვევაში ორივე run ა
 
 - ოთხი frozen sanitized snapshot: ორი GIL-enabled და ორი free-threaded; 48 cases და 144 runs თითო artifact-ში.
 - Reproducer: artifact ZIP-დან snapshot-ის თავიდან შექმნა და SHA-256 provenance.
-- Validator: schema, source manifest, sample medians, CPU/wall ratios, per-worker summary და speedup-vs-serial formula ხელახლა მოწმდება.
+- Validator: schema, source manifest, sample medians, CPU/wall ratios, per-worker summary და speedup-vs-serial formula ხელახლა მოწმდება; recursive public-boundary tests ყველა nested object-ში კრძალავს host/runner/device/native-thread identity keys-ს და ამოწმებს, რომ coarse architecture/CPU-count metadata დაშვებულია.
 - Native thread IDs და დეტალური host/kernel build მონაცემები საჯარო snapshot-ში არ ინახება.
 - **Publication:** Draft; დამოუკიდებელი რეცენზია და physical-host replication არ დასრულებულა.
