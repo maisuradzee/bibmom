@@ -1,7 +1,7 @@
 # NOEMA-2026-007 — MHEWS 2026: coverage progress and the warning-to-action gap
 
-- თარიღი: 2026-11-27
-- სტატუსი: draft
+- **თარიღი:** 2026-11-27
+- **სტატუსი:** draft
 - Evidence classification: FACT / SOURCE-REPORTED ASSOCIATION / INFERENCE
 
 ## საკვლევი კითხვა
