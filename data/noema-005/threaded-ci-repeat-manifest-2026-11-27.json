@@ -58,6 +58,34 @@
       "source_report_member": "noema005-threaded-free-threaded.json",
       "sanitized_gzip_sha256": "2f79d1c7083b7a144663b1c3e29b16c419ad11218fa67c6aed1baa787963c53a",
       "sanitized_snapshot": "threaded-ci-repeat-2026-11-27-run-46007383552-free-threaded.json.gz.b64"
+    },
+    {
+      "key": "run-46011557117-gil-enabled",
+      "runtime_mode": "gil-enabled",
+      "runner_kernel_flavor": "azure",
+      "workflow_run_id": 46011557117,
+      "workflow_head_sha": "ce095d7be7c4b96ffca423ee66a1f38157cf99e4",
+      "artifact_id": 15203113651,
+      "artifact_name": "noema005-threaded-gil-enabled.zip",
+      "artifact_zip_sha256": "0f9cdf8a0a3823958ec4a72ed7b006f7cea60bcc885b2cef62b8baff8b66703a",
+      "source_report_sha256": "90222b6d306f23916c86a0861e1acee29d965512e45ff5147b955b437fc9ee24",
+      "source_report_member": "noema005-threaded-gil-enabled.json",
+      "sanitized_gzip_sha256": "30efa08d70a6c7555283d567ab6f68567430cb96af3aba7066049c89f1926175",
+      "sanitized_snapshot": "threaded-ci-repeat-2026-11-27-run-46011557117-gil-enabled.json.gz.b64"
+    },
+    {
+      "key": "run-46011557117-free-threaded",
+      "runtime_mode": "free-threaded",
+      "runner_kernel_flavor": "azure",
+      "workflow_run_id": 46011557117,
+      "workflow_head_sha": "ce095d7be7c4b96ffca423ee66a1f38157cf99e4",
+      "artifact_id": 15204417524,
+      "artifact_name": "noema005-threaded-free-threaded.zip",
+      "artifact_zip_sha256": "d3d52df60fab5a649a7d0160c1701715a646fef0c8d8fff1ad8ac90b59accbb1",
+      "source_report_sha256": "6ae63e040dcf70650c6fb3a2e4d880c5f39ee359db105cc9ee7b4cee1b75f342",
+      "source_report_member": "noema005-threaded-free-threaded.json",
+      "sanitized_gzip_sha256": "e53cd8740047c15db8fcb52ab6d6a376e88b160ee771b692af647256b99a228f",
+      "sanitized_snapshot": "threaded-ci-repeat-2026-11-27-run-46011557117-free-threaded.json.gz.b64"
     }
   ]
 }
