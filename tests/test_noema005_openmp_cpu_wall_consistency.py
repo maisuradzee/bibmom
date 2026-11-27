@@ -26,7 +26,7 @@ class Noema005CpuWallConsistencyTests(unittest.TestCase):
 
     def test_cpu_list_parser(self):
         self.assertEqual(parse_cpu_list("0-3"),4)
-        self.assertEqual(parse_cpu_list("0-1,4,6-7"),6)
+        self.assertEqual(parse_cpu_list("0-1,4,6-7"),5)
         self.assertIsNone(parse_cpu_list(None))
         with self.assertRaises(ValueError):
             parse_cpu_list("0-3,x")
