@@ -1,0 +1,503 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AquaSignal water-indicator observation metadata",
+  "description": "Public-safe metadata for comparing source-reported aggregates. It must not contain household, personal, health or private-well records.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "observation_id",
+    "source_id",
+    "authority",
+    "indicator_id",
+    "water_matrix",
+    "supply_type_scope",
+    "standard_id",
+    "standard_version",
+    "period_start",
+    "period_end",
+    "geography_level",
+    "geography_code",
+    "sampling_frame_id",
+    "sampling_design",
+    "inclusion_rule_id",
+    "analytical_method_id",
+    "numerator",
+    "denominator",
+    "reported_percent",
+    "reported_precision_decimals",
+    "count_unit",
+    "numerator_definition_id",
+    "denominator_definition_id",
+    "definition_provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "observation_id": {
+      "type": "string",
+      "pattern": "^obs_[0-9a-f]{16}$"
+    },
+    "source_id": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 128
+    },
+    "authority": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 256
+    },
+    "indicator_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 3,
+      "maxLength": 128
+    },
+    "water_matrix": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "potable_network",
+        "groundwater",
+        "surface_water",
+        "marine_water",
+        "bottled_water",
+        "household_stored",
+        null
+      ]
+    },
+    "standard_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 2,
+      "maxLength": 128
+    },
+    "standard_version": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "period_start": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date"
+    },
+    "period_end": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date"
+    },
+    "geography_level": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "national",
+        "region",
+        "municipality",
+        "river_basin",
+        "water_system",
+        null
+      ]
+    },
+    "geography_code": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 2,
+      "maxLength": 64
+    },
+    "sampling_frame_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 3,
+      "maxLength": 128
+    },
+    "sampling_design": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "probability",
+        "stratified_probability",
+        "cluster_probability",
+        "routine_compliance",
+        "risk_based",
+        "convenience",
+        null,
+        "unknown"
+      ]
+    },
+    "inclusion_rule_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 3,
+      "maxLength": 128
+    },
+    "analytical_method_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 3,
+      "maxLength": 128
+    },
+    "numerator": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "denominator": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 1
+    },
+    "reported_percent": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 100
+    },
+    "reported_precision_decimals": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4
+    },
+    "supply_type_scope": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "piped_network",
+        "public_standpipe",
+        "tanker_delivered",
+        "borehole_tubewell",
+        "protected_dug_well",
+        "unprotected_dug_well",
+        "protected_spring",
+        "unprotected_spring",
+        "surface_water",
+        "household_storage",
+        "mixed",
+        "other",
+        "unknown",
+        null
+      ]
+    },
+    "count_unit": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "samples",
+        "sampling_events",
+        "sites",
+        "systems",
+        "households",
+        "people",
+        "tests",
+        "other",
+        null
+      ]
+    },
+    "numerator_definition_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 3,
+      "maxLength": 128
+    },
+    "denominator_definition_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 3,
+      "maxLength": 128
+    },
+    "definition_provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "indicator",
+        "numerator",
+        "denominator",
+        "sampling_frame",
+        "inclusion_rule",
+        "analytical_method",
+        "standard"
+      ],
+      "properties": {
+        "indicator": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source_url",
+            "source_sha256",
+            "locator"
+          ],
+          "properties": {
+            "source_url": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "uri",
+              "pattern": "^https://"
+            },
+            "source_sha256": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "locator": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1,
+              "maxLength": 256
+            }
+          }
+        },
+        "numerator": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source_url",
+            "source_sha256",
+            "locator"
+          ],
+          "properties": {
+            "source_url": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "uri",
+              "pattern": "^https://"
+            },
+            "source_sha256": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "locator": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1,
+              "maxLength": 256
+            }
+          }
+        },
+        "denominator": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source_url",
+            "source_sha256",
+            "locator"
+          ],
+          "properties": {
+            "source_url": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "uri",
+              "pattern": "^https://"
+            },
+            "source_sha256": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "locator": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1,
+              "maxLength": 256
+            }
+          }
+        },
+        "sampling_frame": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source_url",
+            "source_sha256",
+            "locator"
+          ],
+          "properties": {
+            "source_url": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "uri",
+              "pattern": "^https://"
+            },
+            "source_sha256": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "locator": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1,
+              "maxLength": 256
+            }
+          }
+        },
+        "inclusion_rule": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source_url",
+            "source_sha256",
+            "locator"
+          ],
+          "properties": {
+            "source_url": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "uri",
+              "pattern": "^https://"
+            },
+            "source_sha256": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "locator": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1,
+              "maxLength": 256
+            }
+          }
+        },
+        "analytical_method": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source_url",
+            "source_sha256",
+            "locator"
+          ],
+          "properties": {
+            "source_url": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "uri",
+              "pattern": "^https://"
+            },
+            "source_sha256": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "locator": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1,
+              "maxLength": 256
+            }
+          }
+        },
+        "standard": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source_url",
+            "source_sha256",
+            "locator"
+          ],
+          "properties": {
+            "source_url": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "uri",
+              "pattern": "^https://"
+            },
+            "source_sha256": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "locator": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1,
+              "maxLength": 256
+            }
+          }
+        }
+      }
+    }
+  }
+}
