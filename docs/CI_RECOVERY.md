@@ -20,7 +20,7 @@ The repairer does not invent URLs, sources, evidence labels, study dates, method
 2. Required-file checks, the bounded repair, draft/index validation, research-specific reproductions, unit tests, site-boundary checks and external snapshot audits are run as independent validation steps.
 3. Validation steps use \`continue-on-error: true\`, so a local failure does not prevent later checks from running.
 4. A final summary reads each step's \`outcome\`, writes \`GITHUB_STEP_SUMMARY\`, and fails the job when any required check failed.
-5. A JSON diagnostic report is uploaded for 14 days, including failed/skipped steps, safe repairs, and unresolved draft errors.
+5. A JSON diagnostic report and a unified diff of any safe repairs are uploaded for 14 days, including failed/skipped steps, repaired paths/rules, and unresolved draft errors. The patch makes the runner's temporary correction auditable and reviewable; it is not silently pushed back to the research branch.
 
 ## Failure policy
 
