@@ -1,0 +1,198 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NEA 2025 water-monitoring public aggregate snapshot",
+  "description": "Source-reported aggregate counts only. No sample-level results, coordinates, household identifiers or compliance denominators.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "study_id",
+    "snapshot_date",
+    "source",
+    "groundwater",
+    "surface_water",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "study_id": {
+      "const": "NOEMA-2026-006"
+    },
+    "snapshot_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "publisher",
+        "url",
+        "report_year",
+        "locator",
+        "accessed_at"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 3
+        },
+        "publisher": {
+          "const": "National Environmental Agency of Georgia"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://nea.gov.ge/"
+        },
+        "report_year": {
+          "const": 2025
+        },
+        "locator": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 256
+        },
+        "accessed_at": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "groundwater": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_reported_total_points",
+        "planned_monitoring_points",
+        "field_instrumental_study_points",
+        "laboratory_sampling_points",
+        "laboratory_sample_count",
+        "reported_sample_counts_by_analysis_group",
+        "nitrate_field_study_points",
+        "points_with_listed_parameter_coverage"
+      ],
+      "properties": {
+        "source_reported_total_points": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "planned_monitoring_points": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "field_instrumental_study_points": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "laboratory_sampling_points": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "laboratory_sample_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "reported_sample_counts_by_analysis_group": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "chemical",
+            "microbiological",
+            "heavy_metals",
+            "petroleum_products",
+            "pesticides"
+          ],
+          "properties": {
+            "chemical": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "microbiological": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "heavy_metals": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "petroleum_products": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "pesticides": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "nitrate_field_study_points": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "total",
+            "wells",
+            "springs",
+            "household_wells"
+          ],
+          "properties": {
+            "total": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "wells": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "springs": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "household_wells": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "points_with_listed_parameter_coverage": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "surface_water": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sampling_points",
+        "sample_count",
+        "matrix_separation_note"
+      ],
+      "properties": {
+        "sampling_points": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sample_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "matrix_separation_note": {
+          "type": "string",
+          "minLength": 20
+        }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "string",
+        "minLength": 10
+      }
+    }
+  }
+}
