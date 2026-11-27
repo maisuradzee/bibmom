@@ -87,3 +87,13 @@
 - NOEMA-005 addendum იყენებს მხოლოდ უკვე commit-ებულ frozen summary JSON-ს.
 - No new Supabase project was created; no other project's database was used.
 - No research item was promoted to Published; independent review remains required.
+
+
+## Run 20 — 2026-11-27
+
+- **AquaSignal / NOEMA-006:** [PR #123](https://github.com/maisuradzee/bibmom/pull/123), head `aaceb0fc085fc3ade38ba94c324734210444b6a8`, Draft, mergeable=true. Added published-aggregate denominator audit: 2020 national/regional counts 502/500; 2021 599/621; 2022 and 2023 reconcile. The 2023 JECM 49.5% vs UNECE/WHO 44.5% remains unresolved. Quality CI 45951993138 and CPU-thread workflow 45951993172 SUCCESS.
+- **NOEMA-005:** [PR #124](https://github.com/maisuradzee/bibmom/pull/124), head `cbe526f4aa90c93ed609e6f2dbb54c3079a01743`, Draft, mergeable=true. Frozen OpenMP report audit found 9/80 paired CPU/wall ratios above 4.05 across five cases, max 13.287713, despite four reported effective CPUs. Neumaier accuracy remains 40/40; naive 0/40. Quality CI 45952298256 and dedicated audit workflow 45952298265 SUCCESS.
+- **NOEMA-007:** PR #121 head `1c8069a0c2114c816ba89b9a2228d289e3f8642a`; Quality CI 45948750137 and CPU-thread workflow 45948750310 SUCCESS; Draft.
+- **INFRA-001:** PR #122 head `794c08716d0a4c216e4d9958e9fe79792019e03d`; Quality CI 45948753708 and CPU-thread workflow 45948753734 SUCCESS; Draft.
+- Main `68d1aefbf8fa32d8bfecbfca798eadc7eb2c36a9`: Quality CI 45951718946 SUCCESS; Pages build/deploy 45948563354 SUCCESS. Catalogue remains 1 Preliminary, 0 Published. No merges, no new Supabase project, and no other project's database used.
+- Full methods, source boundaries, limitations, file list and next steps: [Run 20 audit](run-audits/2026-11-27-run-20.md).
