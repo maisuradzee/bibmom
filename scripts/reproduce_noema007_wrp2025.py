@@ -10,6 +10,7 @@ import argparse
 import hashlib
 import json
 import math
+from numbers import Integral
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
@@ -17,6 +18,8 @@ ROOT = Path(__file__).resolve().parents[1]
 PROTOCOL_PATH = ROOT / "data/noema-007/wrp2025-reproduction-protocol.json"
 CHANNELS = ("WP24181", "WP24182", "WP24183", "WP24184", "WP24185", "WP24186", "WP24187", "WP24188")
 REQUIRED_COLUMNS = ("PROJWT", "COUNTRY_ISO3", "WP24213", *CHANNELS, "WP24215")
+WARNING_CODES = {1, 2, 97, 98, 99}
+ACTION_CODES = {1, 2, 98, 99}
 
 
 def _column(columns: Mapping[str, Sequence[Any]], name: str, size: int) -> Sequence[Any]:
@@ -24,6 +27,19 @@ def _column(columns: Mapping[str, Sequence[Any]], name: str, size: int) -> Seque
     if value is None or len(value) != size:
         raise ValueError(f"missing or mis-sized column: {name}")
     return value
+
+
+def _valid_response_code(code: Any, allowed: set[int]) -> bool:
+    """Accept integral survey codes, but never bools or float lookalikes.
+
+    Python bool is an int subtype, so membership alone would treat True as code 1.
+    numbers.Integral also accepts integer scalar types such as NumPy int64.
+    """
+    return code is None or (
+        isinstance(code, Integral)
+        and not isinstance(code, (bool,))
+        and int(code) in allowed
+    )
 
 
 def _weighted_percent(weights: Sequence[float], base: Sequence[bool], selected: Sequence[bool]) -> float:
@@ -65,17 +81,17 @@ def derive_aggregates(columns: Mapping[str, Sequence[Any]]) -> dict[str, Any]:
 
     for name in CHANNELS:
         for index, code in enumerate(values[name]):
-            if code is not None and code not in {1, 2, 97, 98, 99}:
+            if not _valid_response_code(code, WARNING_CODES):
                 raise ValueError(f"unsupported {name} response code at row {index}")
 
     action = values["WP24215"]
     for index, code in enumerate(action):
-        if code is not None and code not in {1, 2, 98, 99}:
+        if not _valid_response_code(code, ACTION_CODES):
             raise ValueError(f"unsupported WP24215 response code at row {index}")
 
     impacted_values = values["WP24213"]
     for index, code in enumerate(impacted_values):
-        if code is not None and code not in {1, 2, 98, 99}:
+        if not _valid_response_code(code, ACTION_CODES):
             raise ValueError(f"unsupported WP24213 response code at row {index}")
 
     asked = [value is not None for value in values[CHANNELS[0]]]
@@ -219,18 +235,17 @@ def reproduce_parquet(input_path: Path, protocol: Mapping[str, Any]) -> dict[str
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--input", type=Path, required=True, help="Locally downloaded pinned WRP_2025.parquet")
-    parser.add_argument("--output", type=Path, help="Optional aggregate-only JSON output path")
+    parser.add_argument("--input", type=Path, required=True)
+    parser.add_argument("--output", type=Path)
     parser.add_argument("--protocol", type=Path, default=PROTOCOL_PATH)
     parser.add_argument("--expected-result", type=Path, help="Optional frozen aggregate JSON to compare against")
     args = parser.parse_args()
-
     protocol = json.loads(args.protocol.read_text(encoding="utf-8"))
     result = reproduce_parquet(args.input, protocol)
     if args.expected_result:
         expected = json.loads(args.expected_result.read_text(encoding="utf-8"))
         if result != expected:
-            raise SystemExit("independent WRP reproduction differs from the frozen aggregate result")
+            raise SystemExit("NOEMA-007 WRP result differs from the frozen aggregate")
     rendered = json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True, allow_nan=False) + "\n"
     if args.output:
         args.output.parent.mkdir(parents=True, exist_ok=True)
