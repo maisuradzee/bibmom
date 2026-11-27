@@ -25,10 +25,13 @@ def validate_backup_manifest(document: Any, schema_path: str | Path = DEFAULT_SC
     schema = json.loads(path.read_text(encoding="utf-8"))
     Draft202012Validator.check_schema(schema)
     validator = Draft202012Validator(schema, format_checker=FormatChecker())
-    errors = sorted(
-        validator.iter_errors(document),
-        key=lambda error: (tuple(str(part) for part in error.absolute_path), error.message),
-    )
+    try:
+        errors = sorted(
+            validator.iter_errors(document),
+            key=lambda error: (tuple(str(part) for part in error.absolute_path), error.message),
+        )
+    except RecursionError as exc:
+        raise ValueError("backup manifest object exceeds schema validation depth") from exc
     if errors:
         details = []
         for error in errors:
@@ -110,6 +113,32 @@ def verify_backup_artifacts(
 
 
 _MAX_MANIFEST_BYTES = 1024 * 1024
+_MAX_MANIFEST_JSON_DEPTH = 64
+
+
+def _check_manifest_json_nesting_depth(text: str) -> None:
+    """Reject excessive container nesting before invoking the recursive JSON parser."""
+    depth = 0
+    in_string = False
+    escaped = False
+    for character in text:
+        if in_string:
+            if escaped:
+                escaped = False
+            elif character == "\\":
+                escaped = True
+            elif character == '"':
+                in_string = False
+            continue
+        if character == '"':
+            in_string = True
+        elif character in "[{":
+            depth += 1
+            if depth > _MAX_MANIFEST_JSON_DEPTH:
+                raise ValueError("manifest JSON nesting exceeds maximum depth 64")
+        elif character in "]}":
+            if depth:
+                depth -= 1
 
 
 def _reject_duplicate_json_keys(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
@@ -135,11 +164,15 @@ def _load_manifest_bytes(
     if not manifest_bytes or len(manifest_bytes) > _MAX_MANIFEST_BYTES:
         raise ValueError("manifest byte length is outside the permitted bound")
     try:
+        manifest_text = manifest_bytes.decode("utf-8")
+        _check_manifest_json_nesting_depth(manifest_text)
         document = json.loads(
-            manifest_bytes.decode("utf-8"),
+            manifest_text,
             object_pairs_hook=_reject_duplicate_json_keys,
             parse_constant=_reject_nonstandard_json_constant,
         )
+    except RecursionError as exc:
+        raise ValueError("manifest JSON nesting exceeds parser limit") from exc
     except (UnicodeDecodeError, json.JSONDecodeError) as exc:
         raise ValueError("manifest is not valid UTF-8 JSON") from exc
     if not isinstance(document, dict):
