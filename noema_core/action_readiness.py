@@ -135,15 +135,22 @@ def validate_action_readiness_record(record: Mapping[str, Any]) -> None:
 
     survey = root["survey"]
     if survey is not None:
+        required_survey_fields = {
+            "sampling_method", "frame_n", "invited_n", "completed_n", "received_warning_n",
+            "comprehension_assessed_n", "comprehension_correct_n",
+            "action_feasibility_assessed_n", "action_feasible_n",
+            "action_reported_assessed_n", "protective_action_reported_n",
+            "protective_action_verified_n",
+        }
+        optional_timing_fields = {
+            "timely_receipt_assessed_n",
+            "timely_received_n",
+            "timely_receipt_minimum_lead_seconds",
+            "timely_receipt_basis",
+        }
         survey = _object(
-            survey, "survey",
-            {
-                "sampling_method", "frame_n", "invited_n", "completed_n", "received_warning_n",
-                "comprehension_assessed_n", "comprehension_correct_n",
-                "action_feasibility_assessed_n", "action_feasible_n",
-                "action_reported_assessed_n", "protective_action_reported_n",
-                "protective_action_verified_n",
-            },
+            survey, "survey", required_survey_fields,
+            allowed=required_survey_fields | optional_timing_fields,
         )
         if survey["sampling_method"] not in SAMPLING_METHODS:
             raise ActionReadinessValidationError("unsupported survey sampling_method")
@@ -164,6 +171,40 @@ def validate_action_readiness_record(record: Mapping[str, Any]) -> None:
             raise ActionReadinessValidationError("survey reported-action counts are inconsistent")
         if counts["protective_action_verified_n"] > counts["protective_action_reported_n"]:
             raise ActionReadinessValidationError("verified actions cannot exceed reported actions")
+
+        timing_present = optional_timing_fields & set(survey)
+        if timing_present and timing_present != optional_timing_fields:
+            raise ActionReadinessValidationError(
+                "timely-receipt fields must be supplied together"
+            )
+        if timing_present:
+            timing_assessed = _count(
+                survey["timely_receipt_assessed_n"],
+                "survey.timely_receipt_assessed_n",
+                threshold,
+            )
+            timely = _count(
+                survey["timely_received_n"],
+                "survey.timely_received_n",
+                threshold,
+            )
+            minimum_lead = survey["timely_receipt_minimum_lead_seconds"]
+            if timing_assessed > counts["received_warning_n"]:
+                raise ActionReadinessValidationError(
+                    "timely receipt assessments cannot exceed respondents reporting warning receipt"
+                )
+            if timely > timing_assessed:
+                raise ActionReadinessValidationError(
+                    "timely receipts cannot exceed timing assessments"
+                )
+            if type(minimum_lead) is not int or minimum_lead < 0:
+                raise ActionReadinessValidationError(
+                    "timely_receipt_minimum_lead_seconds must be a non-negative integer"
+                )
+            if survey["timely_receipt_basis"] != "respondent_recall":
+                raise ActionReadinessValidationError(
+                    "timely_receipt_basis must be respondent_recall; endpoint logs are a separate metric"
+                )
 
     sources = root["evidence_sources"]
     if not isinstance(sources, list) or not sources:
@@ -214,4 +255,23 @@ def compute_action_readiness_metrics(record: Mapping[str, Any]) -> dict[str, Any
             "denominator_unit": unit,
             "rate": round(numerator / denominator, 6) if denominator else None,
         }
+    timing_fields = {
+        "timely_receipt_assessed_n",
+        "timely_received_n",
+        "timely_receipt_minimum_lead_seconds",
+        "timely_receipt_basis",
+    }
+    if timing_fields <= set(survey):
+        denominator = survey["timely_receipt_assessed_n"]
+        numerator = survey["timely_received_n"]
+        result["survey_metrics"]["self_reported_timely_warning_receipt"] = {
+            "numerator": numerator,
+            "denominator": denominator,
+            "denominator_unit": "respondents_reporting_receipt_and_assessed_for_timing",
+            "rate": round(numerator / denominator, 6) if denominator else None,
+            "measurement_basis": survey["timely_receipt_basis"],
+            "minimum_lead_seconds": survey["timely_receipt_minimum_lead_seconds"],
+        }
+    else:
+        result["survey_metrics"]["self_reported_timely_warning_receipt"] = None
     return result
