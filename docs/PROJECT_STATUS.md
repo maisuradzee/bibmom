@@ -1,24 +1,34 @@
 # NOEMA — მიმდინარე პროექტის მდგომარეობა
 
-- **განახლდა:** 2026-11-27 (Run 30 — hosted artifact integrity, URL metadata hardening და portfolio audit)
+- **განახლდა:** 2026-11-27 (Run 31 — research audit; main snapshot unchanged)
 - **საცავი:** https://github.com/maisuradzee/bibmom
-- **მიმდინარე main snapshot:** `a14884ca65887b6c324d4e9968b5796362b30503`.
-- **ბოლო main Quality CI:** [46013610873](https://github.com/maisuradzee/bibmom/actions/runs/46013610873) — SUCCESS; 457 Python tests, frozen-result/schema checks, public-site build და publication-boundary checks.
-- **ბოლო Pages deployment:** [46013610962](https://github.com/maisuradzee/bibmom/actions/runs/46013610962) — build და deploy SUCCESS ზუსტად main SHA `a14884ca65887b6c324d4e9968b5796362b30503`-ზე.
-- **ღია PR:** 33; **ღია Issue:** 0.
+- **მიმდინარე main snapshot:** `fdfa25db97534632161e90c0a2fe768cb0c69e9c`.
+- **ბოლო main Quality CI:** [46014645053](https://github.com/maisuradzee/bibmom/actions/runs/46014645053) — SUCCESS; 457 Python tests, frozen-result/schema checks, public-site build და publication-boundary checks.
+- **ბოლო Pages deployment:** [46014645110](https://github.com/maisuradzee/bibmom/actions/runs/46014645110) — build და deploy SUCCESS ზუსტად main SHA `fdfa25db97534632161e90c0a2fe768cb0c69e9c`-ზე.
+- **ღია PR:** 37; **ღია Issue:** 0.
 - **კვლევის კატალოგი:** 1 Preliminary, 0 Published. დამოუკიდებელი რეცენზიის გარეშე კვლევა Published-ში არ გადადის.
 - **აქტიური პორტფელი:** ოთხივე ნაკადი აქტიურია — AquaSignal, NOEMA-005, NOEMA-007 და INFRA-001. ახალი ნაკადი არ დამატებულა; არცერთი არ დაპაუზებულა ან დასრულებულა.
+
+- **Run 31 audit:** [docs/run-audits/2026-11-27-run-31.md](run-audits/2026-11-27-run-31.md) — AquaSignal source-access lead and INFRA-001 non-finite restore-measurement fix in separate Draft PRs #163 (INFRA-001), #164 (AquaSignal) and #165 (NOEMA-005); PR #165 preserves eight sanitized hosted artifacts and passed exact-head Quality CI 46026969650 (469 tests), with source CPU-thread workflow 46025216574 SUCCESS; both exact-head Quality CI runs passed 458 Python tests and public-site checks.
+
+## Run 30 — post-merge synchronization
+
+- PR #161 merged as `fdfa25db97534632161e90c0a2fe768cb0c69e9c` after exact-head Quality CI [46014537233](https://github.com/maisuradzee/bibmom/actions/runs/46014537233) and [46014494741](https://github.com/maisuradzee/bibmom/actions/runs/46014494741) SUCCESS, both CPU-thread jobs [46014537203](https://github.com/maisuradzee/bibmom/actions/runs/46014537203) SUCCESS, mergeable=true and public-boundary review.
+- Post-merge main Quality CI [46014645053](https://github.com/maisuradzee/bibmom/actions/runs/46014645053) — SUCCESS (457 tests, site build and publication-boundary checks); Pages build/deploy [46014645110](https://github.com/maisuradzee/bibmom/actions/runs/46014645110) — SUCCESS.
+- PRs #155–#159 use merge base `2852b7b5ee3fa7470ebc9c3eda339fc0e6235eda`, two commits behind current main. Current GitHub mergeability: #155=true, #156=true, #157=true, #158=false, #159=true. All remain Draft; #156/#159 exact-head checks passed, but rebase/refresh and exact-head revalidation are still preferred before merge so the final reviewed head includes current main changes. No research PR is merged without independent review.
+- Main currently has 33 open PRs and 0 open Issues. The research catalogue remains 1 Preliminary / 0 Published. No research PR was merged or promoted to Published in this synchronization.
+
 
 ## Run 30 — evidence integrity, URL metadata და პორტფელის აუდიტი (2026-11-27)
 
 - **PR #160:** Run 29 audit/portfolio ცვლილებები გაერთიანდა exact head `5e44b336ac1cab350db9742b91a784f853933c32`-ზე, merge commit `a14884ca65887b6c324d4e9968b5796362b30503`. PR-ის Quality CI და ორივე CPU-thread job წარმატებული იყო; mergeable=true და საჯარო შინაარსი შემოწმებული იყო. Post-merge main Quality CI [46013610873](https://github.com/maisuradzee/bibmom/actions/runs/46013610873) და Pages build/deploy [46013610962](https://github.com/maisuradzee/bibmom/actions/runs/46013610962) წარმატებულია.
-- **NOEMA-005 / PR #159:** ექვსი hosted artifact (სამი GIL-enabled/free-threaded workflow pair, 48 კონფიგურაცია × 3 გამეორება თითო artifact-ში; სულ 864 timed repetition) შენარჩუნებულია sanitized ფორმით. Run 30-ში ექვსივე ორიგინალი Actions ZIP და თითოეული ZIP-ის source JSON SHA-256 დამოუკიდებლად შევადარე manifest-ს — 6/6 ZIP და 6/6 source-report hash დაემთხვა. ორი free-threaded snapshot-ის ძველი Base64 დაზიანების გარდა, exact-head validation-მა მესამე, GIL-enabled Run 46011557117 snapshot-შიც არასწორი Base64 სიგრძე გამოავლინა; იგი ორიგინალი ZIP-იდან აღდგა, regenerated gzip SHA-256 დაემთხვა manifest-ს, raw measurements არ შეცვლილა. საბოლოო head `cb25a0b4aad6a8c556cd517c4fe575e0ca0c0cd2`; Quality CI [46013707604](https://github.com/maisuradzee/bibmom/actions/runs/46013707604) და GIL/free-threaded CPU-thread workflow [46013707725](https://github.com/maisuradzee/bibmom/actions/runs/46013707725) SUCCESS. PR Draft-ია; დამოუკიდებელი numerical-method review და physical x86-64/ARM64 replication კვლავ საჭიროა.
+- **NOEMA-005 / PR #159 (Run 31-ში superseded by PR #165):** ექვსი hosted artifact (სამი GIL-enabled/free-threaded workflow pair, 48 კონფიგურაცია × 3 გამეორება თითო artifact-ში; სულ 864 timed repetition) შენარჩუნებულია sanitized ფორმით. Run 30-ში ექვსივე ორიგინალი Actions ZIP და თითოეული ZIP-ის source JSON SHA-256 დამოუკიდებლად შევადარე manifest-ს — 6/6 ZIP და 6/6 source-report hash დაემთხვა. ორი free-threaded snapshot-ის ძველი Base64 დაზიანების გარდა, exact-head validation-მა მესამე, GIL-enabled Run 46011557117 snapshot-შიც არასწორი Base64 სიგრძე გამოავლინა; იგი ორიგინალი ZIP-იდან აღდგა, regenerated gzip SHA-256 დაემთხვა manifest-ს, raw measurements არ შეცვლილა. საბოლოო head `cb25a0b4aad6a8c556cd517c4fe575e0ca0c0cd2`; Quality CI [46013707604](https://github.com/maisuradzee/bibmom/actions/runs/46013707604) და GIL/free-threaded CPU-thread workflow [46013707725](https://github.com/maisuradzee/bibmom/actions/runs/46013707725) SUCCESS. PR Draft-ია; დამოუკიდებელი numerical-method review და physical x86-64/ARM64 replication კვლავ საჭიროა.
 - **NOEMA-007 / PR #156:** public source URL guard გაფართოვდა double-percent-encoded credential parameter-ებისა და 
 ## Run 29 — source-metadata safety და cgroup mountinfo audit (2026-11-27)
 
 - **NOEMA-007 / PR #156:** `source_url` metadata guard ამოწმებს HTTPS URL-ის hostname-ს, უარყოფს user-info credentials-ს, ცნობილ credential-like query/fragment პარამეტრებს, control characters/whitespace-ს, არასწორ port-ს და ზედმეტ parameter count-ს. ჩვეულებრივი საჯარო კატალოგის selector-ები დაშვებულია. URL-ები არ იტვირთება და source authenticity არ მოწმდება. Head `92ded19d5040631bbb73ba09fc4ee4df70f2254d`; exact-head Quality CI [46009306236](https://github.com/maisuradzee/bibmom/actions/runs/46009306236) SUCCESS; CPU-thread workflow [46009306097](https://github.com/maisuradzee/bibmom/actions/runs/46009306097) SUCCESS; mergeable=true; Draft.
 - **NOEMA-005 / PR #157:** Linux kernel mountinfo path decoder გაფართოვდა kernel `seq_escape()`-ის path character set-ზე: space, tab, newline, hash და backslash. დაემატა newline/hash და literal escaped-backslash regression checks. Head `40d5bf9617f6ee6d6fc7b1d7da1748b1af429fe0`; exact-head Quality CI [46009633734](https://github.com/maisuradzee/bibmom/actions/runs/46009633734) SUCCESS; mergeable=true; Draft. Live mount namespace და ახალი timing benchmark არ ჩატარებულა.
-- **PR #159:** hosted GIL/free-threaded evidence package კვლავ Draft-ია; ამ Run 29 აუდიტში მისი სრული four-artifact reproduction და exact-head status ხელახლა არ შესრულებულა.
+- **PR #165:** hosted GIL/free-threaded evidence package კვლავ Draft-ია; ამ Run 29 აუდიტში მისი სრული four-artifact reproduction და exact-head status ხელახლა არ შესრულებულა.
 - **PR #158:** Run 28 portfolio/status audit კვლავ ღიაა; ამ Run 29 ცვლილებებმა main-ში არაფერი გააერთიანა.
 - **AquaSignal:** NEA122 payload/API, sample-level data dictionary და reuse terms კვლავ ბლოკერია; არანაირი ახალი წყლის observation არ შემოტანილა.
 - **INFRA-001:** production key custody, independent trust-domain, immutable offsite retention და clean-host restore კვლავ არ არსებობს.
