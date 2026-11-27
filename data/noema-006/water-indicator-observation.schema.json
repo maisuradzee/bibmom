@@ -25,7 +25,10 @@
     "numerator",
     "denominator",
     "reported_percent",
-    "reported_precision_decimals"
+    "reported_precision_decimals",
+    "count_unit",
+    "numerator_definition_id",
+    "denominator_definition_id"
   ],
   "properties": {
     "schema_version": {
@@ -208,6 +211,39 @@
         "unknown",
         null
       ]
+    },
+    "count_unit": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "samples",
+        "sampling_events",
+        "sites",
+        "systems",
+        "households",
+        "people",
+        "tests",
+        "other",
+        null
+      ]
+    },
+    "numerator_definition_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 3,
+      "maxLength": 128
+    },
+    "denominator_definition_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 3,
+      "maxLength": 128
     }
   }
 }
