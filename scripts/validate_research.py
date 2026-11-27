@@ -141,14 +141,19 @@ def validate_index(root: Path = ROOT) -> int:
                 ):
                     raise ValueError("{}: each source needs at least one author or organization".format(item["id"]))
                 publication_date = source["publication_date"]
-                if not re.fullmatch(r"\d{4}(-\d{2}(-\d{2})?)?", publication_date):
-                    raise ValueError("{}: source publication_date must be YYYY, YYYY-MM or YYYY-MM-DD".format(item["id"]))
-                try:
-                    parts = publication_date.split("-")
-                    normalized_date = publication_date if len(parts) == 3 else publication_date + ("-01" if len(parts) == 2 else "-01-01")
-                    date.fromisoformat(normalized_date)
-                except ValueError as exc:
-                    raise ValueError("{}: invalid source publication_date".format(item["id"])) from exc
+                if publication_date == "undated":
+                    publication_note = source.get("publication_note")
+                    if not isinstance(publication_note, str) or "publication date not stated" not in publication_note.lower():
+                        raise ValueError("{}: undated publication_date requires a publication_note stating that the publication date is not stated".format(item["id"]))
+                else:
+                    if not re.fullmatch(r"\d{4}(-\d{2}(-\d{2})?)?", publication_date):
+                        raise ValueError("{}: source publication_date must be YYYY, YYYY-MM, YYYY-MM-DD or undated".format(item["id"]))
+                    try:
+                        parts = publication_date.split("-")
+                        normalized_date = publication_date if len(parts) == 3 else publication_date + ("-01" if len(parts) == 2 else "-01-01")
+                        date.fromisoformat(normalized_date)
+                    except ValueError as exc:
+                        raise ValueError("{}: invalid source publication_date".format(item["id"])) from exc
                 _valid_iso_date(source["accessed_at"], "{}.sources.accessed_at".format(item["id"]))
                 _valid_http_url(source["url"], "{}.sources.url".format(item["id"]))
         if "methodology" in item and not isinstance(item["methodology"], dict):
