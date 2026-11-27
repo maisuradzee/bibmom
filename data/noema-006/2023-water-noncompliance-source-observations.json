@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-006",
+  "snapshot_date": "2026-11-27",
+  "evidence_boundary": "Two publicly reported 2023 percentages only. No raw samples, numerator, denominator, sampling frame, household or health records are included.",
+  "observations": [
+    {
+      "schema_version": 1,
+      "observation_id": "obs_0000000000000001",
+      "source_id": "JECM-2025-01-25",
+      "authority": "JECM secondary analysis of National Food Agency monitoring data",
+      "indicator_id": null,
+      "water_matrix": null,
+      "standard_id": null,
+      "standard_version": null,
+      "period_start": "2023-01-01",
+      "period_end": "2023-12-31",
+      "geography_level": "national",
+      "geography_code": "GE",
+      "sampling_frame_id": null,
+      "sampling_design": null,
+      "inclusion_rule_id": null,
+      "analytical_method_id": null,
+      "numerator": null,
+      "denominator": null,
+      "reported_percent": 49.5,
+      "reported_precision_decimals": 1
+    },
+    {
+      "schema_version": 1,
+      "observation_id": "obs_0000000000000002",
+      "source_id": "GEORGIA-UNECE-WH-6TH-CYCLE-2025",
+      "authority": "Government of Georgia submission through UNECE/WHO reporting system",
+      "indicator_id": null,
+      "water_matrix": null,
+      "standard_id": null,
+      "standard_version": null,
+      "period_start": "2023-01-01",
+      "period_end": "2023-12-31",
+      "geography_level": "national",
+      "geography_code": "GE",
+      "sampling_frame_id": null,
+      "sampling_design": null,
+      "inclusion_rule_id": null,
+      "analytical_method_id": null,
+      "numerator": null,
+      "denominator": null,
+      "reported_percent": 44.5,
+      "reported_precision_decimals": 1
+    }
+  ],
+  "expected_comparison_status": "INSUFFICIENT_METADATA",
+  "limitations": [
+    "The source-reported 49.5% and 44.5% values are not proven to share the same indicator definition, water matrix, standard version, sampling frame or inclusion rules.",
+    "Neither source provides the numerator and denominator needed to independently reproduce the two percentages in this snapshot.",
+    "The comparator must not subtract the percentages or treat their difference as a measured trend until the missing metadata are reconciled.",
+    "The Public Defender's 2025 municipal monitoring is a separate oversight evidence stream and is not used as a national prevalence estimate."
+  ],
+  "sources": [
+    {
+      "id": "JECM-2025-01-25",
+      "title": "State control and monitoring trends of drinking water quality in Georgia",
+      "url": "https://journals.4science.ge/index.php/jecm/article/download/3442/3462",
+      "source_type": "secondary_analysis_of_NFA_data"
+    },
+    {
+      "id": "GEORGIA-UNECE-WH-6TH-CYCLE-2025",
+      "title": "Summary report under Article 7 of the Protocol on Water and Health — Georgia",
+      "url": "https://unece.org/sites/default/files/2025-10/Georgia_summary_report_6th_cycle_1Apr25_ENG.pdf",
+      "source_type": "government_submitted_report"
+    }
+  ]
+}
