@@ -26,6 +26,7 @@ AREA_LEVELS = {"river_basin", "municipality", "region"}
 SAMPLING_METHODS = {"probability", "stratified_probability", "administrative_census", "convenience"}
 EVENT_ID = re.compile(r"^evt_[a-f0-9]{16}$")
 AREA_CODE = re.compile(r"^[A-Z0-9][A-Z0-9_-]{1,31}$")
+UTC_TIMESTAMP = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,6})?Z$")
 
 
 def _object(value: Any, name: str, required: set[str], allowed: set[str] | None = None) -> Mapping[str, Any]:
@@ -50,8 +51,11 @@ def _count(value: Any, name: str, minimum_cell_size: int) -> int:
 
 
 def _utc(value: Any, name: str) -> datetime:
-    if not isinstance(value, str) or not value.endswith("Z"):
-        raise ActionReadinessValidationError(f"{name} must be an ISO-8601 UTC timestamp ending in Z")
+    if not isinstance(value, str) or not UTC_TIMESTAMP.fullmatch(value):
+        raise ActionReadinessValidationError(
+            f"{name} must be a canonical ISO-8601 UTC timestamp ending in Z "
+            "with seconds and at most six fractional-second digits"
+        )
     try:
         parsed = datetime.fromisoformat(value[:-1] + "+00:00")
     except ValueError as exc:
