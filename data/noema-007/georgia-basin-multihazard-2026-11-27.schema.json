@@ -175,8 +175,7 @@
           "direct_download_confirmed",
           "reuse_license_confirmed",
           "data_payload_obtained",
-          "scope",
-          "data_formats"
+          "scope"
         ],
         "properties": {
           "id": {
