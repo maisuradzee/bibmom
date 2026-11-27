@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-006",
+  "evidence_status": "FACT",
+  "event": {
+    "event_date": "2026-08-12",
+    "region": "Samegrelo-Zemo Svaneti",
+    "municipality": "Zugdidi",
+    "facility_category": "drinking_water_and_lemonade_production",
+    "inspection_type": "unscheduled_state_control",
+    "findings": [
+      "critical_hygiene_nonconformity",
+      "infrastructure_nonconformity",
+      "labelling_nonconformity",
+      "expired_product_sale_reported"
+    ],
+    "enforcement": [
+      "fine_reported",
+      "production_process_suspended"
+    ]
+  },
+  "measurement": {
+    "water_sample_results_reported": false,
+    "sample_count": null,
+    "analyte_results": null,
+    "tested_sample_denominator": null
+  },
+  "source": {
+    "publisher": "National Food Agency of Georgia",
+    "title": "Critical nonconformities identified at a drinking-water and lemonade production facility",
+    "publication_date": "2026-08-12",
+    "url": "https://nfa.gov.ge/En/News/Details/1824",
+    "accessed_at": "2026-11-27"
+  },
+  "privacy": {
+    "business_name_committed": false,
+    "street_address_committed": false,
+    "tax_identifier_committed": false,
+    "personal_data_committed": false
+  },
+  "interpretation_limits": [
+    "This is an official regulatory-inspection report, not a laboratory water-quality result.",
+    "The source reports critical hygiene and infrastructure nonconformities and suspension of the production process; it does not publish water sample counts, analyte values, methods or a tested-sample denominator.",
+    "The record must not be interpreted as proof of microbiological or chemical contamination, population exposure, or prevalence across Zugdidi or Georgia.",
+    "Business name, street address, tax identifier and personal data are intentionally excluded from this public research metadata."
+  ]
+}
