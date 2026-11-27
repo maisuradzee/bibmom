@@ -54,6 +54,21 @@ class GeorgianDrinkingWaterOperationalControlsTests(unittest.TestCase):
         analytes = {item.lower() for item in self.record["routine_monitoring"]["chemical"]}
         self.assertTrue({"ammonia", "nitrate", "nitrite", "chlorides"}.issubset(analytes))
 
+    def test_sampling_frequency_table_is_conditioned_on_source_and_population(self):
+        frequencies = self.record["sampling_frequency_requirements"]
+        groundwater = frequencies["groundwater_distribution"]["annual_minimum_samples"]
+        surface = frequencies["surface_water_distribution"]["annual_minimum_samples"]
+        self.assertEqual(groundwater["microbiological"], [12, 24, 365])
+        self.assertEqual(groundwater["general_indicators"], [4, 6, 12])
+        self.assertEqual(surface["microbiological"], [365, 365])
+        self.assertEqual(surface["inorganic_organic"], [4, 12])
+        self.assertIn("20,000", frequencies["special_case"])
+
+    def test_process_monitoring_frequency_is_not_confused_with_sample_counts(self):
+        process = self.record["sampling_frequency_requirements"]["process_parameters"].lower()
+        self.assertIn("hourly", process)
+        self.assertIn("once per shift", process)
+
     def test_independent_lab_requirement_is_not_claimed_as_actual_test(self):
         requirement = self.record["independent_testing"]["requirement"].lower()
         self.assertIn("accredited independent laboratory", requirement)
