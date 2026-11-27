@@ -177,7 +177,8 @@ jobs:
         continue-on-error: true
         env:
           RECOVERY_REPORT: ${{ runner.temp }}/noema-ci-recovery-report.json
-        run: python scripts/ci_recovery.py --fix --report "$RECOVERY_REPORT"
+          RECOVERY_PATCH: ${{ runner.temp }}/noema-ci-recovery.patch
+        run: python scripts/ci_recovery.py --fix --report "$RECOVERY_REPORT" --patch "$RECOVERY_PATCH"
       - name: Validate draft completeness
         id: check_02_validate_draft_completeness
         continue-on-error: true
@@ -515,6 +516,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: noema-ci-recovery-${{ github.run_id }}
-          path: ${{ runner.temp }}/noema-ci-recovery-report.json
+          path: |
+            ${{ runner.temp }}/noema-ci-recovery-report.json
+            ${{ runner.temp }}/noema-ci-recovery.patch
           if-no-files-found: warn
           retention-days: 14
