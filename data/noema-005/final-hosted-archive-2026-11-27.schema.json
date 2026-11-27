@@ -72,10 +72,10 @@
       ],
       "properties": {
         "path": {
-          "const": "data/noema-005/raw/run-45911409646-reports.json.gz.b64"
+          "const": "data/noema-005/raw/run-45911409646-reports.json.xz.b64"
         },
         "encoding": {
-          "const": "base64(gzip(JSON object keyed by run_id:runtime_mode))"
+          "const": "base64(xz JSON object keyed by run_id:runtime_mode)"
         },
         "compressed_sha256": {
           "type": "string",
