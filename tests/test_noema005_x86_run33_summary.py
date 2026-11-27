@@ -23,46 +23,58 @@ class Noema005X86Run33SummaryTests(unittest.TestCase):
         errors = list(Draft202012Validator(self.schema, format_checker=FormatChecker()).iter_errors(self.summary))
         self.assertEqual(errors, [])
 
-    def test_all_four_reports_share_exact_inputs_and_accuracy_counts(self):
-        self.assertEqual(self.summary["aggregate"]["threaded_configurations"], 192)
-        self.assertEqual(self.summary["aggregate"]["measured_runs"], 576)
+    def test_six_reports_share_exact_inputs_and_accuracy_counts(self):
+        self.assertEqual(self.summary["aggregate"]["hosted_x86_64_reports"], 6)
+        self.assertEqual(self.summary["aggregate"]["threaded_configurations"], 288)
+        self.assertEqual(self.summary["aggregate"]["measured_runs"], 864)
+        self.assertEqual(self.summary["aggregate"]["accuracy"]["naive_scalar"], {"correct": 0, "total": 288})
+        self.assertEqual(self.summary["aggregate"]["accuracy"]["neumaier_scalar"], {"correct": 252, "total": 288})
+        self.assertEqual(self.summary["aggregate"]["accuracy"]["neumaier_state"], {"correct": 288, "total": 288})
         for report in self.summary["reports"]:
             self.assertEqual(report["accuracy"]["naive_scalar"], "0/48")
             self.assertEqual(report["accuracy"]["neumaier_scalar"], "42/48")
             self.assertEqual(report["accuracy"]["neumaier_state"], "48/48")
         self.assertTrue(self.summary["aggregate"]["input_hashes_identical"])
 
-    def test_two_azure_free_threaded_repeats_show_worker_scaling(self):
-        reports = [r for r in self.summary["reports"] if r["cloud_backend"] == "azure" and r["runtime_mode"] == "free-threaded"]
-        self.assertEqual(len(reports), 2)
-        for report in reports:
+    def test_azure_and_aws_matched_pairs_have_different_speedup_outcomes(self):
+        azure_pair = [r for r in self.summary["reports"] if r["workflow_run_id"] == 46034414138]
+        aws_pair = [r for r in self.summary["reports"] if r["workflow_run_id"] == 46035393777]
+        self.assertEqual({r["cloud_backend"] for r in azure_pair}, {"azure"})
+        self.assertEqual({r["cloud_backend"] for r in aws_pair}, {"aws"})
+        azure_gil = next(r for r in azure_pair if r["runtime_mode"] == "gil-enabled")
+        azure_free = next(r for r in azure_pair if r["runtime_mode"] == "free-threaded")
+        aws_gil = next(r for r in aws_pair if r["runtime_mode"] == "gil-enabled")
+        aws_free = next(r for r in aws_pair if r["runtime_mode"] == "free-threaded")
+        self.assertLess(azure_gil["median_speedup_by_method"]["neumaier_state"], 1.0)
+        self.assertGreater(azure_free["median_speedup_by_method"]["neumaier_state"], 1.0)
+        self.assertLess(aws_gil["median_speedup_by_method"]["neumaier_state"], 1.0)
+        self.assertLess(aws_free["median_speedup_by_method"]["neumaier_state"], 1.0)
+        for report in (azure_free, aws_free):
             rows = {x["workers"]: x for x in report["neumaier_state_by_worker"]}
-            self.assertLess(rows[1]["median_speedup"], 1.0)
-            for workers in (2, 4, 8):
-                self.assertGreater(rows[workers]["median_speedup"], 1.0)
-                self.assertGreater(rows[workers]["median_cpu_wall_ratio"], 1.5)
+            self.assertGreater(rows[2]["median_cpu_wall_ratio"], 1.5)
+            self.assertGreater(rows[4]["median_cpu_wall_ratio"], 1.5)
+            self.assertGreater(rows[8]["median_cpu_wall_ratio"], 1.5)
 
-    def test_only_first_workflow_is_a_matched_azure_gil_free_pair(self):
-        pair = [r for r in self.summary["reports"] if r["workflow_run_id"] == 46034414138]
-        self.assertEqual({r["cloud_backend"] for r in pair}, {"azure"})
-        self.assertEqual({r["runtime_mode"] for r in pair}, {"gil-enabled", "free-threaded"})
-        gil = next(r for r in pair if r["runtime_mode"] == "gil-enabled")
-        free = next(r for r in pair if r["runtime_mode"] == "free-threaded")
-        self.assertLess(gil["median_speedup_by_method"]["neumaier_state"], 1.0)
-        self.assertGreater(free["median_speedup_by_method"]["neumaier_state"], 1.0)
+    def test_second_workflow_is_backend_confounded(self):
+        mixed = [r for r in self.summary["reports"] if r["workflow_run_id"] == 46034729099]
+        self.assertEqual({r["cloud_backend"] for r in mixed}, {"azure", "aws"})
+        self.assertEqual({r["runtime_mode"] for r in mixed}, {"gil-enabled", "free-threaded"})
 
-    def test_cpu_wall_counts_are_not_speedup_claims(self):
+    def test_cpu_wall_diagnostic_is_not_a_speedup_claim(self):
         counts = self.summary["aggregate"]["cpu_wall_samples_above_1_05"]
-        self.assertEqual(counts["gil_enabled"], {"count": 0, "total": 288})
-        self.assertEqual(counts["free_threaded"], {"count": 216, "total": 288})
-        self.assertIn("not a general or physical-device speedup claim", self.summary["aggregate"]["interpretation"])
+        self.assertEqual(counts["gil_enabled"], {"count": 0, "total": 432})
+        self.assertEqual(counts["free_threaded"], {"count": 324, "total": 432})
+        self.assertIn("not a general free-threaded speedup claim", self.summary["aggregate"]["interpretation"])
 
-    def test_artifact_hashes_and_aggregate_only_policy(self):
+    def test_artifact_hashes_and_validation_history_are_explicit(self):
         for report in self.summary["reports"]:
             self.assertEqual(len(report["artifact"]["raw_report_sha256"]), 64)
             self.assertTrue(report["artifact"]["zip_digest"].startswith("sha256:"))
+            self.assertIn(report["quality_run_conclusion"], {"success", "failure_test_assertion"})
             self.assertNotIn("native_thread_ids_by_run", report)
-        self.assertEqual(len(self.summary["reports"]), 4)
+        failed = [r for r in self.summary["reports"] if r["quality_run_conclusion"] == "failure_test_assertion"]
+        self.assertEqual(len(failed), 2)
+        self.assertEqual({r["workflow_run_id"] for r in failed}, {46035393777})
 
 
 if __name__ == "__main__":
