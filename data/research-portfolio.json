@@ -853,7 +853,8 @@
         "Freeze UNDRR/WMO source-reported 2025 anticipatory-action framework, activation, direct-reach and pre-arranged-financing aggregates; independently reproduce only the 154-to-262 framework growth arithmetic and preserve unit/causality limits.",
         "Crosswalk NOEMA-007 fields against WMO's August 2024 EW4All M&E Toolkit indicators G-3, 3.2.1b, 4.2, 4.3.1, G-6 and 4.4; keep endpoint, person, respondent, warning-event, plan/finance and exposed-population units separate.",
         "Preserve UNDRR COP31's 4/5 warning-receipt and 1/3 unable-to-act statement as source-reported only because the underlying sample frame, denominator, weighting and uncertainty were not identified; do not use it as a baseline.",
-        "Evaluate source-declared risk-baseline update intervals using a deterministic metadata-only freshness prototype; missing update date or interval remains unknown and never authorizes ingestion (PR #156)."
+        "Evaluate source-declared risk-baseline update intervals using a deterministic metadata-only freshness prototype; missing update date or interval remains unknown and never authorizes ingestion (PR #156).",
+        "Use the peer-reviewed 2026 disaster-data temporal-characteristics article as a methodological caution; it does not supply a universal freshness interval or a Georgia-specific baseline."
       ],
       "sources": [
         {
@@ -1070,6 +1071,14 @@
           "publisher": "Open Geospatial Consortium",
           "type": "official geospatial interoperability standard overview",
           "publication_date": "undated",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "Temporal characteristics of disaster data: how to avoid misconceptions, misinterpretation or misuse",
+          "publisher": "Elsevier / International Journal of Disaster Risk Reduction",
+          "publication_date": "2026",
+          "url": "https://doi.org/10.1016/j.ijdrr.2026.106188",
+          "type": "peer-reviewed journal article",
           "accessed_at": "2026-11-27"
         }
       ],
