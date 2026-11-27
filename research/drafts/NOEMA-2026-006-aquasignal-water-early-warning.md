@@ -90,6 +90,20 @@ AquaSignal-ის პირველი ვერსია არ ცდილ�
 
 AquaSignal-ის პირველი კოდის ნაწილი რეალიზებულია და მისი სინთეზური ტესტები ამოწმებს უსაფრთხო მდგომარეობებს. რეალურ მონაცემზე detection delay, sensitivity, positive predictive value ან false-alert rate ჯერ არ გაზომილა.
 
+### 2026-11-19 WHO global drinking-water update — FACT
+
+WHO's fact sheet dated 19 November 2026 reports three distinct reference frames:
+
+- In 2022, at least **1.7 billion people** used a drinking-water source contaminated with faeces.
+- Microbiologically contaminated drinking water is estimated to cause approximately **505,000 diarrhoeal deaths each year**.
+- In 2024, **74% of the global population** (approximately 6 billion people) used a safely managed drinking-water service. WHO defines this as an improved source on premises, available when needed and free from contamination.
+
+WHO also reports that 2.1 billion people lacked safely managed drinking-water services in 2024. This is not equivalent to 2.1 billion people drinking contaminated water: the group includes 1.4 billion with basic services, 287 million with limited services, 302 million using unprotected wells/springs and 106 million collecting untreated surface water.
+
+**Interpretation boundary:** the contamination estimate refers to 2022, the safely-managed coverage estimate to 2024, and the mortality figure is an annual estimate. They have different reference frames and must not be combined into a single prevalence or causal calculation. None is a Georgia-specific estimate. The WHO fact sheet identifies faecal/microbial contamination as a major risk; it does not validate the separate Georgia nitrate-risk signal or replace local laboratory compliance data.
+
+**INFERENCE:** AquaSignal should preserve separate, matrix- and hazard-specific pathways (for example, microbial potable-network compliance versus groundwater nitrate monitoring) and must not collapse them into one undifferentiated water-risk score.
+
 ## შეზღუდვები და გაურკვევლობები
 
 - გლობალური მაჩვენებლები არ არის საქართველოს prevalence estimate.
