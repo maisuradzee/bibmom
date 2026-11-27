@@ -1,13 +1,14 @@
 # NOEMA — მიმდინარე პროექტის მდგომარეობა
 
-- **განახლდა:** 2026-11-28 (Run 38 — NOEMA-005 experiment 002, AquaSignal NEA groundwater access lead, strict event parsing and public-artifact privacy boundary).
+- **განახლდა:** 2026-11-28 (Run 38 follow-up — AquaSignal event-payload limit, INFRA manifest-depth guard და NOEMA-005 benchmark-trigger filter).
 - **საცავი:** https://github.com/maisuradzee/bibmom
-- **Run 38-ის merge-ების შემდეგ main snapshot:** `974445f6b43bdf612b089cdd53c5d5019f3f0f4c`.
-- **ბოლო დადასტურებული PR-head Quality CI:** PR #200 — 534 tests; PR #202 — 539 tests; PR #204 — 544 tests; ყველა ზუსტი head-ისთვის SUCCESS.
-- **ბოლო დადასტურებული benchmark/cleanup:** PR #200 x86-64 და ARM64 workflows SUCCESS; legacy-artifact cleanup run [46064057021](https://github.com/maisuradzee/bibmom/actions/runs/46064057021) SUCCESS და ექვსი ძველი raw artifact list ცარიელია.
-- **Pages:** PR #204 site build SUCCESS (3 Preliminary, 0 Published); post-merge deployment ამ Run38 main snapshot-ზე ცალკე არ დადასტურებულა. წინა main deployment-ის მტკიცებულება არ უნდა ჩაითვალოს ამ snapshot-ის deployment-ად.
+- **მიმდინარე main snapshot:** `261129e5acbce3739d3b3e35640932012860562d`.
+- **Merged PR exact-head Quality CI:** #207 — [46066006839](https://github.com/maisuradzee/bibmom/actions/runs/46066006839), 544 tests; #206 — [46066055494](https://github.com/maisuradzee/bibmom/actions/runs/46066055494), 550 tests; #205 — [46066334198](https://github.com/maisuradzee/bibmom/actions/runs/46066334198), 552 tests. ყველა SUCCESS.
+- **NOEMA-005 workflow:** PR #207-ის ცვლილებაზე GIL-enabled და free-threaded jobs [46066006831](https://github.com/maisuradzee/bibmom/actions/runs/46066006831) SUCCESS; unrelated PR #205-ის შემდგომ head-ზე CPU workflow აღარ გაეშვა.
+- **Main push CI / Pages:** final Main SHA-ზე post-merge run ამ აუდიტში დამოუკიდებლად ვერ დადასტურდა. PR-head site build-ები წარმატებულია, მაგრამ ეს არ არის Pages deployment-ის მტკიცებულება.
+- **ღია PR / Issue:** 41 PR, 0 Issue (Run38 rebased successor PR-ის შექმნამდე).
 - **აქტიური პორტფელი:** ოთხივე ნაკადი აქტიურია — AquaSignal, NOEMA-005, NOEMA-007 და INFRA-001.
-- **კვლევის კატალოგი:** 3 Preliminary, 0 Published; NOEMA-005-ის არსებული Preliminary ჩანაწერი განახლდა experiment 002-ის frozen aggregate-ით. AquaSignal-ის NEA წყარო კვლავ metadata-only Draft-ია.
+- **კვლევის კატალოგი:** 3 Preliminary, 0 Published; NOEMA-005 experiment 002-ის aggregate Preliminary სტატუსითაა; ახალი Published კვლევა არ შექმნილა.
 
 ## Run 38 — ექვსი hosted benchmark cell, ახალი ქართული groundwater access lead და მონაცემთა სანდოობის კონტროლები
 
@@ -511,3 +512,16 @@ Four streams remain active: AquaSignal, NOEMA-005, NOEMA-007 and INFRA-001. No f
 ## Run 38 audit reference
 
 Detailed audit: [docs/run-audits/2026-11-28-run-38.md](run-audits/2026-11-28-run-38.md). Frozen NOEMA-005 aggregate and reproduction: [summary](../data/noema-005/experiment-002-summary.json), [script](../scripts/reproduce_noema005_experiment_002.py).
+
+## Run 38 follow-up — 2026-11-28
+
+- **AquaSignal:** PR #205 merged. Event-store payloads are bounded to 64 KiB UTF-8 on append and replay; the same strict decoder is used by event listing. This is a local resource/integrity boundary, not field evidence or a water-quality threshold.
+- **INFRA-001:** PR #206 merged. Backup-manifest JSON nesting above 64 containers is rejected before parsing; residual parser/schema recursion failures become controlled validation errors. This is metadata validation only, not production restore.
+- **NOEMA-005:** PR #207 merged. The actual CPU-thread benchmark workflow now runs on relevant benchmark code/protocol/sanitizer/test/workflow pull-request paths rather than every unrelated PR. Its own GIL/free-threaded run validated the workflow; it is not counted as a new performance study.
+- **NOEMA-005 experiment 002:** six hosted cells, 384 configurations and 1,152 measured runs. Full Neumaier state 288/288 correctly rounded; scalar Neumaier and worker-local `math.fsum` partials 252/288 each; naive scalar 0/288. No threaded configuration beat its matching serial baseline. The aggregate remains Preliminary.
+- **Artifact limitation:** all six ZIP SHA-256 values were rechecked against GitHub artifact metadata. The report JSON hashes remain frozen from the original artifact-ingestion run; the artifact ZIP contents could not be re-downloaded through the available connector in this follow-up. GitHub artifact retention expires 2026-12-27. The optional `--artifact-dir` reproducer can verify them if the ZIPs are obtained before expiry.
+- **NOEMA-007:** no authorized Georgian warning-to-action operational dataset was obtained; no local effectiveness or causal estimate was added.
+- **AquaSignal blocker:** NEA RAR remains uninspected and NFA actual water-only sample counts/results remain unavailable.
+- **INFRA blocker:** no production key custody, independent offsite trust-domain, anti-rollback authority or clean-host restore is implemented.
+
+Detailed method and evidence boundary: [Run 38 audit](run-audits/2026-11-28-run-38.md).
