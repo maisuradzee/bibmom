@@ -103,3 +103,12 @@ AquaSignal-ისთვის ყველაზე უსაფრთხო შ
 ამიტომ schema და comparator გაფართოვდა სამი სავალდებულო metadata ველით: `count_unit`, `numerator_definition_id` და `denominator_definition_id`. საქართველოს ორი 2023 წყაროსთვის ეს ველები უცნობად რჩება (`null`); მათზე არ არის გამოგონილი დათვლის საფუძველი. სინთეზური ტესტები ამოწმებს, რომ დაკარგული დათვლის სემანტიკა ბლოკავს შედარებას, ხოლო ცნობილი განსხვავებული ერთეული ან denominator definition იწვევს `NOT_COMPARABLE`-ს.
 
 WHO 2026 სახელმძღვანელო ადასტურებს, რომ ზედამხედველობამ უნდა მოიცვას მიწოდების სხვადასხვა ტიპი და კარგად დაგეგმილი survey/rolling sampling; კონკრეტული count-definition ID-ების მოთხოვნა არის NOEMA-ს კონსერვატიული საინჟინრო კონტროლი და არა WHO-ს ციტირებული პირდაპირი მოთხოვნა. წყარო: https://www.who.int/publications/i/item/9789240121225 (17 June 2026), Chapter 5, pp. 75–80.
+
+
+## Run 23 follow-up — definition provenance hardening
+
+A code review identified that equality of opaque definition IDs is not, by itself, proof that two sources use the same underlying definition. The follow-up contract adds a content-addressed reference for each material definition: indicator, numerator, denominator, sampling frame, inclusion rule, analytical method and standard. Each reference contains an HTTPS source pointer, SHA-256 of the exact source artifact and a stable locator (page/table/section).
+
+The comparator requires every reference to be either fully populated or fully null. Missing provenance returns `INSUFFICIENT_METADATA`; a different content hash or locator returns `NOT_COMPARABLE`. Mirror URLs may differ when the content hash and locator match.
+
+**Security/evidence boundary:** the comparator does not fetch or authenticate the source URL and does not compute the hash. A caller-supplied digest is not proof of authority or authenticity. In production, a trusted acquisition process must download the authoritative document, compute SHA-256 over the exact bytes, record the locator and preserve the artifact under an approved reuse policy. The current 49.5% and 44.5% source observations retain null definition provenance and therefore remain non-comparable.

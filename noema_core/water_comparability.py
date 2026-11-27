@@ -37,6 +37,16 @@ COMPARABILITY_FIELDS = (
     "analytical_method_id",
 )
 
+DEFINITION_PROVENANCE_KEYS = (
+    "indicator",
+    "numerator",
+    "denominator",
+    "sampling_frame",
+    "inclusion_rule",
+    "analytical_method",
+    "standard",
+)
+
 
 class WaterComparabilityError(ValueError):
     """Raised when a water-indicator record is structurally invalid."""
@@ -79,6 +89,23 @@ def _validate_observation(
         if denominator == 0:
             raise WaterComparabilityError("denominator must be greater than zero")
 
+    for definition_name in DEFINITION_PROVENANCE_KEYS:
+        reference = observation["definition_provenance"][definition_name]
+        values = (
+            reference["source_url"],
+            reference["source_sha256"],
+            reference["locator"],
+        )
+        if any(value is not None for value in values) and not all(value is not None for value in values):
+            raise WaterComparabilityError(
+                f"definition provenance for {definition_name} must be fully populated or fully null"
+            )
+        if all(value is not None for value in values):
+            if not reference["source_url"].startswith("https://"):
+                raise WaterComparabilityError("definition provenance source_url must be HTTPS")
+            if not isinstance(reference["locator"], str) or not reference["locator"].strip():
+                raise WaterComparabilityError("definition provenance locator must be non-empty")
+
 
 def _reported_rate_matches(observation: dict[str, Any]) -> bool:
     numerator = observation["numerator"]
@@ -110,7 +137,9 @@ def compare_same_period_indicators(
 
     A successful result is descriptive only. Population inference requires a
     separate probability-sampling design, weights, variance estimation and
-    target-population definition; this function does not provide those.
+    target-population definition; this function does not provide those. Definition
+    hashes identify caller-supplied source artifacts and locators; they are not
+    authenticated by this comparator and must come from a trusted acquisition layer.
     """
     _validate_observation(left, schema_path)
     _validate_observation(right, schema_path)
@@ -138,6 +167,39 @@ def compare_same_period_indicators(
         return {
             "status": "NOT_COMPARABLE",
             "mismatched_fields": mismatched,
+            "difference_percentage_points": None,
+            "population_inference_permitted": False,
+        }
+
+    missing_definition_provenance = []
+    mismatched_definition_provenance = []
+    for definition_name in DEFINITION_PROVENANCE_KEYS:
+        left_reference = left["definition_provenance"][definition_name]
+        right_reference = right["definition_provenance"][definition_name]
+        if (
+            left_reference["source_sha256"] is None
+            or right_reference["source_sha256"] is None
+            or left_reference["locator"] is None
+            or right_reference["locator"] is None
+        ):
+            missing_definition_provenance.append(f"definition_provenance.{definition_name}")
+        elif (
+            left_reference["source_sha256"] != right_reference["source_sha256"]
+            or left_reference["locator"] != right_reference["locator"]
+        ):
+            mismatched_definition_provenance.append(f"definition_provenance.{definition_name}")
+
+    if missing_definition_provenance:
+        return {
+            "status": "INSUFFICIENT_METADATA",
+            "missing_fields": missing_definition_provenance,
+            "difference_percentage_points": None,
+            "population_inference_permitted": False,
+        }
+    if mismatched_definition_provenance:
+        return {
+            "status": "NOT_COMPARABLE",
+            "mismatched_fields": mismatched_definition_provenance,
             "difference_percentage_points": None,
             "population_inference_permitted": False,
         }

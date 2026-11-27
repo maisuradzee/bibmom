@@ -28,7 +28,8 @@
     "reported_precision_decimals",
     "count_unit",
     "numerator_definition_id",
-    "denominator_definition_id"
+    "denominator_definition_id",
+    "definition_provenance"
   ],
   "properties": {
     "schema_version": {
@@ -244,6 +245,259 @@
       ],
       "minLength": 3,
       "maxLength": 128
+    },
+    "definition_provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "indicator",
+        "numerator",
+        "denominator",
+        "sampling_frame",
+        "inclusion_rule",
+        "analytical_method",
+        "standard"
+      ],
+      "properties": {
+        "indicator": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source_url",
+            "source_sha256",
+            "locator"
+          ],
+          "properties": {
+            "source_url": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "uri",
+              "pattern": "^https://"
+            },
+            "source_sha256": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "locator": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1,
+              "maxLength": 256
+            }
+          }
+        },
+        "numerator": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source_url",
+            "source_sha256",
+            "locator"
+          ],
+          "properties": {
+            "source_url": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "uri",
+              "pattern": "^https://"
+            },
+            "source_sha256": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "locator": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1,
+              "maxLength": 256
+            }
+          }
+        },
+        "denominator": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source_url",
+            "source_sha256",
+            "locator"
+          ],
+          "properties": {
+            "source_url": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "uri",
+              "pattern": "^https://"
+            },
+            "source_sha256": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "locator": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1,
+              "maxLength": 256
+            }
+          }
+        },
+        "sampling_frame": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source_url",
+            "source_sha256",
+            "locator"
+          ],
+          "properties": {
+            "source_url": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "uri",
+              "pattern": "^https://"
+            },
+            "source_sha256": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "locator": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1,
+              "maxLength": 256
+            }
+          }
+        },
+        "inclusion_rule": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source_url",
+            "source_sha256",
+            "locator"
+          ],
+          "properties": {
+            "source_url": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "uri",
+              "pattern": "^https://"
+            },
+            "source_sha256": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "locator": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1,
+              "maxLength": 256
+            }
+          }
+        },
+        "analytical_method": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source_url",
+            "source_sha256",
+            "locator"
+          ],
+          "properties": {
+            "source_url": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "uri",
+              "pattern": "^https://"
+            },
+            "source_sha256": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "locator": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1,
+              "maxLength": 256
+            }
+          }
+        },
+        "standard": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source_url",
+            "source_sha256",
+            "locator"
+          ],
+          "properties": {
+            "source_url": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "uri",
+              "pattern": "^https://"
+            },
+            "source_sha256": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "locator": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1,
+              "maxLength": 256
+            }
+          }
+        }
+      }
     }
   }
 }

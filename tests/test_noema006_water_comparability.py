@@ -38,6 +38,15 @@ def comparable_record(observation_id: str, numerator: int, denominator: int, per
         "denominator": denominator,
         "reported_percent": percent,
         "reported_precision_decimals": 1,
+        "definition_provenance": {
+            "indicator": {"source_url": "https://example.org/indicator-v1", "source_sha256": "1" * 64, "locator": "indicator#broad_noncompliance"},
+            "numerator": {"source_url": "https://example.org/numerator-v1", "source_sha256": "2" * 64, "locator": "numerator#noncompliant_samples"},
+            "denominator": {"source_url": "https://example.org/denominator-v1", "source_sha256": "3" * 64, "locator": "denominator#valid_samples"},
+            "sampling_frame": {"source_url": "https://example.org/frame-v1", "source_sha256": "4" * 64, "locator": "frame#all_scheduled_samples"},
+            "inclusion_rule": {"source_url": "https://example.org/inclusion-v1", "source_sha256": "5" * 64, "locator": "inclusion#all_scheduled"},
+            "analytical_method": {"source_url": "https://example.org/method-v1", "source_sha256": "6" * 64, "locator": "method#lab_protocol"},
+            "standard": {"source_url": "https://example.org/standard-v1", "source_sha256": "7" * 64, "locator": "standard#2024"}
+        }
     }
 
 
@@ -180,6 +189,48 @@ class WaterComparabilityTests(unittest.TestCase):
         self.assertFalse(result["population_inference_permitted"])
         self.assertIn("population prevalence", result["note"])
 
+
+
+    def test_missing_definition_document_provenance_blocks_comparison(self):
+        left = comparable_record("obs_0000000000000001", 99, 200, 49.5)
+        right = comparable_record("obs_0000000000000002", 89, 200, 44.5)
+        left["definition_provenance"]["indicator"] = {
+            "source_url": None, "source_sha256": None, "locator": None
+        }
+        result = compare_same_period_indicators(left, right, schema_path=self.schema)
+        self.assertEqual(result["status"], "INSUFFICIENT_METADATA")
+        self.assertIn("definition_provenance.indicator", result["missing_fields"])
+        self.assertIsNone(result["difference_percentage_points"])
+
+    def test_same_opaque_ids_with_different_definition_hashes_are_not_comparable(self):
+        left = comparable_record("obs_0000000000000001", 99, 200, 49.5)
+        right = comparable_record("obs_0000000000000002", 89, 200, 44.5)
+        right["definition_provenance"]["indicator"]["source_sha256"] = "f" * 64
+        result = compare_same_period_indicators(left, right, schema_path=self.schema)
+        self.assertEqual(result["status"], "NOT_COMPARABLE")
+        self.assertIn("definition_provenance.indicator", result["mismatched_fields"])
+        self.assertIsNone(result["difference_percentage_points"])
+
+    def test_same_definition_hash_and_locator_allow_different_mirror_urls(self):
+        left = comparable_record("obs_0000000000000001", 99, 200, 49.5)
+        right = comparable_record("obs_0000000000000002", 89, 200, 44.5)
+        right["definition_provenance"]["indicator"]["source_url"] = "https://mirror.example.org/indicator-v1"
+        result = compare_same_period_indicators(left, right, schema_path=self.schema)
+        self.assertEqual(result["status"], "DESCRIPTIVELY_COMPARABLE")
+
+    def test_partial_definition_provenance_is_rejected(self):
+        left = comparable_record("obs_0000000000000001", 99, 200, 49.5)
+        right = comparable_record("obs_0000000000000002", 89, 200, 44.5)
+        left["definition_provenance"]["sampling_frame"]["source_url"] = None
+        with self.assertRaisesRegex(WaterComparabilityError, "fully populated or fully null"):
+            compare_same_period_indicators(left, right, schema_path=self.schema)
+
+    def test_definition_provenance_hash_must_be_sha256(self):
+        left = comparable_record("obs_0000000000000001", 99, 200, 49.5)
+        right = comparable_record("obs_0000000000000002", 89, 200, 44.5)
+        left["definition_provenance"]["numerator"]["source_sha256"] = "not-a-hash"
+        with self.assertRaises(WaterComparabilityError):
+            compare_same_period_indicators(left, right, schema_path=self.schema)
 
 if __name__ == "__main__":
     unittest.main()

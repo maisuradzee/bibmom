@@ -28,7 +28,44 @@
       "supply_type_scope": null,
       "count_unit": null,
       "numerator_definition_id": null,
-      "denominator_definition_id": null
+      "denominator_definition_id": null,
+      "definition_provenance": {
+        "indicator": {
+          "source_url": null,
+          "source_sha256": null,
+          "locator": null
+        },
+        "numerator": {
+          "source_url": null,
+          "source_sha256": null,
+          "locator": null
+        },
+        "denominator": {
+          "source_url": null,
+          "source_sha256": null,
+          "locator": null
+        },
+        "sampling_frame": {
+          "source_url": null,
+          "source_sha256": null,
+          "locator": null
+        },
+        "inclusion_rule": {
+          "source_url": null,
+          "source_sha256": null,
+          "locator": null
+        },
+        "analytical_method": {
+          "source_url": null,
+          "source_sha256": null,
+          "locator": null
+        },
+        "standard": {
+          "source_url": null,
+          "source_sha256": null,
+          "locator": null
+        }
+      }
     },
     {
       "schema_version": 1,
@@ -54,7 +91,44 @@
       "supply_type_scope": null,
       "count_unit": null,
       "numerator_definition_id": null,
-      "denominator_definition_id": null
+      "denominator_definition_id": null,
+      "definition_provenance": {
+        "indicator": {
+          "source_url": null,
+          "source_sha256": null,
+          "locator": null
+        },
+        "numerator": {
+          "source_url": null,
+          "source_sha256": null,
+          "locator": null
+        },
+        "denominator": {
+          "source_url": null,
+          "source_sha256": null,
+          "locator": null
+        },
+        "sampling_frame": {
+          "source_url": null,
+          "source_sha256": null,
+          "locator": null
+        },
+        "inclusion_rule": {
+          "source_url": null,
+          "source_sha256": null,
+          "locator": null
+        },
+        "analytical_method": {
+          "source_url": null,
+          "source_sha256": null,
+          "locator": null
+        },
+        "standard": {
+          "source_url": null,
+          "source_sha256": null,
+          "locator": null
+        }
+      }
     }
   ],
   "expected_comparison_status": "INSUFFICIENT_METADATA",
