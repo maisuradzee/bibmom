@@ -1,6 +1,6 @@
 # მცურავი წერტილის ჯამის სიზუსტე: ალგორითმი, რიგითობა და გამეორებადობა
 
-> **სტატუსი: წინასწარი კვლევა (preliminary).** ეს არის AI-ით მომზადებული და კოდით/ტესტებით გამეორებული წინასწარი კვლევითი ანგარიში. რეალური CPU-thread benchmark შესრულდა CPython 3.14.4 GIL-enabled და free-threaded რეჟიმებში; დამოუკიდებელი გარე რეცენზია, სხვა არქიტექტურაზე გამეორება და უახლეს Python patch-ებზე ტესტირება ჯერ არ დასრულებულა. შედეგები არ არის უნივერსალური სიჩქარის ან სიზუსტის გარანტია.
+> **სტატუსი: წინასწარი კვლევა (preliminary).** ანგარიში აერთიანებს CPython 3.14.4-ის წინა x86-64/ARM64 hosted runs-ს და Run 38 experiment 002-ის CPython 3.14.10 GIL-enabled/free-threaded ექვს hosted cell-ს. Run 38-ში Neumaier-state სიზუსტე 288/288 იყო, მაგრამ არცერთმა 384 threaded configuration-მა შესაბამის serial baseline-ს არ აჯობა. ფიზიკური მოწყობილობის დამოუკიდებელი გამეორება, RSS/DRAM გაზომვები და გარე numerical-method review ჯერ არ დასრულებულა. შედეგები არ არის უნივერსალური სიჩქარის ან სიზუსტის გარანტია.
 
 ## კვლევის კითხვა
 
@@ -489,3 +489,60 @@ The frozen per-configuration aggregate and original archive/report hashes are in
 
 
 **Run 36 public-evidence minimization note:** the sanitized snapshot retains only the coarse hosted Linux provider family (`aws`/`azure`) needed to distinguish runner pools. Kernel release and glibc build strings from raw `platform` metadata are excluded; raw artifacts remain outside the public repository.
+
+
+## Run 38 — experiment 002: worker-local math.fsum partials and ARM64 hosted replication
+
+### მეთოდოლოგია
+
+Experiment 002 used CPython 3.14.10 in GIL-enabled and free-threaded builds across three GitHub-hosted runner cells: x86-64 Ubuntu, ARM64 Ubuntu and ARM64 macOS. Each cell contained 64 configurations (2 layouts × 4 worker counts × 2 partition strategies × 4 methods), one warmup and three measured repetitions: 192 measured runs/cell, 1,152 overall.
+
+Compared methods:
+- naive scalar reduction;
+- scalar Neumaier partials;
+- full Neumaier compensation-state merge;
+- worker-local math.fsum scalar partials.
+
+The last method is intentionally distinct from one global math.fsum call: each worker returns one rounded scalar, then the partial scalars are merged. Python's documentation describes math.fsum's partial-sum approach and its floating-point/rounding assumptions: https://docs.python.org/3.14/library/math.html#math.fsum.
+
+### Accuracy
+
+| Method | Correctly rounded measured runs |
+|---|---:|
+| Naive scalar | 0/288 |
+| Scalar Neumaier partials | 252/288 |
+| Full Neumaier state | 288/288 |
+| Worker-local math.fsum scalar partials | 252/288 |
+
+Both scalar-partial methods failed in the same deterministic stress case in every cell: grouped-cancellation layout, contiguous partition, worker counts 2 and 8; each affected configuration failed all three repetitions. This is evidence that accurate worker-local scalar sums do not preserve all residual information across every partition boundary. The full compensation state preserved the exact reference in these tested cases.
+
+### Runtime
+
+No threaded configuration beat its matching serial baseline: 0/384. The range of per-cell median speedups was:
+
+| Method | Minimum to maximum median speedup across six cells |
+|---|---:|
+| Naive scalar | 0.185162–0.568829 |
+| Scalar Neumaier partials | 0.571729–0.771480 |
+| Full Neumaier state | 0.705763–0.773336 |
+| Worker-local math.fsum partials | 0.050252–0.193933 |
+
+The median process CPU/wall ratio exceeded 1.05 in 34–36 of 48 free-threaded configurations per method, but in 0/48 GIL-enabled configurations. This indicates concurrent CPU use in many free-threaded cases; it does not demonstrate lower wall time. The worker-local fsum scalar-partial method was especially slow in this matrix.
+
+### Public evidence and provenance
+
+The six public workflow artifacts were sanitized before upload. Raw native thread IDs and detailed host-build strings were removed only after the sanitizer validated distinct native thread identity for each worker/repetition. The six artifact ZIP SHA-256 digests and six sanitized report JSON SHA-256 digests are frozen in [experiment-002-summary.json](../../data/noema-005/experiment-002-summary.json). Run [x86-64](https://github.com/maisuradzee/bibmom/actions/runs/46064056998), [ARM64](https://github.com/maisuradzee/bibmom/actions/runs/46064056947), and [legacy-artifact cleanup](https://github.com/maisuradzee/bibmom/actions/runs/46064057021) provide the workflow records. GitHub confirmed that the six targeted prior unsanitized artifact lists are empty.
+
+Reproduction:
+- Summary/schema and aggregate arithmetic: `python scripts/reproduce_noema005_experiment_002.py --check`.
+- Full artifact reproduction: download the six sanitized ZIPs into one directory, name them `github-actions-artifact-<artifact_id>.zip`, then run `python scripts/reproduce_noema005_experiment_002.py --artifact-dir <directory>`.
+
+### Evidence status and limitations
+
+**REPRODUCED RESULT:** six sanitized hosted reports, 384 configurations and 1,152 measured runs; artifact and report hashes were checked against GitHub artifact metadata.
+
+**INFERENCE:** full Neumaier compensation state preserved the reference more reliably than either scalar-partial method in this cancellation-heavy synthetic matrix. Free-threaded execution used multiple CPUs in many configurations, but no threaded configuration was faster than its matching serial baseline.
+
+**LIMITATIONS:** three measured repetitions are exploratory; hosted VMs are not physical-device replication; runner families are not controlled same-hardware comparisons; tracemalloc is not process RSS/native allocation or DRAM bandwidth; no representative production workload, GPU, network-distributed reduction or Windows run was tested.
+
+**Status remains preliminary. No Published status is claimed.**
