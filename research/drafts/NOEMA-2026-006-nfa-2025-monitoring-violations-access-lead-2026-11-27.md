@@ -1,34 +1,38 @@
 # NOEMA-2026-006 — NFA 2025 drinking-water monitoring-violations access lead
 
 - **ID:** NOEMA-2026-006
-- **Status:** draft
-- **Date:** 2026-11-27
-- **Pillars:** DISCOVERY · RESEARCH · INNOVATION
-- **Evidence class:** primary-source discovery; payload not retrieved
+- **სტატუსი:** draft
+- **თარიღი:** 2026-11-27
+- **სფერო:** საზოგადოებრივი ჯანმრთელობა · სასმელი წყალი · მონაცემთა წვდომა
+- **ავტორი/მომზადების სისტემა:** NOEMA research workflow
 - **Related work:** [Georgia water-data access update](NOEMA-2026-006-georgia-water-data-access-update-2026-11-27.md)
 
-## Research question
+## საკვლევი კითხვა
 
-Does the National Food Agency's published 2025 monitoring-violations file provide a lawful, machine-readable route to water-specific sample evidence, and what is still required before it can support an interpretable drinking-water compliance measure?
+იძლევა თუ არა სურსათის ეროვნული სააგენტოს მიერ გამოქვეყნებული 2025 წლის მონიტორინგის დარღვევების ფაილი სასმელი წყლის ნიმუშების მტკიცებულებების ნებადართული, მანქანურად წაკითხვადი მიღების გზას და რა არის საჭირო მისი ინტერპრეტირებადი შესაბამისობის მაჩვენებლად გამოყენებამდე?
 
-## FACT — official page and published context
+## Executive finding
+
+The National Food Agency's official 2025 violations page links an XLSX described as violations identified in food and drinking-water monitoring samples. The official access lead is confirmed, but the workbook payload could not be retrieved or inspected. This is a source-discovery result, not a reproduced water-quality result.
+
+## FACT — ოფიციალური გვერდი და გამოქვეყნებული კონტექსტი
 
 The National Food Agency page **“2025 წელს გამოვლენილი დარღვევები”**, dated 2026-01-08, states that the Food Department carried out 21,874 inspections in 2025, including 9,241 planned, 1,833 unplanned and 279 recognition-related inspections; it says 10,521 business operators were rechecked and critical non-compliance was identified at 554 operators.
 
-The same page links a downloadable file described as violations found in food and drinking-water monitoring samples:
+The same page links a file described as violations found in food and drinking-water monitoring samples:
 
 - Landing page: https://nfa.gov.ge/Ge/IdentifiedViolations/1713
 - File endpoint: https://nfa.gov.ge/Ge/Files/Download/8918
 
 The available web retrieval path identified the response as an XLSX (application/vnd.openxmlformats-officedocument.spreadsheetml.sheet) but could not return the binary payload. A direct container download attempt also failed. No file bytes, worksheet names, row count, columns, digest or data dictionary were obtained.
 
-## Why this is useful — and what it does not prove
+## რატომ არის ეს მნიშვნელოვანი — და რას არ ადასტურებს
 
 This is a new official access lead for NFA monitoring-violation records. It is distinct from NEA groundwater and surface-water monitoring, and distinct from the WRP self-reported global drinking-water harm indicator.
 
 The linked file is described as covering **food and drinking-water sample violations together**. The landing page does not disclose a water-only sample denominator or the complete universe of samples tested. A violations-only extract is not a prevalence denominator. Therefore this lead does not resolve the missing denominator for the separate 2024 E. coli non-compliance figure in the Georgia Protocol on Water and Health report.
 
-## Evidence classification
+## მტკიცებულების კლასიფიკაცია
 
 ### FACT
 - The official page date and administrative totals above are source-reported.
@@ -45,14 +49,14 @@ If NFA can provide a de-identified, authorized export with water-matrix labels, 
 ### UNTESTED IDEA
 A future source adapter could ingest an authority-approved aggregate export into a private staging environment, validate its schema and provenance, and publish only disclosure-reviewed aggregates. It must not merge potable-water compliance records with NEA environmental groundwater or surface-water observations.
 
-## Method
+## მეთოდი ან ექსპერიმენტის გეგმა
 
 1. Opened the official NFA page and recorded only its public administrative summary and file link.
 2. Followed the file link; the browser retrieval layer rejected the XLSX response as an unsupported binary content type.
 3. Attempted a direct download from the same official URL; the runtime download failed.
 4. Recorded the access lead as metadata only. No workbook parsing, checksum, row-level analysis or reuse decision was performed.
 
-## Data and privacy requirements before ingestion
+## მონაცემები და კონფიდენციალურობის მოთხოვნები
 
 - Obtain the exact file bytes through an authorized channel and calculate SHA-256 locally.
 - Inspect the workbook in a controlled/private workspace before any publication decision.
@@ -61,7 +65,7 @@ A future source adapter could ingest an authority-approved aggregate export into
 - Confirm explicit reuse and redistribution terms with the data controller.
 - Keep food, potable drinking water, groundwater, surface water and marine water as separate matrices and source classes.
 
-## Limitations
+## შეზღუდვები
 
 - The XLSX payload was not retrieved, hashed or inspected.
 - No claim is made about workbook row count, columns, sample counts, non-compliance counts, geography or data granularity.
@@ -71,14 +75,22 @@ A future source adapter could ingest an authority-approved aggregate export into
 - No local prevalence, current contamination status, public-health outcome or causal claim is made.
 - Reuse terms and public redistribution rights remain unverified.
 
-## Sources
+## წყაროები
 
 1. **National Food Agency of Georgia**, 2026-01-08, *2025 წელს გამოვლენილი დარღვევები*: https://nfa.gov.ge/Ge/IdentifiedViolations/1713
 2. **National Food Agency of Georgia**, official linked XLSX endpoint: https://nfa.gov.ge/Ge/Files/Download/8918
 
-## Next steps
+## შემდეგი ნაბიჯები
 
 1. Request the NFA's water-specific sample denominator and an authorized data dictionary/export.
 2. Inspect the workbook privately only after the data controller's access and reuse conditions are clear.
 3. If a complete sampling frame is unavailable, retain the file as enforcement discovery evidence only and do not calculate a rate.
 4. Independently review the data-protection and public-disclosure plan before any aggregate is added to the public catalogue.
+
+## შემოწმების სტატუსი
+
+- Official landing-page text and file link were opened and recorded.
+- The XLSX response type was observed, but the file bytes were not obtained; no SHA-256 or worksheet inventory exists.
+- The JSON metadata record and closed schema are tested; no raw workbook or row-level record is included.
+- No drinking-water-specific denominator, local prevalence estimate or regulatory conclusion is claimed.
+- This draft is not promoted to Preliminary or Published; independent review and source-payload inspection remain outstanding.
