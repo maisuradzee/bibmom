@@ -10,6 +10,25 @@ ROOT = Path(__file__).resolve().parents[1]
 RESULT = ROOT / "data/noema-005/threaded-run-2026-11-27-summary.json"
 SCHEMA = ROOT / "data/noema-005/threaded-run-2026-11-27-summary.schema.json"
 
+FORBIDDEN_IDENTIFIER_KEYS = {
+    "thread_id",
+    "native_thread_id",
+    "thread_ids",
+    "native_thread_ids",
+    "native_thread_ids_by_run",
+}
+
+
+def iter_object_keys(value):
+    """Yield JSON object keys recursively without scanning descriptive string values."""
+    if isinstance(value, dict):
+        for key, child in value.items():
+            yield key
+            yield from iter_object_keys(child)
+    elif isinstance(value, list):
+        for child in value:
+            yield from iter_object_keys(child)
+
 
 class Noema005ThreadedRunSummaryTests(unittest.TestCase):
     def test_summary_matches_schema(self):
@@ -37,11 +56,18 @@ class Noema005ThreadedRunSummaryTests(unittest.TestCase):
         self.assertIn("not process RSS", result["interpretation"]["memory"])
         self.assertTrue(any("ARM64" in item for item in result["limitations"]))
 
-    def test_raw_native_thread_identifiers_are_not_committed(self):
+    def test_raw_native_thread_identifier_keys_are_not_committed(self):
         result = json.loads(RESULT.read_text(encoding="utf-8"))
-        serialized = json.dumps(result)
-        self.assertNotIn("native_thread_ids_by_run", serialized)
-        self.assertNotIn("thread_id", serialized)
+        keys = {key.casefold() for key in iter_object_keys(result)}
+        self.assertTrue(FORBIDDEN_IDENTIFIER_KEYS.isdisjoint(keys))
+        # This descriptive protocol label names the API used by the runner; it
+        # does not contain a raw native thread identifier.
+        self.assertIn("threading.get_native_id", result["protocol"]["thread_identity"])
+
+    def test_identifier_key_guard_rejects_nested_raw_identifier_fields(self):
+        synthetic = {"runs": [{"native_thread_id": 123456}, {"thread_ids": [1, 2]}]}
+        keys = {key.casefold() for key in iter_object_keys(synthetic)}
+        self.assertFalse(FORBIDDEN_IDENTIFIER_KEYS.isdisjoint(keys))
 
 
 if __name__ == "__main__":
