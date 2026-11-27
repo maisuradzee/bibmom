@@ -23,7 +23,7 @@ The index listing is distinct from the 2026-11-26 announcement of a separate rep
 
 The web reader followed the official download link but rejected the response because its reported content length was 22,990,164 bytes, above the reader's limit. A container-side direct retrieval attempt failed at DNS resolution in this execution environment.
 
-The PDF bytes were not retrieved or inspected. No page count, table, station list, sample count, observation result, SHA-256, licence or reuse permission is claimed.
+The linked file payload was not retrieved or inspected. Its format, page count, tables, station list, sample count, observation result, SHA-256, licence and reuse permission are not verified.
 
 ## INFERENCE
 
