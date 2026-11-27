@@ -9,6 +9,7 @@ from noema_core.restore_attestation import (
     RestoreAttestationError,
     evaluate_restore_attestation,
     evaluate_restore_attestation_bytes,
+    load_restore_attestation_bytes,
 )
 
 
@@ -231,6 +232,18 @@ class RestoreAttestationGateTests(unittest.TestCase):
             evaluate_restore_attestation_bytes(b" " * (1024 * 1024 + 1))
         with self.assertRaisesRegex(RestoreAttestationError, "exact bytes"):
             evaluate_restore_attestation_bytes("{}")
+
+
+    def test_strict_byte_parser_enforces_sixty_four_container_depth(self):
+        payload = b"[" * 65 + b"0" + b"]" * 65
+        with self.assertRaisesRegex(RestoreAttestationError, "nesting exceeds maximum depth 64"):
+            load_restore_attestation_bytes(payload)
+
+    def test_brackets_inside_json_strings_do_not_count_as_nesting(self):
+        value = "[" * 100 + "{" * 100 + "]" * 100
+        payload = json.dumps({"note": value}, separators=(",", ":")).encode("utf-8")
+        parsed = load_restore_attestation_bytes(payload)
+        self.assertEqual(parsed["note"], value)
 
 
 if __name__ == "__main__":
