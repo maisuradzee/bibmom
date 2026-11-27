@@ -1,0 +1,192 @@
+{
+  "study_id": "NOEMA-2026-005",
+  "audit_id": "NOEMA-2026-005-OPENMP-CPU-WALL-001",
+  "source_summary_git_blob_sha": "e346ae4e6e2f072384d87e0ce1faff6b4cdeeb87",
+  "source_raw_git_blob_sha": "0551d114fcfbb703ae1d8fc254bee3271cec0a7e",
+  "source_workflow_run_id": "45791712142",
+  "reported_cpu_count": 4,
+  "effective_cpuset": "0-3",
+  "effective_cpuset_cpu_count": 4,
+  "anomaly_threshold_ratio": 4.05,
+  "openmp_case_count": 16,
+  "outlier_measurement_count": 9,
+  "flagged_case_count": 5,
+  "max_observed_process_cpu_to_wall_ratio": 13.287713,
+  "outliers": [
+    {
+      "layout": "triplet_order",
+      "method": "openmp_naive_partials",
+      "workers": 4,
+      "repetition": 2,
+      "ratio": 9.484664
+    },
+    {
+      "layout": "triplet_order",
+      "method": "openmp_naive_partials",
+      "workers": 4,
+      "repetition": 5,
+      "ratio": 10.003359
+    },
+    {
+      "layout": "triplet_order",
+      "method": "openmp_neumaier_state",
+      "workers": 4,
+      "repetition": 1,
+      "ratio": 6.475412
+    },
+    {
+      "layout": "triplet_order",
+      "method": "openmp_neumaier_state",
+      "workers": 4,
+      "repetition": 3,
+      "ratio": 6.832405
+    },
+    {
+      "layout": "triplet_order",
+      "method": "openmp_neumaier_state",
+      "workers": 4,
+      "repetition": 5,
+      "ratio": 6.905684
+    },
+    {
+      "layout": "grouped_cancellation",
+      "method": "openmp_naive_partials",
+      "workers": 2,
+      "repetition": 3,
+      "ratio": 4.146392
+    },
+    {
+      "layout": "grouped_cancellation",
+      "method": "openmp_naive_partials",
+      "workers": 4,
+      "repetition": 4,
+      "ratio": 13.287713
+    },
+    {
+      "layout": "grouped_cancellation",
+      "method": "openmp_neumaier_state",
+      "workers": 4,
+      "repetition": 2,
+      "ratio": 9.598553
+    },
+    {
+      "layout": "grouped_cancellation",
+      "method": "openmp_neumaier_state",
+      "workers": 4,
+      "repetition": 5,
+      "ratio": 8.793413
+    }
+  ],
+  "accuracy": {
+    "openmp_neumaier_correct_runs": 40,
+    "openmp_naive_correct_runs": 0,
+    "openmp_neumaier_expected_runs": 40,
+    "openmp_naive_expected_runs": 40
+  },
+  "median_speedups": [
+    {
+      "layout": "triplet_order",
+      "method": "openmp_naive_partials",
+      "workers": 1,
+      "median_speedup": 0.896426
+    },
+    {
+      "layout": "triplet_order",
+      "method": "openmp_neumaier_state",
+      "workers": 1,
+      "median_speedup": 1.87649
+    },
+    {
+      "layout": "triplet_order",
+      "method": "openmp_naive_partials",
+      "workers": 2,
+      "median_speedup": 1.79234
+    },
+    {
+      "layout": "triplet_order",
+      "method": "openmp_neumaier_state",
+      "workers": 2,
+      "median_speedup": 3.613502
+    },
+    {
+      "layout": "triplet_order",
+      "method": "openmp_naive_partials",
+      "workers": 4,
+      "median_speedup": 1.731457
+    },
+    {
+      "layout": "triplet_order",
+      "method": "openmp_neumaier_state",
+      "workers": 4,
+      "median_speedup": 3.174915
+    },
+    {
+      "layout": "triplet_order",
+      "method": "openmp_naive_partials",
+      "workers": 8,
+      "median_speedup": 1.379504
+    },
+    {
+      "layout": "triplet_order",
+      "method": "openmp_neumaier_state",
+      "workers": 8,
+      "median_speedup": 2.730806
+    },
+    {
+      "layout": "grouped_cancellation",
+      "method": "openmp_naive_partials",
+      "workers": 1,
+      "median_speedup": 1.010281
+    },
+    {
+      "layout": "grouped_cancellation",
+      "method": "openmp_neumaier_state",
+      "workers": 1,
+      "median_speedup": 0.998915
+    },
+    {
+      "layout": "grouped_cancellation",
+      "method": "openmp_naive_partials",
+      "workers": 2,
+      "median_speedup": 1.902005
+    },
+    {
+      "layout": "grouped_cancellation",
+      "method": "openmp_neumaier_state",
+      "workers": 2,
+      "median_speedup": 1.948611
+    },
+    {
+      "layout": "grouped_cancellation",
+      "method": "openmp_naive_partials",
+      "workers": 4,
+      "median_speedup": 1.968769
+    },
+    {
+      "layout": "grouped_cancellation",
+      "method": "openmp_neumaier_state",
+      "workers": 4,
+      "median_speedup": 1.95065
+    },
+    {
+      "layout": "grouped_cancellation",
+      "method": "openmp_naive_partials",
+      "workers": 8,
+      "median_speedup": 1.449549
+    },
+    {
+      "layout": "grouped_cancellation",
+      "method": "openmp_neumaier_state",
+      "workers": 8,
+      "median_speedup": 1.284592
+    }
+  ],
+  "interpretation": "The frozen report records four effective CPUs (cpuset 0-3), while nine per-repetition process-CPU/wall-time ratios exceed 4.05 across five OpenMP cases, with a maximum of 13.288. Linux CLOCK_PROCESS_CPUTIME_ID includes CPU time consumed by all process threads; cpuset.cpus.effective lists CPUs available to the cgroup. The mismatch is a measurement/provenance anomaly requiring a controlled rerun. It does not establish whether the clock instrumentation, runner cgroup placement, or archived measurements are at fault. Do not use the affected timing/speedup values as evidence of scalable CPU throughput until resolved.",
+  "limitations": [
+    "This is a deterministic audit of frozen JSON, not a new benchmark run.",
+    "The cgroup path is read by the runner process; the report does not independently prove every worker thread's affinity or effective cgroup membership.",
+    "No independent physical host or hardware performance counter was used.",
+    "The two workloads are synthetic cancellation patterns generated on the fly and do not measure resident-array memory bandwidth.",
+    "The correctness result (Neumaier 40/40; naive 0/40) is separate from the timing anomaly."
+  ]
+}
