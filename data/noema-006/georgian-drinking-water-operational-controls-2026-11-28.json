@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "record_id": "AQUASIGNAL-GEORGIAN-DRINKING-WATER-CONTROLS-2026-11-28",
+  "study_id": "NOEMA-2026-006",
+  "evidence_status": "FACT",
+  "source": {
+    "publisher": "Legislative Herald of Georgia",
+    "document_title": "საქართველოს მთავრობის 2014 წლის 15 იანვრის №58 დადგენილება — სასმელი წყლის ტექნიკური რეგლამენტის დამტკიცების შესახებ",
+    "date": "2014-01-15",
+    "url": "https://matsne.gov.ge/ka/document/view/2196792",
+    "checked_at": "2026-11-28",
+    "articles": [
+      "1(2)",
+      "1(3)",
+      "1(5)",
+      "1(6)",
+      "1(7)",
+      "3(4)",
+      "3(6)",
+      "3(9)",
+      "4(2)"
+    ]
+  },
+  "scope": {
+    "description": "Natural or treated water used for drinking, food preparation and other domestic purposes, plus water intended for food or food-product production.",
+    "exclusions": [
+      "Medicinal mineral waters.",
+      "Water for medical or other special purposes.",
+      "An individual private source supplying less than 10 m3/day to fewer than 50 people and not connected to a commercial or public network.",
+      "Natural mineral water with total mineralization above 1500 mg/L."
+    ],
+    "raw_groundwater_automatic_compliance": false
+  },
+  "sampling_points": [
+    {
+      "supply_mode": "distribution_system",
+      "sampling_point": "Inside the building, directly at the tap normally used for water consumption.",
+      "article": "1(5)(a)"
+    },
+    {
+      "supply_mode": "tank_or_cistern",
+      "sampling_point": "At the water outlet point.",
+      "article": "1(5)(b)"
+    },
+    {
+      "supply_mode": "bottled_or_container",
+      "sampling_point": "At the filling point and in the retail network.",
+      "article": "1(5)(c)"
+    },
+    {
+      "supply_mode": "food_production",
+      "sampling_point": "At the water-supply points in food and food-product production facilities.",
+      "article": "1(5)(d)"
+    }
+  ],
+  "supplier_obligations": {
+    "monitoring_and_compliance_control_required": true,
+    "result_recording_required": true,
+    "information_accessibility_required": true,
+    "non_compliance_actions": [
+      "Inform the relevant services.",
+      "Immediately investigate the cause of contamination.",
+      "Restrict the water supply where required.",
+      "Take other measures directed at protecting population health."
+    ],
+    "article": "1(6)-(7)"
+  },
+  "routine_monitoring": {
+    "organoleptic": [
+      "odour",
+      "taste",
+      "colour",
+      "turbidity"
+    ],
+    "microbiological": [
+      "mesophilic aerobes and facultative anaerobes",
+      "total coliform bacteria",
+      "E. coli"
+    ],
+    "chemical": [
+      "pH",
+      "ammonia",
+      "nitrate",
+      "nitrite",
+      "chlorides",
+      "oxidizability",
+      "residual chlorine"
+    ],
+    "article": "3(9)"
+  },
+  "repeat_sampling": {
+    "trigger": [
+      "total coliform bacteria detected",
+      "E. coli detected"
+    ],
+    "action": "Collect a repeat sample; determine chlorides, nitrates and nitrites in the repeat-sample investigation as specified by the regulation.",
+    "article": "3(6)"
+  },
+  "emergency_monitoring": {
+    "triggers": [
+      "flood",
+      "emergency"
+    ],
+    "action": "Apply an enhanced drinking-water quality control regime in coordination with competent state authorities.",
+    "article": "3(4)"
+  },
+  "independent_testing": {
+    "requirement": "Drinking-water testing must be performed in an accredited independent laboratory in accordance with the law.",
+    "article": "4(2)"
+  },
+  "transition_note": "A 2026-06-24 amendment sets 2027-09-01 milestones for relevant methodology approval and groundwater nitrate-risk-zone identification. The transitional/repeal status of Decree №58/2014 after adoption of a replacement drinking-water regulation must be checked against the then-current consolidated law; this record does not assert a future in-force date.",
+  "interpretation_limits": [
+    "These controls concern drinking water within the decree's stated scope; they are not automatically applicable to raw groundwater before intended use and matrix are confirmed.",
+    "The document is a legal control map, not evidence that any supplier performed the required sampling or response.",
+    "No actual sample counts, laboratory results, compliance findings or exposure estimates are included.",
+    "The current transition/repeal status after the 2027-09-01 milestones requires independent legal review before operational compliance use.",
+    "This record is not legal advice."
+  ],
+  "privacy": {
+    "personal_data_included": false,
+    "business_identifiers_included": false,
+    "exact_site_coordinates_included": false,
+    "raw_sample_records_included": false,
+    "restricted_archive_bytes_included": false
+  }
+}
