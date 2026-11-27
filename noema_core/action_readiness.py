@@ -8,6 +8,7 @@ from __future__ import annotations
 from datetime import datetime
 import re
 from typing import Any, Mapping
+from urllib.parse import parse_qsl, unquote_plus, urlsplit
 
 
 class ActionReadinessValidationError(ValueError):
@@ -60,6 +61,65 @@ def _utc(value: Any, name: str) -> datetime:
     return parsed
 
 
+
+_SENSITIVE_URL_PARAMETER_NAMES = {
+    "access_token", "auth", "authorization", "auth_token", "api_key", "apikey",
+    "key", "client_secret", "credential", "password", "passwd", "refresh_token",
+    "secret", "signature", "sig", "token", "id_token", "x_amz_credential",
+    "x_amz_signature", "x_amz_security_token",
+}
+_NORMALIZED_SENSITIVE_URL_PARAMETER_NAMES = frozenset(
+    re.sub(r"[^a-z0-9]", "", name.casefold())
+    for name in _SENSITIVE_URL_PARAMETER_NAMES
+)
+
+
+def _is_sensitive_url_parameter_name(name: str) -> bool:
+    """Detect common credential names after bounded repeated URL decoding."""
+    candidate = name
+    for _ in range(4):
+        normalized = re.sub(r"[^a-z0-9]", "", candidate.casefold())
+        if normalized in _NORMALIZED_SENSITIVE_URL_PARAMETER_NAMES or normalized.endswith(
+            ("token", "secret", "password", "signature", "credential")
+        ):
+            return True
+        decoded = unquote_plus(candidate)
+        if decoded == candidate:
+            break
+        candidate = decoded
+    return False
+
+
+def _validate_public_source_url(value: Any, field: str) -> None:
+    """Reject credential-bearing URLs before aggregate metadata is accepted.
+
+    URLs are never fetched here. This is a public-metadata hygiene boundary, not
+    publisher authentication, source integrity verification, or an SSRF defense.
+    """
+    if not isinstance(value, str) or not value or len(value) > 2048:
+        raise ActionReadinessValidationError(f"{field} must be a non-empty URL no longer than 2048 characters")
+    if any(ord(character) < 0x20 or character.isspace() for character in value):
+        raise ActionReadinessValidationError(f"{field} must not contain whitespace or control characters")
+    try:
+        parts = urlsplit(value)
+        _ = parts.port
+        hostname = parts.hostname
+    except ValueError as exc:
+        raise ActionReadinessValidationError(f"{field} is malformed") from exc
+    if parts.scheme != "https" or not hostname:
+        raise ActionReadinessValidationError(f"{field} must be an absolute HTTPS URL with a hostname")
+    if parts.username is not None or parts.password is not None:
+        raise ActionReadinessValidationError(f"{field} must not contain user-info credentials")
+    for component in (parts.query, parts.fragment):
+        for separator in ("&", ";"):
+            try:
+                pairs = parse_qsl(component, keep_blank_values=True, strict_parsing=False, max_num_fields=100, separator=separator)
+            except ValueError as exc:
+                raise ActionReadinessValidationError(f"{field} has too many query or fragment fields") from exc
+            for name, _ in pairs:
+                if _is_sensitive_url_parameter_name(name):
+                    raise ActionReadinessValidationError(f"{field} must not contain credential-like query or fragment parameters")
+
 def validate_action_readiness_record(record: Mapping[str, Any]) -> None:
     """Validate a public-safe event-level aggregate record; no personal rows allowed."""
     root = _object(record, "record", ROOT_FIELDS)
@@ -81,8 +141,7 @@ def validate_action_readiness_record(record: Mapping[str, Any]) -> None:
         raise ActionReadinessValidationError("warning.authority must be a bounded non-empty label")
     if not isinstance(warning["reference"], str) or not re.fullmatch(r"[A-Za-z0-9_-]{4,64}", warning["reference"]):
         raise ActionReadinessValidationError("warning.reference must be a non-personal source reference")
-    if not isinstance(warning["source_url"], str) or not warning["source_url"].startswith("https://"):
-        raise ActionReadinessValidationError("warning.source_url must be HTTPS")
+    _validate_public_source_url(warning["source_url"], "warning.source_url")
     issued = _utc(warning["issued_at_utc"], "warning.issued_at_utc")
     deadline = _utc(warning["action_deadline_utc"], "warning.action_deadline_utc")
     if deadline < issued:
@@ -172,8 +231,7 @@ def validate_action_readiness_record(record: Mapping[str, Any]) -> None:
         item = _object(source, f"evidence_sources[{index}]", {"title", "url", "type"})
         if not all(isinstance(item[key], str) and item[key].strip() for key in ("title", "type")):
             raise ActionReadinessValidationError("evidence source title and type must be non-empty")
-        if not isinstance(item["url"], str) or not item["url"].startswith("https://"):
-            raise ActionReadinessValidationError("evidence source URL must be HTTPS")
+        _validate_public_source_url(item["url"], f"evidence_sources[{index}].url")
 
     limitations = root["limitations"]
     if not isinstance(limitations, list) or not limitations or any(not isinstance(item, str) or len(item.strip()) < 10 for item in limitations):
