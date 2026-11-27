@@ -223,6 +223,21 @@
             "protective_action_verified_n": {
               "type": "integer",
               "minimum": 0
+            },
+            "timely_receipt_assessed_n": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "timely_received_n": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "timely_receipt_minimum_lead_seconds": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "timely_receipt_basis": {
+              "const": "respondent_recall"
             }
           }
         }
