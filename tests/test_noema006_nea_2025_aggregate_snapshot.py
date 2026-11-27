@@ -27,8 +27,10 @@ class Nea2025WaterAggregateSnapshotTests(unittest.TestCase):
 
     def test_nitrate_field_point_types_sum_to_reported_total(self):
         points = self.data["groundwater"]["nitrate_field_study_points"]
-        self.assertEqual(points["wells"] + points["springs"] + points["household_wells"], points["total"])
+        self.assertEqual(points["wells"] + points["springs"] + points["control_wells"], points["total"])
         self.assertEqual(points["total"], 50)
+        self.assertEqual(points["control_wells"], 1)
+        self.assertNotIn("household_wells", points)
 
     def test_groundwater_and_surface_water_are_not_pooled(self):
         self.assertEqual(self.data["groundwater"]["source_reported_total_points"], 124)

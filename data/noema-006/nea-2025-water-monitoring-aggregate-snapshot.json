@@ -7,7 +7,7 @@
     "publisher": "National Environmental Agency of Georgia",
     "url": "https://nea.gov.ge/en/Download/File/1444",
     "report_year": 2025,
-    "locator": "Water resources monitoring: groundwater pp. 10–12; surface waters p. 13 (page locations from report contents)",
+    "locator": "Water resources monitoring: groundwater pp. 10–12; nitrate field-study table p. 11; surface waters p. 13",
     "accessed_at": "2026-11-27"
   },
   "groundwater": {
@@ -27,7 +27,7 @@
       "total": 50,
       "wells": 19,
       "springs": 30,
-      "household_wells": 1
+      "control_wells": 1
     },
     "points_with_listed_parameter_coverage": 73
   },

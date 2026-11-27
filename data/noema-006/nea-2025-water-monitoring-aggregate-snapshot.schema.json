@@ -151,7 +151,7 @@
               "type": "integer",
               "minimum": 0
             },
-            "household_wells": {
+            "control_wells": {
               "type": "integer",
               "minimum": 0
             }
