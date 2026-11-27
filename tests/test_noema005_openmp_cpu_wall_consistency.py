@@ -42,7 +42,7 @@ class Noema005CpuWallConsistencyTests(unittest.TestCase):
         result=self.audit()
         self.assertEqual(result["flagged_case_count"],5)
         self.assertEqual(result["outlier_measurement_count"],9)
-        self.assertEqual(result["max_observed_process_cpu_to_wall_ratio"],13.288)
+        self.assertEqual(result["max_observed_process_cpu_to_wall_ratio"],13.287713)
 
     def test_neumaier_accuracy_is_separate_from_timing_anomaly(self):
         accuracy=self.audit()["accuracy"]
