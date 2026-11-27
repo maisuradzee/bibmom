@@ -1,7 +1,7 @@
 # NOEMA-2026-005 — Run 41 local threaded reduction reproduction
 
-- სტატუსი: draft / preliminary evidence
-- თარიღი: 2026-11-28
+- **სტატუსი:** Draft / Preliminary evidence
+- **თარიღი:** 2026-11-28
 - Experiment ID: NOEMA005-RUN41-LOCAL-THREADS-20261128
 - მტკიცებულების სტატუსი: FACT · REPRODUCED_RESULT · INFERENCE · HYPOTHESIS · UNTESTED IDEA
 
