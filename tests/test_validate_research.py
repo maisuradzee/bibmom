@@ -127,6 +127,38 @@ class ValidateResearchTests(unittest.TestCase):
         self.write_index([item])
         with self.assertRaisesRegex(ValueError, "publication_date"):
             validate_index(self.root)
+    def test_accepts_undated_source_with_explicit_note(self) -> None:
+        item = self.item()
+        item["sources"] = [{
+            "title": "SQLite transaction control",
+            "authors": ["SQLite"],
+            "citation": "SQLite. Transaction Control. Official documentation.",
+            "url": "https://www.sqlite.org/lang_transaction.html",
+            "type": "official-documentation",
+            "publication_date": "undated",
+            "publication_note": "Publication date not stated by the source; accessed 2026-11-28.",
+            "accessed_at": "2026-11-28",
+        }]
+        (self.root / item["file"]).write_text("# Undated source", encoding="utf-8")
+        self.write_index([item])
+        self.assertEqual(validate_index(self.root), 1)
+
+    def test_rejects_undated_source_without_explicit_publication_note(self) -> None:
+        item = self.item()
+        item["sources"] = [{
+            "title": "SQLite transaction control",
+            "authors": ["SQLite"],
+            "citation": "SQLite. Transaction Control. Official documentation.",
+            "url": "https://www.sqlite.org/lang_transaction.html",
+            "type": "official-documentation",
+            "publication_date": "undated",
+            "accessed_at": "2026-11-28",
+        }]
+        (self.root / item["file"]).write_text("# Undated source", encoding="utf-8")
+        self.write_index([item])
+        with self.assertRaisesRegex(ValueError, "publication_note"):
+            validate_index(self.root)
+
     def test_rejects_non_http_source(self) -> None:
         item = self.item()
         item["sources"] = [{"title": "bad", "authors": ["Test Organization"], "citation": "Test Organization. (2026). Bad source.", "url": "javascript:alert(1)", "type": "test", "publication_date": "2026", "accessed_at": "2026-11-24"}]
