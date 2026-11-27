@@ -146,3 +146,11 @@ Two raw workflow reports from run `45867519546` are preserved as gzip+base64 fil
 - Georgia Decree №58/2014: nitrate 50 mg/L as NO3- and nitrite 0.2 mg/L as NO2-; WHO 2026 nitrite guidance 3 mg/L is not a Georgian compliance threshold.
 - [AquaSignal — Georgian drinking-water operational controls](research/drafts/NOEMA-2026-006-georgian-drinking-water-operational-controls-2026-11-28.md) — Decree №58/2014 sampling points, population/source-based minimum frequencies, supplier duties, emergency/repeat-sampling triggers and accredited-lab requirement; legal transition review pending; no sample results.
 - [AquaSignal — NEA 2021–2025 groundwater monitoring report and nitrate-methodology access lead](research/drafts/NOEMA-2026-006-nea-2021-2025-groundwater-report-access-lead-2026-11-28.md) — official announcement 2026-11-26; public RAR link recorded metadata-only; archive not retrieved/hashed/inspected; 2027-09-01 statutory milestone recorded separately; no sample-level results or thresholds asserted. WHO 2026 comparator (50 mg/L nitrate ion, 3 mg/L nitrite ion, combined ratio <=1) is recorded separately as drinking-water guidance, not Georgian law or an automatic raw-groundwater threshold.
+
+
+## NOEMA Run 40 — new work in review (2026-11-28)
+
+- [AquaSignal PR #223](https://github.com/maisuradzee/bibmom/pull/223): Georgia Decree №447/2026 monitoring framework and explicit NO3/NO3-N unit conversion; exact-head CI passed, Draft pending independent water-chemistry/legal review.
+- [INFRA-001 PR #224](https://github.com/maisuradzee/bibmom/pull/224): local SQLite high-water compare-and-advance reference model; exact-head CI passed, Draft pending independent security review.
+- [NOEMA-007 PR #225](https://github.com/maisuradzee/bibmom/pull/225): Georgia Decree №440/2026 preliminary flood-risk framework and future statutory milestones; exact-head CI passed, Draft pending independent disaster-risk/legal review.
+- These PRs are not merged. Main and Pages remain at the last verified Main SHA recorded in [PROJECT_STATUS.md](docs/PROJECT_STATUS.md); no Run 40 deployment is claimed.
