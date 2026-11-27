@@ -24,7 +24,7 @@ WHO describes rapid health impacts during and immediately after extreme heat and
 - **FACT — app privacy boundary:** NEA's official notice says the app displays weather information, forecasts, warnings and maps without registration. It may use selected/current location (current location only with permission), device IP, request date/time and technical logs. The notice says it does not collect names, personal numbers, email addresses, phone numbers, passwords or profile data.
 - **FACT — international health indicators:** WHO/WMO/UNICEF/UNFPA published priority indicators for maternal, newborn and child health under heat exposure on 2026-10-21. The domains include routine MNCH monitoring, public-health surveillance, climate-and-health monitoring and heat-exposure measurement.
 - **FACT — global heat context:** WHO's 2026-07-31 fact sheet describes heat as an environmental and occupational health hazard and provides global estimates and vulnerability factors. Those global estimates are not Georgian baselines.
-- **SECONDARY SIGNAL:** 1TV reported NCDC/Ministry public heat recommendations on 2026-08-03. The primary NCDC release was not independently retrieved; this media report is not treated as an official technical guideline or proof of a formal national heat-health action plan.
+- **SECONDARY SIGNAL:** Interpressnews reported NCDC public heat recommendations on 2026-08-03. The primary NCDC release was not independently retrieved; this media report is not treated as an official technical guideline or proof of a formal national heat-health action plan.
 
 ## მტკიცებულებები
 
@@ -82,7 +82,7 @@ Heat-health readiness is a high-potential extension of NOEMA-007's warning-to-ac
 2. National Environmental Agency of Georgia. (undated; accessed 2026-11-27). *Weather Application Privacy Notice.* https://nea.gov.ge/En/weather-app-privacy-notice
 3. WHO, WMO, UNICEF and UNFPA. (2026-10-21). *Priority indicators to monitor the impact of heat exposure on maternal, newborn and child health.* https://www.who.int/publications/i/item/9789240125063
 4. World Health Organization. (2026-07-31). *Heat and health.* https://www.who.int/news-room/fact-sheets/detail/climate-change-heat-and-health
-5. 1TV Georgia. (2026-08-03). *NCDC issues advisory as summer heatwaves intensify.* Secondary media report; primary NCDC notice not independently retrieved. https://1tv.ge/lang/en/news/ncdc-issues-advisory-as-summer-heatwaves-intensify/
+5. Interpressnews. (2026-08-03). *National Center for Disease Control and Public Health addresses citizens with recommendations regarding hot days of summer.* Secondary media report; primary NCDC notice not independently retrieved. https://www.interpressnews.ge/en/article/148903-national-center-for-disease-control-and-public-health-addresses-citizens-with-recommendations-regarding-hot-days-of-summer
 
 ## შემდეგი ნაბიჯები
 
