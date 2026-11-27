@@ -20,7 +20,7 @@ GitHub Actions artifacts for the final five-run comparison are retained only unt
 - Decompressed raw report SHA-256 values:
   - free-threaded: `8e9fca28a7e663d4beb5efdd77e72933fc295f527f21a009d5c2f5d3ad8b13be`
   - GIL-enabled: `a2c584d816219244ef82552cc69d8bf7d4567120bd8078e281c0ddee71b2ccdd`
-- Exact UTF-8 report bytes are stored together in `data/noema-005/raw/run-45911409646-reports.json.gz.b64`; the strict metadata manifest is `data/noema-005/final-hosted-archive-2026-11-27.json`.
+- Exact UTF-8 report bytes are stored together in `data/noema-005/raw/run-45911409646-reports.json.xz.b64`; the strict metadata manifest is `data/noema-005/final-hosted-archive-2026-11-27.json`.
 
 ## Reproduced results
 
@@ -58,7 +58,7 @@ No general performance claim or publication-status change is made. Physical x86-
 ## მეთოდი ან ექსპერიმენტის გეგმა
 
 - ჩამოტვირთე ორივე GitHub Actions artifact ZIP და შეადარე ZIP SHA-256 GitHub artifact API digest-ს.
-- შეინახე ზუსტი UTF-8 JSON report bytes gzip/base64 bundle-ში.
+- შეინახე ზუსტი UTF-8 JSON report bytes xz/base64 bundle-ში.
 - გაუშვი `scripts/validate_noema005_final_hosted_archive.py --check` და შესაბამისი unit tests.
 
 ## წყაროები
