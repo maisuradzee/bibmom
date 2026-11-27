@@ -139,3 +139,5 @@ A reproducible C/OpenMP benchmark for compensated reduction, exact synthetic ref
 ## NOEMA-005 — two-run real-thread comparison (2026-11-26)
 
 Two raw workflow reports from run `45867519546` are preserved as gzip+base64 files under `data/noema-005/raw/`. `scripts/reproduce_noema005_threaded_reruns.py --check` verifies raw report hashes and recomputes the aggregate comparison against run `45850716742`. The free-threaded Neumaier-state median crossed 1.0 only in the second run (0.9519× → 1.0181×); this is run-to-run sensitivity, not a robust speedup claim. The study remains preliminary.
+
+- [AquaSignal — NFA 2026 drinking-water sampling plan](research/drafts/NOEMA-2026-006-nfa-2026-drinking-water-sampling-plan-2026-11-27.md) — 750 დაგეგმილი სინჯი (550 საბაზო + დაახლოებით 200 დამატებითი დაფასოებული წყლისთვის); ეს არ არის ფაქტობრივი აღებული/გამოკვლეული ნიმუშების რაოდენობა ან შედეგი.
