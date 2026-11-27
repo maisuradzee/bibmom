@@ -18,7 +18,8 @@
     "independent_testing",
     "transition_note",
     "interpretation_limits",
-    "privacy"
+    "privacy",
+    "legal_transition_review_required"
   ],
   "properties": {
     "schema_version": {
@@ -320,6 +321,9 @@
           "const": false
         }
       }
+    },
+    "legal_transition_review_required": {
+      "const": true
     }
   }
 }
