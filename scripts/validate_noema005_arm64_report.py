@@ -15,6 +15,7 @@ METHODS = (
     "threaded_naive_scalar",
     "threaded_neumaier_scalar",
     "threaded_neumaier_state",
+    "threaded_fsum_partials",
 )
 WORKERS = (1, 2, 4, 8)
 HEX_SHA256 = re.compile(r"^[0-9a-f]{64}$")
@@ -54,7 +55,7 @@ def validate_report(
     _require(isinstance(report, dict), "report must be a JSON object")
     _require(report.get("study_id") == "NOEMA-2026-005", "unexpected study_id")
     _require(
-        report.get("experiment_id") == "NOEMA-2026-005-REAL-THREADS-001",
+        report.get("experiment_id") == "NOEMA-2026-005-REAL-THREADS-002",
         "unexpected experiment_id",
     )
 
