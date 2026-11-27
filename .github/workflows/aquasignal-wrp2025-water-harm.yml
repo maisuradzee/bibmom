@@ -1,0 +1,46 @@
+name: AquaSignal WRP 2025 water-harm independent reproduction
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/reproduce_aquasignal_wrp2025_water_harm.py
+      - tests/test_aquasignal_wrp2025_water_harm.py
+      - data/noema-006/wrp2025-water-harm-protocol.json
+      - data/noema-006/wrp2025-water-harm-protocol.schema.json
+      - .github/workflows/aquasignal-wrp2025-water-harm.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: aquasignal-wrp2025-water-harm-\${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13.11"
+      - name: Install pinned Parquet reader
+        run: python -m pip install --disable-pip-version-check pyarrow==22.0.0
+      - name: Download pinned public WRP 2025 Parquet
+        env:
+          SOURCE_URL: https://raw.githubusercontent.com/lrfoundation/world_risk_poll_data/f2b810c3c4333de6347ad2c9eade3c48ae17be4c/WRP_2025/WRP_2025.parquet
+        run: curl --fail --location --silent --show-error --retry 3 --retry-delay 2 "$SOURCE_URL" --output "$RUNNER_TEMP/WRP_2025.parquet"
+      - name: Independently reproduce water-harm aggregate
+        run: python scripts/reproduce_aquasignal_wrp2025_water_harm.py --input "$RUNNER_TEMP/WRP_2025.parquet" --output "$RUNNER_TEMP/aquasignal-wrp2025-water-harm.json"
+      - name: Upload aggregate-only result
+        uses: actions/upload-artifact@v7
+        with:
+          name: aquasignal-wrp2025-water-harm-aggregate-only
+          path: \${{ runner.temp }}/aquasignal-wrp2025-water-harm.json
+          if-no-files-found: error
+          retention-days: 30
