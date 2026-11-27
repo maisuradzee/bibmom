@@ -106,3 +106,17 @@ scripts/noema005_openmp_timing_diagnostic.c-ის GCC/OpenMP build გაეშ
 - პირველი hosted run-მა 80 raw run შექმნა; max process-CPU/wall ratio იყო 4.026760538 და 0/80 აღემატებოდა capacity+0.25 ზღვარს, მაგრამ ტესტის/დრაფტის ვალიდაციის შეცდომის გამო artifact არ აიტვირთა.
 - ეს პირველი run მხოლოდ წინასწარი execution signal-ია და საბოლოო frozen result არ არის.
 - კვლევა რჩება Draft; ფიზიკური მოწყობილობის გამეორება და დამოუკიდებელი review არ ჩატარებულა.
+
+
+## Measurement-integrity follow-up — schema v2
+
+The next diagnostic revision closes two gaps in the first hosted run:
+
+1. Each OpenMP worker now compares its `/proc/thread-self/cgroup` unified membership with the process leader's `/proc/self/cgroup` membership. Only a boolean match result is recorded; cgroup paths and host identifiers are never published.
+2. The runner walks the visible cgroup v2 hierarchy from the current cgroup to the cgroup2 mount root and reads each ancestor's `cpu.max`. It uses the minimum finite quota as the effective quota. If any ancestor quota file is unreadable, the chain is incomplete. If any worker's cgroup differs from the process leader, membership is unverified, or the quota chain is incomplete, the report withholds the effective-capacity and anomaly threshold rather than asserting a potentially incorrect CPU ceiling.
+
+The report schema is now version 2 while the validator retains compatibility with the previously frozen version-1 report. This preserves the earlier artifact as an immutable historical result. New v2 reports include per-run and aggregate counts of cgroup mismatches and unverified worker memberships.
+
+**FACT:** Linux process CPU time includes all threads; cgroup v2 controller limits are hierarchical. The updated measurement therefore treats process-level metadata as insufficient unless worker membership and visible ancestor quota constraints are checked.
+
+**UNTESTED until the next workflow run:** the enhanced instrumentation has not yet produced a new hosted artifact. No conclusion is drawn about whether it changes the previous 80-run result.

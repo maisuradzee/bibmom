@@ -16,6 +16,7 @@ typedef struct {
     int thread_index;
     uint64_t cpu_ns;
     uint64_t rusage_thread_ns;
+    int thread_cgroup_matches_process;
     int affinity_cpu_count;
     char affinity_cpus[2048];
     int cpu_start;
@@ -35,6 +36,29 @@ static uint64_t rusage_thread_ns(const struct rusage *value) {
     uint64_t user = (uint64_t)value->ru_utime.tv_sec * UINT64_C(1000000000) + (uint64_t)value->ru_utime.tv_usec * UINT64_C(1000);
     uint64_t system = (uint64_t)value->ru_stime.tv_sec * UINT64_C(1000000000) + (uint64_t)value->ru_stime.tv_usec * UINT64_C(1000);
     return user + system;
+}
+static int read_unified_cgroup(const char *path, char *buffer, size_t capacity) {
+    FILE *file = fopen(path, "r");
+    if (!file) return -1;
+    char line[4096];
+    while (fgets(line, sizeof(line), file)) {
+        if (strncmp(line, "0::", 3) != 0) continue;
+        size_t length = strcspn(line + 3, "\r\n");
+        if (length + 1 > capacity) { fclose(file); return -1; }
+        memcpy(buffer, line + 3, length);
+        buffer[length] = '\0';
+        fclose(file);
+        return 1;
+    }
+    fclose(file);
+    return -1;
+}
+static int thread_cgroup_matches_process(void) {
+    char process_cgroup[4096] = {0};
+    char thread_cgroup[4096] = {0};
+    if (read_unified_cgroup("/proc/self/cgroup", process_cgroup, sizeof(process_cgroup)) != 1) return -1;
+    if (read_unified_cgroup("/proc/thread-self/cgroup", thread_cgroup, sizeof(thread_cgroup)) != 1) return -1;
+    return strcmp(process_cgroup, thread_cgroup) == 0 ? 1 : 0;
 }
 static int affinity_string(char *buffer, size_t capacity) {
     cpu_set_t mask;
@@ -84,6 +108,7 @@ static void run_once(int requested_workers, long long work_items, int repetition
         uint64_t thread_start = clock_ns(CLOCK_THREAD_CPUTIME_ID);
         if (getrusage(RUSAGE_THREAD, &usage_start) != 0) { perror("getrusage start"); exit(2); }
         sample->thread_index = tid;
+        sample->thread_cgroup_matches_process = thread_cgroup_matches_process();
         sample->cpu_start = sched_getcpu();
         sample->affinity_cpu_count = affinity_string(sample->affinity_cpus, sizeof(sample->affinity_cpus));
         if (sample->affinity_cpu_count < 1) { fprintf(stderr, "sched_getaffinity failed or returned an empty mask\n"); exit(2); }
@@ -119,9 +144,12 @@ static void run_once(int requested_workers, long long work_items, int repetition
         for (int i = 0; i < actual_threads; ++i) {
             const thread_sample_t *sample = &samples[i];
             if (i) putchar(',');
-            printf("{\"thread_index\":%d,\"cpu_ns\":%" PRIu64 ",\"rusage_thread_ns\":%" PRIu64 ",\"affinity_cpu_count\":%d,\"affinity_cpus\":\"%s\",\"cpu_start\":%d,\"cpu_end\":%d,\"checksum\":%.17g}",
-                   sample->thread_index, sample->cpu_ns, sample->rusage_thread_ns, sample->affinity_cpu_count,
-                   sample->affinity_cpus, sample->cpu_start, sample->cpu_end, sample->checksum);
+            printf("{\"thread_index\":%d,\"cpu_ns\":%" PRIu64 ",\"rusage_thread_ns\":%" PRIu64 ",\"thread_cgroup_matches_process\":",
+                   sample->thread_index, sample->cpu_ns, sample->rusage_thread_ns);
+            if (sample->thread_cgroup_matches_process < 0) printf("null");
+            else printf("%s", sample->thread_cgroup_matches_process ? "true" : "false");
+            printf(",\"affinity_cpu_count\":%d,\"affinity_cpus\":\"%s\",\"cpu_start\":%d,\"cpu_end\":%d,\"checksum\":%.17g}",
+                   sample->affinity_cpu_count, sample->affinity_cpus, sample->cpu_start, sample->cpu_end, sample->checksum);
         }
         puts("]}");
     }

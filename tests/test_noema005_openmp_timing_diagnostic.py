@@ -8,6 +8,20 @@ from scripts.reproduce_noema005_openmp_timing_diagnostic import load_frozen_repo
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = ROOT / "data/noema-005/openmp-timing-diagnostic.schema.json"
 
+def sample_report_v2():
+    report = sample_report()
+    report["schema_version"] = 2
+    env = report["environment"]
+    env["cgroup_cpu_quota_ancestor_levels"] = 2
+    env["cgroup_cpu_quota_constrained_levels"] = [0, 1]
+    env["cgroup_cpu_quota_chain_complete"] = True
+    report["runs"][0]["threads"][0]["thread_cgroup_matches_process"] = True
+    report["runs"][0]["thread_cgroup_mismatch_count"] = 0
+    report["runs"][0]["thread_cgroup_unverified_count"] = 0
+    report["summary"]["thread_cgroup_mismatch_count"] = 0
+    report["summary"]["thread_cgroup_unverified_count"] = 0
+    return report
+
 def sample_report():
     thread = {"thread_index":0,"cpu_ns":80,"rusage_thread_ns":80000,"affinity_cpu_count":2,"affinity_cpus":"0,1","cpu_start":0,"cpu_end":1,"checksum":1.25}
     run = {"requested_workers":1,"actual_threads":1,"repetition":1,"work_items":1000,"wall_ns":100,"process_cpu_ns":180,
@@ -38,6 +52,33 @@ class Noema005OpenMPTimingDiagnosticTests(unittest.TestCase):
         with self.assertRaises(ValueError): parse_cpu_max("400000")
     def test_schema_and_derived_metrics_validate(self):
         validate_report(sample_report(),SCHEMA)
+
+    def test_v2_ancestor_quota_and_thread_cgroup_evidence_validate(self):
+        validate_report(sample_report_v2(), SCHEMA)
+
+    def test_v2_withholds_capacity_when_worker_cgroup_differs(self):
+        report = sample_report_v2()
+        report["runs"][0]["threads"][0]["thread_cgroup_matches_process"] = False
+        report["runs"][0]["effective_cpu_capacity"] = None
+        report["runs"][0]["cpu_wall_anomaly_threshold"] = None
+        report["runs"][0]["cpu_wall_anomaly"] = False
+        report["runs"][0]["thread_cgroup_mismatch_count"] = 1
+        report["summary"]["thread_cgroup_mismatch_count"] = 1
+        validate_report(report, SCHEMA)
+
+    def test_v2_withholds_capacity_when_quota_ancestor_chain_is_incomplete(self):
+        report = sample_report_v2()
+        report["environment"]["cgroup_cpu_quota_chain_complete"] = False
+        report["runs"][0]["effective_cpu_capacity"] = None
+        report["runs"][0]["cpu_wall_anomaly_threshold"] = None
+        report["runs"][0]["cpu_wall_anomaly"] = False
+        validate_report(report, SCHEMA)
+
+    def test_v2_rejects_capacity_claim_with_incomplete_quota_chain(self):
+        report = sample_report_v2()
+        report["environment"]["cgroup_cpu_quota_chain_complete"] = False
+        with self.assertRaises(ValueError):
+            validate_report(report, SCHEMA)
     def test_cpu_wall_anomaly_is_retained_not_suppressed(self):
         report=sample_report()
         report["runs"][0]["process_cpu_ns"]=400

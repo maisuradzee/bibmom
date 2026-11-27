@@ -20,7 +20,10 @@
   ],
   "properties": {
     "schema_version": {
-      "const": 1
+      "enum": [
+        1,
+        2
+      ]
     },
     "study_id": {
       "const": "NOEMA-2026-005"
@@ -193,6 +196,21 @@
               ]
             }
           }
+        },
+        "cgroup_cpu_quota_ancestor_levels": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "cgroup_cpu_quota_constrained_levels": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "cgroup_cpu_quota_chain_complete": {
+          "type": "boolean"
         }
       }
     },
@@ -253,6 +271,14 @@
               }
             }
           }
+        },
+        "thread_cgroup_mismatch_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "thread_cgroup_unverified_count": {
+          "type": "integer",
+          "minimum": 0
         }
       }
     },
@@ -317,6 +343,12 @@
         },
         "checksum": {
           "type": "number"
+        },
+        "thread_cgroup_matches_process": {
+          "type": [
+            "boolean",
+            "null"
+          ]
         }
       }
     },
@@ -420,6 +452,14 @@
         },
         "thread_cpu_sum_to_process_cpu_ratio": {
           "type": "number",
+          "minimum": 0
+        },
+        "thread_cgroup_mismatch_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "thread_cgroup_unverified_count": {
+          "type": "integer",
           "minimum": 0
         }
       }
