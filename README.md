@@ -32,6 +32,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - `data/noema-003/` — NOAA-ს ფიქსირებული მონაცემთა ამონარიდი, NASA/HadCRUT5/NOAA snapshot-ები, provenance metadata და გამეორებადი შედეგები.
 - `data/noema-005/` — binary64 ჯამის რიგითობის ექსპერიმენტის გაყინული შედეგები, ზუსტი reference შედარება და runtime/CPU-thread benchmark არტეფაქტები.
 - `data/noema-007/` — UNDRR/WMO 2026 early-warning და anticipatory-action aggregate snapshots, reproducible arithmetic და privacy-safe action-readiness schema; რეალური event-level მონაცემი ჯერ არ არსებობს.
+- `noema_core/aer_sampling.py` — NOEMA-007-ის sampling-frame, inference-scope და endpoint/person denominator semantics validator; synthetic protocol fixtures only.
 - `research/drafts/` — სამუშაო ჩანაწერები; Pages არტეფაქტში არ შედის, თუმცა საჯარო GitHub საცავში იკითხება.
 - `research/preprints/` — წინასწარი, მომხმარებლისთვის მკაფიო გაფრთხილებით გამოჩენილი კვლევები.
 - `research/published/` — სრული გამოქვეყნების საკონტროლო სიის გამვლელი კვლევები.
