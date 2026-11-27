@@ -55,7 +55,7 @@ class Noema005X86Run33SummaryTests(unittest.TestCase):
         counts = self.summary["aggregate"]["cpu_wall_samples_above_1_05"]
         self.assertEqual(counts["gil_enabled"], {"count": 0, "total": 288})
         self.assertEqual(counts["free_threaded"], {"count": 216, "total": 288})
-        self.assertIn("not a wall-time speedup", self.summary["aggregate"]["interpretation"])
+        self.assertIn("not a general or physical-device speedup claim", self.summary["aggregate"]["interpretation"])
 
     def test_artifact_hashes_and_aggregate_only_policy(self):
         for report in self.summary["reports"]:
