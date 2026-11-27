@@ -856,8 +856,8 @@
           "publisher": "World Meteorological Organization",
           "publication_date": "2026-11-11",
           "url": "https://wmo.int/resources/publication-series/global-status-of-multi-hazard-early-warning-systems/gsmhews-2026",
-          "type": "official_global_report",
-          "accessed_at": "2026-11-26"
+          "type": "official_global_status_report",
+          "accessed_at": "2026-11-27"
         },
         {
           "title": "Heat–health action plans: guidance, second edition",
@@ -1041,14 +1041,6 @@
           "publication_date": "2026-11-12",
           "url": "https://www.undrr.org/news/cop31-leaders-back-long-term-future-early-warnings-all",
           "type": "official_global_status_update",
-          "accessed_at": "2026-11-27"
-        },
-        {
-          "title": "Global Status of Multi-Hazard Early Warning Systems 2026",
-          "publisher": "World Meteorological Organization",
-          "publication_date": "2026-11-11",
-          "url": "https://wmo.int/resources/publication-series/global-status-of-multi-hazard-early-warning-systems/gsmhews-2026",
-          "type": "official_global_status_report",
           "accessed_at": "2026-11-27"
         },
         {
