@@ -59,4 +59,25 @@ class Noema005ThreadedRepeatTests(unittest.TestCase):
             },
         })
 
+
+    def test_validator_rejects_identity_keys_in_unclosed_nested_objects(self):
+        doc, record = next(iter(self.reports.values()))
+        mutations = (
+            lambda candidate: candidate["protocol"].update({"runner-id": "private-runner"}),
+            lambda candidate: candidate["inputs"][0].update({"details": {"hostname": "private-host"}}),
+            lambda candidate: candidate["serial_baselines"][0].update({"native_thread_ids": [101, 102]}),
+            lambda candidate: candidate["summary"].update({"kernel_release": "private-build"}),
+        )
+        for mutate in mutations:
+            candidate = json.loads(json.dumps(doc))
+            mutate(candidate)
+            with self.assertRaises(ValueError):
+                validate(candidate, self.schema, record)
+
+    def test_manifest_and_all_records_pass_recursive_public_boundary(self):
+        manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
+        _assert_public_sanitization(manifest)
+        for record in manifest["records"]:
+            _assert_public_sanitization(record)
+
 if __name__=="__main__": unittest.main()
