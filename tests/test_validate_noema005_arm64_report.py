@@ -135,6 +135,61 @@ class Noema005Arm64ReportValidatorTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "SHA-256"):
             validate_report(report, "enabled")
 
+    def test_rejects_boolean_process_cpu_count(self):
+        report = valid_report()
+        report["environment"]["cpu_count_process"] = True
+        with self.assertRaisesRegex(ValueError, "invalid process CPU count"):
+            validate_report(report, "enabled")
+
+    def test_rejects_boolean_worker_count_even_when_true_aliases_one(self):
+        report = valid_report()
+        for case in report["threaded_cases"]:
+            if case["worker_count"] == 1:
+                case["worker_count"] = True
+        with self.assertRaisesRegex(ValueError, "worker_count must be a JSON integer"):
+            validate_report(report, "enabled")
+
+    def test_rejects_boolean_native_thread_counts(self):
+        report = valid_report()
+        case = next(item for item in report["threaded_cases"] if item["worker_count"] == 1)
+        case["native_thread_counts"] = [True] * 3
+        with self.assertRaisesRegex(ValueError, "worker count/native thread count mismatch"):
+            validate_report(report, "enabled")
+
+    def test_rejects_boolean_timing_samples(self):
+        report = valid_report()
+        case = report["threaded_cases"][0]
+        case["wall_samples_ns"] = [True, 1100, 900]
+        with self.assertRaisesRegex(ValueError, "invalid wall_samples_ns"):
+            validate_report(report, "enabled")
+
+    def test_rejects_boolean_ratio_metrics(self):
+        report = valid_report()
+        report["threaded_cases"][0]["median_cpu_wall_ratio"] = True
+        with self.assertRaisesRegex(ValueError, "invalid CPU/wall ratio"):
+            validate_report(report, "enabled")
+
+    def test_rejects_integer_ratios_outside_binary64_range(self):
+        for field in ("median_cpu_wall_ratio", "speedup_vs_matching_serial_baseline"):
+            report = valid_report()
+            report["threaded_cases"][0][field] = 10**400
+            with self.subTest(field=field), self.assertRaisesRegex(ValueError, "invalid"):
+                validate_report(report, "enabled")
+
+    def test_rejects_boolean_thread_ids(self):
+        report = valid_report()
+        case = next(item for item in report["threaded_cases"] if item["worker_count"] == 1)
+        case["native_thread_ids_by_run"][0] = [True]
+        with self.assertRaisesRegex(ValueError, "thread IDs are not distinct"):
+            validate_report(report, "enabled")
+
+    def test_rejects_boolean_correctness_counts(self):
+        report = valid_report()
+        case = next(item for item in report["threaded_cases"] if item["method"] == "threaded_naive_scalar")
+        case["correctly_rounded_runs"] = True
+        with self.assertRaisesRegex(ValueError, "invalid correctness count"):
+            validate_report(report, "enabled")
+
     def test_does_not_mutate_the_report(self):
         report = valid_report()
         before = copy.deepcopy(report)
