@@ -238,6 +238,22 @@
             },
             "timely_receipt_basis": {
               "const": "respondent_recall"
+            },
+            "timely_receipt_rule_reference": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 3,
+              "maxLength": 128
+            },
+            "timely_receipt_rule_source_url": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "uri",
+              "pattern": "^https://"
             }
           }
         }
