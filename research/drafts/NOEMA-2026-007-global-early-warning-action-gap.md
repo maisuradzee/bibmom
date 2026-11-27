@@ -334,3 +334,43 @@ Source: National Environmental Agency of Georgia, 25 November 2026, https://nea.
 Source: UNDRR & WMO, 11 November 2026, https://www.undrr.org/news/early-warning-protection-expands-worldwide-powerful-el-nino-raises-stakes. Source-reported 2025 anticipatory-action aggregates are frozen in `data/noema-007/anticipatory-action-2025-source-snapshot.json`; only the framework growth percentage is independently recomputed.
 
 **Evidence classification:** source counts and scores are FACT; the percentages and −0.04 difference are REPRODUCED RESULT from the frozen source snapshot; the need to measure operational effectiveness separately is INFERENCE. A Georgia-specific last-mile gap remains HYPOTHESIS until permissioned local workflow data and field evaluation exist.
+
+## WRP 2025 source pin and independent-reproduction gate — 2026-11-27
+
+### FACT — immutable public-source identifiers
+
+The Lloyd's Register Foundation public dataset repository was inspected at commit
+`f2b810c3c4333de6347ad2c9eade3c48ae17be4c` (repository licence: CC BY-SA 4.0).
+
+- Wave-4 Parquet: `WRP_2025/WRP_2025.parquet`, 7,070,416 bytes, Git blob SHA-1 `3e785688e067ded5fdfbe9b50721023ecea87826`.
+- Wave-4 data dictionary: `WRP_2025/WRP_2025_data_dictionary.csv`, 60,615 bytes, Git blob SHA-1 `3da85901b6875e74e599bb39f1ed92223881a539`.
+- *From alert to agency* reproduction README: `reports/WRP_2025/core_from_alert_to_agency/README.md`, Git blob SHA-1 `99b306c8c88c9bc75870f5bf3c89aa0c465637c8`.
+- Publisher's Python reproduction script: Git blob SHA-1 `7e38ed4522885cf6d7481c4e1578ec92f0ef34a3`.
+
+The release notes state that the wave contains 143,459 interviews in 140 countries/territories, that `PROJWT` is the population-projection weight for pooled global estimates, that don't-know/refused responses remain in the denominator, and that the public data release is CC BY-SA 4.0.
+
+### FACT — question-level base and response definitions
+
+The pinned data dictionary reports:
+
+- `WP24213` (impacted by a disaster in the past five years): 143,459 valid records in the released file.
+- `WP24180` (most impactful disaster type): 25,244 valid records.
+- `WP24181`–`WP24188` (eight warning channels): 24,249 valid records per channel.
+- `WP24215` (able to take action because of advance warning): 16,996 valid records.
+
+The publisher's report README explains that warning-channel questions were asked of the 24,249 impacted adults who named a disaster type; 995 impacted respondents who did not name a type were not asked those channel questions. "At least one warning" is yes to any channel. Don't-know, refused and "does not apply" are counted as no for the warning-receipt calculation. The ability-to-act question was asked of the 16,996 warned respondents; "not able" is code 2, while approximately 0.5% don't-know/refused are outside the able/not-able shares.
+
+The publisher's country-ranking threshold is at least 100 respondents asked about warnings. Georgia's base is 99, so the report does not publish a ranked Georgia estimate. This is a sample-size threshold, not evidence of poor or good national performance.
+
+### REPRODUCED RESULT — publisher only; NOEMA reproduction outstanding
+
+The publisher's Python and R report scripts report 80.0% receiving at least one warning, 63.8% able to act and 35.8% not able to act. Its README says the report's findings are reproduced from the public data, with 37 findings flagged as requiring Gallup World Poll data outside the public release. These are publisher-reported reproductions, not an independent NOEMA rerun.
+
+### Retrieval and reproduction limitation
+
+The repository tree and text data dictionary were retrievable and pinned. The connector returned no text content for the Parquet blob and rejected the 65.7 MB CSV as too large/unsupported for its UTF-8 text fetch path. No binary Parquet payload was received, so NOEMA has not calculated a SHA-256 for it, opened it with a Parquet engine, or independently recomputed the weighted aggregates.
+
+### Next reproducible step
+
+Obtain the pinned Parquet file through an approved binary-download path, verify its Git blob SHA-1 and a locally calculated SHA-256, then independently calculate the warning and ability-to-act aggregates with `PROJWT`, the exact asked-only bases and the publisher's response-code rules. Commit only source hashes, code, aggregate outputs and the CC BY-SA attribution; never commit respondent-level rows or identifiers.
+
