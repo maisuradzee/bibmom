@@ -54,10 +54,12 @@ class Noema005OpenMPTimingDiagnosticTests(unittest.TestCase):
         self.assertIsNone(_relative_cgroup_path("/system.slice2/container.service", "/system.slice"))
         self.assertIsNone(_relative_cgroup_path("system.slice/container.service", "/system.slice"))
         self.assertIsNone(_relative_cgroup_path("/system.slice/../other", "/system.slice"))
+        self.assertIsNone(_relative_cgroup_path("/../etc", "/"))
+        self.assertIsNone(_relative_cgroup_path("/system.slice//container.service", "/system.slice"))
 
     def test_mountinfo_path_escapes_are_unescaped(self):
         self.assertEqual(_unescape_mount_field("/run/cgroup\\040mount"), "/run/cgroup mount")
-        self.assertEqual(_unescape_mount_field("/run/cgroup\\011mount"), "/run/cgroup\\tmount")
+        self.assertEqual(_unescape_mount_field("/run/cgroup\\011mount"), "/run/cgroup\tmount")
         self.assertEqual(_unescape_mount_field("/run/cgroup\\134mount"), "/run/cgroup\\mount")
 
     def test_cpu_list_parser(self):
