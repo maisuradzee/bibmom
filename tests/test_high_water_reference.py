@@ -244,7 +244,7 @@ class HighWaterReferenceTests(unittest.TestCase):
                     )
 
     def test_object_version_requires_printable_non_whitespace_ascii(self) -> None:
-        for version in ("object version", "object-\\x7f"):
+        for version in ("object version", "object-\x7f"):
             with self.subTest(version=version):
                 with self.assertRaises(InvalidAdvanceError):
                     self.store.compare_and_advance(
