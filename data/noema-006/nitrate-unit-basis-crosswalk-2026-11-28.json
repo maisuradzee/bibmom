@@ -27,6 +27,19 @@
       ]
     },
     {
+      "publisher": "World Health Organization",
+      "title": "Guidelines for drinking-water quality: fourth edition incorporating the first, second and third addenda — chemical fact sheets",
+      "publication_date": "2026-06-17",
+      "assessment_date": "2016",
+      "url": "https://cdn.who.int/media/docs/default-source/wash-documents/water-safety-and-quality/dwq-guidelines-4/gdwq_4ed_with_third-addenda_chemical-fact-sheets.pdf?sfvrsn=77d972e1_5",
+      "accessed_at": "2026-11-28",
+      "supports": [
+        "The current consolidated 2026 edition contains the nitrate/nitrite chemical fact sheet on printed pages 466–472.",
+        "The fact sheet itself states assessment date 2016; the 2026 consolidated publication date must not be described as a new nitrate/nitrite reassessment.",
+        "The current edition retains the rounded conversion factor 1 mg/L as nitrate ion = 0.226 mg/L as nitrate-nitrogen, guideline values of 50 mg/L nitrate ion and 3 mg/L nitrite ion, and a combined sum-of-ratios rule not exceeding 1."
+      ]
+    },
+    {
       "publisher": "Legislative Herald of Georgia",
       "title": "Government Decree №58/2014 — Drinking Water Technical Regulation",
       "publication_date": "2014-01-15",
