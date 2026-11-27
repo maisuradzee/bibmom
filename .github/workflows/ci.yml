@@ -60,6 +60,12 @@ jobs:
           test -f data/noema-006/source-access-inventory.schema.json
           test -f data/noema-006/source-access-inventory-2026-11-27.json
           test -f tests/test_noema006_source_access_inventory.py
+          test -f data/noema-006/georgia-drinking-water-aggregate-snapshot-2026-11-27.json
+          test -f data/noema-006/georgia-drinking-water-aggregate-snapshot.schema.json
+          test -f data/noema-006/georgia-drinking-water-aggregate-audit-2026-11-27.json
+          test -f scripts/audit_noema006_georgia_monitoring_aggregates.py
+          test -f tests/test_noema006_georgia_monitoring_aggregates.py
+          test -f research/drafts/NOEMA-2026-006-georgia-drinking-water-monitoring-aggregate-audit-2026-11-27.md
           test -f research/TEMPLATE.md
           test -f scripts/validate_research.py
           test -f scripts/validate_drafts.py
@@ -145,6 +151,10 @@ jobs:
         run: python scripts/reproduce_noema007_anticipatory_action.py --check
       - name: Validate AquaSignal source-access inventory schema
         run: python -m unittest discover -s tests -p 'test_noema006_source_access_inventory.py' -v
+      - name: Reproduce AquaSignal Georgia published aggregate audit
+        run: python scripts/audit_noema006_georgia_monitoring_aggregates.py --check
+      - name: Validate AquaSignal Georgia aggregate schema and audit tests
+        run: python -m unittest discover -s tests -p 'test_noema006_georgia_monitoring_aggregates.py' -v
       - name: Validate NOEMA-007 action-readiness aggregate contract
         run: python -m unittest discover -s tests -p 'test_noema007_action_readiness.py' -v
       - name: Validate NOEMA mission and autonomy policy
