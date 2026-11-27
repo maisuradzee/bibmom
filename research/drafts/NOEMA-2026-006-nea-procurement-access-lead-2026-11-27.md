@@ -1,4 +1,4 @@
-# AquaSignal — NEA 2021–2025 report: procurement-backed access lead
+# NOEMA-2026-006 — AquaSignal: NEA 2021–2025 report procurement access lead
 
 - **ID:** NOEMA-2026-006
 - **სტატუსი:** draft
