@@ -88,4 +88,8 @@ The triggering test failure was caused by an internally inconsistent fixture, no
 
 ## ცვლილებების ისტორია
 
+- 2026-11-27 — added verified parent-branch archive-integrity resolution and recorded its exact-head workflow evidence.
+
 - 2026-11-27 — added the root-cause analysis and synthetic unknown-membership test; corrected this note to match the repository research-draft template.
+
+- **FACT (2026-11-27 follow-up):** the parent NOEMA-005 audit branch now contains a deterministic 8,533-byte gzip object whose manifest digest matches the verified raw workflow artifact. At parent head `740483681dd3e3c5c432bb032b8c6f5059ba16cc`, Quality CI, the dedicated CPU/wall audit and the actual CPU-thread workflow all completed successfully. This does not remove the need for the exact current stacked-fix head to pass its own Quality CI.
