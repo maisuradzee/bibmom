@@ -25,7 +25,7 @@ A missing interval is never replaced with a NOEMA-invented universal threshold. 
 
 - The schema is closed and rejects unlisted fields.
 - The input contains source metadata only; no people, household locations, device identifiers, or sensitive vulnerability records.
-- URLs are validated syntactically but never fetched.
+- URLs are validated syntactically but never fetched. Credential-like query/fragment parameter names are checked across `&` and `;` separators and up to four percent-decoding passes; this catches common double-encoded names but remains a heuristic, not a complete secret scanner.
 - `licence_status` is preserved as metadata; it does not grant permission.
 - The result always sets `ingestion_authorized: false`.
 - `due`, `overdue`, and `unknown` require human review. The module does not send alerts, set hazard thresholds, or replace official risk decisions.
