@@ -131,6 +131,9 @@ def main() -> int:
             print(f"ERROR: {exc}",file=sys.stderr)
             return 2
         if result!=expected:
+            for key in sorted(set(result) | set(expected)):
+                if result.get(key) != expected.get(key):
+                    print(f"DIFF {key}: actual={json.dumps(result.get(key),sort_keys=True)} expected={json.dumps(expected.get(key),sort_keys=True)}",file=sys.stderr)
             print("ERROR: CPU/wall consistency audit differs from frozen result",file=sys.stderr)
             return 1
         print("PASS: NOEMA-005 CPU/wall consistency audit reproduces frozen result")
