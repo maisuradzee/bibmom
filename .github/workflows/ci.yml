@@ -112,6 +112,10 @@ jobs:
           test -f docs/OFFSITE_BACKUP_ARCHITECTURE.md
           test -f data/noema-backup-manifest.schema.json
           test -f noema_core/backup_manifest.py
+          test -f data/noema-restore-attestation.schema.json
+          test -f noema_core/restore_attestation.py
+          test -f tests/test_restore_attestation_gate.py
+          test -f docs/RESTORE_ATTESTATION_GATE.md
           test -f scripts/validate_noema_backup_manifest.py
           test -f tests/test_backup_manifest_runtime_validation.py
           test -f scripts/verify_noema_backup_artifacts.py
