@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-006",
+  "evidence_status": "FACT",
+  "source": {
+    "publisher": "National Food Agency of Georgia",
+    "title": "2026 State Control Programme for Food Safety",
+    "url": "https://www.nfa.gov.ge/Ge/Files/ViewFile/8866",
+    "publication_date_status": "not_stated_in_retrieved_document",
+    "accessed_at": "2026-11-27"
+  },
+  "planned_sampling": {
+    "is_planned": true,
+    "base_drinking_water_samples": 550,
+    "calculation": {
+      "risk_coefficient_k": 1.5,
+      "reference_network_samples_a": 365,
+      "unrounded_base_samples": 547.5,
+      "rounded_base_samples": 550
+    },
+    "additional_bottled_water_samples_estimate": 200,
+    "total_planned_drinking_water_samples_including_bottled": 750,
+    "produced_bottled_water_volume_monitoring_planned": false,
+    "actual_collected_samples": null,
+    "actual_tested_samples": null,
+    "actual_results_published": false
+  },
+  "interpretation_limits": [
+    "The 750 figure is the programme's planned annual sampling count, not evidence that 750 samples were actually collected or tested.",
+    "The plan describes 550 base drinking-water samples calculated as K=1.5 multiplied by A=365, rounded from 547.5, plus approximately 200 additional bottled-water samples.",
+    "The document states that monitoring of produced bottled-water volume is not planned; no production-volume denominator is supplied.",
+    "No sample-level results, analyte-specific denominators, location-level coverage or actual completion counts are contained in this planning extract.",
+    "The planned count must not be used as a prevalence denominator or represented as an observed compliance rate."
+  ],
+  "privacy": {
+    "respondent_data_included": false,
+    "personal_data_included": false,
+    "business_identifiers_included": false,
+    "raw_sample_records_included": false
+  }
+}
