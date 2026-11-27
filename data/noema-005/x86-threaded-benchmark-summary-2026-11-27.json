@@ -1,0 +1,393 @@
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-005",
+  "experiment_id": "NOEMA-2026-005-REAL-THREADS-X86-REPEAT-001",
+  "date": "2026-11-27",
+  "base_main_commit": "d4f06672208d808f8827b1528b9a07abe107d111",
+  "protocol": {
+    "repeat_count": 65536,
+    "value_count_per_layout": 196608,
+    "workers": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "layouts": [
+      "triplet_order",
+      "grouped_cancellation"
+    ],
+    "partitions": [
+      "contiguous",
+      "round_robin"
+    ],
+    "methods": [
+      "threaded_naive_scalar",
+      "threaded_neumaier_scalar",
+      "threaded_neumaier_state"
+    ],
+    "warmups": 1,
+    "repetitions": 3,
+    "random_seed": null,
+    "baseline": "Matching serial method: naive scalar against serial naive; both Neumaier threaded methods against serial Neumaier.",
+    "reference": "Exact rational sum of input binary64 values rounded once to binary64.",
+    "cpu_metric": "process_time_ns / perf_counter_ns",
+    "memory_metric": "tracemalloc peak delta only; not RSS or all native allocations."
+  },
+  "input_sha256": {
+    "triplet_order": "e6cc4a627d55c476cb55e6f9789ceb39282e1f787d4b0a5fc040b30428085291",
+    "grouped_cancellation": "16ae80fed695b4d02f4a42a2e7c3f5b8a5eff96e97296273c3ddcacfb19090ee"
+  },
+  "aggregate": {
+    "hosted_x86_64_reports": 4,
+    "threaded_configurations": 192,
+    "measured_runs": 576,
+    "accuracy": {
+      "naive_scalar": {
+        "correct": 0,
+        "total": 192
+      },
+      "neumaier_scalar": {
+        "correct": 168,
+        "total": 192
+      },
+      "neumaier_state": {
+        "correct": 192,
+        "total": 192
+      }
+    },
+    "cpu_wall_samples_above_1_05": {
+      "gil_enabled": {
+        "count": 0,
+        "total": 288
+      },
+      "free_threaded": {
+        "count": 216,
+        "total": 288
+      }
+    },
+    "free_threaded_azure_neumaier_state_median_speedups": [
+      1.317241,
+      1.174008
+    ],
+    "matched_azure_pair_run": 46034414138,
+    "matched_azure_pair": {
+      "gil_enabled_neumaier_state_median_speedup": 0.780854,
+      "free_threaded_neumaier_state_median_speedup": 1.317241
+    },
+    "second_run_gil_backend": "aws",
+    "second_run_free_threaded_backend": "azure",
+    "input_hashes_identical": true,
+    "interpretation": "Two free-threaded Azure reports show Neumaier-state median speedups above 1.0 for 2, 4 and 8 workers (1.206–1.408 in run 46034414138; 1.155–1.220 in run 46034729099), while the 1-worker case remains below 1.0. One matched Azure GIL/free-threaded workflow pair shows 0.781x GIL-enabled versus 1.317x free-threaded Neumaier-state median speedup. The second workflow's GIL job ran on AWS while its free-threaded job ran on Azure and is not a matched runtime comparison. These are hosted synthetic results with three repetitions, not a general or physical-device speedup claim."
+  },
+  "reports": [
+    {
+      "workflow_run_id": 46034414138,
+      "workflow_run_url": "https://github.com/maisuradzee/bibmom/actions/runs/46034414138",
+      "quality_run_id": 46034413259,
+      "head_sha": "c52e611c2f2ea93a5cfa0a1b70c0fcd939c97852",
+      "runner_label": "ubuntu-24.04",
+      "cloud_backend": "azure",
+      "runtime_mode": "gil-enabled",
+      "environment": {
+        "python_implementation": "CPython",
+        "python_version": "3.14.4",
+        "machine": "x86_64",
+        "platform": "Linux-7.0.0-1020-azure-x86_64-with-glibc2.39",
+        "processor": "x86_64",
+        "cpu_count_process": 4,
+        "cpu_affinity_count": 4,
+        "gil_enabled": true,
+        "free_threaded_build": false
+      },
+      "accuracy": {
+        "naive_scalar": "0/48",
+        "neumaier_scalar": "42/48",
+        "neumaier_state": "48/48"
+      },
+      "cpu_wall_samples_above_1_05": {
+        "naive_scalar": "0/48",
+        "neumaier_scalar": "0/48",
+        "neumaier_state": "0/48"
+      },
+      "median_speedup_by_method": {
+        "naive_scalar": 0.514686,
+        "neumaier_scalar": 0.790667,
+        "neumaier_state": 0.780854
+      },
+      "neumaier_state_by_worker": [
+        {
+          "workers": 1,
+          "median_speedup": 0.806258,
+          "median_cpu_wall_ratio": 1.0009,
+          "median_peak_traced_python_bytes": 11535,
+          "correctly_rounded_runs": 12,
+          "total_runs": 12
+        },
+        {
+          "workers": 2,
+          "median_speedup": 0.788908,
+          "median_cpu_wall_ratio": 1.0051,
+          "median_peak_traced_python_bytes": 18510,
+          "correctly_rounded_runs": 12,
+          "total_runs": 12
+        },
+        {
+          "workers": 4,
+          "median_speedup": 0.780851,
+          "median_cpu_wall_ratio": 1.0119,
+          "median_peak_traced_python_bytes": 32488,
+          "correctly_rounded_runs": 12,
+          "total_runs": 12
+        },
+        {
+          "workers": 8,
+          "median_speedup": 0.768051,
+          "median_cpu_wall_ratio": 1.0165,
+          "median_peak_traced_python_bytes": 60156,
+          "correctly_rounded_runs": 12,
+          "total_runs": 12
+        }
+      ],
+      "artifact": {
+        "id": 15215518219,
+        "name": "noema005-threaded-gil-enabled",
+        "zip_digest": "sha256:ac92de4397b284ca4121ef3ab89ac61cf38254ca77c0e4b90fec5a04ec2b7f72",
+        "raw_report_sha256": "85a21b49fffc3c67ae713443015d81d0aaba827bef947bdca260eacd6b729c8c",
+        "raw_report_bytes": 56937,
+        "expires_at": "2026-12-27T16:32:34Z"
+      }
+    },
+    {
+      "workflow_run_id": 46034414138,
+      "workflow_run_url": "https://github.com/maisuradzee/bibmom/actions/runs/46034414138",
+      "quality_run_id": 46034413259,
+      "head_sha": "c52e611c2f2ea93a5cfa0a1b70c0fcd939c97852",
+      "runner_label": "ubuntu-24.04",
+      "cloud_backend": "azure",
+      "runtime_mode": "free-threaded",
+      "environment": {
+        "python_implementation": "CPython",
+        "python_version": "3.14.4",
+        "machine": "x86_64",
+        "platform": "Linux-7.0.0-1020-azure-x86_64-with-glibc2.39",
+        "processor": "x86_64",
+        "cpu_count_process": 4,
+        "cpu_affinity_count": 4,
+        "gil_enabled": false,
+        "free_threaded_build": true
+      },
+      "accuracy": {
+        "naive_scalar": "0/48",
+        "neumaier_scalar": "42/48",
+        "neumaier_state": "48/48"
+      },
+      "cpu_wall_samples_above_1_05": {
+        "naive_scalar": "36/48",
+        "neumaier_scalar": "36/48",
+        "neumaier_state": "36/48"
+      },
+      "median_speedup_by_method": {
+        "naive_scalar": 0.424689,
+        "neumaier_scalar": 1.259552,
+        "neumaier_state": 1.317241
+      },
+      "neumaier_state_by_worker": [
+        {
+          "workers": 1,
+          "median_speedup": 0.755511,
+          "median_cpu_wall_ratio": 1.0025,
+          "median_peak_traced_python_bytes": 95151,
+          "correctly_rounded_runs": 12,
+          "total_runs": 12
+        },
+        {
+          "workers": 2,
+          "median_speedup": 1.205991,
+          "median_cpu_wall_ratio": 1.9748,
+          "median_peak_traced_python_bytes": 185878,
+          "correctly_rounded_runs": 12,
+          "total_runs": 12
+        },
+        {
+          "workers": 4,
+          "median_speedup": 1.407854,
+          "median_cpu_wall_ratio": 3.482,
+          "median_peak_traced_python_bytes": 367508,
+          "correctly_rounded_runs": 12,
+          "total_runs": 12
+        },
+        {
+          "workers": 8,
+          "median_speedup": 1.323356,
+          "median_cpu_wall_ratio": 3.4238,
+          "median_peak_traced_python_bytes": 730912,
+          "correctly_rounded_runs": 12,
+          "total_runs": 12
+        }
+      ],
+      "artifact": {
+        "id": 15215726929,
+        "name": "noema005-threaded-free-threaded",
+        "zip_digest": "sha256:0967dac7ecfea3cfcb8ac80a28ef4f5ca6113ace264a8b21b4c1329716e61675",
+        "raw_report_sha256": "d2657ace459434ac717e9149e7272cfa6ef6f6ad3e569ef42cad92bf09fd2f95",
+        "raw_report_bytes": 56859,
+        "expires_at": "2026-12-27T16:32:36Z"
+      }
+    },
+    {
+      "workflow_run_id": 46034729099,
+      "workflow_run_url": "https://github.com/maisuradzee/bibmom/actions/runs/46034729099",
+      "quality_run_id": 46034729179,
+      "head_sha": "8f41208a5ac597967f7c6a6cfcade2f7bec9dae4",
+      "runner_label": "ubuntu-24.04",
+      "cloud_backend": "aws",
+      "runtime_mode": "gil-enabled",
+      "environment": {
+        "python_implementation": "CPython",
+        "python_version": "3.14.4",
+        "machine": "x86_64",
+        "platform": "Linux-7.0.0-1018-aws-x86_64-with-glibc2.39",
+        "processor": "x86_64",
+        "cpu_count_process": 4,
+        "cpu_affinity_count": 4,
+        "gil_enabled": true,
+        "free_threaded_build": false
+      },
+      "accuracy": {
+        "naive_scalar": "0/48",
+        "neumaier_scalar": "42/48",
+        "neumaier_state": "48/48"
+      },
+      "cpu_wall_samples_above_1_05": {
+        "naive_scalar": "0/48",
+        "neumaier_scalar": "0/48",
+        "neumaier_state": "0/48"
+      },
+      "median_speedup_by_method": {
+        "naive_scalar": 0.493908,
+        "neumaier_scalar": 0.753832,
+        "neumaier_state": 0.751309
+      },
+      "neumaier_state_by_worker": [
+        {
+          "workers": 1,
+          "median_speedup": 0.768278,
+          "median_cpu_wall_ratio": 0.99,
+          "median_peak_traced_python_bytes": 11535,
+          "correctly_rounded_runs": 12,
+          "total_runs": 12
+        },
+        {
+          "workers": 2,
+          "median_speedup": 0.766131,
+          "median_cpu_wall_ratio": 1.0018,
+          "median_peak_traced_python_bytes": 18470,
+          "correctly_rounded_runs": 12,
+          "total_runs": 12
+        },
+        {
+          "workers": 4,
+          "median_speedup": 0.758458,
+          "median_cpu_wall_ratio": 1.004,
+          "median_peak_traced_python_bytes": 32484,
+          "correctly_rounded_runs": 12,
+          "total_runs": 12
+        },
+        {
+          "workers": 8,
+          "median_speedup": 0.732325,
+          "median_cpu_wall_ratio": 1.0118,
+          "median_peak_traced_python_bytes": 60312,
+          "correctly_rounded_runs": 12,
+          "total_runs": 12
+        }
+      ],
+      "artifact": {
+        "id": 15216825014,
+        "name": "noema005-threaded-gil-enabled",
+        "zip_digest": "sha256:6315cc257f52c1630ceae988147ce24a3825dfff5aabfff9570ca2c72836f408",
+        "raw_report_sha256": "c7925d9097e52fb85e6724e966ed656d37f72b8b4dcfd6470bae9d57813f0037",
+        "raw_report_bytes": 56795,
+        "expires_at": "2026-12-27T16:34:45Z"
+      }
+    },
+    {
+      "workflow_run_id": 46034729099,
+      "workflow_run_url": "https://github.com/maisuradzee/bibmom/actions/runs/46034729099",
+      "quality_run_id": 46034729179,
+      "head_sha": "8f41208a5ac597967f7c6a6cfcade2f7bec9dae4",
+      "runner_label": "ubuntu-24.04",
+      "cloud_backend": "azure",
+      "runtime_mode": "free-threaded",
+      "environment": {
+        "python_implementation": "CPython",
+        "python_version": "3.14.4",
+        "machine": "x86_64",
+        "platform": "Linux-7.0.0-1020-azure-x86_64-with-glibc2.39",
+        "processor": "x86_64",
+        "cpu_count_process": 4,
+        "cpu_affinity_count": 4,
+        "gil_enabled": false,
+        "free_threaded_build": true
+      },
+      "accuracy": {
+        "naive_scalar": "0/48",
+        "neumaier_scalar": "42/48",
+        "neumaier_state": "48/48"
+      },
+      "cpu_wall_samples_above_1_05": {
+        "naive_scalar": "36/48",
+        "neumaier_scalar": "36/48",
+        "neumaier_state": "36/48"
+      },
+      "median_speedup_by_method": {
+        "naive_scalar": 0.323179,
+        "neumaier_scalar": 1.167756,
+        "neumaier_state": 1.174008
+      },
+      "neumaier_state_by_worker": [
+        {
+          "workers": 1,
+          "median_speedup": 0.76145,
+          "median_cpu_wall_ratio": 1.0024,
+          "median_peak_traced_python_bytes": 95151,
+          "correctly_rounded_runs": 12,
+          "total_runs": 12
+        },
+        {
+          "workers": 2,
+          "median_speedup": 1.154512,
+          "median_cpu_wall_ratio": 1.983,
+          "median_peak_traced_python_bytes": 185670,
+          "correctly_rounded_runs": 12,
+          "total_runs": 12
+        },
+        {
+          "workers": 4,
+          "median_speedup": 1.194782,
+          "median_cpu_wall_ratio": 3.0107,
+          "median_peak_traced_python_bytes": 366724,
+          "correctly_rounded_runs": 12,
+          "total_runs": 12
+        },
+        {
+          "workers": 8,
+          "median_speedup": 1.219981,
+          "median_cpu_wall_ratio": 3.2825,
+          "median_peak_traced_python_bytes": 731352,
+          "correctly_rounded_runs": 12,
+          "total_runs": 12
+        }
+      ],
+      "artifact": {
+        "id": 15216830018,
+        "name": "noema005-threaded-free-threaded",
+        "zip_digest": "sha256:9f5f12de7d6608b4c31095254e929d8b37baf795f57a8d50acc1f9d802de32ca",
+        "raw_report_sha256": "787144bd3298444d76388cc136a2c7fb4a5062e64cea1dfbb0017a20d61a612d",
+        "raw_report_bytes": 56868,
+        "expires_at": "2026-12-27T16:34:53Z"
+      }
+    }
+  ]
+}
