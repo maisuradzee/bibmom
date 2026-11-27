@@ -427,3 +427,8 @@ A third workflow run, [46035393777](https://github.com/maisuradzee/bibmom/action
 
 Across all six reports (288 configurations, 864 measured runs), Neumaier state remained 288/288 correctly rounded, scalar Neumaier 252/288 and naive scalar 0/288. Free-threaded CPU/wall >1.05 occurred in 324/432 samples versus 0/432 GIL-enabled. The result is therefore **backend-dependent**, not evidence of a general free-threaded speedup. Hosted synthetic evidence only; three repetitions per configuration, no physical-host replication, RSS/native allocation or DRAM bandwidth. See the [six-report aggregate and artifact hashes](../../data/noema-005/x86-threaded-benchmark-summary-2026-11-27.json).
 
+
+
+## 2026-11-27 — cross-architecture synthesis
+
+Run 33 x86-64 and ARM64 hosted summaries share the same CPython 3.14.4 protocol and input SHA-256 values. Across ten runner/runtime reports (480 configurations, 1,440 measured runs), Neumaier-state was exact-reference-correct in 480/480, scalar Neumaier in 420/480 and naive scalar in 0/480. Only two x86-64 Azure free-threaded report medians exceeded 1.0; all four ARM64 reports, all GIL-enabled reports and the x86-64 AWS free-threaded report remained below 1.0. The data are backend/runner-dependent hosted synthetic evidence and do not establish an architecture effect or general free-threading speedup. No new benchmark was run in this synthesis. Physical-device replication, 20+ repetitions, RSS/native memory, DRAM bandwidth and independent numerical review remain outstanding. **Status remains preliminary; no Published status is claimed.**
