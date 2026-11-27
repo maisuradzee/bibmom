@@ -1,13 +1,14 @@
 # NOEMA — მიმდინარე პროექტის მდგომარეობა
 
-- **განახლდა:** 2026-11-27 (run 16, verified main snapshot)
+- **განახლდა:** 2026-11-27 (run 17, verified main snapshot)
 - **საცავი:** https://github.com/maisuradzee/bibmom
-- **მდგომარეობის snapshot main:** 965e2ac58467220e830a663b48bba58f383648fc (PR #106 status-only follow-up)
-- **Main quality CI:** [45928441338](https://github.com/maisuradzee/bibmom/actions/runs/45928441338) — validate job SUCCESS for the exact main snapshot.
-- **GitHub Pages deployment:** [45928441209](https://github.com/maisuradzee/bibmom/actions/runs/45928441209) — build and deploy jobs SUCCESS for the exact main snapshot.
+- **მდგომარეობის snapshot main:** 2291b3bbe326ab2d8416023acdb05bfabd807e2d (PR #107 run-16 source/CI status correction)
+- **Main quality CI:** [45928792884](https://github.com/maisuradzee/bibmom/actions/runs/45928792884) — validate job SUCCESS for the exact main snapshot.
+- **GitHub Pages deployment:** [45928792907](https://github.com/maisuradzee/bibmom/actions/runs/45928792907) — build and deploy jobs SUCCESS for the exact main snapshot.
+- **Run 17 audit:** [docs/run-audits/2026-11-27-run-17.md](run-audits/2026-11-27-run-17.md) — separate AquaSignal legal data-access and NOEMA-007 flood-risk governance updates in Draft PRs #108 and #109; exact-head quality CI passed for both.
 - **Run 16 audit:** [docs/run-audits/2026-11-27-run-16.md](run-audits/2026-11-27-run-16.md) — NOEMA-007 heat-health readiness discovery and NOEMA-005 ARM64 worker/traced-allocation analysis added in separate Draft PRs #103 and #104.
-- **Merged in current main:** PR #97 (AquaSignal official NEA groundwater RAR URL/retrieval boundary), PR #102 (run-15 status/audit synchronization) and PR #105 and #106 (run-16 status/audit and post-merge status synchronization). PR #106's base snapshot CI and Pages deployment passed.
-- **Open research/engineering PRs:** #104, #103, #101, #100, #99, #93, #91, #88, #87, #85, #46, #27, #7 and #5 (14 open PRs; 0 open Issues).
+- **Merged in current main:** PR #97 (AquaSignal official NEA groundwater RAR URL/retrieval boundary), PR #102 (run-15 status/audit synchronization) and PR #105 and #106 (run-16 status/audit and post-merge status synchronization), and PR #107 (run-16 source/CI correction). PR #106's base snapshot CI and Pages deployment passed.
+- **Open research/engineering PRs:** #109, #108, #104, #103, #101, #100, #99, #93, #91, #88, #87, #85, #46, #27, #7 and #5 (16 open PRs; 0 open Issues).
 - **Public research catalogue:** 1 preliminary, 0 published. No research item was promoted to Published.
 
 ## მიმდინარე მდგომარეობა
@@ -24,6 +25,14 @@
 | Main quality CI | SUCCESS | run 45928441338 — exact verified baseline SHA. |
 | GitHub Pages | DEPLOYED | run 45928441209 — build და deploy SUCCESS exact verified baseline SHA-ზე. https://maisuradzee.github.io/bibmom/ |
 | Supabase | NOEMA-სთვის ახალი პროექტი არ შექმნილა | Git-ით ვერსიაკონტროლირებადი JSON/SQLite reference architecture; სხვა პროექტის ბაზა არ გამოიყენება. |
+
+## Run 17 — ზუსტი PR და CI მდგომარეობა
+
+- **PR #108 — AquaSignal Georgia water-data access:** head `05dd73a446a63cf1ca9fd7a073d29a9fc4605f4b`; [quality CI 45933715005](https://github.com/maisuradzee/bibmom/actions/runs/45933715005) SUCCESS; base is current main `2291b3bbe326ab2d8416023acdb05bfabd807e2d`; open Draft, mergeable=true. Adds the Article 32(3) NEA request route, Article 31(3) NFA responsibility and Resolution No.424/NEA registry privacy and coverage boundaries. No request was sent and no personal data was imported.
+- **PR #109 — NOEMA-007 statutory flood-risk roles:** head `191d29be1a59da4abc9ee912ad32f5c9591b85e4`; [quality CI 45933717954](https://github.com/maisuradzee/bibmom/actions/runs/45933717954) SUCCESS; base is current main `2291b3bbe326ab2d8416023acdb05bfabd807e2d`; open Draft, mergeable=true. Adds the Article 34 role split and distinguishes flood-specific statutory maps/plans from the eleven-basin multi-hazard programme. No official maps or event data were ingested.
+
+- Main quality CI [45928792884](https://github.com/maisuradzee/bibmom/actions/runs/45928792884) and Pages build/deploy [45928792907](https://github.com/maisuradzee/bibmom/actions/runs/45928792907) succeeded on exact main `2291b3bbe326ab2d8416023acdb05bfabd807e2d`.
+- Existing Draft PRs #99/#100/#101, #103/#104, #85, #91/#93 and #87/#88 use older base snapshots and require current-main refresh plus exact-head CI before merge consideration. Research PRs remain unmerged.
 
 ## Run 16 — ზუსტი PR და CI მდგომარეობა
 
