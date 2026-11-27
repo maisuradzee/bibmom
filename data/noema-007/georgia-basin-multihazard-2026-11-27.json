@@ -1,0 +1,142 @@
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-007",
+  "snapshot_date": "2026-11-27",
+  "evidence_status": "FACT",
+  "sources": [
+    {
+      "id": "nea-georgia-seven-basin-mhrm-consultation-2026-11-25",
+      "publisher": "National Environmental Agency of Georgia",
+      "title": "Consultative meetings on multi-hazard risk management plans for seven river basins",
+      "publication_date": "2026-11-25",
+      "url": "https://nea.gov.ge/En/News/3459",
+      "accessed_at": "2026-11-27",
+      "source_claims": {
+        "meeting_duration_days": 2,
+        "river_basins_discussed": [
+          "Alazani",
+          "Iori",
+          "Mtkvari",
+          "Khrami-Ktsia",
+          "Chorokhi-Acharistskali",
+          "Enguri",
+          "Rioni"
+        ],
+        "programme_target_river_basins": 11,
+        "hazards": [
+          "floods",
+          "debris flows",
+          "avalanches",
+          "landslides",
+          "droughts",
+          "hailstorms",
+          "strong winds"
+        ],
+        "programme_partners": [
+          "Government of Georgia",
+          "United Nations Development Programme",
+          "Green Climate Fund"
+        ],
+        "purpose": "Develop risk-management and mitigation measures for climate-related multi-hazards at river-basin level"
+      }
+    },
+    {
+      "id": "nea-georgia-mhews-development-cop31-2026-11-16",
+      "publisher": "National Environmental Agency of Georgia",
+      "title": "Georgia climate adaptation and early-warning system development update at COP31",
+      "publication_date": "2026-11-16",
+      "url": "https://nea.gov.ge/En/News/3457",
+      "accessed_at": "2026-11-27",
+      "source_claims": {
+        "reported_capabilities": [
+          "hazard assessment and risk zoning",
+          "modernization of hydrometeorological observation and forecasting",
+          "development of early-warning mechanisms",
+          "meteo.gov.ge mobile application for meteorological and hydrological information and early warnings",
+          "observation-network expansion",
+          "modern forecasting technologies",
+          "improved access to potential-hazard information"
+        ],
+        "reported_operational_topics": [
+          "long-term system sustainability",
+          "institutional capacity",
+          "regional cooperation",
+          "cross-border hydrometeorological data and forecast exchange"
+        ]
+      }
+    },
+    {
+      "id": "nea-geology-department-mandate-undated",
+      "publisher": "National Environmental Agency of Georgia",
+      "title": "Geology Department — monitoring, hazard zoning and GIS functions",
+      "publication_date": "undated",
+      "url": "https://nea.gov.ge/ge/Departments/Geology",
+      "accessed_at": "2026-11-27",
+      "source_claims": {
+        "functions": [
+          "regular spring/autumn geological monitoring in urban settlements and surrounding areas",
+          "emergency hazard-risk assessment and recommendations for landslides, debris flows, rockfalls and other geological processes",
+          "annual geological bulletin and next-year forecast",
+          "geological hazard zoning maps",
+          "Tbilisi geological-hazard monitoring and zoning-map updates",
+          "GIS database and cadastre for geological processes",
+          "instrumental monitoring at critically active landslide/debris-flow sites",
+          "fresh groundwater monitoring and annual hydrogeological bulletin"
+        ]
+      }
+    }
+  ],
+  "local_planning_signal": {
+    "basins_discussed_count": 7,
+    "programme_target_river_basins": 11,
+    "named_basins": [
+      "Alazani",
+      "Iori",
+      "Mtkvari",
+      "Khrami-Ktsia",
+      "Chorokhi-Acharistskali",
+      "Enguri",
+      "Rioni"
+    ],
+    "hazard_classes": [
+      "floods",
+      "debris flows",
+      "avalanches",
+      "landslides",
+      "droughts",
+      "hailstorms",
+      "strong winds"
+    ]
+  },
+  "institutional_capability_signal": {
+    "reported": true,
+    "capability_classes": [
+      "hazard assessment",
+      "risk zoning",
+      "hydrometeorological observation",
+      "forecasting",
+      "early-warning mechanisms",
+      "public information channel",
+      "regional data exchange"
+    ],
+    "evidence_boundary": "Official announcements describe institutional activity and system-development outputs; they do not quantify operational coverage or last-mile outcomes."
+  },
+  "not_reported_in_sources": [
+    "basin-by-basin plan approval and implementation status",
+    "population or critical-facility coverage by hazard and warning channel",
+    "warning issue time, lead time, validity and geographic precision",
+    "unique eligible people and unique timely human receipt",
+    "message comprehension and accessibility by language, age or disability",
+    "feasible protective action and independently verified action",
+    "after-action review completion and corrective-action closure",
+    "false/misdirected warning rate and missed-event rate"
+  ],
+  "interpretation_guardrails": [
+    "Seven basins discussed at a consultation are not proof that seven plans are approved, implemented or operational.",
+    "The programme target of eleven basins is not a measured coverage denominator; do not calculate 7/11 as implementation progress.",
+    "The official sources establish institutional activity and planning signals, not warning effectiveness or avoided losses.",
+    "Do not infer that a public mobile application reaches every exposed person or that app delivery equals comprehension or protective action.",
+    "NOEMA-007 is an evaluation/measurement layer only; it must not issue duplicate official warnings or override competent authorities.",
+    "Only privacy-reviewed, permissioned aggregates may be used in public research; no person, device, message or exact household-location records are included."
+  ]
+}
