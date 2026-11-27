@@ -1,13 +1,21 @@
 # NOEMA — მიმდინარე პროექტის მდგომარეობა
 
-- **განახლდა:** 2026-11-27 (Run 30 — hosted artifact integrity, URL metadata hardening და portfolio audit)
+- **განახლდა:** 2026-11-27 (Run 30 — post-merge synchronization)
 - **საცავი:** https://github.com/maisuradzee/bibmom
-- **მიმდინარე main snapshot:** `a14884ca65887b6c324d4e9968b5796362b30503`.
-- **ბოლო main Quality CI:** [46013610873](https://github.com/maisuradzee/bibmom/actions/runs/46013610873) — SUCCESS; 457 Python tests, frozen-result/schema checks, public-site build და publication-boundary checks.
-- **ბოლო Pages deployment:** [46013610962](https://github.com/maisuradzee/bibmom/actions/runs/46013610962) — build და deploy SUCCESS ზუსტად main SHA `a14884ca65887b6c324d4e9968b5796362b30503`-ზე.
+- **მიმდინარე main snapshot:** `fdfa25db97534632161e90c0a2fe768cb0c69e9c`.
+- **ბოლო main Quality CI:** [46014645053](https://github.com/maisuradzee/bibmom/actions/runs/46014645053) — SUCCESS; 457 Python tests, frozen-result/schema checks, public-site build და publication-boundary checks.
+- **ბოლო Pages deployment:** [46014645110](https://github.com/maisuradzee/bibmom/actions/runs/46014645110) — build და deploy SUCCESS ზუსტად main SHA `fdfa25db97534632161e90c0a2fe768cb0c69e9c`-ზე.
 - **ღია PR:** 33; **ღია Issue:** 0.
 - **კვლევის კატალოგი:** 1 Preliminary, 0 Published. დამოუკიდებელი რეცენზიის გარეშე კვლევა Published-ში არ გადადის.
 - **აქტიური პორტფელი:** ოთხივე ნაკადი აქტიურია — AquaSignal, NOEMA-005, NOEMA-007 და INFRA-001. ახალი ნაკადი არ დამატებულა; არცერთი არ დაპაუზებულა ან დასრულებულა.
+
+## Run 30 — post-merge synchronization
+
+- PR #161 merged as `fdfa25db97534632161e90c0a2fe768cb0c69e9c` after exact-head Quality CI [46014537233](https://github.com/maisuradzee/bibmom/actions/runs/46014537233) and [46014494741](https://github.com/maisuradzee/bibmom/actions/runs/46014494741) SUCCESS, both CPU-thread jobs [46014537203](https://github.com/maisuradzee/bibmom/actions/runs/46014537203) SUCCESS, mergeable=true and public-boundary review.
+- Post-merge main Quality CI [46014645053](https://github.com/maisuradzee/bibmom/actions/runs/46014645053) — SUCCESS (457 tests, site build and publication-boundary checks); Pages build/deploy [46014645110](https://github.com/maisuradzee/bibmom/actions/runs/46014645110) — SUCCESS.
+- PR #156 and #159 passed their exact-head checks before the Run 30 status merge, but their original base `2852b7b5ee3fa7470ebc9c3eda339fc0e6235eda` is now behind main; GitHub reports `mergeable=false`. They remain Draft and must be refreshed against current main and revalidated before any merge. PRs #155, #157 and #158 also report stale-base `mergeable=false`.
+- Main currently has 33 open PRs and 0 open Issues. The research catalogue remains 1 Preliminary / 0 Published. No research PR was merged or promoted to Published in this synchronization.
+
 
 ## Run 30 — evidence integrity, URL metadata და პორტფელის აუდიტი (2026-11-27)
 
