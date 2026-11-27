@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NOEMA-005 local GIL-enabled container reproduction",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["study_id", "experiment_id", "evidence_status", "started_at_utc", "completed_at_utc", "runner_sha256", "reference_script_path", "reference_script_git_blob_sha", "protocol_deviation", "environment", "parameters", "inputs", "serial_baseline_medians", "case_columns", "threaded_rows", "limitations"],
+  "properties": {
+    "study_id": {"const": "NOEMA-2026-005"},
+    "experiment_id": {"const": "NOEMA-2026-005-LOCAL-CONTAINER-REPRO-2026-11-27"},
+    "evidence_status": {"const": "REPRODUCED_RESULT"},
+    "started_at_utc": {"type": "string", "format": "date-time"},
+    "completed_at_utc": {"type": "string", "format": "date-time"},
+    "runner_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "reference_script_path": {"const": "scripts/benchmark_noema005_threaded_reduction.py"},
+    "reference_script_git_blob_sha": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+    "protocol_deviation": {"type": "string", "minLength": 20},
+    "environment": {
+      "type": "object", "additionalProperties": false,
+      "required": ["python", "python_version", "implementation", "gil_enabled", "py_gil_disabled", "platform", "machine", "cpu_model", "cpu_count_os", "cpu_affinity", "cgroup_cpu_max", "container_note"],
+      "properties": {
+        "python": {"type": "string"}, "python_version": {"const": "3.13.5"},
+        "implementation": {"const": "CPython"}, "gil_enabled": {"const": true},
+        "py_gil_disabled": {"const": 0}, "platform": {"type": "string"},
+        "machine": {"const": "x86_64"}, "cpu_model": {"type": "string", "minLength": 3},
+        "cpu_count_os": {"type": "integer", "minimum": 1},
+        "cpu_affinity": {"type": "array", "minItems": 1, "items": {"type": "integer", "minimum": 0}},
+        "cgroup_cpu_max": {"type": "string"}, "container_note": {"type": "string", "minLength": 20}
+      }
+    },
+    "parameters": {
+      "type": "object", "additionalProperties": false,
+      "required": ["repeat_count", "layouts", "workers", "partitions", "methods", "warmups", "measured_repetitions"],
+      "properties": {
+        "repeat_count": {"const": 8192},
+        "layouts": {"const": ["triplet_order", "grouped_cancellation"]},
+        "workers": {"const": [1, 2, 4, 8]},
+        "partitions": {"const": ["contiguous", "round_robin"]},
+        "methods": {"const": ["threaded_naive_scalar", "threaded_neumaier_scalar", "threaded_neumaier_state"]},
+        "warmups": {"const": 2}, "measured_repetitions": {"const": 20}
+      }
+    },
+    "inputs": {
+      "type": "object", "additionalProperties": false,
+      "required": ["triplet_order", "grouped_cancellation"],
+      "properties": {
+        "triplet_order": {"$ref": "#/$defs/input"},
+        "grouped_cancellation": {"$ref": "#/$defs/input"}
+      }
+    },
+    "serial_baseline_medians": {
+      "type": "object", "additionalProperties": false,
+      "required": ["triplet_order", "grouped_cancellation"],
+      "properties": {
+        "triplet_order": {"$ref": "#/$defs/serial"},
+        "grouped_cancellation": {"$ref": "#/$defs/serial"}
+      }
+    },
+    "case_columns": {"const": ["layout", "method", "partition", "worker_count", "correctly_rounded_runs", "median_wall_ns", "median_process_cpu_ns", "median_cpu_wall_ratio", "speedup_vs_matching_serial", "peak_traced_python_bytes", "native_thread_count", "wall_samples_ns"]},
+    "threaded_rows": {
+      "type": "array", "minItems": 48, "maxItems": 48,
+      "items": {"type": "array", "prefixItems": [
+        {"enum": ["triplet_order", "grouped_cancellation"]},
+        {"enum": ["threaded_naive_scalar", "threaded_neumaier_scalar", "threaded_neumaier_state"]},
+        {"enum": ["contiguous", "round_robin"]},
+        {"enum": [1, 2, 4, 8]},
+        {"type": "integer", "minimum": 0, "maximum": 20},
+        {"type": "integer", "minimum": 1},
+        {"type": "integer", "minimum": 1},
+        {"type": "number", "exclusiveMinimum": 0, "maximum": 2},
+        {"type": "number", "exclusiveMinimum": 0},
+        {"type": "integer", "minimum": 0},
+        {"enum": [1, 2, 4, 8]},
+        {"type": "array", "minItems": 20, "maxItems": 20, "items": {"type": "integer", "minimum": 1}}
+      ], "items": false}
+    },
+    "limitations": {"type": "array", "minItems": 6, "items": {"type": "string", "minLength": 20}}
+  },
+  "$defs": {
+    "input": {"type": "object", "additionalProperties": false, "required": ["length", "repeat_count", "exact_binary64_reference", "sha256_big_endian_f64"], "properties": {"length": {"const": 24576}, "repeat_count": {"const": 8192}, "exact_binary64_reference": {"const": 8192.0}, "sha256_big_endian_f64": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}},
+    "serial": {"type": "object", "additionalProperties": false, "required": ["serial_naive", "serial_neumaier", "serial_math_fsum"], "properties": {"serial_naive": {"$ref": "#/$defs/serial_values"}, "serial_neumaier": {"$ref": "#/$defs/serial_values"}, "serial_math_fsum": {"$ref": "#/$defs/serial_values"}}},
+    "serial_values": {"type": "array", "prefixItems": [{"type": "integer", "minimum": 1}, {"type": "integer", "minimum": 1}, {"type": "integer", "minimum": 0, "maximum": 20}], "items": false}
+  }
+}
