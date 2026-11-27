@@ -1,5 +1,5 @@
 from __future__ import annotations
-import base64,gzip,json,math,statistics
+import base64,gzip,hashlib,json,math,statistics
 from pathlib import Path
 from jsonschema import Draft202012Validator,FormatChecker
 try:
@@ -8,21 +8,27 @@ except ImportError:
     from reproduce_noema005_threaded_ci_artifacts import summarize
 
 ROOT=Path(__file__).resolve().parents[1]
-SCHEMA=ROOT/"data/noema-005/threaded-ci-repeat.schema.json"
-SNAPSHOTS={"gil-enabled":ROOT/"data/noema-005/raw/threaded-ci-repeat-2026-11-27-gil-enabled.json.gz.b64","free-threaded":ROOT/"data/noema-005/raw/threaded-ci-repeat-2026-11-27-free-threaded.json.gz.b64"}
-BASE={"threaded_naive_scalar":"serial_naive","threaded_neumaier_scalar":"serial_neumaier","threaded_neumaier_state":"serial_neumaier"}
+DATA=ROOT/"data/noema-005"
+SCHEMA=DATA/"threaded-ci-repeat.schema.json"
+MANIFEST=DATA/"threaded-ci-repeat-manifest-2026-11-27.json"
 
-def load(path):
+def load_snapshot(path):
     return json.loads(gzip.decompress(base64.b64decode(path.read_text(encoding="ascii").strip(),validate=True)))
 
-def validate(doc,schema,mode):
+def snapshot_paths():
+    manifest=json.loads(MANIFEST.read_text(encoding="utf-8"))
+    return {r["key"]:(DATA/"raw"/r["sanitized_snapshot"],r) for r in manifest["records"]}
+
+def validate(doc,schema,record):
     Draft202012Validator(schema,format_checker=FormatChecker()).validate(doc)
-    free=mode=="free-threaded"; env=doc["environment"]
+    mode=record["runtime_mode"]; free=mode=="free-threaded"; env=doc["environment"]
     if doc["runtime_mode"]!=mode or env["free_threaded_build"]!=free or env["gil_enabled"]==free: raise ValueError("runtime/GIL mismatch")
-    if doc["source"]["workflow_run_id"]!=46006107242 or doc["source"]["workflow_head_sha"]!="fdfc4d390fdb7cfc45f5879dbc699c3d2165a1e9": raise ValueError("unexpected source run")
+    for key in ["workflow_run_id","workflow_head_sha","artifact_id","artifact_name","artifact_zip_sha256","source_report_sha256","source_report_member"]:
+        if doc["source"][key]!=record[key]: raise ValueError(f"source provenance mismatch: {key}")
     cases=doc["threaded_cases"]; protocol=doc["protocol"]
     if len(cases)!=48 or sum(c["runs"] for c in cases)!=144 or protocol["repetitions"]!=3: raise ValueError("incomplete 48x3 matrix")
     baselines={(b["method"],b["layout"]):b for b in doc["serial_baselines"]}; seen=set()
+    mapping={"threaded_naive_scalar":"serial_naive","threaded_neumaier_scalar":"serial_neumaier","threaded_neumaier_state":"serial_neumaier"}
     for c in cases:
         key=(c["method"],c["layout"],c["partition"],c["worker_count"])
         if key in seen: raise ValueError("duplicate configuration")
@@ -33,13 +39,18 @@ def validate(doc,schema,mode):
         ratios=[a/b for a,b in zip(cpu,wall,strict=True)]
         if not math.isclose(c["median_cpu_wall_ratio"],statistics.median(ratios),rel_tol=1e-9,abs_tol=1e-9): raise ValueError("CPU/wall ratio mismatch")
         if c["cpu_parallelism_ratio_above_1_05"]!=[v>1.05 for v in ratios]: raise ValueError("parallelism flag mismatch")
-        baseline=baselines[(BASE[c["method"]],c["layout"])]
+        baseline=baselines[(mapping[c["method"]],c["layout"])]
         if not math.isclose(c["speedup_vs_matching_serial_baseline"],baseline["median_wall_ns"]/c["median_wall_ns"],rel_tol=1e-9,abs_tol=1e-9): raise ValueError("speedup mismatch")
         if "native_thread_ids_by_run" in c: raise ValueError("thread IDs must not be published")
     if doc["summary"]!=summarize(cases): raise ValueError("summary does not reproduce")
 
 def validate_all():
     schema=json.loads(SCHEMA.read_text(encoding="utf-8")); Draft202012Validator.check_schema(schema)
-    for mode,path in SNAPSHOTS.items():
-        validate(load(path),schema,mode); print(mode+": schema and frozen-result reproduction PASS")
+    manifest=json.loads(MANIFEST.read_text(encoding="utf-8"))
+    for key,(path,record) in snapshot_paths().items():
+        compressed=base64.b64decode(path.read_text(encoding="ascii").strip(),validate=True)
+        if hashlib.sha256(compressed).hexdigest()!=record["sanitized_gzip_sha256"]: raise ValueError(f"sanitized gzip hash mismatch: {key}")
+        validate(load_snapshot(path),schema,record)
+        print(f"{key}: schema, provenance and frozen-result reproduction PASS")
+    if len(manifest["records"])!=4: raise ValueError("expected four hosted artifacts")
 if __name__=="__main__": validate_all()
