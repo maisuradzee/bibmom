@@ -21,6 +21,7 @@ from noema_core.aquasignal_store import (
     GENESIS_HASH,
     AquaSignalStore,
     IncidentStoreError,
+    _MAX_EVENT_PAYLOAD_BYTES,
     _decode_event_payload,
     _event_hash,
     _event_to_dict,
@@ -89,6 +90,23 @@ class AquaSignalStoreTests(unittest.TestCase):
             separators=(",", ":"), allow_nan=False,
         )
         self.assertEqual(_decode_event_payload(payload), event)
+
+    def test_event_payload_decoder_rejects_payload_over_utf8_byte_limit(self):
+        with self.assertRaisesRegex(IncidentStoreError, "65536-byte limit"):
+            _decode_event_payload(" " * (_MAX_EVENT_PAYLOAD_BYTES + 1))
+        # Character count is below the limit, but UTF-8 byte count is above it.
+        with self.assertRaisesRegex(IncidentStoreError, "65536-byte limit"):
+            _decode_event_payload("é" * (_MAX_EVENT_PAYLOAD_BYTES // 2 + 1))
+
+    def test_append_rejects_oversized_event_before_persisting(self):
+        opened = self.open_incident()
+        oversized_event = replace(
+            opened.events[0], reason="x" * _MAX_EVENT_PAYLOAD_BYTES
+        )
+        oversized_incident = replace(opened, events=(oversized_event,))
+        with self.assertRaisesRegex(IncidentStoreError, "65536-byte limit"):
+            self.store.append(oversized_incident)
+        self.assertEqual(self.store.count_events(), 0)
 
     def test_event_payload_decoder_rejects_duplicate_keys_at_every_depth(self):
         event = self.open_incident().events[0]
