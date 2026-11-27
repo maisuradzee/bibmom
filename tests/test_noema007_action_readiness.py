@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import copy
 import json
+import jsonschema
 import unittest
 from pathlib import Path
 
@@ -195,6 +196,26 @@ class ActionReadinessTests(unittest.TestCase):
         record["warning"]["source_url"] = "https://example.org/warning?year=2026&region=GE"
         record["evidence_sources"][0]["url"] = "https://example.org/report#section-2"
         validate_action_readiness_record(record)
+
+    def test_schema_requires_canonical_utc_timestamps(self):
+        schema = json.loads((ROOT / "data/noema-007/action-readiness-observation.schema.json").read_text(encoding="utf-8"))
+        validator = jsonschema.Draft202012Validator(
+            schema, format_checker=jsonschema.FormatChecker()
+        )
+        for timestamp in (
+            "2026-11-25x08:00:00Z",
+            "2026-11-25 08:00:00Z",
+            "2026-11-25T08:00Z",
+            "2026-11-25T08:00:00.1234567Z",
+        ):
+            record = synthetic_record()
+            record["warning"]["issued_at_utc"] = timestamp
+            with self.subTest(timestamp=timestamp), self.assertRaises(jsonschema.ValidationError):
+                validator.validate(record)
+
+        record = synthetic_record()
+        record["warning"]["issued_at_utc"] = "2026-11-25T08:00:00.123456Z"
+        validator.validate(record)
 
     def test_schema_is_closed_at_every_object_boundary(self):
         schema = json.loads((ROOT / "data/noema-007/action-readiness-observation.schema.json").read_text(encoding="utf-8"))
