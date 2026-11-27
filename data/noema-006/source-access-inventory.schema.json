@@ -77,7 +77,8 @@
               "official_regulation_only_registry_access_unverified",
               "public_catalog_metadata_payload_not_retrieved",
               "official_field_process_notice_only",
-              "official_legal_data_access_framework"
+              "official_legal_data_access_framework",
+              "public_journal_article_secondary_analysis"
             ]
           },
           "observation_period": {

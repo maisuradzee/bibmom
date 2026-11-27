@@ -70,6 +70,16 @@ class AquaSignalSourceAccessInventoryTests(unittest.TestCase):
         self.assertIs(source["reuse_terms_verified"], False)
         self.assertIn("retrieval from this execution environment failed", source["note"].casefold())
 
+    def test_jecm_secondary_analysis_is_not_primary_sample_data(self):
+        source = next(item for item in self.instance["sources"] if item["id"] == "JECM_GEORGIA_DRINKING_WATER_2020_2023")
+        self.assertEqual(source["access_status"], "public_journal_article_secondary_analysis")
+        self.assertEqual(source["matrix"], "potable_network")
+        self.assertEqual(source["observation_period"], "2020-2023")
+        self.assertIs(source["sample_level_schema_verified"], False)
+        self.assertIs(source["reuse_terms_verified"], False)
+        self.assertIn("Secondary hygienic analysis", source["note"])
+        self.assertIn("not unique-sample counts", source["note"])
+
     def test_source_ids_are_unique(self):
         ids = [item["id"] for item in self.instance["sources"]]
         self.assertEqual(len(ids), len(set(ids)))

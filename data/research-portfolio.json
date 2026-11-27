@@ -218,6 +218,14 @@
           "url": "https://unece.org/sites/default/files/2025-10/Georgia_summary_report_6th_cycle_1Apr25_ENG.pdf",
           "type": "government_submitted_international_report",
           "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "State Control and Monitoring Trends of Drinking Water Quality in Georgia",
+          "publisher": "Journal of Experimental and Clinical Medicine (JECM), Tbilisi State Medical University",
+          "publication_date": "2025",
+          "url": "https://doi.org/10.52340/jecm.2025.01.25",
+          "type": "secondary_journal_analysis_of_NFA_data",
+          "accessed_at": "2026-11-27"
         }
       ],
       "data_needs": [
@@ -241,7 +249,8 @@
         "Separate National Food Safety Agency drinking-water compliance data dictionary and denominator/geographic breakdown; do not merge potable-network records with environmental groundwater station points.",
         "An accessible copy or official alternate transfer route for the NEA 2021–2025 RAR archive, plus internal file inventory, archive digest, report/table granularity, data dictionary and reuse terms.",
         "NFA sample-level or sufficiently stratified aggregate denominators and numerators with sample type, source class, time, parameter, standard, municipality/coarse geography and sampling-design metadata.",
-        "NEA groundwater and surface-water observations must remain separate from potable-water state-control results."
+        "NEA groundwater and surface-water observations must remain separate from potable-water state-control results.",
+        "NFA row-level or de-identified aggregate metadata defining unique sample identifiers, combined violation categories, sample-level denominator and the basis for the JECM 2020-2023 percentages; the JECM article is a secondary analysis and does not expose these records."
       ],
       "risks": [
         "ცრუ განგაში ან სენსორის drift-ის წყლის რეალურ ცვლილებად მიჩნევა",
