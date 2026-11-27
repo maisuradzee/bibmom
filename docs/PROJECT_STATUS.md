@@ -2,7 +2,7 @@
 
 - **განახლდა:** 2026-11-28 (Run 38 — NOEMA-005 experiment 002, AquaSignal NEA groundwater access lead, strict event parsing and public-artifact privacy boundary).
 - **საცავი:** https://github.com/maisuradzee/bibmom
-- **Run 38-ის merge-ების შემდეგ main snapshot:** `974445f6...` (full SHA: `974445f6...`).
+- **Run 38-ის merge-ების შემდეგ main snapshot:** `974445f6b43bdf612b089cdd53c5d5019f3f0f4c`.
 - **ბოლო დადასტურებული PR-head Quality CI:** PR #200 — 534 tests; PR #202 — 539 tests; PR #204 — 544 tests; ყველა ზუსტი head-ისთვის SUCCESS.
 - **ბოლო დადასტურებული benchmark/cleanup:** PR #200 x86-64 და ARM64 workflows SUCCESS; legacy-artifact cleanup run [46064057021](https://github.com/maisuradzee/bibmom/actions/runs/46064057021) SUCCESS და ექვსი ძველი raw artifact list ცარიელია.
 - **Pages:** PR #204 site build SUCCESS (3 Preliminary, 0 Published); post-merge deployment ამ Run38 main snapshot-ზე ცალკე არ დადასტურებულა. წინა main deployment-ის მტკიცებულება არ უნდა ჩაითვალოს ამ snapshot-ის deployment-ად.
