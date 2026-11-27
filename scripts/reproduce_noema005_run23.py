@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Reproduce the NOEMA-005 2026-11-27 hosted x86-64 raw threaded rerun."""
 from __future__ import annotations
-import argparse, base64, gzip, hashlib, json, statistics
+import argparse, base64, gzip, hashlib, json, lzma, statistics
 from pathlib import Path
 from typing import Any
 
