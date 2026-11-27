@@ -93,6 +93,8 @@ def load_restore_attestation_bytes(
         )
     except RestoreAttestationError:
         raise
+    except RecursionError as exc:
+        raise RestoreAttestationError("restore attestation nesting exceeds the parser safety limit") from exc
     except (UnicodeDecodeError, json.JSONDecodeError) as exc:
         raise RestoreAttestationError("restore attestation must be valid UTF-8 JSON") from exc
     if not isinstance(document, dict):
