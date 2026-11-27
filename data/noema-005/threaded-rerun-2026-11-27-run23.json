@@ -1,0 +1,196 @@
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-005",
+  "date": "2026-11-27",
+  "status": "preliminary",
+  "evidence_status": "REPRODUCED_RESULT",
+  "method": "Aggregate recomputation from raw per-runtime JSON reports downloaded from GitHub Actions artifacts. Archive ZIP SHA-256 and extracted report SHA-256 are recorded; canonical input hashes and native thread identities are checked.",
+  "new_run": {
+    "workflow_run_id": 45972740197,
+    "workflow_url": "https://github.com/maisuradzee/bibmom/actions/runs/45972740197",
+    "tested_head_sha": "58fe0b7456635dec32489b3dbb308f2df3daeb95",
+    "generated_at_utc": {
+      "gil_enabled": "2026-11-27T09:19:53.515669+00:00",
+      "free_threaded": "2026-11-27T09:20:00.429510+00:00"
+    },
+    "runner": {
+      "machine": "x86_64",
+      "platform": "Linux-7.0.0-1018-aws-x86_64-with-glibc2.39",
+      "cpu_affinity_count": 4,
+      "cpu_count_os": 4,
+      "cpu_count_process": 4,
+      "python_implementation": "CPython",
+      "python_version": "3.14.4"
+    },
+    "protocol": {
+      "repeat_count": 65536,
+      "workers": [
+        1,
+        2,
+        4,
+        8
+      ],
+      "partitions": [
+        "contiguous",
+        "round_robin"
+      ],
+      "methods": [
+        "threaded_naive_scalar",
+        "threaded_neumaier_scalar",
+        "threaded_neumaier_state"
+      ],
+      "warmups": 1,
+      "repetitions": 3,
+      "thread_identity": "threading.get_native_id; one distinct native thread per worker",
+      "cpu_timer": "time.process_time_ns (process-wide user+system CPU time)",
+      "wall_timer": "time.perf_counter_ns",
+      "memory_metric": "tracemalloc peak delta; Python allocations only, not RSS/native allocations",
+      "merge_policy": "scalar partials via math.fsum; compensation pairs via Neumaier"
+    },
+    "artifacts": {
+      "gil_enabled": {
+        "id": 15186115571,
+        "name": "noema005-threaded-gil-enabled",
+        "size_in_bytes": 7641,
+        "archive_sha256": "3020f103679f3ada66e5086371dd12a41696ddda1be8d063febc3d71445bb75e",
+        "report_sha256": "a92574a3ecf8533c67162c94a6cfc175ebf36b584ef89706b9f8eb41bfb8c5d8",
+        "expires_at_utc": "2026-12-27T09:19:53Z",
+        "raw_path": "data/noema-005/raw/run-45972740197-gil-enabled.json.gz.b64"
+      },
+      "free_threaded": {
+        "id": 15185039307,
+        "name": "noema005-threaded-free-threaded",
+        "size_in_bytes": 7824,
+        "archive_sha256": "de02a5d32b342000f3bb4379b88c817e4b54b8783acb981cd3369ee8a78a3461",
+        "report_sha256": "92a0f9355d5a96aab818504ee1eea063e19b22b1eeb4070f4a248144c8171d3c",
+        "expires_at_utc": "2026-12-27T09:20:00Z",
+        "raw_path": "data/noema-005/raw/run-45972740197-free-threaded.json.lzma.b64",
+        "compression": "lzma"
+      }
+    },
+    "aggregates": {
+      "gil_enabled": {
+        "threaded_naive_scalar": {
+          "correct_runs": 0,
+          "total_runs": 48,
+          "median_speedup_vs_matching_serial": 0.5069,
+          "speedup_range": [
+            0.4499,
+            0.5265
+          ],
+          "median_process_cpu_to_wall_ratio": 1.0085,
+          "median_peak_traced_python_bytes": 25097,
+          "cpu_parallelism_runs_above_1_05": 0,
+          "cpu_parallelism_total_runs": 48,
+          "native_thread_identity_validated_cases": 16
+        },
+        "threaded_neumaier_scalar": {
+          "correct_runs": 42,
+          "total_runs": 48,
+          "median_speedup_vs_matching_serial": 0.7535,
+          "speedup_range": [
+            0.72,
+            0.7688
+          ],
+          "median_process_cpu_to_wall_ratio": 0.9986,
+          "median_peak_traced_python_bytes": 25297,
+          "cpu_parallelism_runs_above_1_05": 0,
+          "cpu_parallelism_total_runs": 48,
+          "native_thread_identity_validated_cases": 16
+        },
+        "threaded_neumaier_state": {
+          "correct_runs": 48,
+          "total_runs": 48,
+          "median_speedup_vs_matching_serial": 0.7541,
+          "speedup_range": [
+            0.7139,
+            0.7726
+          ],
+          "median_process_cpu_to_wall_ratio": 1.0028,
+          "median_peak_traced_python_bytes": 25453,
+          "cpu_parallelism_runs_above_1_05": 0,
+          "cpu_parallelism_total_runs": 48,
+          "native_thread_identity_validated_cases": 16
+        }
+      },
+      "free_threaded": {
+        "threaded_naive_scalar": {
+          "correct_runs": 0,
+          "total_runs": 48,
+          "median_speedup_vs_matching_serial": 0.1675,
+          "speedup_range": [
+            0.131,
+            0.4749
+          ],
+          "median_process_cpu_to_wall_ratio": 2.3579,
+          "median_peak_traced_python_bytes": 275073,
+          "cpu_parallelism_runs_above_1_05": 36,
+          "cpu_parallelism_total_runs": 48,
+          "native_thread_identity_validated_cases": 16
+        },
+        "threaded_neumaier_scalar": {
+          "correct_runs": 42,
+          "total_runs": 48,
+          "median_speedup_vs_matching_serial": 0.7101,
+          "speedup_range": [
+            0.5379,
+            0.7769
+          ],
+          "median_process_cpu_to_wall_ratio": 2.5819,
+          "median_peak_traced_python_bytes": 277581,
+          "cpu_parallelism_runs_above_1_05": 36,
+          "cpu_parallelism_total_runs": 48,
+          "native_thread_identity_validated_cases": 16
+        },
+        "threaded_neumaier_state": {
+          "correct_runs": 48,
+          "total_runs": 48,
+          "median_speedup_vs_matching_serial": 0.7021,
+          "speedup_range": [
+            0.5395,
+            0.7889
+          ],
+          "median_process_cpu_to_wall_ratio": 2.6887,
+          "median_peak_traced_python_bytes": 276517,
+          "cpu_parallelism_runs_above_1_05": 36,
+          "cpu_parallelism_total_runs": 48,
+          "native_thread_identity_validated_cases": 16
+        }
+      }
+    }
+  },
+  "previous_run": {
+    "workflow_run_id": 45867519546,
+    "workflow_url": "https://github.com/maisuradzee/bibmom/actions/runs/45867519546",
+    "aggregates": {
+      "gil_enabled": {
+        "threaded_neumaier_state": {
+          "correct_runs": 48,
+          "total_runs": 48,
+          "median_speedup_vs_matching_serial": 0.7744
+        }
+      },
+      "free_threaded": {
+        "threaded_neumaier_state": {
+          "correct_runs": 48,
+          "total_runs": 48,
+          "median_speedup_vs_matching_serial": 1.0181
+        }
+      }
+    }
+  },
+  "comparison": {
+    "gil_enabled_neumaier_state_median_speedup_delta": -0.0203,
+    "free_threaded_neumaier_state_median_speedup_delta": -0.316,
+    "free_threaded_state_median_crossed_one_between_runs": true,
+    "interpretation": "The new free-threaded batch median is below 1.0 (0.7021x), whereas the previous hosted batch was 1.0181x. Both batches preserve 48/48 Neumaier-state accuracy. The change demonstrates substantial run-to-run/runner sensitivity and does not support a robust or portable speedup claim."
+  },
+  "limitations": [
+    "This is one additional GitHub-hosted x86_64 AWS virtual-runner batch, not an independent physical-device replication.",
+    "Only two deterministic synthetic cancellation layouts and three measured repetitions per configuration were used.",
+    "CPython 3.14.4, four available CPUs and one hosted runner family were used; Windows, ARM64, GPU, distributed and representative scientific workloads were not tested in this run.",
+    "tracemalloc measures traced Python allocations only, not process RSS, native allocations or DRAM bandwidth.",
+    "A process CPU-time/wall-time ratio above one shows aggregate CPU consumption across threads; it is not wall-time speedup.",
+    "A single run cannot establish a stable performance distribution or a portable speedup."
+  ]
+}
