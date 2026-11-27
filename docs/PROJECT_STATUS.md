@@ -1,20 +1,27 @@
 # NOEMA — მიმდინარე პროექტის მდგომარეობა
 
-- **განახლდა:** 2026-11-27 (run 26, post-merge verified main snapshot)
+- **განახლდა:** 2026-11-27 (Run 29 — source-metadata safety and cgroup mountinfo parser audit)
 - **საცავი:** https://github.com/maisuradzee/bibmom
-- **მდგომარეობის snapshot main:** 27edcf226bd27981c32b935d66c697321384a84c (PR #150 Run 26 portfolio/status audit merged)
-- **Main quality CI:** [45994569018](https://github.com/maisuradzee/bibmom/actions/runs/45994569018) — SUCCESS for exact main snapshot `27edcf226bd27981c32b935d66c697321384a84c`.
-- **GitHub Pages deployment:** [45994568948](https://github.com/maisuradzee/bibmom/actions/runs/45994568948) — build and deploy SUCCESS for exact main snapshot `27edcf226bd27981c32b935d66c697321384a84c`.
-- **PR #113 — run-18 audit/status:** merged as `c507a91a213435cf6992abf37c233426882cb973`; exact post-merge quality CI [45946337600](https://github.com/maisuradzee/bibmom/actions/runs/45946337600) and Pages build/deploy [45946337647](https://github.com/maisuradzee/bibmom/actions/runs/45946337647) both SUCCESS.
-- **Run 18 audit:** [docs/run-audits/2026-11-27-run-18.md](run-audits/2026-11-27-run-18.md) — two independent streams advanced: NOEMA-005 local KVM native-thread reruns and NOEMA-007 AER/mobility-inclusive review schema; both research PRs remain Draft.
-- **Run 17 audit:** [docs/run-audits/2026-11-27-run-17.md](run-audits/2026-11-27-run-17.md) — separate AquaSignal legal data-access and NOEMA-007 flood-risk governance updates in Draft PRs #108 and #109; exact-head quality CI passed for both.
-- **Run 16 audit:** [docs/run-audits/2026-11-27-run-16.md](run-audits/2026-11-27-run-16.md) — NOEMA-007 heat-health readiness discovery and NOEMA-005 ARM64 worker/traced-allocation analysis added in separate Draft PRs #103 and #104.
-- **Merged in current main:** PR #97 (AquaSignal official NEA groundwater RAR URL/retrieval boundary), PR #102 (run-15 status/audit synchronization) and PR #105 and #106 (run-16 status/audit and post-merge status synchronization), PR #107 (run-16 source/CI correction), and PR #110 (run-17 audit/status), and PR #113 (run-18 audit/status). PR #113's exact main quality CI and Pages build/deploy passed.
-- **Open research/engineering PRs:** 25 (0 open Issues). Current active Drafts include #144 AquaSignal 2025 NEA aggregate + definition provenance, #145 NOEMA-007 feasible timely-receipt window, #146 INFRA-001 local high-water reference model and #148 NOEMA-005 local container reproduction. These four branches still target the prior `0b22644` base snapshot and require refresh/revalidation before merge. PR #149 documentation-only source-translation correction is merged as `2469d0c`; PR #150 Run 26 portfolio/status audit is merged as `27edcf`.
-- **Public research catalogue:** 1 preliminary, 0 published. No research item was promoted to Published.
-- **Run 25 audit:** [docs/run-audits/2026-11-27-run-25.md](run-audits/2026-11-27-run-25.md) — three independent clean-base Draft PRs with exact-head Quality CI and CPU-thread workflow success; a new official NEA 2025 aggregate report was found and encoded safely.
-- **Run 26 audit:** [docs/run-audits/2026-11-27-run-26.md](run-audits/2026-11-27-run-26.md) — AquaSignal source-term correction and reporting-frame reconciliation, NOEMA-005 frozen-report packaging/derived-metric audit, and a review of the two unchanged NOEMA-007/INFRA-001 Draft streams.
+- **მიმდინარე main snapshot:** `2852b7b5ee3fa7470ebc9c3eda339fc0e6235eda`.
+- **ბოლო დაფიქსირებული main Quality CI:** [45994809027](https://github.com/maisuradzee/bibmom/actions/runs/45994809027) — SUCCESS; ამ აუდიტში ყველა job/step, მათ შორის Python tests და public-site/publication-boundary build, ხელახლა დადასტურდა.
+- **ბოლო დაფიქსირებული Pages deployment:** [45994808987](https://github.com/maisuradzee/bibmom/actions/runs/45994808987) — build და deploy SUCCESS; Run 29-ში ახალი Pages deployment არ გაშვებულა, რადგან ცვლილებები ჯერ PR branch-ებზეა.
+- **ღია PR:** 33; **ღია Issue:** 0.
+- **კვლევის კატალოგი:** 1 Preliminary, 0 Published. დამოუკიდებელი რეცენზიის გარეშე კვლევა Published-ში არ გადადის.
+- **აქტიური პორტფელი:** ოთხივე ნაკადი აქტიურია — AquaSignal, NOEMA-005, NOEMA-007 და INFRA-001. ახალი ნაკადი არ დამატებულა; არცერთი არ დაპაუზებულა ან დასრულებულა.
 
+## Run 29 — source-metadata safety და cgroup mountinfo audit (2026-11-27)
+
+- **NOEMA-007 / PR #156:** `source_url` metadata guard ამოწმებს HTTPS URL-ის hostname-ს, უარყოფს user-info credentials-ს, ცნობილ credential-like query/fragment პარამეტრებს, control characters/whitespace-ს, არასწორ port-ს და ზედმეტ parameter count-ს. ჩვეულებრივი საჯარო კატალოგის selector-ები დაშვებულია. URL-ები არ იტვირთება და source authenticity არ მოწმდება. Head `92ded19d5040631bbb73ba09fc4ee4df70f2254d`; exact-head Quality CI [46009306236](https://github.com/maisuradzee/bibmom/actions/runs/46009306236) SUCCESS; CPU-thread workflow [46009306097](https://github.com/maisuradzee/bibmom/actions/runs/46009306097) SUCCESS; mergeable=true; Draft.
+- **NOEMA-005 / PR #157:** Linux kernel mountinfo path decoder გაფართოვდა kernel `seq_escape()`-ის path character set-ზე: space, tab, newline, hash და backslash. დაემატა newline/hash და literal escaped-backslash regression checks. Head `40d5bf9617f6ee6d6fc7b1d7da1748b1af429fe0`; exact-head Quality CI [46009633734](https://github.com/maisuradzee/bibmom/actions/runs/46009633734) SUCCESS; mergeable=true; Draft. Live mount namespace და ახალი timing benchmark არ ჩატარებულა.
+- **PR #159:** hosted GIL/free-threaded evidence package კვლავ Draft-ია; ამ Run 29 აუდიტში მისი სრული four-artifact reproduction და exact-head status ხელახლა არ შესრულებულა.
+- **PR #158:** Run 28 portfolio/status audit კვლავ ღიაა; ამ Run 29 ცვლილებებმა main-ში არაფერი გააერთიანა.
+- **AquaSignal:** NEA122 payload/API, sample-level data dictionary და reuse terms კვლავ ბლოკერია; არანაირი ახალი წყლის observation არ შემოტანილა.
+- **INFRA-001:** production key custody, independent trust-domain, immutable offsite retention და clean-host restore კვლავ არ არსებობს.
+- **საიტი:** main snapshot-ის ბოლო დაფიქსირებული deployment წარმატებულია; PR branch-ების ცვლილებები ჯერ გამოქვეყნებული არ არის.
+
+სრული მეთოდოლოგია, source classification, შეზღუდვები და შემდეგი პრიორიტეტები: [Run 29 audit](run-audits/2026-11-27-run-29.md).
+
+---
 
 ## Run 19 — exact research/engineering PR state
 
