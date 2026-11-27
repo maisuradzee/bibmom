@@ -1,14 +1,19 @@
 # NOEMA — მიმდინარე პროექტის მდგომარეობა
 
-- **განახლდა:** 2026-11-27 (Run 29 — source-metadata safety and cgroup mountinfo parser audit)
+- **განახლდა:** 2026-11-27 (Run 30 — hosted artifact integrity, URL metadata hardening და portfolio audit)
 - **საცავი:** https://github.com/maisuradzee/bibmom
-- **მიმდინარე main snapshot:** `2852b7b5ee3fa7470ebc9c3eda339fc0e6235eda`.
-- **ბოლო დაფიქსირებული main Quality CI:** [45994809027](https://github.com/maisuradzee/bibmom/actions/runs/45994809027) — SUCCESS; ამ აუდიტში ყველა job/step, მათ შორის Python tests და public-site/publication-boundary build, ხელახლა დადასტურდა.
-- **ბოლო დაფიქსირებული Pages deployment:** [45994808987](https://github.com/maisuradzee/bibmom/actions/runs/45994808987) — build და deploy SUCCESS; Run 29-ში ახალი Pages deployment არ გაშვებულა, რადგან ცვლილებები ჯერ PR branch-ებზეა.
+- **მიმდინარე main snapshot:** `a14884ca65887b6c324d4e9968b5796362b30503`.
+- **ბოლო main Quality CI:** [46013610873](https://github.com/maisuradzee/bibmom/actions/runs/46013610873) — SUCCESS; 457 Python tests, frozen-result/schema checks, public-site build და publication-boundary checks.
+- **ბოლო Pages deployment:** [46013610962](https://github.com/maisuradzee/bibmom/actions/runs/46013610962) — build და deploy SUCCESS ზუსტად main SHA `a14884ca65887b6c324d4e9968b5796362b30503`-ზე.
 - **ღია PR:** 33; **ღია Issue:** 0.
 - **კვლევის კატალოგი:** 1 Preliminary, 0 Published. დამოუკიდებელი რეცენზიის გარეშე კვლევა Published-ში არ გადადის.
 - **აქტიური პორტფელი:** ოთხივე ნაკადი აქტიურია — AquaSignal, NOEMA-005, NOEMA-007 და INFRA-001. ახალი ნაკადი არ დამატებულა; არცერთი არ დაპაუზებულა ან დასრულებულა.
 
+## Run 30 — evidence integrity, URL metadata და პორტფელის აუდიტი (2026-11-27)
+
+- **PR #160:** Run 29 audit/portfolio ცვლილებები გაერთიანდა exact head `5e44b336ac1cab350db9742b91a784f853933c32`-ზე, merge commit `a14884ca65887b6c324d4e9968b5796362b30503`. PR-ის Quality CI და ორივე CPU-thread job წარმატებული იყო; mergeable=true და საჯარო შინაარსი შემოწმებული იყო. Post-merge main Quality CI [46013610873](https://github.com/maisuradzee/bibmom/actions/runs/46013610873) და Pages build/deploy [46013610962](https://github.com/maisuradzee/bibmom/actions/runs/46013610962) წარმატებულია.
+- **NOEMA-005 / PR #159:** ექვსი hosted artifact (სამი GIL-enabled/free-threaded workflow pair, 48 კონფიგურაცია × 3 გამეორება თითო artifact-ში; სულ 864 timed repetition) შენარჩუნებულია sanitized ფორმით. Run 30-ში ექვსივე ორიგინალი Actions ZIP და თითოეული ZIP-ის source JSON SHA-256 დამოუკიდებლად შევადარე manifest-ს — 6/6 ZIP და 6/6 source-report hash დაემთხვა. ორი free-threaded snapshot-ის ძველი Base64 დაზიანების გარდა, exact-head validation-მა მესამე, GIL-enabled Run 46011557117 snapshot-შიც არასწორი Base64 სიგრძე გამოავლინა; იგი ორიგინალი ZIP-იდან აღდგა, regenerated gzip SHA-256 დაემთხვა manifest-ს, raw measurements არ შეცვლილა. საბოლოო head `cb25a0b4aad6a8c556cd517c4fe575e0ca0c0cd2`; Quality CI [46013707604](https://github.com/maisuradzee/bibmom/actions/runs/46013707604) და GIL/free-threaded CPU-thread workflow [46013707725](https://github.com/maisuradzee/bibmom/actions/runs/46013707725) SUCCESS. PR Draft-ია; დამოუკიდებელი numerical-method review და physical x86-64/ARM64 replication კვლავ საჭიროა.
+- **NOEMA-007 / PR #156:** public source URL guard გაფართოვდა double-percent-encoded credential parameter-ებისა და 
 ## Run 29 — source-metadata safety და cgroup mountinfo audit (2026-11-27)
 
 - **NOEMA-007 / PR #156:** `source_url` metadata guard ამოწმებს HTTPS URL-ის hostname-ს, უარყოფს user-info credentials-ს, ცნობილ credential-like query/fragment პარამეტრებს, control characters/whitespace-ს, არასწორ port-ს და ზედმეტ parameter count-ს. ჩვეულებრივი საჯარო კატალოგის selector-ები დაშვებულია. URL-ები არ იტვირთება და source authenticity არ მოწმდება. Head `92ded19d5040631bbb73ba09fc4ee4df70f2254d`; exact-head Quality CI [46009306236](https://github.com/maisuradzee/bibmom/actions/runs/46009306236) SUCCESS; CPU-thread workflow [46009306097](https://github.com/maisuradzee/bibmom/actions/runs/46009306097) SUCCESS; mergeable=true; Draft.
