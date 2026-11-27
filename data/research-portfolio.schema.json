@@ -141,6 +141,10 @@
                 "accessed_at": {
                   "type": "string",
                   "format": "date"
+                },
+                "note": {
+                  "type": "string",
+                  "maxLength": 2000
                 }
               }
             }
