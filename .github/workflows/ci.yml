@@ -42,6 +42,9 @@ jobs:
           test -f tests/test_noema005_threaded_reruns.py
           test -f scripts/validate_noema005_cpu_thread_summary.py
           test -f tests/test_noema005_cpu_thread_summary.py
+          test -f data/noema-005/threaded-run-2026-11-27-summary.json
+          test -f data/noema-005/threaded-run-2026-11-27-summary.schema.json
+          test -f tests/test_noema005_threaded_run_summary.py
           test -f data/noema-007/mhews-2026-source-snapshot.json
           test -f data/noema-007/mhews-2026-derived-results.json
           test -f scripts/reproduce_noema007_mhews_snapshot.py
@@ -179,6 +182,8 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_noema005_thread_artifact_audit.py' -v
       - name: Validate frozen NOEMA-005 real CPU-thread benchmark summary
         run: python scripts/validate_noema005_cpu_thread_summary.py
+      - name: Validate NOEMA-005 Run 34 two-pair threaded summary
+        run: python -m unittest discover -s tests -p 'test_noema005_threaded_run_summary.py' -v
       - name: Validate NOEMA-005 2026-11-26 threaded rerun summary
         run: python scripts/validate_noema005_threaded_rerun.py
       - name: Reproduce NOEMA-005 two-run threaded raw reports

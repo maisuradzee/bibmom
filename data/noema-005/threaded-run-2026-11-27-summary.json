@@ -1,0 +1,285 @@
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-005",
+  "experiment_id": "NOEMA-2026-005-REAL-THREADS-001",
+  "evidence_status": "REPRODUCED_RESULT",
+  "protocol": {
+    "python_version": "3.14.4",
+    "cpu_count_os": 4,
+    "cpu_count_process": 4,
+    "cpu_affinity_count": 4,
+    "workers": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "methods": [
+      "threaded_naive_scalar",
+      "threaded_neumaier_scalar",
+      "threaded_neumaier_state"
+    ],
+    "partitions": [
+      "contiguous",
+      "round_robin"
+    ],
+    "layouts": [
+      "triplet_order",
+      "grouped_cancellation"
+    ],
+    "values_per_layout": 196608,
+    "repeat_count": 65536,
+    "warmups": 1,
+    "repetitions": 3,
+    "cpu_timer": "time.process_time_ns",
+    "wall_timer": "time.perf_counter_ns",
+    "memory_metric": "tracemalloc peak delta; Python allocations only, not RSS/native allocations",
+    "thread_identity": "threading.get_native_id; one distinct native thread per worker",
+    "merge_policy": "scalar partials via math.fsum; compensation pairs via Neumaier",
+    "random_seed": null,
+    "randomness": "none; deterministic constructed inputs"
+  },
+  "inputs": [
+    {
+      "layout": "triplet_order",
+      "value_count": 196608,
+      "repeat_count": 65536,
+      "canonical_binary64_big_endian_sha256": "e6cc4a627d55c476cb55e6f9789ceb39282e1f787d4b0a5fc040b30428085291",
+      "exact_sum_fraction": "65536",
+      "correctly_rounded_binary64_reference": 65536
+    },
+    {
+      "layout": "grouped_cancellation",
+      "value_count": 196608,
+      "repeat_count": 65536,
+      "canonical_binary64_big_endian_sha256": "16ae80fed695b4d02f4a42a2e7c3f5b8a5eff96e97296273c3ddcacfb19090ee",
+      "exact_sum_fraction": "65536",
+      "correctly_rounded_binary64_reference": 65536
+    }
+  ],
+  "source": {
+    "repository": "maisuradzee/bibmom",
+    "benchmark_workflow": "NOEMA-005 actual CPU-thread benchmark",
+    "runs": [
+      {
+        "run_id": 46042334393,
+        "pr": 182,
+        "head_sha": "871006c7def10ec6f606c76e73cae72b5ee5cebc",
+        "generated_at": "2026-11-27T17:30:41Z"
+      },
+      {
+        "run_id": 46043232025,
+        "pr": 183,
+        "head_sha": "6d2926b7f34eedde34a93202b441d710df8087f4",
+        "generated_at": "2026-11-27T17:37:00Z"
+      }
+    ],
+    "artifacts": [
+      {
+        "run_id": 46042334393,
+        "mode": "gil_enabled",
+        "artifact_id": 15220093434,
+        "runner_platform": "Linux-7.0.0-1018-aws-x86_64-with-glibc2.39",
+        "zip_sha256": "8dd6abdaf7f55db6f7a3bcfdcb5b62c44dc00715cf6394268d1e7709b1774d72",
+        "json_sha256": "94aee2906078410543eabc1b2e43d308596ebbb5cfc8b116fe004c90fe9a9ee5"
+      },
+      {
+        "run_id": 46042334393,
+        "mode": "free_threaded",
+        "artifact_id": 15220252412,
+        "runner_platform": "Linux-7.0.0-1018-aws-x86_64-with-glibc2.39",
+        "zip_sha256": "8666ce2c4dfaadddbc8daee69eed32bb6a32ab53a98489ee40fc1ac915c2368e",
+        "json_sha256": "2064fd457e0704431fa2715f0da6d028e3547922728322365613d313c2c13869"
+      },
+      {
+        "run_id": 46043232025,
+        "mode": "gil_enabled",
+        "artifact_id": 15221052559,
+        "runner_platform": "Linux-7.0.0-1020-azure-x86_64-with-glibc2.39",
+        "zip_sha256": "2afded43c708d7d4b1ea59c521b1e3a3ac4ef1e7d2985f9cd5f1af7404aed127",
+        "json_sha256": "51587f1752768e8d20de0fae0a1e79ee21b3fb7b838c6263edb730a5d1a25b81"
+      },
+      {
+        "run_id": 46043232025,
+        "mode": "free_threaded",
+        "artifact_id": 15220578066,
+        "runner_platform": "Linux-7.0.0-1018-aws-x86_64-with-glibc2.39",
+        "zip_sha256": "a705cbee4378539a10ca8a022f291ee57211a043b113023d7b16d9aea2fd2444",
+        "json_sha256": "c8fef2434a7f002c0b72ecdc40403f85952f2c32d504d2662019ad397460be43"
+      }
+    ]
+  },
+  "combined": {
+    "artifacts": 4,
+    "configurations": 192,
+    "measured_threaded_runs": 576,
+    "native_thread_count_matches_requested": true,
+    "speedup_gt_1_configurations": 0,
+    "accuracy": {
+      "threaded_naive_scalar": {
+        "configurations": 64,
+        "exact_configs_3_of_3": 0,
+        "correct_runs": 0
+      },
+      "threaded_neumaier_scalar": {
+        "configurations": 64,
+        "exact_configs_3_of_3": 56,
+        "correct_runs": 168
+      },
+      "threaded_neumaier_state": {
+        "configurations": 64,
+        "exact_configs_3_of_3": 64,
+        "correct_runs": 192
+      }
+    }
+  },
+  "modes": {
+    "free_threaded": {
+      "artifacts": 2,
+      "configurations": 96,
+      "measured_threaded_runs": 288,
+      "cpu_parallelism_gt_1_05_configurations": 72,
+      "speedup_gt_1_configurations": 0,
+      "methods": {
+        "threaded_naive_scalar": {
+          "configurations": 32,
+          "exact_configs_3_of_3": 0,
+          "correct_runs": 0,
+          "median_speedup": 0.17561730313142954,
+          "median_cpu_wall_ratio": 2.600725311119276,
+          "median_tracemalloc_peak_bytes": 275501
+        },
+        "threaded_neumaier_scalar": {
+          "configurations": 32,
+          "exact_configs_3_of_3": 28,
+          "correct_runs": 84,
+          "median_speedup": 0.7119466899697635,
+          "median_cpu_wall_ratio": 2.530666675563931,
+          "median_tracemalloc_peak_bytes": 277765
+        },
+        "threaded_neumaier_state": {
+          "configurations": 32,
+          "exact_configs_3_of_3": 32,
+          "correct_runs": 96,
+          "median_speedup": 0.7043542258804394,
+          "median_cpu_wall_ratio": 2.6305456567566674,
+          "median_tracemalloc_peak_bytes": 276989
+        }
+      },
+      "neumaier_state_by_worker": [
+        {
+          "workers": 1,
+          "configurations": 8,
+          "median_speedup": 0.6963486173184047,
+          "median_cpu_wall_ratio": 0.9954318604589132,
+          "median_tracemalloc_peak_bytes": 95149,
+          "exact_configs_3_of_3": 8
+        },
+        {
+          "workers": 2,
+          "configurations": 8,
+          "median_speedup": 0.6165753957770936,
+          "median_cpu_wall_ratio": 1.977675030185679,
+          "median_tracemalloc_peak_bytes": 185798,
+          "exact_configs_3_of_3": 8
+        },
+        {
+          "workers": 4,
+          "configurations": 8,
+          "median_speedup": 0.737963400862189,
+          "median_cpu_wall_ratio": 3.80983389562334,
+          "median_tracemalloc_peak_bytes": 366876,
+          "exact_configs_3_of_3": 8
+        },
+        {
+          "workers": 8,
+          "configurations": 8,
+          "median_speedup": 0.7208332072825614,
+          "median_cpu_wall_ratio": 3.5164351406774728,
+          "median_tracemalloc_peak_bytes": 731280,
+          "exact_configs_3_of_3": 8
+        }
+      ]
+    },
+    "gil_enabled": {
+      "artifacts": 2,
+      "configurations": 96,
+      "measured_threaded_runs": 288,
+      "cpu_parallelism_gt_1_05_configurations": 0,
+      "speedup_gt_1_configurations": 0,
+      "methods": {
+        "threaded_naive_scalar": {
+          "configurations": 32,
+          "exact_configs_3_of_3": 0,
+          "correct_runs": 0,
+          "median_speedup": 0.5013971552758244,
+          "median_cpu_wall_ratio": 1.0087124597048933,
+          "median_tracemalloc_peak_bytes": 25165
+        },
+        "threaded_neumaier_scalar": {
+          "configurations": 32,
+          "exact_configs_3_of_3": 28,
+          "correct_runs": 84,
+          "median_speedup": 0.763662335890863,
+          "median_cpu_wall_ratio": 1.0041243533456123,
+          "median_tracemalloc_peak_bytes": 25461
+        },
+        "threaded_neumaier_state": {
+          "configurations": 32,
+          "exact_configs_3_of_3": 32,
+          "correct_runs": 96,
+          "median_speedup": 0.7600861490802322,
+          "median_cpu_wall_ratio": 1.0050647033778575,
+          "median_tracemalloc_peak_bytes": 25373
+        }
+      },
+      "neumaier_state_by_worker": [
+        {
+          "workers": 1,
+          "configurations": 8,
+          "median_speedup": 0.7807595636975558,
+          "median_cpu_wall_ratio": 0.9971150678723593,
+          "median_tracemalloc_peak_bytes": 11535,
+          "exact_configs_3_of_3": 8
+        },
+        {
+          "workers": 2,
+          "configurations": 8,
+          "median_speedup": 0.7734229601835645,
+          "median_cpu_wall_ratio": 1.0031098500240685,
+          "median_tracemalloc_peak_bytes": 18470,
+          "exact_configs_3_of_3": 8
+        },
+        {
+          "workers": 4,
+          "configurations": 8,
+          "median_speedup": 0.7543678461888839,
+          "median_cpu_wall_ratio": 1.0102704356479988,
+          "median_tracemalloc_peak_bytes": 32452,
+          "exact_configs_3_of_3": 8
+        },
+        {
+          "workers": 8,
+          "configurations": 8,
+          "median_speedup": 0.7336615894728198,
+          "median_cpu_wall_ratio": 1.0123429746009456,
+          "median_tracemalloc_peak_bytes": 60460,
+          "exact_configs_3_of_3": 8
+        }
+      ]
+    }
+  },
+  "interpretation": {
+    "result": "Neumaier compensation-state merge reproduced the correctly rounded reference in all 192 measured runs. Scalar Neumaier was correct in 168/192 runs; naive scalar was correct in 0/192.",
+    "performance": "No threaded configuration exceeded its matching serial baseline in any of the 192 configurations. Free-threaded mode showed process CPU/wall ratio above 1.05 in 72/96 configurations, while GIL-enabled mode did so in 0/96.",
+    "runner_comparison": "Run 1 used the same AWS x86-64 runner family for GIL and free-threaded modes. Run 2 used AWS for free-threaded and Azure for GIL-enabled mode; run 2 is not a matched cross-mode comparison.",
+    "memory": "tracemalloc records Python allocation peaks only; it is not process RSS or native allocator memory."
+  },
+  "limitations": [
+    "Hosted x86-64 GitHub runners only; no user-owned physical workstation, ARM64 host, or independently administered machine was tested.",
+    "Three measured repetitions per configuration and one warm-up; medians are exploratory and not a robust performance distribution.",
+    "The synthetic 196,608-value cancellation workloads may not represent production application workloads.",
+    "No configuration achieved wall-time speedup over its matching serial baseline, despite evidence of aggregate multi-thread CPU use in free-threaded runs.",
+    "tracemalloc is Python allocation accounting only; RSS, native allocator memory, DRAM bandwidth, CPU frequency, context switches and thermal state were not measured."
+  ]
+}
