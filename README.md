@@ -128,3 +128,8 @@ A reproducible C/OpenMP benchmark for compensated reduction, exact synthetic ref
 ## NOEMA-005 — two-run real-thread comparison (2026-11-26)
 
 Two raw workflow reports from run `45867519546` are preserved as gzip+base64 files under `data/noema-005/raw/`. `scripts/reproduce_noema005_threaded_reruns.py --check` verifies raw report hashes and recomputes the aggregate comparison against run `45850716742`. The free-threaded Neumaier-state median crossed 1.0 only in the second run (0.9519× → 1.0181×); this is run-to-run sensitivity, not a robust speedup claim. The study remains preliminary.
+
+
+## AquaSignal published-aggregate audit
+
+The 2020–2024 Georgia drinking-water aggregate cross-check is documented in [`research/drafts/NOEMA-2026-006-georgia-drinking-water-monitoring-aggregate-audit-2026-11-27.md`](research/drafts/NOEMA-2026-006-georgia-drinking-water-monitoring-aggregate-audit-2026-11-27.md). Its frozen source transcription, schema, reproducible denominator/rate audit and tests are stored under `data/noema-006/`, `scripts/audit_noema006_georgia_monitoring_aggregates.py` and `tests/test_noema006_georgia_monitoring_aggregates.py`. No raw sample or personal data is included.
