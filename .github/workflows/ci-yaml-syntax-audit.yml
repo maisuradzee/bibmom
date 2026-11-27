@@ -1,0 +1,24 @@
+name: NOEMA workflow syntax audit
+
+on:
+  push:
+    branches: [codex/noema-ci-recovery-loop-2026-11-28]
+
+permissions:
+  contents: read
+
+jobs:
+  validate-workflow-yaml:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Parse all GitHub Actions workflow files
+        run: |
+          ruby - <<'RUBY'
+          require "yaml"
+          Dir.glob(".github/workflows/*.{yml,yaml}").sort.each do |path|
+            YAML.parse_file(path)
+            puts "YAML syntax OK: #{path}"
+          end
+          RUBY
