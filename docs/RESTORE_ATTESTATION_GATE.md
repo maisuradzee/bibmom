@@ -29,7 +29,7 @@ The result `OFFSITE_CHECKLIST_COMPLETE` is intentionally not named â€œverifiedâ€
 ## Evidence and standards
 
 - **FACT:** SQLite's Online Backup API produces a snapshot corresponding to the database state when the backup sequence begins; the official documentation describes the online backup behavior and limitations: https://www.sqlite.org/backup.html
-- **FACT:** TUF v1.0.36 explicitly addresses rollback and indefinite-freeze attacks; its threat model supports keeping freshness/monotonic state outside the untrusted backup object: https://theupdateframework.github.io/specification/v1.0.36/
+- **FACT:** TUF v1.0.37 explicitly addresses rollback and indefinite-freeze attacks; its threat model supports keeping freshness/monotonic state outside the untrusted backup object: https://theupdateframework.github.io/specification/v1.0.37/
 - **INFERENCE:** A signed manifest plus local hashes cannot by itself prove that the selected backup is the newest or that provider retention is active. An independent high-water authority and separately verified provider evidence are needed for that claim.
 - **UNTESTED IDEA:** a real offsite restore drill on a clean host, with approved owner-controlled RPO/RTO and a separately operated high-water authority.
 
