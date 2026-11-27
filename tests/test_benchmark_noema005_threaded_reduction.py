@@ -45,7 +45,7 @@ class Noema005ThreadedReductionTests(unittest.TestCase):
 
     def test_small_benchmark_records_accuracy_memory_and_environment(self):
         report = run_benchmark(64, (1, 2), 0, 1, "any")
-        self.assertEqual(report["experiment_id"], "NOEMA-2026-005-REAL-THREADS-001")
+        self.assertEqual(report["experiment_id"], "NOEMA-2026-005-REAL-THREADS-002")
         self.assertEqual(len(report["inputs"]), 2)
         self.assertEqual(len(report["threaded_cases"]), 32)
         self.assertEqual(
