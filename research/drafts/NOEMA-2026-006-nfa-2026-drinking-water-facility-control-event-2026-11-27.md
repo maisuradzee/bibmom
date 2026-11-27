@@ -1,7 +1,7 @@
 # NOEMA-2026-006 — NFA 2026 drinking-water facility control event
 
-- თარიღი: 2026-11-27
-- სტატუსი: draft
+- **თარიღი:** 2026-11-27
+- **სტატუსი:** draft
 - Evidence status: FACT (the agency's published inspection statement only)
 
 ## საკვლევი კითხვა
