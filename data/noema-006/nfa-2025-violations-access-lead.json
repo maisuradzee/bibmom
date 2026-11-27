@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-006",
+  "source": {
+    "publisher": "National Food Agency of Georgia",
+    "page_title": "2025 წელს გამოვლენილი დარღვევები",
+    "publication_date": "2026-01-08",
+    "page_url": "https://nfa.gov.ge/Ge/IdentifiedViolations/1713",
+    "file_url": "https://nfa.gov.ge/Ge/Files/Download/8918",
+    "file_label": "Violations found in food and drinking-water monitoring samples",
+    "observed_content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    "retrieval_status": "not_retrieved",
+    "byte_length": null,
+    "sha256": null,
+    "reuse_terms": "not_verified",
+    "accessed_at": "2026-11-27"
+  },
+  "reported_2025_context": {
+    "inspections_total": 21874,
+    "scheduled_inspections": 9241,
+    "unscheduled_inspections": 1833,
+    "recognition_related_inspections": 279,
+    "business_operators_rechecked": 10521,
+    "critical_noncompliance_operators": 554
+  },
+  "file_scope": "combined_food_and_drinking_water_sample_violations",
+  "drinking_water_sample_denominator": null,
+  "denominator_status": "not_published_on_landing_page",
+  "evidence_status": "FACT",
+  "interpretation_limits": [
+    "The page's headline control totals are source-reported administrative counts, not a drinking-water sample prevalence estimate.",
+    "The linked file is described as violations in food and drinking-water monitoring samples; the landing page does not provide a drinking-water-only denominator or the full universe of tested samples.",
+    "A violations-only file cannot establish the rate of non-compliance unless the complete eligible sample denominator and selection frame are documented.",
+    "This 2025 file does not resolve the missing denominator for the separate 2024 E. coli statistic in the Georgia Protocol on Water and Health report.",
+    "The file's worksheets, columns, row count, geographic coverage, sample matrix definitions, laboratory methods and reuse terms have not been inspected."
+  ],
+  "privacy": {
+    "raw_payload_committed": false,
+    "row_level_data_extracted": false,
+    "operator_or_personal_data_committed": false
+  }
+}
