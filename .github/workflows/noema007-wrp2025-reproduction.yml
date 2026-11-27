@@ -15,7 +15,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: noema007-wrp2025-reproduction-\${{ github.ref }}
+  group: noema007-wrp2025-reproduction-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -46,6 +46,6 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: noema007-wrp2025-aggregate-only
-          path: \${{ runner.temp }}/noema007-wrp2025-aggregate.json
+          path: ${{ runner.temp }}/noema007-wrp2025-aggregate.json
           if-no-files-found: error
           retention-days: 30
