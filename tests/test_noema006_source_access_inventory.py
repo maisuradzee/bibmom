@@ -70,6 +70,20 @@ class AquaSignalSourceAccessInventoryTests(unittest.TestCase):
         self.assertIs(source["reuse_terms_verified"], False)
         self.assertIn("retrieval from this execution environment failed", source["note"].casefold())
 
+    def test_2021_hydrogeological_bulletin_is_a_distinct_uninspected_historical_source(self):
+        source = next(item for item in self.instance["sources"] if item["id"] == "NEA_GW_2021_BULLETIN")
+        current_archive = next(item for item in self.instance["sources"] if item["id"] == "NEA_GW_2021_2025_RAR")
+        self.assertEqual(source["publication_date"], "2021-11")
+        self.assertEqual(source["observation_period"], "2021")
+        self.assertEqual(source["access_status"], "public_bulletin_listing_payload_not_retrieved")
+        self.assertEqual(source["url"], "https://nea.gov.ge/weather/Download/File/1183")
+        self.assertIs(source["sample_level_schema_verified"], False)
+        self.assertIs(source["reuse_terms_verified"], False)
+        self.assertNotEqual(source["id"], current_archive["id"])
+        self.assertNotEqual(source["observation_period"], current_archive["observation_period"])
+        self.assertIn("no PDF bytes", source["note"])
+        self.assertIn("Departments/Geology/Biulettins", source["note"])
+
     def test_source_ids_are_unique(self):
         ids = [item["id"] for item in self.instance["sources"]]
         self.assertEqual(len(ids), len(set(ids)))
