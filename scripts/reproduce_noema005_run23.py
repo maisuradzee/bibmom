@@ -167,9 +167,10 @@ def aggregate(report: dict[str, Any]) -> dict[str, Any]:
         rows = [case for case in cases if case.get("method") == method]
         if len(rows) != len(expected_pairs):
             raise ValueError(f"{method} must contain exactly {len(expected_pairs)} cases")
+        validated_cases = [_validate_case(case, method) for case in rows]
         observed_pairs = [
-            (case.get("layout"), case.get("worker_count"), case.get("partition"))
-            for case in rows
+            (validated[1], validated[3], validated[2])
+            for validated in validated_cases
         ]
         if len(set(observed_pairs)) != len(observed_pairs) or set(observed_pairs) != expected_pairs:
             raise ValueError(f"{method} layout/worker/partition matrix is duplicate or incomplete")
@@ -178,8 +179,8 @@ def aggregate(report: dict[str, Any]) -> dict[str, Any]:
         speedups: list[float] = []
         cpu_wall: list[float] = []
         memory: list[int] = []
-        for case in rows:
-            case_correct, _, _, _, speedup, ratio, peak = _validate_case(case, method)
+        for case, validated in zip(rows, validated_cases):
+            case_correct, _, _, _, speedup, ratio, peak = validated
             correct += case_correct
             total += EXPECTED_RUNS
             speedups.append(speedup)
