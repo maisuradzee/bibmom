@@ -1,0 +1,178 @@
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-006",
+  "finding_id": "AQUASIGNAL-PUBLIC-INFORMATION-001",
+  "snapshot_date": "2026-11-27",
+  "evidence_boundary": "Public-source documentary synthesis only. No raw sample-level, household, health, private-well, personal or operational records were imported.",
+  "sources": [
+    {
+      "id": "PDO-GE-RIGHT-TO-WATER-2025",
+      "title": "Realisation of the Right to Water in Georgia — Special Report of the Public Defender of Georgia",
+      "publisher": "Public Defender (Ombudsman) of Georgia",
+      "publication_date": "2025",
+      "url": "https://www.undp.org/sites/g/files/zskgke326/files/2025-06/undp-georgia-pdo-report-right-to-water-eng.pdf",
+      "source_type": "official_oversight_report",
+      "access_date": "2026-11-27",
+      "locators": [
+        "PDF pp. 34, 37, 49-51, 54 (extracted lines 615, 663-667, 853-900, 935-937)"
+      ],
+      "provenance_note": "Prepared by the Office of the Public Defender with assistance from UN/UNDP and other partners; the report states that its contents are the sole responsibility of the author."
+    },
+    {
+      "id": "JECM-2025-01-25",
+      "title": "State control and monitoring trends of drinking water quality in Georgia",
+      "publisher": "Experimental and Clinical Medicine Georgia",
+      "publication_date": "2025-03",
+      "url": "https://journals.4science.ge/index.php/jecm/article/download/3442/3462",
+      "source_type": "journal_article_secondary_analysis",
+      "access_date": "2026-11-27",
+      "locators": [
+        "PDF pp. 1-5; abstract and Methods state secondary analysis of NFA 2020-2023 monitoring data; p. 3 reports 49.5% in 2023"
+      ],
+      "provenance_note": "The article's formal peer-review procedure was not independently verified from accessible journal policy pages."
+    },
+    {
+      "id": "GEORGIA-UNECE-WH-6TH-CYCLE-2025",
+      "title": "Summary reports in accordance with Article 7 of the Protocol on Water and Health — Georgia",
+      "publisher": "Government of Georgia (submitted through UNECE/WHO reporting system)",
+      "publication_date": "2025-04-01",
+      "url": "https://unece.org/sites/default/files/2025-10/Georgia_summary_report_6th_cycle_1Apr25_ENG.pdf",
+      "source_type": "government_submitted_international_reporting_document",
+      "access_date": "2026-11-27",
+      "locators": [
+        "PDF p. 1 (Submitted 2025-04-01); p. 16 (all-standard non-compliance narrative); pp. 54-56 (sample-source response blank and E. coli table)"
+      ],
+      "provenance_note": "This is a Government of Georgia submission, not an independent UNECE/WHO survey. The report states Georgia had not ratified the Protocol and did not set Protocol target indicators for 2022-2024."
+    }
+  ],
+  "findings": [
+    {
+      "id": "F-001",
+      "status": "FACT",
+      "statement": "The Public Defender's 2025 report states that lack of information about drinking-water quality among residents was one of the main challenges observed during its monitoring visits.",
+      "source_ids": [
+        "PDO-GE-RIGHT-TO-WATER-2025"
+      ],
+      "locator": "PDF p. 34",
+      "limitation": "This is an oversight finding from the report's monitoring work, not a nationally representative prevalence estimate."
+    },
+    {
+      "id": "F-002",
+      "status": "FACT",
+      "statement": "The Public Defender reports visits to five regions, 35 villages and 15 municipalities, interviews with residents and requests for written municipal information; some responses were missing, incomplete or differed from residents' accounts.",
+      "source_ids": [
+        "PDO-GE-RIGHT-TO-WATER-2025"
+      ],
+      "locator": "PDF p. 37",
+      "limitation": "The report does not establish a probability sample of all Georgian settlements; the observations must not be generalized as a national percentage."
+    },
+    {
+      "id": "F-003",
+      "status": "FACT",
+      "statement": "The Public Defender recommends a unified platform/database for understandable public information on drinking-water quality-control results and supplementary dissemination mechanisms beyond the online platform.",
+      "source_ids": [
+        "PDO-GE-RIGHT-TO-WATER-2025"
+      ],
+      "locator": "PDF p. 54",
+      "limitation": "A recommendation is not evidence that such a platform is absent today or that implementation has not occurred after the report."
+    },
+    {
+      "id": "F-004",
+      "status": "FACT",
+      "statement": "The JECM 2025 article describes its work as a secondary hygienic analysis of National Food Agency monitoring data for 2020-2023 and reports 49.5% non-compliance among monitoring samples in 2023.",
+      "source_ids": [
+        "JECM-2025-01-25"
+      ],
+      "locator": "PDF pp. 1 and 3",
+      "limitation": "The article does not provide raw sample-level records or a complete sample-selection design; formal peer-review status was not independently verified."
+    },
+    {
+      "id": "F-005",
+      "status": "FACT",
+      "statement": "The Government of Georgia's report submitted through the UNECE/WHO reporting system reports 44.5% broad drinking-water standard non-compliance for 2023 and 40.3% for 2024; its E. coli table is a separate indicator context.",
+      "source_ids": [
+        "GEORGIA-UNECE-WH-6TH-CYCLE-2025"
+      ],
+      "locator": "PDF pp. 16 and 56",
+      "limitation": "The 2023 44.5% figure is not numerically reconciled with JECM's 49.5%; the submitted report does not provide enough sample-frame/denominator detail to resolve the five-percentage-point difference."
+    },
+    {
+      "id": "I-001",
+      "status": "INFERENCE",
+      "statement": "A high-value AquaSignal opportunity is a provenance-aware public-information and accessibility layer that makes authorized monitoring results easier to find and understand, rather than an independent national water-safety score.",
+      "source_ids": [
+        "PDO-GE-RIGHT-TO-WATER-2025",
+        "JECM-2025-01-25",
+        "GEORGIA-UNECE-WH-6TH-CYCLE-2025"
+      ],
+      "locator": "Synthesis of the cited report findings and indicator limitations",
+      "limitation": "The inference identifies a research opportunity; it does not measure current service performance or prove that a new platform would improve health outcomes."
+    },
+    {
+      "id": "H-001",
+      "status": "HYPOTHESIS",
+      "statement": "If authorized results are published with clear sample context, indicator definitions, freshness, correction history and non-digital access routes, residents and local service partners may understand official water-quality information more reliably.",
+      "source_ids": [
+        "PDO-GE-RIGHT-TO-WATER-2025"
+      ],
+      "locator": "Proposed testable hypothesis derived from PDF p. 54 recommendations",
+      "limitation": "Requires usability, accessibility and comprehension testing with approved participants; no effect is established."
+    },
+    {
+      "id": "U-001",
+      "status": "UNTESTED_IDEA",
+      "statement": "A bilingual, low-bandwidth public result page with printable municipal notices, phone/contact alternatives and a correction request path may be a practical interface for an authority-owned disclosure service.",
+      "source_ids": [
+        "PDO-GE-RIGHT-TO-WATER-2025"
+      ],
+      "locator": "Design proposal only",
+      "limitation": "No prototype usability test, authority approval, data-sharing agreement or operational integration has been performed."
+    }
+  ],
+  "design_requirements": [
+    {
+      "id": "R-001",
+      "requirement": "Keep potable-network compliance, groundwater-source monitoring, surface-water monitoring and bottled-water testing in distinct data domains.",
+      "rationale": "Different matrices, sampling frames and authorities cannot be combined into one indicator without a validated mapping.",
+      "privacy_boundary": "No individual private-well records or owner data."
+    },
+    {
+      "id": "R-002",
+      "requirement": "Every public result must carry source authority, sample frame, sampling date, point type, analyte, value, unit, method, laboratory/accreditation status, QA flags, applicable standard/version, denominator where relevant, publication date and revision history.",
+      "rationale": "A percentage without denominator and sample context cannot support reliable comparison or local operational inference.",
+      "privacy_boundary": "Use only authority-approved location precision and suppress small cells."
+    },
+    {
+      "id": "R-003",
+      "requirement": "Represent missing, delayed, withdrawn and not-yet-published results as explicit states; never convert missing data into a safe/normal status.",
+      "rationale": "Absence of a published result is not evidence of compliant water.",
+      "privacy_boundary": "Do not infer or expose a household's water source from missing records."
+    },
+    {
+      "id": "R-004",
+      "requirement": "The responsible authority owns result publication, interpretation, corrections and any public notice; NOEMA only validates provenance/completeness and renders approved information.",
+      "rationale": "Avoids duplicate warning authority and unauthorized health advice.",
+      "privacy_boundary": "No autonomous declaration of safe/unsafe water."
+    },
+    {
+      "id": "R-005",
+      "requirement": "Provide complementary dissemination options such as accessible web pages, printable notices and authority-approved phone/community channels.",
+      "rationale": "An online-only interface may exclude people with limited connectivity, accessibility needs or language barriers.",
+      "privacy_boundary": "No individual device tracking or behavioural advertising."
+    },
+    {
+      "id": "R-006",
+      "requirement": "Retain immutable source references and correction/version events, with public aggregates only.",
+      "rationale": "Users need to distinguish the latest approved result from a superseded or corrected result.",
+      "privacy_boundary": "No personal contact details, exact private-well coordinates or individual health data."
+    }
+  ],
+  "limitations": [
+    "Documentary synthesis only; no field survey, interviews or municipality-level verification were conducted by NOEMA.",
+    "The Public Defender's municipal visits are not a nationally representative probability sample.",
+    "JECM's 49.5% and the Government submission's 44.5% broad 2023 indicators remain unreconciled; neither should be used as a current local risk score.",
+    "No raw NFA, NEA, utility or laboratory sample-level data was obtained or imported.",
+    "No current public-information platform inventory, accessibility audit or user-comprehension baseline was completed.",
+    "The proposed disclosure layer is an architecture hypothesis; no operational prototype or authority integration is deployed."
+  ]
+}
