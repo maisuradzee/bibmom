@@ -165,9 +165,7 @@ jobs:
         run: python scripts/reproduce_noema007_anticipatory_action.py --check
       - name: Validate AquaSignal source-access inventory schema
         run: python -m unittest discover -s tests -p 'test_noema006_source_access_inventory.py' -v
-      - name: Validate AquaSignal WRP 2025 water-harm protocol and arithmetic
-        run: python -m unittest discover -s tests -p 'test_aquasignal_wrp2025_water_harm.py' -v
-      - name: Validate AquaSignal WRP 2025 frozen water-harm result
+      - name: Validate AquaSignal WRP 2025 water-harm protocol and frozen result
         run: python -m unittest discover -s tests -p 'test_aquasignal_wrp2025_water_harm.py' -v
       - name: Validate NOEMA-007 action-readiness aggregate contract
         run: python -m unittest discover -s tests -p 'test_noema007_action_readiness.py' -v
