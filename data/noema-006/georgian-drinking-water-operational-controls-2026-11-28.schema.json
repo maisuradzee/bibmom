@@ -19,7 +19,8 @@
     "transition_note",
     "interpretation_limits",
     "privacy",
-    "legal_transition_review_required"
+    "legal_transition_review_required",
+    "sampling_frequency_requirements"
   ],
   "properties": {
     "schema_version": {
@@ -64,7 +65,7 @@
         },
         "articles": {
           "type": "array",
-          "minItems": 8,
+          "minItems": 10,
           "uniqueItems": true,
           "items": {
             "type": "string",
@@ -77,7 +78,9 @@
               "3(4)",
               "3(6)",
               "3(9)",
-              "4(2)"
+              "4(2)",
+              "3(2)",
+              "3(3)"
             ]
           }
         }
@@ -324,6 +327,154 @@
     },
     "legal_transition_review_required": {
       "const": true
+    },
+    "sampling_frequency_requirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "article",
+        "groundwater_distribution",
+        "surface_water_distribution",
+        "process_parameters",
+        "special_case"
+      ],
+      "properties": {
+        "article": {
+          "const": "3(2)-(3), Table 7"
+        },
+        "groundwater_distribution": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "population_categories",
+            "annual_minimum_samples"
+          ],
+          "properties": {
+            "population_categories": {
+              "const": [
+                "up_to_20000",
+                "20000_to_100000",
+                "over_100000"
+              ]
+            },
+            "annual_minimum_samples": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "microbiological",
+                "organoleptic",
+                "general_indicators",
+                "inorganic_organic",
+                "radiological"
+              ],
+              "properties": {
+                "microbiological": {
+                  "const": [
+                    12,
+                    24,
+                    365
+                  ]
+                },
+                "organoleptic": {
+                  "const": [
+                    12,
+                    24,
+                    365
+                  ]
+                },
+                "general_indicators": {
+                  "const": [
+                    4,
+                    6,
+                    12
+                  ]
+                },
+                "inorganic_organic": {
+                  "const": [
+                    1,
+                    1,
+                    1
+                  ]
+                },
+                "radiological": {
+                  "const": [
+                    1,
+                    1,
+                    1
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "surface_water_distribution": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "population_categories",
+            "annual_minimum_samples"
+          ],
+          "properties": {
+            "population_categories": {
+              "const": [
+                "up_to_100000",
+                "over_100000"
+              ]
+            },
+            "annual_minimum_samples": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "microbiological",
+                "organoleptic",
+                "general_indicators",
+                "inorganic_organic",
+                "radiological"
+              ],
+              "properties": {
+                "microbiological": {
+                  "const": [
+                    365,
+                    365
+                  ]
+                },
+                "organoleptic": {
+                  "const": [
+                    365,
+                    365
+                  ]
+                },
+                "general_indicators": {
+                  "const": [
+                    12,
+                    24
+                  ]
+                },
+                "inorganic_organic": {
+                  "const": [
+                    4,
+                    12
+                  ]
+                },
+                "radiological": {
+                  "const": [
+                    1,
+                    1
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "process_parameters": {
+          "type": "string",
+          "minLength": 70
+        },
+        "special_case": {
+          "type": "string",
+          "minLength": 80
+        }
+      }
     }
   }
 }
