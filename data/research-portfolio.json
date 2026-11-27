@@ -1637,9 +1637,10 @@
         {
           "title": "Meeting regarding the development of technical regulations for the mapping and zoning of natural hazards",
           "publisher": "National Environmental Agency of Georgia",
-          "date": "2026-10-26",
           "url": "https://nea.gov.ge/En/News/3445",
-          "type": "official_agency_progress_notice"
+          "type": "official_agency_progress_notice",
+          "publication_date": "2026-10-26",
+          "accessed_at": "2026-11-28"
         }
       ],
       "data_needs": [
