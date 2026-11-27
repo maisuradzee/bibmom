@@ -32,6 +32,20 @@ class AquaSignalWrp2025WaterHarmTests(unittest.TestCase):
         self.assertEqual(protocol["source"]["git_blob_sha1"], "3e785688e067ded5fdfbe9b50721023ecea87826")
         self.assertEqual(protocol["source"]["sha256"], "07b4632826e13ec1975ec977b0e057b528547c6f7805c0838abc1586b78da56b")
 
+    def test_frozen_result_matches_schema_and_publisher_rounding(self):
+        result_path = ROOT / "data/noema-006/wrp2025-water-harm-result-2026-11-27.json"
+        schema_path = ROOT / "data/noema-006/wrp2025-water-harm-result.schema.json"
+        result = json.loads(result_path.read_text(encoding="utf-8"))
+        schema = json.loads(schema_path.read_text(encoding="utf-8"))
+        Draft202012Validator.check_schema(schema)
+        errors = list(Draft202012Validator(schema, format_checker=FormatChecker()).iter_errors(result))
+        self.assertEqual(errors, [])
+        self.assertEqual(result["sample"]["question_base_n"], 143459)
+        self.assertEqual(result["personal_harm"]["code_1_personally_rounded_pct"], 7)
+        self.assertEqual(result["personal_harm"]["code_3_both_rounded_pct"], 6)
+        self.assertEqual(result["personal_harm"]["publisher_rounded_sum_pct"], 13)
+        self.assertFalse(result["privacy"]["raw_microdata_committed"])
+
     def test_personal_harm_uses_sum_of_separately_rounded_codes_1_and_3(self):
         result = derive_aggregates(fixture())
         self.assertEqual(result["sample"]["question_base_n"], 10)
