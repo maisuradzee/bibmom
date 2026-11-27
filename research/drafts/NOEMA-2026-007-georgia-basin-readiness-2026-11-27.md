@@ -89,3 +89,20 @@ The NEA Geology Department page links the official 2025 geological-process resul
 [2025 geological bulletin](https://ftp.mepa.gov.ge/Public/NEA/%E1%83%92%E1%83%94%E1%83%9D%E1%83%9A%E1%83%9D%E1%83%92%E1%83%98%E1%83%A3%E1%83%A0%E1%83%98%20%E1%83%91%E1%83%98%E1%83%A3%E1%83%9A%E1%83%94%E1%83%A2%E1%83%94%E1%83%9C%E1%83%98%202025%20%281%29.pdf).
 
 The linked PDF is 704,801,491 bytes. The retrieval tool rejected it as too large, so the bulletin's contents were not inspected and no hazard counts, locations, forecasts or outcome values have been extracted. This is a retrieval/tool limit, not evidence that the official server is unavailable. The source snapshot records it as `linked_not_fetched`; a smaller official summary, chapter extract or permissioned data export is the next safe route.
+
+## Additional local spatial-data discovery — official geospatial catalogue
+
+The Ministry's spatial-data inventory exposes four relevant catalogue records:
+
+| ID | Layer | Catalogue metadata | Important limitation |
+|---|---|---|---|
+| NEA55 | Regional avalanche-hazard modelling | Public/free; 3 regions; 30/100/300-year return periods; with/without forest scenarios; visible SHP/TIF asset names | Stored in SQL SDE; no portal map URL in the row; payload not retrieved |
+| NEA66 | Tbilisi geological-hazard zoning | Public/free polygon layer; 1:25,000 scale | SQL SDE/local PC; no portal map URL |
+| NEA123 | Hydrological stations | Public/free point layer for active stations | SQL SDE/local PC; no portal map URL |
+| NEA124 | Meteorological stations and posts | Public/free point layer for active stations/posts | SQL SDE/local PC; no portal map URL |
+
+Source: [Ministry geospatial portal — spatial-data inventory](https://portal.mepa.gov.ge/Ge/User/data?Links-sort=ResponsiblePerson-asc). The NEA55 row is also visible on the catalogue's second page.
+
+**Interpretation:** this is a useful spatial-data discovery signal for a Georgian multi-hazard evaluation pilot: hazard zones and monitoring-station layers are catalogued. It does not establish that the payloads can be downloaded, that the catalogue's public/free label grants an open reuse licence, or that station/hazard layers are operationally current. The source snapshot records metadata only; no coordinates or actual features are copied.
+
+The NEA55 catalogue describes 30-, 100- and 300-year return-period scenarios and two forest conditions. These are model scenarios in a catalogue description, not a local event forecast or a measured probability of a specific near-term event.
