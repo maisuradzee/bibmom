@@ -23,6 +23,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - `noema_core/aquasignal_store.py` — ინციდენტების replay-ზე დაფუძნებული SQLite persistence, SHA-256 audit chain და unsigned caller-supplied checkpoint-ის hash/count comparison.
 - `noema_core/aquasignal_checkpoint.py` — exact canonical payload-ზე detached Ed25519 checkpoint verification, event-chain head matching და caller-managed external monotonic high-water guard; private keys და high-water storage ამ public prototype-ში არ ინახება.
 - `noema_core/action_readiness.py` — NOEMA-007-ის event/area aggregate-only warning-to-action metrics validator; endpoint receipts და survey denominators განცალკევებულია.
+- `noema_core/water_comparability.py` — AquaSignal-ის metadata-first წყლის ინდიკატორების შედარებადობის gate; exact-source digest/locator provenance-ის გარეშე შედარება იბლოკება.
 - `noema_core/backup_manifest.py` — strict Draft 2020-12 manifest validator, streamed plaintext/ciphertext SHA-256/byte-length verifier და caller-supplied trusted Ed25519 public key-ით exact-byte detached-signature verification; decryption, provider retention, anti-rollback და restore ცალკე ეტაპებია.
 - `noema_core/restore_attestation.py` — same-host/offsite restore-drill attestation completeness gate; it never authenticates caller-supplied evidence by itself.
 - `noema_core/mission.json` და `noema_core/mission.py` — მანქანურად წაკითხვადი მისია, ინფორმაციის წვდომის პოლიტიკა და ავტონომიური მოქმედებების წესები.
@@ -46,6 +47,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 ## მიმდინარე კვლევა
 
 - [NOEMA-2026-006 AquaSignal](research/drafts/NOEMA-2026-006-aquasignal-water-early-warning.md) — სასმელი წყლის მონიტორინგის მონაცემების ადრეული სიგნალები; დოკუმენტური discovery, სინთეზური წესების ძრავა და ადგილობრივი event-store პროტოტიპი, საველე ვალიდაციის გარეშე.
+- [AquaSignal — წყლის ინდიკატორების შედარებადობის კონტროლი](research/drafts/NOEMA-2026-006-water-indicator-comparability-gate-2026-11-27.md) — 2023 წლის 49.5%/44.5% მაჩვენებლების fail-closed შედარება; definition provenance-ის SHA-256/locator კონტროლი.
 - [AquaSignal — საქართველოს მიწისქვეშა წყლის მონაცემებზე წვდომა და ჭაბურღილების რეგისტრაციის სამართლებრივი ფარგლები](research/drafts/NOEMA-2026-006-georgia-water-data-access-update-2026-11-27.md) — ოფიციალური 2021–2025 ანგარიშის არქივის წვდომა და 2026 წლის №424 რეგულაციით შექმნილი ახალი რეესტრის ფარგლები; პირადი მონაცემები არ არის შეტანილი.
 
 - [AquaSignal — საქართველოს წყლის მონიტორინგის ქსელების ინვენტარი](research/drafts/NOEMA-2026-006-georgia-water-monitoring-inventory-2026-11-26.md) — ოფიციალური ქსელების მასშტაბი და მონაცემთა ხელმისაწვდომობის ზღვარი.
@@ -130,3 +132,5 @@ A reproducible C/OpenMP benchmark for compensated reduction, exact synthetic ref
 ## NOEMA-005 — two-run real-thread comparison (2026-11-26)
 
 Two raw workflow reports from run `45867519546` are preserved as gzip+base64 files under `data/noema-005/raw/`. `scripts/reproduce_noema005_threaded_reruns.py --check` verifies raw report hashes and recomputes the aggregate comparison against run `45850716742`. The free-threaded Neumaier-state median crossed 1.0 only in the second run (0.9519× → 1.0181×); this is run-to-run sensitivity, not a robust speedup claim. The study remains preliminary.
+
+- [AquaSignal — NEA 2025 წყლის მონიტორინგის აგრეგატები](research/drafts/NOEMA-2026-006-water-monitoring-coverage-audit-2026-11-27.md) — ოფიციალური ანგარიშის sample/point counts, ცალკე groundwater/surface-water მატრიცები და მონაცემთა ნაკლებობის საზღვრები.
