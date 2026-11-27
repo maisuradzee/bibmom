@@ -460,3 +460,10 @@ PR #192 portfolio synchronization head `bcc7f93d95236a880f2b4ebfd0a47a96e2552a03
 ### Portfolio
 
 Four streams remain active: AquaSignal, NOEMA-005, NOEMA-007 and INFRA-001. No fifth stream was added. No study was promoted to Published. The repository currently has 40 open PRs and 0 open Issues.
+
+
+### Remaining Draft PR validation update
+
+- PR #191 latest head `88a6e3e3f7934cef625008fbd20b4121b88e376c`: exact-head Quality CI [46057543397](https://github.com/maisuradzee/bibmom/actions/runs/46057543397) — SUCCESS. The parser normalizes a mocked RecursionError into the domain validation error; independent security review remains pending.
+- PR #194 head `24e462dd7e54546f4379159c9b7e6059f657e3fa`: exact-head Quality CI [46057083661](https://github.com/maisuradzee/bibmom/actions/runs/46057083661) — SUCCESS. URL hygiene is documented in RESEARCH_STANDARD; independent privacy/GIS/DRR review remains pending.
+- Neither Draft is merged or treated as Published.
