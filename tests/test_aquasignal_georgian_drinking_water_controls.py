@@ -65,7 +65,7 @@ class GeorgianDrinkingWaterOperationalControlsTests(unittest.TestCase):
         note = self.record["transition_note"]
         self.assertIn("2027-09-01", note)
         limits = " ".join(self.record["interpretation_limits"]).lower()
-        self.assertIn("not legal advice", limits)
+        self.assertIn("not be treated as legal advice", limits)
         self.assertIn("legal review", limits)
 
 
