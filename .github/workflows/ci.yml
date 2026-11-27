@@ -87,6 +87,18 @@ jobs:
           test -f tests/test_aquasignal_wrp2025_water_harm.py
           test -f .github/workflows/aquasignal-wrp2025-water-harm.yml
           test -f tests/test_noema006_source_access_inventory.py
+          test -f data/noema-006/georgia-water-monitoring-plan-2026-09-15.json
+          test -f data/noema-006/georgia-water-monitoring-plan-2026-09-15.schema.json
+          test -f data/noema-006/nitrate-unit-basis-crosswalk-2026-11-28.json
+          test -f data/noema-006/nitrate-unit-basis-crosswalk-2026-11-28.schema.json
+          test -f noema_core/water_chemistry.py
+          test -f tests/test_aquasignal_georgia_water_monitoring_plan.py
+          test -f tests/test_aquasignal_nitrate_unit_crosswalk.py
+          test -f tests/test_water_chemistry.py
+          test -f data/noema-006/who-2026-guidance-scope-audit.json
+          test -f data/noema-006/who-2026-guidance-scope-audit.schema.json
+          test -f research/drafts/NOEMA-2026-006-who-2026-guidance-scope-audit-2026-11-28.md
+          test -f tests/test_aquasignal_who_2026_guidance_scope.py
           test -f research/TEMPLATE.md
           test -f scripts/validate_research.py
           test -f scripts/validate_drafts.py
@@ -176,6 +188,12 @@ jobs:
         run: python scripts/reproduce_noema007_anticipatory_action.py --check
       - name: Validate AquaSignal source-access inventory schema
         run: python -m unittest discover -s tests -p 'test_noema006_source_access_inventory.py' -v
+      - name: Validate AquaSignal Georgia monitoring and nitrate unit crosswalk
+        run: |
+          python -m unittest discover -s tests -p 'test_aquasignal_georgia_water_monitoring_plan.py' -v
+          python -m unittest discover -s tests -p 'test_aquasignal_nitrate_unit_crosswalk.py' -v
+          python -m unittest discover -s tests -p 'test_water_chemistry.py' -v
+          python -m unittest discover -s tests -p 'test_aquasignal_who_2026_guidance_scope.py' -v
       - name: Validate AquaSignal WRP 2025 water-harm protocol and frozen result
         run: python -m unittest discover -s tests -p 'test_aquasignal_wrp2025_water_harm.py' -v
       - name: Validate NOEMA-007 action-readiness aggregate contract

@@ -614,3 +614,34 @@ Run38 AquaSignal historical baseline/legal crosswalk details: [research draft](.
 - PRs #223, #224 and #225 remain Draft and unmerged pending independent reviews. Their exact-head CI runs remain successful, but each branch is based on prior Main SHA `2600d28f7c05332ca3faeedcfcbb8c6528d78d08`; current Main is `639ad4485dbf7fc73e523245844cd4bdc663849b`. GitHub now reports `mergeable=false` for all three due to base drift. They must be refreshed from current Main and revalidated before any merge.
 - Repository snapshot after #226 merge: 42 open PRs, 0 open Issues; 4 active portfolio streams; 3 Preliminary catalogue entries; 0 Published studies.
 - The merge of #226 did not merge any of the research implementations from #223–225. No Run 40 research PR is represented as deployed.
+
+
+## Run 41 — research and engineering continuation (2026-11-28)
+
+**Main base reviewed:** `726c71c9ef1a4e1c00dbc4a44b950e4b371c02f0`.
+
+### Research branches refreshed onto current Main
+
+- **AquaSignal — PR #230**: Government Decree №447/2026 metadata, Georgia nitrate reporting-basis crosswalk, Decimal NO3/NO3-N conversion prototype and WHO 2026 consolidated-edition scope audit. The WHO PDF was inspected: its nitrate/nitrite fact sheet appears on printed pp. 466–472 and states assessment date 2016, while the consolidated edition publication date is 2026-06-17. Exact-head Quality CI succeeded at `8952b8d0d1d25751fbf9ab3219b1999f5e1378c0` (629 tests; exact-head Quality CI run 46075712366); site build: 0 Published / 3 Preliminary. PR remains Draft pending independent water-chemistry and Georgian legal review.
+- **INFRA-001 — PR #231**: local SQLite high-water compare-and-advance reference model, canonical ASCII stream identifiers, persisted-state validation and synthetic concurrency/corruption tests. Exact-head Quality CI succeeded at `1265dbe579f88950bb05bb94f4afddc402bb349f` (613 tests); site build: 0 Published / 3 Preliminary. This is same-host conformance only, not an external anti-rollback service or clean-host recovery proof. Draft pending independent security review and recovery-owner assignment.
+- **NOEMA-007 — PR #232**: Government Decree №440/2026 preliminary flood-risk assessment framework and statutory milestones. Exact-head Quality CI succeeded at `394babab804457ac59db64cd6044304f5fe52838` (601 tests); site build: 0 Published / 3 Preliminary. It does not establish operational warning delivery or protective-action effectiveness. Draft pending independent disaster-risk and Georgian legal review.
+
+### Other portfolio status
+
+- **NOEMA-005**: no new physical x86-64/ARM64 hardware benchmark was performed in this run. Existing hosted synthetic CPU-thread evidence remains preliminary; access to independently controlled physical devices and RSS/DRAM-bandwidth measurement remains the blocker.
+- **AquaSignal**: no NFA/NEA sample-level dataset or paired nitrate/nitrite results were obtained. No local combined ratio, prevalence or compliance result is calculated.
+- **NOEMA-007**: no authorized Georgian event-level or warning-response dataset was obtained; statutory risk assessment remains separate from operational warning performance.
+- **INFRA-001**: no external high-water authority, production provider adapter, key custody or permissioned clean-host restore was configured.
+
+### Main and publication status
+
+Main remains at `726c71c9ef1a4e1c00dbc4a44b950e4b371c02f0`. Main Quality CI [46073846925](https://github.com/maisuradzee/bibmom/actions/runs/46073846925) and Pages deployment [46073846772](https://github.com/maisuradzee/bibmom/actions/runs/46073846772) both succeeded on that SHA. The three refreshed research PRs are Draft, mergeable and unmerged; no independent external review is recorded. The public site remains at 0 Published / 3 Preliminary until a reviewed publication is approved.
+
+
+### NOEMA-005 Run 41 independent local-container reproduction
+
+- **PR #233**: [Run 41 20-repeat local threaded reduction reproduction](https://github.com/maisuradzee/bibmom/pull/233), exact head `65ecccf59ff1dc5d401c412b5fa0cfac3e74c3ed`.
+- Environment: CPython 3.13.5, GIL-enabled, Linux x86_64 managed container; bare-metal not verified.
+- 48 configurations, 20 repetitions each, 960 threaded measurements; full Neumaier state 320/320 correctly rounded, scalar partial merge 280/320, naive 0/320; no threaded configuration exceeded its matching serial baseline.
+- Exact-head Quality CI [46076248313](https://github.com/maisuradzee/bibmom/actions/runs/46076248313) succeeded (600 tests; 0 Published / 3 Preliminary). Native thread IDs and host-identifying metadata are not persisted.
+- This is not physical x86-64/ARM64, free-threaded, RSS or DRAM-bandwidth evidence. Independent numerical-method review remains required.

@@ -162,3 +162,11 @@ The WHO's fourth edition incorporating the third addendum is the current interna
 
 - [WHO 2026 Guidelines](https://www.who.int/publications/i/item/9789240121225)
 - [WHO 2026 chemical fact sheets PDF](https://cdn.who.int/media/docs/default-source/wash-documents/water-safety-and-quality/dwq-guidelines-4/gdwq_4ed_with_third-addenda_chemical-fact-sheets.pdf?sfvrsn=77d972e1_5)
+
+
+## AquaSignal — Georgia water-monitoring framework and nitrate unit crosswalk (2026-11-28)
+
+- Government Decree №447/2026 establishes a risk-based environmental surface-water and groundwater monitoring framework; its annex DOCX remains uninspected, and this is not potable-water compliance evidence.
+- The EEA C11 source reports different nitrate bases: rivers/lakes in mg NO3-N/L and groundwater in mg NO3/L. `noema_core/water_chemistry.py` preserves the matrix and original basis while applying the WHO-published rounded 0.226 conversion factor; it does not classify water or apply thresholds.
+- [WHO 2026 scope audit](research/drafts/NOEMA-2026-006-who-2026-guidance-scope-audit-2026-11-28.md) separates the consolidated-edition publication date (17 June 2026) from the nitrate/nitrite fact sheet's stated assessment date (2016). The 2026 summary does not identify a new nitrate/nitrite reassessment.
+- A combined WHO nitrate/nitrite ratio is not calculated without paired same-sample, same-time, same-matrix measurements and compatible ion reporting bases. WHO guidance remains distinct from Georgian Decree №58/2014.

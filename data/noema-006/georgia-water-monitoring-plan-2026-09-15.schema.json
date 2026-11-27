@@ -1,0 +1,331 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AquaSignal Georgia water-resource monitoring plan metadata",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_id",
+    "study_id",
+    "evidence_status",
+    "source",
+    "competent_authority",
+    "annual_plan_deadline",
+    "data_governance",
+    "scope",
+    "groundwater_transition",
+    "monitoring_programmes",
+    "monitoring_modes",
+    "network_requirements",
+    "quality_requirements",
+    "interpretation_limits",
+    "privacy"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "record_id": {
+      "const": "AQUASIGNAL-GEORGIA-WATER-MONITORING-PLAN-2026-09-15"
+    },
+    "study_id": {
+      "const": "NOEMA-2026-006"
+    },
+    "evidence_status": {
+      "const": "FACT"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "publisher",
+        "document_title",
+        "decree_number",
+        "publication_date",
+        "effective_from",
+        "registration_code",
+        "url",
+        "checked_at",
+        "main_text_checked",
+        "annexes",
+        "relevant_sections"
+      ],
+      "properties": {
+        "publisher": {
+          "const": "Legislative Herald of Georgia"
+        },
+        "document_title": {
+          "type": "string",
+          "minLength": 40
+        },
+        "decree_number": {
+          "const": 447
+        },
+        "publication_date": {
+          "const": "2026-09-15"
+        },
+        "effective_from": {
+          "const": "2026-09-01"
+        },
+        "registration_code": {
+          "const": "400000000.10.003.025997"
+        },
+        "url": {
+          "const": "https://www.matsne.gov.ge/ka/document/view/7000572"
+        },
+        "checked_at": {
+          "const": "2026-11-28"
+        },
+        "main_text_checked": {
+          "const": true
+        },
+        "annexes": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "listed",
+            "filenames",
+            "downloaded_or_inspected"
+          ],
+          "properties": {
+            "listed": {
+              "const": true
+            },
+            "filenames": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            },
+            "downloaded_or_inspected": {
+              "const": false
+            }
+          }
+        },
+        "relevant_sections": {
+          "type": "array",
+          "minItems": 6,
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "competent_authority": {
+      "const": "National Environment Agency of Georgia"
+    },
+    "annual_plan_deadline": {
+      "const": "12-01"
+    },
+    "data_governance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "standardized_formats_required",
+        "public_access_subject_to_law",
+        "confidentiality_and_data_protection_required",
+        "national_reports_and_river_basin_plans_use_data"
+      ],
+      "properties": {
+        "standardized_formats_required": {
+          "const": true
+        },
+        "public_access_subject_to_law": {
+          "const": true
+        },
+        "confidentiality_and_data_protection_required": {
+          "const": true
+        },
+        "national_reports_and_river_basin_plans_use_data": {
+          "const": true
+        }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "includes",
+        "excludes_automatic_drinking_water_compliance",
+        "note"
+      ],
+      "properties": {
+        "includes": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "surface_water",
+              "groundwater"
+            ]
+          }
+        },
+        "excludes_automatic_drinking_water_compliance": {
+          "const": true
+        },
+        "note": {
+          "type": "string",
+          "minLength": 100
+        }
+      }
+    },
+    "groundwater_transition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "until_groundwater_bodies_are_defined",
+        "after_definition",
+        "article"
+      ],
+      "properties": {
+        "until_groundwater_bodies_are_defined": {
+          "const": "hydrogeological_units"
+        },
+        "after_definition": {
+          "const": "groundwater_bodies"
+        },
+        "article": {
+          "const": "7(1)"
+        }
+      }
+    },
+    "monitoring_programmes": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "hydrological",
+          "hydrochemical",
+          "hydrobiological",
+          "hydromorphological",
+          "hydrogeological"
+        ]
+      }
+    },
+    "monitoring_modes": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "mode",
+          "purpose",
+          "frequency_basis"
+        ],
+        "properties": {
+          "mode": {
+            "enum": [
+              "observational",
+              "operational",
+              "investigative"
+            ]
+          },
+          "purpose": {
+            "type": "string",
+            "minLength": 30
+          },
+          "frequency_basis": {
+            "type": "string",
+            "minLength": 30
+          }
+        }
+      }
+    },
+    "network_requirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "representative_points_required",
+        "risk_based_selection_required",
+        "periodic_review_required",
+        "review_triggers",
+        "station_add_remove_or_relocate_allowed"
+      ],
+      "properties": {
+        "representative_points_required": {
+          "const": true
+        },
+        "risk_based_selection_required": {
+          "const": true
+        },
+        "periodic_review_required": {
+          "const": true
+        },
+        "review_triggers": {
+          "type": "array",
+          "minItems": 4,
+          "items": {
+            "type": "string",
+            "minLength": 10
+          }
+        },
+        "station_add_remove_or_relocate_allowed": {
+          "const": true
+        }
+      }
+    },
+    "quality_requirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "background_indicators_documented",
+        "methodology_and_assumptions_documented",
+        "periodic_review_required",
+        "data_accuracy_and_reliability_explicit"
+      ],
+      "properties": {
+        "background_indicators_documented": {
+          "const": true
+        },
+        "methodology_and_assumptions_documented": {
+          "const": true
+        },
+        "periodic_review_required": {
+          "const": true
+        },
+        "data_accuracy_and_reliability_explicit": {
+          "const": true
+        }
+      }
+    },
+    "interpretation_limits": {
+      "type": "array",
+      "minItems": 7,
+      "items": {
+        "type": "string",
+        "minLength": 30
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "personal_data_included",
+        "exact_site_coordinates_included",
+        "raw_sample_records_included",
+        "restricted_annex_bytes_included"
+      ],
+      "properties": {
+        "personal_data_included": {
+          "const": false
+        },
+        "exact_site_coordinates_included": {
+          "const": false
+        },
+        "raw_sample_records_included": {
+          "const": false
+        },
+        "restricted_annex_bytes_included": {
+          "const": false
+        }
+      }
+    }
+  }
+}
