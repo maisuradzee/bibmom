@@ -108,6 +108,22 @@ class WaterComparabilityTests(unittest.TestCase):
         with self.assertRaises(WaterComparabilityError):
             compare_same_period_indicators(record, comparable_record("obs_0000000000000002", 89, 200, 44.5), schema_path=self.schema)
 
+    def test_unknown_sampling_design_is_treated_as_missing_metadata(self):
+        left = comparable_record("obs_0000000000000001", 99, 200, 49.5)
+        right = comparable_record("obs_0000000000000002", 89, 200, 44.5)
+        left["sampling_design"] = "unknown"
+        result = compare_same_period_indicators(left, right, schema_path=self.schema)
+        self.assertEqual(result["status"], "INSUFFICIENT_METADATA")
+        self.assertIn("sampling_design", result["missing_fields"])
+
+    def test_reversed_period_is_rejected(self):
+        left = comparable_record("obs_0000000000000001", 99, 200, 49.5)
+        right = comparable_record("obs_0000000000000002", 89, 200, 44.5)
+        left["period_start"] = "2023-12-31"
+        left["period_end"] = "2023-01-01"
+        with self.assertRaisesRegex(WaterComparabilityError, "period_end"):
+            compare_same_period_indicators(left, right, schema_path=self.schema)
+
     def test_non_population_claim_is_always_explicit(self):
         left = comparable_record("obs_0000000000000001", 99, 200, 49.5)
         right = comparable_record("obs_0000000000000002", 89, 200, 44.5)
