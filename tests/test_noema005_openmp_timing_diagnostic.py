@@ -60,6 +60,8 @@ class Noema005OpenMPTimingDiagnosticTests(unittest.TestCase):
     def test_mountinfo_path_escapes_are_unescaped(self):
         self.assertEqual(_unescape_mount_field("/run/cgroup\\040mount"), "/run/cgroup mount")
         self.assertEqual(_unescape_mount_field("/run/cgroup\\011mount"), "/run/cgroup\tmount")
+        self.assertEqual(_unescape_mount_field("/run/cgroup\\012name"), "/run/cgroup\nname")
+        self.assertEqual(_unescape_mount_field("/run/cgroup\\134012name"), "/run/cgroup\\012name")
         self.assertEqual(_unescape_mount_field("/run/cgroup\\134mount"), "/run/cgroup\\mount")
 
     def test_cpu_list_parser(self):
