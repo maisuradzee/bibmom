@@ -53,7 +53,7 @@
       "status": "conceptually_similar_but_numerically_unreconciled",
       "jecm_indicator": "All technical-regulation non-compliance among drinking-water monitoring samples; not E. coli-specific (JECM 2025/1, p.3 Figure 3 and pp.4-5 Table 1/discussion).",
       "unece_narrative_indicator": "All drinking-water quality-standard non-compliance, mainly due to microbiological indicators; not the E. coli-only Table 4.i rate (UNECE/WHO report, p.16).",
-      "unece_table_4i_indicator": "E. coli-specific non-compliance; 2024 current value 40.3% (UNECE/WHO report, p.56, Table 4.i)."
+      "unece_table_4i_indicator": "E. coli-specific non-compliance; current value 40.3% for 2024 (UNECE/WHO report, p.56, Table 4.i)."
     },
     {
       "year": 2024,
