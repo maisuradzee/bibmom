@@ -56,6 +56,32 @@ class RestoreAttestationError(ValueError):
 
 
 _MAX_ATTESTATION_BYTES = 1024 * 1024
+_MAX_ATTESTATION_JSON_DEPTH = 64
+
+
+def _check_attestation_json_nesting_depth(text: str) -> None:
+    """Reject excessive object/array nesting before invoking json.loads()."""
+    depth = 0
+    in_string = False
+    escaped = False
+    for character in text:
+        if in_string:
+            if escaped:
+                escaped = False
+            elif character == "\\\\":
+                escaped = True
+            elif character == '"':
+                in_string = False
+            continue
+        if character == '"':
+            in_string = True
+        elif character in "[{":
+            depth += 1
+            if depth > _MAX_ATTESTATION_JSON_DEPTH:
+                raise RestoreAttestationError("restore attestation JSON nesting exceeds maximum depth 64")
+        elif character in "]}":
+            if depth:
+                depth -= 1
 
 
 def _reject_duplicate_json_keys(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
@@ -86,8 +112,10 @@ def load_restore_attestation_bytes(
     if not attestation_bytes or len(attestation_bytes) > _MAX_ATTESTATION_BYTES:
         raise RestoreAttestationError("restore attestation byte length is outside the permitted bound")
     try:
+        text = attestation_bytes.decode("utf-8")
+        _check_attestation_json_nesting_depth(text)
         document = json.loads(
-            attestation_bytes.decode("utf-8"),
+            text,
             object_pairs_hook=_reject_duplicate_json_keys,
             parse_constant=_reject_nonstandard_json_constant,
         )
