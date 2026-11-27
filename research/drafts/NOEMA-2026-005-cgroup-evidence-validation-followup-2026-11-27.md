@@ -1,42 +1,91 @@
-# NOEMA-005 — cgroup evidence validation follow-up
+# NOEMA-2026-005 — cgroup evidence validation follow-up
 
-Date: 2026-11-27
-Status: Draft engineering validation note
+- ID: NOEMA-2026-005-OPENMP-CGROUP-VALIDATION-002
+- **სტატუსი:** draft
+- **თარიღი:** 2026-11-27
+- Scope: benchmark provenance, worker cgroup membership and capacity-derived metrics
 
-## Question
+## საკვლევი კითხვა
 
-Does the schema-v2 report validator correctly withhold every capacity-derived field when an OpenMP worker's cgroup membership is either contradictory or unverified, and does the failing test represent a product defect or an inconsistent fixture?
+Does the schema-v2 report validator withhold every capacity-derived field when an OpenMP worker's cgroup membership is contradictory or unverified, and did the triggering CI failure identify a validator defect or an internally inconsistent test fixture?
 
-## Evidence
+## მოკლე შეჯამება
 
-- **FACT:** The failed Quality CI job for run 45958358815 checked out commit `0f91aef39df3bcb913f94b20a9174023781b4deb`.
-- **FACT:** In that commit, `test_v2_withholds_capacity_when_worker_cgroup_differs` cleared `effective_cpu_capacity`, `cpu_wall_anomaly_threshold` and `cpu_wall_anomaly`, but left `known_cpu_capacity_upper_bound` and `cpu_wall_anomaly_threshold_basis` at non-null fixture defaults.
-- **INFERENCE:** The validator's rejection was correct: the fixture claimed that exact/known capacity evidence was withheld while still carrying a derived upper bound and a threshold basis.
-- **FACT:** The current parent-branch fixture clears all five capacity-derived fields before validating a mismatched worker cgroup.
-- **ENGINEERING CHANGE:** An additional test covers an unverified worker membership (`thread_cgroup_matches_process = null`). It verifies that the report is accepted only when all capacity-derived fields are null/false and rejects a non-null upper-bound claim.
-- **UNTESTED:** The new test has not yet been confirmed by an exact-head GitHub Actions run at the time this note was written.
+The original failing test fixture left two capacity-derived fields populated after it had cleared the effective capacity and anomaly threshold. The validator correctly rejected that inconsistent state. A follow-up test now covers an unverified worker membership (`null`) and verifies that no capacity claim can be retained.
 
-## Method
+## რატომ არის ეს კითხვა მნიშვნელოვანი?
 
-1. Read the failed workflow job log and recorded the exact checked-out commit SHA.
-2. Compared the test fixture at that commit with the current parent-branch fixture.
-3. Added a synthetic unit test for the distinct unverified-membership state.
-4. Kept this work separate from benchmark performance results; no new CPU timing or hardware experiment was run.
+CPU/wall-time ratios are interpretable only when the process and worker execution context is adequately evidenced. A report must not convert incomplete cgroup membership or incomplete quota ancestry into a precise CPU-capacity claim. This protects the numerical benchmark from presenting uncertain runtime constraints as measured capacity.
 
-## Safety invariant
+## არსებული ცოდნა და წყაროები
 
-If any worker cgroup membership is false or unknown, or process task count does not match the observed OpenMP team size, the validator must reject non-null:
-- known CPU capacity upper bound;
-- effective CPU capacity;
-- CPU/wall anomaly threshold;
-- threshold basis;
-- positive anomaly flag.
+- Linux man-pages, `clock_gettime(2)`: https://man7.org/linux/man-pages/man2/clock_gettime.2.html — defines process CPU time accounting, which includes CPU time consumed by all threads in the process.
+- Linux kernel cgroup v2 documentation: https://docs.kernel.org/admin-guide/cgroup-v2.html — documents `cpuset.cpus.effective`, `cpu.max` and hierarchical cgroup constraints.
+- Failed GitHub Actions run: https://github.com/maisuradzee/bibmom/actions/runs/45958358815 — the job log records the exact checkout SHA and failing fixture.
+- Follow-up quality run: https://github.com/maisuradzee/bibmom/actions/runs/45960823953 — this attempt failed draft-format validation for this note before it could be treated as a passing exact-head check.
 
-The cgroup evidence check does not prove that all kernel quota ancestors are visible. Exact effective capacity remains withheld when the visible quota chain is incomplete, even if an affinity/cpuset upper bound can be reported.
+## მტკიცებულებები
 
-## Limitations
+- **FACT:** The failed run 45958358815 checked out commit `0f91aef39df3bcb913f94b20a9174023781b4deb`.
+- **FACT:** In that snapshot, `test_v2_withholds_capacity_when_worker_cgroup_differs` cleared `effective_cpu_capacity`, `cpu_wall_anomaly_threshold` and `cpu_wall_anomaly`, but left `known_cpu_capacity_upper_bound` and `cpu_wall_anomaly_threshold_basis` at non-null fixture defaults.
+- **INFERENCE:** The validator's rejection was correct because the fixture retained capacity-derived claims while asserting that the worker/process cgroup evidence was invalid.
+- **FACT:** The current parent-branch fixture clears all capacity-derived fields before validating a mismatched worker cgroup.
+- **ENGINEERING CHANGE:** A synthetic unit test now covers `thread_cgroup_matches_process = null`; it accepts the report only when all capacity-derived fields are withheld and rejects a non-null upper-bound claim.
+
+## კონკურენტი ახსნები
+
+The original failure could have been a validator defect, a malformed report, or an inconsistent test fixture. The exact checkout and fixture contents support the third explanation. This does not resolve the separate archived CPU/wall-time anomaly and does not establish a runtime or hardware cause.
+
+## ჰიპოთეზა
+
+If any worker cgroup membership is false or unknown, or the process task count does not match the observed OpenMP team size, all capacity-derived fields should be absent. If the visible cgroup quota ancestry is incomplete, an affinity/cpuset upper bound may be reported only as an upper bound; exact effective capacity must remain unknown.
+
+## მეთოდი ან ექსპერიმენტის გეგმა
+
+1. Read the failed workflow job log and record the exact checked-out commit SHA.
+2. Compare the failing fixture with the current parent-branch fixture.
+3. Add a synthetic unit test for unknown worker membership.
+4. Run the repository quality workflow on the exact new head SHA.
+5. Keep the benchmark's raw timing and performance claims separate from this validator test.
+
+The validator must reject a non-null known CPU upper bound, effective CPU capacity, CPU/wall anomaly threshold, threshold basis or positive anomaly flag when worker/process cgroup evidence is incomplete or contradictory.
+
+## შედეგები და ინტერპრეტაცია
+
+The fixture inconsistency is explained by the checked-out source: two fields were not cleared. The new unknown-membership test is committed, but the current exact-head CI is not yet successful. No new CPU benchmark was executed and no performance result is claimed.
+
+## შეზღუდვები და გაურკვევლობები
 
 - This is a test/validator follow-up, not a benchmark result.
 - It does not explain the previously observed process-CPU/wall-time anomaly.
 - It does not measure task-clock, context switches, memory bandwidth, RSS or physical-hardware scaling.
-- Exact-head CI and independent review remain required before the stacked fix can be merged.
+- The exact-head quality workflow still needs to pass.
+- The separate frozen v2 archive digest check has failed on the parent branch and remains an independent blocker.
+
+## დასკვნა
+
+The triggering test failure was caused by an internally inconsistent fixture, not by evidence that the capacity-withholding rule is wrong. The additional unverified-membership test strengthens that rule. The PR must remain Draft until the exact-head quality workflow and all required checks succeed.
+
+## წყაროები
+
+- Linux man-pages project. `clock_gettime(2)`. https://man7.org/linux/man-pages/man2/clock_gettime.2.html
+- Linux kernel documentation. Control Group v2. https://docs.kernel.org/admin-guide/cgroup-v2.html
+- NOEMA-005 failed workflow run 45958358815. https://github.com/maisuradzee/bibmom/actions/runs/45958358815
+- NOEMA-005 follow-up workflow run 45960823953. https://github.com/maisuradzee/bibmom/actions/runs/45960823953
+
+## შემდეგი ნაბიჯები
+
+1. Run the exact-head quality workflow again after this draft is brought into compliance.
+2. Preserve the frozen v2 report's raw artifact and manifest; investigate the separate compressed-archive SHA-256 mismatch before using that frozen reproduction.
+3. Independently repeat the timing experiment with per-thread CPU clocks, worker affinity, `/proc/self/cgroup`, effective cpuset, complete quota ancestry and external task-clock counters.
+
+## შემოწმების სტატუსი
+
+- **Draft validation:** failed on the previous commit because this note lacked the repository-required metadata and section headings; this revision supplies them.
+- **Unit tests:** no passing exact-head result is claimed yet.
+- **Benchmark execution:** not performed in this follow-up.
+- **Publication:** not eligible; independent review and successful CI remain outstanding.
+
+## ცვლილებების ისტორია
+
+- 2026-11-27 — added the root-cause analysis and synthetic unknown-membership test; corrected this note to match the repository research-draft template.
