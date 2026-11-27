@@ -1,11 +1,11 @@
-# NOEMA-005 — Native OpenMP process-CPU / wall-time consistency audit
+# NOEMA-2026-005 — Native OpenMP process-CPU / wall-time consistency audit
 
 - ID: NOEMA-2026-005-OPENMP-CPU-WALL-001
-- Status: draft
-- Date: 2026-11-27
+- **სტატუსი:** draft
+- **თარიღი:** 2026-11-27
 - Scope: benchmark provenance, timing validity, parallel reduction
 
-## Research question
+## საკვლევი კითხვა
 
 Are the archived process-CPU and monotonic wall-time measurements internally consistent with the four effective CPUs recorded by the native OpenMP benchmark runner?
 
@@ -26,6 +26,11 @@ The affected cases include:
 - grouped-cancellation, 4-worker naive partials: 1/5, maximum 13.288;
 - grouped-cancellation, 4-worker Neumaier state: 2/5, maximum 9.599.
 
+## წყაროები
+
+- Linux man-pages, clock_gettime(2): https://man7.org/linux/man-pages/man2/clock_gettime.2.html — CLOCK_PROCESS_CPUTIME_ID includes CPU time from all threads in the process.
+- Linux kernel cgroup v2 documentation: https://docs.kernel.org/admin-guide/cgroup-v2.html — cpuset.cpus.effective lists active CPUs available to tasks in the cgroup.
+
 ## Evidence classification
 
 - FACT: Linux CLOCK_PROCESS_CPUTIME_ID measures CPU time consumed by all threads in the process (Linux man-pages: https://man7.org/linux/man-pages/man2/clock_gettime.2.html).
@@ -36,7 +41,7 @@ The affected cases include:
 - HYPOTHESIS: Possible explanations include a mismatch between the benchmark process and the cgroup path read by the runner, clock-accounting/measurement behavior, or a defect in the archived measurements. The frozen report alone cannot distinguish them.
 - UNTESTED IDEA: Re-run with per-thread CPU clocks, sched_getaffinity() inside every OpenMP worker, cgroup membership read from /proc/self/cgroup, and an external monotonic timer; also capture perf stat task-clock and context-switch counters.
 
-## Method
+## მეთოდი ან ექსპერიმენტის გეგმა
 
 The audit reads the frozen raw JSON and summary, verifies their Git blob identifiers, parses the effective cpuset, and computes each per-repetition CPU/wall ratio from the paired raw samples. It does not compare the ratio of independent medians. A 0.05 tolerance is applied to the four-CPU ceiling.
 
@@ -60,6 +65,15 @@ The experiment generates values on the fly (input_storage_bytes = 0), so it is n
 4. No representative scientific application workload was tested.
 5. The cause of the CPU/wall discrepancy is unknown; no code defect or host misconfiguration is asserted.
 
-## Next step
+## შემდეგი ნაბიჯები
 
 Run a controlled exact-head experiment that records, inside each worker, thread CPU clock, CPU affinity, /proc/self/cgroup, and effective cpuset; collect task-clock and context-switch counters; repeat at least 20 times on a known 4-core physical host and an independent 8+ core host. Until then, treat timing speedups as provisional and do not publish a scaling claim.
+
+
+## შემოწმების სტატუსი
+
+- Frozen raw JSON და summary ხელახლა წაიკითხა და Git blob SHA-ები შეინარჩუნა.
+- 16 OpenMP case-ის paired raw samples შემოწმდა; აღმოჩენილია 9 outlier 5 case-ში.
+- Accuracy შედეგები ცალკე დარჩა: Neumaier 40/40, naive 0/40.
+- ახალი benchmark ან ფიზიკური მოწყობილობის ექსპერიმენტი არ ჩატარებულა.
+- კვლევა რჩება Draft; კონტროლირებადი rerun და დამოუკიდებელი numerical-method review ჯერ არ არსებობს.
