@@ -1,0 +1,68 @@
+{
+  "evidence_status": "REPRODUCED_RESULT",
+  "experiment_id": "AQUASIGNAL-WRP2025-WATER-HARM-REPRO-001",
+  "limitations": [
+    "WP22443 is self-reported serious harm in the past two years, not a laboratory measure of contamination or drinking-water compliance.",
+    "The global weighted estimate is not a Georgian prevalence estimate and cannot replace NEA or NFA sample-level water-quality data.",
+    "The publisher's 13 percent is the sum of separately rounded weighted categories 1 and 3; it is not a direct contaminant prevalence."
+  ],
+  "methodology": {
+    "base": "Rows where WP22443 is non-null; DK/refused remain in the denominator.",
+    "personal_harm": "Publisher sums separately rounded weighted percentages for response codes 1 and 3.",
+    "rounding": "floor(weighted_percentage + 0.5 + 1e-9), matching the pinned publisher reproduction code.",
+    "weight": "PROJWT"
+  },
+  "personal_harm": {
+    "code_1_personally_rounded_pct": 7,
+    "code_3_both_rounded_pct": 6,
+    "publisher_rounded_sum_pct": 13,
+    "round_of_unrounded_combined_pct": 13,
+    "unrounded_combined_pct": 12.957197561903236
+  },
+  "privacy": {
+    "raw_microdata_committed": false,
+    "respondent_ids_committed": false,
+    "workflow_uploads_aggregate_only": true
+  },
+  "publisher_rounded_category_percentages": {
+    "1": 7,
+    "2": 10,
+    "3": 6,
+    "4": 76,
+    "98": 1,
+    "99": 0
+  },
+  "response_counts": {
+    "1": 6280,
+    "2": 9927,
+    "3": 3889,
+    "4": 122178,
+    "98": 1087,
+    "99": 98
+  },
+  "sample": {
+    "countries_and_territories": 140,
+    "missing_n": 0,
+    "question_base_n": 143459,
+    "respondents": 143459
+  },
+  "schema_version": 1,
+  "source": {
+    "byte_length": 7070416,
+    "commit": "f2b810c3c4333de6347ad2c9eade3c48ae17be4c",
+    "git_blob_sha1": "3e785688e067ded5fdfbe9b50721023ecea87826",
+    "license": "CC BY-SA 4.0",
+    "path": "WRP_2025/WRP_2025.parquet",
+    "repository": "lrfoundation/world_risk_poll_data",
+    "sha256": "07b4632826e13ec1975ec977b0e057b528547c6f7805c0838abc1586b78da56b"
+  },
+  "study_id": "NOEMA-2026-006",
+  "weighted_category_percentages": {
+    "1": 7.106988145048215,
+    "2": 9.722436587216864,
+    "3": 5.85020941685502,
+    "4": 75.81702934470482,
+    "98": 1.3623128320933893,
+    "99": 0.14102367408170194
+  }
+}
