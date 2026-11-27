@@ -223,6 +223,37 @@
             "protective_action_verified_n": {
               "type": "integer",
               "minimum": 0
+            },
+            "timely_receipt_assessed_n": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "timely_received_n": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "timely_receipt_minimum_lead_seconds": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "timely_receipt_basis": {
+              "const": "respondent_recall"
+            },
+            "timely_receipt_rule_reference": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 3,
+              "maxLength": 128
+            },
+            "timely_receipt_rule_source_url": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "uri",
+              "pattern": "^https://"
             }
           }
         }
