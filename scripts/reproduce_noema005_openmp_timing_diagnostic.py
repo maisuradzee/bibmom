@@ -10,7 +10,10 @@ import math
 from pathlib import Path
 import statistics
 
-from scripts.run_noema005_openmp_timing_diagnostic import SOURCE, validate_report
+if __package__:
+    from .run_noema005_openmp_timing_diagnostic import SOURCE, validate_report
+else:
+    from run_noema005_openmp_timing_diagnostic import SOURCE, validate_report
 
 ROOT = Path(__file__).resolve().parents[1]
 ARCHIVE = ROOT / "data/noema-005/raw/openmp-timing-diagnostic-2026-11-27.json.gz.b64"
