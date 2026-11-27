@@ -74,7 +74,7 @@ def _relative_cgroup_path(membership: str, mount_root: str) -> str | None:
 
 
 def _unescape_mount_field(value: str) -> str:
-    return value.replace("\\040", " ").replace("\\011", "\t").replace("\\012", "\n").replace("\\134", "\\")
+    return value.replace("\\040", " ").replace("\\011", "\t").replace("\\012", "\n").replace("\\043", "#").replace("\\134", "\\")
 
 def _cgroup_v2_directory() -> tuple[Path | None, Path | None, bool]:
     membership = None
