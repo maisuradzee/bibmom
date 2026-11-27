@@ -1,0 +1,321 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NOEMA-007 Public-Safe After-Event Review Finding Register",
+  "description": "Metadata-only structure for a synthetic or approved public-aggregate early-warning after-event review. It is not an operational warning system, a privacy guarantee, or proof that free-text fields contain no personal data.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "review_id",
+    "review_date_utc",
+    "review_mode",
+    "event",
+    "scope_pillars",
+    "findings",
+    "data_handling",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "review_id": {
+      "type": "string",
+      "pattern": "^aer_[a-f0-9]{16}$"
+    },
+    "review_date_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "review_mode": {
+      "enum": [
+        "synthetic",
+        "documentary",
+        "permissioned_event_review"
+      ]
+    },
+    "event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "hazard",
+        "area",
+        "event_start_utc",
+        "event_end_utc",
+        "warning_reference"
+      ],
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "pattern": "^evt_[A-Za-z0-9_-]{8,48}$"
+        },
+        "hazard": {
+          "enum": [
+            "flood",
+            "landslide",
+            "avalanche",
+            "heat",
+            "storm",
+            "drought",
+            "wildfire",
+            "other"
+          ]
+        },
+        "area": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "level",
+            "code"
+          ],
+          "properties": {
+            "level": {
+              "enum": [
+                "river_basin",
+                "municipality",
+                "region"
+              ]
+            },
+            "code": {
+              "type": "string",
+              "pattern": "^[A-Z0-9_-]{2,32}$"
+            }
+          }
+        },
+        "event_start_utc": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "event_end_utc": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "warning_reference": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{4,64}$"
+        }
+      }
+    },
+    "scope_pillars": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "risk_knowledge",
+          "monitoring_forecasting",
+          "dissemination_communication",
+          "preparedness_response"
+        ]
+      }
+    },
+    "findings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "finding_id",
+          "pillar",
+          "stage",
+          "finding_type",
+          "evidence_class",
+          "summary",
+          "evidence_refs",
+          "limitations",
+          "recommendation"
+        ],
+        "properties": {
+          "finding_id": {
+            "type": "string",
+            "pattern": "^fnd_[A-Za-z0-9_-]{8,48}$"
+          },
+          "pillar": {
+            "enum": [
+              "risk_knowledge",
+              "monitoring_forecasting",
+              "dissemination_communication",
+              "preparedness_response"
+            ]
+          },
+          "stage": {
+            "enum": [
+              "risk_knowledge",
+              "monitoring_forecasting",
+              "warning_decision",
+              "dissemination",
+              "receipt",
+              "comprehension",
+              "preparedness",
+              "response_action",
+              "coordination",
+              "learning"
+            ]
+          },
+          "finding_type": {
+            "enum": [
+              "strength",
+              "gap",
+              "recommendation"
+            ]
+          },
+          "evidence_class": {
+            "enum": [
+              "FACT",
+              "REPRODUCED_RESULT",
+              "INFERENCE",
+              "HYPOTHESIS",
+              "UNTESTED_IDEA"
+            ]
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 1200
+          },
+          "evidence_refs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "title",
+                "url",
+                "source_type",
+                "accessed_at"
+              ],
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 240
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "^https://"
+                },
+                "source_type": {
+                  "enum": [
+                    "official_guidance",
+                    "official_warning_record",
+                    "aggregate_operational_data",
+                    "aggregate_survey",
+                    "after_action_interview_summary",
+                    "technical_review"
+                  ]
+                },
+                "accessed_at": {
+                  "type": "string",
+                  "format": "date"
+                }
+              }
+            }
+          },
+          "limitations": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 10,
+              "maxLength": 500
+            }
+          },
+          "recommendation": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "action",
+              "owner_role",
+              "due_date_utc",
+              "verification_indicator",
+              "status"
+            ],
+            "properties": {
+              "action": {
+                "type": "string",
+                "minLength": 10,
+                "maxLength": 1000
+              },
+              "owner_role": {
+                "type": "string",
+                "minLength": 3,
+                "maxLength": 160
+              },
+              "due_date_utc": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "verification_indicator": {
+                "type": "string",
+                "minLength": 5,
+                "maxLength": 400
+              },
+              "status": {
+                "enum": [
+                  "proposed",
+                  "accepted",
+                  "in_progress",
+                  "completed",
+                  "not_accepted"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "data_handling": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "classification",
+        "direct_identifiers_included",
+        "raw_message_content_included",
+        "raw_device_logs_included",
+        "individual_tracking_included",
+        "privacy_review_status"
+      ],
+      "properties": {
+        "classification": {
+          "enum": [
+            "synthetic_only",
+            "public_aggregate_only"
+          ]
+        },
+        "direct_identifiers_included": {
+          "const": false
+        },
+        "raw_message_content_included": {
+          "const": false
+        },
+        "raw_device_logs_included": {
+          "const": false
+        },
+        "individual_tracking_included": {
+          "const": false
+        },
+        "privacy_review_status": {
+          "enum": [
+            "not_started",
+            "pending",
+            "approved",
+            "rejected"
+          ]
+        }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 10,
+        "maxLength": 600
+      }
+    }
+  }
+}
