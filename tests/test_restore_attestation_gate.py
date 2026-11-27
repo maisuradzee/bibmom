@@ -3,6 +3,7 @@ from __future__ import annotations
 import copy
 import json
 import unittest
+from unittest.mock import patch
 
 from noema_core.restore_attestation import (
     RestoreAttestationError,
@@ -216,9 +217,9 @@ class RestoreAttestationGateTests(unittest.TestCase):
             evaluate_restore_attestation_bytes(payload)
 
     def test_strict_byte_parser_normalizes_excessive_nesting_error(self):
-        payload = (b"[" * 10000) + b"0" + (b"]" * 10000)
-        with self.assertRaisesRegex(RestoreAttestationError, "nesting exceeds the parser safety limit"):
-            evaluate_restore_attestation_bytes(payload)
+        with patch("noema_core.restore_attestation.json.loads", side_effect=RecursionError("too deep")):
+            with self.assertRaisesRegex(RestoreAttestationError, "nesting exceeds the parser safety limit"):
+                evaluate_restore_attestation_bytes(b"{}")
     def test_strict_byte_parser_rejects_invalid_utf8_and_non_object_roots(self):
         with self.assertRaisesRegex(RestoreAttestationError, "valid UTF-8 JSON"):
             evaluate_restore_attestation_bytes(bytes([255]))
