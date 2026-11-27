@@ -39,10 +39,10 @@ class GeorgiaFloodRiskFrameworkTests(unittest.TestCase):
         self.assertIn("climate-change", joined)
 
     def test_multiple_flood_types_are_not_reduced_to_riverine_only(self) -> None:
-        self.assertEqual(len(self.record["flood_types"]), 7)
+        self.assertEqual(len(self.record["flood_types"]), 5)
         self.assertIn("urban_pluvial", self.record["flood_types"])
         self.assertIn("groundwater", self.record["flood_types"])
-        self.assertIn("glacial_lake_outburst", self.record["flood_types"])
+        self.assertEqual(set(self.record["conditional_flood_types"]), {"mudflow_related", "glacial_lake_outburst"})
 
     def test_decree_is_not_misrepresented_as_an_operational_warning_service(self) -> None:
         outputs = self.record["outputs_and_dependencies"]
