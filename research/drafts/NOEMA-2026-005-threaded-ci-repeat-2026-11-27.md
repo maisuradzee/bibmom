@@ -99,7 +99,9 @@ Free-threaded 4-worker შემთხვევაში ორივე run ა
 ## შემოწმების სტატუსი
 
 - ოთხი frozen sanitized snapshot: ორი GIL-enabled და ორი free-threaded; 48 cases და 144 runs თითო artifact-ში.
-- Reproducer: artifact ZIP-დან snapshot-ის თავიდან შექმნა და SHA-256 provenance.
+- CI validator ამოწმებს უკვე შენახულ ოთხ snapshot-ს, manifest-ის hash-ებს, schema-სა და raw sample-ებიდან ხელახლა გამოთვლილ summary-ს; CI ავტომატურად არ ჩამოტვირთავს ორიგინალ artifact ZIP-ებს.
+- ცალკე reproducer CLI იღებს ორიგინალ artifact ZIP-ს და თავიდან ქმნის sanitized JSON snapshot-სა და provenance fields-ს. Run 29-ში ორიგინალი ოთხივე ZIP და source JSON SHA-256-ით გადამოწმდა; ორი free-threaded snapshot, რომელთა Base64 padding დაზიანებული იყო, ხელახლა შეიქმნა source artifact-ებიდან და manifest-ის sanitized gzip hash-ები განახლდა.
+- `sanitized_gzip_sha256` არის საცავში შენახული ზუსტი compressed bytes-ის hash. gzip/deflate output შეიძლება Python/zlib runtime-ებს შორის განსხვავდებოდეს; cross-runtime reproduction-ისას JSON payload და source ZIP/report hashes უნდა შედარდეს, ხოლო stored-byte hash მხოლოდ კონკრეტულ არტეფაქტს ეკუთვნის.
 - Validator: schema, source manifest, sample medians, CPU/wall ratios, per-worker summary და speedup-vs-serial formula ხელახლა მოწმდება; recursive public-boundary tests ყველა nested object-ში კრძალავს host/runner/device/native-thread identity keys-ს და ამოწმებს, რომ coarse architecture/CPU-count metadata დაშვებულია.
 - Native thread IDs და დეტალური host/kernel build მონაცემები საჯარო snapshot-ში არ ინახება.
 - **Publication:** Draft; დამოუკიდებელი რეცენზია და physical-host replication არ დასრულებულა.
