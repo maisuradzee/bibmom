@@ -6,7 +6,10 @@ import hashlib
 import json
 from pathlib import Path
 import sys
-from scripts.validate_noema005_openmp_report import validate_report
+try:
+    from scripts.validate_noema005_openmp_report import validate_report
+except ModuleNotFoundError:  # Direct script execution puts scripts/ first on sys.path.
+    from validate_noema005_openmp_report import validate_report
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_RAW = ROOT / "data/noema-005/native-openmp-raw-report-2026-11-26.json"
