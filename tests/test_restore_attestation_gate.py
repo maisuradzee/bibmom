@@ -216,7 +216,7 @@ class RestoreAttestationGateTests(unittest.TestCase):
             evaluate_restore_attestation_bytes(payload)
 
     def test_strict_byte_parser_normalizes_excessive_nesting_error(self):
-        payload = (b"[" * 2000) + b"0" + (b"]" * 2000)
+        payload = (b"[" * 10000) + b"0" + (b"]" * 10000)
         with self.assertRaisesRegex(RestoreAttestationError, "nesting exceeds the parser safety limit"):
             evaluate_restore_attestation_bytes(payload)
     def test_strict_byte_parser_rejects_invalid_utf8_and_non_object_roots(self):
