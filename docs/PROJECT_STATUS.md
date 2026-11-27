@@ -3,8 +3,8 @@
 - **განახლდა:** 2026-11-27 (run 28, research branches and exact-head CI audited)
 - **საცავი:** https://github.com/maisuradzee/bibmom
 - **მდგომარეობის snapshot main:** 2852b7b5ee3fa7470ebc9c3eda339fc0e6235eda
-- **Main quality CI:** [46005481656](https://github.com/maisuradzee/bibmom/actions/runs/46005481656) — SUCCESS for exact main snapshot.
-- **GitHub Pages deployment:** [46002746443](https://github.com/maisuradzee/bibmom/actions/runs/46002746443) — SUCCESS for the same main snapshot; no Pages deployment was triggered by this run because main was not changed.
+- **Main quality CI:** [45994809027](https://github.com/maisuradzee/bibmom/actions/runs/45994809027) — SUCCESS for exact main snapshot.
+- **GitHub Pages deployment:** [45994808987](https://github.com/maisuradzee/bibmom/actions/runs/45994808987) — SUCCESS for the same main snapshot; no Pages deployment was triggered by this run because main was not changed.
 - **Run 28 audit:** [docs/run-audits/2026-11-27-run-28.md](run-audits/2026-11-27-run-28.md) — NOEMA-007 metadata-only risk-baseline freshness evaluator and NOEMA-005 cgroup v2 mount-root path-resolution hardening; both remain Draft.
 - **Run 28 PR #156:** [NOEMA-007 freshness evaluator](https://github.com/maisuradzee/bibmom/pull/156), head `ff5fda252376bfe1e499556ec175cd805d61b68f`; exact Quality CI [46005429117](https://github.com/maisuradzee/bibmom/actions/runs/46005429117) SUCCESS; CPU-thread workflow [46005429130](https://github.com/maisuradzee/bibmom/actions/runs/46005429130) both jobs SUCCESS.
 - **Run 28 PR #157:** [NOEMA-005 cgroup path-resolution tests](https://github.com/maisuradzee/bibmom/pull/157), head `37f2d3576faade1c0963c31362698b0c45c11f7b`; exact Quality CI [46005644572](https://github.com/maisuradzee/bibmom/actions/runs/46005644572) SUCCESS. No new benchmark result is claimed.
