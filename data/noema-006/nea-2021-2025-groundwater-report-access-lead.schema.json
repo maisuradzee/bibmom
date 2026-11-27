@@ -12,7 +12,8 @@
     "report_scope",
     "regulatory_context",
     "interpretation_limits",
-    "privacy"
+    "privacy",
+    "external_drinking_water_guideline"
   ],
   "properties": {
     "schema_version": {
@@ -222,6 +223,92 @@
         },
         "restricted_archive_bytes_included": {
           "const": false
+        }
+      }
+    },
+    "external_drinking_water_guideline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "publisher",
+        "edition_title",
+        "edition_date",
+        "publication_url",
+        "chemical_fact_sheet_pdf_url",
+        "nitrate_guideline_value_mg_per_l",
+        "nitrate_basis",
+        "nitrite_guideline_value_mg_per_l",
+        "nitrite_basis",
+        "combined_ratio_limit",
+        "combined_ratio_formula",
+        "nitrate_to_nitrate_nitrogen_conversion_factor",
+        "nitrite_to_nitrite_nitrogen_conversion_factor",
+        "applies_to",
+        "most_sensitive_population",
+        "fact_sheet_assessment_date",
+        "not_georgian_legal_limit",
+        "not_automatically_applicable_to_raw_groundwater",
+        "interpretation"
+      ],
+      "properties": {
+        "publisher": {
+          "const": "World Health Organization"
+        },
+        "edition_title": {
+          "type": "string",
+          "minLength": 30
+        },
+        "edition_date": {
+          "const": "2026-06-17"
+        },
+        "publication_url": {
+          "const": "https://www.who.int/publications/i/item/9789240121225"
+        },
+        "chemical_fact_sheet_pdf_url": {
+          "const": "https://cdn.who.int/media/docs/default-source/wash-documents/water-safety-and-quality/dwq-guidelines-4/gdwq_4ed_with_third-addenda_chemical-fact-sheets.pdf"
+        },
+        "nitrate_guideline_value_mg_per_l": {
+          "const": 50
+        },
+        "nitrate_basis": {
+          "const": "as nitrate ion"
+        },
+        "nitrite_guideline_value_mg_per_l": {
+          "const": 3
+        },
+        "nitrite_basis": {
+          "const": "as nitrite ion"
+        },
+        "combined_ratio_limit": {
+          "const": 1
+        },
+        "combined_ratio_formula": {
+          "const": "C_nitrate/GV_nitrate + C_nitrite/GV_nitrite <= 1"
+        },
+        "nitrate_to_nitrate_nitrogen_conversion_factor": {
+          "const": 0.226
+        },
+        "nitrite_to_nitrite_nitrogen_conversion_factor": {
+          "const": 0.304
+        },
+        "applies_to": {
+          "const": "drinking-water"
+        },
+        "most_sensitive_population": {
+          "const": "bottle-fed infants"
+        },
+        "fact_sheet_assessment_date": {
+          "const": 2016
+        },
+        "not_georgian_legal_limit": {
+          "const": true
+        },
+        "not_automatically_applicable_to_raw_groundwater": {
+          "const": true
+        },
+        "interpretation": {
+          "type": "string",
+          "minLength": 40
         }
       }
     }
