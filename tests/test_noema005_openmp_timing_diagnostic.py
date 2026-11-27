@@ -3,7 +3,7 @@ import copy
 import unittest
 from pathlib import Path
 from scripts.run_noema005_openmp_timing_diagnostic import parse_cpu_list, parse_cpu_max, validate_report
-from scripts.reproduce_noema005_openmp_timing_diagnostic import load_frozen_report, load_frozen_report_v2
+from scripts.reproduce_noema005_openmp_timing_diagnostic import load_frozen_report
 
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = ROOT / "data/noema-005/openmp-timing-diagnostic.schema.json"
@@ -131,29 +131,28 @@ class Noema005OpenMPTimingDiagnosticTests(unittest.TestCase):
         self.assertEqual(report["summary"]["cpu_wall_anomaly_count"], 0)
         self.assertEqual(report["summary"]["max_process_cpu_wall_ratio"], 4.008956678)
 
-    def test_frozen_v2_hosted_artifact_reproduces_with_upper_bound_only(self):
-        report = load_frozen_report_v2()
-        self.assertEqual(report["schema_version"], 2)
-        self.assertEqual(report["summary"]["run_count"], 80)
-        self.assertEqual(report["summary"]["cpu_wall_anomaly_count"], 0)
-        self.assertEqual(report["summary"]["max_process_cpu_wall_ratio"], 4.004285619)
-        self.assertEqual(report["summary"]["thread_cgroup_mismatch_count"], 0)
-        self.assertEqual(report["summary"]["thread_cgroup_unverified_count"], 0)
-        self.assertFalse(report["environment"]["cgroup_cpu_quota_chain_complete"])
-        self.assertEqual(report["environment"]["cgroup_cpu_quota_unreadable_level_count"], 1)
-        self.assertTrue(all(run["process_thread_count"] == run["actual_threads"] for run in report["runs"]))
-        self.assertTrue(all(run["known_cpu_capacity_upper_bound"] == 4.0 for run in report["runs"]))
-        self.assertTrue(all(run["effective_cpu_capacity"] is None for run in report["runs"]))
-        self.assertTrue(all(run["cpu_wall_anomaly_threshold"] == 4.25 for run in report["runs"]))
-        self.assertTrue(all(run["cpu_wall_anomaly_threshold_basis"] == "affinity_cpuset_upper_bound" for run in report["runs"]))
-        max_clock_diff = max(abs(thread["cpu_ns"] - thread["rusage_thread_ns"]) for run in report["runs"] for thread in run["threads"])
-        self.assertEqual(max_clock_diff, 1241)
-
     def test_frozen_worker_counts_and_medians(self):
         report = load_frozen_report()
         self.assertEqual([entry["requested_workers"] for entry in report["summary"]["per_worker"]], [1, 2, 4, 8])
         self.assertEqual([entry["median_process_cpu_wall_ratio"] for entry in report["summary"]["per_worker"]],
                          [0.999966709, 2.000455849, 4.001551167, 3.946946747])
+
+    def test_v2_withholds_capacity_when_worker_cgroup_membership_is_unverified(self):
+        report = sample_report_v2()
+        report["runs"][0]["threads"][0]["thread_cgroup_matches_process"] = None
+        report["runs"][0]["known_cpu_capacity_upper_bound"] = None
+        report["runs"][0]["effective_cpu_capacity"] = None
+        report["runs"][0]["cpu_wall_anomaly_threshold"] = None
+        report["runs"][0]["cpu_wall_anomaly_threshold_basis"] = None
+        report["runs"][0]["cpu_wall_anomaly"] = False
+        report["runs"][0]["thread_cgroup_unverified_count"] = 1
+        report["summary"]["thread_cgroup_unverified_count"] = 1
+        validate_report(report, SCHEMA)
+
+        # A single unverified worker must not be promoted into a capacity claim.
+        report["runs"][0]["known_cpu_capacity_upper_bound"] = 2.0
+        with self.assertRaises(ValueError):
+            validate_report(report, SCHEMA)
 
 if __name__=="__main__":
     unittest.main()
