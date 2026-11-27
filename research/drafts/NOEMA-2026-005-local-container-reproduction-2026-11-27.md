@@ -89,7 +89,7 @@ Free-threaded CPython ან C/OpenMP native reduction-მა შეიძლე
 - Runner: scripts/reproduce_noema005_local_container.py
 - Runner SHA-256: e252e625752e1d46dd57c01d1b726d0cddc6620b19748951575be8f446772d8c
 - Frozen report: data/noema-005/local-container-repro-2026-11-27.json
-- Report SHA-256: afecef8387190cd6ead8497f5065c88c88fcdc268e722a0b5c14df405269d56a
+- Report SHA-256: 5d4df2abfef211e338922b59ee1cfa3957dfb14485b69a2fbfacc47c98af7853
 - Input SHA-256: triplet_order = 2f19dc716781185edce36e180984a7dd23c70f8fe2596e73afd272acba9f7a2d; grouped_cancellation = 0157b24f78ca70640f01f2801a74e0c287a79f15604d1946eb1b3295f81e39c1
 - Local validation: 7/7 tests passed before repository integration.
 
@@ -106,3 +106,8 @@ Free-threaded CPython ან C/OpenMP native reduction-მა შეიძლე
 - Frozen JSON schema: ადგილობრივად ვალიდურია.
 - Reproduction regression tests: 7/7 passed.
 - სტატუსი: Draft / Preliminary evidence only; Published არ არის.
+
+
+## Archive packaging clarification — Run 11
+
+The first repository copy of the JSON report was truncated at the repository text-transfer boundary and failed JSON parsing before the focused tests could start. The measurement result was not accepted on that malformed copy. This corrected compact snapshot preserves all 48 configurations and all 960 raw wall-time samples. It retains serial baseline wall medians (the values used for each speedup) but omits serial baseline process-CPU medians and serial accuracy counts from the JSON; those measurement details are not used to recompute the threaded speedup and the methodology/limitations remain documented above. The original measurement runner SHA-256 remains e252e625752e1d46dd57c01d1b726d0cddc6620b19748951575be8f446772d8c; the new frozen report SHA-256 is 5d4df2abfef211e338922b59ee1cfa3957dfb14485b69a2fbfacc47c98af7853. No new benchmark run is claimed by this packaging correction.

@@ -29,7 +29,7 @@ class Noema005LocalContainerReproTests(unittest.TestCase):
     def test_runner_and_report_hashes_are_frozen(self):
         runner_path = ROOT / "scripts/reproduce_noema005_local_container.py"
         self.assertEqual(hashlib.sha256(runner_path.read_bytes()).hexdigest(), self.report["runner_sha256"])
-        self.assertEqual(hashlib.sha256(REPORT_PATH.read_bytes()).hexdigest(), "afecef8387190cd6ead8497f5065c88c88fcdc268e722a0b5c14df405269d56a")
+        self.assertEqual(hashlib.sha256(REPORT_PATH.read_bytes()).hexdigest(), "5d4df2abfef211e338922b59ee1cfa3957dfb14485b69a2fbfacc47c98af7853")
 
     def test_complete_unique_48_case_matrix_and_raw_samples(self):
         rows = self.report["threaded_rows"]
@@ -44,6 +44,18 @@ class Noema005LocalContainerReproTests(unittest.TestCase):
             self.assertEqual(row[c["median_wall_ns"]], int(statistics.median(row[c["wall_samples_ns"]])))
             self.assertLess(row[c["speedup_vs_matching_serial"]], 1.0)
         self.assertEqual(len(keys), 48)
+
+    def test_serial_baseline_wall_medians_reconcile_speedups(self):
+        c = self.columns
+        for row in self.report["threaded_rows"]:
+            layout = row[c["layout"]]
+            method = row[c["method"]]
+            baseline_key = "serial_naive" if method == "threaded_naive_scalar" else "serial_neumaier"
+            baseline = self.report["serial_baseline_median_wall_ns"][layout][baseline_key]
+            expected = baseline / row[c["median_wall_ns"]]
+            self.assertAlmostEqual(row[c["speedup_vs_matching_serial"]], expected, places=8)
+        self.assertIn("48 configurations", self.report["archive_note"])
+        self.assertIn("960 raw wall-time samples", self.report["archive_note"])
 
     def test_accuracy_totals_match_frozen_report(self):
         c = self.columns
