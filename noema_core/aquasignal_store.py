@@ -268,7 +268,7 @@ def _canonical_json(value: Any) -> str:
 
 def _event_payload_json(event: IncidentEvent) -> str:
     """Serialize one event and enforce the bounded UTF-8 storage contract."""
-    payload_json = _event_payload_json(event)
+    payload_json = _canonical_json(_event_to_dict(event))
     try:
         payload_size = len(payload_json.encode("utf-8", errors="strict"))
     except UnicodeError as exc:
@@ -523,7 +523,7 @@ class AquaSignalStore:
         if not incident.events:
             raise IncidentStoreError("incident must contain at least one event")
         event = incident.events[-1]
-        payload_json = _canonical_json(_event_to_dict(event))
+        payload_json = _event_payload_json(event)
         payload_hash = hashlib.sha256(payload_json.encode("utf-8")).hexdigest()
         with closing(self._connect()) as connection:
             connection.execute("BEGIN IMMEDIATE")
