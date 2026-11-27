@@ -14,7 +14,9 @@
     "native_accumulator",
     "native_openmp",
     "python_threads",
-    "limitations"
+    "limitations",
+    "validation_test",
+    "validation_scope"
   ],
   "properties": {
     "schema_version": {
@@ -284,6 +286,14 @@
         "type": "string",
         "minLength": 1
       }
+    },
+    "validation_test": {
+      "type": "string",
+      "minLength": 1
+    },
+    "validation_scope": {
+      "type": "string",
+      "minLength": 1
     }
   }
 }
