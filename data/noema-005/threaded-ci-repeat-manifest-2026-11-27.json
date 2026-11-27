@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-005",
+  "created_at": "2026-11-27",
+  "records": [
+    {
+      "key": "run-46006107242-gil-enabled",
+      "runtime_mode": "gil-enabled",
+      "runner_kernel_flavor": "azure",
+      "workflow_run_id": 46006107242,
+      "workflow_head_sha": "fdfc4d390fdb7cfc45f5879dbc699c3d2165a1e9",
+      "artifact_id": 15201571617,
+      "artifact_name": "noema005-threaded-gil-enabled.zip",
+      "artifact_zip_sha256": "5558b39a7d52e900902f39592c76cb53d1f3afc93f444cf688f74dfd59d40585",
+      "source_report_sha256": "cb844bc0d0f7872918ddbbdaf7cd63b73dfd1a59b881b8d43d60fec10b63ee96",
+      "source_report_member": "noema005-threaded-gil-enabled.json",
+      "sanitized_gzip_sha256": "da79bbf44a8eacbb11c5c3de103cd342b6a3022d167c48bf7f9655fb787d069a",
+      "sanitized_snapshot": "threaded-ci-repeat-2026-11-27-gil-enabled.json.gz.b64"
+    },
+    {
+      "key": "run-46006107242-free-threaded",
+      "runtime_mode": "free-threaded",
+      "runner_kernel_flavor": "aws",
+      "workflow_run_id": 46006107242,
+      "workflow_head_sha": "fdfc4d390fdb7cfc45f5879dbc699c3d2165a1e9",
+      "artifact_id": 15201906516,
+      "artifact_name": "noema005-threaded-free-threaded.zip",
+      "artifact_zip_sha256": "e7ec2737b5618c9aa05056559b75567005ce0a3c994fe179a589f55ffe134d7a",
+      "source_report_sha256": "a4031091a0d8e4d76683a6a36683b7569b9bb39105500ce50107d71a6922fcba",
+      "source_report_member": "noema005-threaded-free-threaded.json",
+      "sanitized_gzip_sha256": "68f4a6df9597502e5c3606ace5e97712345bc9a9bb9de44a944dc62ed02ac5b8",
+      "sanitized_snapshot": "threaded-ci-repeat-2026-11-27-free-threaded.json.gz.b64"
+    },
+    {
+      "key": "run-46007383552-gil-enabled",
+      "runtime_mode": "gil-enabled",
+      "runner_kernel_flavor": "azure",
+      "workflow_run_id": 46007383552,
+      "workflow_head_sha": "3cfe55c5748333ccba18efd0209dd14e66ed8499",
+      "artifact_id": 15200953902,
+      "artifact_name": "noema005-threaded-gil-enabled-repeat2.zip",
+      "artifact_zip_sha256": "5ec5c6036ade5a1ddaffbda5f52b0ac62c76331e2cf29b7c7c1cbdc0e52a1d81",
+      "source_report_sha256": "6bf2022c05ed8bcba4f33dad866ba03361520b666e67fa37fa3b28514cf4c6da",
+      "source_report_member": "noema005-threaded-gil-enabled.json",
+      "sanitized_gzip_sha256": "affddfb0bc8c20219a7066d256f9234b2061cdc018edd8d4234ba66b45cd4ae4",
+      "sanitized_snapshot": "threaded-ci-repeat-2026-11-27-run-46007383552-gil-enabled.json.gz.b64"
+    },
+    {
+      "key": "run-46007383552-free-threaded",
+      "runtime_mode": "free-threaded",
+      "runner_kernel_flavor": "azure",
+      "workflow_run_id": 46007383552,
+      "workflow_head_sha": "3cfe55c5748333ccba18efd0209dd14e66ed8499",
+      "artifact_id": 15200369413,
+      "artifact_name": "noema005-threaded-free-threaded-repeat2.zip",
+      "artifact_zip_sha256": "bc66d175ff78889ddf89b9d7583d2af0cf6fe20600d6dd1019fa3c7c2d566b90",
+      "source_report_sha256": "6ab2b041059d1ada4a254f3e608eafcdbf4719b02d0ed6c9c49ae3c7c36087b7",
+      "source_report_member": "noema005-threaded-free-threaded.json",
+      "sanitized_gzip_sha256": "d3fc08497dc71bd7ec07366d90bec87db51b4d6c36e6081b60c6dbc1b217320a",
+      "sanitized_snapshot": "threaded-ci-repeat-2026-11-27-run-46007383552-free-threaded.json.gz.b64"
+    }
+  ]
+}
