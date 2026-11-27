@@ -29,6 +29,7 @@ from .aquasignal_incidents import (
 )
 
 GENESIS_HASH = "0" * 64
+_MAX_EVENT_PAYLOAD_BYTES = 64 * 1024
 
 
 class IncidentStoreError(RuntimeError):
@@ -151,8 +152,12 @@ def _decode_event_payload(payload_json: str) -> IncidentEvent:
     """
     if not isinstance(payload_json, str):
         raise IncidentStoreError("event payload must be text")
+    if len(payload_json) > _MAX_EVENT_PAYLOAD_BYTES:
+        raise IncidentStoreError("event payload exceeds the 65536-byte limit")
     try:
-        payload_json.encode("utf-8", errors="strict")
+        payload_bytes = payload_json.encode("utf-8", errors="strict")
+        if len(payload_bytes) > _MAX_EVENT_PAYLOAD_BYTES:
+            raise IncidentStoreError("event payload exceeds the 65536-byte limit")
         value = json.loads(
             payload_json,
             object_pairs_hook=_strict_json_object,
@@ -259,6 +264,18 @@ def _canonical_json(value: Any) -> str:
         )
     except (TypeError, ValueError, UnicodeError) as exc:
         raise IncidentStoreError(f"Event is not strict UTF-8 JSON: {exc}") from exc
+
+
+def _event_payload_json(event: IncidentEvent) -> str:
+    """Serialize one event and enforce the bounded UTF-8 storage contract."""
+    payload_json = _canonical_json(_event_to_dict(event))
+    try:
+        payload_size = len(payload_json.encode("utf-8", errors="strict"))
+    except UnicodeError as exc:
+        raise IncidentStoreError("event payload is not valid UTF-8") from exc
+    if payload_size > _MAX_EVENT_PAYLOAD_BYTES:
+        raise IncidentStoreError("event payload exceeds the 65536-byte limit")
+    return payload_json
 
 
 def _event_hash(
@@ -506,7 +523,7 @@ class AquaSignalStore:
         if not incident.events:
             raise IncidentStoreError("incident must contain at least one event")
         event = incident.events[-1]
-        payload_json = _canonical_json(_event_to_dict(event))
+        payload_json = _event_payload_json(event)
         payload_hash = hashlib.sha256(payload_json.encode("utf-8")).hexdigest()
         with closing(self._connect()) as connection:
             connection.execute("BEGIN IMMEDIATE")
@@ -584,7 +601,7 @@ class AquaSignalStore:
             connection.commit()
         result = []
         for row in rows:
-            event = _event_from_dict(json.loads(row["payload_json"]))
+            event = _decode_event_payload(row["payload_json"])
             result.append(StoredEvent(
                 sequence=row["sequence"], incident_id=row["incident_id"],
                 event_id=row["event_id"], kind=row["kind"], occurred_at=event.at,

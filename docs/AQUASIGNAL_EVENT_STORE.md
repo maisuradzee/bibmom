@@ -29,7 +29,10 @@ Every persisted incident event is written as canonical UTF-8 JSON. Replay and
 inspection accept only that exact representation: duplicate keys at any depth,
 non-standard JSON constants, overflowed non-finite numbers, unknown/missing
 fields, non-canonical whitespace/key order, and naive timestamps fail closed.
-The same decoder is used by full-chain verification and event listing.
+The same strict decoder is used by full-chain verification and event listing.
+Each event payload is limited to 64 KiB of UTF-8 at both append and replay, so
+an oversized local row is rejected before JSON parsing and an oversized event
+cannot be written through the store API.
 
 This prevents parser-dependent interpretation of a stored event. It does **not**
 authenticate the local SQLite file or turn its unkeyed SHA-256 chain into a
