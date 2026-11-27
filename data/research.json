@@ -464,6 +464,83 @@
         "რეალური CPU threads შემოწმდა Ubuntu 24.04 x86_64, Ubuntu 24.04 ARM64 და macOS 15 ARM64 hosted runner-ებზე; Windows, GPU და network-distributed runtime არ შემოწმებულა",
         "ARM64 გამეორება შესრულდა CPython 3.14.4 GIL-enabled და free-threaded build-ებზე, ოთხ hosted runner/runtime უჯრედში და თითოეულზე სამი measured repetition-ით"
       ]
+    },
+    {
+      "id": "NOEMA-2026-007",
+      "title": "გაფრთხილების მიღება და მოქმედების შესაძლებლობა — WRP 2025 დამოუკიდებელი გამეორება",
+      "date": "2026-11-27",
+      "category": "ადრეული გაფრთხილება / სტატისტიკური გამეორება",
+      "summary": "NOEMA-მ LRF-ის 2025 Wave 4 საჯარო Parquet მონაცემებზე დამოუკიდებლად გაიმეორა გლობალური გაფრთხილების მიღებისა და მოქმედების შესაძლებლობის აგრეგატები. 24,249-კაციან warning base-ში 16,996-მა მიიღო მინიმუმ ერთი გაფრთხილება; PROJWT-შეწონილი წილი 80.011542% იყო (გამომცემლის დამრგვალება 80.0%). გაფრთხილებულ 16,996 რესპონდენტში 9,479-ს შეეძლო მოქმედება (63.779158%), 7,383-ს — არა (35.759146%), ხოლო 134-მა უპასუხა არ ვიცი/უარი (0.461696%). საქართველოს warning-question base იყო 99, ქვემოთ ანგარიშის n>=100 რეიტინგის ზღვარზე. ეს არის survey aggregate reproduction და არა საქართველოს ოპერაციული შეფასება ან მიზეზობრივი ეფექტიანობის მტკიცებულება.",
+      "file": "research/preprints/NOEMA-2026-007-wrp2025-warning-action-reproduction.md",
+      "status": "preliminary",
+      "version": "1.0",
+      "sources": [
+        {
+          "title": "World Risk Poll 2025, Wave 4 public data release",
+          "authors": [
+            "Lloyd's Register Foundation"
+          ],
+          "citation": "Lloyd's Register Foundation. (2026-09-01). World Risk Poll 2025, Wave 4 public data release. Pinned repository commit f2b810c3c4333de6347ad2c9eade3c48ae17be4c.",
+          "url": "https://github.com/lrfoundation/world_risk_poll_data/tree/f2b810c3c4333de6347ad2c9eade3c48ae17be4c",
+          "type": "public-dataset",
+          "publication_date": "2026-09-01",
+          "publication_note": "The release notes state that the 2025 data first appeared on 2026-09-01; the pinned commit is recorded separately.",
+          "accessed_at": "2026-11-27",
+          "version": "f2b810c3c4333de6347ad2c9eade3c48ae17be4c"
+        },
+        {
+          "title": "From alert to agency: What turns warnings into action?",
+          "authors": [
+            "Lloyd's Register Foundation"
+          ],
+          "citation": "Lloyd's Register Foundation. (2026-10-13). From alert to agency: What turns warnings into action? World Risk Poll 2026 report. DOI: 10.60743/yx1k-t541.",
+          "url": "https://doi.org/10.60743/yx1k-t541",
+          "type": "primary-report",
+          "publication_date": "2026-10-13",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "WRP 2025 data dictionary",
+          "authors": [
+            "Lloyd's Register Foundation"
+          ],
+          "citation": "Lloyd's Register Foundation. (2026-08-31). WRP 2025 data dictionary, pinned repository commit f2b810c3c4333de6347ad2c9eade3c48ae17be4c.",
+          "url": "https://github.com/lrfoundation/world_risk_poll_data/blob/f2b810c3c4333de6347ad2c9eade3c48ae17be4c/WRP_2025/WRP_2025_data_dictionary.csv",
+          "type": "data-dictionary",
+          "publication_date": "2026-08-31",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "From alert to agency — reproduction method notes",
+          "authors": [
+            "Lloyd's Register Foundation"
+          ],
+          "citation": "Lloyd's Register Foundation. (2026-10-13). From alert to agency: reproduction README and denominator notes.",
+          "url": "https://github.com/lrfoundation/world_risk_poll_data/blob/f2b810c3c4333de6347ad2c9eade3c48ae17be4c/reports/WRP_2025/core_from_alert_to_agency/README.md",
+          "type": "reproduction-method",
+          "publication_date": "2026-10-13",
+          "accessed_at": "2026-11-27"
+        }
+      ],
+      "methodology": {
+        "dataset_commit": "f2b810c3c4333de6347ad2c9eade3c48ae17be4c",
+        "git_blob_sha1": "3e785688e067ded5fdfbe9b50721023ecea87826",
+        "byte_length": 7070416,
+        "sha256": "07b4632826e13ec1975ec977b0e057b528547c6f7805c0838abc1586b78da56b",
+        "workflow_run_id": 46041436183,
+        "workflow_head_sha": "ef2e850c8f6a1099eda8951c78a8169519a12daa",
+        "artifact_id": 15219814678,
+        "artifact_zip_sha256": "1da128c3b32fcf6898867ac77b7d6197322483836a527bde69c0c8f6dea25e15",
+        "aggregate_json_sha256": "4e52e493a213b88346abae58871763842bd075672e5ae9878b21e1bd535fb1c4",
+        "weight": "PROJWT",
+        "warning_base": "WP24181 non-null; any code 1 across WP24181-WP24188 means warned; codes 2/97/98/99 remain in denominator and count as no warning.",
+        "action_base": "Warned respondents only; WP24215 codes 1/2/98/99 remain in denominator."
+      },
+      "limitations": [
+        "Independent arithmetic on the publisher's public microdata is not an independent survey or operational early-warning audit.",
+        "Self-reported warning receipt and ability to act do not establish message timeliness, comprehension, verified protective action or avoided loss.",
+        "Global weighted estimates must not be presented as a Georgian national estimate; Georgia's warning-question base is 99, below the report's n>=100 ranking threshold."
+      ]
     }
   ]
 }
