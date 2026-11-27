@@ -2,10 +2,10 @@
 
 - **განახლდა:** 2026-11-28 (Run 38 — NOEMA-005 experiment 002, AquaSignal NEA groundwater access lead, strict event parsing and public-artifact privacy boundary).
 - **საცავი:** https://github.com/maisuradzee/bibmom
-- **Run 38-ის merge-ების შემდეგ main snapshot:** `989d118f9d76b04e9dd9ab374de7f058cf9ea08d`.
+- **Run 38-ის final research merge snapshot:** `b3b347bec68e8c22f2781476d55148d576ae028a` (PR #213 merged; this status-sync PR follows that snapshot).
 - **ბოლო დადასტურებული PR-head Quality CI:** PR #200 — 534 tests; PR #202 — 539 tests; PR #204 — 544 tests; PR #205 — exact-head Quality CI SUCCESS; PR #206 — exact-head Quality CI SUCCESS; PR #207 — exact-head Quality/CPU CI SUCCESS; PR #210 — 561 tests, frozen aggregate reproduction and WHO comparator validation SUCCESS; PR #211 — merged, 566 tests; PR #212 — merged, 575 tests, strict restore-attestation and frozen aggregate checks SUCCESS.
 - **ბოლო დადასტურებული benchmark/cleanup:** PR #200 x86-64 და ARM64 workflows SUCCESS; legacy-artifact cleanup run [46064057021](https://github.com/maisuradzee/bibmom/actions/runs/46064057021) SUCCESS და ექვსი ძველი raw artifact list ცარიელია.
-- **Pages:** PR #204 site build SUCCESS (3 Preliminary, 0 Published); PR #205–#207 არ ცვლიდა გამოქვეყნებულ კვლევას; PR #210/211/212 site builds SUCCESS (3 Preliminary, 0 Published); post-merge deployment for main SHA 989d118f9d76b04e9dd9ab374de7f058cf9ea08d not verified; no deployment is claimed from a PR site build. წინა main deployment-ის მტკიცებულება არ უნდა ჩაითვალოს ამ snapshot-ის deployment-ად.
+- **Pages:** PR #204 site build SUCCESS (3 Preliminary, 0 Published); PR #205–#207 არ ცვლიდა გამოქვეყნებულ კვლევას; PR #210/211/212 site builds SUCCESS (3 Preliminary, 0 Published); post-merge deployment for main SHA b3b347bec68e8c22f2781476d55148d576ae028a not verified; no deployment is claimed from a PR site build. წინა main deployment-ის მტკიცებულება არ უნდა ჩაითვალოს ამ snapshot-ის deployment-ად.
 - **აქტიური პორტფელი:** ოთხივე ნაკადი აქტიურია — AquaSignal, NOEMA-005, NOEMA-007 და INFRA-001.
 - **კვლევის კატალოგი:** 3 Preliminary, 0 Published; NOEMA-005-ის არსებული Preliminary ჩანაწერი განახლდა experiment 002-ის frozen aggregate-ით. AquaSignal-ის NEA წყარო კვლავ metadata-only Draft-ია; WHO 2026 comparator ცალკე drinking-water guidance-ად არის დოკუმენტირებული და არა Georgian legal limit-ად.
 
@@ -516,3 +516,10 @@ Four streams remain active: AquaSignal, NOEMA-005, NOEMA-007 and INFRA-001. No f
 Detailed audit: [docs/run-audits/2026-11-28-run-38.md](run-audits/2026-11-28-run-38.md). Frozen NOEMA-005 aggregate and reproduction: [summary](../data/noema-005/experiment-002-summary.json), [script](../scripts/reproduce_noema005_experiment_002.py).
 
 Run38 AquaSignal historical baseline/legal crosswalk details: [research draft](../research/drafts/NOEMA-2026-006-nea-2021-2025-groundwater-report-access-lead-2026-11-28.md) and [structured record](../data/noema-006/nea-2021-2025-groundwater-report-access-lead.json).
+
+## Run 38 final merge record
+
+- PR #213 merged at `b3b347bec68e8c22f2781476d55148d576ae028a`.
+- Exact-head Quality CI: [46068511890](https://github.com/maisuradzee/bibmom/actions/runs/46068511890) — SUCCESS, 578 Python tests, schema validation, frozen-result reproduction, publication-boundary checks and site build (0 Published, 3 Preliminary).
+- Repository query returned 0 open PRs and 0 open issues at this final audit.
+- No post-merge Pages deployment job was verified for `b3b347bec68e8c22f2781476d55148d576ae028a`; the successful PR site build is not treated as a production Pages deployment.
