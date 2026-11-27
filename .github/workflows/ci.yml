@@ -57,6 +57,7 @@ jobs:
           test -f scripts/reproduce_noema007_anticipatory_action.py
           test -f tests/test_noema007_anticipatory_action.py
           test -f tests/test_noema007_action_readiness.py
+          test -f research/protocols/NOEMA-007-timely-receipt-measurement.md
           test -f data/noema-006/source-access-inventory.schema.json
           test -f data/noema-006/source-access-inventory-2026-11-27.json
           test -f tests/test_noema006_source_access_inventory.py
