@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "record_id": "AQUASIGNAL-GEORGIA-WATER-MONITORING-PLAN-2026-09-15",
+  "study_id": "NOEMA-2026-006",
+  "evidence_status": "FACT",
+  "source": {
+    "publisher": "Legislative Herald of Georgia",
+    "document_title": "საქართველოს მთავრობის 2026 წლის 15 სექტემბრის №447 დადგენილება — წყლის რესურსების მონიტორინგის დაგეგმვისა და განხორციელების წესის დამტკიცების შესახებ",
+    "decree_number": 447,
+    "publication_date": "2026-09-15",
+    "effective_from": "2026-09-01",
+    "registration_code": "400000000.10.003.025997",
+    "url": "https://www.matsne.gov.ge/ka/document/view/7000572",
+    "checked_at": "2026-11-28",
+    "main_text_checked": true,
+    "annexes": {
+      "listed": true,
+      "filenames": [
+        "447-დან.docx"
+      ],
+      "downloaded_or_inspected": false
+    },
+    "relevant_sections": [
+      "Article 1",
+      "Article 3",
+      "Article 4",
+      "Article 5",
+      "Article 6",
+      "Article 7"
+    ]
+  },
+  "competent_authority": "National Environment Agency of Georgia",
+  "annual_plan_deadline": "12-01",
+  "data_governance": {
+    "standardized_formats_required": true,
+    "public_access_subject_to_law": true,
+    "confidentiality_and_data_protection_required": true,
+    "national_reports_and_river_basin_plans_use_data": true
+  },
+  "scope": {
+    "includes": [
+      "surface_water",
+      "groundwater"
+    ],
+    "excludes_automatic_drinking_water_compliance": true,
+    "note": "State environmental water-resource monitoring is not the same dataset or legal test as potable-water supplier compliance under Government Decree №58/2014 or NFA food-control sampling."
+  },
+  "groundwater_transition": {
+    "until_groundwater_bodies_are_defined": "hydrogeological_units",
+    "after_definition": "groundwater_bodies",
+    "article": "7(1)"
+  },
+  "monitoring_programmes": [
+    "hydrological",
+    "hydrochemical",
+    "hydrobiological",
+    "hydromorphological",
+    "hydrogeological"
+  ],
+  "monitoring_modes": [
+    {
+      "mode": "observational",
+      "purpose": "Characterize water bodies, confirm pressure/impact assessment and identify long-term natural and anthropogenic trends.",
+      "frequency_basis": "Risk-based; consider hydromorphological and hydrogeological conditions, pressures and assessment objectives."
+    },
+    {
+      "mode": "operational",
+      "purpose": "Monitor at-risk water bodies, significant pressures and effectiveness of measures.",
+      "frequency_basis": "High frequency; monthly or quarterly."
+    },
+    {
+      "mode": "investigative",
+      "purpose": "Investigate pollution incidents/accidents or unknown causes of failure to achieve good status.",
+      "frequency_basis": "Flexible and problem-specific."
+    }
+  ],
+  "network_requirements": {
+    "representative_points_required": true,
+    "risk_based_selection_required": true,
+    "periodic_review_required": true,
+    "review_triggers": [
+      "new risks or pressures",
+      "unexpected results",
+      "insufficient representativeness",
+      "data accuracy or reliability concerns",
+      "management-plan cycle update"
+    ],
+    "station_add_remove_or_relocate_allowed": true
+  },
+  "quality_requirements": {
+    "background_indicators_documented": true,
+    "methodology_and_assumptions_documented": true,
+    "periodic_review_required": true,
+    "data_accuracy_and_reliability_explicit": true
+  },
+  "interpretation_limits": [
+    "This is an environmental water-resource monitoring framework, not evidence of potable-water compliance or a laboratory result.",
+    "The listed annexes were not downloaded or inspected; no parameter lists or annex sampling frequencies are asserted.",
+    "The annual plan deadline is a planning duty, not proof that a plan or any sample was completed.",
+    "Operational monthly/quarterly frequency applies to the operational monitoring mode described by the rule, not to every station or every analyte.",
+    "Groundwater monitoring applies to hydrogeological units until groundwater bodies are defined; station-level coverage is not inferred.",
+    "Public access is subject to environmental-information, data-protection and confidentiality law.",
+    "No station identifiers, sample-level observations, coordinates or private data are included."
+  ],
+  "privacy": {
+    "personal_data_included": false,
+    "exact_site_coordinates_included": false,
+    "raw_sample_records_included": false,
+    "restricted_annex_bytes_included": false
+  }
+}
