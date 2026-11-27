@@ -1,12 +1,12 @@
 # NOEMA-2026-006 — Georgia groundwater data access: statutory route and registry limits
 
 - **ID:** NOEMA-2026-006
-- **Status:** draft
-- **Date:** 2026-11-27
+- **სტატუსი:** draft
+- **თარიღი:** 2026-11-27
 - **Scope:** Georgia groundwater monitoring, drinking-water control, public-data access and privacy
 - **Related work:** [Georgia water-data access update](NOEMA-2026-006-georgia-water-data-access-update-2026-11-27.md)
 
-## Research question
+## საკვლევი კითხვა
 
 Which lawful, source-specific routes can AquaSignal use to request Georgian groundwater observations and drinking-water compliance evidence, and what does the new well-registration regime actually cover?
 
@@ -87,7 +87,11 @@ Prepare two separate request specifications:
 
 No request was sent in this cycle. Any future transfer must be reviewed for lawful basis, data minimisation and explicit reuse terms before ingestion.
 
-## Proposed data contract before ingestion
+## მეთოდი ან ექსპერიმენტის გეგმა
+
+The data-contract and request-pack design below is the proposed method; it is not a completed data-ingestion experiment.
+
+### Proposed data contract before ingestion
 
 For any authorised observation, require at least:
 - source agency and source-record identifier;
@@ -111,7 +115,7 @@ This is a documentary legal/source review, not a reproduced data analysis. No sa
 
 AquaSignal should move from a generic “data unavailable” blocker to a **two-authority request plan**: NEA for environmental monitoring observations under Article 32(3), and NFA for drinking-water state-control information under Article 31(3). Treat Resolution No.424 as a narrow prospective registry with personal-data safeguards, not as a substitute for water-quality monitoring.
 
-## Sources
+## წყაროები
 
 1. **Law of Georgia on Water Resources Management**, 30 June 2023, consolidated text, Articles 31–34 and 42 (relevant provisions entered into force 1 September 2026). Legislative Herald of Georgia. https://www.matsne.gov.ge/ka/document/download/5846594/3/ge/pdf
 2. **Government Resolution No.424**, 31 August 2026, “Rules for Accounting Wells for the Extraction of Fresh Drinking Groundwater”, especially Articles 1–7 and the well passport annex. https://matsne.gov.ge/ka/document/view/6991245
@@ -119,6 +123,17 @@ AquaSignal should move from a generic “data unavailable” blocker to a **two-
 4. **NEA**, 26 November 2026, 2021–2025 groundwater monitoring report and nitrate-risk field-methodology announcement. https://nea.gov.ge/ajs/News/3461
 5. **MEPA GIS Portal**, NEA122 “Groundwater monitoring” catalogue row, catalogue date 6 March 2026. https://portal.mepa.gov.ge/En/User/data?Links-sort=ResponsiblePerson-asc
 
-## Change history
+## შემდეგი ნაბიჯები
+
+1. Obtain an owner-approved decision to send the separate NEA and NFA data requests.
+2. Request the NEA122 layer payload and data dictionary, including CRS and explicit reuse terms.
+3. Obtain an accessible official copy of the 2021–2025 RAR archive, inspect its internal file inventory and digest it before any extraction.
+4. Keep all personal well-owner and household-level data out of the public repository.
+
+## შემოწმების სტატუსი
+
+This cycle completed a documentary review of the law, regulation, NEA implementation notice and official GIS catalogue metadata. No request was sent, no archive was extracted, and no sample-level data was imported. The note remains a draft pending agency responses, archive inspection, data-controller review and independent water-quality review.
+
+## ცვლილებების ისტორია
 
 - 2026-11-27: Added the statutory NEA/NFA request-route distinction, the prospective registry scope and privacy boundary, and a source-specific data-request specification. No data request or ingestion was performed.
