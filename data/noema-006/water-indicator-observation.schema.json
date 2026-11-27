@@ -11,6 +11,7 @@
     "authority",
     "indicator_id",
     "water_matrix",
+    "supply_type_scope",
     "standard_id",
     "standard_version",
     "period_start",
@@ -185,6 +186,28 @@
       "type": "integer",
       "minimum": 0,
       "maximum": 4
+    },
+    "supply_type_scope": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "piped_network",
+        "public_standpipe",
+        "tanker_delivered",
+        "borehole_tubewell",
+        "protected_dug_well",
+        "unprotected_dug_well",
+        "protected_spring",
+        "unprotected_spring",
+        "surface_water",
+        "household_storage",
+        "mixed",
+        "other",
+        "unknown",
+        null
+      ]
     }
   }
 }
