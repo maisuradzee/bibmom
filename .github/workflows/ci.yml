@@ -77,6 +77,15 @@ jobs:
           test -f .github/workflows/noema007-wrp2025-reproduction.yml
           test -f research/preprints/NOEMA-2026-007-wrp2025-warning-action-reproduction.md
           test -f data/noema-006/source-access-inventory.schema.json
+          test -f noema_core/water_chemistry.py
+          test -f tests/test_water_chemistry.py
+          test -f data/noema-006/georgia-water-monitoring-plan-2026-09-15.json
+          test -f data/noema-006/georgia-water-monitoring-plan-2026-09-15.schema.json
+          test -f data/noema-006/nitrate-unit-basis-crosswalk-2026-11-28.json
+          test -f data/noema-006/nitrate-unit-basis-crosswalk-2026-11-28.schema.json
+          test -f tests/test_aquasignal_georgia_water_monitoring_plan.py
+          test -f tests/test_aquasignal_nitrate_unit_crosswalk.py
+          test -f research/drafts/NOEMA-2026-006-georgia-water-monitoring-plan-and-nitrate-unit-crosswalk-2026-11-28.md
           test -f data/noema-006/source-access-inventory-2026-11-27.json
           test -f data/noema-006/wrp2025-water-harm-protocol.json
           test -f data/noema-006/wrp2025-water-harm-protocol.schema.json
@@ -174,6 +183,11 @@ jobs:
         run: python scripts/reproduce_noema007_wmo_roadmaps.py --check
       - name: Reproduce NOEMA-007 anticipatory-action aggregates
         run: python scripts/reproduce_noema007_anticipatory_action.py --check
+      - name: Validate AquaSignal Georgia water-monitoring plan and nitrate unit crosswalk
+        run: |
+          python -m unittest discover -s tests -p 'test_aquasignal_georgia_water_monitoring_plan.py' -v
+          python -m unittest discover -s tests -p 'test_aquasignal_nitrate_unit_crosswalk.py' -v
+          python -m unittest discover -s tests -p 'test_water_chemistry.py' -v
       - name: Validate AquaSignal source-access inventory schema
         run: python -m unittest discover -s tests -p 'test_noema006_source_access_inventory.py' -v
       - name: Validate AquaSignal WRP 2025 water-harm protocol and frozen result
