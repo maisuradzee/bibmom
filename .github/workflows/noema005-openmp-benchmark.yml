@@ -1,0 +1,83 @@
+name: NOEMA-005 native OpenMP reduction benchmark
+
+on:
+  push:
+    branches:
+      - research/noema005-native-openmp-2026-11-26
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/noema005-openmp-benchmark.yml'
+      - 'scripts/noema005_openmp_benchmark.c'
+      - 'scripts/run_noema005_openmp_benchmark.py'
+      - 'tests/test_noema005_openmp.py'
+      - 'research/drafts/NOEMA-2026-005-openmp-native-addendum.md'
+      - 'data/noema-005/native-openmp-protocol.json'
+      - 'data/noema-005/native-openmp-local-linux-x86_64-2026-11-26.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: noema005-openmp-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  native-openmp:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - name: Record compiler and CPU environment
+        run: |
+          gcc --version | head -n 1
+          uname -a
+          lscpu | sed -n '1,24p'
+      - name: Run native OpenMP benchmark with compiler provenance
+        run: python scripts/run_noema005_openmp_benchmark.py --repeat-count 250000 --workers 1,2,4,8 --warmups 1 --repetitions 5 --output "$RUNNER_TEMP/noema005-openmp-report.json"
+      - name: Validate exact accuracy and real thread counts
+        run: |
+          python - "$RUNNER_TEMP/noema005-openmp-report.json" <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+
+          report = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+          expected_workers = (1, 2, 4, 8)
+          if report["study_id"] != "NOEMA-2026-005":
+              raise SystemExit("Wrong study ID")
+          if report["input"]["exact_sum"] != report["input"]["repeat_count"]:
+              raise SystemExit("Exact reference metadata mismatch")
+          if len(report["cases"]) != report["cases_expected"]:
+              raise SystemExit("Case count mismatch")
+          cases = {(x["layout"], x["method"], x["requested_workers"]): x for x in report["cases"]}
+          for layout in report["input"]["layouts"]:
+              naive = cases[(layout, "serial_naive", 1)]
+              compensated = cases[(layout, "serial_neumaier", 1)]
+              if naive["correctly_rounded_runs"] != 0:
+                  raise SystemExit(f"Expected cancellation failure for serial naive: {layout}")
+              if compensated["correctly_rounded_runs"] != compensated["runs"]:
+                  raise SystemExit(f"Serial Neumaier failed exact reference: {layout}")
+              for workers in expected_workers:
+                  case = cases[(layout, "openmp_neumaier_state", workers)]
+                  if case["correctly_rounded_runs"] != case["runs"]:
+                      raise SystemExit(f"OpenMP Neumaier state failed: {layout}/{workers}")
+                  if (case["actual_threads_min"], case["actual_threads_max"]) != (workers, workers):
+                      raise SystemExit(f"Requested {workers} threads but observed {case['actual_threads_min']}..{case['actual_threads_max']}")
+                  if case["median_wall_ns"] <= 0 or case["median_process_cpu_ns"] <= 0:
+                      raise SystemExit("Invalid timing measurement")
+          if report["process_peak_rss_kib"] < 0:
+              raise SystemExit("Peak RSS measurement unavailable")
+          print(f"PASS: {len(report['cases'])} cases; exact Neumaier reference checks; real OpenMP worker counts")
+          print(f"peak_rss_kib={report['process_peak_rss_kib']}")
+          PY
+      - name: Run native benchmark unit tests
+        run: python -m unittest discover -s tests -p 'test_noema005_openmp.py' -v
+      - name: Upload synthetic benchmark report
+        uses: actions/upload-artifact@v7
+        with:
+          name: noema005-native-openmp-report
+          path: ${{ runner.temp }}/noema005-openmp-report.json
+          if-no-files-found: error
+          retention-days: 30

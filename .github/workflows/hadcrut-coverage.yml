@@ -1,0 +1,131 @@
+name: NOEMA HadCRUT5 coverage reconstruction
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/hadcrut-coverage.yml"
+      - "scripts/reconstruct_hadcrut_coverage.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reconstruct:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Install numerical and NetCDF dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy netCDF4
+          python - <<'PY'
+          import numpy
+          import netCDF4
+          print("NumPy", numpy.__version__)
+          print("netCDF4", netCDF4.__version__)
+          PY
+
+      - name: Test coverage reconstruction
+        run: python -m unittest discover -s tests -p "test_reconstruct_hadcrut_coverage.py" -v
+
+      - name: Download HadCRUT5 annual series and analysis mask grid
+        run: |
+          set -euo pipefail
+          SERIES="https://www.metoffice.gov.uk/hadobs/hadcrut5/data/HadCRUT.5.2.0.0/analysis/diagnostics"
+          GRID="https://hadleyserver.metoffice.gov.uk/hadcrut5/data/HadCRUT.5.2.0.0/analysis"
+          curl --fail --location --retry 3 --retry-delay 2 \
+            "$SERIES/HadCRUT.5.2.0.0.analysis.ensemble_series.global.annual.csv" \
+            --output "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.ensemble_series.global.annual.csv"
+          curl --fail --location --retry 3 --retry-delay 2 \
+            "$SERIES/HadCRUT.5.2.0.0.analysis.summary_series.global.annual.csv" \
+            --output "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.summary_series.global.annual.csv"
+          curl --fail --location --retry 3 --retry-delay 2 \
+            "$GRID/HadCRUT.5.2.0.0.analysis.anomalies.ensemble_mean.nc" \
+            --output "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.anomalies.ensemble_mean.nc"
+          test -s "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.ensemble_series.global.annual.csv"
+          test -s "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.summary_series.global.annual.csv"
+          test -s "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.anomalies.ensemble_mean.nc"
+          sha256sum \
+            "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.ensemble_series.global.annual.csv" \
+            "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.summary_series.global.annual.csv" \
+            "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.anomalies.ensemble_mean.nc"
+
+      - name: Download ERA5 1979-2018 monthly 2m temperature reference fields
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/era5"
+          seq 1979 2018 | xargs -P 4 -I{} bash -c '
+            set -euo pipefail
+            year="$1"
+            out="$2/t2m_$year.nc"
+            primary="https://apcc21.org/clikapi/download/ERA5/MONTHLY/single/t2m/t2m_$year.nc"
+            fallback="https://download.apcc21.org/ERA5/MONTHLY/single/t2m/t2m_$year.nc"
+            primary_args=(--fail --location --show-error --connect-timeout 15 --max-time 90 --retry 1 --retry-all-errors --retry-delay 2)
+            fallback_args=(--fail --location --show-error --connect-timeout 15 --max-time 90)
+            if ! curl "${primary_args[@]}" "$primary" --output "$out.tmp"; then
+              rm -f "$out.tmp"
+              curl "${fallback_args[@]}" "$fallback" --output "$out.tmp"
+            fi
+            test -s "$out.tmp"
+            mv "$out.tmp" "$out"
+            echo "Downloaded ERA5 t2m $year ($(stat -c%s "$out") bytes)"
+          ' _ {} "$RUNNER_TEMP/era5"
+          test "$(find "$RUNNER_TEMP/era5" -maxdepth 1 -name "t2m_*.nc" | wc -l)" -eq 40
+          sha256sum "$RUNNER_TEMP"/era5/t2m_*.nc > "$RUNNER_TEMP/era5-sha256.txt"
+          cat "$RUNNER_TEMP/era5-sha256.txt"
+
+      - name: Reconstruct and validate annual coverage uncertainty
+        run: |
+          python scripts/reconstruct_hadcrut_coverage.py \
+            --era5-dir "$RUNNER_TEMP/era5" \
+            --hadcrut-grid "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.anomalies.ensemble_mean.nc" \
+            --annual-csv "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.ensemble_series.global.annual.csv" \
+            --output "$RUNNER_TEMP/hadcrut5-coverage-reconstruction.json" \
+            --anomalies-output "$RUNNER_TEMP/era5-reference-anomalies-5deg-1979-2018.npz" \
+            --validation-tolerance 0.0005
+
+      - name: Upload reconstructed source snapshot and diagnostics
+        uses: actions/upload-artifact@v7
+        with:
+          name: noema-hadcrut5-coverage-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/HadCRUT.5.2.0.0.analysis.ensemble_series.global.annual.csv
+            ${{ runner.temp }}/HadCRUT.5.2.0.0.analysis.summary_series.global.annual.csv
+            ${{ runner.temp }}/HadCRUT.5.2.0.0.analysis.anomalies.ensemble_mean.nc
+            ${{ runner.temp }}/era5-sha256.txt
+            ${{ runner.temp }}/era5-reference-anomalies-5deg-1979-2018.npz
+            ${{ runner.temp }}/hadcrut5-coverage-reconstruction.json
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Enforce official coverage RMS validation
+        if: success()
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import sys
+
+          path = Path("${{ runner.temp }}/hadcrut5-coverage-reconstruction.json")
+          result = json.loads(path.read_text(encoding="utf-8"))
+          check = result["coverage_validation"]
+          print(
+              "Coverage validation:",
+              f"RMSE={check['annual_sigma_rmse_c']:.6f} C,",
+              f"max_abs={check['annual_sigma_max_absolute_difference_c']:.6f} C,",
+              f"tolerance={check['tolerance_c']:.6f} C,",
+              f"pass={check['pass']}",
+          )
+          if not check["pass"]:
+              raise SystemExit("Official HadCRUT5 coverage uncertainty reconstruction failed validation")
+          PY

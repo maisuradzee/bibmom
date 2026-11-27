@@ -1,0 +1,35 @@
+{
+  "study_id": "NOEMA-2026-003",
+  "purpose": "Pinned official HadCRUT.5.2.0.0 annual global member and summary series for trend uncertainty analysis",
+  "dataset_version": "HadCRUT.5.2.0.0",
+  "retrieved_at": "2026-11-23T09:16:05Z",
+  "analysis_period": "1979-2025",
+  "n_years": 47,
+  "n_ensemble_members": 200,
+  "retrieval": {
+    "method": "GitHub Actions workflow curl download from the Met Office official data host",
+    "workflow_name": "NOEMA HadCRUT5 ensemble validation",
+    "workflow_run_id": 45145461903,
+    "workflow_run_url": "https://github.com/maisuradzee/bibmom/actions/runs/45145461903",
+    "artifact_id": 14802644447,
+    "artifact_sha256": "18beff9e5ec86c88d3692af02b8973403d9ccc704e52ec5daa32074ac7c2855c"
+  },
+  "files": {
+    "HadCRUT.5.2.0.0.analysis.ensemble_series.global.annual.csv": {
+      "url": "https://www.metoffice.gov.uk/hadobs/hadcrut5/data/HadCRUT.5.2.0.0/analysis/diagnostics/HadCRUT.5.2.0.0.analysis.ensemble_series.global.annual.csv",
+      "bytes": 413320,
+      "sha256": "4f6621606034ad5cd881fc8fdc758830673e284d79e5b6c22f1810b1ecd22ecb"
+    },
+    "HadCRUT.5.2.0.0.analysis.summary_series.global.annual.csv": {
+      "url": "https://www.metoffice.gov.uk/hadobs/hadcrut5/data/HadCRUT.5.2.0.0/analysis/diagnostics/HadCRUT.5.2.0.0.analysis.summary_series.global.annual.csv",
+      "bytes": 7047,
+      "sha256": "ef11ff5df760d5b80a80704379c055e0870e3a4d65aa1b840417ad514ead597c"
+    }
+  },
+  "license": "Open Government Licence v3.0; Met Office attribution required for redistribution/use",
+  "notes": [
+    "Source files are preserved byte-for-byte from the successful workflow artifact.",
+    "The ensemble member trend interval is not a frequentist confidence interval.",
+    "Additional coverage uncertainty is recorded separately and not propagated into member slope percentiles."
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "all_cpu_wall_ratios_above_1_05": 0,
+  "all_workers_used_distinct_native_threads": true,
+  "environment": {
+    "cpu_affinity_count": 5,
+    "cpu_count_os": 5,
+    "cpu_count_process": 5,
+    "free_threaded_build": false,
+    "gil_enabled": true,
+    "machine": "x86_64",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "processor": "",
+    "py_gil_disabled_config": 0,
+    "python_build": ["main", "Jul 15 2026 20:25:40"],
+    "python_implementation": "CPython",
+    "python_version": "3.13.5"
+  },
+  "experiment_id": "NOEMA-2026-005-REAL-THREADS-001",
+  "full_report": {
+    "bytes": 36742,
+    "filename": "NOEMA-2026-005-threaded-benchmark-local-full.json",
+    "sha256": "d5ef839ad32d9515dc3c78555f33abc43e1eae3ccc8a3f0050dc13686bc65717"
+  },
+  "generated_at": "2026-11-25T04:33:39.286050+00:00",
+  "inputs": [
+    {
+      "canonical_binary64_big_endian_sha256": "6075adba966a67bb82c0c5b3535b1df133758d3791c382760046cc80e435fab2",
+      "correctly_rounded_binary64_reference": 16384.0,
+      "exact_sum_fraction": "16384",
+      "layout": "triplet_order",
+      "repeat_count": 16384,
+      "value_count": 49152
+    },
+    {
+      "canonical_binary64_big_endian_sha256": "582d55bf9464e60a30192f1df2ad7026f2d90d88fcd58dd10118a42e378802b2",
+      "correctly_rounded_binary64_reference": 16384.0,
+      "exact_sum_fraction": "16384",
+      "layout": "grouped_cancellation",
+      "repeat_count": 16384,
+      "value_count": 49152
+    }
+  ],
+  "interpretation_guardrail": "Runner-, CPU-quota- and interpreter-specific synthetic measurements only. CPU-time/wall-time above one is evidence of aggregate multi-thread CPU use, not a portable speed guarantee; free-threaded CPython remains experimental.",
+  "note": "Selected contiguous-partition cases are shown; the full report contains every run, partition and native thread ID. Its exact SHA-256 is recorded above.",
+  "protocol": {
+    "cpu_timer": "time.process_time_ns (process-wide user+system CPU time)",
+    "expected_gil_mode": "enabled",
+    "memory_metric": "tracemalloc peak delta; Python allocations only, not RSS/native allocations",
+    "methods": ["threaded_naive_scalar", "threaded_neumaier_scalar", "threaded_neumaier_state"],
+    "partitions": ["contiguous", "round_robin"],
+    "random_seed": null,
+    "repeat_count": 16384,
+    "repetitions": 2,
+    "thread_identity": "threading.get_native_id; one distinct native thread per worker",
+    "wall_timer": "time.perf_counter_ns",
+    "warmups": 1,
+    "workers": [1, 2, 4]
+  },
+  "selected_threaded_cases": [
+    {"layout":"triplet_order","method":"threaded_naive_scalar","worker_count":2,"partition":"contiguous","median_wall_ns":1599491,"median_process_cpu_ns":1549872,"median_cpu_wall_ratio":0.9690673684602091,"peak_traced_python_bytes":14974,"correctly_rounded_runs":0,"runs":2,"native_thread_counts":[2,2],"cpu_parallelism_ratio_above_1_05":[false,false]},
+    {"layout":"triplet_order","method":"threaded_neumaier_scalar","worker_count":2,"partition":"contiguous","median_wall_ns":4888636,"median_process_cpu_ns":4826216,"median_cpu_wall_ratio":0.9872320861392833,"peak_traced_python_bytes":15246,"correctly_rounded_runs":2,"runs":2,"native_thread_counts":[2,2],"cpu_parallelism_ratio_above_1_05":[false,false]},
+    {"layout":"triplet_order","method":"threaded_neumaier_state","worker_count":2,"partition":"contiguous","median_wall_ns":5134239,"median_process_cpu_ns":5069202,"median_cpu_wall_ratio":0.9872548016168292,"peak_traced_python_bytes":15246,"correctly_rounded_runs":2,"runs":2,"native_thread_counts":[2,2],"cpu_parallelism_ratio_above_1_05":[false,false]},
+    {"layout":"grouped_cancellation","method":"threaded_naive_scalar","worker_count":2,"partition":"contiguous","median_wall_ns":1560743,"median_process_cpu_ns":1517315,"median_cpu_wall_ratio":0.9724816242055914,"peak_traced_python_bytes":14942,"correctly_rounded_runs":0,"runs":2,"native_thread_counts":[2,2],"cpu_parallelism_ratio_above_1_05":[false,false]},
+    {"layout":"grouped_cancellation","method":"threaded_neumaier_scalar","worker_count":2,"partition":"contiguous","median_wall_ns":4576200,"median_process_cpu_ns":4529752,"median_cpu_wall_ratio":0.9898418973344785,"peak_traced_python_bytes":15430,"correctly_rounded_runs":0,"runs":2,"native_thread_counts":[2,2],"cpu_parallelism_ratio_above_1_05":[false,false]},
+    {"layout":"grouped_cancellation","method":"threaded_neumaier_state","worker_count":2,"partition":"contiguous","median_wall_ns":4809043,"median_process_cpu_ns":4768985,"median_cpu_wall_ratio":0.9916997776626086,"peak_traced_python_bytes":15374,"correctly_rounded_runs":2,"runs":2,"native_thread_counts":[2,2],"cpu_parallelism_ratio_above_1_05":[false,false]},
+    {"layout":"grouped_cancellation","method":"threaded_naive_scalar","worker_count":4,"partition":"contiguous","median_wall_ns":2221959,"median_process_cpu_ns":2126754,"median_cpu_wall_ratio":0.9574513851293854,"peak_traced_python_bytes":26348,"correctly_rounded_runs":0,"runs":2,"native_thread_counts":[4,4],"cpu_parallelism_ratio_above_1_05":[false,false]},
+    {"layout":"grouped_cancellation","method":"threaded_neumaier_scalar","worker_count":4,"partition":"contiguous","median_wall_ns":5652556,"median_process_cpu_ns":5483115,"median_cpu_wall_ratio":0.9700211971208736,"peak_traced_python_bytes":26868,"correctly_rounded_runs":2,"runs":2,"native_thread_counts":[4,4],"cpu_parallelism_ratio_above_1_05":[false,false]},
+    {"layout":"grouped_cancellation","method":"threaded_neumaier_state","worker_count":4,"partition":"contiguous","median_wall_ns":5570307,"median_process_cpu_ns":5389494,"median_cpu_wall_ratio":0.9670216043448079,"peak_traced_python_bytes":26828,"correctly_rounded_runs":2,"runs":2,"native_thread_counts":[4,4],"cpu_parallelism_ratio_above_1_05":[false,false]}
+  ],
+  "serial_baselines": [
+    {"layout":"triplet_order","method":"serial_naive","median_wall_ns":666939,"median_process_cpu_ns":665923,"median_cpu_wall_ratio":0.9984774199726594,"peak_traced_python_bytes":412,"correctly_rounded_runs":0,"runs":2},
+    {"layout":"triplet_order","method":"serial_neumaier","median_wall_ns":3057848,"median_process_cpu_ns":3056826,"median_cpu_wall_ratio":0.9996656643422126,"peak_traced_python_bytes":480,"correctly_rounded_runs":2,"runs":2},
+    {"layout":"triplet_order","method":"serial_math_fsum","median_wall_ns":427150,"median_process_cpu_ns":426533,"median_cpu_wall_ratio":0.99858250602888,"peak_traced_python_bytes":408,"correctly_rounded_runs":2,"runs":2},
+    {"layout":"grouped_cancellation","method":"serial_naive","median_wall_ns":966676,"median_process_cpu_ns":965662,"median_cpu_wall_ratio":0.9989517338418938,"peak_traced_python_bytes":408,"correctly_rounded_runs":0,"runs":2},
+    {"layout":"grouped_cancellation","method":"serial_neumaier","median_wall_ns":3139359,"median_process_cpu_ns":3137655,"median_cpu_wall_ratio":0.999457936460882,"peak_traced_python_bytes":480,"correctly_rounded_runs":2,"runs":2},
+    {"layout":"grouped_cancellation","method":"serial_math_fsum","median_wall_ns":401693,"median_process_cpu_ns":392898,"median_cpu_wall_ratio":0.9785318148181801,"peak_traced_python_bytes":408,"correctly_rounded_runs":2,"runs":2}
+  ],
+  "status": "measured_local_control_summary",
+  "study_id": "NOEMA-2026-005",
+  "total_threaded_configurations": 36
+}

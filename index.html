@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="ka">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="NOEMA — დამოუკიდებელი კვლევა, ცოდნა და აღმოჩენები.">
+  <meta name="theme-color" content="#101820">
+  <title>NOEMA — ცოდნის საზღვრებს მიღმა</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="./" aria-label="NOEMA მთავარი გვერდი"><span class="brand-mark">N</span><span>NOEMA</span></a>
+    <nav aria-label="მთავარი ნავიგაცია">
+      <a href="#mission">მისია</a>
+      <a href="#research">კვლევები</a>
+      <a href="#discussion">განხილვა</a>
+      <a href="#method">მეთოდი</a>
+      <a href="#about">პროექტის შესახებ</a>
+    </nav>
+    <a class="header-link" href="https://github.com/maisuradzee/bibmom" target="_blank" rel="noreferrer">GitHub ↗</a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-orbit orbit-one"></div><div class="hero-orbit orbit-two"></div>
+      <div class="hero-content">
+        <p class="eyebrow"><span class="pulse"></span> დამოუკიდებელი კვლევითი პლატფორმა</p>
+        <h1>ცოდნა იწყება<br><em>კითხვით.</em></h1>
+        <p class="hero-copy">ვიკვლევთ სამყაროს, ვამოწმებთ იდეებს და ვეძებთ კავშირებს იქ, სადაც პასუხები ჯერ არ არსებობს.</p>
+        <div class="hero-actions"><a class="button button-primary" href="#research">კვლევების ნახვა <span>↗</span></a><a class="text-link" href="#mission">გაიცანი NOEMA <span>↓</span></a></div>
+      </div>
+      <div class="hero-index"><span>NOEMA / 001</span><span>QUESTION → EVIDENCE → INSIGHT</span></div>
+    </section>
+
+    <section class="intro section-wrap" id="mission">
+      <div class="section-kicker">01 / მისია</div>
+      <div class="intro-main"><h2>არ მივიღოთ პასუხი<br>მხოლოდ იმიტომ, რომ <em>არსებობს.</em></h2><p>NOEMA არის დამოუკიდებელი კვლევითი სივრცე, სადაც ცნობისმოყვარეობა სისტემურ კვლევად იქცევა. ჩვენი მიზანია რთული კითხვების დაშლა, სანდო წყაროების მოძიება და ახალი იდეების შემოწმება.</p></div>
+    </section>
+
+    <section class="research-section section-wrap" id="research">
+      <div class="section-heading"><div><div class="section-kicker">02 / კვლევითი არქივი</div><h2>ბოლო კვლევები</h2></div><a class="section-note" href="./data/research.json">მონაცემთა კატალოგი (JSON) ↗</a></div>
+      <div id="research-list" class="research-list" aria-live="polite"><div class="empty-state">კვლევების არქივი მზადდება. აქ გამოჩნდება წინასწარი შედეგები მკაფიო სტატუსით და საბოლოოდ დამტკიცებული კვლევები.</div></div>
+    </section>
+
+    <section class="discussion-section section-wrap" id="discussion">
+      <div class="section-heading">
+        <div><div class="section-kicker">03 / ღია განხილვა</div><h2>განხილვის რეჟიმი</h2></div>
+        <span class="section-note">კითხვა · არგუმენტი · მტკიცებულება</span>
+      </div>
+      <div class="discussion-intro">
+        <div>
+          <h3>კვლევა ღიაა კრიტიკისა და დამატებითი მტკიცებულებებისთვის.</h3>
+          <p>აქ შეგიძლიათ გაეცნოთ მიმდინარე განხილვებს, დასვათ კითხვა, მიუთითოთ შესაძლო შეცდომა ან შემოგვთავაზოთ დამატებითი წყარო. თითოეული განხილვა საჯაროდ ინახება პროექტის GitHub სივრცეში.</p>
+        </div>
+        <a class="button button-primary discussion-create" href="https://github.com/maisuradzee/bibmom/issues/new?title=NOEMA%20კვლევის%20განხილვა&body=კვლევა%20ან%20საკითხი%3A%0A%0Aკითხვა%20ან%20შენიშვნა%3A%0A%0Aმტკიცებულება%20ან%20წყარო%3A" target="_blank" rel="noreferrer">ახალი განხილვის დაწყება <span>↗</span></a>
+      </div>
+      <div class="discussion-list-wrap">
+        <div class="discussion-list-heading"><h3>მიმდინარე განხილვები</h3><a class="text-link" href="https://github.com/maisuradzee/bibmom/issues" target="_blank" rel="noreferrer">ყველა განხილვა ↗</a></div>
+        <div id="discussion-list" class="discussion-list" aria-live="polite"><div class="empty-state">მიმდინარე განხილვები იტვირთება…</div></div>
+      </div>
+      <p class="discussion-note">შენიშვნა: განხილვისთვის საჭიროა GitHub ანგარიში. გამოხმაურებები საჯაროა და უნდა იყოს არგუმენტირებული, კორექტული და წყაროებით გამყარებული.</p>
+    </section>
+
+    <section class="method-section" id="method">
+      <div class="section-wrap">
+        <div class="section-kicker">04 / მეთოდი</div><h2>იდეიდან<br><em>მტკიცებულებამდე.</em></h2>
+        <div class="method-grid">
+          <article><span>01</span><h3>კითხვა</h3><p>ვაყალიბებთ მნიშვნელოვან, კონკრეტულ და შემოწმებად საკვლევ კითხვას.</p></article>
+          <article><span>02</span><h3>მტკიცებულება</h3><p>ვაგროვებთ წყაროებს, ვამოწმებთ მათ სანდოობას და ვადარებთ განსხვავებულ ახსნებს.</p></article>
+          <article><span>03</span><h3>შემოწმება</h3><p>ვარჩევთ ფაქტებსა და ჰიპოთეზებს და ვაფასებთ, რა შეიძლება რეალურად შემოწმდეს.</p></article>
+          <article><span>04</span><h3>შედეგი</h3><p>ვაქვეყნებთ გამჭვირვალე დასკვნას, მეთოდს, შეზღუდვებსა და გამოყენებულ წყაროებს.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="about-section section-wrap" id="about">
+      <div class="section-kicker">05 / NOEMA</div><div><h2>კვლევა — არა საბოლოო პასუხი,<br><em>არამედ უკეთესი კითხვა.</em></h2><p>პლატფორმა ვითარდება ეტაპობრივად. ამ საწყის ვერსიაში კვლევები ინახება GitHub-ში, ხოლო მათი საჯარო ინდექსი წარმოდგენილია JSON ფორმატით. ავტომატური კვლევა და ვებსაიტის გამოქვეყნება ცალკე, შემოწმებადი პროცესებია.</p><a class="text-link" href="https://github.com/maisuradzee/bibmom" target="_blank" rel="noreferrer">იხილე პროექტის კოდი ↗</a></div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><a class="brand" href="./"><span class="brand-mark">N</span><span>NOEMA</span></a><span>დამოუკიდებელი კვლევა · 2026</span><span>Built to question.</span></footer>
+  <script>
+    (async function () {
+      const root = document.getElementById('research-list');
+      try {
+        const response = await fetch('./data/research.json');
+        if (!response.ok) throw new Error('Research index unavailable');
+        const data = await response.json();
+        const items = Array.isArray(data.research)
+          ? data.research.filter(x => ['preliminary', 'published'].includes(x.status))
+          : [];
+        if (!items.length) return;
+        root.replaceChildren();
+        items.forEach(item => {
+          const card = document.createElement('article');
+          card.className = 'research-card';
+          const status = document.createElement('div');
+          status.className = 'research-status ' + (item.status === 'preliminary' ? 'status-preliminary' : 'status-published');
+          status.textContent = item.status === 'preliminary' ? 'წინასწარი შედეგი · არა რეცენზირებული' : 'გამოქვეყნებული კვლევა';
+          const meta = document.createElement('div');
+          meta.className = 'research-meta';
+          meta.textContent = [item.category, item.date].filter(Boolean).join(' · ');
+          const title = document.createElement('h3');
+          title.textContent = item.title || 'უსათაურო კვლევა';
+          const summary = document.createElement('p');
+          summary.textContent = item.summary || '';
+          const link = document.createElement('a');
+          link.className = 'text-link';
+          link.href = item.url || '#';
+          link.textContent = 'კვლევის ნახვა ↗';
+          card.append(status, meta, title, summary, link);
+          root.append(card);
+        });
+      } catch (_) {
+        root.innerHTML = '<div class="empty-state">კვლევების ინდექსის ჩატვირთვა ვერ მოხერხდა. სცადეთ მოგვიანებით.</div>';
+      }
+    })();
+
+    (async function loadDiscussions() {
+      const root = document.getElementById('discussion-list');
+      const allLink = 'https://github.com/maisuradzee/bibmom/issues';
+      try {
+        const response = await fetch('https://api.github.com/repos/maisuradzee/bibmom/issues?state=open&per_page=8&sort=updated&direction=desc', {
+          headers: { 'Accept': 'application/vnd.github+json' }
+        });
+        if (!response.ok) throw new Error('Discussion feed unavailable');
+        const items = (await response.json()).filter(item => !item.pull_request);
+        root.replaceChildren();
+        if (!items.length) {
+          const empty = document.createElement('div');
+          empty.className = 'empty-state';
+          empty.textContent = 'ამჟამად აქტიური განხილვა არ არის. დაიწყეთ პირველი განხილვა ან დასვით კითხვა.';
+          root.append(empty);
+          return;
+        }
+        items.forEach(item => {
+          const card = document.createElement('article');
+          card.className = 'discussion-card';
+          const meta = document.createElement('div');
+          meta.className = 'research-meta';
+          meta.textContent = 'ღია განხილვა · #' + item.number + ' · ' + new Date(item.updated_at).toLocaleDateString('ka-GE');
+          const title = document.createElement('h4');
+          title.textContent = item.title;
+          const summary = document.createElement('p');
+          summary.textContent = (item.body || 'აღწერა დამატებული არ არის.').slice(0, 220);
+          const link = document.createElement('a');
+          link.className = 'text-link';
+          link.href = item.html_url;
+          link.target = '_blank';
+          link.rel = 'noreferrer';
+          link.textContent = 'განხილვაში მონაწილეობა ↗';
+          card.append(meta, title, summary, link);
+          root.append(card);
+        });
+      } catch (_) {
+        root.innerHTML = '<div class="empty-state">განხილვების სიის ჩატვირთვა ვერ მოხერხდა. <a class="text-link" href="' + allLink + '" target="_blank" rel="noreferrer">იხილეთ განხილვები GitHub-ზე ↗</a></div>';
+      }
+    })();
+  </script>
+</body>
+</html>

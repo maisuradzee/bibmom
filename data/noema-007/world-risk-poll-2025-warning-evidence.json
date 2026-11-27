@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-007",
+  "source_report": {
+    "title": "From alert to agency: What turns warnings into action?",
+    "publisher": "Lloyd's Register Foundation",
+    "publication_date": "2026-10-13",
+    "doi": "https://doi.org/10.60743/yx1k-t541",
+    "fieldwork_year": 2025,
+    "respondents": 143459,
+    "countries_and_territories": 140
+  },
+  "dataset": {
+    "repository": "https://github.com/lrfoundation/world_risk_poll_data",
+    "wave": "WRP_2025",
+    "licence": "CC BY-SA 4.0",
+    "microdata_copied_to_noema": false,
+    "population_weight": "PROJWT"
+  },
+  "global_findings": {
+    "adults_impacted_by_disaster_past_five_years_pct": 20,
+    "impacted_receiving_at_least_one_warning_pct": 80,
+    "warned_able_to_take_action_pct": 64,
+    "warned_not_able_to_take_action_pct": 36,
+    "action_by_number_of_warning_channels_pct": {
+      "1": 37,
+      "2": 51,
+      "3": 64
+    },
+    "action_with_household_plan_and_agency_pct": 83,
+    "action_with_neither_plan_nor_agency_pct": 27,
+    "action_by_income_group_pct": {
+      "low": 48,
+      "lower_middle": 47,
+      "upper_middle": 75,
+      "high": 71
+    }
+  },
+  "georgia": {
+    "impacted_respondents": 101,
+    "respondents_asked_about_warning_channels": 99,
+    "reported_warning_coverage_pct_if_base_is_100_impacted": 22.8,
+    "meets_report_minimum_100_respondents_asked": false,
+    "interpretation": "Below the report's n>=100 respondents-asked threshold; not a sufficiently sized country estimate for ranking or operational planning."
+  },
+  "source_report_reproduction": {
+    "findings_checked": 541,
+    "python_and_r_scripts_agree": true,
+    "match": 487,
+    "within_tolerance": 17,
+    "gallup_world_poll_items_not_in_public_release": 37,
+    "findings_outside_tolerance": 0,
+    "note": "These are the source repository's published reproduction results; NOEMA has not independently rerun the 143,459-row microdata."
+  },
+  "methodology_notes": [
+    "Warning-channel questions were asked of impacted respondents who named a disaster type; 24,249 respondents formed this base.",
+    "Ability-to-act was asked only of warned respondents (16,996).",
+    "The warning-channel count treats don't-know, refused and not-applicable as no, following the source report's reproduction README.",
+    "The 22.8% Georgia figure is reported in the source methodology note only under an alternative threshold of at least 100 impacted respondents; Georgia had 99 respondents asked about warnings and is excluded under the report's n>=100 asked threshold.",
+    "Associations between channel count, preparedness and ability to act do not establish causal effects."
+  ],
+  "provenance": {
+    "accessed_at": "2026-11-26",
+    "source_readme": "https://github.com/lrfoundation/world_risk_poll_data/blob/main/reports/WRP_2025/core_from_alert_to_agency/README.md",
+    "source_results": "https://github.com/lrfoundation/world_risk_poll_data/blob/main/reports/WRP_2025/core_from_alert_to_agency/RESULTS.md",
+    "source_data_dictionary": "https://github.com/lrfoundation/world_risk_poll_data/blob/main/WRP_2025/WRP_2025_data_dictionary.csv"
+  }
+}

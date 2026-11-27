@@ -1,0 +1,95 @@
+name: NOEMA HadCRUT5 ensemble validation
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/hadcrut-ensemble.yml"
+      - "scripts/analyze_hadcrut_ensemble.py"
+      - "tests/test_analyze_hadcrut_ensemble.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Test ensemble analysis
+        run: python -m unittest discover -s tests -p "test_analyze_hadcrut_ensemble.py" -v
+
+      - name: Download official HadCRUT.5.2.0.0 member series
+        run: |
+          set -euo pipefail
+          BASE="https://www.metoffice.gov.uk/hadobs/hadcrut5/data/HadCRUT.5.2.0.0/analysis/diagnostics"
+          curl --fail --location --retry 3 --retry-delay 2 \
+            "$BASE/HadCRUT.5.2.0.0.analysis.ensemble_series.global.annual.csv" \
+            --output "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.ensemble_series.global.annual.csv"
+          curl --fail --location --retry 3 --retry-delay 2 \
+            "$BASE/HadCRUT.5.2.0.0.analysis.summary_series.global.annual.csv" \
+            --output "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.summary_series.global.annual.csv"
+          test -s "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.ensemble_series.global.annual.csv"
+          test -s "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.summary_series.global.annual.csv"
+
+      - name: Download HadCRUT5 spatial reference grids for coverage extension
+        run: |
+          set -euo pipefail
+          BASE="https://hadleyserver.metoffice.gov.uk/hadcrut5/data/HadCRUT.5.2.0.0/analysis"
+          curl --fail --location --retry 3 --retry-delay 2 \
+            "$BASE/HadCRUT.5.2.0.0.analysis.anomalies.ensemble_mean.nc" \
+            --output "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.anomalies.ensemble_mean.nc"
+          curl --fail --location --retry 3 --retry-delay 2 \
+            "$BASE/HadCRUT.5.2.0.0.analysis.weights.nc" \
+            --output "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.weights.nc"
+          test -s "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.anomalies.ensemble_mean.nc"
+          test -s "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.weights.nc"
+          sha256sum "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.anomalies.ensemble_mean.nc" \
+            "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.weights.nc"
+
+      - name: Test public APCC ERA5 monthly 2m-temperature mirror
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/era5"
+          URL1="https://apcc21.org/clikapi/download/ERA5/MONTHLY/single/t2m/t2m_1979.nc"
+          URL2="https://download.apcc21.org/ERA5/MONTHLY/single/t2m/t2m_1979.nc"
+          if ! curl --fail --location --retry 2 --retry-delay 2 "$URL1" --output "$RUNNER_TEMP/era5/t2m_1979.nc"; then
+            curl --fail --location --retry 2 --retry-delay 2 "$URL2" --output "$RUNNER_TEMP/era5/t2m_1979.nc"
+          fi
+          test -s "$RUNNER_TEMP/era5/t2m_1979.nc"
+          python -m pip install --quiet netCDF4
+          python - "$RUNNER_TEMP/era5/t2m_1979.nc" <<'PY'
+          import sys
+          from netCDF4 import Dataset
+          with Dataset(sys.argv[1]) as ds:
+              print("ERA5 dimensions:", {k: len(v) for k, v in ds.dimensions.items()})
+              print("ERA5 variables:", list(ds.variables))
+              for name, var in ds.variables.items():
+                  print(name, var.dimensions, var.shape, getattr(var, "units", ""))
+          PY
+          sha256sum "$RUNNER_TEMP/era5/t2m_1979.nc"
+      - name: Analyze 200 member-specific trends
+        run: |
+          python scripts/analyze_hadcrut_ensemble.py \
+            --input "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.ensemble_series.global.annual.csv" \
+            --summary-csv "$RUNNER_TEMP/HadCRUT.5.2.0.0.analysis.summary_series.global.annual.csv" \
+            --output "$RUNNER_TEMP/hadcrut5-ensemble-results.json"
+          cat "$RUNNER_TEMP/hadcrut5-ensemble-results.json"
+
+      - name: Preserve exact source inputs and results
+        uses: actions/upload-artifact@v7
+        with:
+          name: noema-hadcrut5-ensemble-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/HadCRUT.5.2.0.0.analysis.ensemble_series.global.annual.csv
+            ${{ runner.temp }}/HadCRUT.5.2.0.0.analysis.summary_series.global.annual.csv
+            ${{ runner.temp }}/HadCRUT.5.2.0.0.analysis.anomalies.ensemble_mean.nc
+            ${{ runner.temp }}/HadCRUT.5.2.0.0.analysis.weights.nc
+            ${{ runner.temp }}/era5/t2m_1979.nc
+            ${{ runner.temp }}/hadcrut5-ensemble-results.json
+          if-no-files-found: error
+          retention-days: 30

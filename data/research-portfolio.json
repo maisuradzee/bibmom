@@ -1,0 +1,1568 @@
+{
+  "project": "NOEMA",
+  "schema_version": 1,
+  "updated_at": "2026-11-27",
+  "streams": [
+    {
+      "id": "NOEMA-2026-006",
+      "title": "AquaSignal — წყლის უსაფრთხოების ოპერატორული ადრეული სიგნალები",
+      "pillars": [
+        "DISCOVERY",
+        "RESEARCH",
+        "INNOVATION"
+      ],
+      "stage": "prototype",
+      "problem": "წყლის ხარისხის ოპერატორებს შეიძლება სჭირდებოდეთ ლაბორატორიული ნიმუშებისა და უწყვეტი სენსორული telemetry-ის დროული, აუდიტირებადი შეჯერება; საქართველოში არსებული მონიტორინგის ქსელი და ლაბორატორიული კონტროლი არ უნდა ჩაითვალოს არარსებულად.",
+      "research_question": "შეუძლია თუ არა site-specific წესებზე, მონაცემის სიახლესა და კალიბრაციის სტატუსზე დაფუძნებულმა operator-side სისტემამ ადრე მონიშნოს ოპერაციული გადახრები ისე, რომ არ ჩაანაცვლოს ლაბორატორიული ანალიზი ან უფლებამოსილი ოპერატორის გადაწყვეტილება?",
+      "human_benefit": "შესაძლო ადრეული გამოვლენა და სწრაფი ოპერატორული რეაგირება სასმელი წყლის სისტემებში; საველე სარგებელი ჯერ დაუდასტურებელია.",
+      "hypothesis": "თუ მონაცემის ხარისხი, freshness, calibration და ობიექტის მიერ დამტკიცებული ზღვრები ცალ-ცალკე კონტროლდება, კონსერვატიული წესების ძრავა შეძლებს არასანდო მონაცემის ნორმალურ მდგომარეობად წარმოჩენის თავიდან აცილებას.",
+      "methodology": [
+        "ოფიციალური წყაროების დოკუმენტური მიმოხილვა და არსებული ქართული მონიტორინგის ინფრასტრუქტურის აღწერა",
+        "დეტერმინისტული წესების ძრავისა და სინთეზური unit tests-ის გამოყენება",
+        "შემდეგ ეტაპზე მხოლოდ უფლებამოსილი ოპერატორის მიერ ნებადართული paired sensor/laboratory მონაცემის წინასწარ რეგისტრირებული შეფასება",
+        "ლოკალური append-only SQLite event store: canonical transition replay, WAL, immediate write transaction, SHA-256 hash chain და synthetic concurrency/tamper/replay tests",
+        "Compare the locally verified AquaSignal event-chain tail hash and event count with caller-supplied trusted out-of-band checkpoint values; this comparison does not authenticate the checkpoint or prevent rollback.",
+        "Detached Ed25519 checkpoint verification over canonical UTF-8 payload bytes, with local event-chain tail matching and a caller-managed monotonic high-water state; synthetic ephemeral-key tests only.",
+        "Inventory official Georgian water-monitoring networks without combining unlike domains: NEA surface water, groundwater, marine water and the utility's raw-source/treated-network drinking-water testing are separate data streams.",
+        "Record only source-published network counts, monitoring frequency statements, parameter classes, laboratory accreditation claims and whether sample-level records/data dictionaries are publicly accessible; do not infer station-level frequency from a general news statement.",
+        "Before any ingestion, require an authorized data dictionary covering station ID/coordinates, sample timestamp, water matrix, analyte, result, units, method, LOD/LOQ, lab, accreditation, QA/QC flags, applicable standard, approved site Water Safety Plan limit, publication delay and revision history.",
+        "Evaluate any future sensor/lab pairing in shadow mode with preregistered detection delay, sensitivity, positive predictive value, false alerts per station-month, calibration drift and data completeness; require human and laboratory confirmation before operational action.",
+        "Review the 2025 Government of Georgia submission to the UNECE/WHO Protocol on Water and Health: keep NEA groundwater/surface-water monitoring separate from Food Safety Agency drinking-water compliance.",
+        "Inventory reported 2024 groundwater monitoring (72 points, 394 laboratory samples) and 2024 surface-water monitoring (331 points on 137 water bodies); preserve the report's aggregate/process evidence boundary.",
+        "Review the official 2026-11-26 NEA announcement of the 2021-2025 groundwater report and nitrate-risk field methodology; do not ingest the linked RAR archive until contents, schema and reuse terms are inspected.",
+        "Classify WIS C10/C11 as historical annual aggregates (2004-2018) and Hydromet's water-quality-points map/table as an unverified station-registry lead.",
+        "Treat 2024 E. coli non-compliance (40.3% source-reported) as a drinking-water sample statistic with missing denominator in the published table, not as population exposure.",
+        "Preserve countervailing source evidence: the UNECE/WHO government submission describes groundwater used as a drinking-water source as generally good quality, while noting isolated microbiological exceedances; do not infer a national groundwater crisis from the separate potable-network E. coli sample statistic.",
+        "Preserve the UNECE/WHO report's two E. coli reporting frames separately: narrative 2021-2022/2023/2024 and table baseline 2005/previous cycle 2019/current 2024; do not construct a continuous trend until definitions and denominators are reconciled.",
+        "Review Government of Georgia Resolution No.424 and NEA implementation notice; distinguish post-2026 wells >20 m from pre-existing and household wells, and treat the register as a prospective administrative metadata source rather than a sample-level monitoring feed.",
+        "Inspect the official MEPA GIS catalogue for groundwater station-layer metadata and distinguish a public/free catalogue classification from verified payload, download/API access, coordinate precision and reuse licence.",
+        "Keep the spatial station registry separate from sample-level analytical observations; require different adapters and schemas for station metadata, groundwater results and potable-network compliance.",
+        "Use Article 32 of Georgia's Law on Water Resources Management to distinguish NEA environmental-water monitoring data access from National Food Safety Agency drinking-water quality control.",
+        "Resolve the direct RAR archive URL linked by NEA's 2026-11-26 announcement; record the retrieval failure as an execution-environment limitation and do not infer archive contents or licence.",
+        "Keep NEA's 2025-09-18 disclosure of 72 groundwater points distinct from the 2025 annual report's 74 laboratory-sampling points, 73 listed-parameter points and 124 source-reported combined monitoring points; do not infer network growth, unique-site counts or overlap without a station/sample dictionary.",
+        "Translate the NEA source term “საკონტროლო ჭა” as “control well”; do not render it as “household well”.",
+        "On 2026-11-27, re-opened the official NEA announcement for the 2021–2025 groundwater report; the linked RAR was served as application/octet-stream and could not be inspected by the available web reader, while container-side DNS resolution also failed. Do not infer archive contents, data granularity or reuse terms."
+      ],
+      "sources": [
+        {
+          "title": "Guidelines for drinking-water quality: fourth edition incorporating the first, second and third addenda",
+          "publisher": "World Health Organization",
+          "publication_date": "2026-06-17",
+          "url": "https://www.who.int/publications/i/item/9789240121225",
+          "type": "official_health_guideline",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Progress on household drinking water, sanitation and hygiene 2000–2024: 2025 update",
+          "publisher": "WHO/UNICEF Joint Monitoring Programme",
+          "publication_date": "2025-08-26",
+          "url": "https://data.unicef.org/resources/jmp-report-2025/",
+          "type": "official_monitoring_report",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "September 18 is World Water Monitoring Day — Georgian monitoring network",
+          "publisher": "National Environmental Agency of Georgia",
+          "publication_date": "2025-09-18",
+          "url": "https://nea.gov.ge/En/News/2335",
+          "type": "official_national_source",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Water safety plan manual, second edition",
+          "publisher": "World Health Organization",
+          "publication_date": "2023-03-01",
+          "url": "https://www.who.int/publications/i/item/9789240067691",
+          "type": "technical_guidance",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Write-Ahead Logging",
+          "publisher": "SQLite",
+          "publication_date": "undated",
+          "url": "https://www.sqlite.org/wal.html",
+          "type": "official_technical_documentation",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Edwards-Curve Digital Signature Algorithm (EdDSA)",
+          "publisher": "IETF",
+          "publication_date": "2017-01",
+          "url": "https://www.rfc-editor.org/rfc/rfc8032.html",
+          "type": "cryptographic_standard",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "The Update Framework Specification v1.0.36",
+          "publisher": "The Update Framework",
+          "publication_date": "undated",
+          "url": "https://theupdateframework.github.io/specification/v1.0.36/",
+          "type": "security_protocol_specification",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Black Sea water monitoring at 14 monthly points",
+          "publisher": "National Environmental Agency of Georgia",
+          "publication_date": "2026-07-13",
+          "url": "https://nea.gov.ge/En/News/2417",
+          "type": "official_national_monitoring_source",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Water quality control — laboratory network and sampling schedule",
+          "publisher": "United Water Supply Company of Georgia",
+          "publication_date": "undated",
+          "url": "https://water.gov.ge/customer-info",
+          "type": "official_utility_information",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Water resources — monitoring responsibilities and context",
+          "publisher": "National Environmental Agency of Georgia",
+          "publication_date": "undated",
+          "url": "https://nea.gov.ge/En/popular/6",
+          "type": "official_national_source",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Summary report under Article 7 of the Protocol on Water and Health — Georgia",
+          "publisher": "Government of Georgia via UNECE/WHO",
+          "publication_date": "2025-04-01",
+          "url": "https://unece.org/sites/default/files/2025-10/Georgia_summary_report_6th_cycle_1Apr25_ENG.pdf",
+          "type": "government_submitted_international_report",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "2021-2025 groundwater monitoring results and field methodology announcement",
+          "publisher": "National Environmental Agency of Georgia",
+          "publication_date": "2026-11-26",
+          "url": "https://nea.gov.ge/ajs/News/3461",
+          "type": "official_national_announcement",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "C10 — BOD5 and ammonium concentrations in Georgian rivers",
+          "publisher": "Water Information System of Georgia / MEPA",
+          "publication_date": "2020-06",
+          "url": "https://wis.mepa.gov.ge/Wis/C10?Id=2121",
+          "type": "official_historical_indicator",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "C11 — Nutrients in freshwater of Georgia",
+          "publisher": "Water Information System of Georgia / MEPA",
+          "publication_date": "2020-06",
+          "url": "https://wis.mepa.gov.ge/Wis/C11?Id=2122",
+          "type": "official_historical_indicator",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "Water quality points map and table",
+          "publisher": "Hydromet Georgia",
+          "publication_date": "undated",
+          "url": "https://www.hydromet.ge/maps/",
+          "type": "official_station_map_discovery_lead",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "Technical Regulation — Rules for Accounting Wells for the Extraction of Fresh Drinking Groundwater (Government Resolution No.424)",
+          "publisher": "Government of Georgia / National Environmental Agency",
+          "publication_date": "2026-08-31",
+          "url": "https://matsne.gov.ge/ka/document/view/6991245",
+          "type": "primary_legal_source",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "Spatial data catalogue — NEA122 Groundwater monitoring",
+          "publisher": "Ministry of Environmental Protection and Agriculture of Georgia",
+          "publication_date": "2026-03-06",
+          "url": "https://portal.mepa.gov.ge/En/User/data?Links-sort=ResponsiblePerson-asc",
+          "type": "official_public_spatial_catalogue_metadata",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "Field-practical hydrogeological lecture for students",
+          "publisher": "National Environmental Agency of Georgia",
+          "publication_date": "2026-06-09",
+          "url": "https://nea.gov.ge/En/News/2409",
+          "type": "official_field_monitoring_process_notice",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "Law of Georgia on Water Resources Management",
+          "publisher": "Legislative Herald of Georgia",
+          "publication_date": "2023-05-25",
+          "url": "https://matsne.gov.ge/ka/document/view/5846594",
+          "type": "primary_legal_source",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "Official RAR archive — 2021–2025 groundwater monitoring report and nitrate-risk field methodology",
+          "publisher": "National Environmental Agency of Georgia",
+          "publication_date": "2026-11-26",
+          "url": "https://ftp.mepa.gov.ge/Public/NEA/%E1%83%B0%E1%83%98%E1%83%93%E1%83%A0%E1%83%9D%E1%83%92%E1%83%94%E1%83%9A%E1%83%9D%E1%83%92%E1%83%98%E1%83%A3%E1%83%A0%E1%83%98%20%E1%83%90%E1%83%9C%E1%83%92%E1%83%90%E1%83%A0%E1%83%98%E1%83%A8%E1%83%98%20-%202026%20-%20%E1%83%94%E1%83%9A-%E1%83%95%E1%83%94%E1%83%A0%E1%83%A1%E1%83%98%E1%83%94%E1%83%91%E1%83%98.rar",
+          "type": "official_report_archive_link_not_extracted",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "September 18 is World Water Monitoring Day — NEA public network snapshot",
+          "publisher": "National Environmental Agency of Georgia",
+          "publication_date": "2025-09-18",
+          "url": "https://nea.gov.ge/En/News/2335",
+          "type": "official_network_snapshot",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "National Environmental Agency 2025 annual report — water resources monitoring",
+          "publisher": "National Environmental Agency of Georgia",
+          "publication_date": "undated",
+          "url": "https://nea.gov.ge/en/Download/File/1444",
+          "type": "official_annual_report",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "NEA announcement — 2021–2025 groundwater monitoring report and nitrate-risk field methodology",
+          "publisher": "National Environmental Agency of Georgia",
+          "publication_date": "2026-11-26",
+          "url": "https://nea.gov.ge/ajs/News/3461",
+          "type": "official_announcement",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "NEA Geology bulletin index — November 2021 hydrogeological bulletin",
+          "publisher": "National Environmental Agency of Georgia",
+          "publication_date": "2021-11",
+          "url": "https://nea.gov.ge/weather/Departments/Geology/Biulettins",
+          "type": "official_bulletin_index_metadata_only",
+          "accessed_at": "2026-11-27",
+          "note": "The index lists the November 2021 information hydrogeological report and links an official file endpoint. The 22,990,164-byte response was not retrieved or inspected; no sample-level schema or reuse terms are verified."
+        },
+        {
+          "title": "NEA 2021 hydrogeological bulletin — linked file endpoint (not retrieved)",
+          "publisher": "National Environmental Agency of Georgia",
+          "publication_date": "2021-11",
+          "url": "https://nea.gov.ge/weather/Download/File/1183",
+          "type": "official_file_endpoint_not_retrieved",
+          "accessed_at": "2026-11-27",
+          "note": "Separate historical bulletin, not the 2021–2025 RAR announced on 2026-11-26. Web-reader size limit and container DNS failure prevented retrieval; no contents or SHA-256 are claimed."
+        }
+      ],
+      "data_needs": [
+        "უფლებამოსილი ოპერატორის data dictionary და პარამეტრების ერთეულები",
+        "ობიექტის დამტკიცებული Water Safety Plan და site-specific operational limits",
+        "ნებადართული ისტორიული paired sensor/laboratory ჩანაწერები, sample provenance და calibration logs",
+        "მონაცემის გამოყენებისა და ხელახალი გამოქვეყნების წერილობითი ნებართვა",
+        "Official machine-readable sample-level NEA/utility laboratory results, or a published endpoint and documented reuse terms.",
+        "Station registry and data dictionary: station identifiers, coordinates, sample timestamps, water matrix, analytes, units, analytical methods, LOD/LOQ, laboratory, accreditation scope, QA/QC and revision/correction history.",
+        "Applicable Georgian technical regulation and site-approved Water Safety Plan limits for the exact water matrix and sampling point.",
+        "Written authorization for paired sensor/laboratory data and any operational use; synthetic fixtures only until approval.",
+        "Inspect the official NEA 2021-2025 RAR archive and record internal filenames, table granularity, metadata, data dictionary and reuse terms before extracting any observations.",
+        "Obtain the denominator, geographic/system disaggregation and source microdata for the 2024 E. coli 40.3% drinking-water non-compliance statistic from the National Food Safety Agency.",
+        "Retrieve 2022-2025 NEA groundwater bulletins and monthly surface-water bulletins; verify whether tables are row-level, machine-readable and revision-stable.",
+        "Inspect Hydromet's water-quality-points table fields, station identifiers, coordinates, export format and update cadence.",
+        "Keep separate permissions and provenance for groundwater, surface-water, marine-water and potable-network datasets.",
+        "Reconcile the UNECE/WHO report's E. coli narrative (2021-2022, 2023, 2024) with table baseline/previous-cycle labels (2005, 2019, 2024), including sample denominators, sampling frame, method and coverage.",
+        "Written authorization and a privacy-reviewed, de-identified export of the post-2026 well registry, if the database is operational and access can lawfully be granted.",
+        "Clarification of registry coverage for wells drilled before 2026-09-01 and household wells, plus a data dictionary showing whether each record has field/laboratory sampling results.",
+        "For NEA catalogue record NEA122: authorised export/API URL, actual layer payload, station fields, coordinate reference system, active/inactive dates, update cadence and reuse licence.",
+        "Separate National Food Safety Agency drinking-water compliance data dictionary and denominator/geographic breakdown; do not merge potable-network records with environmental groundwater station points.",
+        "An accessible copy or official alternate transfer route for the NEA 2021–2025 RAR archive, plus internal file inventory, archive digest, report/table granularity, data dictionary and reuse terms.",
+        "Authorized station/sample dictionary with stable station IDs and point-type definitions to reconcile the 72, 73, 74 and 124 reported frames; no deduplication or overlap is assumed.",
+        "Officially retrieved November 2021 hydrogeological bulletin bytes and SHA-256, internal report/table inventory, station/analyte definitions and explicit reuse conditions before any historical comparison."
+      ],
+      "risks": [
+        "ცრუ განგაში ან სენსორის drift-ის წყლის რეალურ ცვლილებად მიჩნევა",
+        "არასრული telemetry-ის ნორმალურ მდგომარეობად არასწორი ინტერპრეტაცია",
+        "პირადი/ოპერატორული მონაცემის საჯარო საცავში შემთხვევითი მოხვედრა",
+        "პროტოტიპის ლაბორატორიულ ან რეგულატორულ შეფასებად აღქმა",
+        "The local hash chain is tamper-evident but not signed; a privileged attacker able to rewrite and rehash the database may alter history.",
+        "The event store has no encrypted/off-host backup, retention policy, external signed checkpoint or production access-control integration.",
+        "The external checkpoint comparison authenticates neither the checkpoint nor its freshness; a stale or attacker-controlled checkpoint can validate a rolled-back database.",
+        "A signed sequence detects rollback only if the highest accepted sequence and digest are atomically held outside the SQLite database in a separately trusted, rollback-resistant service.",
+        "The prototype has no production signer, key rotation/revocation, threshold signing, remote anchor, provider retention or alerting integration.",
+        "NEA surface-water, groundwater and marine monitoring must not be conflated with drinking-water network compliance; Black Sea results cannot establish freshwater or tap-water safety.",
+        "Published network counts and general statements such as 'within norm' are not sample-level evidence, a live feed, a station-specific result or an all-time safety guarantee.",
+        "The utility's public statement about daily analyses does not expose the sampling schedule for each station, exact parameters, methods or sample records.",
+        "The 2024 E. coli non-compliance percentage is a source-reported sample statistic with no denominator or municipal breakdown in the cited table; it must not be presented as population exposure or a national unsafe-water rate.",
+        "NEA groundwater/surface-water monitoring and National Food Safety Agency potable-network compliance have different authorities, matrices, sampling frames and legal thresholds.",
+        "The new NEA 2021-2025 report is linked as a RAR archive, but its contents and machine-readable granularity have not yet been inspected.",
+        "The UNECE/WHO submission describes groundwater used as a drinking-water source as generally good quality with isolated microbiological exceedances; the 40.3% E. coli statistic concerns a separate drinking-water control sample set and must not be applied to groundwater monitoring.",
+        "The UNECE/WHO drinking-water E. coli narrative and table use different historical reference-year frames; absent sample denominators and blank urban/rural table fields prevent a defensible trend or population-risk estimate.",
+        "The legal well-registration scope excludes pre-existing wells and NEA says household wells are excluded; registry counts must not be used as total groundwater-well coverage.",
+        "Well passports request owner identity/contact data and coordinates; no personal or owner-level records may enter the public repository.",
+        "The NEA122 catalogue labels the groundwater point layer public/free but lists SQL SDE/local storage and no portal-placement URL; treating this as a directly downloadable open dataset would overstate access.",
+        "A station-location layer is not a sample-result time series; joining them without stable station IDs, water-matrix identity and provenance can create false matches.",
+        "The NEA 2025 nitrate table says “საკონტროლო ჭა” (control well), not household well; mistranslation changes the point type and can corrupt later joins."
+      ],
+      "blockers": [
+        "Authorized paired sensor/laboratory data, a site data dictionary and approved Water Safety Plan limits remain unavailable under explicit reuse permission.",
+        "No field validation or independent external review has been completed.",
+        "The signed checkpoint verifier is a local software contract only; production signing-key custody and a separately administered atomic monotonic high-water service are not implemented.",
+        "Encrypted/off-host backup, remote immutable checkpoint retention, clean-host restore and production access-control integration remain unavailable.",
+        "The UNECE/WHO 2025 report confirms electronic groundwater results since 2022 and monthly surface-water bulletins, but no structured sample-level endpoint, full schema or reuse terms have yet been verified.",
+        "The NEA 2021-2025 groundwater report archive announced on 2026-11-26 is not yet extracted; its internal data granularity and licence/reuse conditions remain unknown.",
+        "The published 2024 E. coli non-compliance percentage lacks the sample denominator and municipal/system disaggregation needed for local prioritisation.",
+        "The existence of a legally required NEA hydrogeological database does not prove a public API or public reuse permission; no registry export, data dictionary or operational access policy has been verified.",
+        "The official NEA122 station-layer catalogue entry is public/free, but its actual payload, export/API path, fields, coordinate reference system and reuse licence have not been verified.",
+        "The NEA 2021–2025 groundwater report archive is linked by the Agency but its RAR contents could not be retrieved or inspected in this run.",
+        "The official NEA RAR link is confirmed on the 2026-11-26 announcement page, but this execution environment could not retrieve the binary payload; an official alternate transfer route or authorised direct download is still needed.",
+        "The November 2021 NEA hydrogeological bulletin is listed with an official file endpoint, but the 22,990,164-byte file payload was not retrieved; contents, provenance hash, data granularity and reuse terms remain unknown."
+      ],
+      "status": "active",
+      "status_detail": "PR #82 merged into main as a19252bb4df28e2733b6b5180c8938792c040e63. Its exact-head quality CI 45875671834 and actual CPU-thread workflow 45875671867 both succeeded. The verifier checks a strict canonical checkpoint payload, detached Ed25519 signature against caller-supplied trusted keys, expected store identity, and local event-chain hash/count; it rejects lower generations and same-sequence equivocation and marks bootstrap-only verification explicitly when no trusted high-water state is supplied. The caller must atomically persist returned state outside the SQLite rollback domain. Post-merge main quality CI 45875861427 and Pages build/deploy 45875861440 succeeded. No production signer, external high-water authority, authorized sensor/lab dataset, site-approved Water Safety Plan limits or field validation exists. A public-source Georgia monitoring inventory found existing NEA surface-water (238 locations) and groundwater (72 points) monitoring disclosures, a separate monthly Black Sea network (14 points in the July 2026 update), and a utility laboratory network described as 8 regional plus 35 service-centre labs. These are source-reported network/process facts, not sample-level data or proof of drinking-water safety. No machine-readable sample dataset or data dictionary was identified in the pages inspected; no raw result was imported. Discovery update 2026-11-27: the 2025 UNECE/WHO Georgia report states groundwater results have been available electronically since 2022, records 394 laboratory samples from 72 groundwater points in 2024, and reports 2024 surface-water sampling at 331 points on 137 water bodies. It separately reports 40.3% E. coli non-compliance in drinking-water samples for 2024, mainly microbiological, with rural small systems included; the table does not expose the denominator. NEA announced a 2021-2025 groundwater report and nitrate-risk field methodology on 2026-11-26 and linked a RAR archive that has not yet been inspected. WIS C10/C11 provide historical 2004-2018 aggregate indicators; Hydromet lists a water-quality-points map/table whose fields remain unverified. These discoveries narrow the earlier data-access blocker but do not establish a current sample-level API or reuse permission. No raw observations were imported. The UNECE/WHO submission also states that automatic groundwater stations were installed in 11 district units across 8 regional administrations during 2022-2024, 12 groundwater bulletins were published, and groundwater used as a drinking-water source was generally assessed as good quality with isolated microbiological exceedances. This countervailing source-reported evidence is recorded to avoid overstatement. The UNECE/WHO drinking-water section contains two distinct E. coli reference frames: narrative values for 2021-2022/2023/2024 and table values labelled 2005/2019/2024. They are not combined into one trend because the sample denominator and urban/rural breakdown are absent. A 2026-08-31 Government Resolution No.424 now provides a primary legal basis for a prospective well-registration source effective 2026-09-01, limited to fresh drinking-water extraction wells deeper than 20 m; pre-existing wells are outside the legal scope and NEA says household wells are excluded. The passport includes owner identity/contact data and optional field/lab result attachments, so only privacy-reviewed de-identified access can be considered. The register itself and public reuse terms remain unverified. 2026-11-27 update: MEPA's GIS catalogue exposes NEA122, a point-geometry groundwater monitoring layer classified public/free (catalogue date 2026-03-06), but its row lists SQL SDE/local storage and no portal URL; the payload and reuse licence remain unverified. NEA's 2026-06-09 notice describes automatic monitored-well stations and field data-registration/documentation procedures in Tianeti. Article 32 assigns environmental-water monitoring data to NEA and drinking-water quality state control to the National Food Safety Agency. No coordinates or sample rows were imported. Run 26 (2026-11-27): primary-source audit compared NEA's 2025-09-18 network disclosure (72 groundwater points, 238 surface-water locations, 12 Black Sea locations) with the 2025 annual report (124 groundwater monitoring points: 74 planned + 50 field-instrumental; 681 lab samples from 74 points; nitrate field studies at 50 points = 19 wells + 30 springs + 1 control well; 73 points with listed parameter coverage; separate surface water 238 points / 2,571 samples). These counts are different reporting frames; 72→74 is not treated as a trend or unique-point increase. The Georgian term “საკონტროლო ჭა” was corrected from “household well” to “control well”: documentation correction merged in PR #149 as 2469d0c; the full aggregate data/schema/test correction remains Draft PR #144 at head 95c69d94d2a97197d2a5199abe22eec0c9248abf. Exact-head Quality CI 45993708487 and CPU-thread workflow 45993708489 succeeded. The 2021–2025 RAR remains unextracted; no sample-level data or reuse terms were obtained. Run 31 (2026-11-27): the official NEA Geology bulletin index was rechecked and a distinct November 2021 information hydrogeological bulletin listing plus direct file endpoint were recorded in PR #164. The web reader rejected the 22,990,164-byte response as too large and container-side DNS retrieval failed; no file payload bytes, contents, hash, sample schema or reuse terms were inspected. This historical bulletin is distinct from the 2021–2025 RAR. PR #164 exact-head Quality CI 46024501723 passed all workflow steps, including source-inventory schema, draft completeness, 458 Python tests, site build and publication-boundary checks. Draft; no data were imported.",
+      "next_step": "Obtain the 2021–2025 RAR and the distinct November 2021 bulletin through official accessible/authorized routes; verify hashes, document inventories, station/sample dictionaries and reuse terms before comparing any values. Separately request authorized NEA122 station/sample metadata and NFA potable-water denominators.",
+      "success_metrics": [
+        "საველე ტესტში წინასწარ განსაზღვრულ reference labels-თან შედარებული sensitivity და positive predictive value",
+        "false-alert rate და detection delay წინასწარ განსაზღვრულ baseline-თან შედარებით",
+        "ყველა სიგნალზე წყაროს, freshness-ის, calibration-ისა და წესის ვერსიის მიკვლევადობა",
+        "A valid detached Ed25519 signature, expected store identifier and exact local event-chain head are all required before checkpoint acceptance.",
+        "A checkpoint sequence below external trusted state is rejected; same-sequence different payload is rejected; identical same-sequence replay is idempotent.",
+        "No rollback-protection claim is made unless next_trusted_state is atomically persisted outside the event database in a separately trusted domain.",
+        "A source inventory must keep surface, groundwater, marine and potable-network observations distinct and identify whether sample-level provenance, method, units, QA/QC and reuse permission exist before ingestion.",
+        "Every future imported observation retains matrix, station/sample identity, collection and publication timestamps, analyte, unit, method, QA/QC, source-page provenance and reuse permission; records missing mandatory fields are blocked.",
+        "No surface-water, groundwater, marine-water or potable-network observation is merged into another matrix or evaluated against an unapproved threshold.",
+        "Any 2024 E. coli trend statement preserves the published denominator limitation and reports sample-level coverage only when the underlying counts are obtained.",
+        "Every public aggregate labels its metric, period, water matrix and source definition; 72 network points, 73 parameter-coverage points, 74 lab-sampling points and 124 combined reported points are never merged into one inferred trend or unique-site count.",
+        "Historical NEA bulletin sources remain separate by publication date and observation period; no report is treated as sample-level data until payload hash, data dictionary, sampling frame and reuse terms are verified."
+      ],
+      "last_reviewed": "2026-11-27"
+    },
+    {
+      "id": "NOEMA-2026-005",
+      "title": "რიცხვითი სიზუსტე და რეალური CPU-thread reduction",
+      "pillars": [
+        "RESEARCH",
+        "INNOVATION"
+      ],
+      "stage": "preliminary",
+      "problem": "პარალელურმა floating-point reduction-მა შეიძლება გააძლიეროს cancellation/ordering შეცდომები; ამავე დროს რეალური threads-ის გამოყენება ავტომატურად არ ნიშნავს wall-time აჩქარებას.",
+      "research_question": "რომელი partial-reduction არქიტექტურა ინარჩუნებს correctly-rounded reference შედეგს რეალურ CPU threads-ზე და რა პირობებში აქვს მას გაზომვადი შესრულების უპირატესობა?",
+      "human_benefit": "უფრო სანდო სამეცნიერო და საინჟინრო გამოთვლები, სადაც რიცხვითი შეცდომა ან შესრულების მცდარი მოლოდინი მნიშვნელოვან შედეგს იწვევს.",
+      "hypothesis": "Neumaier (sum, compensation) state-ის გაერთიანება უკეთ შეინარჩუნებს სიზუსტეს scalar partial sums-თან შედარებით, თუმცა Python ThreadPool-ის overhead შეიძლება wall-time მოგებას გააქრობდეს.",
+      "methodology": [
+        "დეტერმინისტული synthetic binary64 cancellation fixture და exact-rational reference",
+        "contiguous/round-robin partition-ები, 1/2/4/8 worker-ები და naive/scalar Neumaier/compensation-state მეთოდები",
+        "ოთხი დამოუკიდებელი ARM64 benchmark batch, თითოეულში ოთხი runtime cell და თითოეულ cell-ში 48 configuration",
+        "accuracy, CPU-time/wall-time და tracemalloc ცალ-ცალკე შეფასება; CPU-time/wall-time არ განიმარტოს როგორც wall-time speedup",
+        "Native C11/OpenMP comparison of serial and 1/2/4/8-thread naive, long-double, recursive pairwise, Neumaier-state and fixed-width exact-superaccumulator reductions on two frozen cancellation layouts",
+        "One warm-up and five timed repetitions per case; record actual native thread counts, monotonic wall time, process CPU time, process peak RSS and compiler/runtime provenance",
+        "Independent MPFR 4.2.1 oracle: represent the exact signed integer in 2,624-bit precision, divide by 2^1074 exactly, then convert with MPFR_RNDN; compare bit patterns against the C converter and Python Decimal on hosted x86-64 and ARM64. The native workflow asserts pkg-config reports MPFR 4.2.1.",
+        "Deterministic full-width MPFR 4.2.1 oracle extension: 1,024 seeded signed values plus 1,044 tie-adjacent values; compare C output bitwise against MPFR_RNDN, Python integer and 1,200-digit Decimal references on hosted x86-64/ARM64.",
+        "Run actual ThreadPoolExecutor native-thread experiment on CPython 3.14.4 GIL-enabled and free-threaded builds: 2 layouts × 4 worker counts × 2 partitions × 3 reduction methods × 3 repetitions, with native thread ID validation and process CPU/wall timing.",
+        "Download the original GIL-enabled and free-threaded Actions artifact ZIPs, verify archive SHA-256 against the frozen summary, and independently recompute per-case accuracy and worker-count metric aggregates.",
+        "Second real CPU-thread run raw reports were archived as gzip/base64; workflow ZIP SHA-256 and decompressed raw-report SHA-256 were checked, then per-case accuracy and metric aggregates were recomputed by scripts/reproduce_noema005_threaded_reruns.py --check.",
+        "Third hosted x86-64 rerun (GitHub Actions 45897707859): archive both GIL-enabled and free-threaded raw reports, verify ZIP hashes against GitHub artifact metadata, verify raw-report SHA-256 and independently reproduce per-method accuracy, median speedup, CPU/wall ratio, allocation and worker-count aggregates.",
+        "Independently compare matching raw JSON cases across separate KVM runs using the same source SHA and recorded host/cgroup provenance; report per-worker timing variation rather than pooling runs into a portable speedup.",
+        "Audit paired per-repetition process-CPU and monotonic wall-time samples; compare process CPU/wall ratios with the recorded effective cgroup CPU set, not only with requested OpenMP worker counts.",
+        "Keep correctness, timing validity, and resident-memory bandwidth as separate evidence questions; use a fail-closed rule for timing claims when resource provenance is inconsistent.",
+        "Run a controlled Linux OpenMP timing diagnostic with per-thread CPU clocks, per-thread sched_getaffinity masks, cgroup v2 cpuset/cpu.max, and an independent monotonic wall clock to investigate the archived process-CPU/wall anomaly.",
+        "Schema-v2 Linux OpenMP timer diagnostic: sample each worker's CLOCK_THREAD_CPUTIME_ID, affinity and unified cgroup membership; count process tasks; walk visible cgroup-v2 cpu.max ancestors; use an affinity/cpuset upper bound when quota-chain evidence is incomplete, and withhold exact effective capacity.",
+        "For frozen local-container reports, recompute every median_wall_ns from the preserved 20 raw wall samples and every speedup from the full floating median plus the matching serial wall median; treat report packaging/derived-field correction as audit, not a new benchmark execution.",
+        "Parse Linux /proc/self/mountinfo cgroup2 root and mount-point fields using the kernel's seq_escape character set (space, tab, newline, hash and backslash); regression-test literal escaped-backslash sequences so decoded text is not processed twice.",
+        "Before publishing hosted CPU-thread reports, recursively scan every nested report and manifest object for host/runner/device, PID/TID, native-thread-ID, cgroup-path and detailed kernel/build identity field names; preserve only reviewed coarse architecture, CPU-count, runtime and artifact-provenance metadata.",
+        "For frozen hosted evidence, verify each original artifact ZIP and source JSON against recorded SHA-256 values before regenerating sanitized snapshots; validate strict Base64/gzip decoding, recursive public-field screening, schema and recomputed sample summaries.",
+        "Run 30: privately download all six original GitHub Actions artifact ZIPs; verify each ZIP SHA-256 and its single source JSON SHA-256 against the manifest before relying on the sanitised snapshots. Keep original ZIPs and native thread identities out of the public repository."
+      ],
+      "sources": [
+        {
+          "title": "NOEMA-005 ARM64 replication protocol",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/blob/main/research/drafts/NOEMA-2026-005-arm64-replication-protocol.md",
+          "type": "internal_experiment_protocol",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "NOEMA-005 four-batch ARM64 repeat validation",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/arm64-repeat-validation-2026-11-26.json",
+          "type": "frozen_experiment_result",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "Python threading documentation",
+          "publisher": "Python Software Foundation",
+          "publication_date": "undated",
+          "url": "https://docs.python.org/3/library/threading.html",
+          "type": "official_runtime_documentation",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "NOEMA-005 accumulator comparison experiment",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/blob/main/research/drafts/NOEMA-2026-005-accumulator-comparison-2026-11-26.md",
+          "type": "internal_preliminary_experiment",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "Python math.fsum documentation",
+          "publisher": "Python Software Foundation",
+          "publication_date": "undated",
+          "url": "https://docs.python.org/3/library/math.html#math.fsum",
+          "type": "official_runtime_documentation",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "Python fractions.Fraction.from_float documentation",
+          "publisher": "Python Software Foundation",
+          "publication_date": "undated",
+          "url": "https://docs.python.org/3/library/fractions.html#fractions.Fraction.from_float",
+          "type": "official_runtime_documentation",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "Python decimal documentation",
+          "publisher": "Python Software Foundation",
+          "publication_date": "undated",
+          "url": "https://docs.python.org/3/library/decimal.html",
+          "type": "official_runtime_documentation",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "The Accuracy of Floating Point Summation",
+          "publisher": "SIAM Journal on Scientific Computing",
+          "publication_date": "1993-07",
+          "url": "https://doi.org/10.1137/0914050",
+          "type": "peer_reviewed_numerical_analysis",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "Accurate Sum and Dot Product",
+          "publisher": "SIAM Journal on Scientific Computing",
+          "publication_date": "2005-01",
+          "url": "https://doi.org/10.1137/030601818",
+          "type": "peer_reviewed_numerical_analysis",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "IEEE Std 754-2019 — IEEE Standard for Floating-Point Arithmetic",
+          "publisher": "IEEE Computer Society",
+          "publication_date": "2019-07-22",
+          "url": "https://standards.ieee.org/ieee/754/6210/",
+          "type": "technical_standard",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "NOEMA-005 exact binary64 rational-oracle protocol",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/exact-rounding-oracle-protocol-2026-11-26.json",
+          "type": "internal_validation_protocol",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "NOEMA-005 exact binary64 oracle CI result",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/exact-rounding-oracle-ci-2026-11-26.json",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "GNU MPFR Manual — rounding modes and correctly rounded operations (hosted library version 4.2.1)",
+          "publisher": "GNU MPFR",
+          "publication_date": "undated",
+          "url": "https://mpfr.loria.fr/mpfr-current/mpfr.html",
+          "type": "official_numerical_library_documentation",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "GNU MP 6.3.0 manual — integer import and export",
+          "publisher": "GNU MP",
+          "publication_date": "undated",
+          "url": "https://gmplib.org/manual/Integer-Import-and-Export",
+          "type": "official_numerical_library_documentation",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "NOEMA PR #52 — clean-base MPFR binary64 rounding cross-check",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/pull/52",
+          "type": "engineering_change_record",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "NOEMA-005 exact-head quality CI for MPFR cross-check",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45824791797",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "NOEMA-005 exact-head actual CPU-thread workflow",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45824791997",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "NOEMA-005 exact-head native x86-64 and ARM64 MPFR workflow",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45824791814",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "NOEMA PR #58 — checked signed accumulator overflow and MPFR provenance correction",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/pull/58",
+          "type": "engineering_change_record",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "NOEMA-005 exact-head quality CI for checked overflow",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45829393835",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "NOEMA-005 native x86-64 and ARM64 MPFR 4.2.1 workflow",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45829393564",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "NOEMA-005 GIL-enabled and free-threaded CPU-thread workflow",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45829393656",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "NOEMA PR #59 — run 8 research portfolio and project-status synchronization",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/pull/59",
+          "type": "engineering_change_record",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "NOEMA main quality CI after run 8 portfolio sync",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45830239964",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "NOEMA Pages deployment after run 8 portfolio sync",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45830240214",
+          "type": "internal_deployment_result",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "NOEMA-005 full-width MPFR oracle extension",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/blob/main/research/drafts/NOEMA-2026-005-mpfr-full-width-oracle-2026-11-26.md",
+          "type": "internal_validation_protocol_and_result",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "NOEMA-005 full-width MPFR native x86-64 and ARM64 workflow",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45839155039",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "NOEMA-005 full-width quality CI",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45839154986",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "NOEMA-005 clean-base full-width MPFR native x86-64 and ARM64 workflow",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45839837589",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "NOEMA-005 clean-base quality CI for full-width MPFR oracle",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45839774795",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "NOEMA-005 real CPU-thread experiment draft",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/blob/main/research/drafts/NOEMA-2026-005-real-cpu-threads-2026-11-26.md",
+          "type": "internal_experiment_report",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "NOEMA-005 real CPU-thread aggregate summary",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/real-cpu-thread-summary-2026-11-26.json",
+          "type": "frozen_aggregate_result",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "NOEMA-005 actual CPU-thread benchmark workflow",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45840219895",
+          "type": "internal_ci_experiment",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "NOEMA-005 CPU-thread summary validation CI",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45840219937",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "NOEMA-005 independent CPU-thread artifact provenance audit",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/blob/main/research/drafts/NOEMA-2026-005-thread-artifact-provenance-audit-2026-11-26.md",
+          "type": "internal_artifact_integrity_and_aggregate_reproduction_audit",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "NOEMA-005 structured CPU-thread artifact provenance audit",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/threaded-artifact-provenance-audit-2026-11-26.json",
+          "type": "frozen_artifact_provenance_audit",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "NOEMA-005 two-run raw-report reproduction and exact-head quality CI",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45872887590",
+          "type": "internal_reproducibility_ci_result",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "NOEMA-005 actual CPU-thread benchmark exact-head workflow",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45872887552",
+          "type": "internal_cpu_thread_benchmark_ci",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "NOEMA-005 archived second GIL-enabled and free-threaded raw reports",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/threaded-reruns-2026-11-26.json",
+          "type": "frozen_raw_report_aggregate_and_provenance",
+          "accessed_at": "2026-11-26",
+          "note": ""
+        },
+        {
+          "title": "NOEMA-005 third hosted real CPU-thread rerun and frozen raw-report summary",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-27",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45897707859",
+          "type": "reproducible_hosted_experiment",
+          "accessed_at": "2026-11-27",
+          "note": ""
+        },
+        {
+          "title": "clock_gettime(2) — CLOCK_PROCESS_CPUTIME_ID semantics",
+          "publisher": "Linux man-pages project",
+          "publication_date": "undated",
+          "url": "https://man7.org/linux/man-pages/man2/clock_gettime.2.html",
+          "type": "linux_manual",
+          "accessed_at": "2026-11-27",
+          "note": ""
+        },
+        {
+          "title": "Control Group v2 — cpuset.cpus.effective",
+          "publisher": "Linux kernel documentation",
+          "publication_date": "undated",
+          "url": "https://docs.kernel.org/admin-guide/cgroup-v2.html",
+          "type": "kernel_documentation",
+          "accessed_at": "2026-11-27",
+          "note": ""
+        },
+        {
+          "title": "clock_gettime(2) — process and thread CPU clocks",
+          "publisher": "Linux man-pages project",
+          "publication_date": "undated",
+          "url": "https://man7.org/linux/man-pages/man2/clock_gettime.2.html",
+          "type": "linux_manual",
+          "accessed_at": "2026-11-27",
+          "note": ""
+        },
+        {
+          "title": "sched_getaffinity(2) — calling-thread CPU affinity",
+          "publisher": "Linux man-pages project",
+          "publication_date": "undated",
+          "url": "https://man7.org/linux/man-pages/man2/sched_getaffinity.2.html",
+          "type": "linux_manual",
+          "accessed_at": "2026-11-27",
+          "note": ""
+        },
+        {
+          "title": "Control Group v2 — cpuset.cpus.effective and cpu.max",
+          "publisher": "Linux kernel documentation",
+          "publication_date": "undated",
+          "url": "https://docs.kernel.org/admin-guide/cgroup-v2.html",
+          "type": "kernel_documentation",
+          "accessed_at": "2026-11-27",
+          "note": ""
+        },
+        {
+          "title": "OpenMP API Specification 5.1 — omp_get_wtime",
+          "publisher": "OpenMP Architecture Review Board",
+          "publication_date": "2020-11",
+          "url": "https://www.openmp.org/spec-html/5.1/openmpsu185.html",
+          "type": "technical_specification",
+          "accessed_at": "2026-11-27",
+          "note": ""
+        },
+        {
+          "title": "NOEMA-005 frozen per-thread timing diagnostic report",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-27",
+          "url": "https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/openmp-timing-diagnostic-manifest-2026-11-27.json",
+          "type": "frozen_hosted_experiment_result",
+          "accessed_at": "2026-11-27",
+          "note": ""
+        },
+        {
+          "title": "NOEMA-005 schema-v2 OpenMP timing diagnostic frozen raw report",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-27",
+          "url": "https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/openmp-timing-diagnostic-v2-manifest-2026-11-27.json",
+          "type": "frozen_hosted_experiment_result",
+          "accessed_at": "2026-11-27",
+          "note": ""
+        },
+        {
+          "title": "NOEMA-005 cross-architecture native accumulator replication (x86-64/ARM64)",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-27",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45961748438",
+          "type": "internal_cross_architecture_experiment",
+          "accessed_at": "2026-11-27",
+          "note": ""
+        },
+        {
+          "title": "NOEMA-005 native OpenMP Neumaier-state benchmark",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-27",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45961748471",
+          "type": "internal_native_openmp_experiment",
+          "accessed_at": "2026-11-27",
+          "note": ""
+        },
+        {
+          "title": "NOEMA-005 ARM64 GIL-enabled and free-threaded Python replication",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-27",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45961748435",
+          "type": "internal_threaded_runtime_experiment",
+          "accessed_at": "2026-11-27",
+          "note": ""
+        },
+        {
+          "title": "NOEMA-005 cross-architecture reduction research note",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-27",
+          "url": "https://github.com/maisuradzee/bibmom/blob/main/research/drafts/NOEMA-2026-005-cross-architecture-reduction-2026-11-27.md",
+          "type": "internal_preliminary_research_note",
+          "accessed_at": "2026-11-27",
+          "note": ""
+        },
+        {
+          "title": "NOEMA-005 local container reproduction — compact frozen report",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-27",
+          "url": "https://github.com/maisuradzee/bibmom/blob/research/noema005-local-container-repro-2026-11-27/data/noema-005/local-container-repro-2026-11-27.json",
+          "type": "internal_draft_experiment_report",
+          "accessed_at": "2026-11-27",
+          "note": ""
+        },
+        {
+          "title": "Linux kernel fs/proc_namespace.c — mountinfo path formatting",
+          "publisher": "Linux kernel project",
+          "publication_date": "undated",
+          "url": "https://github.com/torvalds/linux/blob/master/fs/proc_namespace.c",
+          "type": "primary_kernel_source",
+          "accessed_at": "2026-11-27",
+          "note": ""
+        },
+        {
+          "title": "The seq_file Interface — seq_escape octal output",
+          "publisher": "Linux kernel documentation",
+          "publication_date": "undated",
+          "url": "https://docs.kernel.org/6.19/filesystems/seq_file.html",
+          "type": "official_kernel_documentation",
+          "accessed_at": "2026-11-27",
+          "note": ""
+        },
+        {
+          "title": "proc_pid_mountinfo(5) — mount root and mount point fields",
+          "publisher": "Linux man-pages project",
+          "publication_date": "undated",
+          "url": "https://man7.org/linux/man-pages/man5/proc_pid_mountinfo.5.html",
+          "type": "linux_manual",
+          "accessed_at": "2026-11-27",
+          "note": ""
+        },
+        {
+          "title": "Python 3.14 — Python support for free threading",
+          "publisher": "Python Software Foundation",
+          "publication_date": "undated",
+          "url": "https://docs.python.org/3.14/howto/free-threading-python.html",
+          "type": "official_runtime_documentation",
+          "accessed_at": "2026-11-27",
+          "note": ""
+        },
+        {
+          "title": "PEP 703 — Making the Global Interpreter Lock Optional in CPython",
+          "publisher": "Python Enhancement Proposals",
+          "publication_date": "undated",
+          "url": "https://peps.python.org/pep-0703/",
+          "type": "official_language_proposal",
+          "accessed_at": "2026-11-27",
+          "note": ""
+        },
+        {
+          "title": "NOEMA-005 hosted GIL/free-threaded CPU-thread repeats — six artifact integrity record",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-27",
+          "url": "https://github.com/maisuradzee/bibmom/pull/165",
+          "type": "reproducible_computational_record",
+          "accessed_at": "2026-11-27",
+          "note": "Three hosted x86-64 workflow pairs; six artifacts; all source ZIP and JSON hashes matched the manifest. Exact-head Quality CI and CPU-thread workflow passed. Preliminary, not physical-device replication."
+        },
+        {
+          "title": "NOEMA-005 fourth hosted GIL-enabled/free-threaded CPU-thread repeat pair",
+          "publisher": "GitHub Actions",
+          "publication_date": "2026-11-27",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/46025216574",
+          "type": "internal_cpu_thread_experiment",
+          "accessed_at": "2026-11-27",
+          "note": "48 configurations × 3 repetitions per runtime; GIL-enabled Azure and free-threaded AWS runners; 48/48 Neumaier-state correct in both, but median speedups 0.7687× and 0.7102×. CPU/wall >1.05 occurred in 0/144 GIL and 108/144 free-threaded samples. Hosted, synthetic, not physical-device or causal same-host comparison."
+        }
+      ],
+      "data_needs": [
+        "შენახული synthetic input hashes და სრული benchmark protocol",
+        "დამოუკიდებელი runtime-ების raw report-ები და არტეფაქტების SHA-256",
+        "შემდეგ ეტაპზე native C/OpenMP ან სხვა runtime-ის იდენტურ input-ზე შედარება",
+        "Archived raw JSON reports and verified artifact ZIP hashes for run 45897707859.",
+        "Independent physical x86-64 and ARM64 replication with at least 20 repetitions per configuration, representative workloads, RSS/native-allocation and memory-bandwidth measurements.",
+        "Cross-architecture native accumulator and ARM64 GIL/free-threaded raw artifact ZIPs with SHA-256 provenance; durable repository archive before 30-day workflow retention expires.",
+        "Physical x86-64 and ARM64 independent repeats; at least 20 repetitions/configuration; RSS/native allocation, DRAM bandwidth, task-clock, context-switch and CPU-frequency evidence."
+      ],
+      "risks": [
+        "Hosted runner-ების CPU მოდელი, virtualization და host contention იცვლება",
+        "synthetic cancellation workload რეალურ სამეცნიერო workload-ს არ წარმოადგენს",
+        "tracemalloc არ ზომავს სრულ RSS-ს ან ყველა native allocation-ს",
+        "სამი repetition timing-ის მაღალი სიმძლავრის სტატისტიკურ დასკვნას არ იძლევა",
+        "Native long double precision and representation vary by ABI; this local x86-64 host reports 64 significand bits.",
+        "The exact converter has a hosted MPFR 4.2.1 cross-check; the 2,560-bit accumulator now rejects signed overflow but remains fixed-width and is not arbitrary precision or formally verified.",
+        "Pairwise reduction may be faster on a fixture while returning an incorrect result; timing is only meaningful after accuracy passes.",
+        "The second free-threaded run crossed the 1.0 median speedup threshold (0.9519x to 1.0181x), but its per-case range remained broad (0.7023x–1.135x) on the same hosted runner family; this is run-to-run sensitivity, not a robust or portable speedup.",
+        "The 2026-11-27 free-threaded and GIL-enabled jobs ran on different hosted VM families (Azure and AWS); direct cross-runtime timing comparison is confounded.",
+        "The 1.2589x free-threaded median is versus matching serial Neumaier only; serial math.fsum was 14.8–16.3x faster than four-worker threaded Neumaier-state on these fixtures.",
+        "Run-19 reanalysis found full Neumaier-state median speedup varied -12.2% to -17.5% between two same-host KVM runs at 1/2/4/8 workers; eight workers exceed the four-CPU cgroup quota. This is timing sensitivity, not a confidence interval.",
+        "Do not use affected native OpenMP wall-time or derived speedup values as evidence of scalable CPU throughput until the CPU-time ceiling anomaly is resolved.",
+        "The current generated-on-the-fly workload has zero resident input storage and cannot establish memory-bandwidth or large-array scaling.",
+        "The Run 26 local-container JSON was initially truncated and malformed; the compact corrected snapshot preserves 48 configurations and 960 raw wall samples, but retains serial baseline wall medians only (serial process-CPU baseline details are omitted). It is one Linux x86-64 GIL-enabled container, not bare-metal, ARM64 or free-threaded replication.",
+        "An incomplete mountinfo escape decoder can fail to resolve valid cgroup paths; capacity-derived metrics must remain withheld whenever membership or ancestor evidence is unresolved.",
+        "The public-evidence sanitizer is a key-name denylist: it cannot detect secrets embedded in arbitrary string values or novel field names, so it is not a complete DLP or secret-scanning guarantee.",
+        "Compressed gzip byte hashes can vary with Python/zlib runtime implementations; a stored-byte hash proves the exact committed file, not cross-runtime byte-for-byte recompression. Preserve source ZIP/report hashes and compare canonical JSON content when independently regenerating."
+      ],
+      "blockers": [
+        "The native experiment still uses two synthetic cancellation fixtures; representative application workloads and memory-bandwidth tests remain outstanding.",
+        "Hosted x86-64/ARM64 CI is not independent physical-hardware replication; external numerical-method review remains outstanding.",
+        "No independent physical-hardware replication or representative memory-bandwidth-bound workload has been completed; external numerical-method review remains outstanding.",
+        "The older OpenMP archive still contains nine per-repetition process-CPU/wall ratios above 4.05; the later schema-v2 diagnostic (80/80 runs, maximum 4.0043, 0 anomalies) did not reproduce or explain the older anomaly. Keep the old raw record and investigate on physical hardware.",
+        "A controlled rerun must record per-thread CPU clocks, worker affinity, /proc/self/cgroup, effective cpuset, and external task-clock/context-switch counters.",
+        "The Run 29 mountinfo decoder changes are covered by pure unit tests and hosted Quality CI only; no live custom mount namespace or physical-host integration test was run.",
+        "PR #165 public-evidence guard and six-snapshot integrity repair are on exact head cb25a0b4aad6a8c556cd517c4fe575e0ca0c0cd2; Quality CI 46013707604 and both CPU-thread jobs 46013707725 succeeded. Six original artifact ZIP hashes and six source-report hashes independently matched the manifest in Run 30. The branch's merge base is 2852b7b5ee3fa7470ebc9c3eda339fc0e6235eda, two commits behind current main fdfa25db97534632161e90c0a2fe768cb0c69e9c; GitHub currently reports mergeable=true. Keep Draft pending independent numerical-method review; refresh/revalidate against current main before merge.",
+        "Hosted GIL and free-threaded runners use different images (Azure vs AWS); four-CPU affinity and synthetic cancellation inputs limit generalization. No physical-device replication or RSS/native-memory/DRAM-bandwidth measurement."
+      ],
+      "status": "active",
+      "status_detail": "PR #81 merged into main as a69c3f29a7dec0f25f3a30c60f2d9f4d671807c7. Its exact-head quality CI 45872887590 and actual CPU-thread workflow 45872887552 both succeeded. The archived second raw-report set from workflow 45867519546 was rechecked: archive hashes and decompressed report hashes matched the frozen metadata, and scripts/reproduce_noema005_threaded_reruns.py --check reproduced all per-case accuracy counts and aggregate ranges. In that archived run, Neumaier-state median speedup was 0.7744x (range 0.7225–0.7935) with GIL and 1.0181x (range 0.7023–1.135) on free-threaded CPython; the prior free-threaded run was 0.9519x. The crossing of 1.0 is run-to-run variability, not evidence of a robust speedup. Both archived runs used the same hosted x86-64 runner family with 4-CPU affinity and synthetic cancellation fixtures. The study remains preliminary; representative application workloads, independent physical hardware and external numerical-method review remain outstanding. Scheduled-cycle audit 2026-11-27: PR #87 remains Draft on head 244761b6c44a2927345de4215b001bf909f8e662; exact-head quality CI 45883799154, 96-MiB memory-backed benchmark 45883799149 and actual CPU-thread workflow 45883799162 all succeeded. This is one hosted x86-64 runner family and a synthetic cancellation workload only; a second buffer size, representative workload and independent physical x86-64/ARM64 replication remain outstanding. Its base snapshot b97b30de is behind current main 8a69e6d9, so it needs refresh/revalidation before merge. Third hosted rerun (2026-11-27, Actions run 45897707859) was archived and independently reproduced in PR #94. Neumaier compensation-state merge was 48/48 correctly rounded in both runtimes; scalar Neumaier 42/48; naive 0/48. Free-threaded median speedup was 1.2589x versus matching serial Neumaier (worker medians 0.7733x/1.2125x/1.3546x/1.3090x for 1/2/4/8 workers), while GIL-enabled median was 0.7576x. CPU-time/wall-time exceeded 1.05 in 36/48 free-threaded runs and 0/48 GIL-enabled runs; native worker identity matched configured worker count in all 16 cases per runtime. Critical caveat: serial math.fsum remained 14.8–16.3x faster than the four-worker threaded Neumaier-state path on these fixtures. The two runtime modes used different hosted VM families, so cross-mode timing is confounded; this is not a general speedup claim. Run-19 independent reanalysis of PR #87's two raw 96-MiB KVM reports confirmed identical source SHA and host/cgroup settings; full Neumaier-state median speedup varied -12.2% to -17.5% across worker counts between runs. This is one virtualized x86-64 host and not physical replication or a general speedup claim. 2026-11-27 frozen native OpenMP timing audit: report says four effective CPUs (cpuset 0-3), but nine of 80 paired OpenMP process-CPU/wall samples exceed 4.05 across five cases; maximum 13.287713. This is a timing/provenance anomaly, not a proven code defect. Neumaier accuracy remains 40/40 and naive partials 0/40. The workload has input_storage_bytes=0 and is not a resident-array bandwidth test. Final schema-v2 hosted diagnostic run 45958399175: 80 samples (20 each at 1/2/4/8 workers), 0 worker/process cgroup mismatches, 0 unverified workers, process thread count matched the OpenMP team in all 80 runs. Known affinity/cpuset upper bound 4 CPUs; threshold 4.25; maximum process-CPU/wall ratio 4.004285619; 0/80 anomalies. One visible cgroup-v2 ancestor cpu.max file was unreadable, so exact effective capacity remains null. This does not reproduce the earlier 13.287713 anomaly or identify its cause; physical hardware replication remains outstanding. Cross-architecture replication 2026-11-27 (PR #124 head d2e5b14): native C/OpenMP accumulator tests ran on hosted Linux x86-64 and ARM64 (50 cases each, 5 repetitions). Full Neumaier state and exact superaccumulator were 40/40 correctly rounded on both architectures; naive partials and pairwise tree were 0/40. long double mantissa was 64 bits on x86-64 and 113 on ARM64; x86 long double passed 5/10 serial and 20/40 OpenMP cases, ARM64 passed 10/10 and 40/40. Exact superaccumulator best tested speedup was 1.50x/1.83x on x86-64 (8 workers, triplet/grouped) and 3.37x/3.34x on ARM64 (4/8 workers). Pairwise was faster but incorrect under strict rounding. ARM64 Python-thread replication (macOS/Ubuntu, GIL and free-threaded) had Neumaier-state 48/48 correct in each environment, scalar Neumaier 42/48 and naive 0/48. Free-threaded process CPU/wall reached 3.75x Ubuntu and 2.74x macOS, but median wall speedup for Neumaier-state remained below 1.0; this is CPU parallelism without net speedup on the tested small workload. tracemalloc median was ~25 KB GIL vs ~277 KB free-threaded, not RSS. Artifacts: native accumulator run 45961748438 (x86 15181375189 SHA f8eff09d..., ARM 15180639287 SHA 3d70bb9e...); native OpenMP 45961748471 (artifact 15180639238 SHA 82207369...); ARM64 threaded run 45961748435 (four artifacts 15180264380, 15180749225, 15180908527, 15181310576; ZIP SHA values in cross-architecture draft). Hosted-runner cross-replication only; physical-device and external independent replication remain outstanding. Run 26 (2026-11-27): PR #148's first committed JSON was truncated at the text-transfer boundary and failed parsing before tests ran. The compact frozen report now parses and retains 48 configurations / 960 raw wall samples; serial baseline wall medians are retained, while serial process-CPU baseline details are omitted. An audit found one stored derived row inconsistent with its raw 20 samples; all 48 median and speedup fields were recomputed from raw samples without changing timings. Affected case: triplet_order / threaded_naive_scalar / round_robin / 2 workers, median 1,035,946→1,034,764 ns, speedup 0.322461789→0.322830133. Runner SHA-256 e252e625752e1d46dd57c01d1b726d0cddc6620b19748951575be8f446772d8c; compact report SHA-256 f8743906f198721d4df2cc4549f82924ea8f39495b05fa035bf3922362992b06. Exact-head Quality CI 45994073404 and 45994065722 succeeded for PR #148 head ee822df98142ee786160a777ed6bc2fb83f25673. This is a packaging/derived-field audit, not a new benchmark or a performance conclusion; PR remains Draft and needs base refresh, independent numerical review and physical-device replication. Run 29 follow-up to PR #157: cgroup mountinfo path decoding now covers kernel seq_escape characters space/tab/newline/hash/backslash and preserves literal escaped sequences. Exact-head Quality CI 46009633734 succeeded on head 40d5bf9617f6ee6d6fc7b1d7da1748b1af429fe0. This is parser regression coverage only; no live namespace or new timing benchmark was run. Run 29 public-evidence follow-up (PR #165): recursive key-name guard covers every nested report/manifest object; the report schema now explicitly defines summary, interpretation_guardrail and limitations. Two free-threaded Base64 snapshots with invalid padding were regenerated from the original Actions artifact ZIPs after ZIP/source-report hashes matched the manifest; stored gzip hashes were updated, raw measurements unchanged. Current head ce095d7be7c4b96ffca423ee66a1f38157cf99e4 has exact-head Quality CI and CPU-thread workflow in progress; previous code head a5c20f86a30fa36889495127a326453711a92e7d passed both. Sanitizer is key-name based, not a value-based secret scanner. Run 31 (2026-11-27): the status PR's actual CPU-thread workflow 46025216574 produced a fourth hosted GIL/free-threaded pair (artifacts 15212332060 and 15210818669). Both modes completed 48 configurations × 3 repetitions; Neumaier state was 48/48 correctly rounded in each. GIL/Azure median speedup was 0.7687×; free-threaded/AWS was 0.7102×. GIL CPU/wall >1.05: 0/144 samples; free-threaded: 108/144, maximum 3.9282 with four-CPU affinity. Both median speedups remain below 1.0. The runner images differ, so no causal cross-runtime comparison is claimed. PR #165 adds two sanitized snapshots, source/ZIP SHA-256 provenance, manifest, validator and regression tests; exact-head Quality CI 46026969650 passed 469 Python tests and all validation/site/publication steps; source CPU-thread workflow 46025216574 passed both GIL-enabled and free-threaded jobs. Physical x86-64/ARM64, RSS/native allocation, DRAM bandwidth and independent external replication remain outstanding.",
+      "next_step": "Repeat the per-thread clock/affinity diagnostic on an independently controlled physical x86-64 host and a physical ARM64 host, with at least 20 repetitions per configuration, RSS/native allocation and DRAM-bandwidth measurements. Investigate the older 13.287713 archived anomaly without replacing its raw record; obtain independent numerical-method review.",
+      "success_metrics": [
+        "exact-reference accuracy თითოეული მეთოდისა და runtime-ის მიხედვით",
+        "median wall-time და uncertainty interval წინასწარ განსაზღვრული repetition protocol-ით",
+        "peak RSS და traced Python allocation ცალ-ცალკე",
+        "independent replication-ის შედეგების თანხვედრა",
+        "positive and negative signed 2,560-bit overflow are rejected without mutating the prior accumulator state",
+        "MPFR 4.2.1 version is asserted in native x86-64/ARM64 CI and converter output matches MPFR_RNDN plus Python Decimal on the frozen synthetic suite",
+        "Full-width MPFR oracle: 2,068/2,068 bitwise matches on each hosted x86-64 and ARM64 job, with MPFR 4.2.1 pinned.",
+        "Actual CPU-thread experiment: 48/48 correct runs for Neumaier (sum, correction) state merge in both GIL-enabled and free-threaded CPython; raw artifacts and aggregate summary retained with SHA-256 provenance.",
+        "Downloaded original artifact ZIP SHA-256 values match the frozen summary and raw per-case aggregate counts/ranges reproduce.",
+        "Two-run raw-report reproduction verifies both archive SHA-256 values and recomputes 96 cases / 288 timed runs across GIL-enabled and free-threaded runtimes from frozen raw JSON reports.",
+        "Run-to-run median speedup deltas reproduce exactly; the free-threaded state-merge crossing of 1.0 is reported with its broad range and not interpreted as robust speedup.",
+        "Third hosted rerun 45897707859: raw artifact archive and report SHA-256 values verify, and all 48 cases per runtime reproduce exactly from archived raw reports.",
+        "Neumaier-state retains 48/48 correctly rounded results while scalar partial merge remains explicitly tested for the six failing grouped-cancellation configurations.",
+        "Performance claims distinguish matching serial Neumaier from serial math.fsum and report CPU parallelism separately from wall-time speedup.",
+        "Raw reports share the exact C source SHA and record identical x86-64 KVM/cgroup settings; per-case accuracy counts and speedup changes are independently recomputed from both JSON files.",
+        "Each timing run records process CPU, monotonic wall time, per-thread CPU clocks, per-thread affinity and effective cgroup CPU capacity; unexplained ratios above the measured capacity are retained as anomalies, not silently treated as speedup.",
+        "Frozen hosted per-thread timing diagnostic: 80/80 runs have requested=actual OpenMP threads; 0/80 CPU/wall ratios exceed four-CPU affinity plus 0.25 margin; raw JSON and SHA-256 provenance are independently reproducible.",
+        "For each frozen 48-case local report, all 20 raw wall samples per case reproduce the stored integer median and rounded speedup against the matching serial baseline; report packaging does not discard or alter raw timing samples.",
+        "Pure path-decoder tests cover kernel-escaped space, tab, newline, hash and backslash plus literal escaped sequences; live namespace claims remain blocked until a dedicated integration test.",
+        "All six frozen hosted reports and their manifest pass recursive public-boundary validation; nested host/runner/device/PID/TID/kernel identity keys are rejected while reviewed coarse environment and artifact provenance fields remain accepted.",
+        "All six frozen snapshots decode with strict Base64 and gzip checks; original artifact ZIP and source-report SHA-256 values match the manifest; the three repaired snapshots (two free-threaded and one GIL-enabled) have updated stored-byte hashes; no raw measurement is changed.",
+        "Each of the eight frozen hosted artifacts validates 48 unique configurations and 144 timed runs; Neumaier state 48/48 correctly rounded; performance claims remain scoped to runner flavor and workload."
+      ],
+      "last_reviewed": "2026-11-27"
+    },
+    {
+      "id": "NOEMA-2026-007",
+      "title": "ადრეული გაფრთხილებიდან რეალურ მოქმედებამდე არსებული გლობალური და ადგილობრივი ხარვეზი",
+      "pillars": [
+        "DISCOVERY",
+        "RESEARCH",
+        "INNOVATION"
+      ],
+      "stage": "draft",
+      "problem": "მრავალსაფრთხიანი ადრეული გაფრთხილების შესაძლებლობა ბევრ ქვეყანაში არსებობს, მაგრამ ყველა ოთხი რგოლი — რისკის ცოდნა, მონიტორინგი/პროგნოზირება, გაფრთხილების გავრცელება და მზადყოფნა/რეაგირება — ერთდროულად სრულად არ არის წარმოდგენილი. საქართველოს კონტექსტში მნიშვნელოვანი ინფრასტრუქტურა უკვე ვითარდება; დაუდგენელია, სად რჩება ბოლო-მილის რეაგირების გაზომვადი ხარვეზი.",
+      "research_question": "შეუძლია თუ არა ოფიციალური გაფრთხილებისგან დამოუკიდებელ, privacy-preserving action-readiness ფენას გააუმჯობესოს კონკრეტულ მაღალი რისკის თემებში გაფრთხილების გაგება, მიღება და feasible protective action ისე, რომ არ შექმნას დუბლირებული ოფიციალური გაფრთხილება?",
+      "human_benefit": "საფრთხის წინასწარი ცოდნის რეალურ, დროულ და ადამიანზე მორგებულ დამცავ მოქმედებად გარდაქმნა; შესაძლო სარგებელი მოიცავს სიცოცხლის, ჯანმრთელობისა და ქონების დაცვას.",
+      "hypothesis": "თუ ოფიციალური გაფრთხილება დაკავშირებულია ლოკალურ რისკთან, წინასწარ შეთანხმებულ მოქმედების playbook-თან, პასუხისმგებელ ორგანიზაციასთან, ხელმისაწვდომ საკომუნიკაციო არხთან და acknowledgement/action audit-თან, შეიძლება შემცირდეს გაფრთხილებიდან მოქმედებამდე დრო და გაიზარდოს რეაგირების დაფარვა.",
+      "methodology": [
+        "UNDRR/WMO 2026 MHEWS ანგარიშის ოთხი pillar-ისა და country-level reporting-ის ანალიზი",
+        "საქართველოს NEA/UNDP/UN Georgia ოფიციალური პროექტებისა და მიმდინარე სისტემების mapping",
+        "მინიმუმ სამი განსხვავებული სოციალური/კლიმატური კონტექსტის შედარება",
+        "მონაცემთა უფლებებისა და privacy review-ის შემდეგ მხოლოდ აგრეგირებული/ანონიმიზებული warning-delivery და action-log მონაცემის შეფასება",
+        "პილოტისთვის წინასწარ რეგისტრირებული baseline და stepped-wedge ან matched-community შეფასების დიზაინი",
+        "Compare 2022–2026 country-reported MHEWS coverage with average pillar-quality scores; keep capability reporting separate from behavioural response and effectiveness outcomes.",
+        "Freeze the official UNDRR MHEWS 2026 country-level counts and reproduce pillar percentages, all-four ratio and preparedness score difference with a standard-library script plus frozen-result tests.",
+        "Freeze the WMO 2026 analysis of 35 government-validated roadmaps and reproduce only arithmetic from its published rounded aggregates; do not infer warning reach or protection.",
+        "Define and test an event/area aggregate-only action-readiness contract with separate endpoint and survey denominators, small-cell suppression and explicit release approvals.",
+        "Freeze UNDRR/WMO source-reported 2025 anticipatory-action framework, activation, direct-reach and pre-arranged-financing aggregates; independently reproduce only the 154-to-262 framework growth arithmetic and preserve unit/causality limits.",
+        "Crosswalk NOEMA-007 fields against WMO's August 2024 EW4All M&E Toolkit indicators G-3, 3.2.1b, 4.2, 4.3.1, G-6 and 4.4; keep endpoint, person, respondent, warning-event, plan/finance and exposed-population units separate.",
+        "Preserve UNDRR COP31's 4/5 warning-receipt and 1/3 unable-to-act statement as source-reported only because the underlying sample frame, denominator, weighting and uncertainty were not identified; do not use it as a baseline.",
+        "Validate public source metadata URLs before persistence: reject user-info credentials, credential-like query/fragment parameter names after up to four percent-decoding passes, both '&' and ';' parameter separators, control characters, malformed ports and excessive field counts; preserve ordinary public catalogue selectors and never fetch the URL."
+      ],
+      "sources": [
+        {
+          "title": "Global Status of Multi-Hazard Early Warning Systems 2026",
+          "publisher": "UNDRR",
+          "publication_date": "2026-11-11",
+          "url": "https://www.undrr.org/reports/global-status-mhews-2026",
+          "type": "official_global_report",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Global Status of Multi-Hazard Early Warning Systems 2026",
+          "publisher": "World Meteorological Organization",
+          "publication_date": "2026-11-11",
+          "url": "https://wmo.int/resources/publication-series/global-status-of-multi-hazard-early-warning-systems/gsmhews-2026",
+          "type": "official_global_report",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Heat–health action plans: guidance, second edition",
+          "publisher": "World Health Organization Regional Office for Europe",
+          "publication_date": "2026-06-11",
+          "url": "https://www.who.int/europe/publications/i/item/9789289062930",
+          "type": "official_public_health_guidance",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "A working meeting on the new ICT system",
+          "publisher": "National Environmental Agency of Georgia",
+          "publication_date": "2026-07-10",
+          "url": "https://nea.gov.ge/En/News/2416",
+          "type": "official_national_source",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Multi-hazard risk management plans for seven river basins",
+          "publisher": "National Environmental Agency of Georgia",
+          "publication_date": "2026-04-02",
+          "url": "https://nea.gov.ge/En/News/2381",
+          "type": "official_national_source",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "UN in Georgia Annual Report 2025",
+          "publisher": "United Nations in Georgia",
+          "publication_date": "2026-04",
+          "url": "https://georgia.un.org/sites/default/files/2026-04/UN%20Georgia%20Annual%20Report%202025_2.pdf",
+          "type": "official_country_report",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Scaling-up Multi-Hazard Early Warning System and the Use of Climate Information in Georgia",
+          "publisher": "UNDP Georgia",
+          "publication_date": "undated",
+          "url": "https://www.undp.org/georgia/projects/early-warning-climate-information",
+          "type": "official_project_page",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "A Holistic Approach to Early Warning Systems Using an Agent-Based Model",
+          "publisher": "International Journal of Disaster Risk Science (peer-reviewed)",
+          "publication_date": "2026-05-07",
+          "url": "https://doi.org/10.1007/s13753-026-00729-7",
+          "type": "peer_reviewed_agent_based_model",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Conceptualising risk communication barriers to household flood preparedness",
+          "publisher": "Urban Governance (peer-reviewed)",
+          "publication_date": "2023-06-01",
+          "url": "https://doi.org/10.1016/j.ugj.2023.02.001",
+          "type": "peer_reviewed_systematic_review",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Early warning protection expands worldwide",
+          "publisher": "World Meteorological Organization / UNDRR",
+          "publication_date": "2026-11-11",
+          "url": "https://public.wmo.int/media/news/early-warning-protection-expands-worldwide",
+          "type": "official_joint_press_release",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Organized by the Agency, consultative meetings were held regarding the preparation of multi-hazard risk management plans for the basins of seven rivers in Georgia",
+          "publisher": "National Environmental Agency of Georgia",
+          "publication_date": "2026-11-25",
+          "url": "https://nea.gov.ge/En/News/3459",
+          "type": "official_national_update",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "From alert to agency: What turns warnings into action?",
+          "publisher": "Lloyd's Register Foundation",
+          "publication_date": "2026-10-13",
+          "url": "https://doi.org/10.60743/yx1k-t541",
+          "type": "official_global_survey_report",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "World Risk Poll Data (WRP_2025)",
+          "publisher": "Lloyd's Register Foundation",
+          "publication_date": "undated",
+          "url": "https://github.com/lrfoundation/world_risk_poll_data",
+          "type": "public_dataset_CC_BY_SA_4_0",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "From alert to agency reproduction README",
+          "publisher": "Lloyd's Register Foundation",
+          "publication_date": "2026-10-13",
+          "url": "https://github.com/lrfoundation/world_risk_poll_data/blob/main/reports/WRP_2025/core_from_alert_to_agency/README.md",
+          "type": "reproducibility_documentation",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "From alert to agency reproduction results",
+          "publisher": "Lloyd's Register Foundation",
+          "publication_date": "2026-10-13",
+          "url": "https://github.com/lrfoundation/world_risk_poll_data/blob/main/reports/WRP_2025/core_from_alert_to_agency/RESULTS.md",
+          "type": "reproduced_report_results",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA-007 MHEWS 2026 source snapshot",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/blob/main/data/noema-007/mhews-2026-source-snapshot.json",
+          "type": "frozen_source_snapshot",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA-007 MHEWS 2026 derived results",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/blob/main/data/noema-007/mhews-2026-derived-results.json",
+          "type": "reproduced_arithmetic_result",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA-007 source snapshot reproduction CI",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45839056275",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "From Global Ambition into National Action: Take Aways from 35 EW4All Roadmaps",
+          "publisher": "World Meteorological Organization",
+          "publication_date": "2026-10-29",
+          "url": "https://wmo.int/media/update/from-global-ambition-national-action-take-aways-from-35-ew4all-roadmaps",
+          "type": "official_global_roadmap_analysis",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA-007 WMO 2026 roadmap source snapshot",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/blob/main/data/noema-007/wmo-roadmaps-2026-source-snapshot.json",
+          "type": "frozen_official_aggregate_snapshot",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA-007 aggregate action-readiness schema",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/blob/main/data/noema-007/action-readiness-observation.schema.json",
+          "type": "proposed_privacy_safe_data_contract",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Early warning protection expands worldwide as powerful El Niño raises the stakes",
+          "publisher": "UNDRR with WMO",
+          "publication_date": "2026-11-11",
+          "url": "https://www.undrr.org/news/early-warning-protection-expands-worldwide-powerful-el-nino-raises-stakes",
+          "type": "official_global_update",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Early Warnings for All: Toolkit for Monitoring & Evaluation (v1.0)",
+          "publisher": "WMO and Early Warnings for All partners",
+          "publication_date": "2024-08",
+          "url": "https://wmo.int/sites/default/files/2024-09/EW4ALL%20ME%20Toolkit_Final%20Version%201_August2024.pdf",
+          "type": "official_monitoring_evaluation_framework",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "Strengthening National Disaster Risk Management Systems through the Integration of Anticipatory Action",
+          "publisher": "IFRC",
+          "publication_date": "2025-09",
+          "url": "https://www.ifrc.org/sites/default/files/2025-09/Strengthening_National_Disaster_Risk_Management_Systems_through_integration_of_anticipatory_action.pdf",
+          "type": "official_research_report",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "COP31 leaders back a long-term future for Early Warnings for All",
+          "publisher": "UNDRR",
+          "publication_date": "2026-11-12",
+          "url": "https://www.undrr.org/news/cop31-leaders-back-long-term-future-early-warnings-all",
+          "type": "official_global_status_update",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "urllib.parse — URL components and query-string parsing (Python 3.14)",
+          "publisher": "Python Software Foundation",
+          "publication_date": "undated",
+          "url": "https://docs.python.org/3.14/library/urllib.parse.html",
+          "type": "official_standard_library_documentation",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "NOEMA-007 metadata-only risk-baseline freshness and URL hygiene implementation",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-27",
+          "url": "https://github.com/maisuradzee/bibmom/pull/156",
+          "type": "internal_engineering_record",
+          "accessed_at": "2026-11-27",
+          "note": "Six synthetic URL-safety test methods; exact-head Quality CI and CPU-thread workflow passed. No Georgian dataset ingested."
+        }
+      ],
+      "data_needs": [
+        "ოფიციალური alert-ის timestamp, hazard type, geographic scope და source version",
+        "მუნიციპალური/თემის emergency plan-ები და action playbook-ები",
+        "aggregated delivery, acknowledgement და action completion დროები; პერსონალური იდენტიფიკატორების გარეშე",
+        "risk maps, exposed-population aggregates და accessibility/language coverage",
+        "after-action review-ები და community feedback",
+        "For any local pilot: permissioned warning-event and after-action aggregates with issue time, action deadline, hazard/geographic scope, unique event IDs and plan linkage.",
+        "A pre-registered last-mile survey sampling frame, invitations, completions, response rate, weighting, timely-receipt measure, comprehension instrument and feasibility/action outcomes.",
+        "Plan-level trigger and pre-arranged finance availability, activation/disbursement timestamps and evacuation-specific exposed-population denominator, if those indicators are evaluated."
+      ],
+      "risks": [
+        "ოფიციალურ უწყებებთან დუბლირება ან გაფრთხილების წყაროს ავტორიტეტის დაბნევა",
+        "ცრუ სიზუსტე ან არასწორი ადგილობრივი risk mapping",
+        "პერსონალური მონაცემის ზედმეტი შეგროვება ან მოწყვლადი ჯგუფების პროფილირება",
+        "ციფრული არხების მიუწვდომლობა, ენობრივი/შეზღუდული შესაძლებლობის ბარიერები",
+        "გაფრთხილების მიღება მოქმედების შესაძლებლობას არ უდრის; მიზეზობრივი ეფექტის დადგენა რთულია",
+        "UNDRR COP31's 4/5 warning-receipt and 1/3 unable-to-act statement has no underlying method in the cited page and must not be treated as a calibrated global baseline.",
+        "Warning receipt, timely receipt, comprehension, feasibility, action and avoided loss are distinct stages; combining marginal rates or inferring causal impact would be invalid.",
+        "A credential-bearing or signed source URL stored in a public metadata record could disclose access tokens; the current URL screening is heuristic and cannot detect every secret embedded in every possible URL representation."
+      ],
+      "blockers": [
+        "საქართველოს მოქმედი მუნიციპალური emergency plan-ების და 2026 ICT სისტემის საჯარო data dictionary-ის სრული ვერსიები ჯერ არ არის მოპოვებული",
+        "ოფიციალურ საჯარო წყაროებში emergency plan-ის ექვსი მუნიციპალიტეტის ჩამონათვალი განსხვავდება; საჭიროა თარიღებისა და ვერსიების შეჯერება",
+        "არც alert-delivery, acknowledgement და action-completion აგრეგირებული ჩანაწერები და არც თემის საველე შეფასება არ არის ხელმისაწვდომი",
+        "No current municipal alert-delivery, acknowledgement or action-completion dataset or field study is available.",
+        "The LRF report's source-published reproduction has not been independently rerun by NOEMA; 37 findings require Gallup World Poll data outside the public release.",
+        "Georgia's World Risk Poll warning base is 99 respondents, below the report's n>=100 threshold; no robust country ranking can be drawn.",
+        "The WMO roadmap article publishes aggregate findings, not the underlying country-by-country roadmap dataset; NOEMA cannot independently reanalyse the 35 roadmaps from this source alone.",
+        "The aggregate action-readiness contract is unpiloted; the minimum cell-size floor of 10 is a prototype default, not a guarantee of anonymisation or a substitute for local privacy review.",
+        "The UNDRR/WMO release provides published aggregates rather than the underlying country/activation-level records; NOEMA cannot independently verify reach, comprehension, protective action or avoided loss from this snapshot.",
+        "No authorized Georgian event-level warning/after-action data, representative last-mile survey, financing activation records or evacuation-specific exposed-population denominator is available.",
+        "The Run 30 source-URL guard now checks '&' and ';' separators and up to four percent-decoding passes, but remains a heuristic: it does not inspect arbitrary string values or every non-standard URL representation, fetch URLs, prove publisher identity or verify source integrity.",
+        "PR #156 exact-head checks passed (Quality CI 46013790588; CPU-thread workflow 46013790782). Its merge base is 2852b7b5ee3fa7470ebc9c3eda339fc0e6235eda, two commits behind current main fdfa25db97534632161e90c0a2fe768cb0c69e9c; GitHub currently reports mergeable=true. Keep Draft pending independent GIS/DRR, metadata-governance and privacy review; refresh/revalidate against current main before merge."
+      ],
+      "status": "active",
+      "status_detail": "PR #62 merged the UNDRR MHEWS 2026 country-level snapshot and arithmetic. PR #68 merged as f12a116c86514994ec40c4a953ba6a4f0a4656fc; exact-head quality CI 45849048113 succeeded. The new WMO 2026 roadmap snapshot reproduces 20/35 = 57.1429% of 35 government-validated roadmaps with clear budget allocations and approximately USD 69 million mean among those 20. An aggregate-only action-readiness validator and strict schema now keep endpoint receipts separate from survey-based receipt, comprehension, feasible action, self-reported action and verified action. Synthetic tests only; no field data, local effectiveness measurement or causal claim. Post-merge main CI 45850024686 passed 354 tests and Pages build/deploy 45850024682 succeeded. Scheduled-cycle audit 2026-11-27: PR #88 synthetic cross-release disclosure audit remains Draft at head cdaff77b748801163701aef427ab215bccc4f587 with quality CI 45883830584 successful. Follow-up PR #91 adds a metadata-only fail-closed aggregate-batch preflight; latest exact-head 65892bf3330491b596d6748e69f9831dbfc8d869 passed quality CI 45890862593 including focused tests, full unit suite and publication-boundary build. Neither PR implements a trusted overlap detector, persistent atomic ledger, authentication or differential privacy. PR #88 is based on b97b30de, behind main; PR #91 is based on current main. Both remain Draft pending independent privacy/security review. Scheduled-cycle audit 2026-11-27: Draft PR #93 adds a machine-readable crosswalk to WMO's 2024 EW4All M&E Toolkit (G-3, 3.2.1b, 4.2, 4.3.1, G-6, 4.4), with denominator and interpretation boundaries. It identifies that endpoint counts are not people covered, respondent action counts are not warning-event rates, and generic verified action is not evacuation coverage. UNDRR's 4/5 and 1/3 COP31 statement is recorded as method-unverified and not used as a baseline. No local event or survey data was added; the crosswalk remains a measurement design pending independent DRR/privacy review. Run 26 review: PR #145's event-specific timely-receipt contract requires UTC-Z issue/deadline timestamps and rejects a minimum lead greater than the available issue-to-deadline interval. Exact-head Quality CI 45990379296 and CPU-thread workflow 45990379332 passed on head f00aa59a48458c5eea95f101b17270a7a0046049. This remains synthetic feasibility validation only; no Georgian event/participant data or authority-approved deadline was obtained. Draft; base refresh required. Run 29 follow-up to PR #156: public source_url metadata now rejects user-info credentials and known credential-like query/fragment keys while allowing ordinary catalogue selectors. Four synthetic URL-safety test methods were added. Exact-head Quality CI 46009306236 and CPU-thread workflow 46009306097 succeeded on head 92ded19d5040631bbb73ba09fc4ee4df70f2254d. URLs remain unfetched; this is heuristic public-metadata hygiene, not a complete secret scanner. Run 31 audit (2026-11-27): rechecked NEA's 2026-11-25 consultation record and 2026-04-02 validation update for the seven remaining river basins. These facts are already documented in open PR #100, so no duplicate source snapshot was added. The exact 2026 WMO MHEWS country/pillar counts (136 reporting; 72/102/123/111 per pillar; 64 across all four) are already present in main's frozen source snapshot. No new Georgian event data, approved basin plan or warning-effectiveness result was obtained.",
+      "next_step": "Obtain authorized Georgian warning-event and after-action aggregates, then pre-register a last-mile survey with a defined sampling frame, response/non-response handling, timely receipt, comprehension, feasibility and action denominators. Keep plan/finance and evacuation-specific metrics separate; do not infer causal impact from descriptive counts. Refresh PR #156 against current main after independent GIS/DRR, metadata-governance and privacy review; rerun exact-head CI before any merge.",
+      "success_metrics": [
+        "გაფრთხილების მიღწევის, სწორად გაგებისა და feasible action-ის წილი",
+        "alert-to-acknowledgement და alert-to-action დრო",
+        "false/misdirected alert rate",
+        "coverage gap ასაკის, ენის, შეზღუდული შესაძლებლობისა და კავშირის ხელმისაწვდომობის მიხედვით მხოლოდ აგრეგირებულ დონეზე",
+        "after-action review-ის completeness და corrective action closure rate",
+        "Capability coverage/quality and operational effectiveness (delivery, comprehension, feasible action and outcomes) are reported as separate measures.",
+        "Each reported delivery, comprehension and action metric states its own numerator, denominator and unit; endpoint receipts are never labelled as people reached.",
+        "No public aggregate is released without data-controller and privacy-reviewer approval and a documented small-cell suppression policy.",
+        "Six synthetic URL-safety test methods reject user-info credentials, single- and double-percent-encoded secret names, semicolon-delimited credential parameters, invalid ports and whitespace; ordinary public catalogue selectors remain accepted; URLs are never fetched."
+      ],
+      "last_reviewed": "2026-11-27"
+    },
+    {
+      "id": "NOEMA-INFRA-001",
+      "title": "კვლევითი პლატფორმის სანდოობა, provenance და backup/restore",
+      "pillars": [
+        "INNOVATION"
+      ],
+      "stage": "engineering",
+      "problem": "კვლევითი ჩანაწერების, job queue-ისა და audit trail-ის სანდოობა დამოკიდებულია მიკვლევადობაზე, უსაფრთხო backup-ზე და რეალურად შემოწმებულ restore-ზე; backup-ის წარმატებული შექმნა თავისთავად აღდგენადობას არ ადასტურებს.",
+      "research_question": "შეუძლია თუ არა NOEMA-ს local SQLite runtime-ს შექმნას თვითმყოფადი, integrity-შემოწმებული backup და უსაფრთხოდ აღადგინოს ის ისე, რომ WAL-only state, audit tampering ან არსებული database-ის overwrite არ მოხდეს?",
+      "human_benefit": "კვლევის ისტორიისა და სამუშაოების დაკარგვის რისკის შემცირება და შედეგების წარმომავლობის შენარჩუნება.",
+      "hypothesis": "SQLite file header-ის journal-version-ის პირდაპირი შემოწმება immutable read-only validation-თან ერთად სწორად უარყოფს WAL-mode backup-ს ისე, რომ source file არ შეიცვალოს.",
+      "methodology": [
+        "SQLite official file-format და WAL documentation-ის მიხედვით file header-ის byte 18/19 შემოწმება",
+        "synthetic database backup/restore round-trip, WAL-mode negative case, tampered audit და no-overwrite regression tests",
+        "GitHub Actions-ის exact-head CI და mergeability verification",
+        "შემდგომ ეტაპზე encrypted off-host backup, retention/rotation და scheduled restore drills",
+        "On POSIX, stage each local SQLite snapshot in a fresh 0700 directory with a 0600 temporary database file; verify both permissions at the atomic no-overwrite publication boundary.",
+        "The restore-drill CLI requires an existing database, verifies it, creates an online SQLite snapshot and restores it into a second new path inside a temporary directory; it compares job/audit counts and the final audit-chain hash, confirms the backup bytes remain unchanged, and emits aggregate-only JSON without job IDs or payloads.",
+        "Define a strict JSON Schema 2020-12 metadata envelope for future off-host backups; tests enforce closed object boundaries and exclude secret/credential fields.",
+        "Validate proposed backup manifests with an executable JSON Schema Draft 2020-12 validator and strict format checking; keep cryptographic and provider checks explicitly out of scope.",
+        "Validate the strict manifest schema, then stream plaintext and ciphertext artifacts through SHA-256 and byte-length checks using one file descriptor; reject non-regular files, symlinks where O_NOFOLLOW exists, and obvious file mutation during hashing.",
+        "Runtime exact-byte Ed25519 detached-signature verification against caller-supplied trusted public keys, followed by streamed plaintext/ciphertext SHA-256 and byte-length checks; synthetic ephemeral-key tests only.",
+        "Validate a closed, non-secret restore-drill attestation contract that distinguishes same-host local round trips from offsite clean-host recovery.",
+        "For offsite completeness, require independent manifest/artifact/decryption/provider-retention/high-water/clean-host/service-health evidence, owner-approved RPO/RTO and non-decreasing backup generations."
+      ],
+      "sources": [
+        {
+          "title": "SQLite Database File Format",
+          "publisher": "SQLite",
+          "publication_date": "undated",
+          "url": "https://www.sqlite.org/fileformat.html",
+          "type": "official_technical_specification",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Write-Ahead Logging",
+          "publisher": "SQLite",
+          "publication_date": "undated",
+          "url": "https://www.sqlite.org/wal.html",
+          "type": "official_technical_documentation",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA operational observability and verified SQLite backup PR",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-24",
+          "url": "https://github.com/maisuradzee/bibmom/pull/19",
+          "type": "engineering_change_record",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "age — file encryption tool and documentation",
+          "publisher": "FiloSottile/age project",
+          "publication_date": "undated",
+          "url": "https://github.com/FiloSottile/age",
+          "type": "official_technical_documentation",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "age file-format specification v1.1.0",
+          "publisher": "Cryptographic Standards and Practices (C2SP)",
+          "publication_date": "undated",
+          "url": "https://c2sp.org/age@v1.1.0",
+          "type": "technical_specification",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "minisign signing and verification documentation",
+          "publisher": "jedisct1/minisign project",
+          "publication_date": "undated",
+          "url": "https://github.com/jedisct1/minisign",
+          "type": "official_technical_documentation",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Locking objects with Object Lock",
+          "publisher": "Amazon Web Services",
+          "publication_date": "undated",
+          "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock.html",
+          "type": "official_cloud_documentation",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA PR #44 — verified local SQLite backup and restore",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/pull/44",
+          "type": "internal_engineering_change",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA quality CI for PR #44 exact head",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45811367125",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA CPU-thread workflow for PR #44 exact head",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45811367483",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Python tempfile.mkdtemp — secure temporary directory creation",
+          "publisher": "Python Software Foundation",
+          "publication_date": "undated",
+          "url": "https://docs.python.org/3/library/tempfile.html#tempfile.mkdtemp",
+          "type": "official_documentation",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA PR #51 — private POSIX backup staging hardening",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/pull/51",
+          "type": "engineering_change_record",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA exact-head quality CI for private backup staging",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45823405171",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA main quality CI after private backup staging merge",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45823674080",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA Pages deployment after private backup staging merge",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45823674172",
+          "type": "internal_deployment_result",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA PR #57 — isolated same-host SQLite restore drill CLI",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/pull/57",
+          "type": "engineering_change_record",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA PR #57 exact-head quality CI",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45828180990",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA main quality CI after restore-drill merge",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45828456980",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA Pages deployment after restore-drill merge",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45828456789",
+          "type": "internal_deployment_result",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA PR #59 — run 8 research portfolio and project-status synchronization",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/pull/59",
+          "type": "engineering_change_record",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA main quality CI after run 8 portfolio sync",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45830239964",
+          "type": "internal_ci_result",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "NOEMA Pages deployment after run 8 portfolio sync",
+          "publisher": "NOEMA GitHub repository",
+          "publication_date": "2026-11-26",
+          "url": "https://github.com/maisuradzee/bibmom/actions/runs/45830240214",
+          "type": "internal_deployment_result",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "Edwards-Curve Digital Signature Algorithm (EdDSA)",
+          "publisher": "IETF",
+          "publication_date": "2017-01",
+          "url": "https://www.rfc-editor.org/rfc/rfc8032.html",
+          "type": "cryptographic_standard",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "The Update Framework Specification v1.0.37",
+          "publisher": "The Update Framework",
+          "publication_date": "2026-10-08",
+          "url": "https://theupdateframework.github.io/specification/v1.0.37/",
+          "type": "security_protocol_specification",
+          "accessed_at": "2026-11-26"
+        },
+        {
+          "title": "SQLite Backup API",
+          "publisher": "SQLite",
+          "publication_date": "undated",
+          "url": "https://www.sqlite.org/backup.html",
+          "type": "official_technical_documentation",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "Python 3.14 json module — non-standard NaN and Infinity decoder behavior",
+          "publisher": "Python Software Foundation",
+          "publication_date": "undated",
+          "url": "https://docs.python.org/3.14/library/json.html",
+          "type": "official_runtime_documentation",
+          "accessed_at": "2026-11-27",
+          "note": "The default decoder accepts NaN, Infinity and -Infinity as float values although these tokens are outside the JSON specification."
+        },
+        {
+          "title": "NOEMA INFRA-001 non-finite restore measurement regression fix",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-27",
+          "url": "https://github.com/maisuradzee/bibmom/pull/163",
+          "type": "internal_engineering_record",
+          "accessed_at": "2026-11-27",
+          "note": "Runtime math.isfinite guard and synthetic tests for NaN/positive infinity in restore duration, data loss, RPO and RTO. Exact-head Quality CI 46024546433 passed 458 Python tests plus schema, site and publication-boundary checks. No production restore."
+        }
+      ],
+      "data_needs": [
+        "synthetic SQLite databases with rollback-journal and WAL header states",
+        "backup/restore test fixtures and immutable source hash",
+        "CI job logs and exact commit SHA",
+        "Operator-approved non-production database for a real restore drill; record elapsed time and aggregate recovery evidence only.",
+        "Designated recovery owner and independent security reviewer for the separate trust domain.",
+        "Provider-signed object-version/retention evidence, independently verifiable high-water attestation and clean-host restore evidence before any offsite readiness claim."
+      ],
+      "risks": [
+        "immutable=1 SQLite connection may mask the stored WAL journal mode",
+        "same-host backup does not protect against host/disk loss",
+        "backup is currently unencrypted and has no off-host retention automation",
+        "audit hash chain without signed external checkpoint does not prevent all tampering scenarios",
+        "Private staging-directory permissions are POSIX-specific; the final backup remains subject to the destination parent's ACL and can be exposed if that parent is too permissive.",
+        "The restore-drill CLI validates a same-host temporary filesystem round-trip only; it does not validate encrypted off-host storage, provider object versions, key recovery or clean-host disaster recovery.",
+        "A matching unsigned manifest and matching artifact hashes do not authenticate provenance; an attacker able to replace both files and the manifest can recompute the hashes.",
+        "A valid detached signature does not prove that a signed backup is the newest; rollback/freeze protection requires separately trusted monotonic state and freshness policy.",
+        "The local verifier authenticates exact manifest bytes only when the caller's public key is independently trusted; key compromise, revocation and rotation are not managed here.",
+        "A schema-valid or self-declared restore attestation is not proof: the caller must independently verify every evidence signature and trust anchor.",
+        "Restoring a backup generation older than the trusted high-water mark can roll back accepted state; the gate blocks this case and any decrease of high-water state."
+      ],
+      "blockers": [
+        "No production backup encryption/decryption pipeline or off-host storage provider is configured.",
+        "Signing-key custody, rotation/revocation, threshold policy and independently trusted public-key provisioning remain unapproved and undeployed.",
+        "Rollback-resistant high-water state, immutable object-version/retention verification, clean-host restore, approved RPO/RTO and production ACLs remain unimplemented; no operator-approved deployed/staging database has been used."
+      ],
+      "status": "active",
+      "status_detail": "Main contains local strict manifest/schema validation, streamed artifact digest/length checks and exact-byte Ed25519 verification using caller-supplied public keys. PR #85 is a separate draft architecture proposal for a provider-neutral linearizable compare-and-advance high-water authority and explicit restore lineage; its exact-head quality CI 45876372188 and CPU-thread workflow 45876372172 succeeded, but the PR is not merged and no service is deployed. Production anti-rollback, key custody, immutable object retention, off-host encryption and clean-host restore remain unimplemented. Scheduled-cycle audit 2026-11-27: PR #85 remains Draft at head 68e7385a798c19b807d75c3d41b27482ba0f402c; exact-head quality CI 45883729821 and actual CPU-thread workflow 45883729845 succeeded. The PR base a19252bb is behind current main 8a69e6d9. No external high-water service, production key custody, provider retention, encryption/decryption or clean-host restore is implemented; independent security review and trust-domain ownership remain blockers. 2026-11-27: PR #122 adds a closed non-secret restore-drill attestation schema and a pure fail-closed completeness gate. It distinguishes same-host local round trips from offsite clean-host recovery and blocks missing evidence, stale generations, high-water decrease and RPO/RTO overruns. Ten synthetic tests; no provider, credentials, private keys, production trust anchor, external high-water service or actual offsite restore. PR remains Draft pending independent security review, recovery-owner assignment and permissioned clean-host drill. Run 26 review: no new production implementation. PR #146 local SQLite high-water reference model passed exact-head Quality CI 45990428306 and CPU-thread workflow 45990428281 on head 1f493a9ec18d3930e3ea599a51eb4c3970bed876. It remains a single-file reference model, not a distributed trust domain, production anti-rollback service or clean-host restore. Draft; base refresh, recovery-owner assignment and independent security review remain blockers. Run 31 (2026-11-27): a non-finite numeric bypass was reproduced. Python's default JSON decoder accepts NaN/Infinity tokens; the repository's JSON Schema numeric minimum accepted NaN and positive infinity; NaN comparisons against RPO/RTO are false and infinite targets can mask overruns. PR #163 adds runtime math.isfinite checks for restore duration, data loss and nullable RPO/RTO targets, rejects booleans, and adds synthetic regression cases. Exact-head Quality CI 46024546433 passed all steps and 458 Python tests, including schema, frozen reproductions, site build and publication-boundary checks. This closes a local validation edge only; no provider, production backup, external high-water service or clean-host restore exists.",
+      "next_step": "Retain the non-finite guard and obtain an independent security review; then appoint a recovery owner, approve key custody/retention/RPO/RTO and separately administered high-water trust, and execute a permissioned clean-host restore with independently verified evidence.",
+      "success_metrics": [
+        "backup includes committed WAL data",
+        "restore rejects WAL-mode header and corrupted audit data before destination creation",
+        "restore never overwrites an existing destination and does not mutate source bytes",
+        "complete unit tests, frozen research reproductions, site build and publication-boundary checks pass",
+        "restore drill and encrypted off-host backup policy are documented and later independently tested",
+        "On POSIX, a test observes the staging directory at 0700 and the SQLite snapshot at 0600 immediately before no-overwrite publication, even when the destination parent is 0777.",
+        "restore-drill returns success only when source and restored databases are valid, job/audit counts and final audit hash match, and the backup bytes remain unchanged",
+        "restore-drill output contains aggregate metadata only and explicitly identifies the same-host-only evidence boundary",
+        "The future manifest is structurally validated against a strict schema; every object rejects unlisted fields and no secret/private-key material is permitted.",
+        "Runtime manifest validator accepts a synthetic schema-valid document and rejects malformed hashes, invalid UTC timestamps, missing fields and secret-like extra properties.",
+        "No claim of off-host disaster-recovery readiness until a clean-host restore is independently attested against approved RPO/RTO.",
+        "The verifier accepts only when both plaintext and ciphertext SHA-256 digests and byte lengths match the strict manifest; missing, modified, non-regular, symlink (where supported) and concurrently changing artifacts fail closed.",
+        "A synthetic manifest signature verifies only against an independently supplied trusted public key and exact manifest bytes; tampering, unknown signer and duplicate JSON keys fail closed.",
+        "Both local artifact hashes and byte lengths match the signed manifest before verification succeeds.",
+        "No claim of newest-backup or rollback protection until monotonic trusted state and freshness policy are independently persisted and tested.",
+        "No production disaster-recovery readiness claim until encrypted off-host artifacts are restored on a clean host against approved RPO/RTO.",
+        "All non-null restore_duration_seconds, data_loss_seconds, rpo_target_seconds and rto_target_seconds are finite numeric values; NaN and ±Infinity never permit an offsite checklist-complete result."
+      ],
+      "last_reviewed": "2026-11-27"
+    }
+  ]
+}

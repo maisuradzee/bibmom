@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NOEMA off-host backup manifest (metadata contract)",
+  "description": "Strict, non-secret metadata envelope for a future encrypted backup. This schema validates structure only; it does not verify cryptographic signatures, decrypt ciphertext, validate SQLite contents, or prove remote retention.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "format_version",
+    "backup_id",
+    "created_at_utc",
+    "application_commit",
+    "database_schema_version",
+    "sqlite_version",
+    "plaintext",
+    "ciphertext",
+    "queue_job_count",
+    "audit_event_count",
+    "audit_last_hash",
+    "encryption",
+    "signature",
+    "object_version_id",
+    "retention_policy_id"
+  ],
+  "properties": {
+    "format_version": {
+      "const": 1
+    },
+    "backup_id": {
+      "type": "string",
+      "pattern": "^noema-[0-9a-f]{32}$"
+    },
+    "created_at_utc": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "application_commit": {
+      "type": "string",
+      "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"
+    },
+    "database_schema_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "sqlite_version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "plaintext": {
+      "$ref": "#/$defs/artifact_digest"
+    },
+    "ciphertext": {
+      "$ref": "#/$defs/artifact_digest"
+    },
+    "queue_job_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "audit_event_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "audit_last_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "encryption": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "format",
+        "recipient_key_ids"
+      ],
+      "properties": {
+        "format": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9._+-]{0,31}$"
+        },
+        "recipient_key_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+          }
+        }
+      }
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "format",
+        "signing_key_id"
+      ],
+      "properties": {
+        "format": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9._+-]{0,31}$"
+        },
+        "signing_key_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+        }
+      }
+    },
+    "object_version_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "retention_policy_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    }
+  },
+  "$defs": {
+    "artifact_digest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sha256",
+        "byte_length"
+      ],
+      "properties": {
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "byte_length": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    }
+  }
+}

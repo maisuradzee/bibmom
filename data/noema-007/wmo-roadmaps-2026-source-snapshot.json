@@ -1,0 +1,25 @@
+{
+  "source": {
+    "title": "From Global Ambition into National Action: Take Aways from 35 EW4All Roadmaps",
+    "publisher": "World Meteorological Organization",
+    "publication_date": "2026-10-29",
+    "figure_source_date": "2026-08-13",
+    "url": "https://wmo.int/media/update/from-global-ambition-national-action-take-aways-from-35-ew4all-roadmaps",
+    "accessed_at": "2026-11-26"
+  },
+  "reported_aggregates": {
+    "government_validated_roadmaps_analyzed": 35,
+    "population_represented_approx": 960000000,
+    "children_age_0_14_approx": 339000000,
+    "youth_age_18_24_approx": 128000000,
+    "roadmaps_with_clear_budget_allocations": 20,
+    "identified_investment_usd_approx": 1380000000,
+    "prioritized_hazard_types": 16
+  },
+  "interpretation_boundary": [
+    "These are WMO-published aggregates for 35 government-validated national roadmaps, not an independently collected NOEMA dataset.",
+    "The 960 million figure describes population represented by the roadmaps; it is not a count of people who actually received or acted on warnings.",
+    "The USD 1.38 billion total covers only the 20 roadmaps with clear budget allocations; the derived USD 69 million mean is not a universal country cost or a Georgia budget estimate.",
+    "The underlying 35 roadmap documents and country-level extraction table were not independently re-analysed in this snapshot."
+  ]
+}
