@@ -1,12 +1,12 @@
-# AquaSignal — public information and accessibility gap in drinking-water quality
+# NOEMA-2026-006 — AquaSignal: public information and accessibility gap in drinking-water quality
 
-- **ID:** NOEMA-2026-006 (AquaSignal addendum)
-- **Status:** draft
-- **Date:** 2026-11-27
-- **Scope:** Georgia; public drinking-water information, source provenance and access
-- **Author/preparation system:** NOEMA documentary research and engineering synthesis
+- **ID:** NOEMA-2026-006
+- **სტატუსი:** draft
+- **თარიღი:** 2026-11-27
+- **სფერო:** Georgia; public drinking-water information, source provenance and access
+- **მომზადების სისტემა:** NOEMA documentary research and engineering synthesis
 
-## Research question
+## საკვლევი კითხვა
 
 Can an authority-owned, provenance-aware public-information layer make approved drinking-water monitoring results easier to find and understand, while preserving sample context, uncertainty, privacy and the legal authority of the responsible agencies?
 
@@ -26,7 +26,7 @@ People cannot make informed decisions or challenge service failures if official 
 
 AquaSignal already distinguishes environmental-water monitoring from potable-network compliance and treats sensor/laboratory signals as operator decision support. This addendum extends the human-benefit pathway: a result is useful only if its source, sample context, interpretation authority and publication status are understandable to the people who need it.
 
-## Existing knowledge and sources
+## წყაროები
 
 1. **Public Defender (Ombudsman) of Georgia, _Realisation of the Right to Water in Georgia_, 2025.** The report was prepared by the Office of the Public Defender with assistance from UN/UNDP and other partners; it states that its contents are the author's responsibility. Relevant locators: PDF p.34 (information gap), p.37 (five regions, 35 villages, 15 municipalities and municipal information inconsistencies), pp.49-51 (examples of information access), p.54 (recommendations for a unified platform and supplementary channels).  
    URL: https://www.undp.org/sites/g/files/zskgke326/files/2025-06/undp-georgia-pdo-report-right-to-water-eng.pdf
@@ -90,7 +90,7 @@ Required components:
 - Do not issue an independent “safe/unsafe” label, medical advice or official warning.
 - Do not infer safety from missing, stale or non-published results.
 
-## Method
+## მეთოდი ან ექსპერიმენტის გეგმა
 
 This addendum is a documentary synthesis of the three cited public documents, with page-level claim locators and explicit source-role classification. It does not reproduce raw NFA samples, inspect a private or sample-level database, survey residents, audit a current municipal portal or test an operational interface.
 
@@ -122,6 +122,23 @@ The 2023 49.5% and 44.5% figures remain unresolved. Neither should be selected a
 
 AquaSignal should investigate public information access alongside monitoring-data quality. The next defensible step is to obtain an authority-approved data dictionary, denominator/sample-frame definitions, publication/correction rules and a map of existing citizen-information channels. Only then should an interface prototype be evaluated. This addendum remains **Draft** and is not a water-safety assessment.
 
-## Change history
+## ცვლილებების ისტორია
 
 - 2026-11-27: Added a Public Defender evidence-led public-information/accessibility research question, preserved the JECM/Government-submission discrepancy, and specified an authority-owned, privacy-preserving disclosure architecture.
+
+
+## შემდეგი ნაბიჯები
+
+1. Obtain the NEA 2021–2025 groundwater archive and NEA122 layer metadata through an accessible official route; record exact file inventory, hash, data dictionary and reuse terms before extraction.
+2. Ask NFA and relevant utilities for an approved disclosure data dictionary, 2023/2024 sample denominators, sample-frame definitions and the existing publication/correction workflow.
+3. Inventory current official citizen-information channels and test their accessibility, language coverage, freshness and correction path before proposing a new public interface.
+4. If an authority approves a pilot, pre-register a small usability/comprehension evaluation; do not infer population reach from endpoint counts or use non-probability samples as national estimates.
+
+## შემოწმების სტატუსი
+
+- Public Defender report: opened and checked against the cited PDF pages; it is an official oversight report, not a nationally representative survey.
+- JECM article: opened; its abstract and methods describe a secondary analysis of NFA data. Formal peer-review procedure was not independently verified.
+- Government of Georgia UNECE/WHO submission: opened; cover identifies it as a Government submission. The 2023 broad non-compliance discrepancy remains unresolved.
+- Machine-readable evidence snapshot and Draft 2020-12 schema are included in this PR; tests are pending exact-head CI.
+- No raw sample data, household data, personal data, private-well records, field survey, authority integration or operational safety classification was used.
+- Status remains Draft; independent water-quality/public-health, accessibility and privacy review is outstanding.
