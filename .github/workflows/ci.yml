@@ -54,6 +54,10 @@ jobs:
           test -f scripts/reproduce_noema005_experiment_002.py
           test -f tests/test_noema005_experiment_002.py
           test -f data/noema-007/mhews-2026-source-snapshot.json
+          test -f data/noema-007/georgia-flood-risk-assessment-decree-440-2026-09-08.json
+          test -f data/noema-007/georgia-flood-risk-assessment-decree-440-2026-09-08.schema.json
+          test -f tests/test_noema007_georgia_flood_risk_framework.py
+          test -f research/drafts/NOEMA-2026-007-georgia-flood-risk-assessment-framework-2026-11-28.md
           test -f data/noema-007/mhews-2026-derived-results.json
           test -f scripts/reproduce_noema007_mhews_snapshot.py
           test -f tests/test_noema007_mhews_snapshot.py
@@ -178,6 +182,8 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_noema006_source_access_inventory.py' -v
       - name: Validate AquaSignal WRP 2025 water-harm protocol and frozen result
         run: python -m unittest discover -s tests -p 'test_aquasignal_wrp2025_water_harm.py' -v
+      - name: Validate Georgia preliminary flood-risk assessment framework
+        run: python -m unittest discover -s tests -p 'test_noema007_georgia_flood_risk_framework.py' -v
       - name: Validate NOEMA-007 action-readiness aggregate contract
         run: python -m unittest discover -s tests -p 'test_noema007_action_readiness.py' -v
       - name: Validate NOEMA-007 WRP 2025 reproduction protocol and frozen aggregate
