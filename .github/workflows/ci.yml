@@ -151,6 +151,8 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_noema006_source_access_inventory.py' -v
       - name: Validate NOEMA-007 action-readiness aggregate contract
         run: python -m unittest discover -s tests -p 'test_noema007_action_readiness.py' -v
+      - name: Validate NOEMA-007 WRP 2025 reproduction protocol and arithmetic
+        run: python -m unittest discover -s tests -p 'test_noema007_wrp2025_reproduction.py' -v
       - name: Validate NOEMA mission and autonomy policy
         run: python scripts/validate_mission.py
       - name: Validate durable job queue
