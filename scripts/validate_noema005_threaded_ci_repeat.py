@@ -19,7 +19,33 @@ def snapshot_paths():
     manifest=json.loads(MANIFEST.read_text(encoding="utf-8"))
     return {r["key"]:(DATA/"raw"/r["sanitized_snapshot"],r) for r in manifest["records"]}
 
+
+_FORBIDDEN_PUBLIC_KEYS = {
+    "hostname", "host_name", "runner_name", "runner_id", "device_id", "machine_id",
+    "username", "user_name", "user_id", "pid", "tid", "thread_id", "native_thread_id",
+    "native_thread_ids", "native_thread_ids_by_run", "cgroup_path", "cgroup_membership",
+    "kernel_release", "kernel_version", "os_release", "home_directory", "workspace_path",
+    "artifact_path", "private_ip", "ip_address", "mac_address", "serial_number",
+    "instance_id", "instance_name", "cpu_model", "processor_name",
+}
+
+
+def _assert_public_sanitization(value):
+    """Reject host, runner and native-thread identity keys at every nesting depth."""
+    if isinstance(value, dict):
+        for key, child in value.items():
+            if isinstance(key, str):
+                normalized = re.sub(r"[^a-z0-9]", "", key.casefold())
+                forbidden = {re.sub(r"[^a-z0-9]", "", item) for item in _FORBIDDEN_PUBLIC_KEYS}
+                if normalized in forbidden:
+                    raise ValueError("public snapshot contains a prohibited host or identity field")
+            _assert_public_sanitization(child)
+    elif isinstance(value, list):
+        for child in value:
+            _assert_public_sanitization(child)
+
 def validate(doc,schema,record):
+    _assert_public_sanitization(doc)
     Draft202012Validator(schema,format_checker=FormatChecker()).validate(doc)
     mode=record["runtime_mode"]; free=mode=="free-threaded"; env=doc["environment"]
     if doc["runtime_mode"]!=mode or env["free_threaded_build"]!=free or env["gil_enabled"]==free: raise ValueError("runtime/GIL mismatch")
@@ -47,7 +73,9 @@ def validate(doc,schema,record):
 def validate_all():
     schema=json.loads(SCHEMA.read_text(encoding="utf-8")); Draft202012Validator.check_schema(schema)
     manifest=json.loads(MANIFEST.read_text(encoding="utf-8"))
+    _assert_public_sanitization(manifest)
     for key,(path,record) in snapshot_paths().items():
+        _assert_public_sanitization(record)
         compressed=base64.b64decode(path.read_text(encoding="ascii").strip(),validate=True)
         if hashlib.sha256(compressed).hexdigest()!=record["sanitized_gzip_sha256"]: raise ValueError(f"sanitized gzip hash mismatch: {key}")
         validate(load_snapshot(path),schema,record)
