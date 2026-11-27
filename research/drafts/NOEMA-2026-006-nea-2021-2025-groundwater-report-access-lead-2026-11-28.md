@@ -99,7 +99,7 @@ A new official NEA source has become available for AquaSignal and should be prio
 
 ## WHO 2026 drinking-water comparator — not Georgian law
 
-The WHO's 2026 fourth edition incorporating the first, second and third addenda was published on 2026-06-17 and supersedes previous editions. Its nitrate/nitrite chemical fact sheet gives:
+The WHO's current 2026 fourth edition incorporating the first, second and third addenda was published on 2026-06-17. Its nitrate/nitrite chemical fact sheet gives:
 - **Nitrate:** 50 mg/L as nitrate ion.
 - **Nitrite:** 3 mg/L as nitrite ion.
 - **Combined occurrence:** the sum of the nitrate and nitrite concentration-to-guideline ratios should not exceed 1:
