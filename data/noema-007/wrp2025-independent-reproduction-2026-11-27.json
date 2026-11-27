@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-007",
+  "experiment_id": "NOEMA-2026-007-WRP2025-WARNING-ACTION-REPRO-001",
+  "evidence_status": "REPRODUCED_RESULT",
+  "source": {
+    "repository": "lrfoundation/world_risk_poll_data",
+    "commit": "f2b810c3c4333de6347ad2c9eade3c48ae17be4c",
+    "path": "WRP_2025/WRP_2025.parquet",
+    "git_blob_sha1": "3e785688e067ded5fdfbe9b50721023ecea87826",
+    "byte_length": 7070416,
+    "sha256": "07b4632826e13ec1975ec977b0e057b528547c6f7805c0838abc1586b78da56b",
+    "license": "CC BY-SA 4.0"
+  },
+  "sample": {
+    "respondents": 143459,
+    "countries_and_territories": 140
+  },
+  "warning": {
+    "asked_n": 24249,
+    "warned_n": 16996,
+    "not_warned_n": 7253,
+    "weighted_received_pct": 80.01154201194929
+  },
+  "action": {
+    "asked_n": 16996,
+    "able_n": 9479,
+    "unable_n": 7383,
+    "dk_refused_n": 134,
+    "weighted_able_pct": 63.77915813343229,
+    "weighted_unable_pct": 35.75914597475907,
+    "weighted_dk_refused_pct": 0.4616958918086428
+  },
+  "georgia": {
+    "impacted_n": 101,
+    "warning_question_base_n": 99,
+    "country_ranking_minimum_base_n": 100,
+    "eligible_for_country_ranking": false
+  },
+  "methodology": {
+    "weight": "PROJWT",
+    "warning_base": "WP24181 non-null; all eight channels retained; any code 1 means warned; codes 2/97/98/99 count as not warned.",
+    "action_base": "All respondents with at least one warning; WP24215 codes 1/2/98/99 remain in denominator.",
+    "georgia": "COUNTRY_ISO3=GEO; impacted and warning-question bases are separate; publisher country-ranking threshold is n>=100."
+  },
+  "privacy": {
+    "raw_microdata_committed": false,
+    "respondent_ids_committed": false,
+    "workflow_uploads_aggregate_only": true
+  },
+  "limitations": [
+    "Independent arithmetic on the publisher's pinned public survey microdata is not an independent survey or operational early-warning audit.",
+    "Survey warning receipt and self-reported ability to act do not establish message timeliness, comprehension, verified protective action or avoided loss.",
+    "Georgia's warning-question base is below the publisher's n>=100 country-ranking threshold; no national effectiveness ranking is inferred."
+  ]
+}

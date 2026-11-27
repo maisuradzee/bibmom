@@ -32,7 +32,8 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - `data/research-portfolio.json` და `data/research-portfolio.schema.json` — 3–5 აქტიური კვლევითი ნაკადის საერთო პორტფელი, თითოეული ნაკადის კითხვით, მეთოდით, წყაროებით, რისკებით, სტატუსითა და შემდეგი ნაბიჯით.
 - `data/noema-003/` — NOAA-ს ფიქსირებული მონაცემთა ამონარიდი, NASA/HadCRUT5/NOAA snapshot-ები, provenance metadata და გამეორებადი შედეგები.
 - `data/noema-005/` — binary64 ჯამის რიგითობის ექსპერიმენტის გაყინული შედეგები, ზუსტი reference შედარება და runtime/CPU-thread benchmark არტეფაქტები; 2026-11-27-ის სამი hosted GIL/free-threaded repeat pair (ექვსი artifact, 864 run) sanitized `.json.gz.b64` ფორმით ინახება, thread IDs-ისა და დეტალური host build-ის გარეშე.
-- `data/noema-007/` — UNDRR/WMO 2026 early-warning და anticipatory-action aggregate snapshots, reproducible arithmetic და privacy-safe action-readiness schema; რეალური event-level მონაცემი ჯერ არ არსებობს.
+- `data/noema-007/` — UNDRR/WMO 2026 early-warning და anticipatory-action aggregate snapshots, privacy-safe action-readiness schema და WRP 2025-ის დამოუკიდებლად გამეორებული warning/action aggregate; Parquet მხოლოდ ephemeral CI runner-ზე იტვირთება, საცავში რჩება მხოლოდ aggregate JSON.
+- `scripts/reproduce_noema007_wrp2025.py` და `.github/workflows/noema007-wrp2025-reproduction.yml` — pinned WRP 2025 Parquet-ის Git blob/SHA-256 შემოწმება და PROJWT-შეწონილი warning/action აგრეგატების დამოუკიდებელი გამეორება.
 - `research/drafts/` — სამუშაო ჩანაწერები; Pages არტეფაქტში არ შედის, თუმცა საჯარო GitHub საცავში იკითხება.
 - `research/preprints/` — წინასწარი, მომხმარებლისთვის მკაფიო გაფრთხილებით გამოჩენილი კვლევები.
 - `research/published/` — სრული გამოქვეყნების საკონტროლო სიის გამვლელი კვლევები.
@@ -49,6 +50,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - [AquaSignal — საქართველოს მიწისქვეშა წყლის მონაცემებზე წვდომა და ჭაბურღილების რეგისტრაციის სამართლებრივი ფარგლები](research/drafts/NOEMA-2026-006-georgia-water-data-access-update-2026-11-27.md) — ოფიციალური 2021–2025 ანგარიშის არქივის წვდომა და 2026 წლის №424 რეგულაციით შექმნილი ახალი რეესტრის ფარგლები; პირადი მონაცემები არ არის შეტანილი.
 
 - [AquaSignal — საქართველოს წყლის მონიტორინგის ქსელების ინვენტარი](research/drafts/NOEMA-2026-006-georgia-water-monitoring-inventory-2026-11-26.md) — ოფიციალური ქსელების მასშტაბი და მონაცემთა ხელმისაწვდომობის ზღვარი.
+- [NOEMA-2026-007 — WRP 2025 გაფრთხილების მიღებისა და მოქმედების შესაძლებლობის დამოუკიდებელი გამეორება](research/preprints/NOEMA-2026-007-wrp2025-warning-action-reproduction.md) — PROJWT-შეწონილი აგრეგატები, ზუსტი მნიშვნელები და საქართველოს 99-კაციანი ბაზის შეზღუდვა.
 
 - [NOEMA-2026-001](research/drafts/2026-11-23-paleolithic-sign-systems.md) — პალეოლითური ნიშნები; მეთოდოლოგიური გადახედვა: [დამატება A](research/drafts/2026-11-23-methodological-reassessment.md).
 - [NOEMA-2026-002](research/drafts/2026-11-23-signbase-coding-audit.md) — SignBase 2.0-ის ტექსტური კოდირების აუდიტი და საბაზისო heuristic-ის ტესტი.
