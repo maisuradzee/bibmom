@@ -410,3 +410,35 @@ These are hosted ARM64 CI runners, not independently controlled physical devices
 A larger representative workload, native reduction kernel, alternative chunk sizes or memory-bandwidth-bound arrays may change the balance. The next test should use at least 20 measured repetitions on controlled physical x86-64 and ARM64 hosts, with RSS/native allocation, DRAM bandwidth, per-thread CPU clocks and uncertainty intervals.
 
 **NOEMA status remains preliminary; no published status is claimed.**
+
+
+## 2026-11-27 Run 34 — two additional hosted x86-64 GIL/free-threaded run pairs
+
+Two further workflow pairs were executed on the same deterministic 196,608-value cancellation workloads. Each artifact contains 48 configurations (two layouts × two partitions × four worker counts × three algorithms), three measured repetitions per configuration, and one warm-up.
+
+| Measure | GIL-enabled (2 artifacts) | Free-threaded (2 artifacts) |
+|---|---:|---:|
+| Configurations | 96 | 96 |
+| Measured threaded runs | 288 | 288 |
+| Neumaier-state exact configurations | 32/32 | 32/32 |
+| Scalar Neumaier exact configurations | 28/32 | 28/32 |
+| Naive scalar exact configurations | 0/32 | 0/32 |
+| CPU/wall ratio >1.05 | 0/96 | 72/96 |
+| Wall-time speedup >1 | 0/96 | 0/96 |
+
+Across all four artifacts: Neumaier-state was correctly rounded in 192/192 measured runs; scalar Neumaier in 168/192; naive scalar in 0/192. No threaded configuration exceeded its matching serial baseline.
+
+The two run-pair medians for Neumaier-state speedup were:
+- Run 46042334393: GIL-enabled AWS 0.7557×; free-threaded AWS 0.7341×.
+- Run 46043232025: GIL-enabled Azure 0.7683×; free-threaded AWS 0.6839×.
+
+The first pair is a same-runner-family comparison. The second pair is not a matched cross-mode comparison because the GIL-enabled job ran on Azure and the free-threaded job on AWS. Both remain hosted x86-64 evidence, not physical-device or independently administered replication.
+
+Native thread counts matched requested worker counts in all configurations. Free-threaded process CPU/wall ratio >1.05 in 72/96 configurations shows concurrent CPU use, but does not imply wall-time speedup. The benchmark's tracemalloc values represent Python-traced allocations only, not process RSS or native allocator memory.
+
+Artifact manifest:
+- Run 46042334393: GIL artifact 15220093434; free-threaded artifact 15220252412.
+- Run 46043232025: GIL artifact 15221052559; free-threaded artifact 15220578066.
+- ZIP and source JSON SHA-256 values are frozen in data/noema-005/threaded-run-2026-11-27-summary.json.
+
+**Interpretation:** compensation-state merging remains the only tested algorithm that preserved the correctly rounded result in every configuration. These runs show that free-threaded CPython can use multiple CPU cores on this workload, but none of the tested threaded configurations was faster than its matching serial baseline. The next step is physical x86-64/ARM64 replication with at least 20 repetitions, RSS/native allocation and DRAM-bandwidth measurement.
