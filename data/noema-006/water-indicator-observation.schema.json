@@ -27,34 +27,163 @@
     "reported_precision_decimals"
   ],
   "properties": {
-    "schema_version": {"const": 1},
-    "observation_id": {"type": "string", "pattern": "^obs_[0-9a-f]{16}$"},
-    "source_id": {"type": "string", "minLength": 3, "maxLength": 128},
-    "authority": {"type": "string", "minLength": 3, "maxLength": 256},
-    "indicator_id": {"type": ["string", "null"], "minLength": 3, "maxLength": 128},
+    "schema_version": {
+      "const": 1
+    },
+    "observation_id": {
+      "type": "string",
+      "pattern": "^obs_[0-9a-f]{16}$"
+    },
+    "source_id": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 128
+    },
+    "authority": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 256
+    },
+    "indicator_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 3,
+      "maxLength": 128
+    },
     "water_matrix": {
-      "type": ["string", "null"],
-      "enum": ["potable_network", "groundwater", "surface_water", "marine_water", "bottled_water", "household_stored", null]
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "potable_network",
+        "groundwater",
+        "surface_water",
+        "marine_water",
+        "bottled_water",
+        "household_stored",
+        null
+      ]
     },
-    "standard_id": {"type": ["string", "null"], "minLength": 2, "maxLength": 128},
-    "standard_version": {"type": ["string", "null"], "minLength": 1, "maxLength": 64},
-    "period_start": {"type": ["string", "null"], "format": "date"},
-    "period_end": {"type": ["string", "null"], "format": "date"},
+    "standard_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 2,
+      "maxLength": 128
+    },
+    "standard_version": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "period_start": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date"
+    },
+    "period_end": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date"
+    },
     "geography_level": {
-      "type": ["string", "null"],
-      "enum": ["national", "region", "municipality", "river_basin", "water_system", null]
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "national",
+        "region",
+        "municipality",
+        "river_basin",
+        "water_system",
+        null
+      ]
     },
-    "geography_code": {"type": ["string", "null"], "minLength": 2, "maxLength": 64},
-    "sampling_frame_id": {"type": ["string", "null"], "minLength": 3, "maxLength": 128},
+    "geography_code": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 2,
+      "maxLength": 64
+    },
+    "sampling_frame_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 3,
+      "maxLength": 128
+    },
     "sampling_design": {
-      "type": ["string", "null"],
-      "enum": ["probability", "stratified_probability", "cluster_probability", "routine_compliance", "risk_based", "convenience", "unknown", null]
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "probability",
+        "stratified_probability",
+        "cluster_probability",
+        "routine_compliance",
+        "risk_based",
+        "convenience",
+        null
+      ]
     },
-    "inclusion_rule_id": {"type": ["string", "null"], "minLength": 3, "maxLength": 128},
-    "analytical_method_id": {"type": ["string", "null"], "minLength": 3, "maxLength": 128},
-    "numerator": {"type": ["integer", "null"], "minimum": 0},
-    "denominator": {"type": ["integer", "null"], "minimum": 1},
-    "reported_percent": {"type": ["number", "null"], "minimum": 0, "maximum": 100},
-    "reported_precision_decimals": {"type": "integer", "minimum": 0, "maximum": 4}
+    "inclusion_rule_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 3,
+      "maxLength": 128
+    },
+    "analytical_method_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 3,
+      "maxLength": 128
+    },
+    "numerator": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "denominator": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 1
+    },
+    "reported_percent": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 100
+    },
+    "reported_precision_decimals": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4
+    }
   }
 }
