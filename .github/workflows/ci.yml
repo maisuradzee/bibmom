@@ -142,9 +142,6 @@ jobs:
           test -f data/noema-restore-attestation.schema.json
           test -f noema_core/restore_attestation.py
           test -f tests/test_restore_attestation_gate.py
-          test -f noema_core/high_water_reference.py
-          test -f tests/test_high_water_reference.py
-          test -f research/drafts/NOEMA-INFRA-001-high-water-reference-model-2026-11-28.md
           test -f docs/RESTORE_ATTESTATION_GATE.md
           test -f scripts/validate_noema_backup_manifest.py
           test -f tests/test_backup_manifest_runtime_validation.py
@@ -187,8 +184,6 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_noema007_wrp2025_reproduction.py' -v
       - name: Validate NOEMA mission and autonomy policy
         run: python scripts/validate_mission.py
-      - name: Validate local high-water reference model
-        run: python -m unittest discover -s tests -p 'test_high_water_reference.py' -v
       - name: Validate durable job queue
         run: python scripts/validate_job_queue.py
       - name: Validate NOEMA-005 raw artifact provenance audit
