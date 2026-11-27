@@ -3,7 +3,7 @@ import copy
 import unittest
 from pathlib import Path
 from scripts.run_noema005_openmp_timing_diagnostic import parse_cpu_list, parse_cpu_max, validate_report
-from scripts.reproduce_noema005_openmp_timing_diagnostic import load_frozen_report
+from scripts.reproduce_noema005_openmp_timing_diagnostic import load_frozen_report, load_frozen_report_v2
 
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = ROOT / "data/noema-005/openmp-timing-diagnostic.schema.json"
@@ -130,6 +130,24 @@ class Noema005OpenMPTimingDiagnosticTests(unittest.TestCase):
         self.assertEqual(len(report["runs"]), 80)
         self.assertEqual(report["summary"]["cpu_wall_anomaly_count"], 0)
         self.assertEqual(report["summary"]["max_process_cpu_wall_ratio"], 4.008956678)
+
+    def test_frozen_v2_hosted_artifact_reproduces_with_upper_bound_only(self):
+        report = load_frozen_report_v2()
+        self.assertEqual(report["schema_version"], 2)
+        self.assertEqual(report["summary"]["run_count"], 80)
+        self.assertEqual(report["summary"]["cpu_wall_anomaly_count"], 0)
+        self.assertEqual(report["summary"]["max_process_cpu_wall_ratio"], 4.004285619)
+        self.assertEqual(report["summary"]["thread_cgroup_mismatch_count"], 0)
+        self.assertEqual(report["summary"]["thread_cgroup_unverified_count"], 0)
+        self.assertFalse(report["environment"]["cgroup_cpu_quota_chain_complete"])
+        self.assertEqual(report["environment"]["cgroup_cpu_quota_unreadable_level_count"], 1)
+        self.assertTrue(all(run["process_thread_count"] == run["actual_threads"] for run in report["runs"]))
+        self.assertTrue(all(run["known_cpu_capacity_upper_bound"] == 4.0 for run in report["runs"]))
+        self.assertTrue(all(run["effective_cpu_capacity"] is None for run in report["runs"]))
+        self.assertTrue(all(run["cpu_wall_anomaly_threshold"] == 4.25 for run in report["runs"]))
+        self.assertTrue(all(run["cpu_wall_anomaly_threshold_basis"] == "affinity_cpuset_upper_bound" for run in report["runs"]))
+        max_clock_diff = max(abs(thread["cpu_ns"] - thread["rusage_thread_ns"]) for run in report["runs"] for thread in run["threads"])
+        self.assertEqual(max_clock_diff, 1241)
 
     def test_frozen_worker_counts_and_medians(self):
         report = load_frozen_report()

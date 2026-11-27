@@ -19,13 +19,20 @@ ROOT = Path(__file__).resolve().parents[1]
 FROZEN_SOURCE = ROOT / "scripts/archive/noema005_openmp_timing_diagnostic_v1.c"
 ARCHIVE = ROOT / "data/noema-005/raw/openmp-timing-diagnostic-2026-11-27.json.gz.b64"
 MANIFEST = ROOT / "data/noema-005/openmp-timing-diagnostic-manifest-2026-11-27.json"
+ARCHIVE_V2 = ROOT / "data/noema-005/raw/openmp-timing-diagnostic-v2-2026-11-27.json.gz"
+MANIFEST_V2 = ROOT / "data/noema-005/openmp-timing-diagnostic-v2-manifest-2026-11-27.json"
+SOURCE_V2 = ROOT / "scripts/noema005_openmp_timing_diagnostic.c"
 
-def load_frozen_report() -> dict:
-    encoded = ARCHIVE.read_bytes()
-    manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
-    compressed = base64.b64decode(encoded, validate=True)
-    if hashlib.sha256(encoded).hexdigest() != manifest["base64_text_sha256"]:
-        raise ValueError("base64 archive digest mismatch")
+def load_frozen_report(archive: Path = ARCHIVE, manifest_path: Path = MANIFEST,
+                       source: Path = FROZEN_SOURCE, encoded_archive: bool = True) -> dict:
+    archive_bytes = archive.read_bytes()
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    if encoded_archive:
+        if hashlib.sha256(archive_bytes).hexdigest() != manifest["base64_text_sha256"]:
+            raise ValueError("base64 archive digest mismatch")
+        compressed = base64.b64decode(archive_bytes, validate=True)
+    else:
+        compressed = archive_bytes
     if hashlib.sha256(compressed).hexdigest() != manifest["compressed_gzip_sha256"]:
         raise ValueError("compressed archive digest mismatch")
     raw = gzip.decompress(compressed)
@@ -33,7 +40,7 @@ def load_frozen_report() -> dict:
         raise ValueError("raw report digest mismatch")
     report = json.loads(raw)
     validate_report(report)
-    source_sha = hashlib.sha256(FROZEN_SOURCE.read_bytes()).hexdigest()
+    source_sha = hashlib.sha256(source.read_bytes()).hexdigest()
     if source_sha != manifest["source_sha256"] or report["source_sha256"] != source_sha:
         raise ValueError("benchmark source SHA-256 mismatch")
     runs = report["runs"]
@@ -55,13 +62,17 @@ def load_frozen_report() -> dict:
         raise ValueError("summary max ratio mismatch")
     return report
 
+def load_frozen_report_v2() -> dict:
+    return load_frozen_report(ARCHIVE_V2, MANIFEST_V2, SOURCE_V2, encoded_archive=False)
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true")
-    parser.parse_args()
-    report = load_frozen_report()
+    parser.add_argument("--version", choices=("v1", "v2"), default="v1")
+    args = parser.parse_args()
+    report = load_frozen_report_v2() if args.version == "v2" else load_frozen_report()
     print(json.dumps(report["summary"], sort_keys=True))
-    print("PASS: frozen timing diagnostic SHA-256, schema, raw-run ratios and per-worker medians reproduce")
+    print(f"PASS: frozen timing diagnostic {args.version} source/archive SHA-256, schema, raw-run ratios and per-worker medians reproduce")
     return 0
 
 if __name__ == "__main__":
