@@ -2,8 +2,8 @@
 
 - **განახლდა:** 2026-11-28 (Run 38 — NOEMA-005 experiment 002, AquaSignal NEA groundwater access lead, strict event parsing and public-artifact privacy boundary).
 - **საცავი:** https://github.com/maisuradzee/bibmom
-- **Run 38-ის merge-ების შემდეგ main snapshot:** `932ae9d68bd1a952eae676192b03b29e8b7cef56`.
-- **ბოლო დადასტურებული PR-head Quality CI:** PR #200 — 534 tests; PR #202 — 539 tests; PR #204 — 544 tests; PR #205 — exact-head Quality CI SUCCESS; PR #206 — exact-head Quality CI SUCCESS; PR #207 — exact-head Quality/CPU CI SUCCESS; PR #210 — 561 tests, frozen aggregate reproduction and WHO comparator validation SUCCESS; PR #211 — 566 tests, URL-safety/schema/site checks SUCCESS.
+- **Run 38-ის merge-ების შემდეგ main snapshot:** `5d90eda46aad67ca1f0d4e1b7289a78efb254bb9`.
+- **ბოლო დადასტურებული PR-head Quality CI:** PR #200 — 534 tests; PR #202 — 539 tests; PR #204 — 544 tests; PR #205 — exact-head Quality CI SUCCESS; PR #206 — exact-head Quality CI SUCCESS; PR #207 — exact-head Quality/CPU CI SUCCESS; PR #210 — 561 tests, frozen aggregate reproduction and WHO comparator validation SUCCESS; PR #211 — merged; exact-head Quality CI 566 tests, URL-safety/schema/site checks SUCCESS.
 - **ბოლო დადასტურებული benchmark/cleanup:** PR #200 x86-64 და ARM64 workflows SUCCESS; legacy-artifact cleanup run [46064057021](https://github.com/maisuradzee/bibmom/actions/runs/46064057021) SUCCESS და ექვსი ძველი raw artifact list ცარიელია.
 - **Pages:** PR #204 site build SUCCESS (3 Preliminary, 0 Published); PR #205–#207 არ ცვლიდა გამოქვეყნებულ კვლევას; PR #210/211 site builds SUCCESS (3 Preliminary, 0 Published); post-merge deployment for main SHA 932ae9d68bd1a952eae676192b03b29e8b7cef56 not verified. Post-merge deployment ამ main snapshot-ზე ცალკე არ დადასტურებულა. წინა main deployment-ის მტკიცებულება არ უნდა ჩაითვალოს ამ snapshot-ის deployment-ად.
 - **აქტიური პორტფელი:** ოთხივე ნაკადი აქტიურია — AquaSignal, NOEMA-005, NOEMA-007 და INFRA-001.
