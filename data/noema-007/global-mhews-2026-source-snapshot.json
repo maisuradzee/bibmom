@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "research_id": "NOEMA-2026-007",
+  "scope": "global",
+  "source": {
+    "title": "Global Status of Multi-Hazard Early Warning Systems 2026",
+    "publisher": "World Meteorological Organization",
+    "publication_date": "2026-11-11",
+    "reference_cutoff": "2026-08",
+    "url": "https://wmo.int/resources/publication-series/global-status-of-multi-hazard-early-warning-systems/gsmhews-2026",
+    "accessed_at": "2026-11-27"
+  },
+  "facts": [
+    {
+      "id": "countries_reporting_mhews",
+      "value": 136,
+      "comparator": "equal",
+      "unit": "countries",
+      "denominator": "reporting countries as of August 2026",
+      "status": "FACT",
+      "interpretation": "WMO reports 136 countries with multi-hazard early warning systems as of August 2026.",
+      "limitation": "Country-level system reporting is not a measure of every person's exposure to, receipt of, or ability to act on a warning."
+    },
+    {
+      "id": "countries_reporting_mhews_share",
+      "value": 70,
+      "comparator": "equal",
+      "unit": "percent",
+      "denominator": "countries",
+      "status": "FACT",
+      "interpretation": "WMO's key message states that 70 per cent of countries report having multi-hazard early warning systems.",
+      "limitation": "The summary page does not provide a country-by-country denominator table in the visible text; do not derive a denominator from this rounded percentage."
+    },
+    {
+      "id": "all_four_pillar_capability_share",
+      "value": 50,
+      "comparator": "less_than",
+      "unit": "percent",
+      "denominator": "countries reporting MHEWS",
+      "status": "FACT",
+      "interpretation": "Fewer than half of reporting countries demonstrate capabilities across all four pillars.",
+      "limitation": "This is a country-level capability statement, not a population coverage or local warning-effectiveness rate."
+    },
+    {
+      "id": "increase_in_reporting_countries_since_2015",
+      "value": 143,
+      "comparator": "increase",
+      "unit": "percent",
+      "denominator": "countries reporting MHEWS in 2015",
+      "status": "FACT",
+      "interpretation": "WMO reports a 143 per cent increase in the number of countries reporting MHEWS since 2015.",
+      "limitation": "The percentage is source-reported; this snapshot does not independently reconstruct the 2015 baseline."
+    },
+    {
+      "id": "system_comprehensiveness_outcome_association",
+      "value": null,
+      "comparator": "qualitative",
+      "unit": "association",
+      "denominator": null,
+      "status": "FACT",
+      "interpretation": "The WMO summary says more comprehensive systems are associated with lower disaster mortality and fewer people affected.",
+      "limitation": "Association is not a causal effect estimate; this summary does not justify attributing a specific avoided-loss amount to a local system."
+    }
+  ],
+  "supporting_sources": [
+    {
+      "title": "Early Warning Systems for mobile populations: Operational guidance",
+      "publisher": "UNDRR, WMO, IFRC and ITU",
+      "publication_date": "2026",
+      "url": "https://www.undrr.org/publication/documents-and-publications/early-warning-systems-mobile-populations-operational",
+      "accessed_at": "2026-11-27",
+      "claim": "The guidance treats mobility as a persistent feature of risk and includes people temporarily present and people unable to move because of poverty, disability or insecurity."
+    }
+  ],
+  "derived_results": [],
+  "country_specific_values": [],
+  "causal_effect_established": false
+}
