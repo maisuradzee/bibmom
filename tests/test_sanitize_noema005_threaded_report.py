@@ -42,8 +42,11 @@ class Noema005PublicArtifactSanitizerTests(unittest.TestCase):
         raw = raw_report()
         sanitized = sanitize_report(raw)
         encoded = json.dumps(sanitized, sort_keys=True)
-        for secretish in ("101", "102", "201", "202", "Linux-7.0.0", "Intel Xeon", "python_build", "processor"):
-            self.assertNotIn(secretish, encoded)
+        for raw_id in ('"101"', '"102"', '"201"', '"202"'):
+            self.assertNotIn(raw_id, encoded)
+        for host_field in ("Linux-7.0.0", "Intel Xeon", "python_build", "processor", "cpu_count_os", "cpu_affinity_count"):
+            self.assertNotIn(host_field, encoded)
+        self.assertNotIn("native_thread_ids_by_run", encoded)
         self.assertTrue(sanitized["threaded_cases"][0]["native_thread_identity_validated"])
         self.assertTrue(sanitized["environment"]["native_thread_identity_validated"])
         self.assertEqual(sanitized["environment"]["runner_family"], "github-hosted")
