@@ -57,7 +57,12 @@
     "The WHO 2026 edition gives drinking-water guideline values of 50 mg/L as nitrate ion and 3 mg/L as nitrite ion, with a combined concentration-to-guideline ratio not exceeding 1; the chemical fact sheet lists its assessment date as 2016.",
     "WHO guideline values are global health-based guidance, not Georgian law, and are not automatically applicable to raw groundwater unless its intended use and matrix are confirmed as drinking-water.",
     "The WHO fact sheet identifies bottle-fed infants as the most sensitive population and notes that microbial contamination and gastrointestinal infection can increase methaemoglobinaemia risk when nitrate is present.",
-    "Excessive boiling can concentrate nitrate; boiling is not a nitrate-removal treatment."
+    "Excessive boiling can concentrate nitrate; boiling is not a nitrate-removal treatment.",
+    "Georgia Government Decree №58/2014 sets nitrate at 50 mg/L as NO3- and nitrite at 0.2 mg/L as NO2- for water within its scope. The WHO 2026 nitrite guideline of 3 mg/L is not a substitute for the stricter Georgian legal value.",
+    "The ENI SEIS/EEA historical baseline uses NEA data from 2016-2017: 34 of 45 groundwater monitoring sites had data, sampling was twice per year, all reported site averages were below 50 mg NO3/L, and the indicator says all except one were above 10 mg NO3/L (33/34 by subtraction).",
+    "The historical 2016-2017 indicator is not current 2026 monitoring, not a household exposure survey, and does not provide raw site/sample values or stated uncertainty.",
+    "The indicator's suggestion that lower western concentrations may relate to lower agricultural activity is a hypothesis, not a causal result.",
+    "The Georgian Decree №58/2014 general sum-of-ratios clause is not interpreted here as a specific nitrate/nitrite combined ratio without legal review."
   ],
   "privacy": {
     "personal_data_included": false,
@@ -85,6 +90,60 @@
     "fact_sheet_assessment_date": 2016,
     "not_georgian_legal_limit": true,
     "not_automatically_applicable_to_raw_groundwater": true,
-    "interpretation": "WHO health-based guidance; verify Georgian national requirements and intended water use/matrix before comparing."
+    "interpretation": "WHO health-based guidance for drinking-water: nitrate 50 mg/L as nitrate ion, nitrite 3 mg/L as nitrite ion, combined ratio <=1. Georgia Government Decree 58/2014 sets nitrate 50 mg/L as NO3- and nitrite 0.2 mg/L as NO2- for water within its scope; use the Georgian limits for legal compliance. The WHO nitrite value is not a Georgian compliance threshold and the WHO values are not automatically applicable to raw groundwater."
+  },
+  "historical_baseline": {
+    "status": "historical_context_only",
+    "source_publisher": "ENI SEIS II East / European Environment Agency",
+    "data_provider": "National Environmental Agency of Georgia",
+    "source_url": "https://eni-seis.eionet.europa.eu/east/indicators/c11-nutrients-in-freshwater-of-georgia/",
+    "publication_date": "2020-01-20",
+    "last_modified": "2020-02-07",
+    "data_period": "2016-2017",
+    "groundwater_monitoring_resumed_year": 2013,
+    "monitoring_network_total_sites": 45,
+    "sites_with_data": 34,
+    "sampling_frequency_per_site_per_year": 2,
+    "annual_mean_method": "Average of annual mean groundwater nitrate concentrations for 2016-2017.",
+    "unit": "mg NO3/L",
+    "all_sites_below_national_threshold": true,
+    "national_threshold_mg_per_l_as_no3": 50,
+    "sites_above_10_mg_per_l": 33,
+    "sites_above_10_derivation": "The indicator states that 34 sites were available and all except one had an average above 10 mg NO3/L; 34 minus 1 equals 33.",
+    "western_sites_below_1_mg_per_l": true,
+    "western_site_count": null,
+    "regional_pattern_note": "The indicator reports lower groundwater nitrate in western Georgia and suggests lower agricultural activity as a possible explanation; this is not a causal finding.",
+    "uncertainty_specified": false,
+    "raw_sample_values_published_in_indicator": false,
+    "limitations": [
+      "Historical data period is 2016-2017; it is not a current 2026 water-quality measurement.",
+      "Only 34 of 45 monitoring sites had data for the analysis.",
+      "Sampling frequency was twice per year; the indicator reports averages of annual means rather than every raw sample.",
+      "The page does not publish the raw site/sample values in the indicator text.",
+      "No uncertainty estimate is specified by the indicator.",
+      "The number of western sites is not stated in the page text.",
+      "Monitoring sites are not a population-weighted or household-level exposure sample."
+    ]
+  },
+  "georgian_legal_standard": {
+    "decree_no": 58,
+    "date": "2014-01-15",
+    "source_url": "https://matsne.gov.ge/ka/document/view/2196792",
+    "status": "official_matsne_page_checked_2026-11-28",
+    "nitrate_limit_mg_per_l": 50,
+    "nitrate_basis": "NO3-",
+    "nitrite_limit_mg_per_l": 0.2,
+    "nitrite_basis": "NO2-",
+    "scope": "Natural or treated water used for drinking, food preparation, other domestic purposes, and water intended for food or food-product production.",
+    "exclusions": [
+      "Medicinal mineral waters.",
+      "Water for medical or other special purposes.",
+      "An individual private source supplying less than 10 m3/day to fewer than 50 people and not connected to a commercial or public network.",
+      "Natural mineral water with total mineralization above 1500 mg/L."
+    ],
+    "supplier_monitoring_required": true,
+    "accredited_independent_lab_required_for_testing": true,
+    "combined_ratio_clause": "Article 2(21) contains a general sum-of-ratios rule for multiple substances normalized by the same limiting sign. This record does not interpret it as a specific nitrate/nitrite combined-ratio formula; obtain legal review before applying it.",
+    "interpretation": "Use these Georgian statutory limits for compliance when the water falls within the decree's scope. The WHO 2026 nitrite guideline value of 3 mg/L is not a substitute for Georgia's 0.2 mg/L legal limit."
   }
 }

@@ -13,7 +13,9 @@
     "regulatory_context",
     "interpretation_limits",
     "privacy",
-    "external_drinking_water_guideline"
+    "external_drinking_water_guideline",
+    "historical_baseline",
+    "georgian_legal_standard"
   ],
   "properties": {
     "schema_version": {
@@ -309,6 +311,185 @@
         "interpretation": {
           "type": "string",
           "minLength": 40
+        }
+      }
+    },
+    "historical_baseline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "source_publisher",
+        "data_provider",
+        "source_url",
+        "publication_date",
+        "last_modified",
+        "data_period",
+        "groundwater_monitoring_resumed_year",
+        "monitoring_network_total_sites",
+        "sites_with_data",
+        "sampling_frequency_per_site_per_year",
+        "annual_mean_method",
+        "unit",
+        "all_sites_below_national_threshold",
+        "national_threshold_mg_per_l_as_no3",
+        "sites_above_10_mg_per_l",
+        "sites_above_10_derivation",
+        "western_sites_below_1_mg_per_l",
+        "western_site_count",
+        "regional_pattern_note",
+        "uncertainty_specified",
+        "raw_sample_values_published_in_indicator",
+        "limitations"
+      ],
+      "properties": {
+        "status": {
+          "const": "historical_context_only"
+        },
+        "source_publisher": {
+          "type": "string"
+        },
+        "data_provider": {
+          "const": "National Environmental Agency of Georgia"
+        },
+        "source_url": {
+          "const": "https://eni-seis.eionet.europa.eu/east/indicators/c11-nutrients-in-freshwater-of-georgia/"
+        },
+        "publication_date": {
+          "const": "2020-01-20"
+        },
+        "last_modified": {
+          "const": "2020-02-07"
+        },
+        "data_period": {
+          "const": "2016-2017"
+        },
+        "groundwater_monitoring_resumed_year": {
+          "const": 2013
+        },
+        "monitoring_network_total_sites": {
+          "const": 45
+        },
+        "sites_with_data": {
+          "const": 34
+        },
+        "sampling_frequency_per_site_per_year": {
+          "const": 2
+        },
+        "annual_mean_method": {
+          "type": "string"
+        },
+        "unit": {
+          "const": "mg NO3/L"
+        },
+        "all_sites_below_national_threshold": {
+          "const": true
+        },
+        "national_threshold_mg_per_l_as_no3": {
+          "const": 50
+        },
+        "sites_above_10_mg_per_l": {
+          "const": 33
+        },
+        "sites_above_10_derivation": {
+          "type": "string"
+        },
+        "western_sites_below_1_mg_per_l": {
+          "const": true
+        },
+        "western_site_count": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "regional_pattern_note": {
+          "type": "string"
+        },
+        "uncertainty_specified": {
+          "const": false
+        },
+        "raw_sample_values_published_in_indicator": {
+          "const": false
+        },
+        "limitations": {
+          "type": "array",
+          "minItems": 7,
+          "items": {
+            "type": "string",
+            "minLength": 20
+          }
+        }
+      }
+    },
+    "georgian_legal_standard": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decree_no",
+        "date",
+        "source_url",
+        "status",
+        "nitrate_limit_mg_per_l",
+        "nitrate_basis",
+        "nitrite_limit_mg_per_l",
+        "nitrite_basis",
+        "scope",
+        "exclusions",
+        "supplier_monitoring_required",
+        "accredited_independent_lab_required_for_testing",
+        "combined_ratio_clause",
+        "interpretation"
+      ],
+      "properties": {
+        "decree_no": {
+          "const": 58
+        },
+        "date": {
+          "const": "2014-01-15"
+        },
+        "source_url": {
+          "const": "https://matsne.gov.ge/ka/document/view/2196792"
+        },
+        "status": {
+          "const": "official_matsne_page_checked_2026-11-28"
+        },
+        "nitrate_limit_mg_per_l": {
+          "const": 50
+        },
+        "nitrate_basis": {
+          "const": "NO3-"
+        },
+        "nitrite_limit_mg_per_l": {
+          "const": 0.2
+        },
+        "nitrite_basis": {
+          "const": "NO2-"
+        },
+        "scope": {
+          "type": "string",
+          "minLength": 50
+        },
+        "exclusions": {
+          "type": "array",
+          "minItems": 4,
+          "items": {
+            "type": "string"
+          }
+        },
+        "supplier_monitoring_required": {
+          "const": true
+        },
+        "accredited_independent_lab_required_for_testing": {
+          "const": true
+        },
+        "combined_ratio_clause": {
+          "type": "string",
+          "minLength": 80
+        },
+        "interpretation": {
+          "type": "string",
+          "minLength": 80
         }
       }
     }

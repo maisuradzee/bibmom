@@ -72,5 +72,46 @@ class WhoGuidelineComparatorTests(unittest.TestCase):
         self.assertIn("C_nitrate/GV_nitrate", guidance["combined_ratio_formula"])
 
 
+class HistoricalBaselineAndGeorgianLegalCrosswalkTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.record = json.loads(DATA.read_text(encoding="utf-8"))
+
+    def test_historical_baseline_is_explicitly_2016_2017_and_aggregated(self):
+        baseline = self.record["historical_baseline"]
+        self.assertEqual(baseline["data_period"], "2016-2017")
+        self.assertEqual(baseline["monitoring_network_total_sites"], 45)
+        self.assertEqual(baseline["sites_with_data"], 34)
+        self.assertEqual(baseline["sampling_frequency_per_site_per_year"], 2)
+        self.assertEqual(baseline["unit"], "mg NO3/L")
+        self.assertTrue(baseline["all_sites_below_national_threshold"])
+        self.assertEqual(baseline["national_threshold_mg_per_l_as_no3"], 50)
+        self.assertEqual(baseline["sites_above_10_mg_per_l"], 33)
+        self.assertTrue(baseline["western_sites_below_1_mg_per_l"])
+        self.assertIsNone(baseline["western_site_count"])
+        self.assertFalse(baseline["uncertainty_specified"])
+        self.assertFalse(baseline["raw_sample_values_published_in_indicator"])
+
+    def test_georgian_legal_limits_are_separate_from_who_guidance(self):
+        legal = self.record["georgian_legal_standard"]
+        who = self.record["external_drinking_water_guideline"]
+        self.assertEqual(legal["decree_no"], 58)
+        self.assertEqual(legal["nitrate_limit_mg_per_l"], 50)
+        self.assertEqual(legal["nitrate_basis"], "NO3-")
+        self.assertEqual(legal["nitrite_limit_mg_per_l"], 0.2)
+        self.assertEqual(legal["nitrite_basis"], "NO2-")
+        self.assertTrue(legal["supplier_monitoring_required"])
+        self.assertTrue(legal["accredited_independent_lab_required_for_testing"])
+        self.assertEqual(who["nitrite_guideline_value_mg_per_l"], 3)
+        self.assertTrue(who["not_georgian_legal_limit"])
+        self.assertLess(legal["nitrite_limit_mg_per_l"], who["nitrite_guideline_value_mg_per_l"])
+
+    def test_historical_baseline_does_not_claim_current_2026_status(self):
+        baseline = self.record["historical_baseline"]
+        self.assertEqual(baseline["status"], "historical_context_only")
+        self.assertIn("not a current 2026", " ".join(baseline["limitations"]))
+        self.assertIn("no uncertainty", " ".join(baseline["limitations"]).lower())
+
+
 if __name__ == "__main__":
     unittest.main()

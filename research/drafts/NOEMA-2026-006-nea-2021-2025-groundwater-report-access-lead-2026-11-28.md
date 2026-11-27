@@ -120,3 +120,41 @@ WHO identifies bottle-fed infants as the most sensitive subgroup and notes that 
 WHO sources:
 1. 2026 edition landing page: https://www.who.int/publications/i/item/9789240121225
 2. Official chemical fact sheets PDF: https://cdn.who.int/media/docs/default-source/wash-documents/water-safety-and-quality/dwq-guidelines-4/gdwq_4ed_with_third-addenda_chemical-fact-sheets.pdf (nitrate/nitrite, pp. 466–471).
+
+
+## Historical NEA groundwater nitrate baseline — 2016–2017 only
+
+The ENI SEIS II East / European Environment Agency indicator C11 states that the data were supplied by Georgia's National Environmental Agency. Groundwater monitoring had resumed in 2013; the network had 45 sites, but the 2016–2017 analysis had data for 34 sites. Sampling frequency was twice per year, and the reported present-state value was the average of annual mean concentrations for 2016–2017.
+
+Published summary:
+- All 34 available site averages were below the cited national threshold of 50 mg NO3/L.
+- The indicator says all except one monitoring site had an average above 10 mg NO3/L. Given 34 sites, that is 33/34 by subtraction from the published statement.
+- All western monitoring sites were below 1 mg NO3/L; the page text does not state the western-site count.
+- Concentrations were generally lower in western Georgia. The indicator suggests less agriculture as a possible explanation, but this is not a causal finding.
+- The indicator specifies no uncertainty estimate and does not provide raw site/sample values in the page text.
+
+This is a **historical, aggregated baseline**, not a 2026 measurement, not a population-weighted exposure survey and not proof that all current drinking-water supplies are safe. It is useful for designing a 2021–2025/2026 comparison only if the NEA archive provides compatible station identifiers, sample dates, analytes, units, methods and QA/QC.
+
+Source: https://eni-seis.eionet.europa.eu/east/indicators/c11-nutrients-in-freshwater-of-georgia/ (published 2020-01-20; last modified 2020-02-07; data provider NEA).
+
+## Georgian legal crosswalk — Decree №58/2014
+
+The current Matsne page for Government Decree №58 of 2014-01-15 sets:
+- **Nitrate:** 50 mg/L as NO3-.
+- **Nitrite:** 0.2 mg/L as NO2-.
+
+The regulation applies to natural or treated water used for drinking, food preparation and domestic purposes, and water used in food/food-product production. It excludes medicinal mineral waters, medical/special-purpose water, certain small private individual sources (<10 m³/day, fewer than 50 people, not in a public/commercial network), and natural mineral water with total mineralization above 1500 mg/L. Supplier monitoring is required and testing is to be performed by an accredited independent laboratory.
+
+This matters because the WHO 2026 drinking-water fact sheet gives a nitrite guideline of 3 mg/L as nitrite ion, while Georgian Decree №58/2014 sets 0.2 mg/L as NO2- for water within its scope. **The WHO value must not replace the Georgian legal value for compliance.** The decree's Article 2(21) has a general sum-of-ratios clause for substances normalized by the same limiting sign; this note does not interpret it as a specific nitrate/nitrite combined-ratio formula.
+
+Official legal source: https://matsne.gov.ge/ka/document/view/2196792 (accessed 2026-11-28).
+
+### Evidence labels
+
+- **FACT:** the EEA/ENI indicator reports 34/45 available groundwater monitoring sites for 2016–2017, twice-yearly sampling, all site averages below 50 mg NO3/L, and all except one above 10 mg NO3/L.
+- **FACT:** Government Decree №58/2014 lists 50 mg/L as NO3- and 0.2 mg/L as NO2-.
+- **FACT:** WHO's 2026 drinking-water fact sheet lists 50 mg/L nitrate ion and 3 mg/L nitrite ion, with a combined ratio <=1; the sheet's assessment date is 2016.
+- **INFERENCE:** the 2016–2017 baseline can guide historical comparison and monitoring-network completeness checks, but not current exposure estimates.
+- **HYPOTHESIS:** eastern monitoring locations may warrant closer review because the indicator reports lower western concentrations and suggests agricultural differences; this requires current site-level data and cannot be treated as causal.
+- **UNTESTED IDEA:** compare compatible 2016–2017 and 2021–2025 station-level series after harmonizing station IDs, sampling windows, units, detection limits and QA/QC.
+
