@@ -11,9 +11,9 @@
     "artifact_expiry": "2026-12-26"
   },
   "bundle": {
-    "path": "data/noema-005/raw/run-45911409646-reports.json.gz.b64",
-    "encoding": "base64(gzip(JSON object keyed by run_id:runtime_mode))",
-    "compressed_sha256": "a43fdf8953083f690a89668e60e5fd001754a71cb5388409ba9a882c9660d2a9",
+    "path": "data/noema-005/raw/run-45911409646-reports.json.xz.b64",
+    "encoding": "base64(xz JSON object keyed by run_id:runtime_mode)",
+    "compressed_sha256": "5e6113f9f5759833dfa7d9b60667cca80caa53f4c2836e9ba54587a25cc1b768",
     "uncompressed_sha256": "6e68f7435a5f7c3498f1c84e9cead7a54c171271c9e0e80bcfece9b50e00420e",
     "uncompressed_bytes": 123384,
     "reports": 2
