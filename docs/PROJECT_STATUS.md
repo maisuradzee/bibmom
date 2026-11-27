@@ -605,3 +605,12 @@ Run38 AquaSignal historical baseline/legal crosswalk details: [research draft](.
 - No research PR #223–225 was merged in Run 40; all three remain Draft pending their stated independent reviews. The separate status/portfolio synchronization PR #226 contains no research implementation. Main and Pages therefore remain at the baseline SHA above until that documentation-only PR is merged and its deployment is verified.
 - The portfolio remains four active streams, three Preliminary catalogue entries and zero Published studies.
 - Next priorities: inspect Decree №447 Annex 1/2 and obtain the NEA annual monitoring plan after 2026-12-01; obtain authorized NEA/NFA sample data and dictionary; complete NOEMA-005 physical-device replication with at least 20 repetitions plus RSS/DRAM measurements; monitor the Decree №440 methodology and 2028 assessment milestones; assign an independent recovery owner and design an external high-water trust domain.
+
+
+## Run 40 post-merge verification — 2026-11-28
+
+- Documentation-only portfolio/status PR #226 merged successfully as Main commit `639ad4485dbf7fc73e523245844cd4bdc663849b`.
+- Exact Main Quality CI [46073034749](https://github.com/maisuradzee/bibmom/actions/runs/46073034749): SUCCESS, 593 Python tests; site build job in [46073034713](https://github.com/maisuradzee/bibmom/actions/runs/46073034713): SUCCESS, 0 Published / 3 Preliminary; Pages deploy job in the same workflow: SUCCESS, deployment URL https://maisuradzee.github.io/bibmom/.
+- PRs #223, #224 and #225 remain Draft and unmerged pending independent reviews. Their exact-head CI runs remain successful, but each branch is based on prior Main SHA `2600d28f7c05332ca3faeedcfcbb8c6528d78d08`; current Main is `639ad4485dbf7fc73e523245844cd4bdc663849b`. GitHub now reports `mergeable=false` for all three due to base drift. They must be refreshed from current Main and revalidated before any merge.
+- Repository snapshot after #226 merge: 42 open PRs, 0 open Issues; 4 active portfolio streams; 3 Preliminary catalogue entries; 0 Published studies.
+- The merge of #226 did not merge any of the research implementations from #223–225. No Run 40 research PR is represented as deployed.
