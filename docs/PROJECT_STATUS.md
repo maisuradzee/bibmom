@@ -156,3 +156,11 @@
 - No personal, household, sample-level, health, private-well, location-tracking or credential data was added. No new Supabase project was created and no other project's database was used.
 - Full findings, methodology, evidence boundaries, CI outcomes and next steps: [Run 24 audit](run-audits/2026-11-27-run-24.md).
 
+
+
+### Run 24 follow-up verification — 2026-11-27
+
+- Main advanced to `a48af6aae5c41575d80645b4cb9d81118c212153` after merging the Run 24 documentation audit. Exact-main Quality CI [45981086254](https://github.com/maisuradzee/bibmom/actions/runs/45981086254) and Pages build/deploy [45981086157](https://github.com/maisuradzee/bibmom/actions/runs/45981086157) both succeeded.
+- NOEMA-007 follow-up [PR #136](https://github.com/maisuradzee/bibmom/pull/136) constrains the positive minimum timely-receipt lead to the warning issue-to-action-deadline interval and reports the available interval. Exact-head Quality CI [45981048842](https://github.com/maisuradzee/bibmom/actions/runs/45981048842) succeeded; 24 focused tests and 471 full-suite tests passed. PR #136 remains Draft and targets parent PR #130's branch; no field data or authority-approved rule is implied.
+- Full follow-up evidence and limitations: [Run 24 follow-up audit](run-audits/2026-11-27-run-24-follow-up.md).
+
