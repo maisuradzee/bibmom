@@ -18,7 +18,7 @@ Path mapping ამოღებულია ცალკე pure helper-ში �
 - membership-ის ზუსტ დამთხვევას;
 - sibling სახელებს საერთო ტექსტური prefix-ით (`/system.slice2` და `/system.slice`);
 - relative, repeated-separator და parent-traversal input-ებს;
-- mountinfo-ში escaped space, tab, newline და backslash ველებს; escaped backslash-ის შემდეგ literal `\\012` მიმდევრობაც ხელუხლებლად რჩება.
+- mountinfo-ში escaped space, tab, newline, hash და backslash ველებს; escaped backslash-ის შემდეგ literal `\\012` მიმდევრობაც ხელუხლებლად რჩება.
 
 ეს helper არ კითხულობს system files-ს, არ პოულობს mount-ებს და არ ადგენს CPU capacity-ს.
 
@@ -40,8 +40,10 @@ Path mapping ამოღებულია ცალკე pure helper-ში �
 
 ## წყაროები
 
-1. Linux man-pages project. `proc_pid_mountinfo(5)`. https://man7.org/linux/man-pages/man5/proc_pid_mountinfo.5.html
-2. Linux kernel documentation. Control Group v2. https://docs.kernel.org/admin-guide/cgroup-v2.html
+1. Linux kernel source, `fs/proc_namespace.c`, `mangle()` and `show_mountinfo()`: https://github.com/torvalds/linux/blob/master/fs/proc_namespace.c — the current implementation escapes space, tab, newline, backslash and hash in mount paths.
+2. Linux kernel documentation, `seq_file` — `seq_escape()` emits escaped characters in octal form: https://docs.kernel.org/next/filesystems/seq_file.html
+3. Linux man-pages project. `proc_pid_mountinfo(5)` — field 4 mount root and field 5 process-relative mount point: https://man7.org/linux/man-pages/man5/proc_pid_mountinfo.5.html
+4. Linux kernel documentation. Control Group v2: https://docs.kernel.org/admin-guide/cgroup-v2.html
 
 ## შემდეგი ნაბიჯები
 
