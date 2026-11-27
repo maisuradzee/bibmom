@@ -2,15 +2,29 @@ import json
 import unittest
 from pathlib import Path
 
+from jsonschema import Draft202012Validator, FormatChecker
+
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data/noema-007/global-mhews-2026-source-snapshot.json"
+SCHEMA = ROOT / "data/noema-007/global-mhews-2026-source-snapshot.schema.json"
 
 
 class GlobalMhews2026SnapshotTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.snapshot = json.loads(DATA.read_text(encoding="utf-8"))
+        cls.schema = json.loads(SCHEMA.read_text(encoding="utf-8"))
+        Draft202012Validator.check_schema(cls.schema)
+        cls.schema_validator = Draft202012Validator(cls.schema, format_checker=FormatChecker())
         cls.facts = {item["id"]: item for item in cls.snapshot["facts"]}
+
+    def test_frozen_snapshot_matches_closed_draft_2020_12_schema(self):
+        self.assertEqual(list(self.schema_validator.iter_errors(self.snapshot)), [])
+
+    def test_schema_rejects_country_specific_values(self):
+        candidate = dict(self.snapshot)
+        candidate["country_specific_values"] = [{"country": "example", "value": 1}]
+        self.assertTrue(list(self.schema_validator.iter_errors(candidate)))
 
     def test_source_and_reference_cutoff_are_explicit(self):
         self.assertEqual(self.snapshot["source"]["publication_date"], "2026-11-11")
