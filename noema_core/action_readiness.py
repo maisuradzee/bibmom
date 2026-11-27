@@ -147,6 +147,8 @@ def validate_action_readiness_record(record: Mapping[str, Any]) -> None:
             "timely_received_n",
             "timely_receipt_minimum_lead_seconds",
             "timely_receipt_basis",
+            "timely_receipt_rule_reference",
+            "timely_receipt_rule_source_url",
         }
         survey = _object(
             survey, "survey", required_survey_fields,
@@ -201,6 +203,17 @@ def validate_action_readiness_record(record: Mapping[str, Any]) -> None:
                 raise ActionReadinessValidationError(
                     "timely_receipt_minimum_lead_seconds must be a non-negative integer"
                 )
+            rule_reference = survey["timely_receipt_rule_reference"]
+            rule_source_url = survey["timely_receipt_rule_source_url"]
+            if (rule_reference is None) != (rule_source_url is None):
+                raise ActionReadinessValidationError(
+                    "timely receipt rule reference and source URL must be supplied together"
+                )
+            if rule_reference is not None:
+                if not isinstance(rule_reference, str) or not rule_reference.strip() or len(rule_reference) > 128:
+                    raise ActionReadinessValidationError("timely receipt rule reference must be a bounded non-empty label")
+                if not isinstance(rule_source_url, str) or not rule_source_url.startswith("https://"):
+                    raise ActionReadinessValidationError("timely receipt rule source URL must be HTTPS")
             if survey["timely_receipt_basis"] != "respondent_recall":
                 raise ActionReadinessValidationError(
                     "timely_receipt_basis must be respondent_recall; endpoint logs are a separate metric"
@@ -268,9 +281,22 @@ def compute_action_readiness_metrics(record: Mapping[str, Any]) -> dict[str, Any
             "numerator": numerator,
             "denominator": denominator,
             "denominator_unit": "respondents_reporting_receipt_and_assessed_for_timing",
-            "rate": round(numerator / denominator, 6) if denominator else None,
+            "rate": round(numerator / denominator, 6) if denominator and survey["timely_receipt_rule_reference"] is not None else None,
             "measurement_basis": survey["timely_receipt_basis"],
             "minimum_lead_seconds": survey["timely_receipt_minimum_lead_seconds"],
+            "rule_reference": survey["timely_receipt_rule_reference"],
+            "rule_source_url": survey["timely_receipt_rule_source_url"],
+            "rule_documentation_status": (
+                "provided_not_independently_verified"
+                if survey["timely_receipt_rule_reference"] is not None
+                else "missing"
+            ),
+            "rate_status": (
+                "descriptive_rule_source_unverified"
+                if survey["timely_receipt_rule_reference"] is not None
+                else "not_computed_missing_rule_source"
+            ),
+            "cross_event_comparison_permitted": False,
         }
     else:
         result["survey_metrics"]["self_reported_timely_warning_receipt"] = None
