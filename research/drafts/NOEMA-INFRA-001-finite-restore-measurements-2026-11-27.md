@@ -1,0 +1,28 @@
+# INFRA-001 — Reject non-finite restore measurements
+
+- **Date:** 2026-11-27
+- **Status:** engineering regression fix; synthetic tests only
+- **Question:** can a non-finite restore duration, data-loss measurement or RPO/RTO target pass the offsite checklist and bypass a numeric comparison?
+
+## FACT
+
+Python 3.14's standard `json` decoder accepts `NaN`, `Infinity` and `-Infinity` by default as Python floats, although these tokens are outside the JSON specification. The official documentation describes this behavior: https://docs.python.org/3.14/library/json.html
+
+## REPRODUCED RESULT
+
+A minimal local check with the repository's JSON Schema validation dependency showed that a `number` field with `minimum: 0` accepts `NaN` and positive infinity. In the existing restore gate, comparisons such as `measured_duration > rto_target` are false for NaN, while an infinite target can make an otherwise excessive measurement appear within target. The pre-fix synthetic offsite fixture therefore had a path to `OFFSITE_CHECKLIST_COMPLETE` if these values were supplied in memory or decoded by Python's permissive JSON parser.
+
+## Implementation
+
+The evaluator now checks all four measurement/target fields with `math.isfinite` after structural schema validation and before any RPO/RTO comparisons. `None` remains allowed only for the nullable target fields and continues to produce an incomplete decision. Boolean values are not treated as numeric measurements.
+
+Synthetic regression tests cover NaN and positive infinity in measured duration, data loss and both targets. No real backup, provider, key, restore or production environment was accessed.
+
+## LIMITATIONS
+
+This closes the non-finite numeric bypass in this evaluator only. It does not authenticate evidence, prove provider retention, verify external high-water state, decrypt backups or demonstrate clean-host recovery. The INFRA-001 production blockers remain unchanged.
+
+## Sources
+
+- Python 3.14 documentation, `json` — https://docs.python.org/3.14/library/json.html
+- The Update Framework v1.0.37 — https://theupdateframework.github.io/specification/v1.0.37/
