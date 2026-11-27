@@ -196,3 +196,21 @@ A direct reading of the full JECM article PDF resolves one important classificat
 - **SOURCE-METADATA CORRECTION:** the JECM PDF's verified download path is `https://journals.4science.ge/index.php/jecm/article/download/3442/3462`; the previous URL included an extra trailing path segment. The journal article is published in JECM 2025/1, but formal peer-review procedure remains independently unverified.
 
 The deterministic audit now emits the three indicator descriptions and the revised status. This is a source-classification correction only; no raw NFA samples were obtained and no operational AquaSignal alert is supported.
+
+## 2026-11-27 — government-report status and sampling-frame context
+
+A second direct review of the UNECE/WHO PDF adds an important reporting-status qualification.
+
+- **FACT — submission status:** the cover identifies the document as a Georgia report submitted on 2025-04-01. Its executive summary (PDF p.6 / document p.2) states that Georgia is not a Party to the Protocol and that Protocol target indicators were not set for 2022–2024. The figures are therefore best described as government-submitted reporting through the UNECE/WHO reporting system, not as an independent UNECE/WHO survey or a complete national sample database.
+- **FACT — responsible authority and sample locations:** the report identifies the National Food Safety Agency as the drinking-water quality-control body. It says samples are taken at head facilities, treatment-facility outlets and consumer intake points (PDF p.55 / document p.54), but the report's specific follow-up field asking where the samples in the indicator tables were primarily taken is blank.
+- **FACT — missing denominator and disaggregation:** the E. coli table (PDF p.57 / document p.56) reports national values only; the denominator and urban/rural rows are blank.
+- **FACT — reported 2024 programme change:** the narrative says that small rural water-supply systems were included in the laboratory-control programme and attributes the reported 2024 increase in pollution to that inclusion (PDF p.58 / document p.57). This is the report's explanation, not an independently tested causal estimate.
+- **INFERENCE:** a changing sample frame can change the composition of monitored samples and the observed non-compliance percentage even without a corresponding change in the underlying population risk. The published aggregates do not quantify that compositional effect.
+- **HYPOTHESIS:** some of the 2023 difference between JECM's 49.5% and the government-submitted UNECE/WHO narrative's 44.5% may reflect different sample frames, coverage or counting rules. The available sources do not establish which explanation is correct.
+- **UNTESTED IDEA:** require every AquaSignal indicator record to carry reporting_status, responsible_authority, water_matrix, indicator_definition, sample_frame_id, numerator, denominator, sampling_locations, coverage_scope, reference_period and source_version. If any required comparability field is absent, the ingestion gate must preserve the source values but prohibit cross-source trend aggregation.
+
+Primary locators:
+- Government of Georgia, UNECE/WHO Article 7 submission: https://unece.org/sites/default/files/2025-10/Georgia_summary_report_6th_cycle_1Apr25_ENG.pdf (cover; PDF pp.6, 55–58).
+- Bakradze et al., JECM 2025/1: https://journals.4science.ge/index.php/jecm/article/download/3442/3462 (PDF pp.1–5).
+
+This clarification does not resolve the 5.0 percentage-point 2023 difference. It strengthens the reason to request NFA numerator/denominator, sample-source categories and sampling-plan metadata before AquaSignal computes a combined trend.
