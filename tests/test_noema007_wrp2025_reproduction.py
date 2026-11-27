@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import json
 import unittest
+
+import numpy as np
 from pathlib import Path
 
 from jsonschema import Draft202012Validator, FormatChecker
@@ -78,7 +80,7 @@ class Noema007Wrp2025ReproductionTests(unittest.TestCase):
         self.assertAlmostEqual(result["action"]["weighted_dk_refused_pct"], 50.0)
 
     def test_invalid_weight_and_response_codes_fail_closed(self):
-        for invalid in (float("nan"), float("inf"), -1.0, True):
+        for invalid in (float("nan"), float("inf"), -1.0, True, np.bool_(True), "1.0"):
             columns = fixture()
             columns["PROJWT"][0] = invalid
             with self.subTest(invalid=invalid), self.assertRaises(ValueError):
