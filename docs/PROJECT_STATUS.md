@@ -13,6 +13,16 @@
 - **Open research/engineering PRs:** #112, #109, #108, #104, #103, #101, #100, #99, #93, #91, #88, #87, #85, #46, #27, #7 and #5 (17 open research/engineering PRs; status-only PR #110 is separate; 0 open Issues).
 - **Public research catalogue:** 1 preliminary, 0 published. No research item was promoted to Published.
 
+
+## Run 19 — exact research/engineering PR state
+
+- **Main base snapshot:** `84512d4fa57235b06842568ef933a72b2edcd698`.
+- **PR #117 — NOEMA-007 mobile-inclusive AER sampling pre-registration:** head `75abf94f3d7c9cc905415844ce60a06614699a6b`; [quality CI 45947883409](https://github.com/maisuradzee/bibmom/actions/runs/45947883409) SUCCESS; [actual CPU-thread workflow 45947883396](https://github.com/maisuradzee/bibmom/actions/runs/45947883396) both GIL-enabled and free-threaded jobs SUCCESS; GitHub mergeable=true. Draft; not merged pending independent accessibility/privacy review and a competent-authority event-review mandate.
+- **PR #118 — INFRA-001 restore attestation gate:** head `7d13db087ef9f1d0ad2e959545ea12bd4ec63c82`; [quality CI 45947828733](https://github.com/maisuradzee/bibmom/actions/runs/45947828733) SUCCESS; [actual CPU-thread workflow 45947828727](https://github.com/maisuradzee/bibmom/actions/runs/45947828727) both GIL-enabled and free-threaded jobs SUCCESS; GitHub mergeable=true. Draft; not merged pending independent security review, recovery-owner assignment and a permissioned clean-host restore drill.
+- **Superseded drafts:** PR #115 closed in favor of #117; PR #116 closed in favor of #118. Their replacement branches were recreated from the current main base; no code was merged from the superseded drafts.
+- **Open PRs:** 19; **open Issues:** 0. Research catalogue remains 1 Preliminary / 0 Published.
+- **Deployment:** neither research PR was merged; no Pages deployment is claimed for either PR branch. Latest verified Pages deployment remains the c507a91 main snapshot above.
+
 ## მიმდინარე მდგომარეობა
 
 | კომპონენტი | მდგომარეობა | მტკიცებულება |
