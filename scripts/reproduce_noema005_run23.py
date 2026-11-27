@@ -12,7 +12,7 @@ EXPECTED_INPUT_HASHES = (
 )
 
 def load_raw_report(root: Path, runtime: str, entry: dict[str, Any]) -> dict[str, Any]:
-    compressed = base64.b64decode((root / entry["raw_path"]).read_text(encoding="ascii").strip(), validate=True)
+    compressed = base64.b64decode("".join((root / entry["raw_path"]).read_text(encoding="ascii").split()), validate=True)
     raw = gzip.decompress(compressed)
     if hashlib.sha256(raw).hexdigest() != entry["report_sha256"]:
         raise ValueError(f"{runtime} raw report SHA-256 mismatch")
