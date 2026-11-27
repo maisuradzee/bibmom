@@ -122,5 +122,6 @@
     "exact_site_coordinates_included": false,
     "raw_sample_records_included": false,
     "restricted_archive_bytes_included": false
-  }
+  },
+  "legal_transition_review_required": true
 }
