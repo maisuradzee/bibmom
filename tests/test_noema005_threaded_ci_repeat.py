@@ -6,7 +6,7 @@ class Noema005ThreadedRepeatTests(unittest.TestCase):
     def setUp(self):
         self.schema=json.loads(SCHEMA.read_text(encoding="utf-8"))
         self.reports={key:(load_snapshot(path),record) for key,(path,record) in snapshot_paths().items()}
-    def test_all_four_frozen_reports_reproduce(self):
+    def test_all_four_frozen_reports_validate(self):
         for key,(doc,record) in self.reports.items():
             with self.subTest(key=key): validate(doc,self.schema,record)
     def test_compensated_state_is_correct_48_of_48_in_every_run(self):
