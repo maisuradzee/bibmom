@@ -12,8 +12,15 @@ EXPECTED_INPUT_HASHES = (
 )
 
 def load_raw_report(root: Path, runtime: str, entry: dict[str, Any]) -> dict[str, Any]:
-    compressed = base64.b64decode("".join((root / entry["raw_path"]).read_text(encoding="ascii").split()), validate=True)
-    raw = gzip.decompress(compressed)
+    encoded = "".join((root / entry["raw_path"]).read_text(encoding="ascii").split())
+    compressed = base64.b64decode(encoded, validate=True)
+    compression = entry.get("compression", "gzip")
+    if compression == "gzip":
+        raw = gzip.decompress(compressed)
+    elif compression == "lzma":
+        raw = lzma.decompress(compressed)
+    else:
+        raise ValueError(f"unsupported raw-report compression: {compression}")
     if hashlib.sha256(raw).hexdigest() != entry["report_sha256"]:
         raise ValueError(f"{runtime} raw report SHA-256 mismatch")
     report = json.loads(raw)
