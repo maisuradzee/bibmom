@@ -25,6 +25,16 @@ def _require(condition: bool, message: str) -> None:
         raise ValueError(message)
 
 
+def _strict_int(value: Any) -> bool:
+    """JSON integer semantics: bool must not alias 0/1."""
+    return type(value) is int
+
+
+def _finite_number(value: Any) -> bool:
+    """Accept finite JSON numbers but never bool (a Python int subclass)."""
+    return type(value) in (int, float) and math.isfinite(value)
+
+
 def validate_report(
     report: dict[str, Any],
     expected_gil: str,
@@ -63,17 +73,25 @@ def validate_report(
         "Py_GIL_DISABLED build flag is inconsistent with GIL mode",
     )
     cpu_count = environment.get("cpu_count_process")
-    _require(isinstance(cpu_count, int) and cpu_count > 0, "invalid process CPU count")
+    _require(_strict_int(cpu_count) and cpu_count > 0, "invalid process CPU count")
 
     protocol = report.get("protocol")
     _require(isinstance(protocol, dict), "protocol metadata is missing")
     repeat_count = protocol.get("repeat_count")
-    _require(repeat_count == 65_536, "unexpected repeat_count")
-    _require(protocol.get("workers") == list(WORKERS), "unexpected worker matrix")
+    _require(_strict_int(repeat_count) and repeat_count == 65_536, "unexpected repeat_count")
+    workers = protocol.get("workers")
+    _require(
+        isinstance(workers, list) and all(_strict_int(value) for value in workers)
+        and workers == list(WORKERS),
+        "unexpected worker matrix",
+    )
     _require(protocol.get("partitions") == list(PARTITIONS), "unexpected partition matrix")
     _require(protocol.get("methods") == list(METHODS), "unexpected method matrix")
-    _require(protocol.get("warmups") == 1, "unexpected warmup count")
-    _require(protocol.get("repetitions") == expected_repetitions, "unexpected repetition count")
+    _require(_strict_int(protocol.get("warmups")) and protocol.get("warmups") == 1, "unexpected warmup count")
+    _require(
+        _strict_int(protocol.get("repetitions")) and protocol.get("repetitions") == expected_repetitions,
+        "unexpected repetition count",
+    )
     _require(protocol.get("random_seed") is None, "the deterministic fixture must not use a seed")
     _require(
         protocol.get("randomness") == "none; deterministic constructed inputs",
@@ -88,8 +106,10 @@ def validate_report(
     _require(isinstance(inputs, list) and len(inputs) == len(LAYOUTS), "expected two input layouts")
     for item, layout in zip(inputs, LAYOUTS):
         _require(item.get("layout") == layout, f"missing input layout {layout}")
-        _require(item.get("repeat_count") == repeat_count, f"wrong repeat_count for {layout}")
-        _require(item.get("value_count") == repeat_count * 3, f"wrong value_count for {layout}")
+        _require(_strict_int(item.get("repeat_count")) and item.get("repeat_count") == repeat_count,
+                 f"wrong repeat_count for {layout}")
+        _require(_strict_int(item.get("value_count")) and item.get("value_count") == repeat_count * 3,
+                 f"wrong value_count for {layout}")
         _require(
             item.get("correctly_rounded_binary64_reference") == float(repeat_count),
             f"wrong exact reference for {layout}",
@@ -102,9 +122,10 @@ def validate_report(
     _require(isinstance(serial, list) and len(serial) == len(LAYOUTS) * 3,
              "expected six serial baseline measurements")
     for baseline in serial:
-        _require(baseline.get("runs") == expected_repetitions, "wrong serial repetition count")
+        _require(_strict_int(baseline.get("runs")) and baseline.get("runs") == expected_repetitions,
+                 "wrong serial repetition count")
         _require(
-            isinstance(baseline.get("median_wall_ns"), int) and baseline["median_wall_ns"] > 0,
+            _strict_int(baseline.get("median_wall_ns")) and baseline["median_wall_ns"] > 0,
             "invalid serial wall-time measurement",
         )
 
@@ -120,9 +141,11 @@ def validate_report(
              f"expected {len(expected_keys)} threaded configurations")
     actual_keys: set[tuple[Any, ...]] = set()
     for case in cases:
+        worker_count_value = case.get("worker_count")
+        _require(_strict_int(worker_count_value), "worker_count must be a JSON integer, not boolean")
         key = (
             case.get("layout"),
-            case.get("worker_count"),
+            worker_count_value,
             case.get("partition"),
             case.get("method"),
         )
@@ -130,9 +153,12 @@ def validate_report(
         _require(key not in actual_keys, f"duplicate benchmark configuration: {key!r}")
         actual_keys.add(key)
         worker_count = case["worker_count"]
-        _require(case.get("runs") == expected_repetitions, f"wrong run count for {key!r}")
+        _require(_strict_int(case.get("runs")) and case.get("runs") == expected_repetitions,
+                 f"wrong run count for {key!r}")
+        native_counts = case.get("native_thread_counts")
         _require(
-            case.get("native_thread_counts") == [worker_count] * expected_repetitions,
+            isinstance(native_counts, list) and all(_strict_int(value) for value in native_counts)
+            and native_counts == [worker_count] * expected_repetitions,
             f"worker count/native thread count mismatch for {key!r}",
         )
         ids_by_run = case.get("native_thread_ids_by_run")
@@ -142,7 +168,9 @@ def validate_report(
         )
         for ids in ids_by_run:
             _require(
-                isinstance(ids, list) and len(ids) == worker_count and len(set(ids)) == worker_count,
+                isinstance(ids, list) and len(ids) == worker_count
+                and all(_strict_int(value) and value >= 0 for value in ids)
+                and len(set(ids)) == worker_count,
                 f"native thread IDs are not distinct for {key!r}",
             )
         for metric in ("wall_samples_ns", "process_cpu_samples_ns"):
@@ -150,23 +178,21 @@ def validate_report(
             _require(
                 isinstance(samples, list)
                 and len(samples) == expected_repetitions
-                and all(isinstance(value, int) and value > 0 for value in samples),
+                and all(_strict_int(value) and value > 0 for value in samples),
                 f"invalid {metric} for {key!r}",
             )
         _require(
-            isinstance(case.get("median_cpu_wall_ratio"), (int, float))
-            and math.isfinite(case["median_cpu_wall_ratio"])
+            _finite_number(case.get("median_cpu_wall_ratio"))
             and case["median_cpu_wall_ratio"] > 0,
             f"invalid CPU/wall ratio for {key!r}",
         )
         _require(
-            isinstance(case.get("speedup_vs_matching_serial_baseline"), (int, float))
-            and math.isfinite(case["speedup_vs_matching_serial_baseline"])
+            _finite_number(case.get("speedup_vs_matching_serial_baseline"))
             and case["speedup_vs_matching_serial_baseline"] > 0,
             f"invalid speedup ratio for {key!r}",
         )
         correct = case.get("correctly_rounded_runs")
-        _require(isinstance(correct, int) and 0 <= correct <= expected_repetitions,
+        _require(_strict_int(correct) and 0 <= correct <= expected_repetitions,
                  f"invalid correctness count for {key!r}")
         if case["method"] == "threaded_neumaier_state":
             _require(
