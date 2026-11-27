@@ -1,17 +1,18 @@
 # NOEMA — მიმდინარე პროექტის მდგომარეობა
 
-- **განახლდა:** 2026-11-27 (run 18, post-merge verified main snapshot)
+- **განახლდა:** 2026-11-27 (run 25, post-merge verified main snapshot)
 - **საცავი:** https://github.com/maisuradzee/bibmom
-- **მდგომარეობის snapshot main:** c507a91a213435cf6992abf37c233426882cb973 (PR #113 run-18 audit/status merge)
-- **Main quality CI:** [45946337600](https://github.com/maisuradzee/bibmom/actions/runs/45946337600) — validate job SUCCESS for the exact main snapshot.
-- **GitHub Pages deployment:** [45946337647](https://github.com/maisuradzee/bibmom/actions/runs/45946337647) — build and deploy jobs SUCCESS for the exact main snapshot.
+- **მდგომარეობის snapshot main:** 21db09ddf1b98de6a58929c63260de16728f4ff8 (PR #137 run-24 follow-up audit/status merge)
+- **Main quality CI:** [45981391575](https://github.com/maisuradzee/bibmom/actions/runs/45981391575) — validate job SUCCESS for the exact main snapshot.
+- **GitHub Pages deployment:** [45981391564](https://github.com/maisuradzee/bibmom/actions/runs/45981391564) — build and deploy jobs SUCCESS for the exact main snapshot.
 - **PR #113 — run-18 audit/status:** merged as `c507a91a213435cf6992abf37c233426882cb973`; exact post-merge quality CI [45946337600](https://github.com/maisuradzee/bibmom/actions/runs/45946337600) and Pages build/deploy [45946337647](https://github.com/maisuradzee/bibmom/actions/runs/45946337647) both SUCCESS.
 - **Run 18 audit:** [docs/run-audits/2026-11-27-run-18.md](run-audits/2026-11-27-run-18.md) — two independent streams advanced: NOEMA-005 local KVM native-thread reruns and NOEMA-007 AER/mobility-inclusive review schema; both research PRs remain Draft.
 - **Run 17 audit:** [docs/run-audits/2026-11-27-run-17.md](run-audits/2026-11-27-run-17.md) — separate AquaSignal legal data-access and NOEMA-007 flood-risk governance updates in Draft PRs #108 and #109; exact-head quality CI passed for both.
 - **Run 16 audit:** [docs/run-audits/2026-11-27-run-16.md](run-audits/2026-11-27-run-16.md) — NOEMA-007 heat-health readiness discovery and NOEMA-005 ARM64 worker/traced-allocation analysis added in separate Draft PRs #103 and #104.
 - **Merged in current main:** PR #97 (AquaSignal official NEA groundwater RAR URL/retrieval boundary), PR #102 (run-15 status/audit synchronization) and PR #105 and #106 (run-16 status/audit and post-merge status synchronization), PR #107 (run-16 source/CI correction), and PR #110 (run-17 audit/status), and PR #113 (run-18 audit/status). PR #113's exact main quality CI and Pages build/deploy passed.
-- **Open research/engineering PRs:** #117, #118, #112, #109, #108, #104, #103, #101, #100, #99, #93, #91, #88, #87, #85, #46, #27, #7 and #5 (19 open research/engineering PRs; run-19 status/audit PR #119 is separate; 0 open Issues).
+- **Open research/engineering PRs:** 24 (0 open Issues). Current clean-base Run 25 Drafts: #138 AquaSignal definition provenance, #139 NOEMA-007 feasible timely-receipt window, #140 INFRA-001 local high-water reference. Superseded branches #101, #129, #130, #134 and #136 are closed without merging; older active drafts remain separately listed in GitHub.
 - **Public research catalogue:** 1 preliminary, 0 published. No research item was promoted to Published.
+- **Run 25 audit:** [docs/run-audits/2026-11-27-run-25.md](run-audits/2026-11-27-run-25.md) — three independent clean-base research branches advanced; exact-head Quality CI and CPU-thread workflows succeeded for #138–#140; all remain Draft and are not deployed.
 
 
 ## Run 19 — exact research/engineering PR state
