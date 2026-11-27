@@ -6,7 +6,7 @@
 - **Main quality CI:** [45994809027](https://github.com/maisuradzee/bibmom/actions/runs/45994809027) — SUCCESS.
 - **GitHub Pages deployment:** [45994808987](https://github.com/maisuradzee/bibmom/actions/runs/45994808987) — build and deploy SUCCESS.
 - **Open PRs at Run 27 audit:** 27; **open Issues:** 0.
-- **Run 27 research PRs:** [#152 AquaSignal source-access evidence](https://github.com/maisuradzee/bibmom/pull/152) and [#153 NOEMA-007 global MHEWS 2026 evidence](https://github.com/maisuradzee/bibmom/pull/153), both Draft. No research PR was merged.
+- **Run 27 research PRs:** [#152 AquaSignal source-access evidence](https://github.com/maisuradzee/bibmom/pull/152) and [#153 NOEMA-007 global MHEWS 2026 evidence](https://github.com/maisuradzee/bibmom/pull/153), both Draft. No research PR was merged. Exact-head checks passed: #152 quality 45998405457 / CPU-thread 45998405629; #153 quality 45998411074 / CPU-thread 45998411072.
 - **Existing active drafts:** #144 AquaSignal aggregate/provenance, #145 NOEMA-007 feasible lead-time, #146 INFRA-001 local high-water reference, #148 NOEMA-005 local-container reproduction. They remain Draft; no merge was attempted.
 - **Public research catalogue:** 1 preliminary, 0 published. No research item was promoted.
 - **Run 27 audit:** [docs/run-audits/2026-11-27-run-27.md](run-audits/2026-11-27-run-27.md).
@@ -24,7 +24,7 @@
 
 - PR #152 first Quality CI run [45998103353](https://github.com/maisuradzee/bibmom/actions/runs/45998103353) failed at draft-completeness validation because the new draft did not match the repository's required metadata/section headings. The draft was corrected; the exact corrected-head CI is tracked separately.
 - PR #152 initial CPU-thread workflow [45998103349](https://github.com/maisuradzee/bibmom/actions/runs/45998103349): GIL-enabled and free-threaded jobs SUCCESS. This was the standard workflow matrix, not a new benchmark claim.
-- PR #153 exact-head Quality CI and CPU-thread workflow were running when the audit was recorded; final status must be read from GitHub Actions before any merge decision.
+- PR #153 exact-head Quality CI [45998411074](https://github.com/maisuradzee/bibmom/actions/runs/45998411074) and CPU-thread workflow [45998411072](https://github.com/maisuradzee/bibmom/actions/runs/45998411072) both completed SUCCESS.
 - No merge is authorized from this audit. Drafts require exact-head Quality CI, public-boundary review and independent domain review.
 
 ## Run 27 evidence decisions
