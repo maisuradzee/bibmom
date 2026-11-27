@@ -52,7 +52,8 @@ class Noema005LocalContainerReproTests(unittest.TestCase):
             method = row[c["method"]]
             baseline_key = "serial_naive" if method == "threaded_naive_scalar" else "serial_neumaier"
             baseline = self.report["serial_baseline_median_wall_ns"][layout][baseline_key]
-            expected = baseline / row[c["median_wall_ns"]]
+            # The runner computes speedup from the full floating median; median_wall_ns is truncated to int.
+            expected = baseline / statistics.median(row[c["wall_samples_ns"]])
             self.assertEqual(row[c["speedup_vs_matching_serial"]], round(expected, 9))
         self.assertIn("48 configurations", self.report["archive_note"])
         self.assertIn("960 raw wall-time samples", self.report["archive_note"])
