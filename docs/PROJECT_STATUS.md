@@ -1,13 +1,13 @@
 # NOEMA — მიმდინარე პროექტის მდგომარეობა
 
-- **განახლდა:** 2026-11-27 (Run 35 — post-merge verification).
+- **განახლდა:** 2026-11-27 (Run 36 — NFA 2025 source discovery და restore-attestation strict JSON ingestion).
 - **საცავი:** https://github.com/maisuradzee/bibmom
-- **ბოლო დადასტურებული main snapshot:** `1278c856857121cb0d3bf623666fe5c495a4975c` (Run 35 audit merge).
-- **Main Quality CI:** [46045601007](https://github.com/maisuradzee/bibmom/actions/runs/46045601007) — SUCCESS; 491 Python tests, frozen-result/schema checks, site build და publication-boundary checks.
-- **Pages deployment:** [46045601021](https://github.com/maisuradzee/bibmom/actions/runs/46045601021) — build/deploy SUCCESS ზუსტად Run 35 audit merge commit-ზე.
-- **ღია PR:** 38; **ღია Issue:** 0.
+- **მიმდინარე main snapshot აუდიტის დაწყებისას:** `107a5fa7bd95037a19f149d247456eb6106fe054`.
+- **ბოლო დადასტურებული main Quality CI:** [46045601007](https://github.com/maisuradzee/bibmom/actions/runs/46045601007) — SUCCESS, 491 Python tests; ეს run დოკუმენტებში მითითებულ `1278c856857121cb0d3bf623666fe5c495a4975c` audit-merge snapshot-ზეა.
+- **ბოლო დადასტურებული Pages deployment:** [46045601021](https://github.com/maisuradzee/bibmom/actions/runs/46045601021) — build/deploy SUCCESS იმავე `1278c856857121cb0d3bf623666fe5c495a4975c` snapshot-ზე; შემდგომი `107a5fa` documentation-only commit-ის ცალკე Pages run ამ აუდიტში არ დადასტურებულა.
+- **ღია PR:** 41 (მათ შორის Run 36-ის #190, #191 და #192); **ღია Issue:** 0.
 - **აქტიური პორტფელი:** ოთხივე ნაკადი აქტიურია — AquaSignal, NOEMA-005, NOEMA-007 და INFRA-001.
-- **კვლევის კატალოგი:** 3 Preliminary, 0 Published. Run 35-ის ცვლილებები input-validation hardening და პორტფელის აუდიტია; ახალი Published კვლევა არ შექმნილა.
+- **კვლევის კატალოგი:** 3 Preliminary, 0 Published. Run 36-ის ორი ახალი კვლევითი/საინჟინრო ცვლილება Draft PR-ებად რჩება; ახალი Published კვლევა არ შექმნილა.
 
 ## Run 11 — კვლევითი მტკიცებულებების შეჯერება და აღდგენის numeric-boundary hardening
 
@@ -340,3 +340,37 @@ Run 1 used the same AWS x86-64 runner family for both runtime modes. Run 2 used 
 2. NOEMA-007: მონაცემთა კონტროლერის მიერ დამტკიცებული ქართული event-level warning/after-action aggregate-ები და წინასწარ განსაზღვრული denominators.
 3. NOEMA-005: ფიზიკური x86-64/ARM64 კონტროლირებული benchmark, 20+ repetitions, RSS/native memory და DRAM bandwidth.
 4. INFRA-001: დამოუკიდებელი recovery owner, trust-domain, key custody და permissioned clean-host restore.
+
+
+## Run 36 — NFA 2025 access lead და restore-attestation parser hardening
+
+### შესრულებული სამუშაო
+
+- **AquaSignal / PR #190 (Draft):** NFA-ს ოფიციალური 2026-01-08 გვერდი დააფიქსირებს 2025 Food Department-ის ადმინისტრაციულ მაჩვენებლებს და XLSX endpoint-ს, რომელიც აღწერილია როგორც საკვებისა და სასმელი წყლის მონიტორინგის ნიმუშებში გამოვლენილი დარღვევები. XLSX payload არ ჩამოტვირთულა, არ დაიჰეშა და არ გაიხსნა. წყლის ცალკე მნიშვნელი, სრული ტესტირებული ნიმუშების frame და reuse terms უცნობია. Metadata-only JSON, closed schema, 5 test და draft note დაემატა.
+- **INFRA-001 / PR #191 (Draft):** დაემატა `load_restore_attestation_bytes()` და `evaluate_restore_attestation_bytes()`: ზუსტი UTF-8 bytes, 1 MiB ზღვარი, recursive duplicate-key rejection, NaN/Infinity token rejection და object-root მოთხოვნა. დაემატა 6 synthetic regression test. ეს არ ამოწმებს evidence signatures-ს და არ ქმნის production recovery trust-domain-ს.
+- **NOEMA-007:** pinned WRP 2025 warning/action reproduction run 46041436183-ის reproduce job ხელახლა შემოწმდა — SUCCESS. ახალი ქართული operational event/after-action მონაცემები არ მიგვიღია.
+- **NOEMA-005:** ახალი benchmark არ ჩატარებულა. ფიზიკური x86-64/ARM64 replication, representative memory-bound workload, RSS/native memory და DRAM bandwidth კვლავ ბლოკერებია.
+
+### კვლევითი მიგნებები და მტკიცებულების საზღვრები
+
+- **FACT:** NFA-ს ოფიციალური გვერდი 2025 წელს 21,874 Food Department inspection-ს, 10,521 გადამოწმებულ business operator-ს და 554 critical non-compliance operator-ს ასახელებს; იმავე გვერდიდან ხელმისაწვდომია combined food/drinking-water violations XLSX ბმული.
+- **INFERENCE:** violations-only ფაილი ვერ იძლევა non-compliance prevalence-ს სრული tested-sample denominator-ისა და sampling frame-ის გარეშე.
+- **HYPOTHESIS:** data-controller-approved, de-identified წყლის აგრეგატები შეიძლება გამოყენებულ იქნეს provenance-preserving მონიტორინგისთვის.
+- **UNTESTED IDEA:** ავტორიზებული aggregate export-ის private staging adapter და disclosure-reviewed public output.
+- NFA XLSX-ის payload, SHA-256, worksheet/column inventory, row count, water-only denominator და reuse terms უცნობია. 2025 NFA access lead არ ავსებს ცალკე 2024 E. coli მაჩვენებლის დაკარგულ მნიშვნელს.
+- RFC 8259 §4 duplicate object names-ის შემთხვევაში parser-ებს შორის განსხვავებულ ქცევას აღწერს; Python 3.14 JSON decoder დოკუმენტაცია ასახელებს object_pairs_hook-სა და non-standard NaN/Infinity-ის ნაგულისხმევ მიღებას. PR #191 strict bytes API ამ ორ ambiguity-ს input boundary-ზე კეტავს.
+
+### Exact-head CI
+
+- PR #190 head `b7503f4c2d5f02feacfef4e4e792cacaf45f8546`: Quality CI [46048328724](https://github.com/maisuradzee/bibmom/actions/runs/46048328724) — SUCCESS, 496 Python tests; CPU-thread workflow [46048328705](https://github.com/maisuradzee/bibmom/actions/runs/46048328705) — GIL-enabled და free-threaded jobs ორივე SUCCESS. საწყისი PR-head run draft validator-ის სავალდებულო ქართული heading-ების გამო ჩავარდა; დრაფტი შაბლონს მოვარგე და ახალ exact head-ზე CI წარმატებით გავიდა.
+- PR #191 head `e888bb5c445f81b4ff6ab4f1974019c86daed9f5`: Quality CI [46048363033](https://github.com/maisuradzee/bibmom/actions/runs/46048363033) — SUCCESS, 497 Python tests; CPU-thread workflow [46048363044](https://github.com/maisuradzee/bibmom/actions/runs/46048363044) — GIL-enabled და free-threaded jobs ორივე SUCCESS.
+- ორივე PR Draft-ად დარჩა; ამ ციკლში არცერთი არ გაერთიანებულა. მათი mergeability=true ამ ჩანაწერში დადასტურებული არ არის.
+- Main-ის ბოლო დადასტურებული Quality CI/Pages runs ზემოთ მითითებული 1278 snapshot-ისთვისაა; მიმდინარე main 107a-ზე ახალი deployment არ დამიდასტურებია.
+
+### უსაფრთხოება და შემდეგი ნაბიჯები
+
+- საჯარო საცავში არ დაემატა XLSX payload, respondent-level მონაცემი, operator/personal identifier, credential, private key ან production database content.
+- NFA XLSX-ის მიღებამდე საჭიროა data-controller authorization, private inspection, schema, სრული denominator, privacy review და reuse terms.
+- INFRA-001-ში შემდეგი ნაბიჯია დამოუკიდებელი security review, recovery owner, separately trusted high-water service და permissioned clean-host restore.
+- NOEMA-005-ის შემდეგი ნაბიჯია ფიზიკური მოწყობილობის controlled benchmark; NOEMA-007-ის — authorized Georgian warning/after-action aggregates.
+- `data/research.json` უცვლელია: 3 Preliminary, 0 Published. `RESEARCH_STANDARD.md` და `research/TEMPLATE.md` გადამოწმდა; ახალი კატალოგის ჩანაწერი არ დაემატა, რადგან ორივე ახალი მასალა Draft-ია.
