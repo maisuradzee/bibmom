@@ -47,7 +47,7 @@ class BackupManifestNestingTests(unittest.TestCase):
                 _load_manifest_bytes(b'{}')
 
     def test_schema_validator_normalizes_recursive_document_failure(self):
-        with patch.object(
+        with patch.object(Draft202012Validator, 'check_schema', return_value=None), patch.object(
             Draft202012Validator,
             'iter_errors',
             side_effect=RecursionError('synthetic schema recursion'),
