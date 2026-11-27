@@ -176,6 +176,18 @@
       "sample_level_schema_verified": false,
       "reuse_terms_verified": false,
       "note": "Direct RAR URL linked from NEA's 2026-11-26 announcement. Retrieval from this execution environment failed; archive contents, internal files, data dictionary, archive hash and reuse terms remain unverified. A failed retrieval here does not establish that the official server is generally unavailable."
+    },
+    {
+      "id": "NEA_GW_2021_BULLETIN",
+      "publisher": "National Environmental Agency of Georgia",
+      "publication_date": "2021-11",
+      "url": "https://nea.gov.ge/weather/Download/File/1183",
+      "matrix": "groundwater",
+      "access_status": "public_bulletin_listing_payload_not_retrieved",
+      "observation_period": "2021",
+      "sample_level_schema_verified": false,
+      "reuse_terms_verified": false,
+      "note": "The official NEA geology bulletin index lists “2021 წლის საინფორმაციო ჰიდროგეოლოგიური ანგარიში” (November 2021) and links this file endpoint. The web reader rejected the 22,990,164-byte response as too large and a container-side retrieval attempt failed at DNS resolution; no payload bytes, contents, data granularity or reuse terms were inspected. Index page: https://nea.gov.ge/weather/Departments/Geology/Biulettins."
     }
   ]
 }
