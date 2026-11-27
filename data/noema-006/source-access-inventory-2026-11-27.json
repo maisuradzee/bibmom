@@ -79,7 +79,7 @@
         "table_e_coli_previous_cycle_percent_2019": 34,
         "table_e_coli_current_percent_2024": 40.3
       },
-      "note": "Food Safety Agency is identified as drinking-water control body; small rural systems were included. The report narrative and table use different reference-year frames; sample denominator and urban/rural breakdown are blank. Percentages are not population coverage."
+      "note": "Food Safety Agency is identified as drinking-water control body; small rural systems were included. The report narrative gives 37% for 2021-2022, 44.5% for 2023 and 40.3% for 2024; Table 4.i lists E. coli non-compliance at 25% (2005), 34% (2019) and 40.3% (2024). The 2024 table and narrative share a number but have distinct indicator contexts; no explicit crosswalk is supplied. Sample denominator and urban/rural breakdown are blank. Percentages are not population coverage."
     },
     {
       "id": "WIS_C10",
@@ -176,6 +176,18 @@
       "sample_level_schema_verified": false,
       "reuse_terms_verified": false,
       "note": "Direct RAR URL linked from NEA's 2026-11-26 announcement. Retrieval from this execution environment failed; archive contents, internal files, data dictionary, archive hash and reuse terms remain unverified. A failed retrieval here does not establish that the official server is generally unavailable."
+    },
+    {
+      "id": "JECM_DRINKING_WATER_2020_2023",
+      "publisher": "Experimental and Clinical Medicine Georgia (article reporting NFA secondary data analysis)",
+      "publication_date": "2025-03-01",
+      "url": "https://journals.4science.ge/index.php/jecm/article/download/3442/3462/5026",
+      "matrix": "potable_network",
+      "access_status": "public_pdf_aggregate_only_denominator_not_in_table",
+      "observation_period": "2020-2023",
+      "sample_level_schema_verified": false,
+      "reuse_terms_verified": false,
+      "note": "Published figures 1-3 report national and regional aggregate sample counts/rates; raw NFA sample-level records, complete denominators, sampling design and a data dictionary are not supplied. Regional counts sum to 500 vs national 502 in 2020 and 621 vs national 599 in 2021. The article's 2023 national 49.5% is not reconciled with the UNECE/WHO report narrative 44.5%. The article's formal peer-review procedure was not independently verified from accessible journal policy pages."
     }
   ]
 }
