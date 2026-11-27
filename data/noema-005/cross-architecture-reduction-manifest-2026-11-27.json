@@ -1,0 +1,295 @@
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-005",
+  "experiment_id": "NOEMA-2026-005-CROSS-ARCH-REDUCTION-003",
+  "generated_at_utc": "2026-11-27",
+  "source_commit": "d2e5b14dcd5fc701005755943f85a378d0892455",
+  "artifacts": [
+    {
+      "workflow": "native_openmp",
+      "run_id": 45961748471,
+      "artifact_id": 15180639238,
+      "name": "noema005-native-openmp-report.zip",
+      "sha256": "8220736904ca159c835bf62807b2716941a5e47e7f4e7b76559cdee814012913",
+      "size_bytes": 2977,
+      "runner": "ubuntu-24.04",
+      "status": "success"
+    },
+    {
+      "workflow": "native_accumulator_x86_64",
+      "run_id": 45961748438,
+      "artifact_id": 15181375189,
+      "name": "noema005-native-accumulator-x86_64.zip",
+      "sha256": "f8eff09dd7982165b2e5cca7f648618e6246324c592345818d54230f9970ac2f",
+      "size_bytes": 5323,
+      "runner": "ubuntu-24.04",
+      "status": "success"
+    },
+    {
+      "workflow": "native_accumulator_arm64",
+      "run_id": 45961748438,
+      "artifact_id": 15180639287,
+      "name": "noema005-native-accumulator-arm64.zip",
+      "sha256": "3d70bb9ed54d6bb316e7e12a8d9791d167466e5c8491d92b0d30b83c39ed0323",
+      "size_bytes": 5146,
+      "runner": "ubuntu-24.04-arm",
+      "status": "success"
+    },
+    {
+      "workflow": "python_threads_macos_gil",
+      "run_id": 45961748435,
+      "artifact_id": 15180264380,
+      "name": "noema005-arm64-macos-gil.zip",
+      "sha256": "1ecd821a8a2561442d26b5f2bf82a1e98241582f36658bbc536db960dfc12aff",
+      "size_bytes": 7344,
+      "runner": "macos-15",
+      "status": "success"
+    },
+    {
+      "workflow": "python_threads_ubuntu_free",
+      "run_id": 45961748435,
+      "artifact_id": 15180749225,
+      "name": "noema005-arm64-ubuntu-free.zip",
+      "sha256": "5bb8902afd4eb17030accb4fa94a00c796a919a342c5e9d28166596d50effbae",
+      "size_bytes": 7823,
+      "runner": "ubuntu-24.04-arm",
+      "status": "success"
+    },
+    {
+      "workflow": "python_threads_macos_free",
+      "run_id": 45961748435,
+      "artifact_id": 15180908527,
+      "name": "noema005-arm64-macos-free.zip",
+      "sha256": "583ef04eb1f45e81ca76ab3aa8b3d5235fd849c1bd62e817ad1cd3311f685235",
+      "size_bytes": 7650,
+      "runner": "macos-15",
+      "status": "success"
+    },
+    {
+      "workflow": "python_threads_ubuntu_gil",
+      "run_id": 45961748435,
+      "artifact_id": 15181310576,
+      "name": "noema005-arm64-ubuntu-gil.zip",
+      "sha256": "0fe1d1eb7a9ebc61e5f2be591b04706e68e49620c0d411ddd12a3f5e1f41cd2d",
+      "size_bytes": 7566,
+      "runner": "ubuntu-24.04-arm",
+      "status": "success"
+    }
+  ],
+  "native_accumulator": {
+    "source_sha256": "978725a7966876cf15f8d5e188f75a36a0b85c016e6fa90da4458344d14eb716",
+    "compiler": "GCC 13.3.0",
+    "cpus": 4,
+    "repetitions": 5,
+    "warmups": 1,
+    "repeat_count": 250000,
+    "cases_per_architecture": 50,
+    "long_double_mant_dig": {
+      "x86_64": 64,
+      "arm64": 113
+    },
+    "process_peak_rss_kib": {
+      "x86_64": 17856,
+      "arm64": 16320
+    },
+    "correctly_rounded_runs": {
+      "serial_long_double": {
+        "x86_64": {
+          "passed": 5,
+          "total": 10
+        },
+        "arm64": {
+          "passed": 10,
+          "total": 10
+        }
+      },
+      "openmp_long_double": {
+        "x86_64": {
+          "passed": 20,
+          "total": 40
+        },
+        "arm64": {
+          "passed": 40,
+          "total": 40
+        }
+      },
+      "openmp_naive_partials": {
+        "x86_64": {
+          "passed": 0,
+          "total": 40
+        },
+        "arm64": {
+          "passed": 0,
+          "total": 40
+        }
+      },
+      "openmp_pairwise_tree": {
+        "x86_64": {
+          "passed": 0,
+          "total": 40
+        },
+        "arm64": {
+          "passed": 0,
+          "total": 40
+        }
+      },
+      "openmp_neumaier_state": {
+        "x86_64": {
+          "passed": 40,
+          "total": 40
+        },
+        "arm64": {
+          "passed": 40,
+          "total": 40
+        }
+      },
+      "openmp_exact_superaccumulator": {
+        "x86_64": {
+          "passed": 40,
+          "total": 40
+        },
+        "arm64": {
+          "passed": 40,
+          "total": 40
+        }
+      }
+    },
+    "speedup_vs_matching_serial": {
+      "openmp_exact_superaccumulator": {
+        "x86_64": {
+          "triplet_order": {
+            "best": 1.497,
+            "workers": 8
+          },
+          "grouped_cancellation": {
+            "best": 1.826,
+            "workers": 8
+          }
+        },
+        "arm64": {
+          "triplet_order": {
+            "best": 3.371,
+            "workers": 4
+          },
+          "grouped_cancellation": {
+            "best": 3.338,
+            "workers": 8
+          }
+        }
+      },
+      "openmp_pairwise_tree": {
+        "x86_64": {
+          "triplet_order": {
+            "best": 2.401,
+            "workers": 4
+          },
+          "grouped_cancellation": {
+            "best": 2.108,
+            "workers": 4
+          }
+        },
+        "arm64": {
+          "triplet_order": {
+            "best": 3.963,
+            "workers": 4
+          },
+          "grouped_cancellation": {
+            "best": 3.921,
+            "workers": 4
+          }
+        }
+      }
+    }
+  },
+  "native_openmp": {
+    "cases": 20,
+    "repetitions": 5,
+    "input_storage_bytes": 0,
+    "process_peak_rss_kib": 18004,
+    "correctly_rounded_runs": {
+      "neumaier_state": {
+        "passed": 40,
+        "total": 40
+      },
+      "naive_partials": {
+        "passed": 0,
+        "total": 40
+      }
+    },
+    "speedup_vs_matching_serial": {
+      "triplet_order": {
+        "best": 3.591,
+        "workers": 2
+      },
+      "grouped_cancellation": {
+        "best": 1.974,
+        "workers": 4
+      }
+    }
+  },
+  "python_threads": {
+    "cases_per_environment": 48,
+    "repetitions": 3,
+    "warmups": 1,
+    "repeat_count": 65536,
+    "value_count_per_layout": 196608,
+    "cpu_count_process": {
+      "macos": 3,
+      "ubuntu": 4
+    },
+    "correctly_rounded_runs": {
+      "threaded_naive_scalar": {
+        "all_environments": {
+          "passed": 0,
+          "total": 48
+        }
+      },
+      "threaded_neumaier_scalar": {
+        "all_environments": {
+          "passed": 42,
+          "total": 48
+        }
+      },
+      "threaded_neumaier_state": {
+        "all_environments": {
+          "passed": 48,
+          "total": 48
+        }
+      }
+    },
+    "neumaier_state_max_cpu_wall_ratio": {
+      "macos_gil": 1.007,
+      "ubuntu_gil": 1.014,
+      "ubuntu_free": 3.749,
+      "macos_free": 2.737
+    },
+    "neumaier_state_median_speedup": {
+      "macos_gil": 0.696,
+      "ubuntu_gil": 0.742,
+      "ubuntu_free": 0.707,
+      "macos_free": 0.697
+    },
+    "neumaier_state_median_tracemalloc_bytes": {
+      "macos_gil": 25345,
+      "ubuntu_gil": 25301,
+      "ubuntu_free": 277661,
+      "macos_free": 276797
+    },
+    "gil_enabled": {
+      "macos": true,
+      "ubuntu": true
+    },
+    "free_threaded": {
+      "macos": true,
+      "ubuntu": true
+    }
+  },
+  "limitations": [
+    "Hosted GitHub runners are not independent physical-device or external-lab replication.",
+    "Synthetic cancellation workloads do not represent application workloads.",
+    "Five native and three Python-thread repetitions do not establish a universal performance distribution.",
+    "Process peak RSS is whole-process high-water mark; tracemalloc is Python-traced allocation, not RSS or native allocation.",
+    "No DRAM bandwidth, energy, hardware performance counters or production workload was measured.",
+    "The raw artifacts have 30-day GitHub Actions retention; the SHA-256 manifest preserves provenance but not the binary bytes."
+  ]
+}
