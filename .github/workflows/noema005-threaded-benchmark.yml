@@ -11,17 +11,9 @@ on:
       - .github/workflows/noema005-threaded-benchmark.yml
       - scripts/sanitize_noema005_threaded_report.py
       - tests/test_sanitize_noema005_threaded_report.py
-      - scripts/sanitize_noema005_threaded_report.py
-      - tests/test_sanitize_noema005_threaded_report.py
   pull_request:
     branches: [main]
     paths:
-      - scripts/benchmark_noema005_threaded_reduction.py
-      - tests/test_benchmark_noema005_threaded_reduction.py
-      - data/noema-005/threaded-benchmark-protocol.json
-      - .github/workflows/noema005-threaded-benchmark.yml
-      - scripts/sanitize_noema005_threaded_report.py
-      - tests/test_sanitize_noema005_threaded_report.py
   workflow_dispatch:
 
 permissions:
