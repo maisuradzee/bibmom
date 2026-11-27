@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AquaSignal metadata-only NFA 2026 drinking-water sampling plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "study_id",
+    "evidence_status",
+    "source",
+    "planned_sampling",
+    "interpretation_limits",
+    "privacy"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "study_id": {
+      "const": "NOEMA-2026-006"
+    },
+    "evidence_status": {
+      "const": "FACT"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "publisher",
+        "title",
+        "url",
+        "publication_date_status",
+        "accessed_at"
+      ],
+      "properties": {
+        "publisher": {
+          "const": "National Food Agency of Georgia"
+        },
+        "title": {
+          "const": "2026 State Control Programme for Food Safety"
+        },
+        "url": {
+          "const": "https://www.nfa.gov.ge/Ge/Files/ViewFile/8866"
+        },
+        "publication_date_status": {
+          "const": "not_stated_in_retrieved_document"
+        },
+        "accessed_at": {
+          "const": "2026-11-27"
+        }
+      }
+    },
+    "planned_sampling": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "is_planned",
+        "base_drinking_water_samples",
+        "calculation",
+        "additional_bottled_water_samples_estimate",
+        "total_planned_drinking_water_samples_including_bottled",
+        "produced_bottled_water_volume_monitoring_planned",
+        "actual_collected_samples",
+        "actual_tested_samples",
+        "actual_results_published"
+      ],
+      "properties": {
+        "is_planned": {
+          "const": true
+        },
+        "base_drinking_water_samples": {
+          "const": 550
+        },
+        "calculation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "risk_coefficient_k",
+            "reference_network_samples_a",
+            "unrounded_base_samples",
+            "rounded_base_samples"
+          ],
+          "properties": {
+            "risk_coefficient_k": {
+              "const": 1.5
+            },
+            "reference_network_samples_a": {
+              "const": 365
+            },
+            "unrounded_base_samples": {
+              "const": 547.5
+            },
+            "rounded_base_samples": {
+              "const": 550
+            }
+          }
+        },
+        "additional_bottled_water_samples_estimate": {
+          "const": 200
+        },
+        "total_planned_drinking_water_samples_including_bottled": {
+          "const": 750
+        },
+        "produced_bottled_water_volume_monitoring_planned": {
+          "const": false
+        },
+        "actual_collected_samples": {
+          "type": "null"
+        },
+        "actual_tested_samples": {
+          "type": "null"
+        },
+        "actual_results_published": {
+          "const": false
+        }
+      }
+    },
+    "interpretation_limits": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "string",
+        "minLength": 30
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "respondent_data_included",
+        "personal_data_included",
+        "business_identifiers_included",
+        "raw_sample_records_included"
+      ],
+      "properties": {
+        "respondent_data_included": {
+          "const": false
+        },
+        "personal_data_included": {
+          "const": false
+        },
+        "business_identifiers_included": {
+          "const": false
+        },
+        "raw_sample_records_included": {
+          "const": false
+        }
+      }
+    }
+  }
+}
