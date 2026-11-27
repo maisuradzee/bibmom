@@ -1,0 +1,197 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AquaSignal nitrate reporting-basis crosswalk",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_id",
+    "study_id",
+    "evidence_status",
+    "sources",
+    "unit_contract",
+    "comparability_guards",
+    "historical_context",
+    "privacy"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "record_id": {
+      "const": "AQUASIGNAL-GEORGIA-NITRATE-UNIT-BASIS-2026-11-28"
+    },
+    "study_id": {
+      "const": "NOEMA-2026-006"
+    },
+    "evidence_status": {
+      "const": "FACT"
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "publisher",
+          "title",
+          "publication_date",
+          "url",
+          "accessed_at",
+          "supports"
+        ],
+        "properties": {
+          "publisher": {
+            "type": "string",
+            "minLength": 10
+          },
+          "title": {
+            "type": "string",
+            "minLength": 20
+          },
+          "publication_date": {
+            "type": "string",
+            "minLength": 4
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https://"
+          },
+          "accessed_at": {
+            "const": "2026-11-28"
+          },
+          "supports": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 20
+            }
+          }
+        }
+      }
+    },
+    "unit_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "analyte",
+        "source_units",
+        "conversion"
+      ],
+      "properties": {
+        "analyte": {
+          "const": "nitrate"
+        },
+        "source_units": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "rivers_and_lakes",
+            "groundwater"
+          ],
+          "properties": {
+            "rivers_and_lakes": {
+              "const": "mg NO3-N/L"
+            },
+            "groundwater": {
+              "const": "mg NO3/L"
+            }
+          }
+        },
+        "conversion": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "from",
+            "to",
+            "factor",
+            "reverse_operation",
+            "precision_note"
+          ],
+          "properties": {
+            "from": {
+              "const": "mg NO3/L"
+            },
+            "to": {
+              "const": "mg NO3-N/L"
+            },
+            "factor": {
+              "const": "0.226"
+            },
+            "reverse_operation": {
+              "const": "divide by 0.226"
+            },
+            "precision_note": {
+              "type": "string",
+              "minLength": 50
+            }
+          }
+        }
+      }
+    },
+    "comparability_guards": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "string",
+        "minLength": 30
+      }
+    },
+    "historical_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "groundwater_period",
+        "available_sites",
+        "listed_sites",
+        "sampling_frequency_per_year",
+        "values_are_aggregated",
+        "raw_site_values_included"
+      ],
+      "properties": {
+        "groundwater_period": {
+          "const": "2016-2017"
+        },
+        "available_sites": {
+          "const": 34
+        },
+        "listed_sites": {
+          "const": 45
+        },
+        "sampling_frequency_per_year": {
+          "const": 2
+        },
+        "values_are_aggregated": {
+          "const": true
+        },
+        "raw_site_values_included": {
+          "const": false
+        }
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "raw_sample_records_included",
+        "exact_site_coordinates_included",
+        "personal_data_included"
+      ],
+      "properties": {
+        "raw_sample_records_included": {
+          "const": false
+        },
+        "exact_site_coordinates_included": {
+          "const": false
+        },
+        "personal_data_included": {
+          "const": false
+        }
+      }
+    }
+  }
+}
