@@ -64,7 +64,8 @@
         "archive_sha256": "de02a5d32b342000f3bb4379b88c817e4b54b8783acb981cd3369ee8a78a3461",
         "report_sha256": "92a0f9355d5a96aab818504ee1eea063e19b22b1eeb4070f4a248144c8171d3c",
         "expires_at_utc": "2026-12-27T09:20:00Z",
-        "raw_path": "data/noema-005/raw/run-45972740197-free-threaded.json.gz.b64"
+        "raw_path": "data/noema-005/raw/run-45972740197-free-threaded.json.lzma.b64",
+        "compression": "lzma"
       }
     },
     "aggregates": {
