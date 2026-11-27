@@ -135,15 +135,24 @@ def validate_action_readiness_record(record: Mapping[str, Any]) -> None:
 
     survey = root["survey"]
     if survey is not None:
+        required_survey_fields = {
+            "sampling_method", "frame_n", "invited_n", "completed_n", "received_warning_n",
+            "comprehension_assessed_n", "comprehension_correct_n",
+            "action_feasibility_assessed_n", "action_feasible_n",
+            "action_reported_assessed_n", "protective_action_reported_n",
+            "protective_action_verified_n",
+        }
+        optional_timing_fields = {
+            "timely_receipt_assessed_n",
+            "timely_received_n",
+            "timely_receipt_minimum_lead_seconds",
+            "timely_receipt_basis",
+            "timely_receipt_rule_reference",
+            "timely_receipt_rule_source_url",
+        }
         survey = _object(
-            survey, "survey",
-            {
-                "sampling_method", "frame_n", "invited_n", "completed_n", "received_warning_n",
-                "comprehension_assessed_n", "comprehension_correct_n",
-                "action_feasibility_assessed_n", "action_feasible_n",
-                "action_reported_assessed_n", "protective_action_reported_n",
-                "protective_action_verified_n",
-            },
+            survey, "survey", required_survey_fields,
+            allowed=required_survey_fields | optional_timing_fields,
         )
         if survey["sampling_method"] not in SAMPLING_METHODS:
             raise ActionReadinessValidationError("unsupported survey sampling_method")
@@ -165,6 +174,56 @@ def validate_action_readiness_record(record: Mapping[str, Any]) -> None:
         if counts["protective_action_verified_n"] > counts["protective_action_reported_n"]:
             raise ActionReadinessValidationError("verified actions cannot exceed reported actions")
 
+        timing_present = optional_timing_fields & set(survey)
+        if timing_present and timing_present != optional_timing_fields:
+            raise ActionReadinessValidationError(
+                "timely-receipt fields must be supplied together"
+            )
+        if timing_present:
+            timing_assessed = _count(
+                survey["timely_receipt_assessed_n"],
+                "survey.timely_receipt_assessed_n",
+                threshold,
+            )
+            timely = _count(
+                survey["timely_received_n"],
+                "survey.timely_received_n",
+                threshold,
+            )
+            minimum_lead = survey["timely_receipt_minimum_lead_seconds"]
+            if timing_assessed > counts["received_warning_n"]:
+                raise ActionReadinessValidationError(
+                    "timely receipt assessments cannot exceed respondents reporting warning receipt"
+                )
+            if timely > timing_assessed:
+                raise ActionReadinessValidationError(
+                    "timely receipts cannot exceed timing assessments"
+                )
+            if type(minimum_lead) is not int or minimum_lead < 1:
+                raise ActionReadinessValidationError(
+                    "timely_receipt_minimum_lead_seconds must be a positive integer"
+                )
+            available_lead_seconds = (deadline - issued).total_seconds()
+            if minimum_lead > available_lead_seconds:
+                raise ActionReadinessValidationError(
+                    "minimum timely-receipt lead cannot exceed the warning issue-to-deadline window"
+                )
+            rule_reference = survey["timely_receipt_rule_reference"]
+            rule_source_url = survey["timely_receipt_rule_source_url"]
+            if (rule_reference is None) != (rule_source_url is None):
+                raise ActionReadinessValidationError(
+                    "timely receipt rule reference and source URL must be supplied together"
+                )
+            if rule_reference is not None:
+                if not isinstance(rule_reference, str) or not rule_reference.strip() or len(rule_reference) > 128:
+                    raise ActionReadinessValidationError("timely receipt rule reference must be a bounded non-empty label")
+                if not isinstance(rule_source_url, str) or not rule_source_url.startswith("https://"):
+                    raise ActionReadinessValidationError("timely receipt rule source URL must be HTTPS")
+            if survey["timely_receipt_basis"] != "respondent_recall":
+                raise ActionReadinessValidationError(
+                    "timely_receipt_basis must be respondent_recall; endpoint logs are a separate metric"
+                )
+
     sources = root["evidence_sources"]
     if not isinstance(sources, list) or not sources:
         raise ActionReadinessValidationError("evidence_sources must be a non-empty array")
@@ -183,7 +242,16 @@ def validate_action_readiness_record(record: Mapping[str, Any]) -> None:
 def compute_action_readiness_metrics(record: Mapping[str, Any]) -> dict[str, Any]:
     """Return rates with explicit denominators; never treat endpoint receipts as people."""
     validate_action_readiness_record(record)
-    result: dict[str, Any] = {"channel_delivery_confirmation": []}
+    privacy = record["privacy"]
+    result: dict[str, Any] = {
+        "channel_delivery_confirmation": [],
+        "privacy_approval_evidence": {
+            "data_controller_approval_declared": privacy["data_controller_approved"],
+            "privacy_reviewer_approval_declared": privacy["privacy_reviewer_approved"],
+            "evidence_status": "caller_declared_not_independently_verified",
+            "publication_authorized_by_validator": False,
+        },
+    }
     for item in record["channels"]:
         denominator = item["attempted_endpoints"]
         result["channel_delivery_confirmation"].append({
@@ -214,4 +282,41 @@ def compute_action_readiness_metrics(record: Mapping[str, Any]) -> dict[str, Any
             "denominator_unit": unit,
             "rate": round(numerator / denominator, 6) if denominator else None,
         }
+    timing_fields = {
+        "timely_receipt_assessed_n",
+        "timely_received_n",
+        "timely_receipt_minimum_lead_seconds",
+        "timely_receipt_basis",
+    }
+    if timing_fields <= set(survey):
+        denominator = survey["timely_receipt_assessed_n"]
+        numerator = survey["timely_received_n"]
+        result["survey_metrics"]["self_reported_timely_warning_receipt"] = {
+            "numerator": numerator,
+            "denominator": denominator,
+            "denominator_unit": "respondents_reporting_receipt_and_assessed_for_timing",
+            "rate": round(numerator / denominator, 6) if denominator and survey["timely_receipt_rule_reference"] is not None else None,
+            "measurement_basis": survey["timely_receipt_basis"],
+            "minimum_lead_seconds": survey["timely_receipt_minimum_lead_seconds"],
+            "available_warning_lead_seconds": round(
+                (_utc(record["warning"]["action_deadline_utc"], "warning.action_deadline_utc")
+                 - _utc(record["warning"]["issued_at_utc"], "warning.issued_at_utc")).total_seconds(),
+                6,
+            ),
+            "rule_reference": survey["timely_receipt_rule_reference"],
+            "rule_source_url": survey["timely_receipt_rule_source_url"],
+            "rule_documentation_status": (
+                "provided_not_independently_verified"
+                if survey["timely_receipt_rule_reference"] is not None
+                else "missing"
+            ),
+            "rate_status": (
+                "descriptive_rule_source_unverified"
+                if survey["timely_receipt_rule_reference"] is not None
+                else "not_computed_missing_rule_source"
+            ),
+            "cross_event_comparison_permitted": False,
+        }
+    else:
+        result["survey_metrics"]["self_reported_timely_warning_receipt"] = None
     return result
