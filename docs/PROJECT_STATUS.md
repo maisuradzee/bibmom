@@ -571,3 +571,37 @@ Run38 AquaSignal historical baseline/legal crosswalk details: [research draft](.
 - No new Supabase project was created and no other project's database was used.
 - No research was promoted to Published; the catalogue remains 3 Preliminary and 0 Published.
 - Next priorities: obtain an authorized NEA archive and dictionary; perform physical x86-64/ARM64 NOEMA-005 replication with at least 20 repetitions and RSS/DRAM measurements; obtain privacy-approved Georgian warning/after-action aggregates; and conduct an independently owned offsite clean-host restore drill.
+
+
+## Run 40 — source-grounded water/flood discovery and recovery reference (2026-11-28)
+
+### Main baseline and repository state
+
+- Run 40 research branches are based on Main SHA `2600d28f7c05332ca3faeedcfcbb8c6528d78d08`.
+- Baseline Main Quality CI [46070948133](https://github.com/maisuradzee/bibmom/actions/runs/46070948133): SUCCESS, 593 Python tests.
+- Baseline Pages deployment [46070948135](https://github.com/maisuradzee/bibmom/actions/runs/46070948135): SUCCESS for the exact Main SHA.
+- Repository query after the Run 40 branches: 42 open PRs, 0 open Issues. Existing legacy Drafts were not bulk-closed.
+
+### Research and engineering work completed in separate PRs
+
+- **AquaSignal — PR #223** ([PR](https://github.com/maisuradzee/bibmom/pull/223), head `b684f37a7fc1ff25026ca3ba4a1908c91bda14ae`). Records Government Decree №447/2026, effective from 2026-09-01, including NEA risk-based representative environmental-water monitoring, standardized data formats, public-access/privacy conditions, observational/operational/investigative modes and the groundwater transition to hydrogeological units until groundwater bodies are defined. Adds a Decimal NO3 ↔ NO3-N helper using the WHO-published rounded factor 0.226 and preserves the original water matrix. EEA C11 distinguishes rivers/lakes (mg NO3-N/L) from groundwater (mg NO3/L). Exact-head Quality CI [46072117376](https://github.com/maisuradzee/bibmom/actions/runs/46072117376) and [46072122186](https://github.com/maisuradzee/bibmom/actions/runs/46072122186): SUCCESS, 622 tests; site build reports 0 Published / 3 Preliminary. PR remains Draft pending independent water-chemistry and Georgian legal review. Decree №447 annex DOCX was listed but not retrieved/inspected; no sample-level results or compliance estimate were added.
+- **INFRA-001 — PR #224** ([PR](https://github.com/maisuradzee/bibmom/pull/224), head `5a5867a2df69d1bd90de015ced7e474a9847b1fe`). Ports the existing local SQLite high-water compare-and-advance reference model onto the current Main base; adds stricter stream/object-version and expected-state validation, bounded finite busy timeout, idempotent retry, lineage/rollback/equivocation checks and two-connection writer tests. Exact-head Quality CI [46072267138](https://github.com/maisuradzee/bibmom/actions/runs/46072267138) and [46072277514](https://github.com/maisuradzee/bibmom/actions/runs/46072277514): SUCCESS, 610 tests; site build reports 0 Published / 3 Preliminary. PR remains Draft pending independent security review and recovery-owner assignment. This is a single-file SQLite model, not an external trust domain, provider adapter or production anti-rollback service.
+- **NOEMA-007 — PR #225** ([PR](https://github.com/maisuradzee/bibmom/pull/225), head `49e6687dd68eca0478b1173810384427236f1091`). Records Government Decree №440/2026: NEA preliminary flood-risk assessment responsibilities, inputs, five principal flood types and two conditional processes, risk criteria, six-year review cycle, methodology deadline 2027-06-01 and first national assessment deadline 2028-12-31. The decree is a risk-discovery/prioritization framework, not evidence of published hazard maps or an operational warning service. One initial test assertion was corrected to match the official text; the final exact-head Quality CI [46072580669](https://github.com/maisuradzee/bibmom/actions/runs/46072580669) and [46072584198](https://github.com/maisuradzee/bibmom/actions/runs/46072584198): SUCCESS, 601 tests; site build reports 0 Published / 3 Preliminary. PR remains Draft pending independent disaster-risk/legal review.
+
+### Four-stream portfolio review
+
+- **AquaSignal — active / Preliminary.** New legal monitoring framework and nitrate unit-basis crosswalk are documented. No Annex DOCX, current NEA annual plan, raw sample results, complete station dictionary or authorized reuse terms have been retrieved. Planned sample counts are not actual denominators.
+- **NOEMA-005 — active / Preliminary.** Existing hosted Experiment 002 remains the six-cell, 1,152-measured-run frozen comparison. Run 40 performed no new physical x86-64/ARM64 device experiment, RSS/native-memory measurement or DRAM-bandwidth measurement. No new speedup claim is made.
+- **NOEMA-007 — active / Preliminary.** Decree №440 adds a statutory national risk-assessment framework and future milestones. No methodology, first national assessment, risk-area list, hazard/risk maps or authorized Georgian warning/after-action dataset was retrieved.
+- **NOEMA-INFRA-001 — active / engineering.** The local high-water reference model is ported in PR #224 but remains a single-host SQLite conformance model. No external authority, provider retention, production key custody or clean-host restore is deployed.
+
+### Evidence, safety and next priorities
+
+- The nitrate conversion factor 0.226 is rounded; it is not suitable as the sole basis for legal pass/fail decisions near a threshold. Surface-water ecological limits, groundwater context and drinking-water compliance remain separate matrices/regimes.
+- Decree №447 annexes were not inspected. Operational monthly/quarterly frequency is not generalized to every station/analyte.
+- Decree №440 does not measure alert issuance, delivery, receipt, comprehension, feasible action or protective action.
+- No personal, child, respondent, business-contact, precise private-location, raw sample, restricted archive, credential or key material was added to the public repository.
+- No new Supabase project was created and no other project's database was used.
+- No PR was merged in Run 40; PRs #223–225 remain Draft pending their stated independent reviews. Main and Pages therefore remain at the baseline SHA above; no Run 40 deployment is claimed.
+- The portfolio remains four active streams, three Preliminary catalogue entries and zero Published studies.
+- Next priorities: inspect Decree №447 Annex 1/2 and obtain the NEA annual monitoring plan after 2026-12-01; obtain authorized NEA/NFA sample data and dictionary; complete NOEMA-005 physical-device replication with at least 20 repetitions plus RSS/DRAM measurements; monitor the Decree №440 methodology and 2028 assessment milestones; assign an independent recovery owner and design an external high-water trust domain.
