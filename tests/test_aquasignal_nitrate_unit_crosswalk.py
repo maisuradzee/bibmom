@@ -39,6 +39,19 @@ class NitrateBasisCrosswalkTests(unittest.TestCase):
         self.assertEqual(self.record["unit_contract"]["conversion"]["factor"], "0.226")
         self.assertTrue(any("0.226" in item for source in self.record["sources"] for item in source["supports"]))
 
+    def test_current_who_2026_edition_preserves_2016_assessment_date(self) -> None:
+        sources = self.record["sources"]
+        current = [
+            source for source in sources
+            if source["publisher"] == "World Health Organization"
+            and source["publication_date"] == "2026-06-17"
+        ]
+        self.assertEqual(len(current), 1)
+        self.assertEqual(current[0]["assessment_date"], "2016")
+        self.assertIn("0.226", " ".join(current[0]["supports"]))
+        self.assertIn("466–472", " ".join(current[0]["supports"]))
+        self.assertIn("third-addenda_chemical-fact-sheets.pdf", current[0]["url"])
+
     def test_groundwater_denominator_and_period_remain_historical_aggregate(self) -> None:
         context = self.record["historical_context"]
         self.assertEqual(context["available_sites"], 34)
