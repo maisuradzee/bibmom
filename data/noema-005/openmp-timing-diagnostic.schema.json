@@ -211,6 +211,10 @@
         },
         "cgroup_cpu_quota_chain_complete": {
           "type": "boolean"
+        },
+        "cgroup_cpu_quota_unreadable_level_count": {
+          "type": "integer",
+          "minimum": 0
         }
       }
     },
@@ -461,6 +465,28 @@
         "thread_cgroup_unverified_count": {
           "type": "integer",
           "minimum": 0
+        },
+        "process_thread_count": {
+          "type": "integer",
+          "minimum": -1
+        },
+        "known_cpu_capacity_upper_bound": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "exclusiveMinimum": 0
+        },
+        "cpu_wall_anomaly_threshold_basis": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "full_cgroup_quota_chain",
+            "affinity_cpuset_upper_bound",
+            null
+          ]
         }
       }
     }

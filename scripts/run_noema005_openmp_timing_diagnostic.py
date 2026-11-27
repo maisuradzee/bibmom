@@ -103,6 +103,7 @@ def read_cgroup_metadata() -> dict[str, Any]:
     cpuset_text = cpu_max = None
     quota_values: list[tuple[int, float]] = []
     quota_levels = 0
+    unreadable_levels = 0
     quota_chain_complete = directory is not None and mount_point is not None
     if directory is not None:
         try:
@@ -122,11 +123,13 @@ def read_cgroup_metadata() -> dict[str, Any]:
                     quota_values.append((quota_levels, quota))
             except (OSError, ValueError):
                 quota_chain_complete = False
+                unreadable_levels += 1
             quota_levels += 1
             if current == mount_point:
                 break
             if mount_point not in current.parents:
                 quota_chain_complete = False
+                unreadable_levels += 1
                 break
             current = current.parent
     cpuset = parse_cpu_list(cpuset_text)
@@ -143,28 +146,36 @@ def read_cgroup_metadata() -> dict[str, Any]:
         "cgroup_cpu_quota_ancestor_levels": quota_levels,
         "cgroup_cpu_quota_constrained_levels": [level for level, _ in quota_values],
         "cgroup_cpu_quota_chain_complete": quota_chain_complete,
+        "cgroup_cpu_quota_unreadable_level_count": unreadable_levels,
         "process_affinity_cpus": affinity,
         "process_affinity_count": len(affinity),
         "cpu_stat_before": _read_cpu_stat(directory),
     }
 
 def _capacity(environment: dict[str, Any], thread_union: list[int],
-              thread_cgroup_matches: list[bool | None]) -> float | None:
-    if not environment.get("cgroup_membership_resolved") or not environment.get("cgroup_cpu_quota_chain_complete"):
-        return None
+              thread_cgroup_matches: list[bool | None], process_thread_count: int,
+              actual_threads: int) -> tuple[float | None, float | None, str | None]:
+    if not environment.get("cgroup_membership_resolved"):
+        return None, None, None
     if not thread_cgroup_matches or any(value is not True for value in thread_cgroup_matches):
-        return None
+        return None, None, None
+    if process_thread_count < 1 or process_thread_count != actual_threads:
+        return None, None, None
     candidates: list[float] = []
     if environment.get("process_affinity_count"):
         candidates.append(float(environment["process_affinity_count"]))
     if environment.get("cgroup_cpuset_cpus_effective"):
         candidates.append(float(len(environment["cgroup_cpuset_cpus_effective"])))
-    quota = environment.get("cgroup_cpu_quota_cores")
-    if quota is not None:
-        candidates.append(float(quota))
     if thread_union:
         candidates.append(float(len(thread_union)))
-    return min(candidates) if candidates else None
+    upper_bound = min(candidates) if candidates else None
+    if upper_bound is None:
+        return None, None, None
+    if not environment.get("cgroup_cpu_quota_chain_complete"):
+        return upper_bound, None, "affinity_cpuset_upper_bound"
+    quota = environment.get("cgroup_cpu_quota_cores")
+    effective = min(upper_bound, float(quota)) if quota is not None else upper_bound
+    return upper_bound, effective, "full_cgroup_quota_chain"
 
 
 def validate_report(report: dict[str, Any], schema_path: Path = SCHEMA) -> None:
@@ -185,9 +196,9 @@ def validate_report(report: dict[str, Any], schema_path: Path = SCHEMA) -> None:
     version = report["schema_version"]
     environment = report["environment"]
     if version == 2:
-        required_environment = {"cgroup_cpu_quota_ancestor_levels", "cgroup_cpu_quota_constrained_levels", "cgroup_cpu_quota_chain_complete"}
+        required_environment = {"cgroup_cpu_quota_ancestor_levels", "cgroup_cpu_quota_constrained_levels", "cgroup_cpu_quota_chain_complete", "cgroup_cpu_quota_unreadable_level_count"}
         if not required_environment.issubset(environment):
-            raise ValueError("schema v2 requires complete ancestor-quota metadata")
+            raise ValueError("schema v2 requires ancestor-quota metadata")
         if not isinstance(environment["cgroup_cpu_quota_chain_complete"], bool):
             raise ValueError("quota-chain completeness must be boolean")
     runs = report["runs"]
@@ -224,14 +235,22 @@ def validate_report(report: dict[str, Any], schema_path: Path = SCHEMA) -> None:
                 raise ValueError("per-run cgroup membership counts do not reproduce")
             mismatch_total += mismatch
             unverified_total += unverified
-            capacity = _capacity(environment, sorted(union), memberships)
-            if capacity is None:
-                if run["effective_cpu_capacity"] is not None or run["cpu_wall_anomaly_threshold"] is not None or run["cpu_wall_anomaly"]:
-                    raise ValueError("capacity and anomaly threshold must be withheld when cgroup evidence is incomplete")
+            upper, effective, basis = _capacity(environment, sorted(union), memberships,
+                                                run["process_thread_count"], run["actual_threads"])
+            if upper is None:
+                if run["known_cpu_capacity_upper_bound"] is not None or run["effective_cpu_capacity"] is not None or run["cpu_wall_anomaly_threshold"] is not None or run["cpu_wall_anomaly_threshold_basis"] is not None or run["cpu_wall_anomaly"]:
+                    raise ValueError("capacity and anomaly threshold must be withheld when thread/cgroup evidence is incomplete")
             else:
-                expected_threshold = round(capacity + 0.25, 6)
-                if not math.isclose(run["effective_cpu_capacity"], capacity, rel_tol=1e-8, abs_tol=1e-8):
+                expected_threshold = round(upper + 0.25, 6)
+                if not math.isclose(run["known_cpu_capacity_upper_bound"], upper, rel_tol=1e-8, abs_tol=1e-8):
+                    raise ValueError("known CPU upper bound does not reproduce")
+                if effective is None:
+                    if run["effective_cpu_capacity"] is not None:
+                        raise ValueError("effective capacity must be withheld when quota ancestors are unreadable")
+                elif not math.isclose(run["effective_cpu_capacity"], effective, rel_tol=1e-8, abs_tol=1e-8):
                     raise ValueError("effective CPU capacity does not reproduce")
+                if run["cpu_wall_anomaly_threshold_basis"] != basis:
+                    raise ValueError("CPU/wall threshold basis does not reproduce")
                 if not math.isclose(run["cpu_wall_anomaly_threshold"], expected_threshold, rel_tol=1e-8, abs_tol=1e-8):
                     raise ValueError("CPU/wall threshold does not reproduce")
         threshold = run["cpu_wall_anomaly_threshold"]
@@ -257,8 +276,9 @@ def build_report(raw_runs: list[dict[str, Any]], environment: dict[str, Any], so
     for raw in raw_runs:
         union = sorted({cpu for thread in raw["threads"] for cpu in parse_cpu_list(thread["affinity_cpus"])})
         memberships = [thread.get("thread_cgroup_matches_process") for thread in raw["threads"]]
-        capacity = _capacity(environment, union, memberships)
-        threshold = round(capacity + 0.25, 6) if capacity is not None else None
+        upper, effective, basis = _capacity(environment, union, memberships,
+                                            raw["process_thread_count"], raw["actual_threads"])
+        threshold = round(upper + 0.25, 6) if upper is not None else None
         ratio = raw["process_cpu_ns"] / raw["wall_ns"]
         thread_sum = sum(thread["cpu_ns"] for thread in raw["threads"])
         runs.append({
@@ -266,8 +286,10 @@ def build_report(raw_runs: list[dict[str, Any]], environment: dict[str, Any], so
             "process_cpu_wall_ratio": round(ratio, 9),
             "observed_affinity_union_cpus": union,
             "observed_affinity_union_count": len(union),
-            "effective_cpu_capacity": round(capacity, 6) if capacity is not None else None,
+            "known_cpu_capacity_upper_bound": round(upper, 6) if upper is not None else None,
+            "effective_cpu_capacity": round(effective, 6) if effective is not None else None,
             "cpu_wall_anomaly_threshold": threshold,
+            "cpu_wall_anomaly_threshold_basis": basis,
             "cpu_wall_anomaly": threshold is not None and ratio > threshold,
             "thread_cpu_sum_ns": thread_sum,
             "thread_cpu_sum_to_process_cpu_ratio": round(thread_sum / raw["process_cpu_ns"], 9),
@@ -315,7 +337,8 @@ def build_report(raw_runs: list[dict[str, Any]], environment: dict[str, Any], so
         "limitations": [
             "Hosted virtual runner diagnostic; not independent physical-hardware replication.",
             "Per-thread CPU clocks, affinity and /proc/thread-self/cgroup membership are sampled inside each OpenMP worker.",
-            "The process CPU/wall ratio is only compared with a capacity threshold when every worker's cgroup membership matches the process leader and the full cgroup v2 cpu.max ancestor chain is readable.",
+            "The CPU/wall anomaly threshold uses a known affinity/cpuset upper bound; exact effective CPU capacity is reported only when the full visible cgroup v2 cpu.max ancestor chain is readable.",
+            "A capacity bound is withheld if worker cgroup membership differs from the process leader or the process task count differs from the OpenMP team size.",
             "Cgroup v2 cpu.stat counters are leaf-cgroup aggregates and may include other processes; they are not attributed to this benchmark process.",
             "No perf_event task-clock, hardware performance counters, DRAM bandwidth or representative application workload is measured.",
             "The arithmetic loop is a controlled timer/affinity diagnostic, not a benchmark of a production scientific workload.",

@@ -1,6 +1,7 @@
 #define _GNU_SOURCE
 #define _POSIX_C_SOURCE 200809L
 #include <errno.h>
+#include <dirent.h>
 #include <inttypes.h>
 #include <omp.h>
 #include <sched.h>
@@ -60,6 +61,23 @@ static int thread_cgroup_matches_process(void) {
     if (read_unified_cgroup("/proc/thread-self/cgroup", thread_cgroup, sizeof(thread_cgroup)) != 1) return -1;
     return strcmp(process_cgroup, thread_cgroup) == 0 ? 1 : 0;
 }
+static int count_process_threads(void) {
+    DIR *directory = opendir("/proc/self/task");
+    if (!directory) return -1;
+    int count = 0;
+    struct dirent *entry;
+    while ((entry = readdir(directory)) != NULL) {
+        const char *name = entry->d_name;
+        if (!name[0]) continue;
+        int numeric = 1;
+        for (const char *cursor = name; *cursor; ++cursor) {
+            if (*cursor < '0' || *cursor > '9') { numeric = 0; break; }
+        }
+        if (numeric) count++;
+    }
+    closedir(directory);
+    return count;
+}
 static int affinity_string(char *buffer, size_t capacity) {
     cpu_set_t mask;
     if (sched_getaffinity(0, sizeof(mask), &mask) != 0) return -1;
@@ -97,10 +115,11 @@ static void run_once(int requested_workers, long long work_items, int repetition
     double *partials = calloc((size_t)requested_workers, sizeof(*partials));
     if (!samples || !partials) { fprintf(stderr, "allocation failed\n"); exit(2); }
     int actual_threads = 0;
+    int process_thread_count = -1;
     uint64_t wall_start = clock_ns(CLOCK_MONOTONIC);
     uint64_t process_start = clock_ns(CLOCK_PROCESS_CPUTIME_ID);
     double omp_start = omp_get_wtime();
-#pragma omp parallel num_threads(requested_workers) shared(actual_threads, samples, partials)
+#pragma omp parallel num_threads(requested_workers) shared(actual_threads, process_thread_count, samples, partials)
     {
         int tid = omp_get_thread_num();
         thread_sample_t *sample = &samples[tid];
@@ -113,7 +132,10 @@ static void run_once(int requested_workers, long long work_items, int repetition
         sample->affinity_cpu_count = affinity_string(sample->affinity_cpus, sizeof(sample->affinity_cpus));
         if (sample->affinity_cpu_count < 1) { fprintf(stderr, "sched_getaffinity failed or returned an empty mask\n"); exit(2); }
 #pragma omp single
-        actual_threads = omp_get_num_threads();
+        {
+            actual_threads = omp_get_num_threads();
+            process_thread_count = count_process_threads();
+        }
         double accumulator = 1.0 + (double)tid * 0.125;
 #pragma omp for schedule(static)
         for (long long i = 0; i < work_items; ++i) {
@@ -137,8 +159,8 @@ static void run_once(int requested_workers, long long work_items, int repetition
     double checksum = 0.0;
     for (int i = 0; i < actual_threads; ++i) { thread_cpu_sum_ns += samples[i].cpu_ns; checksum += partials[i]; }
     if (emit) {
-        printf("{\"requested_workers\":%d,\"actual_threads\":%d,\"repetition\":%d,\"work_items\":%lld,\"wall_ns\":%" PRIu64 ",\"process_cpu_ns\":%" PRIu64 ",\"omp_wall_ns\":%" PRIu64 ",\"process_cpu_wall_ratio\":%.9f,\"thread_cpu_sum_ns\":%" PRIu64 ",\"checksum\":%.17g,\"threads\":[",
-               requested_workers, actual_threads, repetition, work_items, wall_ns, process_cpu_ns,
+        printf("{\"requested_workers\":%d,\"actual_threads\":%d,\"process_thread_count\":%d,\"repetition\":%d,\"work_items\":%lld,\"wall_ns\":%" PRIu64 ",\"process_cpu_ns\":%" PRIu64 ",\"omp_wall_ns\":%" PRIu64 ",\"process_cpu_wall_ratio\":%.9f,\"thread_cpu_sum_ns\":%" PRIu64 ",\"checksum\":%.17g,\"threads\":[",
+               requested_workers, actual_threads, process_thread_count, repetition, work_items, wall_ns, process_cpu_ns,
                (uint64_t)((omp_end - omp_start) * 1e9), wall_ns ? (double)process_cpu_ns / (double)wall_ns : 0.0,
                thread_cpu_sum_ns, checksum);
         for (int i = 0; i < actual_threads; ++i) {

@@ -15,7 +15,11 @@ def sample_report_v2():
     env["cgroup_cpu_quota_ancestor_levels"] = 2
     env["cgroup_cpu_quota_constrained_levels"] = [0, 1]
     env["cgroup_cpu_quota_chain_complete"] = True
+    env["cgroup_cpu_quota_unreadable_level_count"] = 0
     report["runs"][0]["threads"][0]["thread_cgroup_matches_process"] = True
+    report["runs"][0]["process_thread_count"] = 1
+    report["runs"][0]["known_cpu_capacity_upper_bound"] = 2.0
+    report["runs"][0]["cpu_wall_anomaly_threshold_basis"] = "full_cgroup_quota_chain"
     report["runs"][0]["thread_cgroup_mismatch_count"] = 0
     report["runs"][0]["thread_cgroup_unverified_count"] = 0
     report["summary"]["thread_cgroup_mismatch_count"] = 0
@@ -66,17 +70,34 @@ class Noema005OpenMPTimingDiagnosticTests(unittest.TestCase):
         report["summary"]["thread_cgroup_mismatch_count"] = 1
         validate_report(report, SCHEMA)
 
-    def test_v2_withholds_capacity_when_quota_ancestor_chain_is_incomplete(self):
+    def test_v2_uses_affinity_upper_bound_when_quota_chain_is_incomplete(self):
         report = sample_report_v2()
         report["environment"]["cgroup_cpu_quota_chain_complete"] = False
+        report["environment"]["cgroup_cpu_quota_unreadable_level_count"] = 1
+        report["runs"][0]["effective_cpu_capacity"] = None
+        report["runs"][0]["known_cpu_capacity_upper_bound"] = 2.0
+        report["runs"][0]["cpu_wall_anomaly_threshold"] = 2.25
+        report["runs"][0]["cpu_wall_anomaly_threshold_basis"] = "affinity_cpuset_upper_bound"
+        validate_report(report, SCHEMA)
+
+    def test_v2_withholds_bound_when_process_has_unobserved_threads(self):
+        report = sample_report_v2()
+        report["runs"][0]["process_thread_count"] = 2
+        report["runs"][0]["known_cpu_capacity_upper_bound"] = None
         report["runs"][0]["effective_cpu_capacity"] = None
         report["runs"][0]["cpu_wall_anomaly_threshold"] = None
+        report["runs"][0]["cpu_wall_anomaly_threshold_basis"] = None
         report["runs"][0]["cpu_wall_anomaly"] = False
         validate_report(report, SCHEMA)
 
-    def test_v2_rejects_capacity_claim_with_incomplete_quota_chain(self):
+    def test_v2_rejects_effective_capacity_when_quota_chain_is_incomplete(self):
         report = sample_report_v2()
         report["environment"]["cgroup_cpu_quota_chain_complete"] = False
+        report["environment"]["cgroup_cpu_quota_unreadable_level_count"] = 1
+        report["runs"][0]["known_cpu_capacity_upper_bound"] = 2.0
+        report["runs"][0]["effective_cpu_capacity"] = 2.0
+        report["runs"][0]["cpu_wall_anomaly_threshold"] = 2.25
+        report["runs"][0]["cpu_wall_anomaly_threshold_basis"] = "affinity_cpuset_upper_bound"
         with self.assertRaises(ValueError):
             validate_report(report, SCHEMA)
     def test_cpu_wall_anomaly_is_retained_not_suppressed(self):

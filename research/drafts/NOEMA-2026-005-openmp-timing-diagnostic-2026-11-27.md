@@ -127,3 +127,16 @@ The report schema is now version 2 while the validator retains compatibility wit
 The first schema-v2 instrumentation change modified the live C source file, which caused the version-1 frozen-result reproducer to compare the old report's source digest against the new source and fail. This was a provenance defect in the reproduction path, not a failure of the historical measurements.
 
 The exact version-1 C source from the original diagnostic commit is now preserved at `scripts/archive/noema005_openmp_timing_diagnostic_v1.c`. The frozen-report reproducer hashes this archived source, while new runs compile the current schema-v2 source. Historical evidence is therefore immutable and is not silently reinterpreted using a later implementation.
+
+
+## Follow-up: affinity/cpuset upper bound versus exact cgroup quota
+
+The first schema-v2 hosted run (80 samples, 20 per worker count) verified all 300 worker cgroup-membership checks and found zero worker/process cgroup mismatches. However, one or more visible ancestor `cpu.max` files were unreadable, so the runner correctly withheld an exact effective CPU-capacity claim and its anomaly threshold. The raw maximum process-CPU/wall ratio was 4.005002215, but that run did not classify it against a threshold.
+
+The next revision separates two concepts:
+- **Known CPU upper bound:** minimum of process affinity count, effective cpuset size and the union of observed worker affinity masks, provided all workers match the process cgroup and the observed process task count equals the OpenMP team size.
+- **Exact effective CPU capacity:** reported only when the complete visible cgroup v2 ancestor `cpu.max` chain is readable; otherwise it remains null.
+
+The anomaly threshold is based on the known affinity/cpuset upper bound plus 0.25 CPU, not on an incompletely observed quota. This can detect ratios that exceed the hard observed CPU-set ceiling while avoiding a false claim about an unknown lower quota. The report also counts unreadable quota levels without exposing their paths.
+
+**UNTESTED until the next workflow run:** the final upper-bound implementation has not yet produced its hosted artifact. The earlier 80-run artifact is retained only as a diagnostic observation with an unevaluated threshold, not as a no-anomaly result.
