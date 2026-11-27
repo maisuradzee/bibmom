@@ -187,7 +187,7 @@
       "observation_period": "2021",
       "sample_level_schema_verified": false,
       "reuse_terms_verified": false,
-      "note": "The official NEA geology bulletin index lists “2021 წლის საინფორმაციო ჰიდროგეოლოგიური ანგარიში” (November 2021) and links this file endpoint. The web reader rejected the 22,990,164-byte response as too large and a container-side retrieval attempt failed at DNS resolution; no PDF bytes, contents, data granularity or reuse terms were inspected. Index page: https://nea.gov.ge/weather/Departments/Geology/Biulettins."
+      "note": "The official NEA geology bulletin index lists “2021 წლის საინფორმაციო ჰიდროგეოლოგიური ანგარიში” (November 2021) and links this file endpoint. The web reader rejected the 22,990,164-byte response as too large and a container-side retrieval attempt failed at DNS resolution; no payload bytes, contents, data granularity or reuse terms were inspected. Index page: https://nea.gov.ge/weather/Departments/Geology/Biulettins."
     }
   ]
 }
