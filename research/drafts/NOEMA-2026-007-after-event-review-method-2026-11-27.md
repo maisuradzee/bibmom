@@ -19,7 +19,7 @@ How can a post-event review distinguish failures in risk knowledge, monitoring/f
 6. **Agree recommendations.** Assign each action to an institutional role, with a due date and an observable verification indicator. Review progress in a later exercise or event.
 7. **Publish only reviewed aggregates.** The schema rejects direct identifier and raw-log fields, but cannot detect personal data embedded in free text. Human privacy review and cross-release disclosure controls remain mandatory.
 
-## არსებული ცოდნა და წყაროები
+## წყაროები
 
 1. UNDRR, IFRC, ITU and WMO published the *After-Event Review (AER): Methodological guidance on conducting after-event reviews of Early Warning Systems* on 15 July 2026. The official publication page describes a structured review of monitoring and prediction, forecasts, warning dissemination, communication, coordination and response. It emphasizes a learning-oriented, non-punitive review and improvements across the four MHEWS pillars. The PDF is 76 pages. https://www.undrr.org/publication/documents-and-publications/after-event-review-aer-methodological-guidance-conducting
 2. UNDRR, WMO, IFRC and ITU published *Early Warning Systems for mobile populations: Operational guidance* on 15 July 2026. It addresses people affected by changing locations or circumstances and treats mobility inclusion as part of the existing multi-hazard system, not a separate warning system. https://www.undrr.org/publication/documents-and-publications/early-warning-systems-mobile-populations-operational
