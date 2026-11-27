@@ -31,8 +31,15 @@ def _strict_int(value: Any) -> bool:
 
 
 def _finite_number(value: Any) -> bool:
-    """Accept finite JSON numbers but never bool (a Python int subclass)."""
-    return type(value) in (int, float) and math.isfinite(value)
+    """Accept finite binary64-range JSON numbers, never bool or overflow."""
+    if type(value) not in (int, float):
+        return False
+    try:
+        return math.isfinite(value)
+    except OverflowError:
+        # math.isfinite converts integers to float; an enormous JSON integer
+        # can overflow that conversion even though Python's int is unbounded.
+        return False
 
 
 def validate_report(
