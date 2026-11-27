@@ -13,7 +13,10 @@ import re
 from pathlib import Path
 from typing import Any
 
-from scripts.validate_drafts import validate_drafts
+try:
+    from scripts.validate_drafts import validate_drafts
+except ModuleNotFoundError:  # direct invocation: python scripts/ci_recovery.py
+    from validate_drafts import validate_drafts
 
 ROOT = Path(__file__).resolve().parents[1]
 DATE_VALUE = re.compile(r"\d{4}-\d{2}-\d{2}")
@@ -81,10 +84,20 @@ def _normalize_draft(text: str) -> tuple[str, list[str]]:
 
     # If source URLs already exist but the reference heading is absent, collect
     # those exact URLs into a Sources section. No URL or citation is invented.
-    has_sources_heading = bool(
-        re.search(r"^#{2,3}\s+წყაროები\s*$", result, re.MULTILINE)
+    source_section = re.search(
+        r"^#{2,3}\s+წყაროები\s*\n(?P<body>.*?)(?=^#{2,3}\s|\Z)",
+        result,
+        re.MULTILINE | re.DOTALL,
     )
-    if not has_sources_heading:
+    if source_section:
+        source_body = source_section.group("body")
+        if not URL_PATTERN.search(source_body):
+            urls = sorted(set(URL_PATTERN.findall(result)))
+            if urls:
+                insertion = "".join(f"- {url}\n" for url in urls)
+                result = result[:source_section.start("body")] + insertion + result[source_section.start("body"):]
+                repairs.append("section.sources_from_existing_urls")
+    else:
         urls = sorted(set(URL_PATTERN.findall(result)))
         if urls:
             result = result.rstrip() + "\n\n## წყაროები\n\n"
