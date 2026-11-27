@@ -42,7 +42,7 @@ jobs:
           test -f tests/test_noema005_threaded_reruns.py
           test -f data/noema-005/threaded-rerun-2026-11-27-run23.json
           test -f data/noema-005/raw/run-45972740197-gil-enabled.json.gz.b64
-          test -f data/noema-005/raw/run-45972740197-free-threaded.json.gz.b64
+          test -f data/noema-005/raw/run-45972740197-free-threaded.json.lzma.b64
           test -f scripts/reproduce_noema005_run23.py
           test -f tests/test_noema005_run23.py
           test -f research/drafts/NOEMA-2026-005-run23-hosted-rerun-2026-11-27.md
