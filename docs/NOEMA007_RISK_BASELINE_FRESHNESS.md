@@ -33,6 +33,7 @@ A missing interval is never replaced with a NOEMA-invented universal threshold. 
 ## Evidence classification
 
 - **FACT:** The joint 2026 report describes risk-data fragmentation and outdated/incomplete exposure and vulnerability baselines. Source: https://www.undrr.org/publication/documents-and-publications/leveraging-ai-enhance-multi-hazard-early-warning-systems
+- **FACT:** Visser, H., de Bruin, S. P., Bouwer, L. M., & Petersen, A. C. (2026), *Temporal characteristics of disaster data: how to avoid misconceptions, misinterpretation or misuse*, International Journal of Disaster Risk Reduction, 142, 106188, DOI: https://doi.org/10.1016/j.ijdrr.2026.106188. The article identifies data reliability, extreme values, population/GDP normalization, trend-model choices and expert judgment as factors that can distort disaster-data trend claims; it does not prescribe a universal dataset update interval.
 - **FACT:** OGC API – Features defines standard discovery/query building blocks and metadata for geospatial feature collections; it is an interoperability interface standard, not a universal freshness policy. Source: https://www.ogc.org/standards/ogcapi-features/
 - **INFERENCE:** A metadata-first evaluator can expose missing update-cycle declarations without accessing sensitive feature data.
 - **REPRODUCED RESULT:** Synthetic unit tests exercise current/due/overdue/unknown boundaries and fail-closed validation. No real Georgia dataset has been evaluated.
