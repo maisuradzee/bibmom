@@ -571,3 +571,14 @@ Run38 AquaSignal historical baseline/legal crosswalk details: [research draft](.
 - No new Supabase project was created and no other project's database was used.
 - No research was promoted to Published; the catalogue remains 3 Preliminary and 0 Published.
 - Next priorities: obtain an authorized NEA archive and dictionary; perform physical x86-64/ARM64 NOEMA-005 replication with at least 20 repetitions and RSS/DRAM measurements; obtain privacy-approved Georgian warning/after-action aggregates; and conduct an independently owned offsite clean-host restore drill.
+
+
+## Run 39 — final post-merge verification after AquaSignal PR #221
+
+- **Final Main SHA:** `2600d28f7c05332ca3faeedcfcbb8c6528d78d08`.
+- **PR #221 merged:** Georgian drinking-water operational-control crosswalk (sampling points, Table 7 source/population minimums, supplier duties, emergency and repeat-sample triggers, routine analytes, independent-lab requirement and legal-transition guard).
+- **Exact-head PR #221 Quality CI:** [46070825625](https://github.com/maisuradzee/bibmom/actions/runs/46070825625) — SUCCESS, 593 Python tests; frozen-result reproduction, site build and publication-boundary checks passed.
+- **Final Main Quality CI:** [46070948133](https://github.com/maisuradzee/bibmom/actions/runs/46070948133) — SUCCESS, 593 Python tests.
+- **Final GitHub Pages deployment:** [46070948135](https://github.com/maisuradzee/bibmom/actions/runs/46070948135) — SUCCESS for the exact Final Main SHA; 0 Published, 3 Preliminary.
+- Repository snapshot after merge: 38 open PRs and 0 open Issues. Legacy Draft PRs remain individually untriaged.
+- PR #221 maps legal requirements only; it does not show that any supplier actually collected the samples, complied with the schedule or completed protective actions. The 2027-09-01 transition/repeal status remains subject to legal review.
