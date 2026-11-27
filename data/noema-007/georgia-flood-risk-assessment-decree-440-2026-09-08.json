@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "record_id": "NOEMA007-GEORGIA-FLOOD-RISK-ASSESSMENT-DECREE-440-2026-09-08",
+  "study_id": "NOEMA-2026-007",
+  "evidence_status": "FACT",
+  "source": {
+    "publisher": "Legislative Herald of Georgia",
+    "document_title": "საქართველოს მთავრობის 2026 წლის 8 სექტემბრის №440 დადგენილება — პოტენციური წყალდიდობების რისკის ქვეშ მყოფი არეალების შეფასების შესახებ",
+    "decree_number": 440,
+    "publication_date": "2026-09-08",
+    "effective_from": "2026-09-01",
+    "url": "https://manage.matsne.gov.ge/ka/document/view/6997540",
+    "checked_at": "2026-11-28",
+    "articles": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9"
+    ]
+  },
+  "scope": {
+    "river_basin_districts": "all river basin districts in Georgia",
+    "transboundary": "assessment applies to the relevant Georgian territory in accordance with international agreements and national law",
+    "first_national_assessment_due": "2028-12-31",
+    "methodology_approval_due": "2027-06-01"
+  },
+  "competent_authority": {
+    "national_environment_agency": {
+      "develops_methodology": true,
+      "performs_and_updates_preliminary_assessments": true,
+      "identifies_potentially_significant_risk_areas": true,
+      "collects_and_stores_data": [
+        "hydrological",
+        "meteorological",
+        "hydraulic",
+        "geomorphological",
+        "geological",
+        "other_relevant"
+      ],
+      "maintains_national_risk_assessment_databases": true
+    },
+    "other_bodies": {
+      "public_and_private_entities_provide_publicly_available_data_on_agency_request": true,
+      "cooperation_is_within_competence": true
+    }
+  },
+  "assessment_inputs": [
+    "historical flood-event records",
+    "historical consequences and impacts",
+    "existing flood studies and assessments",
+    "river-basin characteristics",
+    "topographic information",
+    "hydrological and meteorological information",
+    "geomorphological and geological information",
+    "land cover and land use",
+    "settlements and critical infrastructure locations",
+    "ecologically vulnerable areas",
+    "cultural heritage assets",
+    "available climate-change information",
+    "spatial-development plans that may affect future flood risk"
+  ],
+  "flood_types": [
+    "fluvial",
+    "urban_pluvial",
+    "groundwater",
+    "coastal",
+    "hydraulic_infrastructure_failure",
+    "mudflow_related",
+    "glacial_lake_outburst"
+  ],
+  "significance_criteria": [
+    "probability_of_occurrence",
+    "human_health_and_safety",
+    "property_and_infrastructure",
+    "economic_activity",
+    "environment",
+    "cultural_heritage"
+  ],
+  "review": {
+    "maximum_interval_years": 6,
+    "update_inputs": [
+      "significant_flood_events",
+      "new_information_and_databases",
+      "land_use_and_spatial_plan_changes",
+      "infrastructure_projects",
+      "updated_climate_information"
+    ]
+  },
+  "outputs_and_dependencies": {
+    "identified_areas_are_basis_for": [
+      "flood_hazard_maps",
+      "flood_risk_maps",
+      "future_risk_management_measures"
+    ],
+    "hazard_maps_already_published_by_this_decree": false,
+    "operational_warning_service_established_by_this_decree": false,
+    "warning_delivery_or_response_performance_measured": false
+  },
+  "interpretation_limits": [
+    "The decree creates a preliminary flood-risk assessment framework; it does not itself prove that the first national assessment is complete.",
+    "The methodology approval deadline is 2027-06-01 and the first national preliminary assessment deadline is 2028-12-31.",
+    "Identified potentially significant risk areas are inputs to later hazard maps, risk maps and risk-management measures.",
+    "This decree does not establish or measure operational alert issuance, delivery, receipt, comprehension, action feasibility or protective action.",
+    "A statutory duty to collect or share data is not evidence that all required datasets are currently complete or public.",
+    "No flood event counts, exposed population estimates, damage totals, warning coverage or response outcomes are included."
+  ],
+  "privacy": {
+    "private_person_data_included": false,
+    "exact_private_locations_included": false,
+    "raw_event_records_included": false
+  }
+}
