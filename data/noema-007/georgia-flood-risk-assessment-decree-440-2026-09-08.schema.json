@@ -13,6 +13,7 @@
     "competent_authority",
     "assessment_inputs",
     "flood_types",
+    "conditional_flood_types",
     "significance_criteria",
     "review",
     "outputs_and_dependencies",
@@ -172,7 +173,8 @@
     },
     "flood_types": {
       "type": "array",
-      "minItems": 7,
+      "minItems": 5,
+      "maxItems": 5,
       "uniqueItems": true,
       "items": {
         "enum": [
@@ -180,9 +182,7 @@
           "urban_pluvial",
           "groundwater",
           "coastal",
-          "hydraulic_infrastructure_failure",
-          "mudflow_related",
-          "glacial_lake_outburst"
+          "hydraulic_infrastructure_failure"
         ]
       }
     },
@@ -276,6 +276,18 @@
         "raw_event_records_included": {
           "const": false
         }
+      }
+    },
+    "conditional_flood_types": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "mudflow_related",
+          "glacial_lake_outburst"
+        ]
       }
     }
   }
