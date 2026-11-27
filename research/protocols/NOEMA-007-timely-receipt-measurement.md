@@ -57,7 +57,7 @@ WMO/UNDRR-ის 2026 MHEWS ანგარიში ცალ-ცალკე �
 - respondent recall შეიძლება იყოს არაზუსტი და susceptible იყოს recall bias-ს.
 - survey denominator არ უდრის event population-ს, თუ probability design, response/nonresponse და weighting არ არის განსაზღვრული.
 - self-reported timely receipt არ არის timestamp-ით დადასტურებული receipt.
-- minimum lead time უნდა დაამტკიცოს პასუხისმგებელმა უწყებამ კონკრეტული საფრთხისა და action playbook-ის მიხედვით.
+- minimum lead time უნდა დაამტკიცოს პასუხისმგებელმა უწყებამ კონკრეტული საფრთხისა და action playbook-ის მიხედვით. თუ rule reference და HTTPS source URL არ არის წარმოდგენილი, timely-receipt rate არ გამოითვლება; counts რჩება audit-ისთვის. თუ წყარო მითითებულია, მისი არსებობა ჯერ კიდევ არ ნიშნავს დამოუკიდებლად დადასტურებულ ავტორიტეტულ დამტკიცებას — შედეგი მონიშნულია როგორც documented but unverified და სხვა მოვლენებთან შედარება აკრძალულია.
 - არ ჩატარებულა საველე პილოტი, causal evaluation ან საქართველოს alert-delivery მონაცემების ანალიზი.
 
 ## დასკვნა
@@ -83,3 +83,8 @@ NOEMA-007 ახლა ცალკე გამოყოფს timely receipt-�
 - ცვლილება არის schema/validator/protocol extension; რეალური event data არ გამოიყენება.
 - Survey timing არის self-reported და არა device-log verified.
 - სტატუსი რჩება Draft; დამოუკიდებელი DRR, survey-methodology, accessibility და privacy review საჭიროა.
+
+
+## Run 23 follow-up — event-specific threshold provenance
+
+დამატებულია `timely_receipt_rule_reference` და `timely_receipt_rule_source_url`. ორივე უნდა იყოს ერთად წარმოდგენილი ან ორივე null. წყაროს გარეშე validator ინახავს numerator/denominator-ს, მაგრამ rate-ს არ ითვლის. წყაროს არსებობის შემთხვევაშიც იგი მონიშნულია `provided_not_independently_verified`; validator არ ამოწმებს დოკუმენტის ნამდვილობას, კომპეტენტური უწყების უფლებამოსილებას ან დამტკიცების ფაქტს. Cross-event comparison ყოველთვის false რჩება, სანამ hazard/action-specific წესების დამოუკიდებელი მეთოდოლოგიური ჰარმონიზაცია არ დასრულდება. Synthetic tests იყენებს example.org-ს და არ წარმოადგენს ნამდვილ ქართულ playbook-ს.
