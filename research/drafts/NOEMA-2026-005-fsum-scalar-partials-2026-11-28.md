@@ -36,7 +36,7 @@ Returning both the Neumaier sum and correction from each worker should preserve 
 - Worker counts: 1, 2, 4, 8.
 - Partition strategies: contiguous and round-robin.
 - Four threaded methods: naive scalar, Neumaier scalar, full Neumaier state, and worker-local `math.fsum` scalar partials.
-- GIL-enabled and free-threaded CPython 3.14.4 hosted jobs; 1 warmup and 3 measured repetitions per case.
+- GIL-enabled and free-threaded CPython 3.14.10 hosted jobs; 1 warmup and 3 measured repetitions per case.
 - Matching serial baseline: naive-to-naive, Neumaier methods-to-Neumaier, and fsum partials-to-serial `math.fsum`.
 - Record exact-reference accuracy, median wall time, process-wide CPU time, native thread counts and Python-traced peak allocations.
 
