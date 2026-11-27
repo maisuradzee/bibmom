@@ -1,13 +1,52 @@
 # NOEMA — მიმდინარე პროექტის მდგომარეობა
 
-- **განახლდა:** 2026-11-27 (Run 36 — NFA 2025 source discovery და restore-attestation strict JSON ingestion).
+- **განახლდა:** 2026-11-28 (Run 38 — NOEMA-005 experiment 002, AquaSignal NEA groundwater access lead, strict event parsing and public-artifact privacy boundary).
 - **საცავი:** https://github.com/maisuradzee/bibmom
-- **მიმდინარე main snapshot აუდიტის დაწყებისას:** `107a5fa7bd95037a19f149d247456eb6106fe054`.
-- **ბოლო დადასტურებული main Quality CI:** [46045601007](https://github.com/maisuradzee/bibmom/actions/runs/46045601007) — SUCCESS, 491 Python tests; ეს run დოკუმენტებში მითითებულ `1278c856857121cb0d3bf623666fe5c495a4975c` audit-merge snapshot-ზეა.
-- **ბოლო დადასტურებული Pages deployment:** [46045601021](https://github.com/maisuradzee/bibmom/actions/runs/46045601021) — build/deploy SUCCESS იმავე `1278c856857121cb0d3bf623666fe5c495a4975c` snapshot-ზე; შემდგომი `107a5fa` documentation-only commit-ის ცალკე Pages run ამ აუდიტში არ დადასტურებულა.
-- **ღია PR:** 42 (მათ შორის Run 36-ის #190, #191, #192 და #193); **ღია Issue:** 0.
+- **Run 38-ის merge-ების შემდეგ main snapshot:** `974445f6...` (full SHA: `974445f6...`).
+- **ბოლო დადასტურებული PR-head Quality CI:** PR #200 — 534 tests; PR #202 — 539 tests; PR #204 — 544 tests; ყველა ზუსტი head-ისთვის SUCCESS.
+- **ბოლო დადასტურებული benchmark/cleanup:** PR #200 x86-64 და ARM64 workflows SUCCESS; legacy-artifact cleanup run [46064057021](https://github.com/maisuradzee/bibmom/actions/runs/46064057021) SUCCESS და ექვსი ძველი raw artifact list ცარიელია.
+- **Pages:** PR #204 site build SUCCESS (3 Preliminary, 0 Published); post-merge deployment ამ Run38 main snapshot-ზე ცალკე არ დადასტურებულა. წინა main deployment-ის მტკიცებულება არ უნდა ჩაითვალოს ამ snapshot-ის deployment-ად.
 - **აქტიური პორტფელი:** ოთხივე ნაკადი აქტიურია — AquaSignal, NOEMA-005, NOEMA-007 და INFRA-001.
-- **კვლევის კატალოგი:** 3 Preliminary, 0 Published. Run 36-ის ორი ახალი კვლევითი/საინჟინრო ცვლილება Draft PR-ებად რჩება; ახალი Published კვლევა არ შექმნილა.
+- **კვლევის კატალოგი:** 3 Preliminary, 0 Published; NOEMA-005-ის არსებული Preliminary ჩანაწერი განახლდა experiment 002-ის frozen aggregate-ით. AquaSignal-ის NEA წყარო კვლავ metadata-only Draft-ია.
+
+## Run 38 — ექვსი hosted benchmark cell, ახალი ქართული groundwater access lead და მონაცემთა სანდოობის კონტროლები
+
+### NOEMA-005 — REPRODUCED RESULT (preliminary)
+- Experiment 002: CPython 3.14.10 GIL-enabled/free-threaded × x86-64 Ubuntu, ARM64 Ubuntu და ARM64 macOS.
+- 6 cells × 64 configurations × 3 repetitions = 1,152 measured runs; თითო მეთოდზე 288 run.
+- სწორად დამრგვალებული: naive scalar 0/288; scalar Neumaier 252/288; full Neumaier state 288/288; worker-local math.fsum scalar partials 252/288.
+- Scalar Neumaier და worker-local fsum ერთსა და იმავე deterministic grouped-cancellation/contiguous partition-ში (2 და 8 workers) კარგავს residual-ს; full compensation state ამ stress-test-ში ინარჩუნებს სიზუსტეს.
+- არცერთმა 384 threaded configuration-მა შესაბამის serial baseline-ს არ აჯობა. Free-threaded CPU/wall ratio >1.05 იყო 34–36/48 configurations/method; GIL-enabled 0/48. CPU concurrency არ უდრის wall-time speedup-ს.
+- ექვსი ახალი artifact ZIP და report JSON SHA-256-ით გადამოწმდა; raw native thread IDs და დეტალური host-build strings sanitizer-მა ამოიღო. PR #200-ის cleanup-მა ექვსი ძველი unsanitized artifact წაშალა და GitHub-მა მათი artifact list-ები ცარიელად დაადასტურა.
+- Frozen aggregate: `data/noema-005/experiment-002-summary.json`; reproduction: `scripts/reproduce_noema005_experiment_002.py`. შედეგი რჩება Preliminary; hosted synthetic runs არ არის physical x86/ARM replication.
+
+### AquaSignal — ახალი ოფიციალური groundwater source lead
+- NEA-ს 2026-11-26 განცხადება ადასტურებს 2021–2025 მიწისქვეშა მტკნარი სასმელი წყლების ჰიდროგეოლოგიური ანგარიშისა და ნიტრატების რისკის საველე მეთოდოლოგიის მომზადებას; მითითებულია საჯარო RAR archive.
+- RAR არ ჩამოტვირთულა/არ გახსნილა; sample count, station count, nitrate values, thresholds, site coordinates და reuse terms უცნობია. წყარო metadata-only Draft-ია.
+- 2026-06-24 კანონი ადგენს 2027-09-01 milestone-ებს; მეთოდოლოგიის მომზადება არ ამტკიცებს ფორმალურ დამტკიცებას ან ზონების იდენტიფიკაციის დასრულებას.
+- PR #202-ით merged strict canonical event JSON parsing; ეს მონაცემთა ინტერპრეტაციის კონტროლია და არა ციფრული ხელმოწერა.
+
+### NOEMA-007 — no-update / blocker
+- ახალი ავტორიზებული ქართული alert-to-action ოპერაციული მონაცემები არ მიღებულა. WMO cross-country შედეგები დარჩა კონტექსტად და არა საქართველოს ეფექტიანობის ან მიზეზშედეგობრივი მტკიცებულებად.
+
+### INFRA-001 — engineering hardening, production recovery ჯერ არ დადასტურებულა
+- AquaSignal event payload parser და NOEMA-005 public-artifact sanitizer/cleanup აუმჯობესებს მონაცემთა სანდოობასა და საჯარო evidence boundary-ს.
+- Offsite backup, დამოუკიდებელი key custody, recovery owner, high-water authority და clean-host restore კვლავ დაუდასტურებელია.
+
+### PR / CI
+- PR #200 — merged; exact-head Quality 534 tests, x86-64/ARM64 workflows და cleanup SUCCESS.
+- PR #202 — merged; exact-head Quality 539 tests და CPU workflow SUCCESS.
+- PR #204 — merged; exact-head Quality 544 tests და site build SUCCESS.
+- PR #196/#201/#203 დაიხურა, როგორც rebased PR-ებით superseded; PR #197/#198/#199-ის commits PR #200-ის merge-ში მოხვდა.
+- Run38 documentation/frozen-result synchronization PR მიმდინარეა; Main-ში პირდაპირი commit არ შესრულებულა.
+
+### შეზღუდვები და შემდეგი პრიორიტეტები
+1. NEA RAR-ის ავტორიზებული მიღება, SHA-256, file inventory, data dictionary, station/sample denominators და reuse review.
+2. NOEMA-005-ის independent numerical-method review; ფიზიკური x86-64/ARM64 ≥20 repetitions, RSS/native allocation და DRAM bandwidth.
+3. საქართველოს alert delivery/receipt/comprehension/protective-action აგრეგირებული მონაცემები.
+4. INFRA-001 clean-host restore და დამოუკიდებელი trust-domain.
+5. Pages განახლებულად ჩაითვალოს მხოლოდ ამ main snapshot-ზე წარმატებული deploy job-ის შემდეგ.
+
 
 ## Run 11 — კვლევითი მტკიცებულებების შეჯერება და აღდგენის numeric-boundary hardening
 
@@ -467,3 +506,8 @@ Four streams remain active: AquaSignal, NOEMA-005, NOEMA-007 and INFRA-001. No f
 - PR #191 latest head `88a6e3e3f7934cef625008fbd20b4121b88e376c`: exact-head Quality CI [46057543397](https://github.com/maisuradzee/bibmom/actions/runs/46057543397) — SUCCESS. The parser normalizes a mocked RecursionError into the domain validation error; independent security review remains pending.
 - PR #194 head `24e462dd7e54546f4379159c9b7e6059f657e3fa`: exact-head Quality CI [46057083661](https://github.com/maisuradzee/bibmom/actions/runs/46057083661) — SUCCESS. URL hygiene is documented in RESEARCH_STANDARD; independent privacy/GIS/DRR review remains pending.
 - Neither Draft is merged or treated as Published.
+
+
+## Run 38 audit reference
+
+Detailed audit: [docs/run-audits/2026-11-28-run-38.md](run-audits/2026-11-28-run-38.md). Frozen NOEMA-005 aggregate and reproduction: [summary](../data/noema-005/experiment-002-summary.json), [script](../scripts/reproduce_noema005_experiment_002.py).
