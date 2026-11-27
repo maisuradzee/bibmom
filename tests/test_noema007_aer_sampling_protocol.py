@@ -115,7 +115,17 @@ class Noema007AERSamplingProtocolTests(unittest.TestCase):
 
     def test_warning_delivery_and_comprehension_must_remain_separate(self):
         record = valid_protocol()
-        record["measurement_rules"] = [record["measurement_rules"][0]]
+        record["measurement_rules"] = [
+            record["measurement_rules"][0],
+            {
+                "metric": "survey_receipt",
+                "numerator_kind": "respondents_received_warning",
+                "denominator_kind": "respondents_completed",
+                "unit": "people",
+                "inference_scope": "frame_estimate",
+                "numerator_denominator_separate": True,
+            },
+        ]
         with self.assertRaisesRegex(AERSamplingProtocolError, "delivery and comprehension"):
             validate_aer_sampling_protocol(record)
 
