@@ -1,7 +1,7 @@
 {
   "project": "NOEMA",
   "schema_version": 1,
-  "updated_at": "2026-11-26",
+  "updated_at": "2026-11-27",
   "streams": [
     {
       "id": "NOEMA-2026-006",
@@ -180,7 +180,8 @@
         "Download the original GIL-enabled and free-threaded Actions artifact ZIPs, verify archive SHA-256 against the frozen summary, and independently recompute per-case accuracy and worker-count metric aggregates.",
         "Second real CPU-thread run raw reports were archived as gzip/base64; workflow ZIP SHA-256 and decompressed raw-report SHA-256 were checked, then per-case accuracy and metric aggregates were recomputed by scripts/reproduce_noema005_threaded_reruns.py --check.",
         "Add a 96 MiB aligned memory-backed binary64 buffer and compare serial/OpenMP naive, long-double and Neumaier reductions; preserve raw wall/process-CPU samples and validate throughput arithmetic from the exact report.",
-        "Treat effective input throughput as bytes scanned per wall time, not as a hardware DRAM-bandwidth counter; record L3 cache metadata, CPU quota and architecture when available."
+        "Treat effective input throughput as bytes scanned per wall time, not as a hardware DRAM-bandwidth counter; record L3 cache metadata, CPU quota and architecture when available.",
+        "Run the same 96 MiB memory-backed OpenMP benchmark twice in a local KVM x86-64 container; preserve raw timing samples, exact source blob/SHA-256, cgroup quota and actual thread counts; validate both reports with the existing strict validator."
       ],
       "sources": [
         {
@@ -525,7 +526,8 @@
         "Native long double precision and representation vary by ABI; this local x86-64 host reports 64 significand bits.",
         "The exact converter has a hosted MPFR 4.2.1 cross-check; the 2,560-bit accumulator now rejects signed overflow but remains fixed-width and is not arbitrary precision or formally verified.",
         "Pairwise reduction may be faster on a fixture while returning an incorrect result; timing is only meaningful after accuracy passes.",
-        "The second free-threaded run crossed the 1.0 median speedup threshold (0.9519x to 1.0181x), but its per-case range remained broad (0.7023x–1.135x) on the same hosted runner family; this is run-to-run sensitivity, not a robust or portable speedup."
+        "The second free-threaded run crossed the 1.0 median speedup threshold (0.9519x to 1.0181x), but its per-case range remained broad (0.7023x–1.135x) on the same hosted runner family; this is run-to-run sensitivity, not a robust or portable speedup.",
+        "The local KVM result is one virtualized x86-64 environment with a four-CPU cgroup quota; 8-worker cases are oversubscribed. Same-container Neumaier speedups varied 13.6% (4 workers) and 17.5% (8 workers) across two process runs."
       ],
       "blockers": [
         "The native experiment still uses two synthetic cancellation fixtures; representative application workloads and memory-bandwidth tests remain outstanding.",
@@ -552,7 +554,8 @@
         "Effective input throughput and speedup reproduce from raw medians and are explicitly not presented as hardware DRAM-bandwidth counters.",
         "The frozen memory-backed report reproduces from its stored SHA-256 and exact tested-head provenance."
       ],
-      "last_reviewed": "2026-11-26"
+      "last_reviewed": "2026-11-27",
+      "next": "Repeat the protocol at a second buffer size and on independently selected physical x86-64 and ARM64 machines; add a representative scientific workload and hardware memory counters where available, then request independent numerical-method review. The two local KVM reruns are exploratory and do not establish portable speedup."
     },
     {
       "id": "NOEMA-2026-007",

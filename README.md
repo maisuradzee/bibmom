@@ -45,7 +45,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 ## მიმდინარე კვლევა
 
 - [NOEMA-2026-006 AquaSignal](research/drafts/NOEMA-2026-006-aquasignal-water-early-warning.md) — სასმელი წყლის მონიტორინგის მონაცემების ადრეული სიგნალები; დოკუმენტური discovery, სინთეზური წესების ძრავა და ადგილობრივი event-store პროტოტიპი, საველე ვალიდაციის გარეშე.
-undefined
+- [NOEMA-2026-005 memory-backed local KVM reruns](research/drafts/NOEMA-2026-005-memory-bandwidth-local-kvm-2026-11-27.md) — two same-container native OpenMP reruns; exploratory evidence only, not physical-hardware replication.
 
 - [NOEMA-2026-001](research/drafts/2026-11-23-paleolithic-sign-systems.md) — პალეოლითური ნიშნები; მეთოდოლოგიური გადახედვა: [დამატება A](research/drafts/2026-11-23-methodological-reassessment.md).
 - [NOEMA-2026-002](research/drafts/2026-11-23-signbase-coding-audit.md) — SignBase 2.0-ის ტექსტური კოდირების აუდიტი და საბაზისო heuristic-ის ტესტი.
