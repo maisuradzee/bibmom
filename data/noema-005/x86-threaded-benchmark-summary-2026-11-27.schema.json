@@ -147,17 +147,20 @@
         "second_run_gil_backend",
         "second_run_free_threaded_backend",
         "input_hashes_identical",
-        "interpretation"
+        "interpretation",
+        "free_threaded_aws_neumaier_state_median_speedup",
+        "matched_aws_pair_run",
+        "matched_aws_pair"
       ],
       "properties": {
         "hosted_x86_64_reports": {
-          "const": 4
+          "const": 6
         },
         "threaded_configurations": {
-          "const": 192
+          "const": 288
         },
         "measured_runs": {
-          "const": 576
+          "const": 864
         },
         "accuracy": {
           "type": "object",
@@ -169,13 +172,13 @@
           ],
           "properties": {
             "naive_scalar": {
-              "$ref": "#/$defs/count0"
+              "$ref": "#/$defs/count0_288"
             },
             "neumaier_scalar": {
-              "$ref": "#/$defs/count168"
+              "$ref": "#/$defs/count252_288"
             },
             "neumaier_state": {
-              "$ref": "#/$defs/count192"
+              "$ref": "#/$defs/count288_288"
             }
           }
         },
@@ -188,10 +191,10 @@
           ],
           "properties": {
             "gil_enabled": {
-              "$ref": "#/$defs/count0_288"
+              "$ref": "#/$defs/count0_432"
             },
             "free_threaded": {
-              "$ref": "#/$defs/count216_288"
+              "$ref": "#/$defs/count324_432"
             }
           }
         },
@@ -238,13 +241,41 @@
         "interpretation": {
           "type": "string",
           "minLength": 1
+        },
+        "free_threaded_aws_neumaier_state_median_speedup": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "exclusiveMaximum": 1
+        },
+        "matched_aws_pair_run": {
+          "const": 46035393777
+        },
+        "matched_aws_pair": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "gil_enabled_neumaier_state_median_speedup",
+            "free_threaded_neumaier_state_median_speedup"
+          ],
+          "properties": {
+            "gil_enabled_neumaier_state_median_speedup": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "exclusiveMaximum": 1
+            },
+            "free_threaded_neumaier_state_median_speedup": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "exclusiveMaximum": 1
+            }
+          }
         }
       }
     },
     "reports": {
       "type": "array",
-      "minItems": 4,
-      "maxItems": 4,
+      "minItems": 6,
+      "maxItems": 6,
       "items": {
         "$ref": "#/$defs/report"
       }
@@ -315,11 +346,11 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "count",
+        "correct",
         "total"
       ],
       "properties": {
-        "count": {
+        "correct": {
           "const": 0
         },
         "total": {
@@ -359,7 +390,8 @@
         "cpu_wall_samples_above_1_05",
         "median_speedup_by_method",
         "neumaier_state_by_worker",
-        "artifact"
+        "artifact",
+        "quality_run_conclusion"
       ],
       "properties": {
         "workflow_run_id": {
@@ -586,6 +618,76 @@
               "format": "date-time"
             }
           }
+        },
+        "quality_run_conclusion": {
+          "enum": [
+            "success",
+            "failure_test_assertion"
+          ]
+        }
+      }
+    },
+    "count252_288": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "correct",
+        "total"
+      ],
+      "properties": {
+        "correct": {
+          "const": 252
+        },
+        "total": {
+          "const": 288
+        }
+      }
+    },
+    "count288_288": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "correct",
+        "total"
+      ],
+      "properties": {
+        "correct": {
+          "const": 288
+        },
+        "total": {
+          "const": 288
+        }
+      }
+    },
+    "count0_432": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "count",
+        "total"
+      ],
+      "properties": {
+        "count": {
+          "const": 0
+        },
+        "total": {
+          "const": 432
+        }
+      }
+    },
+    "count324_432": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "count",
+        "total"
+      ],
+      "properties": {
+        "count": {
+          "const": 324
+        },
+        "total": {
+          "const": 432
         }
       }
     }
