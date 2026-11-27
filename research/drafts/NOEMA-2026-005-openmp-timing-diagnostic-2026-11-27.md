@@ -47,11 +47,30 @@ scripts/noema005_openmp_timing_diagnostic.c-ის GCC/OpenMP build გაეშ
 
 ## შედეგები და ინტერპრეტაცია
 
-პირველი hosted diagnostic execution-მა შექმნა 80 გაზომვა. CI-ის ლოგში მაქსიმალური process-CPU/wall ratio იყო 4.026760538, worker-ების მიხედვით median ratio-ები კი დაახლოებით 1.0000, 2.0004, 4.0032 და 3.9478 იყო 1, 2, 4 და 8 worker-ზე. capacity+0.25 ზღვარს არცერთი გაზომვა არ გადასცდა.
+**REPRODUCED RESULT — ერთი კონტროლირებადი hosted Linux run:** workflow run 45954993085-მა შექმნა 80 გაზომვა (1, 2, 4 და 8 worker; 20 გამეორება თითოეულზე; 8,000,000 iteration თითო გაზომვაზე). ყველა run-ში რეალური OpenMP thread-ების რაოდენობა მოთხოვნილს დაემთხვა.
 
-ეს მხოლოდ წინასწარი execution signal-ია: იმავე workflow run-ში privacy test-ის assertion-მა CI შეაჩერა artifact upload-მდე. ამიტომ raw report ჯერ არ არის შენახული GitHub artifact-ში და ეს გაშვება საბოლოო frozen result-ად არ ჩაითვლება. შესწორებული workflow-ის შედეგი ცალკე უნდა შეფასდეს.
+გარემო: x86-64, GCC 13.3.0, Python 3.12.16, Linux kernel 7.0.0-1014-aws. process affinity და cgroup cpuset ორივე იყო 0-3; მიმდინარე cgroup-ის cpu.max იყო "max 100000" (ამ cgroup-ში quota არ იყო მითითებული).
+
+| Worker-ები | Median process-CPU / wall ratio | Anomaly |
+|---:|---:|---:|
+| 1 | 0.999966709 | 0/20 |
+| 2 | 2.000455849 | 0/20 |
+| 4 | 4.001551167 | 0/20 |
+| 8 | 3.946946747 | 0/20 |
+
+მაქსიმალური process-CPU/wall ratio იყო 4.008956678; 80-დან არცერთი არ გასცდა 4.25 დიაგნოსტიკურ ზღვარს (ოთხი ეფექტური CPU + 0.25 margin). წინა ანგარიშის 13.287713 მაქსიმუმი ამ ერთ hosted run-ში არ გამეორებულა.
+
+300 thread sample-ზე CLOCK_THREAD_CPUTIME_ID და getrusage(RUSAGE_THREAD) აბსოლუტური სხვაობის მედიანა იყო 332 ns, მაქსიმუმი 4,663 ns; 296/300 sample განსხვავდებოდა 1 µs-ზე ნაკლებით და ყველა 5 µs-ზე ნაკლებით. Per-thread CPU დროების ჯამი process CPU დროის მედიანურად 99.47–99.99%-ს შეადგენდა worker-ების მიხედვით.
+
+**REPRODUCED RESULT:** frozen raw report დამოუკიდებლად გადაიკითხა; SHA-256, schema, 80 raw run, თითოეული ratio, ოთხი worker median და anomaly count ხელახლა გამოითვალა. არქივი: data/noema-005/raw/openmp-timing-diagnostic-2026-11-27.json.gz.b64; manifest: data/noema-005/openmp-timing-diagnostic-manifest-2026-11-27.json.
+
+**INFERENCE:** ახალი instrumentation-ის ამ ერთ hosted გარემოში process CPU და per-thread CPU accounting ერთმანეთთან თანხვედრაშია და ოთხი CPU-ს ზღვარს არ სცდება. ეს ამყარებს ახალ გაზომვის გზას, მაგრამ არ ადგენს ძველი ანომალიის მიზეზს და არ ამტკიცებს ფიზიკურ hardware-ზე scaling-ს.
 
 ## შეზღუდვები და გაურკვევლობები
+
+- cgroup cpu.stat არის cgroup-ის ყველა პროცესის აგრეგატი და არა მხოლოდ benchmark process-ის CPU აღრიცხვა.
+- ამ run-ში cgroup v2 threaded subtree-ის არსებობა და თითოეული thread-ის cgroup membership ცალკე არ შემოწმებულა; worker affinity კი თითოეულ thread-ში პირდაპირ გაიზომა.
+- მხოლოდ მიმდინარე cgroup-ის cpu.max ჩაიწერა; ancestor quota-ების ჯაჭვი ცალკე არ აღირიცხა. cpuset/affinity-ის ოთხი CPU ამ run-ის concurrency-ის ზედა ზღვარს მაინც ადგენდა.
 
 - GitHub-hosted virtual runner არ არის დამოუკიდებელი ფიზიკური hardware replication.
 - getrusage(RUSAGE_THREAD)-ის გარჩევადობა CLOCK_THREAD_CPUTIME_ID-ზე დაბალია.
@@ -78,6 +97,10 @@ scripts/noema005_openmp_timing_diagnostic.c-ის GCC/OpenMP build გაეშ
 4. ფიზიკურ x86-64 და ARM64 მოწყობილობებზე მინიმუმ 20 გამეორება თითო კონფიგურაციაზე, RSS/native allocation და memory bandwidth-ის გაზომვით.
 
 ## შემოწმების სტატუსი
+
+- Frozen report captured 2026-11-27T06:55:42.790124Z; raw JSON SHA-256 da570bbb5783cb27b12e54ebc0bd8d6bd76e0a7be54c39e89edbe85a48822926.
+- Source SHA-256 73660e5d83e0e1ae4decf07f20e8a9d9b06df2a315529b42f8bb6d7630300673; artifact ID 15178317416; workflow run 45954993085.
+- დამოუკიდებელი frozen reproduction script: scripts/reproduce_noema005_openmp_timing_diagnostic.py --check.
 
 - C diagnostic source, Python runner, schema და სინთეზური ტესტები დაემატა PR #124-ში.
 - პირველი hosted run-მა 80 raw run შექმნა; max process-CPU/wall ratio იყო 4.026760538 და 0/80 აღემატებოდა capacity+0.25 ზღვარს, მაგრამ ტესტის/დრაფტის ვალიდაციის შეცდომის გამო artifact არ აიტვირთა.

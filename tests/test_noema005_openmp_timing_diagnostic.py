@@ -3,6 +3,7 @@ import copy
 import unittest
 from pathlib import Path
 from scripts.run_noema005_openmp_timing_diagnostic import parse_cpu_list, parse_cpu_max, validate_report
+from scripts.reproduce_noema005_openmp_timing_diagnostic import load_frozen_report
 
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = ROOT / "data/noema-005/openmp-timing-diagnostic.schema.json"
@@ -53,6 +54,18 @@ class Noema005OpenMPTimingDiagnosticTests(unittest.TestCase):
         report=sample_report()
         report["environment"]["hostname"]="not-public"
         with self.assertRaises(ValueError): validate_report(report,SCHEMA)
+
+    def test_frozen_hosted_artifact_reproduces(self):
+        report = load_frozen_report()
+        self.assertEqual(len(report["runs"]), 80)
+        self.assertEqual(report["summary"]["cpu_wall_anomaly_count"], 0)
+        self.assertEqual(report["summary"]["max_process_cpu_wall_ratio"], 4.008956678)
+
+    def test_frozen_worker_counts_and_medians(self):
+        report = load_frozen_report()
+        self.assertEqual([entry["requested_workers"] for entry in report["summary"]["per_worker"]], [1, 2, 4, 8])
+        self.assertEqual([entry["median_process_cpu_wall_ratio"] for entry in report["summary"]["per_worker"]],
+                         [0.999966709, 2.000455849, 4.001551167, 3.946946747])
 
 if __name__=="__main__":
     unittest.main()

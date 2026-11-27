@@ -45,6 +45,8 @@ jobs:
         run: python scripts/run_noema005_openmp_timing_diagnostic.py --workers 1,2,4,8 --repetitions 20 --work-items 8000000 --output noema005-openmp-timing-diagnostic.json
       - name: Validate controlled timing diagnostic report
         run: python -m unittest discover -s tests -p 'test_noema005_openmp_timing_diagnostic.py' -v
+      - name: Reproduce frozen hosted timing diagnostic
+        run: python scripts/reproduce_noema005_openmp_timing_diagnostic.py --check
       - name: Upload controlled timing diagnostic artifact
         uses: actions/upload-artifact@v4
         with:

@@ -77,3 +77,10 @@ Run a controlled exact-head experiment that records, inside each worker, thread 
 - Accuracy შედეგები ცალკე დარჩა: Neumaier 40/40, naive 0/40.
 - ახალი benchmark ან ფიზიკური მოწყობილობის ექსპერიმენტი არ ჩატარებულა.
 - კვლევა რჩება Draft; კონტროლირებადი rerun და დამოუკიდებელი numerical-method review ჯერ არ არსებობს.
+
+
+## კონტროლირებადი worker-level timing follow-up
+
+2026-11-27-ის ცალკე per-thread diagnostic run-მა 80 გაზომვა შექმნა. ყველა thread-ის affinity mask იყო CPU 0-3; process CPU/wall maximum იყო 4.008956678 და 0/80 sample აღემატებოდა 4.25 capacity+margin ზღვარს. Per-thread CPU clock-ების ჯამი process CPU clock-ს ახლოს ემთხვეოდა. ამ run-ში წინა 13.287713 anomaly არ გამეორებულა.
+
+ეს არის ერთი hosted x86-64 run და არა დამოუკიდებელი ფიზიკური გამეორება. ძველი anomaly-ის მიზეზი კვლავ უცნობია; ძველი raw result არ წაიშლება და არ ჩანაცვლდება. ახალი raw report, source SHA და artifact provenance შენახულია NOEMA-005 timing diagnostic manifest-ში.
