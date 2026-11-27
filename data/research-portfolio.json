@@ -40,7 +40,8 @@
         "Use Article 32 of Georgia's Law on Water Resources Management to distinguish NEA environmental-water monitoring data access from National Food Safety Agency drinking-water quality control.",
         "Resolve the direct RAR archive URL linked by NEA's 2026-11-26 announcement; record the retrieval failure as an execution-environment limitation and do not infer archive contents or licence.",
         "Add a metadata-first same-period indicator comparability gate: require identical indicator definition, water matrix, standard/version, period, geography, sampling frame/design, inclusion rule and analytical method; validate numerator/denominator and source-rounded percentage before allowing descriptive comparison.",
-        "Preserve the JECM 2023 49.5% and Government-submitted 44.5% source reports as non-comparable until their denominator, matrix, standard, sampling frame, inclusion rule and method are reconciled; unknown metadata remain null."
+        "Preserve the JECM 2023 49.5% and Government-submitted 44.5% source reports as non-comparable until their denominator, matrix, standard, sampling frame, inclusion rule and method are reconciled; unknown metadata remain null.",
+        "Require explicit supply_type_scope metadata in addition to water_matrix, following WHO 2026 surveillance guidance that piped-only observation may miss other supplies and that small/community supply surveillance needs a designed sampling frame."
       ],
       "sources": [
         {
@@ -209,6 +210,14 @@
           "publication_date": "2026",
           "url": "https://cdn.who.int/media/docs/default-source/wash-documents/water-safety-and-quality/dwq-guidelines-4/gdwq_4ed_with_third-addenda_surveillance.pdf",
           "type": "official_health_guideline",
+          "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "Guidelines for drinking-water quality: fourth edition incorporating the first, second and third addenda",
+          "publisher": "World Health Organization",
+          "publication_date": "2026-06-17",
+          "url": "https://www.who.int/publications/i/item/9789240121225",
+          "type": "official_guideline",
           "accessed_at": "2026-11-27"
         }
       ],
