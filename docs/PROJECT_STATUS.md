@@ -1,5 +1,40 @@
 # NOEMA — მიმდინარე პროექტის მდგომარეობა
 
+- **განახლდა:** 2026-11-27 (run 27, research branches created; no research PR merged)
+- **საცავი:** https://github.com/maisuradzee/bibmom
+- **Run 27 base main:** 2852b7b5ee3fa7470ebc9c3eda339fc0e6235eda.
+- **Main quality CI:** [45994809027](https://github.com/maisuradzee/bibmom/actions/runs/45994809027) — SUCCESS.
+- **GitHub Pages deployment:** [45994808987](https://github.com/maisuradzee/bibmom/actions/runs/45994808987) — build and deploy SUCCESS.
+- **Open PRs at Run 27 audit:** 27; **open Issues:** 0.
+- **Run 27 research PRs:** [#152 AquaSignal source-access evidence](https://github.com/maisuradzee/bibmom/pull/152) and [#153 NOEMA-007 global MHEWS 2026 evidence](https://github.com/maisuradzee/bibmom/pull/153), both Draft. No research PR was merged.
+- **Existing active drafts:** #144 AquaSignal aggregate/provenance, #145 NOEMA-007 feasible lead-time, #146 INFRA-001 local high-water reference, #148 NOEMA-005 local-container reproduction. They remain Draft; no merge was attempted.
+- **Public research catalogue:** 1 preliminary, 0 published. No research item was promoted.
+- **Run 27 audit:** [docs/run-audits/2026-11-27-run-27.md](run-audits/2026-11-27-run-27.md).
+
+## Run 27 — current stream state
+
+| Stream | Status | Work / blocker |
+|---|---|---|
+| NOEMA-2026-006 AquaSignal | active / prototype | PR #152 adds a fail-closed source-access evidence gate. NEA122 is public/free catalogue metadata but no portal product URL/payload/schema/reuse terms were verified; the announced RAR was not inspected. |
+| NOEMA-2026-005 numerical reduction | active / preliminary | PR #148 remains a local GIL-enabled container reproduction; no new benchmark ran in this cycle. Physical x86-64/ARM64 replication remains outstanding. |
+| NOEMA-2026-007 warning-to-action | active / draft | PR #153 preserves WMO 2026 global MHEWS facts and mobility guidance; no Georgia-specific or event-level data was reconstructed. |
+| NOEMA-INFRA-001 reliability | active / engineering | PR #146 remains a single-host SQLite reference model; no external trust domain or clean-host restore exists. |
+
+### Run 27 exact-head CI
+
+- PR #152 first Quality CI run [45998103353](https://github.com/maisuradzee/bibmom/actions/runs/45998103353) failed at draft-completeness validation because the new draft did not match the repository's required metadata/section headings. The draft was corrected; the exact corrected-head CI is tracked separately.
+- PR #152 initial CPU-thread workflow [45998103349](https://github.com/maisuradzee/bibmom/actions/runs/45998103349): GIL-enabled and free-threaded jobs SUCCESS. This was the standard workflow matrix, not a new benchmark claim.
+- PR #153 exact-head Quality CI and CPU-thread workflow were running when the audit was recorded; final status must be read from GitHub Actions before any merge decision.
+- No merge is authorized from this audit. Drafts require exact-head Quality CI, public-boundary review and independent domain review.
+
+## Run 27 evidence decisions
+
+- AquaSignal distinguishes catalogue visibility/cost, payload retrieval, schema inspection, reuse terms, sample-level availability and authorization. public/free does not imply a public API or licence.
+- NOEMA-007 preserves WMO's 136-country/70%/143%/four-pillar statements as source-reported global facts; no rounded denominator is reconstructed and outcome wording remains association, not causation.
+- NOEMA-005 and INFRA-001 were reviewed but not given synthetic activity: physical hardware and production recovery trust-domain evidence remain unavailable.
+
+---
+
 - **განახლდა:** 2026-11-27 (run 26, post-merge verified main snapshot)
 - **საცავი:** https://github.com/maisuradzee/bibmom
 - **მდგომარეობის snapshot main:** 27edcf226bd27981c32b935d66c697321384a84c (PR #150 Run 26 portfolio/status audit merged)
