@@ -1,5 +1,8 @@
 # NOEMA-2026-005 — ARM64 hosted real-thread replication, Run 33
 
+- **თარიღი:** 2026-11-27
+- **სტატუსი:** `review`
+
 - **ID:** NOEMA-2026-005
 - **Status:** draft
 - **Date:** 2026-11-27
@@ -9,11 +12,11 @@
 - **Exact benchmark head:** `176ab78fa998060621b4056c65fd2e1f155b1058` (PR #171)
 - **Base main:** `710a4a3a7b87c7f226222a2fae523957ffb66571`
 
-## Research question
+## საკვლევი კითხვა
 
 Do compensated Neumaier-state reductions retain exact-reference accuracy on hosted ARM64 CPU-thread runners, and does the free-threaded runtime turn measured parallel CPU activity into lower wall time for this synthetic workload?
 
-## Method
+## მეთოდი
 
 Four hosted ARM64 runner/runtime cells were executed:
 
@@ -88,6 +91,24 @@ Larger workloads, different chunk sizes, a native reduction kernel, or memory-ba
 
 The machine-readable aggregate is `data/noema-005/arm64-threaded-benchmark-summary-2026-11-27.json`; its schema and regression test validate the pinned totals and evidence boundaries.
 
-## Next step
+## შემდეგი ნაბიჯები
 
 The next high-value experiment is a controlled 20+ repetition physical x86-64/ARM64 rerun with per-thread CPU clocks, affinity, RSS/native allocation and DRAM-bandwidth measurement, plus a representative workload. Do not claim a general ARM64 speedup from this hosted synthetic run.
+
+
+## წყაროები
+
+- NOEMA-005 exact-head ARM64 workflow run 33: https://github.com/maisuradzee/bibmom/actions/runs/46032894362
+- Exact-head Quality CI: https://github.com/maisuradzee/bibmom/actions/runs/46032894345
+- CPython 3.14 free-threading documentation: https://docs.python.org/3.14/howto/free-threading-python.html
+- Python `threading` documentation: https://docs.python.org/3.14/library/threading.html
+- GitHub-hosted runners reference: https://docs.github.com/en/actions/reference/runners/github-hosted-runners
+
+## შემოწმების სტატუსი
+
+- [x] ოთხივე hosted ARM64 runner/runtime report ჩამოტვირთულია.
+- [x] ოთხივე report-ის strict validator წარმატებულია.
+- [x] Artifact ZIP SHA-256 ხელახლა გამოითვალა და დაემთხვა GitHub artifact digest-ს.
+- [x] Summary JSON და JSON Schema მომზადებულია; CI validation pending until this draft-completeness fix is checked.
+- [ ] დამოუკიდებელი numerical review.
+- [ ] 20+ repetition physical x86-64/ARM64 replication, RSS/native memory და DRAM bandwidth.
