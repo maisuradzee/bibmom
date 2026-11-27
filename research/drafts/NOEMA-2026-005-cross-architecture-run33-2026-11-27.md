@@ -68,3 +68,29 @@ Azure x86-64 hosted free-threaded runner-ის კონკრეტული �
 - დამოუკიდებელი numerical-method review ჯერ არ დასრულებულა.
 
 **სტატუსი რჩება preliminary. Published არ არის.**
+
+## წყაროები
+
+- Higham, N. J. (1993). *The Accuracy of Floating Point Summation*. SIAM Journal on Scientific Computing, 14(4), 783–799. https://doi.org/10.1137/0914050
+- Ogita, T., Rump, S. M., & Oishi, S. (2005). *Accurate Sum and Dot Product*. SIAM Journal on Scientific Computing, 26(6), 1955–1988. https://doi.org/10.1137/030601818
+- Gross, S. (2023). PEP 703 — Making the Global Interpreter Lock Optional in CPython. https://peps.python.org/pep-0703/
+- Wouters, T., Page, M., & Gross, S. (2025). PEP 779 — Criteria for supported status for free-threaded Python. https://peps.python.org/pep-0779/
+- NOEMA x86-64 source aggregate, PR #175 and workflow runs 46034414138, 46034729099, 46035393777: https://github.com/maisuradzee/bibmom/pull/175
+- NOEMA ARM64 source aggregate, merged PR #171 and workflow run 46032894362: https://github.com/maisuradzee/bibmom/actions/runs/46032894362
+
+## შემდეგი ნაბიჯები
+
+1. Independently controlled physical x86-64 and ARM64 hosts, with the same OS/runtime build and recorded CPU model, microcode, affinity and power policy.
+2. At least 20 measured repetitions per configuration and uncertainty intervals.
+3. Representative application-sized and memory-bandwidth-bound inputs.
+4. Process RSS, native allocator, DRAM bandwidth, per-thread CPU clocks and context-switch counters.
+5. Independent numerical-method review before any publication promotion.
+
+## შემოწმების სტატუსი
+
+- FACT: the two source summaries use the same declared protocol and input SHA-256 values; their Git blob IDs and workflow references are recorded.
+- REPRODUCED_RESULT: aggregate accuracy and CPU/wall denominators were recomputed from the two committed summary documents; no new benchmark was run.
+- INFERENCE: hosted speedup varies by runner/backend and does not establish a causal architecture effect.
+- HYPOTHESIS: controlled physical-host runs may distinguish runtime and host effects.
+- UNTESTED IDEA: larger representative workloads and memory-bandwidth experiments remain future work.
+- Publication status: preliminary; independent review outstanding; not Published.
