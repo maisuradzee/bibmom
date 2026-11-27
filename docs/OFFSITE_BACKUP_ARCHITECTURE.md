@@ -170,3 +170,8 @@ The public key and key identifier must be provisioned through a separately trust
 ## 8. Restore-drill attestation contract
 
 The closed metadata contract is `data/noema-restore-attestation.schema.json`; its pure completeness gate is `noema_core/restore_attestation.py`. A same-host SQLite round trip can only be classified as `LOCAL_CHECKLIST_COMPLETE`. An offsite clean-host claim requires separately verified manifest, artifact, decryption, provider-version/retention, independent high-water, clean-host and service-health evidence, plus owner-approved RPO/RTO and non-decreasing generations. The evaluator checks completeness only; it does not authenticate evidence or deploy any provider integration. See [RESTORE_ATTESTATION_GATE.md](RESTORE_ATTESTATION_GATE.md).
+
+
+## Strict metadata parser boundary
+
+Restore-attestation bytes are limited to 1 MiB and 64 nested JSON containers before decoding. Duplicate keys, non-standard numeric constants, invalid UTF-8 and non-object roots are rejected. This is an input-interpretation/resource bound only; it does not add signature verification, provider authentication, encryption, offsite retention or clean-host restore capability.
