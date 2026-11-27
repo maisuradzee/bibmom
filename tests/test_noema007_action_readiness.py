@@ -51,6 +51,8 @@ def synthetic_record():
             "timely_received_n": 55,
             "timely_receipt_minimum_lead_seconds": 900,
             "timely_receipt_basis": "respondent_recall",
+            "timely_receipt_rule_reference": "synthetic-playbook-v1",
+            "timely_receipt_rule_source_url": "https://example.org/synthetic-playbook-v1",
         },
         "privacy": {
             "aggregation_only": True,
@@ -139,12 +141,16 @@ class ActionReadinessTests(unittest.TestCase):
         self.assertEqual(metric["rate"], round(55 / 70, 6))
         self.assertEqual(metric["minimum_lead_seconds"], 900)
         self.assertEqual(metric["measurement_basis"], "respondent_recall")
+        self.assertEqual(metric["rule_documentation_status"], "provided_not_independently_verified")
+        self.assertEqual(metric["rate_status"], "descriptive_rule_source_unverified")
+        self.assertFalse(metric["cross_event_comparison_permitted"])
 
     def test_legacy_survey_without_timing_fields_remains_valid(self):
         record = synthetic_record()
         for key in (
             "timely_receipt_assessed_n", "timely_received_n",
             "timely_receipt_minimum_lead_seconds", "timely_receipt_basis",
+            "timely_receipt_rule_reference", "timely_receipt_rule_source_url",
         ):
             record["survey"].pop(key)
         result = compute_action_readiness_metrics(record)
@@ -176,6 +182,28 @@ class ActionReadinessTests(unittest.TestCase):
         record = synthetic_record()
         record["survey"]["timely_receipt_basis"] = "device_log"
         with self.assertRaisesRegex(ActionReadinessValidationError, "respondent_recall"):
+            validate_action_readiness_record(record)
+
+    def test_timing_rate_is_not_computed_without_rule_source(self):
+        record = synthetic_record()
+        record["survey"]["timely_receipt_rule_reference"] = None
+        record["survey"]["timely_receipt_rule_source_url"] = None
+        metric = compute_action_readiness_metrics(record)["survey_metrics"]["self_reported_timely_warning_receipt"]
+        self.assertIsNone(metric["rate"])
+        self.assertEqual(metric["rate_status"], "not_computed_missing_rule_source")
+        self.assertEqual(metric["numerator"], 55)
+        self.assertEqual(metric["denominator"], 70)
+
+    def test_timing_rule_reference_and_url_must_be_supplied_together(self):
+        record = synthetic_record()
+        record["survey"]["timely_receipt_rule_source_url"] = None
+        with self.assertRaisesRegex(ActionReadinessValidationError, "supplied together"):
+            validate_action_readiness_record(record)
+
+    def test_timing_rule_url_must_be_https(self):
+        record = synthetic_record()
+        record["survey"]["timely_receipt_rule_source_url"] = "http://example.org/rule"
+        with self.assertRaisesRegex(ActionReadinessValidationError, "must be HTTPS"):
             validate_action_readiness_record(record)
 
     def test_zero_timing_denominator_is_not_imputed(self):
