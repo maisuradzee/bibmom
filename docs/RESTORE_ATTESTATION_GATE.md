@@ -43,3 +43,10 @@ The tests use synthetic metadata and synthetic digests. They exercise local/offs
 ## Next step
 
 Obtain a designated recovery owner and independent security reviewer; approve the trust-domain, key custody, retention, RPO/RTO and high-water authority before selecting any provider or enabling a production restore path.
+
+
+## Strict restore-attestation byte ingestion
+
+The byte entry point `load_restore_attestation_bytes()` now accepts exact UTF-8 bytes only and applies a 1 MiB size ceiling plus a 64-container JSON nesting ceiling before parsing. It rejects duplicate keys at every object depth, non-standard NaN/Infinity constants, invalid UTF-8 and non-object roots; a residual parser `RecursionError` is normalized to a controlled validation error.
+
+These checks prevent ambiguous or resource-heavy JSON interpretation. They do **not** authenticate the SQLite database, manifest, signatures, provider, high-water service or clean host. The gate remains a completeness/consistency check over caller-supplied evidence.
