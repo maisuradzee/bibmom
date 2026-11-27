@@ -16,7 +16,7 @@
 - [Run 46006107242](https://github.com/maisuradzee/bibmom/actions/runs/46006107242), head `fdfc4d390fdb7cfc45f5879dbc699c3d2165a1e9`, artifacts 15201571617 (GIL-enabled) და 15201906516 (free-threaded).
 - [Run 46007383552](https://github.com/maisuradzee/bibmom/actions/runs/46007383552), head `3cfe55c5748333ccba18efd0209dd14e66ed8499`, artifacts 15200953902 (GIL-enabled) და 15200369413 (free-threaded).
 - [Run 46011557117](https://github.com/maisuradzee/bibmom/actions/runs/46011557117), head `ce095d7be7c4b96ffca423ee66a1f38157cf99e4`, artifacts 15203113651 (GIL-enabled) და 15204417524 (free-threaded). ორივე coarse runner kernel flavor `azure` იყო.
-- [Run 46024818862](https://github.com/maisuradzee/bibmom/actions/runs/46024818862), head `96e4297f9aefebb82aff41360757c48d49984d0b`, artifacts 15212332060 (GIL-enabled) და 15210818669 (free-threaded); GIL-enabled runner flavor `azure`, free-threaded `aws`.
+- [Run 46025216574](https://github.com/maisuradzee/bibmom/actions/runs/46025216574), head `96e4297f9aefebb82aff41360757c48d49984d0b`, artifacts 15212332060 (GIL-enabled) და 15210818669 (free-threaded); GIL-enabled runner flavor `azure`, free-threaded `aws`.
 
 თითოეულ artifact-ში შესრულდა 48 კონფიგურაცია × 3 გამეორება = 144 run. ჯამში რვა artifact-ში არის 384 კონფიგურაცია და 1,152 run. მატრიცა მოიცავდა 1, 2, 4 და 8 worker-ს; `triplet_order` და `grouped_cancellation` input layout-ებს; `contiguous` და `round_robin` partition-ებს; naive scalar, Neumaier scalar და Neumaier state მეთოდებს. თითო input-ში იყო 196,608 binary64 მნიშვნელობა და ზუსტი ჯამი 65,536.
 
@@ -116,7 +116,7 @@ Free-threaded 4-worker შემთხვევაში სამივე run 
 
 1. Gross, S. (2023). PEP 703 — Making the Global Interpreter Lock Optional in CPython. https://peps.python.org/pep-0703/
 2. Python Software Foundation. Python 3.14 — Python support for free threading. https://docs.python.org/3.14/howto/free-threading-python.html
-3. GitHub Actions runs 46006107242, 46007383552, 46011557117 and 46024818862; artifacts and SHA-256 provenance are in `data/noema-005/threaded-ci-repeat-manifest-2026-11-27.json`.
+3. GitHub Actions runs 46006107242, 46007383552, 46011557117 and 46025216574; artifacts and SHA-256 provenance are in `data/noema-005/threaded-ci-repeat-manifest-2026-11-27.json`.
 
 ## შემდეგი ნაბიჯები
 
@@ -128,7 +128,7 @@ Free-threaded 4-worker შემთხვევაში სამივე run 
 
 ## Run 31 — fourth hosted repeat pair
 
-- Workflow: [46024818862](https://github.com/maisuradzee/bibmom/actions/runs/46024818862), exact head `96e4297f9aefebb82aff41360757c48d49984d0`. ორივე GIL-enabled და free-threaded job წარმატებით დასრულდა; თითოეულმა 48 კონფიგურაცია × 3 გამეორება შეასრულა.
+- Workflow: [46025216574](https://github.com/maisuradzee/bibmom/actions/runs/46025216574), exact head `96e4297f9aefebb82aff41360757c48d49984d0`. ორივე GIL-enabled და free-threaded job წარმატებით დასრულდა; თითოეულმა 48 კონფიგურაცია × 3 გამეორება შეასრულა.
 - GIL-enabled Azure: Neumaier state 48/48 correctly rounded, median speedup 0.7687×, median process-CPU/wall 1.0072; worker median speedups 0.7757× / 0.7778× / 0.7589× / 0.7274× (1/2/4/8 workers). CPU/wall >1.05: 0/144 samples.
 - Free-threaded AWS: Neumaier state 48/48 correctly rounded, median speedup 0.7102×, median process-CPU/wall 2.6191; worker median speedups 0.6708× / 0.5907× / 0.7163× / 0.7066×. CPU/wall >1.05: 108/144 samples; maximum 3.9282 with four-CPU affinity.
 - Naive scalar remained 0/48 correctly rounded; Neumaier scalar 42/48 in both modes. All eight snapshots exclude native thread IDs and retain only coarse architecture/runtime/worker-count metadata.
