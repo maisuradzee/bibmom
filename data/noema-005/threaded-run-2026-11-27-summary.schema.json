@@ -1,0 +1,268 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NOEMA-005 real CPU-thread run summary",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "study_id",
+    "experiment_id",
+    "evidence_status",
+    "protocol",
+    "inputs",
+    "source",
+    "combined",
+    "modes",
+    "interpretation",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "study_id": {
+      "const": "NOEMA-2026-005"
+    },
+    "experiment_id": {
+      "const": "NOEMA-2026-005-REAL-THREADS-001"
+    },
+    "evidence_status": {
+      "const": "REPRODUCED_RESULT"
+    },
+    "protocol": {
+      "type": "object",
+      "required": [
+        "python_version",
+        "cpu_count_os",
+        "cpu_count_process",
+        "cpu_affinity_count",
+        "workers",
+        "methods",
+        "partitions",
+        "layouts",
+        "values_per_layout",
+        "repeat_count",
+        "warmups",
+        "repetitions",
+        "cpu_timer",
+        "wall_timer",
+        "memory_metric",
+        "thread_identity",
+        "merge_policy",
+        "randomness"
+      ],
+      "properties": {
+        "python_version": {
+          "const": "3.14.4"
+        },
+        "cpu_count_os": {
+          "const": 4
+        },
+        "cpu_count_process": {
+          "const": 4
+        },
+        "cpu_affinity_count": {
+          "const": 4
+        },
+        "workers": {
+          "const": [
+            1,
+            2,
+            4,
+            8
+          ]
+        },
+        "methods": {
+          "type": "array",
+          "minItems": 3
+        },
+        "partitions": {
+          "const": [
+            "contiguous",
+            "round_robin"
+          ]
+        },
+        "layouts": {
+          "const": [
+            "triplet_order",
+            "grouped_cancellation"
+          ]
+        },
+        "values_per_layout": {
+          "const": 196608
+        },
+        "repeat_count": {
+          "const": 65536
+        },
+        "warmups": {
+          "const": 1
+        },
+        "repetitions": {
+          "const": 3
+        },
+        "cpu_timer": {
+          "type": "string"
+        },
+        "wall_timer": {
+          "type": "string"
+        },
+        "memory_metric": {
+          "type": "string"
+        },
+        "thread_identity": {
+          "type": "string"
+        },
+        "merge_policy": {
+          "type": "string"
+        },
+        "randomness": {
+          "const": "none; deterministic constructed inputs"
+        }
+      }
+    },
+    "inputs": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "required": [
+          "layout",
+          "value_count",
+          "repeat_count",
+          "canonical_binary64_big_endian_sha256",
+          "exact_sum_fraction",
+          "correctly_rounded_binary64_reference"
+        ],
+        "properties": {
+          "layout": {
+            "enum": [
+              "triplet_order",
+              "grouped_cancellation"
+            ]
+          },
+          "value_count": {
+            "const": 196608
+          },
+          "repeat_count": {
+            "const": 65536
+          },
+          "canonical_binary64_big_endian_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "exact_sum_fraction": {
+            "const": "65536"
+          },
+          "correctly_rounded_binary64_reference": {
+            "const": 65536
+          }
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "repository",
+        "benchmark_workflow",
+        "runs",
+        "artifacts"
+      ],
+      "properties": {
+        "repository": {
+          "const": "maisuradzee/bibmom"
+        },
+        "benchmark_workflow": {
+          "const": "NOEMA-005 actual CPU-thread benchmark"
+        },
+        "runs": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "artifacts": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4
+        }
+      }
+    },
+    "combined": {
+      "type": "object",
+      "required": [
+        "artifacts",
+        "configurations",
+        "measured_threaded_runs",
+        "native_thread_count_matches_requested",
+        "speedup_gt_1_configurations",
+        "accuracy"
+      ],
+      "properties": {
+        "artifacts": {
+          "const": 4
+        },
+        "configurations": {
+          "const": 192
+        },
+        "measured_threaded_runs": {
+          "const": 576
+        },
+        "native_thread_count_matches_requested": {
+          "const": true
+        },
+        "speedup_gt_1_configurations": {
+          "const": 0
+        },
+        "accuracy": {
+          "type": "object"
+        }
+      }
+    },
+    "modes": {
+      "type": "object",
+      "required": [
+        "free_threaded",
+        "gil_enabled"
+      ],
+      "properties": {
+        "free_threaded": {
+          "type": "object"
+        },
+        "gil_enabled": {
+          "type": "object"
+        }
+      }
+    },
+    "interpretation": {
+      "type": "object",
+      "required": [
+        "result",
+        "performance",
+        "runner_comparison",
+        "memory"
+      ],
+      "properties": {
+        "result": {
+          "type": "string"
+        },
+        "performance": {
+          "type": "string"
+        },
+        "runner_comparison": {
+          "type": "string"
+        },
+        "memory": {
+          "type": "string"
+        }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "string",
+        "minLength": 20
+      }
+    }
+  }
+}
