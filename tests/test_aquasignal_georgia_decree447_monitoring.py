@@ -48,7 +48,7 @@ class AquaSignalDecree447Tests(unittest.TestCase):
         item = next(x for x in self.record["requirements"] if x["id"] == "biota_sediment_transition")
         self.assertEqual(item["start_by"], "2028-01-01")
         self.assertIn("water-column", item["requirement"])
-        self.assertIn("substances requiring", item["note"])
+        self.assertIn("substances whose assessment requires", item["note"])
 
     def test_drinking_water_control_is_not_conflated_with_water_body_monitoring(self) -> None:
         distinctions = " ".join(x["fact"] + " " + x["implication"] for x in self.record["scope_boundaries"])
