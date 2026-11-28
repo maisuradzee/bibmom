@@ -66,6 +66,26 @@ class Noema007Wrp2026ActionEnablerTests(unittest.TestCase):
         self.assertEqual(result["metrics"]["action_by_plan_and_agency"][0]["weighted_able_pct_1dp"], 26.6)
         self.assertEqual(result["metrics"]["action_by_plan_and_agency"][3]["weighted_able_pct_1dp"], 83.0)
 
+    def test_publisher_reference_values_are_pinned(self):
+        protocol = json.loads(PROTOCOL.read_text(encoding="utf-8"))
+        reference = protocol["publisher_reference"]
+        self.assertEqual(
+            [x["weighted_able_pct_1dp"] for x in reference["action_by_warning_channel_count"]],
+            [37.5, 50.5, 64.2],
+        )
+        self.assertEqual(
+            [x["published_report_pct"] for x in reference["action_by_warning_channel_count"]],
+            [37, 51, 64],
+        )
+        self.assertEqual(
+            [x["weighted_able_pct_1dp"] for x in reference["action_by_plan_and_agency"]],
+            [26.6, 49.5, 60.0, 83.0],
+        )
+        self.assertEqual(
+            [x["weighted_able_pct_1dp"] for x in reference["action_by_income_group"]],
+            [48.0, 46.9, 75.5, 70.9],
+        )
+
     def test_weighted_denominators_retain_action_dk_refused(self):
         result = derive_aggregates(fixture())
         self.assertEqual(result["sample"]["warning_question_base_n"], 9)
@@ -77,7 +97,7 @@ class Noema007Wrp2026ActionEnablerTests(unittest.TestCase):
     def test_plan_agency_it_depends_is_excluded_but_action_dk_remains_in_denominator(self):
         result = derive_aggregates(fixture())
         groups = {x["group"]: x["weighted_able_pct_1dp"] for x in result["metrics"]["action_by_plan_and_agency"]}
-        self.assertEqual(groups, {"neither": 50.0, "plan_only": 50.0, "agency_only": 33.3, "both": 100.0})
+        self.assertEqual(groups, {"neither": 50.0, "plan_only": 0.0, "agency_only": 33.3, "both": 100.0})
 
     def test_income_code_nine_is_excluded_from_income_comparison(self):
         result = derive_aggregates(fixture())

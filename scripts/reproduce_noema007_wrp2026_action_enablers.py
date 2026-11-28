@@ -191,7 +191,7 @@ def validate_publisher_alignment(result: Mapping[str, Any], protocol: Mapping[st
 def _git_blob_sha1(path: Path) -> str:
     size = path.stat().st_size
     digest = hashlib.sha1()
-    digest.update(f"blob {size}\\0".encode("ascii"))
+    digest.update(f"blob {size}\0".encode("ascii"))
     with path.open("rb") as stream:
         for chunk in iter(lambda: stream.read(1024 * 1024), b""):
             digest.update(chunk)
