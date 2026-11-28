@@ -20,7 +20,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - AquaSignal-ის PR #297 CI: **868 passed, 1 skipped**. NOEMA-007 PR #298 CI: **874 passed, 1 skipped**. ორივე ზუსტი head SHA შემოწმდა; ორივე PR გაერთიანდა.
 - INFRA-001 Draft PR #291 არ გაერთიანებულა. სტატიკური აუდიტი აჩვენებს, რომ workflow contract ამოწმებს step ID-ებსა და aggregate gate-ს, მაგრამ თითოეული step-ის რეალურ command body-ს არ აფიქსირებს; ასევე URL preflight არ არის სრული secret scanner. საჭიროა command fingerprint/expected-command contract და დამოუკიდებელი security review.
 - NOEMA-005-ზე ახალი ფიზიკური CPU ექსპერიმენტი არ ჩატარებულა. Run 55-ის hosted artifact reproduction უცვლელია; ფიზიკური x86-64/ARM64, RSS/native memory და DRAM counter-ები კვლავ ბლოკერია.
-- Main research SHA: `88ff7ec9bf66eb6cf52087f8f2561f0ace866743`. GitHub Pages deploy: [46137522563](https://github.com/maisuradzee/bibmom/actions/runs/46137522563) — წარმატებული. საბოლოო Main Quality CI [46137522561](https://github.com/maisuradzee/bibmom/actions/runs/46137522561) ამ ჩანაწერის მომზადებისას ჯერ მიმდინარეობდა.
+- Main research SHA: `88ff7ec9bf66eb6cf52087f8f2561f0ace866743`. GitHub Pages deploy: [46137522563](https://github.com/maisuradzee/bibmom/actions/runs/46137522563) — წარმატებული. Post-merge Main Quality CI [46137682863](https://github.com/maisuradzee/bibmom/actions/runs/46137682863) წარმატებით დასრულდა: **874 passed, 1 skipped**. GitHub Pages deployment [46137682856](https://github.com/maisuradzee/bibmom/actions/runs/46137682856) წარმატებით დასრულდა.
 
 [Run 56-ის სრული აუდიტი](docs/run-audits/2026-11-28-run-56.md).
 
