@@ -51,7 +51,14 @@ class GeorgiaCop31EarlyWarningSignalTests(unittest.TestCase):
 
     def test_no_private_or_event_level_data_is_included(self) -> None:
         self.assertTrue(all(value is False for value in self.record["privacy"].values()))
-        self.assertNotIn("coordinates", json.dumps(self.record["privacy"]).lower())
+        def collect_keys(value):
+            if isinstance(value, dict):
+                return {str(key).casefold() for key in value} | set().union(*(collect_keys(item) for item in value.values()))
+            if isinstance(value, list):
+                return set().union(*(collect_keys(item) for item in value)) if value else set()
+            return set()
+        forbidden_geometry_keys = {"lat", "lon", "latitude", "longitude", "coordinates", "geometry", "wkt"}
+        self.assertTrue(forbidden_geometry_keys.isdisjoint(collect_keys(self.record)))
 
 
 if __name__ == "__main__":
