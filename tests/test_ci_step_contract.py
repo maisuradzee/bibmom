@@ -59,6 +59,17 @@ class CiStepContractTests(unittest.TestCase):
             path.write_text(path.read_text(encoding="utf-8") + "      - name: Unreviewed\n        run: echo unsafe\n", encoding="utf-8")
             self.assertTrue(any("workflow_steps_not_in_manifest" in item for item in validate_contract(root)))
 
+    def test_unnamed_step_fails_closed(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self._fixture(root)
+            path = root / ".github/workflows/ci.yml"
+            path.write_text(
+                path.read_text(encoding="utf-8") + "      - run: true\n",
+                encoding="utf-8",
+            )
+            self.assertIn("workflow_contains_unnamed_or_uncontracted_step", validate_contract(root))
+
     def test_duplicate_step_name_fails(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
