@@ -685,3 +685,12 @@ Main remains at `726c71c9ef1a4e1c00dbc4a44b950e4b371c02f0`. Main Quality CI [460
 - The source-status difference is recorded as UNRESOLVED_SOURCE_STATUS. Draft development, consultation/validation, formal approval, publication and implementation are separate states. No 7/11 coverage percentage is calculated.
 - The 10-record official spatial-data catalogue remains metadata-only: public/free does not prove direct feature download, an open reuse licence, current model validity or operational forecast capability. No feature payload, station coordinates or household data was added.
 - Next: obtain signed/approved plans and official decisions for each basin; compare map/model scale, reference period, scenario assumptions and validation; obtain authorised privacy-reviewed warning/after-action aggregates.
+
+
+## Run 43 — AquaSignal NEA 2021–2025 report access lead (2026-11-28)
+
+- Re-opened NEA's official 26 November announcement. It says the 2021–2025 groundwater report and nitrate-risk field methodology were prepared and describes quantity/quality assessment, automatic monitoring, historical-data digitization and observation-network development.
+- The announcement does not expose sample-level concentrations, station observations or a data dictionary. Its RAR link returned application/octet-stream and could not be inspected; archive remains NOT_RETRIEVED and unhashed.
+- Official procurement contract T-100801 (tender NAT260019441), signed 2026-10-09, specifies a final interactive PDF, 50 CD media units and printed deliverables. This does not prove public access, CD contents, formal acceptance or reuse rights.
+- Added a strict metadata record/schema, focused tests and a draft access note. No supplier contact/bank/signature data or report payload was copied.
+- Next: request the final PDF/public-inspection route, acceptance/delivery act, exact CD contents, data dictionary, checksum and reuse terms from NEA.
