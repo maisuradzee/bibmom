@@ -1382,10 +1382,10 @@
           "title": "NOEMA-005 Experiment 002 — independent artifact reproduction audit",
           "publisher": "NOEMA research workflow",
           "url": "https://github.com/maisuradzee/bibmom/blob/main/docs/run-audits/2026-11-28-run-55-noema005-artifact-reproduction.md",
-          "supports": "Independent ZIP and embedded report SHA-256 verification; recomputation of per-cell accuracy, speedup, CPU/wall metrics and scalar-partial failure topology.",
           "type": "reproducible-computational-record",
           "publication_date": "2026-11-28",
-          "accessed_at": "2026-11-28"
+          "accessed_at": "2026-11-28",
+          "note": "Independent ZIP and embedded report SHA-256 verification; recomputation of per-cell accuracy, speedup, CPU/wall metrics and scalar-partial failure topology."
         }
       ],
       "data_needs": [
