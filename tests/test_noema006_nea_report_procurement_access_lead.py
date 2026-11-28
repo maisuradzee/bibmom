@@ -34,13 +34,13 @@ class AquaSignalNeaProcurementAccessLeadTests(unittest.TestCase):
         self.assertEqual(pdf["format"], "PDF")
         self.assertTrue(pdf["interactive_table_of_contents_required"])
         self.assertFalse(pdf["public_access_confirmed"])
-        self.assertIn("neither source establishes", self.record["interpretation"])
+        self.assertIn("this does not establish", self.record["interpretation"])
 
     def test_cd_contents_and_delivery_completion_are_not_inferred(self):
         cd = next(item for item in self.record["deliverables"] if item["kind"] == "cd_media")
         self.assertEqual(cd["copies"], 50)
         self.assertFalse(cd["public_access_confirmed"])
-        self.assertIn("neither source establishes", self.record["interpretation"])
+        self.assertIn("this does not establish", self.record["interpretation"])
 
     def test_nea_announcement_confirms_report_scope_but_not_sample_level_payload(self):
         announcement = self.record["official_announcement"]
