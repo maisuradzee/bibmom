@@ -466,6 +466,15 @@
           "type": "official_primary_legislation",
           "accessed_at": "2026-11-28",
           "note": "Article 31(3) assigns state drinking-water quality control to the National Food Agency; Article 37(1)(b)(b) sets 2027-09-01 for the separate drinking-water quality technical regulation; Article 42 sets commencement dates. Article 37(2)(b)(c)-(e) also sets a 2027-09-01 deadline for nitrate-risk/vulnerable-zone identification and good-agricultural-practice rules/action plans."
+        },
+        {
+          "title": "NOEMA PR #265 — same-sample nitrate/nitrite guidance crosswalk and Decimal helper",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-28",
+          "url": "https://github.com/maisuradzee/bibmom/pull/265",
+          "type": "engineering_research_record",
+          "accessed_at": "2026-11-28",
+          "note": "Merged exact-head CI. Preliminary WHO-vs-Georgian crosswalk and synthetic-only typed calculation; no Georgian sample data or local legal pass/fail."
         }
       ],
       "data_needs": [
@@ -2256,6 +2265,15 @@
           "type": "official_technical_documentation",
           "accessed_at": "2026-11-28",
           "note": "Connection-level isolation boundaries."
+        },
+        {
+          "title": "NOEMA PR #266 — verified backup artifact staging handle",
+          "publisher": "NOEMA repository",
+          "publication_date": "2026-11-28",
+          "url": "https://github.com/maisuradzee/bibmom/pull/266",
+          "type": "engineering_change_record",
+          "accessed_at": "2026-11-28",
+          "note": "Merged exact-head CI. Stages the exact hashed bytes into an anonymous TemporaryFile and returns a handle; no production restore consumer is wired."
         }
       ],
       "data_needs": [

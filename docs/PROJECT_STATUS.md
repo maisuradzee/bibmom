@@ -1,5 +1,26 @@
 # NOEMA — მიმდინარე პროექტის მდგომარეობა
 
+## Run 49 — AquaSignal nitrate/nitrite boundary and INFRA verified-artifact staging
+
+- **Updated:** 2026-11-28.
+- **Verified Main SHA:** `c1d2b0636cb7f433e9a5a3dc409b7fc87704a118`.
+- **Merged research PR #265:** [AquaSignal nitrate/nitrite crosswalk](https://github.com/maisuradzee/bibmom/pull/265), merge commit `997fe84f3517b83391542318a28ca3918e04677c`. Exact-head push CI [46111385871](https://github.com/maisuradzee/bibmom/actions/runs/46111385871) and PR CI [46111389274](https://github.com/maisuradzee/bibmom/actions/runs/46111389274) succeeded. Main CI [46111461081](https://github.com/maisuradzee/bibmom/actions/runs/46111461081) and Pages deployment [46111461073](https://github.com/maisuradzee/bibmom/actions/runs/46111461073) succeeded.
+- **Merged engineering PR #266:** [INFRA-001 verified artifact staging](https://github.com/maisuradzee/bibmom/pull/266), merge commit `c1d2b0636cb7f433e9a5a3dc409b7fc87704a118`. Exact-head push CI [46111601638](https://github.com/maisuradzee/bibmom/actions/runs/46111601638) and PR CI [46111605101](https://github.com/maisuradzee/bibmom/actions/runs/46111605101) succeeded; Python suite: 793 passed, 1 skipped. Main CI [46111676218](https://github.com/maisuradzee/bibmom/actions/runs/46111676218) passed 793 tests with 1 skipped. Pages deployment [46111676232](https://github.com/maisuradzee/bibmom/actions/runs/46111676232) succeeded for this Main SHA.
+- **AquaSignal / NOEMA-2026-009:** added WHO 2026 nitrate/nitrite and Georgian Decree №58/2014 crosswalk. WHO guidance: 50 mg/L as NO3-, 3 mg/L as NO2-, combined same-drinking-water-sample ratio. Georgian Decree №58/2014: nitrate 50 mg/L with short-term limiting sign; nitrite 0.2 mg/L with long-term limiting sign; Article 2(21) refers to chemicals sharing the same limiting sign. The interaction is recorded as an inference requiring independent Georgian legal review, not a local compliance rule. Catalogue: 5 Preliminary, 0 Published.
+- **AquaSignal implementation:** Decimal nitrite basis conversion (rounded WHO factor 0.304) and WHO-only ratio helper; requires one pseudonymous sample ID, timezone-aware timestamp, drinking-water matrix, mg/L and native ion bases. No Georgian sample data, potability result, exposure estimate or operational alert was created.
+- **INFRA-001 implementation:** open_verified_artifact() copies one opened regular-file descriptor into an anonymous TemporaryFile while hashing, verifies exact length/digest and before/after descriptor metadata, and returns the rewound staged handle. During-hash path replacement fails closed; replacement or in-place source mutation after verification cannot alter the staged copy. The restore consumer is not yet wired to this API; TemporaryFile may be disk-backed and is not encryption or secure erase.
+- **CI correction:** the first PR #266 head failed one test because the test expected a path replacement during hashing to succeed. The observed implementation correctly failed closed; the test was corrected to assert that behavior. The final exact-head SHA `d820b2807bdddfd41e2559b5041ceb2949552085` passed both push and PR CI.
+- **NOEMA-005:** frozen hosted-result reproduction and runtime/memory smoke checks passed in CI; no new physical x86-64 or ARM64 device experiment was performed.
+- **NOEMA-007:** no new authorized Georgian operational warning-event or after-action dataset was obtained; no operational effectiveness claim is made.
+- **AquaSignal data blocker:** NEA 2021–2025 groundwater RAR remains linked but not extracted/hashed; no paired Georgian nitrate/nitrite sample-level laboratory data, LOD/LOQ or QA/QC were available.
+- **Portfolio:** four independent active streams remain AquaSignal / NOEMA-2026-006, NOEMA-005, NOEMA-007 and INFRA-001. No fifth stream added.
+- **GitHub state:** 40 open PRs, 0 open issues. PRs #252, #251 and #246 remain stale/unmergeable against current Main and were not merged; refresh and independent security review are still required.
+- **Public-data boundary:** no sample records, personal identifiers, exact private coordinates, private well-register data, secrets, provider credentials or Supabase changes were added. No new Supabase project or other project's database was used.
+
+---
+
+## Previous verified status snapshot (Run 48)
+
 - **განახლდა:** 2026-11-28 (Run 48 final — Georgia warning-authority crosswalk and backup path-binding hardening).
 - **საცავი:** https://github.com/maisuradzee/bibmom
 - **Verified Main SHA before this status-only update:** `4da99b1ae3eda2b9a6b915cd40a0060e2b9c13a9`.
