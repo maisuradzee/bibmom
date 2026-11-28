@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "record_id": "AQUASIGNAL-GEORGIA-DECREE-447-ANNEX-TRANSCRIPTION-AUDIT-2026-11-28",
+  "study_id": "NOEMA-2026-006",
+  "evidence_status": "SECONDARY_TRANSCRIPTION_ONLY",
+  "reviewed_at": "2026-11-28",
+  "primary_source": {
+    "publisher": "Legislative Herald of Georgia",
+    "title": "Government of Georgia Decree No. 447 of 15 September 2026 — Rule for Planning and Implementing Water Resource Monitoring",
+    "publication_date": "2026-09-15",
+    "decree_number": 447,
+    "registration_code": "400000000.10.003.025997",
+    "url": "https://matsne.gov.ge/ka/document/view/7000572",
+    "main_text_inspected": true,
+    "attachment": {
+      "filename": "447-დან.docx",
+      "listed_on_official_page": true,
+      "listed_size_bytes": 46049,
+      "retrieved": false,
+      "content_inspected": false,
+      "sha256": null
+    },
+    "verified_main_text_claims": [
+      {
+        "article": "3(2)(a)",
+        "claim": "The National Environmental Agency prepares the annual state water-resource monitoring plan and submits it to the Minister for approval no later than 1 December each year.",
+        "evidence_status": "FACT"
+      },
+      {
+        "article": "3(2)(b)-(c)",
+        "claim": "Monitoring data are to be retained in standardized formats; access is provided subject to environmental-information, data-protection and confidentiality law.",
+        "evidence_status": "FACT"
+      },
+      {
+        "article": "4(1)",
+        "claim": "The state monitoring plan must be representative, risk-based and use standardized methods and indices to support comparability over time.",
+        "evidence_status": "FACT"
+      },
+      {
+        "article": "6(2)",
+        "claim": "The rule distinguishes observational, operational and investigative monitoring; operational monitoring applies to at-risk water bodies and is described as monthly or quarterly.",
+        "evidence_status": "FACT"
+      }
+    ]
+  },
+  "secondary_source": {
+    "publisher": "Legali.ge",
+    "title": "Government Decree No. 447/2026 — reproduced text and annex transcription",
+    "publication_date": "2026-09-15",
+    "accessed_at": "2026-11-28",
+    "url": "https://www.legali.ge/law/7000572/",
+    "source_type": "SECONDARY_LEGAL_TEXT_TRANSCRIPTION",
+    "inspected_sections": [
+      "Annex 2, Table 2 — groundwater monitoring frequency",
+      "Annex 2, Table 3 — groundwater monitoring methods and equipment"
+    ],
+    "limitation": "The page identifies Matsne as the official source, but this transcription has not been independently compared byte-for-byte with the official DOCX attachment."
+  },
+  "transcribed_annex_claims": [
+    {
+      "annex_reference": "Annex 2, Table 2",
+      "monitoring_mode": "observational",
+      "parameter": "groundwater_chemical_composition",
+      "before_initial_status_assessment": "at_least_twice_per_year",
+      "after_initial_status_assessment": "at_least_once_per_year",
+      "evidence_status": "SECONDARY_TRANSCRIPTION_ONLY"
+    },
+    {
+      "annex_reference": "Annex 2, Table 2",
+      "monitoring_mode": "observational",
+      "parameter": "groundwater_quantitative_characteristics",
+      "before_initial_status_assessment": "at_least_monthly_or_quarterly_depending_on_monitoring_point_type",
+      "after_initial_status_assessment": "risk_based",
+      "evidence_status": "SECONDARY_TRANSCRIPTION_ONLY"
+    },
+    {
+      "annex_reference": "Annex 2, Table 2",
+      "monitoring_mode": "operational",
+      "scope": "groundwater_bodies_at_risk",
+      "parameter": "groundwater_chemical_composition",
+      "frequency": "quarterly_or_risk_based",
+      "evidence_status": "SECONDARY_TRANSCRIPTION_ONLY"
+    },
+    {
+      "annex_reference": "Annex 2, Table 2",
+      "monitoring_mode": "operational",
+      "scope": "groundwater_bodies_at_risk",
+      "parameter": "groundwater_quantitative_characteristics",
+      "frequency": "monthly_or_quarterly_risk_based",
+      "evidence_status": "SECONDARY_TRANSCRIPTION_ONLY"
+    },
+    {
+      "annex_reference": "Annex 2, Table 2",
+      "monitoring_mode": "quantitative_status",
+      "parameter": "groundwater_level_and_discharge",
+      "frequency": "continuous_where_possible_otherwise_monthly",
+      "evidence_status": "SECONDARY_TRANSCRIPTION_ONLY"
+    }
+  ],
+  "nitrate_sampling_method_transcription": {
+    "annex_reference": "Annex 2, Table 3",
+    "field_parameters": [
+      "temperature",
+      "pH",
+      "electrical_conductivity",
+      "dissolved_oxygen_when_needed",
+      "total_dissolved_solids"
+    ],
+    "optional_field_screening": "portable_photometer_or_test_system_when_needed",
+    "laboratory_analysis": "standard laboratory analytical methods",
+    "evidence_status": "SECONDARY_TRANSCRIPTION_ONLY"
+  },
+  "groundwater_sampling_method_transcription": {
+    "annex_reference": "Annex 2, Table 3",
+    "selection_factors": [
+      "monitoring_point_type",
+      "hydrogeological_conditions",
+      "monitoring_objective"
+    ],
+    "pumped_wells": "Use low-flow sampling where pumping rate can be controlled to minimize disturbance and obtain a representative sample.",
+    "artesian_wells_and_springs": "Choose a method consistent with natural-flow conditions and representative-sample requirements.",
+    "objective": "Minimize changes in the sample's physical and chemical characteristics.",
+    "evidence_status": "SECONDARY_TRANSCRIPTION_ONLY"
+  },
+  "interpretation_limits": [
+    "The official Matsne HTML main text was inspected, but its listed 46,049-byte DOCX annex was not retrieved, parsed or hashed.",
+    "All Annex-specific frequencies and sampling-method details in this record are secondary transcription leads, not independently verified primary-source facts.",
+    "Do not operationalize Annex-specific frequencies until the official DOCX is obtained, hashed and compared with the transcription.",
+    "State environmental water-resource monitoring is distinct from drinking-water supplier compliance sampling under the separate potable-water legal regime.",
+    "The 1 December deadline is a duty to submit the annual state water-resource monitoring plan for ministerial approval; it is not evidence that the plan was submitted, approved, published or implemented.",
+    "No sample-level measurements, station identifiers, coordinates, personal data or restricted annex bytes are included."
+  ],
+  "privacy": {
+    "personal_data_included": false,
+    "precise_station_coordinates_included": false,
+    "sample_level_data_included": false,
+    "restricted_attachment_bytes_included": false
+  }
+}
