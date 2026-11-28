@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "record_id": "AQUASIGNAL-MONITORING-PLAN-INTAKE-2026-11-28",
+  "study_id": "NOEMA-2026-006",
+  "law_source": {
+    "decree_number": 447,
+    "article": "3(2)(a), 3(2)(b)-(c), 4-7",
+    "url": "https://www.matsne.gov.ge/ka/document/view/7000572"
+  },
+  "plan_document": {
+    "retrieval_status": "not_retrieved",
+    "url": null,
+    "sha256": null,
+    "inspected_at": null
+  },
+  "submission": {
+    "status": "not_verified",
+    "date": null,
+    "evidence_url": null
+  },
+  "approval": {
+    "status": "not_verified",
+    "date": null,
+    "evidence_url": null
+  },
+  "programmes": [],
+  "monitoring_modes": [],
+  "requirement_evidence": {
+    "representative_risk_based_network": {
+      "status": "not_verified",
+      "evidence_url": null
+    },
+    "standardized_methods_and_indices": {
+      "status": "not_verified",
+      "evidence_url": null
+    },
+    "time_series_comparability": {
+      "status": "not_verified",
+      "evidence_url": null
+    },
+    "background_indicators_documented": {
+      "status": "not_verified",
+      "evidence_url": null
+    },
+    "methodology_assumptions_and_periodic_review": {
+      "status": "not_verified",
+      "evidence_url": null
+    },
+    "data_formats_and_access_governance": {
+      "status": "not_verified",
+      "evidence_url": null
+    },
+    "privacy_and_confidentiality_controls": {
+      "status": "not_verified",
+      "evidence_url": null
+    }
+  },
+  "groundwater_quantitative_assessment": {
+    "assessment_claimed": false,
+    "water_balance_status": "not_applicable",
+    "evidence_url": null
+  },
+  "annexes": {
+    "status": "listed_not_inspected",
+    "sha256": null
+  }
+}
