@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "record_id": "NOEMA007-GEORGIA-COP31-EARLY-WARNING-CAPABILITY-SIGNAL-2026-11-16",
+  "study_id": "NOEMA-2026-007",
+  "reviewed_at": "2026-11-28",
+  "classification": "AGENCY_REPORTED_CAPABILITY_SIGNAL",
+  "source": {
+    "publisher": "National Environmental Agency of Georgia",
+    "title": "The National Environmental Agency presented the results achieved in the areas of climate change adaptation and the development of early warning systems at COP31",
+    "publication_date": "2026-11-16",
+    "url": "https://nea.gov.ge/En/News/3457",
+    "accessed_at": "2026-11-28",
+    "type": "official_primary_agency_notice"
+  },
+  "capability_claims": [
+    "The Agency says the COP31 presentation covered natural-hazard assessment and associated risks, hazard zoning, modernization of hydrometeorological observation and forecasting systems, development of early-warning mechanisms and digital transformation.",
+    "The Agency says the meteo.gov.ge mobile application provides meteorological and hydrological information and early warnings to the public, relevant state agencies and decision-makers.",
+    "The Agency reports expansion of the observation network, introduction of modern forecasting technologies and improved access to information about potential hazards under the GCF-supported, UNDP-implemented multi-hazard early-warning project.",
+    "The panel discussion addressed long-term system sustainability, integration of technology into operations, institutional capacity, regional cooperation and cross-border exchange of hydrometeorological data and forecasts."
+  ],
+  "not_established": [
+    "The notice does not publish an observation-station inventory, count, hazard/region coverage, uptime, telemetry completeness or maintenance record.",
+    "The notice does not publish hazard-specific forecast-verification metrics, lead-time distributions, calibration or uncertainty measures.",
+    "The notice does not provide warning counts or separate denominators for issued, sent, delivered, acknowledged, understood, feasible and actioned warnings.",
+    "The notice does not report mobile-app reach, active-user counts, accessibility testing, language coverage, alert receipt or protective action.",
+    "The notice does not provide a counterfactual, avoided-loss estimate, mortality effect or independent audit of the reported capability improvements."
+  ],
+  "required_follow_up_metrics": [
+    "Versioned station inventory by hazard and region, with active dates, uptime, data completeness, maintenance and metadata provenance.",
+    "Hazard-specific forecast verification by lead time, including probability of detection, false-alarm ratio, critical success index, calibration and uncertainty.",
+    "A warning-chain dataset with separate event/endpoint counts and denominators for issued, sent, delivered, acknowledged, understood, feasible and actioned stages.",
+    "Privacy-reviewed aggregate app and channel reach, language/accessibility coverage and offline-channel availability; never use person-level app telemetry in the public repository.",
+    "After-action review completeness, corrective-action closure and a predeclared comparison design before attributing changes in loss or mortality to the system."
+  ],
+  "interpretation": {
+    "fact": [
+      "NEA published a 2026-11-16 notice describing its COP31 presentation and the capabilities it says have been developed.",
+      "The notice specifically names observation-network expansion, modern forecasting technologies, improved hazard-information access and the meteo.gov.ge mobile application."
+    ],
+    "inference": [
+      "The next decision-relevant research question is not simply whether a warning system exists, but whether the reported capabilities deliver reliable and inclusive warning receipt and feasible protective action.",
+      "A mobile application and modernized observation network are enabling capabilities; neither alone establishes that exposed people receive, understand or can act on a warning."
+    ],
+    "hypothesis": [
+      "If hazard-specific forecast quality, last-mile delivery, accessibility and feasible-action constraints are measured together, authorities may identify where additional investment produces the greatest protective benefit."
+    ],
+    "untested_idea": [
+      "A privacy-preserving warning-chain dashboard could report separate aggregate stage metrics and data-quality flags without exposing individual recipients or exact household locations."
+    ]
+  },
+  "privacy": {
+    "personal_data_included": false,
+    "person_level_app_data_included": false,
+    "exact_private_locations_included": false,
+    "event_level_warning_records_included": false,
+    "critical_infrastructure_coordinates_included": false
+  }
+}
