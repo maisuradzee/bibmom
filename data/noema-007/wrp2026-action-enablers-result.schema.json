@@ -11,6 +11,7 @@
     "source",
     "sample",
     "metrics",
+    "derived_contrasts_pp",
     "methodology",
     "interpretation",
     "privacy",
@@ -312,6 +313,38 @@
       "items": {
         "type": "string",
         "minLength": 30
+      }
+    },
+    "derived_contrasts_pp": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "warning_channels_three_vs_one",
+        "both_plan_and_agency_vs_neither",
+        "upper_middle_vs_low_country_income",
+        "high_vs_lower_middle_country_income"
+      ],
+      "properties": {
+        "warning_channels_three_vs_one": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "both_plan_and_agency_vs_neither": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "upper_middle_vs_low_country_income": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "high_vs_lower_middle_country_income": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        }
       }
     }
   }

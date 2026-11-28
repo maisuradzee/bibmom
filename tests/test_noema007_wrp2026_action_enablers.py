@@ -6,7 +6,7 @@ from pathlib import Path
 
 from jsonschema import Draft202012Validator, FormatChecker
 
-from scripts.reproduce_noema007_wrp2026_action_enablers import CHANNELS, derive_aggregates
+from scripts.reproduce_noema007_wrp2026_action_enablers import CHANNELS, derive_aggregates, derive_descriptive_contrasts
 
 ROOT = Path(__file__).resolve().parents[1]
 PROTOCOL = ROOT / "data/noema-007/wrp2026-action-enablers-protocol.json"
@@ -85,6 +85,26 @@ class Noema007Wrp2026ActionEnablerTests(unittest.TestCase):
             [x["weighted_able_pct_1dp"] for x in reference["action_by_income_group"]],
             [48.0, 46.9, 75.5, 70.9],
         )
+
+    def test_country_income_group_is_country_level_not_respondent_income(self):
+        protocol = json.loads(PROTOCOL.read_text(encoding="utf-8"))
+        result = json.loads(RESULT.read_text(encoding="utf-8"))
+        self.assertEqual(
+            protocol["variables"]["income_group_unit"],
+            "country_level_classification_not_respondent_personal_income",
+        )
+        self.assertIn("not respondent personal income", protocol["methodology"]["income_groups"])
+        self.assertIn("not respondent personal income", result["methodology"]["income_groups"])
+
+    def test_frozen_percentage_point_contrasts_are_recomputed_from_aggregates(self):
+        result = json.loads(RESULT.read_text(encoding="utf-8"))
+        self.assertEqual(result["derived_contrasts_pp"], derive_descriptive_contrasts(result["metrics"]))
+        self.assertEqual(result["derived_contrasts_pp"], {
+            "warning_channels_three_vs_one": 26.7,
+            "both_plan_and_agency_vs_neither": 56.4,
+            "upper_middle_vs_low_country_income": 27.5,
+            "high_vs_lower_middle_country_income": 24.0,
+        })
 
     def test_weighted_denominators_retain_action_dk_refused(self):
         result = derive_aggregates(fixture())

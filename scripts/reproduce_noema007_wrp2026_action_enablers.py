@@ -188,6 +188,40 @@ def validate_publisher_alignment(result: Mapping[str, Any], protocol: Mapping[st
                 raise ValueError(f"{field} mismatch for {wanted[key]}")
 
 
+
+def derive_descriptive_contrasts(metrics: Mapping[str, Any]) -> dict[str, float]:
+    """Return unadjusted percentage-point differences from frozen weighted estimates."""
+    def value(field: str, key: str, wanted: Any) -> float:
+        rows = metrics.get(field)
+        if not isinstance(rows, list):
+            raise ValueError(f"missing metric list: {field}")
+        matches = [row for row in rows if row.get(key) == wanted]
+        if len(matches) != 1:
+            raise ValueError(f"expected exactly one {field} row for {key}={wanted}")
+        estimate = matches[0].get("weighted_able_pct_1dp")
+        if isinstance(estimate, bool) or not isinstance(estimate, Real) or not math.isfinite(float(estimate)):
+            raise ValueError(f"invalid weighted estimate in {field} for {wanted}")
+        return float(estimate)
+
+    return {
+        "warning_channels_three_vs_one": round(
+            value("action_by_warning_channel_count", "channel_count", 3)
+            - value("action_by_warning_channel_count", "channel_count", 1), 1
+        ),
+        "both_plan_and_agency_vs_neither": round(
+            value("action_by_plan_and_agency", "group", "both")
+            - value("action_by_plan_and_agency", "group", "neither"), 1
+        ),
+        "upper_middle_vs_low_country_income": round(
+            value("action_by_income_group", "group", "upper_middle_income")
+            - value("action_by_income_group", "group", "low_income"), 1
+        ),
+        "high_vs_lower_middle_country_income": round(
+            value("action_by_income_group", "group", "high_income")
+            - value("action_by_income_group", "group", "lower_middle_income"), 1
+        ),
+    }
+
 def _git_blob_sha1(path: Path) -> str:
     size = path.stat().st_size
     digest = hashlib.sha1()
@@ -224,6 +258,7 @@ def reproduce_parquet(input_path: Path, protocol: Mapping[str, Any]) -> dict[str
         "evidence_status": protocol["evidence_status"],
         "source": protocol["source"],
         **aggregates,
+        "derived_contrasts_pp": derive_descriptive_contrasts(aggregates["metrics"]),
         "methodology": protocol["methodology"],
         "interpretation": protocol["interpretation"],
         "privacy": protocol["privacy"],
