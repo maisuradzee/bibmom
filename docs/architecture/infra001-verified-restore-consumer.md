@@ -27,3 +27,8 @@ The conservative temporary-space budget is three artifact-sized copies: the anon
 ## Verification
 
 Synthetic tests cover successful restore, source-path replacement after verification, exact staged-byte consumption, private staging permissions/cleanup, digest mismatch, total temporary-space budget, and refusal to overwrite an existing destination.
+
+
+## Same-UID trust boundary (Run 52 audit)
+
+The 0700 staging directory and 0600 file permissions prevent ordinary access by different local UIDs, but they do **not** isolate the staged pathname from another process running under the same UID. The helper therefore assumes the restore process's local account is trusted; it is not a defense against same-UID malware, a compromised service account, root, or other privileged local actors. Do not describe owner-only permissions as a sandbox or secure-erasure guarantee. A stronger threat model would require a dedicated isolated service identity, protected staging filesystem, or a same-descriptor/OS-specific handoff, followed by a clean-host restore review.
