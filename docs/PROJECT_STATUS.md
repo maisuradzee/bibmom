@@ -1,12 +1,14 @@
 # NOEMA — მიმდინარე პროექტის მდგომარეობა
 
-- **განახლდა:** 2026-11-28 (Run 44 — NOEMA-007 seven-basin programme chronology and INFRA-001 CI-recovery security review).
+- **განახლდა:** 2026-11-28 (Run 44 post-merge verification — Georgia seven-basin chronology).
 - **საცავი:** https://github.com/maisuradzee/bibmom
-- **Run 44-ის Main base:** `a62b2575db43fcf65663abff0367c4e23b78ef60`.
-- **PR #246:** Draft, exact-head `4ebb23d898706bb4e0de288063c1fed64a09ed9c`; Quality CI [46088413816](https://github.com/maisuradzee/bibmom/actions/runs/46088413816) succeeded with 716 Python tests and all 43 observed workflow steps. Static review still identifies missing required-step inventory and unbounded URL/query parsing; do not merge until corrected and independently reviewed.
+- **მიმდინარე Main SHA:** `218021f38ed8bf3732b449fcdfea2cbbb821e96a` (PR #247 merged).
+- **Main Quality CI:** [46092675339](https://github.com/maisuradzee/bibmom/actions/runs/46092675339) — SUCCESS; 712 Python tests, schemas, frozen-result reproduction, site build and publication-boundary checks passed on the exact Main SHA.
+- **GitHub Pages:** [46092675352](https://github.com/maisuradzee/bibmom/actions/runs/46092675352) — build and deploy jobs SUCCESS for the exact Main SHA; deployment URL https://maisuradzee.github.io/bibmom/.
+- **PR #247:** merged as `218021f38ed8bf3732b449fcdfea2cbbb821e96a`; exact-head Quality CI runs [46092514227](https://github.com/maisuradzee/bibmom/actions/runs/46092514227) (push) and [46092518104](https://github.com/maisuradzee/bibmom/actions/runs/46092518104) (pull_request) both SUCCESS.
+- **PR #246:** remains Draft and unmerged. Exact-head CI [46088413816](https://github.com/maisuradzee/bibmom/actions/runs/46088413816) passed 716 tests, but static review found missing required-step inventory and unbounded URL/query parsing. It is now behind Main and GitHub reports mergeable=false; refresh, fix and rerun before any merge.
 - **აქტიური პორტფელი:** ოთხივე ნაკადი აქტიურია — AquaSignal, NOEMA-005, NOEMA-007 და INFRA-001.
-- **კვლევის კატალოგი:** 3 Preliminary, 0 Published; არცერთი კვლევა არ არის დამოუკიდებლად რეცენზირებული/Published.
-- **Main/Pages:** Run 44-ის Main base-ზე post-merge Pages deployment ამ ციკლში არ დადასტურებულა; განახლებული საიტი არ უნდა გამოცხადდეს deploy-ად, სანამ შესაბამისი deploy job არ დასრულდება.
+- **კვლევის კატალოგი:** 3 Preliminary, 0 Published; Run 44 chronology remains draft, not a published research article.
 
 ## Run 38 — ექვსი hosted benchmark cell, ახალი ქართული groundwater access lead და მონაცემთა სანდოობის კონტროლები
 
@@ -705,3 +707,13 @@ Main remains at `726c71c9ef1a4e1c00dbc4a44b950e4b371c02f0`. Main Quality CI [460
 - **NOEMA-005:** no new physical x86-64/ARM64, RSS/native-memory or DRAM-bandwidth experiment was performed; existing frozen evidence is unchanged.
 - **Safety:** no personal, child, respondent, exact private-location, station-coordinate, event-level or critical-infrastructure data was added. No new Supabase project was created and no other project's database was used.
 - **Next:** obtain signed basin plans and approval decisions; retrieve/inspect the official Decree №447 annex and NEA groundwater report through authorized routes; acquire controlled physical hardware for NOEMA-005; fix PR #246's missing-step and URL-bounds issues before merge.
+
+
+## Run 44 post-merge verification — 2026-11-28
+
+- PR #247 was merged only after its exact head `62523f36b57e5a44853d11533fd1683b4daa51e6` passed both push Quality CI [46092514227](https://github.com/maisuradzee/bibmom/actions/runs/46092514227) and pull-request Quality CI [46092518104](https://github.com/maisuradzee/bibmom/actions/runs/46092518104); GitHub reported `mergeable=true` before merge.
+- Squash merge created Main commit `218021f38ed8bf3732b449fcdfea2cbbb821e96a`.
+- Exact Main Quality CI [46092675339](https://github.com/maisuradzee/bibmom/actions/runs/46092675339) succeeded: 712 Python tests; required-file and draft-completeness checks; schema validation; WRP and NOEMA-005 frozen-result reproduction; NOEMA-005 runtime/memory smoke test; public site build and publication-boundary check.
+- Exact Main Pages workflow [46092675352](https://github.com/maisuradzee/bibmom/actions/runs/46092675352) completed both build and deploy jobs successfully. Deployment URL: https://maisuradzee.github.io/bibmom/.
+- Public catalogue remains 3 Preliminary / 0 Published. The new Georgia seven-basin chronology is a draft evidence note and does not claim formal approval, public map publication or operational warning performance.
+- PR #246 remains unmerged pending the two security fixes and independent review; its base is stale after the Main update.
