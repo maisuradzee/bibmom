@@ -8,9 +8,11 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 import stat
+import tempfile
 from pathlib import Path
-from typing import Any, Mapping
+from typing import Any, BinaryIO, Mapping
 
 from jsonschema import Draft202012Validator, FormatChecker
 
@@ -123,6 +125,103 @@ def verify_backup_artifacts(
         verified[name] = actual
 
     return verified
+
+
+_SHA256_HEX_RE = re.compile(r"^[0-9a-f]{64}$")
+
+
+def open_verified_artifact(
+    path: str | os.PathLike[str],
+    expected_sha256: str,
+    expected_byte_length: int,
+) -> BinaryIO:
+    """Return a rewound private temporary file containing the verified bytes.
+
+    The source is opened once with O_NOFOLLOW where supported, copied to an
+    anonymous temporary file while hashing, and checked for metadata mutation.
+    The returned handle contains the exact byte sequence that was hashed.
+    Restore callers must consume this handle and must not reopen the source path.
+
+    The expected digest/length must come from independently trusted metadata.
+    This helper does not authenticate a manifest, decrypt ciphertext, verify
+    remote retention, or prove a database restore. TemporaryFile may be
+    disk-backed; it is not an encryption or secure-erasure guarantee.
+    """
+    if not isinstance(expected_sha256, str) or not _SHA256_HEX_RE.fullmatch(expected_sha256):
+        raise ValueError("expected SHA-256 must be 64 lowercase hexadecimal characters")
+    if (
+        isinstance(expected_byte_length, bool)
+        or not isinstance(expected_byte_length, int)
+        or expected_byte_length < 1
+    ):
+        raise ValueError("expected byte length must be a positive integer")
+
+    flags = os.O_RDONLY | getattr(os, "O_BINARY", 0)
+    flags |= getattr(os, "O_NOFOLLOW", 0)
+    flags |= getattr(os, "O_NONBLOCK", 0)
+    try:
+        descriptor = os.open(os.fspath(path), flags)
+    except OSError as exc:
+        raise ValueError("artifact cannot be opened safely") from exc
+
+    try:
+        before = os.fstat(descriptor)
+    except OSError as exc:
+        os.close(descriptor)
+        raise ValueError("artifact cannot be inspected safely") from exc
+    if not stat.S_ISREG(before.st_mode):
+        os.close(descriptor)
+        raise ValueError("artifact must be a regular file")
+    if before.st_size != expected_byte_length:
+        os.close(descriptor)
+        raise ValueError("artifact byte length mismatch")
+
+    try:
+        source = os.fdopen(descriptor, "rb", closefd=True)
+    except OSError as exc:
+        os.close(descriptor)
+        raise ValueError("artifact cannot be opened safely") from exc
+
+    staged: BinaryIO | None = None
+    try:
+        staged = tempfile.TemporaryFile(mode="w+b")
+        digest = hashlib.sha256()
+        byte_length = 0
+        while True:
+            chunk = source.read(_HASH_CHUNK_BYTES)
+            if not chunk:
+                break
+            byte_length += len(chunk)
+            if byte_length > expected_byte_length:
+                raise ValueError("artifact byte length mismatch")
+            digest.update(chunk)
+            staged.write(chunk)
+
+        after = os.fstat(source.fileno())
+        identity_before = (
+            before.st_dev, before.st_ino, before.st_size,
+            before.st_mtime_ns, before.st_ctime_ns,
+        )
+        identity_after = (
+            after.st_dev, after.st_ino, after.st_size,
+            after.st_mtime_ns, after.st_ctime_ns,
+        )
+        if identity_before != identity_after or byte_length != after.st_size:
+            raise ValueError("artifact changed while it was being staged")
+        if byte_length != expected_byte_length:
+            raise ValueError("artifact byte length mismatch")
+        if digest.hexdigest() != expected_sha256:
+            raise ValueError("artifact SHA-256 mismatch")
+
+        staged.flush()
+        staged.seek(0)
+        return staged
+    except Exception:
+        if staged is not None:
+            staged.close()
+        raise
+    finally:
+        source.close()
 
 
 _MAX_MANIFEST_BYTES = 1024 * 1024
