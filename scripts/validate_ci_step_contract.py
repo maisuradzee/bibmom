@@ -30,7 +30,10 @@ def _step_blocks(workflow_text: str) -> tuple[list[tuple[str, str]], list[str]]:
     """Return (step name, canonical step body) pairs."""
     lines = workflow_text.splitlines()
     starts = [index for index, line in enumerate(lines) if line.startswith(_STEP_START)]
+    list_items = [index for index, line in enumerate(lines) if line.startswith("      - ")]
     errors: list[str] = []
+    if len(list_items) != len(starts):
+        errors.append("workflow_contains_unnamed_or_uncontracted_step")
     if not starts:
         return [], ["workflow_contains_no_named_steps"]
     blocks: list[tuple[str, str]] = []
