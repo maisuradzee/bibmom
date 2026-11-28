@@ -1389,6 +1389,7 @@ No fifth stream was added. Four catalogue entries remain Preliminary; zero are P
 - Starting Main: `a9b44dd36e7b2a88f86c681bf6f2e0de34e599fe`.
 - Final Main after AquaSignal PR #311: `e9c0b8e4dd75aa169e95cdbe81a804c8f1b0b0cb`.
 - Final documentation Main after PR #313: `ba38115d99a39490c97487d33c2bf2337b3740d8`.
+- Final Run 60 Main after PR #314: `053f6a744600625f3e8af1b669ba7c1c5ba1c051`.
 - Four independent active streams remain: AquaSignal, NOEMA-005, NOEMA-007 and INFRA-001. No fifth stream was added.
 - Catalogue: **12 Preliminary / 0 Published**. NOEMA-2026-016 is a sub-study within AquaSignal, not a new portfolio stream.
 
@@ -1408,8 +1409,8 @@ No fifth stream was added. Four catalogue entries remain Preliminary; zero are P
 
 ### INFRA-001
 
-- PR [#312](https://github.com/maisuradzee/bibmom/pull/312) is current-base Draft. Current base SHA `ba38115d99a39490c97487d33c2bf2337b3740d8`; exact head `eb1ed157bf62e7c94f48a7b7d8a269281f29cfaf`.
-- Exact-head Quality CI [46154398299](https://github.com/maisuradzee/bibmom/actions/runs/46154398299): **938 passed, 1 skipped**. All 50 named CI step bodies match the contract. Public credential preflight scanned 500 tracked UTF-8 text files, skipped 3 binary/non-UTF-8 files and reported 0 configured findings.
+- PR [#312](https://github.com/maisuradzee/bibmom/pull/312) remains Draft. Exact-head CI was run against Main base `053f6a744600625f3e8af1b669ba7c1c5ba1c051`, head `1e411f583f577d4b05994b38b6777811f9277b47`.
+- Exact-head Quality CI [46154613559](https://github.com/maisuradzee/bibmom/actions/runs/46154613559): **938 passed, 1 skipped**. All 50 named CI step bodies match the contract. Public credential preflight scanned 500 tracked UTF-8 text files, skipped 3 binary/non-UTF-8 files and reported 0 configured findings. Since the subsequent docs-only PR #315 will advance Main, PR #312 must be refreshed again before any merge.
 - The scanner is pattern-based, does not scan Git history or binary/non-UTF-8 files, and is not proof that the repository contains no secrets. The workflow, manifest and validator share one repository trust boundary. PR #312 remains Draft pending independent security review; no security certification is claimed.
 - PR #307 was closed as superseded; its history remains available.
 
@@ -1421,9 +1422,11 @@ No fifth stream was added. Four catalogue entries remain Preliminary; zero are P
 ### CI and deployment
 
 - Main Quality CI after AquaSignal merge [46154013005](https://github.com/maisuradzee/bibmom/actions/runs/46154013005): SUCCESS.
-- Final documentation Main Quality CI [46154330441](https://github.com/maisuradzee/bibmom/actions/runs/46154330441): SUCCESS; 925 tests passed, one skipped.
+- Main Quality CI after PR #313 [46154330441](https://github.com/maisuradzee/bibmom/actions/runs/46154330441): SUCCESS; 925 tests passed, one skipped.
+- Final Run 60 Main Quality CI after PR #314 [46154593098](https://github.com/maisuradzee/bibmom/actions/runs/46154593098): SUCCESS; 925 tests passed, one skipped.
 - Main Pages deployment after AquaSignal merge [46154013054](https://github.com/maisuradzee/bibmom/actions/runs/46154013054): SUCCESS.
-- Final documentation Pages deployment [46154330299](https://github.com/maisuradzee/bibmom/actions/runs/46154330299): SUCCESS.
+- Pages deployment after PR #313 [46154330299](https://github.com/maisuradzee/bibmom/actions/runs/46154330299): SUCCESS.
+- Final Run 60 Pages deployment after PR #314 [46154593102](https://github.com/maisuradzee/bibmom/actions/runs/46154593102): SUCCESS.
 - PR #311 site build and publication-boundary checks passed as part of exact-head CI.
 - No private well coordinates, household records, health records, raw sample rows, credentials, private keys or backup bytes were added. No new Supabase project or other project's database was created or used.
 
