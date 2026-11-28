@@ -1,0 +1,285 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AquaSignal Decree 447 annual water-monitoring-plan evidence intake",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_id",
+    "study_id",
+    "law_source",
+    "plan_document",
+    "submission",
+    "approval",
+    "programmes",
+    "monitoring_modes",
+    "requirement_evidence",
+    "groundwater_quantitative_assessment",
+    "annexes"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "record_id": {
+      "const": "AQUASIGNAL-MONITORING-PLAN-INTAKE-2026-11-28"
+    },
+    "study_id": {
+      "const": "NOEMA-2026-006"
+    },
+    "law_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decree_number",
+        "article",
+        "url"
+      ],
+      "properties": {
+        "decree_number": {
+          "const": 447
+        },
+        "article": {
+          "type": "string",
+          "minLength": 5
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://"
+        }
+      }
+    },
+    "plan_document": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "retrieval_status",
+        "url",
+        "sha256",
+        "inspected_at"
+      ],
+      "properties": {
+        "retrieval_status": {
+          "enum": [
+            "not_retrieved",
+            "retrieved_uninspected",
+            "inspected"
+          ]
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uri"
+        },
+        "sha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "inspected_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        }
+      }
+    },
+    "submission": {
+      "$ref": "#/$defs/statusEvidence"
+    },
+    "approval": {
+      "$ref": "#/$defs/statusEvidence"
+    },
+    "programmes": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "hydrological",
+          "hydrochemical",
+          "hydrobiological",
+          "hydromorphological",
+          "hydrogeological"
+        ]
+      }
+    },
+    "monitoring_modes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "mode",
+          "frequency_basis"
+        ],
+        "properties": {
+          "mode": {
+            "enum": [
+              "observational",
+              "operational",
+              "investigative"
+            ]
+          },
+          "frequency_basis": {
+            "enum": [
+              "risk_based",
+              "monthly",
+              "quarterly",
+              "problem_specific_flexible",
+              "not_documented"
+            ]
+          }
+        }
+      }
+    },
+    "requirement_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "representative_risk_based_network",
+        "standardized_methods_and_indices",
+        "time_series_comparability",
+        "background_indicators_documented",
+        "methodology_assumptions_and_periodic_review",
+        "data_formats_and_access_governance",
+        "privacy_and_confidentiality_controls"
+      ],
+      "properties": {
+        "representative_risk_based_network": {
+          "$ref": "#/$defs/evidencePair"
+        },
+        "standardized_methods_and_indices": {
+          "$ref": "#/$defs/evidencePair"
+        },
+        "time_series_comparability": {
+          "$ref": "#/$defs/evidencePair"
+        },
+        "background_indicators_documented": {
+          "$ref": "#/$defs/evidencePair"
+        },
+        "methodology_assumptions_and_periodic_review": {
+          "$ref": "#/$defs/evidencePair"
+        },
+        "data_formats_and_access_governance": {
+          "$ref": "#/$defs/evidencePair"
+        },
+        "privacy_and_confidentiality_controls": {
+          "$ref": "#/$defs/evidencePair"
+        }
+      }
+    },
+    "groundwater_quantitative_assessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assessment_claimed",
+        "water_balance_status",
+        "evidence_url"
+      ],
+      "properties": {
+        "assessment_claimed": {
+          "type": "boolean"
+        },
+        "water_balance_status": {
+          "enum": [
+            "not_applicable",
+            "not_verified",
+            "verified"
+          ]
+        },
+        "evidence_url": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uri"
+        }
+      }
+    },
+    "annexes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "sha256"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "listed_not_inspected",
+            "inspected"
+          ]
+        },
+        "sha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "evidencePair": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "evidence_url"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "verified",
+            "not_verified"
+          ]
+        },
+        "evidence_url": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uri"
+        }
+      }
+    },
+    "statusEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "date",
+        "evidence_url"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "verified",
+            "not_verified"
+          ]
+        },
+        "date": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "evidence_url": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uri"
+        }
+      }
+    }
+  }
+}
