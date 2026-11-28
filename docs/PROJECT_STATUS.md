@@ -1,13 +1,12 @@
 # NOEMA — მიმდინარე პროექტის მდგომარეობა
 
-- **განახლდა:** 2026-11-28 (Run 39 — AquaSignal historical groundwater/legal crosswalk, NOEMA-007 canonical UTC contract, research evidence taxonomy and portfolio audit).
+- **განახლდა:** 2026-11-28 (Run 44 — NOEMA-007 seven-basin programme chronology and INFRA-001 CI-recovery security review).
 - **საცავი:** https://github.com/maisuradzee/bibmom
-- **Run 39-ის Main snapshot:** `b7c976c481da47470423b219b8e3184c25d09395` (PR #217 final status correction merged).
-- **ბოლო დადასტურებული PR-head Quality CI:** PR #200 — 534 tests; PR #202 — 539 tests; PR #204 — 544 tests; PR #205 — exact-head Quality CI SUCCESS; PR #206 — exact-head Quality CI SUCCESS; PR #207 — exact-head Quality/CPU CI SUCCESS; PR #210 — 561 tests, frozen aggregate reproduction and WHO comparator validation SUCCESS; PR #211 — merged, 566 tests; PR #212 — merged, 575 tests, strict restore-attestation and frozen aggregate checks SUCCESS.
-- **ბოლო დადასტურებული benchmark/cleanup:** PR #200 x86-64 და ARM64 workflows SUCCESS; legacy-artifact cleanup run [46064057021](https://github.com/maisuradzee/bibmom/actions/runs/46064057021) SUCCESS და ექვსი ძველი raw artifact list ცარიელია.
-- **Run 39 Main Quality CI:** [46069627415](https://github.com/maisuradzee/bibmom/actions/runs/46069627415) — SUCCESS, 584 Python tests; schema/frozen-result checks, site build and publication-boundary checks passed. **GitHub Pages:** [46069627539](https://github.com/maisuradzee/bibmom/actions/runs/46069627539) — SUCCESS for the exact Main SHA above.
+- **Run 44-ის Main base:** `a62b2575db43fcf65663abff0367c4e23b78ef60`.
+- **PR #246:** Draft, exact-head `4ebb23d898706bb4e0de288063c1fed64a09ed9c`; Quality CI [46088413816](https://github.com/maisuradzee/bibmom/actions/runs/46088413816) succeeded with 716 Python tests and all 43 observed workflow steps. Static review still identifies missing required-step inventory and unbounded URL/query parsing; do not merge until corrected and independently reviewed.
 - **აქტიური პორტფელი:** ოთხივე ნაკადი აქტიურია — AquaSignal, NOEMA-005, NOEMA-007 და INFRA-001.
-- **კვლევის კატალოგი:** 3 Preliminary, 0 Published; ოთხივე პორტფელის ნაკადი აქტიურია. AquaSignal-ის ისტორიული 2016–2017 baseline და Decree №58/2014 crosswalk რჩება Preliminary; NEA 2021–2025 RAR არ არის მიღებული/შემოწმებული.
+- **კვლევის კატალოგი:** 3 Preliminary, 0 Published; არცერთი კვლევა არ არის დამოუკიდებლად რეცენზირებული/Published.
+- **Main/Pages:** Run 44-ის Main base-ზე post-merge Pages deployment ამ ციკლში არ დადასტურებულა; განახლებული საიტი არ უნდა გამოცხადდეს deploy-ად, სანამ შესაბამისი deploy job არ დასრულდება.
 
 ## Run 38 — ექვსი hosted benchmark cell, ახალი ქართული groundwater access lead და მონაცემთა სანდოობის კონტროლები
 
@@ -694,3 +693,15 @@ Main remains at `726c71c9ef1a4e1c00dbc4a44b950e4b371c02f0`. Main Quality CI [460
 - Official procurement contract T-100801 (tender NAT260019441), signed 2026-10-09, specifies a final interactive PDF, 50 CD media units and printed deliverables. This does not prove public access, CD contents, formal acceptance or reuse rights.
 - Added a strict metadata record/schema, focused tests and a draft access note. No supplier contact/bank/signature data or report payload was copied.
 - Next: request the final PDF/public-inspection route, acceptance/delivery act, exact CD contents, data dictionary, checksum and reuse terms from NEA.
+
+
+## Run 44 — seven-basin programme chronology and CI-recovery review (2026-11-28)
+
+- **Main base:** `a62b2575db43fcf65663abff0367c4e23b78ef60`. README, research standard, project status, template, catalogue, portfolio, schemas, open PRs and issues were audited. Four active streams remain; no fifth stream was added.
+- **NOEMA-007:** three NEA primary notices were reconciled: 2025-10-06 (four previously prepared plans discussed; seven remaining basins planned by 2026), 2026-04-02 (risk-assessment validation process/results for seven basins presented to stakeholders), and 2026-11-25 (consultation on preparation of plans for seven named basins). These notices describe different stages. The April notice does not name the basins; the November notice does. No signed final plans, formal approval decisions, public map/model versions or operational warning outcomes were found. GEO Outlook's ambiguous secondary statement remains a separate SECONDARY_CLAIM.
+- **NOEMA-007 implementation:** a metadata-only chronology record, closed JSON Schema, seven synthetic tests and a draft note were added on a separate research branch. No coordinates, household data, event telemetry or exposure estimates were added; 7/11 is not reported as an implementation percentage.
+- **INFRA-001:** static review of Draft PR #246 at head `4ebb23d898706bb4e0de288063c1fed64a09ed9c` found (a) no explicit required-step manifest in the aggregate CI gate and (b) no maximum URL length or `parse_qsl(max_num_fields=...)` bound in the source URL validator. A review comment records both findings. PR remains Draft/unmerged pending fixes and independent security review.
+- **AquaSignal:** no authorized sample-level NEA/NFA data, data dictionary or reuse permission was obtained. The NEA groundwater RAR remains NOT_RETRIEVED. The 2026-12-01 annual-plan submission milestone has not yet passed.
+- **NOEMA-005:** no new physical x86-64/ARM64, RSS/native-memory or DRAM-bandwidth experiment was performed; existing frozen evidence is unchanged.
+- **Safety:** no personal, child, respondent, exact private-location, station-coordinate, event-level or critical-infrastructure data was added. No new Supabase project was created and no other project's database was used.
+- **Next:** obtain signed basin plans and approval decisions; retrieve/inspect the official Decree №447 annex and NEA groundwater report through authorized routes; acquire controlled physical hardware for NOEMA-005; fix PR #246's missing-step and URL-bounds issues before merge.
