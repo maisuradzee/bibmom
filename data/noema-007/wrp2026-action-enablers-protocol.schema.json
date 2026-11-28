@@ -109,7 +109,8 @@
         "warning_channels",
         "ability_to_act",
         "household_plan",
-        "personal_agency"
+        "personal_agency",
+        "income_group_unit"
       ],
       "properties": {
         "weight": {
@@ -138,6 +139,9 @@
         },
         "personal_agency": {
           "const": "WP22252"
+        },
+        "income_group_unit": {
+          "const": "country_level_classification_not_respondent_personal_income"
         }
       }
     },
