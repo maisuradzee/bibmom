@@ -225,6 +225,18 @@ A method description remains unchanged.
             )
 
 
+    def test_workflow_contract_rejects_truncated_workflow_header(self) -> None:
+        def keep_only_steps(workflow: str) -> str:
+            lines = workflow.splitlines()
+            first = next(i for i, line in enumerate(lines) if line.startswith("      - name: "))
+            return "\\n".join(lines[first:]) + "\\n"
+
+        errors = self._contract_errors_after_workflow_edit(keep_only_steps)
+        self.assertIn("workflow_root_name_missing", errors)
+        self.assertIn("workflow_root_on_missing", errors)
+        self.assertIn("workflow_root_jobs_missing", errors)
+        self.assertIn("workflow_validate_steps_missing", errors)
+
     def test_workflow_contract_rejects_noop_summary_command(self) -> None:
         errors = self._contract_errors_after_workflow_edit(
             lambda workflow: workflow.replace(
