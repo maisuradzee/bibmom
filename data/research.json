@@ -1028,6 +1028,93 @@
         "The helper computes WHO guidance only and does not classify Georgian legal compliance, potability, contamination or health risk.",
         "Analytical uncertainty, LOD/LOQ censoring, sample preservation, treatment-stage differences and laboratory QA/QC are not modelled."
       ]
+    },
+    {
+      "id": "NOEMA-2026-010",
+      "title": "Run 51 — local OpenMP CPU-thread compensated reduction and accuracy/runtime replication",
+      "date": "2026-11-28",
+      "category": "Numerical analysis / parallel reduction",
+      "summary": "A local x86-64 OpenMP C experiment compared serial and threaded naive, Neumaier full-state, long-double and pairwise reductions on two deterministic binary64 cancellation layouts. Full Neumaier state returned the exact integer reference in all 5 repetitions for both layouts and requested 1/2/4/5/8 threads. Naive and pairwise variants failed on these specific inputs; 64-bit-mantissa long double failed on the grouped layout. The run is one KVM-virtualized environment with a 4-CPU quota; timing is diagnostic, not a general speedup claim.",
+      "file": "research/preprints/NOEMA-2026-010-run51-local-openmp-compensated-reduction.md",
+      "status": "preliminary",
+      "version": "1.0",
+      "url": "https://github.com/maisuradzee/bibmom/blob/main/research/preprints/NOEMA-2026-010-run51-local-openmp-compensated-reduction.md",
+      "methodology": {
+        "protocol": [
+          "Compile the C/OpenMP harness with GCC 14.2.0 using -O3 -fopenmp -fno-fast-math -ffp-contract=off -Wall -Wextra -Werror.",
+          "Generate two deterministic 36,000,000-element binary64 arrays: repeated triplet [2^53, 1, -2^53] and grouped [2^53]*N + [1]*N + [-2^53]*N, with exact integer sum N=12,000,000.",
+          "Compare four serial and four OpenMP reduction methods at requested worker counts 1, 2, 4, 5 and 8; record actual OpenMP team size, wall time and process CPU time."
+        ],
+        "measurement": "One warm-up and five measured repetitions per case; wall time uses CLOCK_MONOTONIC and process CPU time uses CLOCK_PROCESS_CPUTIME_ID. Raw JSONL is preserved as gzip/base64 and verified by SHA-256.",
+        "correctness_oracle": "Exact integer N=12,000,000, exactly representable in binary64 at this magnitude; each run is counted correct only when the final result equals N exactly.",
+        "interpretation": "The experiment tests only two deterministic adversarial cancellation orders. It does not establish accuracy on arbitrary data or general scaling."
+      },
+      "limitations": [
+        "Single KVM-virtualized Linux x86-64 environment; not bare-metal and not an independent second-device replication.",
+        "Five CPU IDs are visible but cgroup quota is four CPUs; 5- and 8-worker measurements are oversubscription diagnostics.",
+        "Only two synthetic cancellation layouts were tested; no arbitrary production workload, NaN/Infinity, subnormal, overflow or underflow analysis was performed.",
+        "Effective input-scan GiB/s is bytes divided by wall time, not a hardware DRAM-bandwidth counter; cache effects are included.",
+        "No external numerical-method review, ARM64 physical replication, NUMA/counter or energy measurement has been completed."
+      ],
+      "sources": [
+        {
+          "title": "The Accuracy of Floating Point Summation",
+          "authors": [
+            "Nicholas J. Higham"
+          ],
+          "citation": "Higham, N. J. (1993). The Accuracy of Floating Point Summation. SIAM Journal on Scientific Computing, 14(4), 783–799.",
+          "url": "https://doi.org/10.1137/0914050",
+          "type": "peer-reviewed article",
+          "publication_date": "1993",
+          "accessed_at": "2026-11-28"
+        },
+        {
+          "title": "Accurate Sum and Dot Product",
+          "authors": [
+            "Takeshi Ogita",
+            "Siegfried M. Rump",
+            "Shin'ichi Oishi"
+          ],
+          "citation": "Ogita, T., Rump, S. M., & Oishi, S. (2005). Accurate Sum and Dot Product. SIAM Journal on Scientific Computing, 26(6), 1955–1988.",
+          "url": "https://doi.org/10.1137/030601818",
+          "type": "peer-reviewed article",
+          "publication_date": "2005",
+          "accessed_at": "2026-11-28"
+        },
+        {
+          "title": "IEEE Std 754-2019: IEEE Standard for Floating-Point Arithmetic",
+          "authors": [
+            "IEEE Computer Society"
+          ],
+          "citation": "IEEE Computer Society. (2019). IEEE Std 754-2019: IEEE Standard for Floating-Point Arithmetic.",
+          "url": "https://standards.ieee.org/ieee/754/6210/",
+          "type": "standard",
+          "publication_date": "2019",
+          "accessed_at": "2026-11-28"
+        },
+        {
+          "title": "OpenMP API Specification 5.2",
+          "authors": [
+            "OpenMP Architecture Review Board"
+          ],
+          "citation": "OpenMP Architecture Review Board. (2021). OpenMP API Specification 5.2.",
+          "url": "https://www.openmp.org/spec-html/5.2/openmp.html",
+          "type": "technical specification",
+          "publication_date": "2021",
+          "accessed_at": "2026-11-28"
+        },
+        {
+          "title": "NOEMA-005 Run 51 local OpenMP raw benchmark report",
+          "authors": [
+            "NOEMA Research"
+          ],
+          "citation": "NOEMA. (2026-11-28). Run 51 local OpenMP benchmark summary and SHA-256-verified raw measurements.",
+          "url": "https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/run51-local-openmp-report-2026-11-28.json",
+          "type": "reproducible computational record",
+          "publication_date": "2026-11-28",
+          "accessed_at": "2026-11-28"
+        }
+      ]
     }
   ]
 }
