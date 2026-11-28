@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "record_id": "AQUASIGNAL-ANNUAL-PLAN-DEADLINE-2026-11-28",
+  "study_id": "NOEMA-2026-006",
+  "as_of": "2026-11-28",
+  "due_date": "2026-12-01",
+  "status": "upcoming",
+  "submission_evidence_status": "not_verified",
+  "legal_compliance_conclusion": "not_assessed",
+  "public_release_deadline_specified": false,
+  "source": {
+    "publisher": "Legislative Herald of Georgia",
+    "document": "Government Decree No.447/2026",
+    "article": "3(2)(a)",
+    "url": "https://matsne.gov.ge/ka/document/view/7000572",
+    "checked_at": "2026-11-28",
+    "annex_downloaded_or_inspected": false
+  },
+  "interpretation_limits": [
+    "Article 3(2)(a) requires the National Environmental Agency to submit the annual State Water Resources Monitoring Plan to the Minister for approval no later than 1 December.",
+    "Article 3(2)(c) separately requires access to monitoring data subject to applicable law; the cited text does not set a public-release deadline of 1 December.",
+    "No official submission evidence was verified in this run. This is not evidence that the plan was not submitted.",
+    "No legal compliance or breach determination is made.",
+    "The linked DOCX annex is listed but was not downloaded or inspected."
+  ],
+  "privacy": {
+    "personal_data_included": false,
+    "exact_site_coordinates_included": false,
+    "raw_sample_records_included": false
+  }
+}
