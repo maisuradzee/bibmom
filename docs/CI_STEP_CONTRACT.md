@@ -54,4 +54,7 @@ without human review of the diff.
 
 ## Run 60 — current-Main refresh
 
-The CI step-command contract and public credential preflight were ported onto current Main `e9c0b8e4dd75aa169e95cdbe81a804c8f1b0b0cb` using a merge-preserving refresh. The previous exact-head CI result from the pre-refresh base is not reused. This PR remains Draft until the refreshed head passes all required CI and an independent security review evaluates the same-repository trust boundary and scanner limitations.
+The CI step-command contract and public credential preflight were ported onto current Main `ba38115d99a39490c97487d33c2bf2337b3740d8` using a merge-preserving refresh. The previous exact-head CI result from the pre-refresh base is not reused. This PR remains Draft until the refreshed head passes all required CI and an independent security review evaluates the same-repository trust boundary and scanner limitations.
+
+
+The Main branch subsequently advanced to `ba38115d99a39490c97487d33c2bf2337b3740d8` through documentation-only PR #313; no CI workflow or scanner code changed in that merge. This commit refreshes the review branch and triggers a new exact-head CI run against the current base. PR #312 remains Draft pending independent security review.
