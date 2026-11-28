@@ -1,0 +1,382 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NOEMA-007 Georgia basin multi-hazard source snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "study_id",
+    "snapshot_date",
+    "evidence_status",
+    "sources",
+    "local_planning_signal",
+    "institutional_capability_signal",
+    "not_reported_in_sources",
+    "interpretation_guardrails",
+    "spatial_data_catalogue",
+    "status_discrepancy"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "study_id": {
+      "const": "NOEMA-2026-007"
+    },
+    "snapshot_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "evidence_status": {
+      "const": "FACT"
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "publisher",
+          "title",
+          "publication_date",
+          "url",
+          "accessed_at",
+          "source_claims"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 8
+          },
+          "publisher": {
+            "type": "string",
+            "minLength": 5
+          },
+          "title": {
+            "type": "string",
+            "minLength": 10
+          },
+          "publication_date": {
+            "type": "string",
+            "pattern": "^(undated|[0-9]{4}-[0-9]{2}-[0-9]{2})$"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "accessed_at": {
+            "type": "string",
+            "format": "date"
+          },
+          "source_claims": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "local_planning_signal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "basins_discussed_count",
+        "programme_target_river_basins",
+        "named_basins",
+        "hazard_classes"
+      ],
+      "properties": {
+        "basins_discussed_count": {
+          "const": 7
+        },
+        "programme_target_river_basins": {
+          "const": 11
+        },
+        "named_basins": {
+          "type": "array",
+          "minItems": 7,
+          "maxItems": 7,
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "hazard_classes": {
+          "type": "array",
+          "minItems": 7,
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "institutional_capability_signal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reported",
+        "capability_classes",
+        "evidence_boundary"
+      ],
+      "properties": {
+        "reported": {
+          "const": true
+        },
+        "capability_classes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "evidence_boundary": {
+          "type": "string",
+          "minLength": 40
+        }
+      }
+    },
+    "not_reported_in_sources": {
+      "type": "array",
+      "minItems": 5,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 10
+      }
+    },
+    "interpretation_guardrails": {
+      "type": "array",
+      "minItems": 5,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 20
+      }
+    },
+    "spatial_data_catalogue": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "title",
+          "layer_name",
+          "geometry_types",
+          "sharing_type",
+          "price",
+          "catalogue_date",
+          "storage",
+          "portal_map_url",
+          "direct_download_confirmed",
+          "reuse_license_confirmed",
+          "data_payload_obtained",
+          "scope"
+        ],
+        "properties": {
+          "id": {
+            "enum": [
+              "NEA38",
+              "NEA54",
+              "NEA55",
+              "NEA56",
+              "NEA57",
+              "NEA58",
+              "NEA65",
+              "NEA66",
+              "NEA123",
+              "NEA124"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "minLength": 5
+          },
+          "layer_name": {
+            "type": "string",
+            "minLength": 3
+          },
+          "geometry_types": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "point",
+                "polygon"
+              ]
+            }
+          },
+          "sharing_type": {
+            "const": "public"
+          },
+          "price": {
+            "const": "free"
+          },
+          "catalogue_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "storage": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+              "type": "string"
+            }
+          },
+          "portal_map_url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "direct_download_confirmed": {
+            "const": false
+          },
+          "reuse_license_confirmed": {
+            "const": false
+          },
+          "data_payload_obtained": {
+            "const": false
+          },
+          "scope": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "regions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "return_periods_years": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              },
+              "forest_scenarios": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "visible_asset_names": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "map_scale": {
+                "type": "string"
+              },
+              "station_status": {
+                "type": "string"
+              },
+              "modelled_rivers": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "sub_basin_names": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "station_system": {
+                "type": "string"
+              },
+              "layer_interpretation": {
+                "type": "string",
+                "minLength": 20
+              }
+            }
+          },
+          "data_formats": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "shp",
+                "tif"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "status_discrepancy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "official_nea_2026_11_25",
+        "secondary_implementer_page",
+        "evidence_status",
+        "interpretation",
+        "required_primary_evidence"
+      ],
+      "properties": {
+        "official_nea_2026_11_25": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source_id",
+            "reported_status"
+          ],
+          "properties": {
+            "source_id": {
+              "const": "nea-georgia-seven-basin-mhrm-consultation-2026-11-25"
+            },
+            "reported_status": {
+              "type": "string",
+              "minLength": 30
+            }
+          }
+        },
+        "secondary_implementer_page": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source_id",
+            "reported_status"
+          ],
+          "properties": {
+            "source_id": {
+              "const": "geo-outlook-georgia-seven-basin-mhrm-project-implementation-undated"
+            },
+            "reported_status": {
+              "type": "string",
+              "minLength": 30
+            }
+          }
+        },
+        "evidence_status": {
+          "const": "UNRESOLVED_SOURCE_STATUS"
+        },
+        "interpretation": {
+          "type": "string",
+          "minLength": 100
+        },
+        "required_primary_evidence": {
+          "type": "array",
+          "minItems": 4,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 20
+          }
+        }
+      }
+    }
+  }
+}
