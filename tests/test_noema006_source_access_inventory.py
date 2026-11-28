@@ -70,6 +70,16 @@ class AquaSignalSourceAccessInventoryTests(unittest.TestCase):
         self.assertIs(source["reuse_terms_verified"], False)
         self.assertIn("retrieval from this execution environment failed", source["note"].casefold())
 
+    def test_official_archive_payload_is_linked_to_its_announcement_page_without_claiming_extraction(self):
+        source = next(item for item in self.instance["sources"] if item["id"] == "NEA_GW_2021_2025_RAR")
+        self.assertEqual(source["announcement_url"], "https://www.nea.gov.ge/Ge/News/3461")
+        self.assertTrue(source["url"].startswith("https://ftp.mepa.gov.ge/Public/NEA/"))
+        self.assertEqual(source["access_status"], "official_report_archive_linked_not_extracted")
+        self.assertIs(source["sample_level_schema_verified"], False)
+        self.assertIs(source["reuse_terms_verified"], False)
+        self.assertIn("unextracted and unhashed", source["note"])
+        self.assertIn("do not establish general server unavailability", source["note"].casefold())
+
     def test_source_ids_are_unique(self):
         ids = [item["id"] for item in self.instance["sources"]]
         self.assertEqual(len(ids), len(set(ids)))

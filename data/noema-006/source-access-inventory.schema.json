@@ -102,6 +102,10 @@
           "note": {
             "type": "string",
             "minLength": 10
+          },
+          "announcement_url": {
+            "type": "string",
+            "format": "uri"
           }
         }
       }

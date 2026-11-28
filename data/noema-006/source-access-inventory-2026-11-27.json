@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "reviewed_on": "2026-11-27",
+  "reviewed_on": "2026-11-28",
   "evidence_boundary": "Public source metadata only; no raw sample-level or operational records imported.",
   "sources": [
     {
@@ -175,7 +175,8 @@
       "observation_period": "2021-2025",
       "sample_level_schema_verified": false,
       "reuse_terms_verified": false,
-      "note": "Direct RAR URL linked from NEA's 2026-11-26 announcement. Retrieval from this execution environment failed; archive contents, internal files, data dictionary, archive hash and reuse terms remain unverified. A failed retrieval here does not establish that the official server is generally unavailable."
+      "note": "Direct RAR payload URL is linked from the NEA 2026-11-26 announcement page. The archive remains unextracted and unhashed in this run; internal files, data dictionary, sample-level schema and reuse terms are unverified. Retrieval limitations in this execution environment do not establish general server unavailability.",
+      "announcement_url": "https://www.nea.gov.ge/Ge/News/3461"
     }
   ]
 }

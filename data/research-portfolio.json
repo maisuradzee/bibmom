@@ -64,7 +64,8 @@
         "Run 43: re-open NEA's 2026-11-26 official announcement and record its stated report scope (2021–2025 groundwater quantitative/qualitative characteristics, automatic monitoring, historical-data digitization and network development) separately from the procurement contract's PDF/CD deliverables; the announcement is not sample-level data and the contract is not an acceptance act.",
         "Run 45: review the official Matsne HTML of Government Decree №447 (2026-09-15), Articles 3–7, and cross-check the consolidated Water Resources Management Law (2026-09-16) Articles 31, 37 and 42. Separate state water-body monitoring from drinking-water consumer control; record matrix-specific and programme-specific requirements.",
         "Run 45: pin the annual 1 December plan-submission deadline as upcoming on 2026-11-28; do not infer submission status before the deadline. Record the 2028-01-01 biota/sediment start date only for substances requiring those matrices.",
-        "Run 45 follow-up: cross-check Law Article 37(2)(b)(c)-(e); add the 2027-09-01 surface/groundwater nitrate-vulnerable-zone identification and good-agricultural-practice/action-plan milestone as a separate future requirement, not a completed finding."
+        "Run 45 follow-up: cross-check Law Article 37(2)(b)(c)-(e); add the 2027-09-01 surface/groundwater nitrate-vulnerable-zone identification and good-agricultural-practice/action-plan milestone as a separate future requirement, not a completed finding.",
+        "Run 46: explicitly link the official 2021–2025 groundwater RAR payload to its NEA announcement page in the source-access inventory. Preserve the linked-but-not-extracted status; do not infer archive contents, sample-level data availability or reuse permission."
       ],
       "sources": [
         {
@@ -225,7 +226,8 @@
           "publication_date": "2026-11-26",
           "url": "https://ftp.mepa.gov.ge/Public/NEA/%E1%83%B0%E1%83%98%E1%83%93%E1%83%A0%E1%83%9D%E1%83%92%E1%83%94%E1%83%9A%E1%83%9D%E1%83%92%E1%83%98%E1%83%A3%E1%83%A0%E1%83%98%20%E1%83%90%E1%83%9C%E1%83%92%E1%83%90%E1%83%A0%E1%83%98%E1%83%A8%E1%83%98%20-%202026%20-%20%E1%83%94%E1%83%9A-%E1%83%95%E1%83%94%E1%83%A0%E1%83%A1%E1%83%98%E1%83%94%E1%83%91%E1%83%98.rar",
           "type": "official_report_archive_link_not_extracted",
-          "accessed_at": "2026-11-27"
+          "accessed_at": "2026-11-28",
+          "note": "Payload URL is linked from the official NEA 2026-11-26 announcement page; source-access inventory records the separate announcement_url. Archive remains unextracted and unhashed; no contents, sample-level schema or reuse terms are claimed."
         },
         {
           "title": "National Environmental Agency 2025 annual report — water resources monitoring",

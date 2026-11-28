@@ -769,3 +769,11 @@ Main remains at `726c71c9ef1a4e1c00dbc4a44b950e4b371c02f0`. Main Quality CI [460
 - All four raw-report hashes and byte lengths matched. A second independent calculation recomputed each case median from raw `wall_samples_ns` and speedup from the matching serial-baseline median; all stored values matched.
 - Regression tests now validate the closed record schema, cross-check every artifact entry against the frozen summary, and reject tampered derived speedups and medians.
 - No benchmark measurements or frozen aggregates changed; this is an artifact-record and verifier-integrity correction.
+
+
+## Run 46 — AquaSignal source-provenance follow-up (2026-11-28)
+
+- Re-opened the NEA 2026-11-26 announcement and followed its official RAR payload link. The announcement page and binary payload are now linked explicitly in the source-access inventory through `announcement_url`.
+- The RAR remains `official_report_archive_linked_not_extracted`: no archive SHA-256, internal file list, sample-level schema, data dictionary or reuse terms are claimed.
+- A retrieval limitation in this execution environment is recorded narrowly; it does not establish that the official server is generally unavailable.
+- No raw water observations, owner identifiers, coordinates or restricted data were imported.
