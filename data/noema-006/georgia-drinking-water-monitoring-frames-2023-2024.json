@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-006",
+  "snapshot_date": "2026-11-28",
+  "evidence_boundary": "Public documentary aggregates and official oversight findings only. No individual samples, coordinates, household records or health records.",
+  "sources": [
+    {
+      "source_id": "NFA-2024-02-20",
+      "authority": "National Food Agency of Georgia",
+      "title": "In 2023 the rate of violations in more than 5000 samples of food and drinking water is 12%",
+      "url": "https://nfa.gov.ge/En/News/Details/489",
+      "publication_date": "2024-02-20",
+      "accessed_at": "2026-11-28",
+      "source_type": "official_agency_release",
+      "evidence_note": "Reports 624 non-compliances and a rounded 12% rate across a combined food-and-drinking-water sample set; not a drinking-water-only rate."
+    },
+    {
+      "source_id": "PDO-2025-03-24",
+      "authority": "Public Defender of Georgia",
+      "title": "Special Report on the Realisation of the Right to Water in Georgia",
+      "url": "https://ombudsman.ge/res/docs/2025041010211260067.pdf",
+      "publication_date": "2025-03-24",
+      "accessed_at": "2026-11-28",
+      "source_type": "official_human_rights_oversight_report",
+      "evidence_note": "Pages 33–34 describe planned drinking-water sample counts, publication/disclosure limitations and the need for consolidated, locally useful information."
+    },
+    {
+      "source_id": "JECM-2025-01-25",
+      "authority": "Experimental and Clinical Medicine Georgia",
+      "title": "State Control and Monitoring Trends of Drinking Water Quality in Georgia",
+      "url": "https://doi.org/10.52340/jecm.2025.01.25",
+      "publication_date": "2025-03-01",
+      "accessed_at": "2026-11-28",
+      "source_type": "journal_secondary_analysis",
+      "evidence_note": "Abstract describes a secondary analysis of 2020–2023 monitoring data and identifies microbiological violations as the main non-compliance type; full PDF tables were not re-extracted in this run."
+    }
+  ],
+  "observations": [
+    {
+      "observation_id": "nfa-2023-combined-food-water",
+      "source_id": "NFA-2024-02-20",
+      "observation_kind": "actual_reported_combined_summary",
+      "period": "2023",
+      "matrix_scope": "food_and_drinking_water_combined",
+      "sample_count_lower_bound": 5000,
+      "count_relation": "greater_than",
+      "non_compliances": 624,
+      "reported_rate_percent": 12,
+      "exact_denominator": null,
+      "rate_is_water_only": false
+    },
+    {
+      "observation_id": "pdo-2023-drinking-water-plan",
+      "source_id": "PDO-2025-03-24",
+      "observation_kind": "planned_sample_allocation",
+      "period": "2023",
+      "matrix_scope": "drinking_water_including_packaged",
+      "planned_sample_count": 520,
+      "includes_packaged_water": true
+    },
+    {
+      "observation_id": "pdo-2024-drinking-water-plan",
+      "source_id": "PDO-2025-03-24",
+      "observation_kind": "planned_sample_allocation",
+      "period": "2024",
+      "matrix_scope": "drinking_water_including_packaged",
+      "planned_sample_count": 850,
+      "includes_packaged_water": true
+    }
+  ],
+  "source_access": {
+    "source_id": "NFA-STATE-CONTROL",
+    "url": "https://nfa.gov.ge/Ge/StateControl",
+    "page_publication_date": null,
+    "accessed_at": "2026-11-28",
+    "linked_2023_workbook_mime_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    "retrieval_status": "reader_rejected_unsupported_xlsx",
+    "raw_bytes_obtained": false,
+    "sha256": null
+  },
+  "disclosure_findings": [
+    "The Public Defender report states that the NFA public monitoring spreadsheets include several food directions and water records from different source locations (including reservoirs, sources, yard taps and public institutions); although drinking water is separated, the published compilation does not readily expose a regional/municipal picture.",
+    "The Public Defender recommends a consolidated platform/database for drinking-water quality information and locally appropriate public communication rather than relying only on electronic publication.",
+    "The Public Defender report records field visits to 35 villages in 15 municipalities across five regions; these are fact-finding visits, not a representative national water-quality survey."
+  ],
+  "limitations": [
+    "The NFA 12% and 624 figures cover a combined food-and-drinking-water sample set; the exact denominator and water-only numerator/denominator are not provided in the release.",
+    "The 520 (2023) and 850 (2024) values are planned drinking-water sample allocations, not observed completed sample counts.",
+    "The NFA 2023 XLSX payload was linked from the official portal but the current reader rejected the XLSX content type; no workbook bytes, hash or row-level contents were obtained.",
+    "The JECM article is a secondary analysis; its abstract was reviewed but the PDF tables were not re-extracted in this run.",
+    "No regional prevalence, national water-only non-compliance rate, causal health effect or legal compliance conclusion is estimated."
+  ]
+}
