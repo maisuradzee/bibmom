@@ -6,7 +6,7 @@
 - **Evidence classes:** FACT, INFERENCE, HYPOTHESIS and UNTESTED IDEA
 - **Scope:** official Georgian institutional roles and public early-warning capability signals
 
-## Research question
+## საკვლევი კითხვა
 
 What do Georgia's official public sources establish about the National Environmental Agency's warning, hydrological observation and geological monitoring responsibilities, and what remains unknown about network coverage and the end-to-end warning-to-action chain?
 
@@ -49,7 +49,7 @@ A versioned, metadata-only authority and capability crosswalk linked to each aut
 
 Build a read-only warning-event evidence registry containing official reference IDs, authority, hazard, coarse area, issue/validity timestamps, source version, playbook version and aggregate stage denominators. Personal delivery telemetry and household locations must remain outside the public system.
 
-## Method and reproducibility
+## მეთოდი ან ექსპერიმენტის გეგმა
 
 - Method: source-by-source extraction from official NEA public pages and notices; preserve publication/access dates and exact claim boundaries in a closed JSON record.
 - Reproduction: no quantitative experiment was performed. The numeric claims are copied as agency-reported figures, not independently measured by NOEMA.
@@ -78,7 +78,7 @@ A future read-only warning-event evidence registry should bind:
 
 It must not issue warnings, recommend evacuation, control infrastructure or override competent authorities. Public releases require data-controller approval, independent privacy review, coarse geography and small-cell suppression. The registry is a design proposal, not a deployed operational service.
 
-## Next steps
+## შემდეგი ნაბიჯები
 
 1. Obtain a versioned station inventory with active dates, hazard/region coverage, uptime, telemetry completeness, calibration and maintenance metadata.
 2. Obtain hazard-specific forecast verification and lead-time distributions.
@@ -86,11 +86,11 @@ It must not issue warnings, recommend evacuation, control infrastructure or over
 4. Obtain privacy-approved aggregate warning-event and after-action data with distinct denominators for delivery, comprehension, feasibility and verified action.
 5. Independently review the measurement design with disaster-risk-reduction and privacy specialists.
 
-## Verification status
+## შემოწმების სტატუსი
 
 Draft. The source inventory is primary-source documentary work. The numerical capacity figures are agency-reported, not independently audited. No field study, operational warning-chain dataset, causal evaluation or independent peer review was completed. This is not a national warning-system performance assessment.
 
-## Sources
+## წყაროები
 
 - [NEA — Agency's functions](https://www.nea.gov.ge/En/Functions)
 - [NEA — Hydrology Department](https://nea.gov.ge/en/Departments/Hydrology)
