@@ -122,9 +122,6 @@
       "total": 50,
       "boreholes": 19,
       "springs": 30,
-      "control_wells": 1,
-      "source_term_control_well": "საკონტროლო ჭა",
-      "control_well_translation": "control well",
       "regional_counts": [
         {
           "region_code": "IMERETI",
@@ -132,8 +129,8 @@
           "region_en": "Imereti",
           "springs": 17,
           "boreholes": 9,
-          "control_wells": 1,
-          "total": 27
+          "total": 27,
+          "household_wells": 1
         },
         {
           "region_code": "SAMEGRELO_ZEMO_SVANETI",
@@ -141,8 +138,8 @@
           "region_en": "Samegrelo-Zemo Svaneti",
           "springs": 0,
           "boreholes": 10,
-          "control_wells": 0,
-          "total": 10
+          "total": 10,
+          "household_wells": 0
         },
         {
           "region_code": "SAMTSKHE_JAVAKHETI",
@@ -150,8 +147,8 @@
           "region_en": "Samtskhe-Javakheti",
           "springs": 3,
           "boreholes": 0,
-          "control_wells": 0,
-          "total": 3
+          "total": 3,
+          "household_wells": 0
         },
         {
           "region_code": "SHIDA_KARTLI",
@@ -159,8 +156,8 @@
           "region_en": "Shida Kartli",
           "springs": 7,
           "boreholes": 0,
-          "control_wells": 0,
-          "total": 7
+          "total": 7,
+          "household_wells": 0
         },
         {
           "region_code": "MTSKHETA_MTIANETI",
@@ -168,18 +165,20 @@
           "region_en": "Mtskheta-Mtianeti",
           "springs": 3,
           "boreholes": 0,
-          "control_wells": 0,
-          "total": 3
+          "total": 3,
+          "household_wells": 0
         }
       ],
       "concentration_results_published": false,
       "laboratory_confirmation_published": false,
-      "final_vulnerable_zone_designation_in_this_report": false
+      "final_vulnerable_zone_designation_in_this_report": false,
+      "household_wells": 1,
+      "source_term_household_well": "საყოფაცხოვრებო ჭა",
+      "household_well_translation": "household well"
     },
-    "points_with_listed_parameter_coverage": 73,
     "overlap_assessment": {
       "unique_site_count_status": "not_reported",
-      "lab_points_vs_parameter_coverage": "not_explained",
+      "groundwater_lab_vs_surface_water_parameter_coverage": "not_comparable_different_matrix",
       "routine_vs_field_site_overlap": "not_verifiable_from_public_aggregate",
       "nitrate_vs_field_instrumental_point_identity": "not_linked_by_public_site_ids"
     }
@@ -187,17 +186,20 @@
   "surface_water": {
     "sampling_points": 238,
     "sample_count": 2571,
-    "matrix_separation_note": "Surface-water counts are kept separate from groundwater monitoring and must not be pooled into groundwater, raw-groundwater or drinking-water compliance estimates."
+    "matrix_separation_note": "Surface-water counts are kept separate from groundwater monitoring and must not be pooled into groundwater, raw-groundwater or drinking-water compliance estimates.",
+    "parameter_coverage_points": 73,
+    "parameter_coverage_scope": "surface_water_only"
   },
   "limitations": [
     "These are source-reported annual aggregate counts, not sample-level analytical results or unique sample identifiers.",
     "The report's 124 combined groundwater points are described as 74 routine hydrogeological monitoring points plus 50 field-instrumental study points; overlap and unique-site count are not published.",
-    "The report lists 74 laboratory-sampling points and separately lists parameter coverage at 73 groundwater points; their relationship is not explained and must not be inferred.",
+    "The report lists 74 groundwater laboratory-sampling points. The separate 73-point parameter-coverage count appears in the surface-water section (p. 13), so it is a different matrix and must not be compared with groundwater counts.",
     "The 681 laboratory sample counts by analysis group are not a compliance numerator or denominator and may not represent unique physical samples.",
     "The 50-point nitrate table reports field-instrumental point types and regional counts, not nitrate concentrations, laboratory confirmation or final vulnerable-zone designation.",
-    "The Georgian source term is 'საკონტროლო ჭა' (control well), not a household well.",
+    "The nitrate table's column header is 'საყოფაცხოვრებო ჭა' (household well), not 'საკონტროლო ჭა' (control well).",
     "No station/sample dictionary, coordinates, sample dates, analyte values, units, LOD/LOQ, standard versions, laboratory QA/QC, accreditation scope, correction history or reuse terms are supplied in this aggregate snapshot.",
     "The PDF was inspected through the public browser reader, but its raw bytes were not available to the current retrieval runtime; SHA-256 was not computed.",
-    "The 2025 annual report is distinct from the 2021–2025 groundwater RAR announced on 2026-11-26; the RAR archive was not retrieved or inspected."
+    "The 2025 annual report is distinct from the 2021–2025 groundwater RAR announced on 2026-11-26; the RAR archive was not retrieved or inspected.",
+    "The 73-point parameter-coverage count belongs to surface water (p. 13), not groundwater; it is stored only under surface_water.parameter_coverage_points."
   ]
 }
