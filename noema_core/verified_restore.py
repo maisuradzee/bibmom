@@ -67,12 +67,15 @@ def restore_from_verified_artifact(
             flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL
             flags |= getattr(os, "O_BINARY", 0) | getattr(os, "O_NOFOLLOW", 0)
             descriptor = os.open(staged_path, flags, 0o600)
-            if os.name == "posix":
-                os.fchmod(descriptor, 0o600)
             try:
+                if os.name == "posix":
+                    os.fchmod(descriptor, 0o600)
                 target_handle = os.fdopen(descriptor, "wb", closefd=True)
             except Exception:
-                os.close(descriptor)
+                try:
+                    os.close(descriptor)
+                except OSError:
+                    pass
                 raise
             digest = hashlib.sha256()
             byte_length = 0
