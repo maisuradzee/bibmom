@@ -4,7 +4,7 @@
 - **Run ID:** NOEMA-005-RUN59-LOCAL-OPENMP-2026-11-28
 - **სტატუსი:** preliminary
 - **მტკიცებულების სტატუსი:** REPRODUCED RESULT (synthetic numerical fixture; one virtualized x86-64 execution environment)
-- **თარიღი / ბოლო განახლება:** 2026-11-28
+- **თარიღი:** 2026-11-28
 - **სფერო / გეოგრაფიული ფარგლები:** x86-64 KVM guest; synthetic binary64 cancellation fixtures
 - **ავტორი / მომზადების სისტემა:** NOEMA research workflow
 - **Reference:** Run 51, executed on a separately reported Intel Xeon Platinum 8573C KVM guest
@@ -15,9 +15,9 @@ Does the existing native C/OpenMP benchmark reproduce its accuracy matrix on a s
 
 ## მეთოდი ან ექსპერიმენტის გეგმა
 
-The exact Run 51 source was reused without modification (\`scripts/noema005_run51_openmp.c\`, SHA-256 \`5959f479e7f2b45a298975aeed13f3b919a87a77bff64f2b8d649ba72d35d60b\`). It was compiled with GCC 14.2.0 using \`-O3 -std=c11 -fopenmp -fno-fast-math -ffp-contract=off -Wall -Wextra -Werror\`.
+The exact Run 51 source was reused without modification (`scripts/noema005_run51_openmp.c`, SHA-256 `5959f479e7f2b45a298975aeed13f3b919a87a77bff64f2b8d649ba72d35d60b`). It was compiled with GCC 14.2.0 using `-O3 -std=c11 -fopenmp -fno-fast-math -ffp-contract=off -Wall -Wextra -Werror`.
 
-Two deterministic binary64 cancellation layouts were tested, each with 12,000,000 repeats and 36,000,000 values (288,000,000 input bytes): triplet \`[2^53, 1, -2^53]\` repeated N times, and grouped \`[2^53] * N + [1] * N + [-2^53] * N\`. The exact mathematical sum is N = 12,000,000, exactly representable as binary64.
+Two deterministic binary64 cancellation layouts were tested, each with 12,000,000 repeats and 36,000,000 values (288,000,000 input bytes): triplet `[2^53, 1, -2^53]` repeated N times, and grouped `[2^53] * N + [1] * N + [-2^53] * N`. The exact mathematical sum is N = 12,000,000, exactly representable as binary64.
 
 Eight implementations were measured: serial naive, serial Neumaier, serial long double, serial pairwise, OpenMP naive partials, OpenMP full Neumaier-state merge, OpenMP long-double partials and OpenMP pairwise partials. Requested worker counts were 1, 2, 4, 5 and 8. Each of the 48 layout/method/worker cells had two warm-ups and 20 measured repetitions (960 timed runs total). Actual OpenMP team sizes were recorded by the benchmark.
 
@@ -29,7 +29,7 @@ The verifier recomputes medians, speedups against the matching serial method, ef
 
 - Full Neumaier state (sum plus correction) was exact in **20/20 runs** for both layouts at every requested worker count (1, 2, 4, 5 and 8).
 - Naive partials and pairwise partials were **0/20** in every tested cell.
-- Long double passed the triplet fixture (20/20) but failed the grouped fixture (0/20), despite \`LDBL_MANT_DIG = 64\` on this host.
+- Long double passed the triplet fixture (20/20) but failed the grouped fixture (0/20), despite `LDBL_MANT_DIG = 64` on this host.
 - Serial Neumaier was 20/20 for both layouts.
 
 The per-layout/per-method correctness matrix exactly matches Run 51's frozen matrix on a different guest-reported CPU model. This is a second virtualized x86-64 execution, not a bare-metal device replication or an independent numerical-method review.
@@ -53,7 +53,7 @@ The guest exposes CPU IDs 0–4 but has a cgroup quota of four CPUs. Five- and e
 
 ### Memory
 
-\`getrusage(RUSAGE_SELF).ru_maxrss\` reported 281,984 KiB for triplet and 282,112 KiB for grouped. This is the process high-water mark after allocating the 288 MB input array; it is not per-method peak memory or native allocation attribution. No DRAM hardware counters were available. The reported effective input GiB/s is a derived scan-rate proxy, not measured DRAM bandwidth.
+`getrusage(RUSAGE_SELF).ru_maxrss` reported 281,984 KiB for triplet and 282,112 KiB for grouped. This is the process high-water mark after allocating the 288 MB input array; it is not per-method peak memory or native allocation attribution. No DRAM hardware counters were available. The reported effective input GiB/s is a derived scan-rate proxy, not measured DRAM bandwidth.
 
 ## Environment and provenance
 
@@ -61,12 +61,12 @@ The guest exposes CPU IDs 0–4 but has a cgroup quota of four CPUs. Five- and e
 - Architecture: x86-64; virtualization: KVM full virtualization
 - Visible CPU IDs: 0–4; cgroup quota: 4.0 CPUs; memory limit: 4 GiB
 - OS: Linux 6.18.57 x86-64, glibc 2.41
-- Compiler: GCC 14.2.0; OpenMP enabled; \`LDBL_MANT_DIG = 64\`
+- Compiler: GCC 14.2.0; OpenMP enabled; `LDBL_MANT_DIG = 64`
 - Python used for report packaging: 3.13.5
-- C source SHA-256: \`5959f479e7f2b45a298975aeed13f3b919a87a77bff64f2b8d649ba72d35d60b\`
-- Binary SHA-256: \`826f7037c0538d31a2a7159191065a65361ed483dd0e485a9585b9ea9f94f931\`
-- Raw stdout SHA-256: \`167afa21e6c99103a496bfdc6fd153127d6ad3afbf97c652c79f2f0716b6a246\`
-- Gzip SHA-256: \`cc7bb32be7d03285c5f9928efb9c7e07d13c5e2edd936f9ffe5f7d4961afb364\`
+- C source SHA-256: `5959f479e7f2b45a298975aeed13f3b919a87a77bff64f2b8d649ba72d35d60b`
+- Binary SHA-256: `826f7037c0538d31a2a7159191065a65361ed483dd0e485a9585b9ea9f94f931`
+- Raw stdout SHA-256: `167afa21e6c99103a496bfdc6fd153127d6ad3afbf97c652c79f2f0716b6a246`
+- Gzip SHA-256: `cc7bb32be7d03285c5f9928efb9c7e07d13c5e2edd936f9ffe5f7d4961afb364`
 
 ## Interpretation and limits
 
@@ -82,11 +82,15 @@ Use controlled bare-metal x86-64 and ARM64 devices with at least 20 measured rep
 
 ## წყაროები
 
-- Existing benchmark source: \`scripts/noema005_run51_openmp.c\`.
-- Run 51 frozen reference: \`data/noema-005/run51-local-openmp-report-2026-11-28.json\`.
-- Run 59 report and schema: \`data/noema-005/run59-local-openmp-report-2026-11-28.json\` and \`.schema.json\`.
-- Offline verifier: \`scripts/verify_noema005_run59_local_openmp.py\`.
-- Regression tests: \`tests/test_noema005_run59_local_openmp.py\`.
+- Benchmark source: https://github.com/maisuradzee/bibmom/blob/main/scripts/noema005_run51_openmp.c
+- Run 51 frozen reference: https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/run51-local-openmp-report-2026-11-28.json
+- Run 59 report: https://github.com/maisuradzee/bibmom/blob/main/data/noema-005/run59-local-openmp-report-2026-11-28.json
+
+- Existing benchmark source: `scripts/noema005_run51_openmp.c`.
+- Run 51 frozen reference: `data/noema-005/run51-local-openmp-report-2026-11-28.json`.
+- Run 59 report and schema: `data/noema-005/run59-local-openmp-report-2026-11-28.json` and `.schema.json`.
+- Offline verifier: `scripts/verify_noema005_run59_local_openmp.py`.
+- Regression tests: `tests/test_noema005_run59_local_openmp.py`.
 - All raw timings are preserved in the base64-encoded gzip JSONL artifact; no raw native thread IDs, private data, credentials or external user data are included.
 
 
