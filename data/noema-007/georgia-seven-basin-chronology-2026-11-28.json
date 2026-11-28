@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "record_id": "NOEMA007-GEORGIA-SEVEN-BASIN-CHRONOLOGY-2026-11-28",
+  "study_id": "NOEMA-2026-007",
+  "reviewed_at": "2026-11-28",
+  "programme": {
+    "target_basin_count": 11,
+    "previously_reported_group": {
+      "count": 4,
+      "basins": [
+        "Supsa",
+        "Natanebi",
+        "Kintrishi",
+        "Khobistskali"
+      ],
+      "reported_status": "plans discussed as prepared in the preceding year",
+      "source_date": "2025-10-06"
+    },
+    "remaining_group": {
+      "count": 7,
+      "basins": [
+        "Enguri",
+        "Rioni",
+        "Chorokhi-Acharistskali",
+        "Mtkvari",
+        "Alazani",
+        "Iori",
+        "Khrami-Ktsia"
+      ],
+      "source_date_for_named_list": "2026-11-25",
+      "original_target": "similar plans planned to be developed by 2026"
+    }
+  },
+  "chronology": [
+    {
+      "date": "2025-10-06",
+      "stage": "four_plans_reported_prepared_seven_remaining_planned",
+      "source": {
+        "publisher": "National Environmental Agency of Georgia",
+        "title": "A working meeting was held on the development of multiple hazard risk management plans for Georgia’s river basins",
+        "publication_date": "2025-10-06",
+        "url": "https://nea.gov.ge/En/News/2339",
+        "accessed_at": "2026-11-28"
+      },
+      "source_claims": [
+        "The Agency stated that plans prepared in the preceding year for Supsa, Natanebi, Kintrishi and Khobistskali were discussed.",
+        "The Agency stated that similar plans for the remaining seven basins were planned to be developed by 2026.",
+        "The notice names Enguri, Rioni and Chorokhi-Adjaristskali in western Georgia and Mtkvari, Alazani, Iori and Khrami-Ktsia in eastern Georgia."
+      ],
+      "not_established": [
+        "The notice does not provide the four plan documents, approval decisions, publication URLs or implementation evidence.",
+        "A target for the remaining seven basins is not proof that the plans were completed by the target date."
+      ]
+    },
+    {
+      "date": "2026-04-02",
+      "stage": "seven_basin_risk_assessment_validation_process_and_results_presented",
+      "source": {
+        "publisher": "National Environmental Agency of Georgia",
+        "title": "A consultative meeting was held on the development of multi-hazard risk management plans for seven river basins",
+        "publication_date": "2026-04-02",
+        "url": "https://nea.gov.ge/En/News/2381",
+        "accessed_at": "2026-11-28"
+      },
+      "source_claims": [
+        "The Agency stated that the validation process and results of multi-hazard risk assessments for seven river basins were presented to stakeholders.",
+        "The stated purpose was to refine identified risks through engagement with selected high-risk communities, confirm vulnerable areas and gather additional local information.",
+        "The notice does not name the seven basins in its text; the seven-basin list is separately named in the 2025 and 2026 Agency notices."
+      ],
+      "not_established": [
+        "Presentation of risk-assessment validation results is not equivalent to formal approval of a multi-hazard risk-management plan.",
+        "The notice does not publish signed plans, map versions, model validation metrics or operational warning outcomes."
+      ]
+    },
+    {
+      "date": "2026-11-25",
+      "stage": "seven_basin_plan_preparation_consultation",
+      "source": {
+        "publisher": "National Environmental Agency of Georgia",
+        "title": "Organized by the Agency, consultative meetings were held regarding the preparation of multi-hazard risk management plans for the basins of seven rivers in Georgia",
+        "publication_date": "2026-11-25",
+        "url": "https://nea.gov.ge/En/News/3459",
+        "accessed_at": "2026-11-28"
+      },
+      "source_claims": [
+        "The Agency reported a two-day consultation concerning preparation of multi-hazard risk-management plans for seven basins.",
+        "The notice names Alazani, Iori, Mtkvari, Khrami-Ktsia, Chorokhi-Acharistskali, Enguri and Rioni.",
+        "The notice describes institutional mandates, coordination and earlier 2026 analytical work on the disaster-risk-management framework."
+      ],
+      "not_established": [
+        "The notice does not state that all seven plans were formally approved, adopted, published or operationalized.",
+        "No signed plan versions, approval decisions, map/model specifications or basin-specific exposure denominators are linked in the notice."
+      ]
+    }
+  ],
+  "secondary_claim": {
+    "publisher": "GEO Outlook LLC",
+    "publication_date": "not stated",
+    "project_period_start": "2024-09",
+    "project_period_end": "2026-10",
+    "url": "https://geo.org.ge/climate-change-and-drr/",
+    "evidence_status": "SECONDARY_CLAIM",
+    "claim_summary": "The project page says plans were developed for seven basins, but the same sentence also contains the phrase 'for 4 river basins of Georgia'.",
+    "interpretation": "This is a secondary project-implementer statement with internally ambiguous basin-count wording; it is not primary proof of formal approval, publication or implementation."
+  },
+  "current_status": {
+    "classification": "UNRESOLVED_FORMAL_PLAN_STATUS",
+    "formal_approval_confirmed": false,
+    "public_final_plan_versions_confirmed": false,
+    "operational_implementation_confirmed": false,
+    "warning_to_action_performance_reported": false
+  },
+  "interpretation": {
+    "fact": [
+      "The 2025-10-06 Agency notice reports four plans discussed as prepared for Supsa, Natanebi, Kintrishi and Khobistskali and says the remaining seven were planned for development by 2026.",
+      "The 2026-04-02 Agency notice reports presentation of risk-assessment validation process/results for seven basins and community engagement to refine risks.",
+      "The 2026-11-25 Agency notice reports consultation on preparation of plans for the seven named basins."
+    ],
+    "inference": [
+      "Risk assessment, community validation, plan drafting, consultation, formal approval, publication and implementation are distinct stages; the three Agency notices can describe successive or overlapping work without proving final plan approval.",
+      "The 2026-04-02 validation notice helps explain the workstream chronology but does not resolve whether final plan documents were approved by 2026-11-28."
+    ],
+    "unknowns": [
+      "Whether each of the seven plans has a signed final version and an official approval decision.",
+      "Whether final plans and their maps/models are publicly available, and under what reuse terms.",
+      "Map scale, reference period, hazard scenarios, model validation, uncertainty, exposure denominators and implementation responsibilities for each basin.",
+      "Whether any plan has been translated into an operational warning, preparedness or anticipatory-action workflow."
+    ]
+  },
+  "privacy": {
+    "personal_data_included": false,
+    "household_data_included": false,
+    "exact_private_locations_included": false,
+    "event_level_records_included": false,
+    "critical_infrastructure_coordinates_included": false
+  }
+}
