@@ -12,6 +12,19 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - გამოქვეყნებამდე მასალა გადის სარედაქციო და ტექნიკურ შემოწმებას.
 - ავტომატიზაცია არ ნიშნავს დაუდასტურებელი შედეგების ავტომატურ გამოქვეყნებას.
 
+## NOEMA Run 57 — 2026-11-28
+
+- ოთხივე აქტიური ნაკადი გადაიხედა; ახალი ნაკადი არ დამატებულა. კატალოგი: **11 Preliminary / 0 Published**.
+- [PR #302](https://github.com/maisuradzee/bibmom/pull/302) ამკაცრებს NOEMA-005 Experiment 002-ის frozen verifier-ს: ზუსტად ექვსი runner/architecture/GIL-runtime cell, უნიკალური cell ID-ები, თითო cell-ზე 64 configuration და 192 measured run, თითო method-ზე 48 run, bounded counts და finite/ordered/consistent speedup summary. Mutation tests ამოწმებს per-cell corruption-ს მაშინაც, როცა global totals უცვლელია. ეს არის არსებული hosted snapshot-ის უფრო ძლიერი აუდიტი და არა ახალი CPU benchmark.
+- PR #302 exact-head Quality CI [46139381431](https://github.com/maisuradzee/bibmom/actions/runs/46139381431): **878 passed, 1 skipped**. PR გაერთიანდა Main SHA a3e17a3169eb59cdbc85656d8be4dfec8d5f900c.
+- INFRA-001 current-Main [Draft PR #304](https://github.com/maisuradzee/bibmom/pull/304) ამატებს 50-ვე named CI step-ის exact-body contract-ს და no-op/unlisted/unnamed-step regression tests-ს; ასევე tracked UTF-8 text credential preflight-ს. Exact-head CI [46139730927](https://github.com/maisuradzee/bibmom/actions/runs/46139730927): **889 passed, 1 skipped**; 474 tracked UTF-8 file შემოწმდა, 3 binary/non-UTF-8 file გამოტოვდა, findings არ ყოფილა.
+- PR #304 რჩება Draft: manifest და validator ერთსა და იმავე public repository-შია, scanner pattern-based-ია და დამოუკიდებელ trust anchor-ს არ წარმოადგენს. საჭიროა დამოუკიდებელი security review; external high-water, encrypted offsite backup და clean-host restore არ განხორციელებულა.
+- AquaSignal-ის 2026-12-01 გეგმის წარდგენის ვადა 2026-11-28 მდგომარეობით ჯერ არ იყო გასული; ახალი ოფიციალური გეგმა/receipt/approval ან NEA RAR payload არ მიგვიღია. NOEMA-007-ს ახალი ავტორიზებული Georgian warning-event მონაცემები არ დამატებია.
+- PR #303 დაიხურა როგორც superseded და არ გაერთიანებულა. PR #291 კვლავ unmerged-ია და current-Main review სჭირდება.
+- Post-merge Main Quality CI და Pages deployment PR #302-ის merge commit-ზე დამოუკიდებლად ვერ გადამოწმდა; PR-level site build და publication-boundary checks წარმატებულია, მაგრამ Pages განახლებულად არ გამოცხადებულა.
+
+[Run 57-ის სრული აუდიტი](docs/run-audits/2026-11-28-run-57.md).
+
 ## NOEMA Run 56 — 2026-11-28
 
 - ოთხივე აქტიური კვლევითი ნაკადი გადაიხედა; ახალი ნაკადი არ დამატებულა. კატალოგი: **11 Preliminary / 0 Published**.
