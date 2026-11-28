@@ -2,16 +2,18 @@
 
 - **Study:** NOEMA-2026-005
 - **Run ID:** NOEMA-005-RUN59-LOCAL-OPENMP-2026-11-28
-- **Date:** 2026-11-28
-- **Status:** Preliminary
-- **Evidence status:** REPRODUCED RESULT (synthetic numerical fixture; one virtualized x86-64 execution environment)
+- **სტატუსი:** preliminary
+- **მტკიცებულების სტატუსი:** REPRODUCED RESULT (synthetic numerical fixture; one virtualized x86-64 execution environment)
+- **თარიღი / ბოლო განახლება:** 2026-11-28
+- **სფერო / გეოგრაფიული ფარგლები:** x86-64 KVM guest; synthetic binary64 cancellation fixtures
+- **ავტორი / მომზადების სისტემა:** NOEMA research workflow
 - **Reference:** Run 51, executed on a separately reported Intel Xeon Platinum 8573C KVM guest
 
-## Research question
+## საკვლევი კითხვა
 
 Does the existing native C/OpenMP benchmark reproduce its accuracy matrix on a second x86-64 virtualized host, and what runtime/memory diagnostics are observed when the same source and workload are used?
 
-## Method
+## მეთოდი ან ექსპერიმენტის გეგმა
 
 The exact Run 51 source was reused without modification (\`scripts/noema005_run51_openmp.c\`, SHA-256 \`5959f479e7f2b45a298975aeed13f3b919a87a77bff64f2b8d649ba72d35d60b\`). It was compiled with GCC 14.2.0 using \`-O3 -std=c11 -fopenmp -fno-fast-math -ffp-contract=off -Wall -Wextra -Werror\`.
 
@@ -74,11 +76,11 @@ The guest exposes CPU IDs 0–4 but has a cgroup quota of four CPUs. Five- and e
 
 No claim is made about arbitrary scientific data, all reduction trees, general speedup, bare-metal CPU performance, ARM64, NUMA, GPU, distributed reductions, RSS attribution or DRAM bandwidth. The two guests are virtualized and the workload is synthetic. Independent numerical review and physical-device replication remain outstanding.
 
-## Next experiment
+## შემდეგი ნაბიჯები
 
 Use controlled bare-metal x86-64 and ARM64 devices with at least 20 measured repetitions per configuration, representative scientific workloads, pinned CPU affinity, frequency/context-switch counters, RSS/native allocation, DRAM counters and uncertainty intervals. Keep the full Neumaier state as an accuracy reference, not as a presumed performance winner.
 
-## Sources and reproducibility
+## წყაროები
 
 - Existing benchmark source: \`scripts/noema005_run51_openmp.c\`.
 - Run 51 frozen reference: \`data/noema-005/run51-local-openmp-report-2026-11-28.json\`.
@@ -86,3 +88,12 @@ Use controlled bare-metal x86-64 and ARM64 devices with at least 20 measured rep
 - Offline verifier: \`scripts/verify_noema005_run59_local_openmp.py\`.
 - Regression tests: \`tests/test_noema005_run59_local_openmp.py\`.
 - All raw timings are preserved in the base64-encoded gzip JSONL artifact; no raw native thread IDs, private data, credentials or external user data are included.
+
+
+## შემოწმების სტატუსი
+
+- Local frozen verifier: 6/6 regression tests passed.
+- JSON Schema: Draft 2020-12 schema validation passed locally.
+- Raw gzip/stdout/source SHA-256: matched the generated report.
+- First GitHub Quality CI attempt stopped at draft-completeness metadata checks; the metadata and required Georgian section headings were corrected in this revision. Exact-head CI is pending.
+- Publication status: Preliminary only; not Published.
