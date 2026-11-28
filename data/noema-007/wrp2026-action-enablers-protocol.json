@@ -34,7 +34,8 @@
     ],
     "ability_to_act": "WP24215",
     "household_plan": "WP23345",
-    "personal_agency": "WP22252"
+    "personal_agency": "WP22252",
+    "income_group_unit": "country_level_classification_not_respondent_personal_income"
   },
   "publisher_reference": {
     "respondents_total": 143459,
@@ -111,12 +112,12 @@
     "action_base": "Respondents with at least one warning; WP24215 codes 1, 2, 98 and 99 remain in the denominator. Ability to act is code 1.",
     "channel_count": "Count of the eight channel items answered yes (code 1), among warned respondents; compare exactly one, two and three channels.",
     "plan_and_agency": "Among warned respondents with binary yes/no answers to both WP23345 and WP22252. WP22252 code 3 (it depends), DK and refused are excluded from this grouping; WP24215 DK/refused remain in each action denominator.",
-    "income_groups": "CountryIncomeLevel codes 1-4 only; code 9 (not classified) is excluded. WP24215 DK/refused remain in each action denominator.",
+    "income_groups": "CountryIncomeLevel is the World Bank country income group at the time of fieldwork (FY2024-25), not respondent personal income. Codes 1-4 only; code 9 (not classified) is excluded. WP24215 DK/refused remain in each action denominator.",
     "missingness": "The publisher reproduction uses WP24181 non-null as the asked base; all eight channel values must be present together on that base and absent outside it."
   },
   "interpretation": {
     "status": "DESCRIPTIVE_ASSOCIATION_NOT_CAUSAL",
-    "statement": "Multiple warning channels and household preparedness/personal agency are associated with higher self-reported ability to act. This cross-sectional retrospective survey does not identify causal effects."
+    "statement": "Multiple warning channels and household preparedness/personal agency are associated with higher self-reported ability to act. This cross-sectional retrospective survey does not identify causal effects. CountryIncomeLevel comparisons are country-level group summaries, not individual income comparisons."
   },
   "privacy": {
     "raw_microdata_committed": false,
@@ -130,6 +131,7 @@
     "No design-based confidence intervals are calculated in this reproduction; one-decimal point estimates must not be read as precise individual or country predictions.",
     "The publisher's 2025 wave includes 143,459 respondents across 140 countries and territories; China used an opt-in web panel and should be interpreted under the publisher's methodology note.",
     "Georgia's warning-question base is 99, below the publisher's n>=100 country-ranking threshold; no Georgia national effectiveness estimate is inferred.",
-    "The dataset is licensed CC BY-SA 4.0; only small aggregate results and attribution are stored here, not respondent-level records."
+    "The dataset is licensed CC BY-SA 4.0; only small aggregate results and attribution are stored here, not respondent-level records.",
+    "CountryIncomeLevel is a country-level classification, not a respondent-level personal income measure; these weighted comparisons cannot be interpreted as within-country household-income gradients."
   ]
 }
