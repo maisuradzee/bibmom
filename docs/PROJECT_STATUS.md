@@ -1,3 +1,74 @@
+## NOEMA — Run 57: frozen benchmark cell-matrix guard and CI command/credential preflight
+
+**Date:** 2026-11-28  
+**Starting Main:** 7fd05067097581c516ec944635ffc60f06d1fe2a  
+**Main after NOEMA-005 PR #302:** a3e17a3169eb59cdbc85656d8be4dfec8d5f900c  
+**Active streams reviewed:** 4  
+**Catalogue:** 11 Preliminary / 0 Published  
+**New streams:** 0
+
+### Work completed
+
+#### NOEMA-005 — exact Experiment 002 cell matrix
+
+Merged [PR #302](https://github.com/maisuradzee/bibmom/pull/302).
+
+- The frozen verifier now requires the exact six runner/architecture/runtime cells, unique cell IDs, 64 configurations and 192 measured runs per cell, and 48 measured runs per method.
+- Correctness and diagnostic counters are bounded; speedup summaries must be finite, positive, ordered and consistent with the count of configurations beating the matching serial baseline.
+- Mutation tests preserve global totals while corrupting one cell, proving that aggregate totals cannot conceal per-cell substitution.
+- No benchmark values or artifacts changed. This is not a new physical-device experiment, RSS measurement or DRAM-counter result.
+- Exact-head Quality CI [46139381431](https://github.com/maisuradzee/bibmom/actions/runs/46139381431): 878 passed, 1 skipped. GitHub reported mergeable=true; PR merged at Main SHA a3e17a3169eb59cdbc85656d8be4dfec8d5f900c.
+
+#### INFRA-001 — CI command identity and public credential preflight
+
+Current-Main Draft [PR #304](https://github.com/maisuradzee/bibmom/pull/304).
+
+- Adds an exact-body contract for all 50 named steps in the CI workflow; the contract covers each step's command/action and other body fields, not only its display name.
+- Adds regression tests for no-op replacement, changed body, duplicate, unlisted and unnamed steps.
+- Adds a tracked UTF-8 text preflight for common provider token formats, complete private-key blocks, credential assignments, URL user-info, sensitive query/fragment names and credential-like path segments. Findings contain path, line and rule only; matched values are never printed.
+- Exact current head d7ad3491132fe401e9a25e35f21c960fe1e2ae40, base a3e17a3169eb59cdbc85656d8be4dfec8d5f900c; Quality CI [46139730927](https://github.com/maisuradzee/bibmom/actions/runs/46139730927) succeeded: 889 passed, 1 skipped. The scanner inspected 474 tracked UTF-8 files, skipped 3 binary/non-UTF-8 files and reported no findings.
+- PR #304 remains Draft pending independent security review. The manifest and validator are in the same public repository; this is a regression/review guard, not a signed trust anchor. The scanner is pattern-based, does not scan Git history and is not proof that no secret exists. No external high-water service, encrypted offsite backup, production key custody or clean-host restore is claimed.
+
+PR #303 was closed as superseded without merge. Older CI recovery PR #291 remains unmerged and needs a current-Main review before any recovery-workflow integration.
+
+#### AquaSignal — no new source payload
+
+- The Decree №447 annual-plan submission-to-Minister deadline remains 2026-12-01 and had not passed on 2026-11-28.
+- No new 2027 plan bytes, submission receipt, ministerial approval, official NEA RAR bytes or procurement acceptance act were obtained.
+- The existing source-uninspected state remains; no non-submission, breach, water-quality or legal-compliance conclusion is inferred.
+
+#### NOEMA-007 — no new operational dataset
+
+- No authorized Georgian warning-event/after-action aggregates, stage-specific denominators or WRP survey-design variance/replicate-weight documentation were obtained.
+- Existing 51/29/20 aggregate derivation remains a transformation of rounded global aggregates, not raw microdata, a causal result or a Georgia estimate.
+
+### Portfolio status
+
+| Stream | Status | Run 57 result / blocker |
+|---|---|---|
+| AquaSignal / NOEMA-2026-006 | Active | 2026-12-01 plan deadline is upcoming; official plan, receipt, approval and annex bytes remain unverified. |
+| NOEMA-005 | Active | PR #302 merged; next is physical x86-64/ARM64, representative workloads, 20+ measured repetitions, RSS/native allocation and DRAM/CPU counters. |
+| NOEMA-007 | Active | No authorized Georgian warning-event dataset or survey design variance documentation. |
+| INFRA-001 | Active | PR #304 Draft, exact-head CI passed; independent security review remains mandatory before merge. External trust anchor, encryption, retention and clean-host restore remain unimplemented. |
+
+No fifth stream added. Catalogue remains 11 Preliminary / 0 Published.
+
+### Main, CI, deployment and safety
+
+- PR #302 exact-head Quality CI [46139381431](https://github.com/maisuradzee/bibmom/actions/runs/46139381431): SUCCESS, 878 passed, 1 skipped.
+- PR #304 exact-head Quality CI [46139730927](https://github.com/maisuradzee/bibmom/actions/runs/46139730927): SUCCESS, 889 passed, 1 skipped.
+- PR #304 is not merged.
+- Post-merge Main Quality CI and Pages deployment for the PR #302 merge commit were not independently verified in this run. PR-level site build and publication-boundary checks passed; Pages is not described as updated.
+- No new Supabase project was created and no other project's database was used. No private well coordinates, personal sampling records, WRP microdata, credentials, keys or restricted source payloads were added.
+
+### Next priorities
+
+1. Obtain independent security review for PR #304; do not merge solely on CI success.
+2. After 2026-12-01, verify AquaSignal plan submission, ministerial approval and public release separately; obtain official annex/RAR bytes through an authorized route and hash before inspection.
+3. NOEMA-005: run physical x86-64/ARM64 experiments only when hardware is available; compare Pairwise/Binned/Exact alternatives and capture RSS/native allocation and hardware DRAM counters.
+4. NOEMA-007: obtain authorized Georgian warning-event/after-action aggregates and WRP survey design variance/replicate weights.
+5. INFRA-001: after review, implement independent external monotonic high-water trust, encrypted off-host artifact lifecycle, retention verification and clean-host restore.
+
 ## NOEMA — Run 56: Decree 447 plan readiness and warning-to-action composition
 
 **Date:** 2026-11-28  
