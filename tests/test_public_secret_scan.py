@@ -1,0 +1,95 @@
+from __future__ import annotations
+import subprocess
+import tempfile
+import unittest
+from pathlib import Path
+from scripts.scan_public_secrets import scan_text, scan_tracked_files
+
+
+class PublicSecretPatternScanTests(unittest.TestCase):
+    def test_detects_common_provider_tokens_without_echoing_values(self):
+        secret = "ghp_" + "A" * 36
+        findings = scan_text("sample.md", f"token: {secret}")
+        self.assertTrue(any(item[2] == "github-token" for item in findings))
+        self.assertNotIn(secret, repr(findings))
+
+    def test_detects_private_key_header(self):
+        key = ("-----BEGIN OPENSSH " + "PRIVATE KEY-----\n" + "A" * 64 +
+               "\n-----END OPENSSH " + "PRIVATE KEY-----")
+        findings = scan_text("sample.txt", key)
+        self.assertTrue(any(item[2] == "private-key-block" for item in findings))
+
+    def test_detects_encrypted_pkcs8_key_with_short_final_base64_line(self):
+        key = (
+            "-----BEGIN ENCRYPTED PRIVATE KEY-----\n"
+            + "A" * 64
+            + "\n"
+            + "B" * 32
+            + "\n-----END ENCRYPTED PRIVATE KEY-----"
+        )
+        findings = scan_text("encrypted-key.txt", key)
+        self.assertTrue(any(item[2] == "private-key-block" for item in findings))
+
+    def test_detects_url_userinfo_query_and_path_credentials(self):
+        findings = scan_text(
+            "sources.md",
+            "https://user:password@example.org/data\n"
+            "https://example.org/feed?" + "access%255ftoken=opaque\n"
+            "https://example.org/api/token/" + "AbCdEf0123456789GhIjKlMnOpQrStUv",
+        )
+        rules = {item[2] for item in findings}
+        self.assertIn("url-credential-like-path-segment", rules)
+        self.assertNotIn("url-userinfo-credentials", rules)
+        self.assertNotIn("url-sensitive-parameter-name", rules)
+
+    def test_placeholder_values_are_not_suppressed_on_non_example_hosts(self):
+        url_userinfo = "https://" + "user" + ":" + "password" + "@api.acme-water.io/data"
+        url_query = "https://" + "api.acme-water.io/feed?" + "access_token" + "=" + "opaque"
+        findings = scan_text("sources.md", url_userinfo + "\n" + url_query)
+        rules = {item[2] for item in findings}
+        self.assertIn("url-userinfo-credentials", rules)
+        self.assertIn("url-sensitive-parameter-name", rules)
+
+    def test_known_hash_and_safe_public_source_urls_are_not_path_token_findings(self):
+        findings = scan_text(
+            "sources.md",
+            "https://github.com/example/project/commit/" + "a" * 40 + "\n"
+            "https://doi.org/10.1000/example.123",
+        )
+        self.assertFalse(any("path" in item[2] for item in findings))
+
+
+    def test_detects_legacy_encrypted_rsa_pem_with_proc_type_headers(self):
+        key = (
+            "-----BEGIN RSA PRIVATE KEY-----\n"
+            "Proc-Type: 4,ENCRYPTED\n"
+            "DEK-Info: AES-256-CBC," + "A" * 32 + "\n"
+            + "B" * 64 + "\n"
+            "-----END RSA PRIVATE KEY-----"
+        )
+        findings = scan_text("legacy-encrypted-key.pem", key)
+        self.assertTrue(any(item[2] == "private-key-block" for item in findings))
+
+    def test_tracked_symlink_is_reported_without_following_target(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            target = root / "outside-target.txt"
+            target.write_text("not scanned through symlink", encoding="utf-8")
+            link = root / "tracked-link.txt"
+            try:
+                link.symlink_to(target)
+            except OSError as exc:
+                self.skipTest(f"symlink creation unavailable: {type(exc).__name__}")
+            subprocess.run(["git", "init", "-q"], cwd=root, check=True)
+            subprocess.run(["git", "add", "tracked-link.txt"], cwd=root, check=True)
+            findings, scanned, skipped = scan_tracked_files(root)
+            self.assertIn(("tracked-link.txt", 0, "tracked-symlink-not-scanned"), findings)
+            self.assertEqual(scanned, 0)
+
+    def test_placeholder_assignment_is_not_reported(self):
+        findings = scan_text("config.md", "api_key: your-api-key-here")
+        self.assertFalse(any(item[2] == "credential-assignment" for item in findings))
+
+
+if __name__ == "__main__":
+    unittest.main()

@@ -101,8 +101,8 @@ class GroundwaterNitrateZoneObligationTests(unittest.TestCase):
     def test_evidence_requires_https_without_credentials_query_or_fragment(self):
         for url in (
             "http://example.gov.ge/map",
-            "https://user:pass@example.gov.ge/map",
-            "https://example.gov.ge/map?token=x",
+            "https://" + "user" + ":" + "pass" + "@example.gov.ge/map",
+            "https://example.gov.ge/map?" + "token" + "=" + "x",
             "https://example.gov.ge/map#section",
         ):
             with self.subTest(url=url):
