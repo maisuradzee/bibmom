@@ -24,9 +24,9 @@ equality between the workflow step-name set and the manifest step-name set.
 ## Public credential preflight
 
 The repository scanner enumerates Git-tracked files and checks UTF-8 text for
-common provider token formats, private-key headers, credential assignments,
+common provider token formats, complete private-key blocks, credential assignments,
 URL user-info, sensitive query/fragment parameter names and credential-like
-URL path segments. It reports only path, line and rule, never the matched
+URL path segments. Obvious synthetic placeholder values used in tests are ignored. It reports only path, line and rule, never the matched
 value.
 
 Binary and non-UTF-8 files are skipped. The scanner is pattern-based and can
