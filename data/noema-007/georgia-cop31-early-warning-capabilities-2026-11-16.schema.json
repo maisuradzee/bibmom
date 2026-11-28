@@ -1,0 +1,167 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Georgia COP31 early-warning capability signal",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_id",
+    "study_id",
+    "reviewed_at",
+    "classification",
+    "source",
+    "capability_claims",
+    "not_established",
+    "required_follow_up_metrics",
+    "interpretation",
+    "privacy"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "record_id": {
+      "const": "NOEMA007-GEORGIA-COP31-EARLY-WARNING-CAPABILITY-SIGNAL-2026-11-16"
+    },
+    "study_id": {
+      "const": "NOEMA-2026-007"
+    },
+    "reviewed_at": {
+      "type": "string",
+      "format": "date",
+      "const": "2026-11-28"
+    },
+    "classification": {
+      "const": "AGENCY_REPORTED_CAPABILITY_SIGNAL"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "publisher",
+        "title",
+        "publication_date",
+        "url",
+        "accessed_at",
+        "type"
+      ],
+      "properties": {
+        "publisher": {
+          "const": "National Environmental Agency of Georgia"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 40
+        },
+        "publication_date": {
+          "const": "2026-11-16"
+        },
+        "url": {
+          "const": "https://nea.gov.ge/En/News/3457"
+        },
+        "accessed_at": {
+          "const": "2026-11-28"
+        },
+        "type": {
+          "const": "official_primary_agency_notice"
+        }
+      }
+    },
+    "capability_claims": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "string",
+        "minLength": 40
+      }
+    },
+    "not_established": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "string",
+        "minLength": 40
+      }
+    },
+    "required_follow_up_metrics": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "string",
+        "minLength": 40
+      }
+    },
+    "interpretation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fact",
+        "inference",
+        "hypothesis",
+        "untested_idea"
+      ],
+      "properties": {
+        "fact": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "string",
+            "minLength": 40
+          }
+        },
+        "inference": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "string",
+            "minLength": 40
+          }
+        },
+        "hypothesis": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 40
+          }
+        },
+        "untested_idea": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 40
+          }
+        }
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "personal_data_included",
+        "person_level_app_data_included",
+        "exact_private_locations_included",
+        "event_level_warning_records_included",
+        "critical_infrastructure_coordinates_included"
+      ],
+      "properties": {
+        "personal_data_included": {
+          "const": false
+        },
+        "person_level_app_data_included": {
+          "const": false
+        },
+        "exact_private_locations_included": {
+          "const": false
+        },
+        "event_level_warning_records_included": {
+          "const": false
+        },
+        "critical_infrastructure_coordinates_included": {
+          "const": false
+        }
+      }
+    }
+  }
+}

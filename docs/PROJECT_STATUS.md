@@ -1,6 +1,6 @@
 # NOEMA — მიმდინარე პროექტის მდგომარეობა
 
-- **განახლდა:** 2026-11-28 (Run 44 post-merge verification — Georgia seven-basin chronology).
+- **განახლდა:** 2026-11-28 (Run 45 draft research — NEA COP31 early-warning capability signal).
 - **საცავი:** https://github.com/maisuradzee/bibmom
 - **Run 44 research merge commit:** `218021f38ed8bf3732b449fcdfea2cbbb821e96a` (PR #247 merged).
 - **PR #248 status-sync commit:** `cc63c75660096b70cb3f277c5c01b6b55a7200d7`; exact Main Quality CI [46092850682](https://github.com/maisuradzee/bibmom/actions/runs/46092850682) and Pages build/deploy [46092850684](https://github.com/maisuradzee/bibmom/actions/runs/46092850684) both SUCCESS on that SHA.
@@ -726,3 +726,14 @@ Main remains at `726c71c9ef1a4e1c00dbc4a44b950e4b371c02f0`. Main Quality CI [460
 - Main Quality CI [46092850682](https://github.com/maisuradzee/bibmom/actions/runs/46092850682) succeeded on that exact SHA: 712 Python tests, all schema/frozen-result/site/publication-boundary checks passed.
 - Pages build/deploy [46092850684](https://github.com/maisuradzee/bibmom/actions/runs/46092850684) succeeded on the same SHA; the published site is https://maisuradzee.github.io/bibmom/.
 - This entry records the verified Run 44 snapshot; later Main commits may advance independently.
+
+
+## Run 45 — Georgia early-warning capability signal (2026-11-28)
+
+- **Reviewed Main base:** `f5a7d57d70705f2378a78e76e23013e6fb112835`; this research change is isolated on `research/noema007-cop31-early-warning-capability-signal-2026-11-28` and is not merged.
+- **NOEMA-007 primary source:** NEA's 2026-11-16 COP31 notice reports a presentation on hazard assessment/zoning, hydrometeorological observation and forecasting modernization, early-warning mechanisms and digital transformation. It describes agency-reported expansion of the observation network, modern forecasting technologies, improved access to hazard information and the meteo.gov.ge mobile application.
+- **Evidence boundary:** the notice provides no station count/inventory, uptime, hazard-specific forecast verification, app reach/accessibility, alert-delivery/receipt/comprehension/action denominators or outcome estimate. The record is classified as an agency-reported capability signal, not an independently reproduced result or evidence of causal impact.
+- **Discovery relevance:** the operational gap is now more specific: verify whether reported infrastructure/capability improvements translate into reliable, inclusive last-mile warning receipt and feasible protective action. Keep issued, sent, delivered, acknowledged, understood, feasible and actioned measures separate.
+- **Adjacent signal kept out of scope:** NEA's 2026-11-24 COP31 discussion on riverine/marine debris and Black Sea pollution is a separate marine/river pollution discovery lead; it is not merged into drinking-water compliance or warning-effectiveness data.
+- **Safety:** only public agency-level claims and public URLs are recorded. No person-level app data, exact private locations, event-level warning logs or critical-infrastructure coordinates are included.
+- **Validation:** exact-head CI and merge/deployment status are pending. The note remains in `research/drafts/`; no catalogue status is changed and no study is marked Published.
