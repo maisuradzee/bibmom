@@ -46,13 +46,13 @@ MAX_QUERY_FIELDS = 32
 MAX_FRAGMENT_FIELDS = 16
 MAX_PERCENT_DECODE_PASSES = 4
 SENSITIVE_PARAMETER_NAMES = {
-    "token", "accesstoken", "refreshtoken", "apikey", "auth", "authorization",
+    "token", "accesstoken", "refreshtoken", "apikey", "auth", "authtoken", "bearertoken", "idtoken", "sessionid", "jwt", "authorization",
     "secret", "clientsecret", "password", "signature", "sig", "sas",
     "credential", "xamzsignature", "xamzcredential", "xamzsecuritytoken",
     "xgoogsignature", "xgoogcredential", "privatekey",
 }
 SENSITIVE_SUBSTRINGS = (
-    "accesstoken", "refreshtoken", "apikey", "clientsecret", "password",
+    "accesstoken", "refreshtoken", "apikey", "authtoken", "bearertoken", "idtoken", "sessionid", "jwt", "clientsecret", "password",
     "signature", "credential", "securitytoken", "privatekey",
 )
 
