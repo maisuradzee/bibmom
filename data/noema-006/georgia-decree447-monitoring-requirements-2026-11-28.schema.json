@@ -86,7 +86,7 @@
     },
     "requirements": {
       "type": "array",
-      "minItems": 9,
+      "minItems": 18,
       "items": {
         "type": "object",
         "required": [
@@ -158,7 +158,7 @@
     },
     "aqua_signal_design_implications": {
       "type": "array",
-      "minItems": 6,
+      "minItems": 12,
       "items": {
         "type": "string",
         "minLength": 30
@@ -166,7 +166,7 @@
     },
     "not_established": {
       "type": "array",
-      "minItems": 5,
+      "minItems": 9,
       "items": {
         "type": "string",
         "minLength": 30
