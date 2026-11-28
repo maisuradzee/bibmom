@@ -94,6 +94,7 @@ jobs:
           test -f data/noema-006/decree424-well-registry-scope.schema.json
           test -f tests/test_noema006_decree424_well_registry_scope.py
           test -f research/drafts/NOEMA-2026-006-decree424-well-registry-data-governance-2026-11-28.md
+          test -f research/preprints/NOEMA-2026-008-decree424-well-registry-data-governance.md
           test -f data/noema-006/wrp2025-water-harm-protocol.json
           test -f data/noema-006/wrp2025-water-harm-protocol.schema.json
           test -f data/noema-006/wrp2025-water-harm-result-2026-11-27.json

@@ -945,6 +945,42 @@
         "Self-reported warning receipt and ability to act do not establish message timeliness, comprehension, verified protective action or avoided loss.",
         "Global weighted estimates must not be presented as a Georgian national estimate; Georgia's warning-question base is 99, below the report's n>=100 ranking threshold."
       ]
+    },
+    {
+      "id": "NOEMA-2026-008",
+      "title": "AquaSignal — Decree 424: ჭაბურღილების რეესტრი და privacy-safe მონაცემთა არქიტექტურა",
+      "date": "2026-11-28",
+      "category": "AquaSignal / legal data governance",
+      "summary": "საქართველოს მთავრობის დადგენილება №424-ის პირველადი ტექსტისა და დანართის წინასწარი ანალიზი. წესი ვრცელდება 20 მეტრზე ღრმა, 2026-09-01-ის შემდეგ გაბურღულ მტკნარი სასმელი წყლის ჭაბურღილებზე; მოიცავს არასაკმარისი შედეგისა და უშედეგო ბურღვის შემთხვევებსაც. დანართი შეიცავს ზუსტ კოორდინატებსა და მფლობელის/მბურღავის იდენტიფიკატორებს, ხოლო სინჯის არქონის სტატუსიც დაშვებულია. რეგისტრაცია არ უდრის წყლის ვარგისიანობის ლაბორატორიულ დასკვნას. NOEMA-მ დაამატა მხოლოდ ველების კატეგორიების privacy-safe სქემა და სინთეზური ტესტები; რეესტრის მონაცემები არ მიუღია.",
+      "file": "research/preprints/NOEMA-2026-008-decree424-well-registry-data-governance.md",
+      "status": "preliminary",
+      "version": "0.1",
+      "sources": [
+        {
+          "title": "საქართველოს მთავრობის დადგენილება №424 — ტექნიკური რეგლამენტი ჭაბურღილების აღრიცხვის წესის შესახებ",
+          "authors": [
+            "Government of Georgia"
+          ],
+          "citation": "საქართველოს მთავრობის დადგენილება №424, 2026-08-31; ამოქმედება 2026-09-01. Matsne-ის ოფიციალური ტექსტი და დანართი.",
+          "url": "https://matsne.gov.ge/ka/document/view/6991245",
+          "type": "primary_legal_source",
+          "publication_date": "2026-08-31",
+          "accessed_at": "2026-11-28"
+        }
+      ],
+      "methodology": {
+        "source_review": "Primary-source review of Decree 424 Articles 2, 5 and 6 and its annex.",
+        "data_boundary": "Only field categories and public legal metadata are stored; no state-register rows, personal identifiers, cadastral codes or coordinates.",
+        "validation": "Closed JSON Schema and synthetic regression tests for scope, deadlines, sampling state and privacy boundary.",
+        "evidence": "FACT for legal text; INFERENCE for potability/data-rights implications; UNTESTED IDEA for AquaSignal ingestion architecture."
+      },
+      "limitations": [
+        "No live NEA register, API, well-level record or laboratory sample was accessed.",
+        "Public access and third-party reuse rights for registry records remain unverified.",
+        "The owner-consent clause names NEA; a separate legal basis for NOEMA processing has not been established.",
+        "The reviewed text does not prove operational register completeness or accuracy.",
+        "This is a preliminary legal/data-governance analysis, not legal advice or a water-quality assessment."
+      ]
     }
   ]
 }
