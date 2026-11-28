@@ -29,6 +29,13 @@ jobs:
           test -f requirements-test.txt
           test -f data/research.json
           test -f data/noema-005/real-cpu-thread-summary-2026-11-26.json
+          test -f scripts/noema005_run51_openmp.c
+          test -f scripts/verify_noema005_run51_local_openmp.py
+          test -f data/noema-005/run51-local-openmp-report-2026-11-28.json
+          test -f data/noema-005/run51-local-openmp-report.schema.json
+          test -f data/noema-005/raw/run51-local-openmp-2026-11-28.jsonl.gz.b64
+          test -f research/preprints/NOEMA-2026-010-run51-local-openmp-compensated-reduction.md
+          test -f tests/test_noema005_run51_local_openmp.py
           test -f data/noema-005/threaded-artifact-provenance-audit-2026-11-26.json
           test -f research/drafts/NOEMA-2026-005-thread-artifact-provenance-audit-2026-11-26.md
           test -f tests/test_noema005_thread_artifact_audit.py
@@ -399,6 +406,8 @@ jobs:
                       raise SystemExit(f"Invalid benchmark measurement: {case['format']}/{method['method']}")
           print("NOEMA-005 runtime/memory benchmark smoke test OK")
           PY
+      - name: Verify NOEMA-005 Run 51 raw OpenMP artifact
+        run: python scripts/verify_noema005_run51_local_openmp.py
       - name: Reproduce NOEMA-005 sharded reduction simulation and compare frozen results
         run: |
           python --version
