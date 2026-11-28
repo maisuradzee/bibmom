@@ -54,6 +54,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - [AquaSignal — საქართველოს წყლის მონიტორინგის ქსელების ინვენტარი](research/drafts/NOEMA-2026-006-georgia-water-monitoring-inventory-2026-11-26.md) — ოფიციალური ქსელების მასშტაბი და მონაცემთა ხელმისაწვდომობის ზღვარი.
 - [AquaSignal — WRP 2025 drinking-water harm independent reproduction](research/preprints/NOEMA-2026-006-aquasignal-wrp2025-water-harm-reproduction.md) — WP22443-ის 7% + 6% = 13% გამომცემლის rounding rule-ით; self-reported harm და არა ლაბორატორიული contamination.
 - [NOEMA-2026-007 — WRP 2025 გაფრთხილების მიღებისა და მოქმედების შესაძლებლობის დამოუკიდებელი გამეორება](research/preprints/NOEMA-2026-007-wrp2025-warning-action-reproduction.md) — PROJWT-შეწონილი აგრეგატები, ზუსტი მნიშვნელები და საქართველოს 99-კაციანი ბაზის შეზღუდვა.
+- [NOEMA-007 — საქართველოს შვიდი მდინარის აუზის MHRM გეგმების სტატუსის შეჯერება](research/drafts/NOEMA-2026-007-georgia-basin-readiness-2026-11-27.md) — NEA 25.11.2026 preparation/consultation notice compared with GEO Outlook's secondary 2024–2026 project-result claim; conflicting stage/ambiguous '4 basins' wording retained as UNRESOLVED_SOURCE_STATUS; no approval or 7/11 coverage claim.
 
 - [NOEMA-2026-001](research/drafts/2026-11-23-paleolithic-sign-systems.md) — პალეოლითური ნიშნები; მეთოდოლოგიური გადახედვა: [დამატება A](research/drafts/2026-11-23-methodological-reassessment.md).
 - [NOEMA-2026-002](research/drafts/2026-11-23-signbase-coding-audit.md) — SignBase 2.0-ის ტექსტური კოდირების აუდიტი და საბაზისო heuristic-ის ტესტი.
