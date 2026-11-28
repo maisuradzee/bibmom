@@ -32,7 +32,7 @@ EXPECTED_NITRATE = {
 }
 
 LAB_FIELDS = ("chemical", "microbiological", "heavy_metals", "petroleum_products", "pesticides", "total")
-NITRATE_FIELDS = ("springs", "boreholes", "control_wells", "total")
+NITRATE_FIELDS = ("springs", "boreholes", "household_wells", "total")
 
 
 def _require_int(value: Any, field: str) -> int:
@@ -108,11 +108,11 @@ def validate_nea_2025_aggregate(snapshot: Any) -> None:
     nitrate = groundwater.get("nitrate_field_study_points")
     if not isinstance(nitrate, dict):
         raise Nea2025AggregateError("nitrate_field_study_points must be an object")
-    for name, expected in (("total", 50), ("boreholes", 19), ("springs", 30), ("control_wells", 1)):
+    for name, expected in (("total", 50), ("boreholes", 19), ("springs", 30), ("household_wells", 1)):
         if _require_int(nitrate.get(name), f"nitrate_field_study_points.{name}") != expected:
             raise Nea2025AggregateError(f"nitrate point count differs for {name}")
-    if nitrate.get("source_term_control_well") != "საკონტროლო ჭა" or nitrate.get("control_well_translation") != "control well":
-        raise Nea2025AggregateError("the source term must remain translated as control well")
+    if nitrate.get("source_term_household_well") != "საყოფაცხოვრებო ჭა" or nitrate.get("household_well_translation") != "household well":
+        raise Nea2025AggregateError("the source term must remain translated as household well")
     if nitrate.get("concentration_results_published") is not False:
         raise Nea2025AggregateError("this aggregate table does not publish nitrate concentrations")
     if nitrate.get("laboratory_confirmation_published") is not False:
@@ -126,14 +126,13 @@ def validate_nea_2025_aggregate(snapshot: Any) -> None:
         "nitrate_field_study_points.regional_counts",
     )
 
-    coverage = _require_int(groundwater.get("points_with_listed_parameter_coverage"), "points_with_listed_parameter_coverage")
-    if coverage != 73:
-        raise Nea2025AggregateError("the separate parameter-coverage count must remain 73")
+    if "points_with_listed_parameter_coverage" in groundwater:
+        raise Nea2025AggregateError("73-point parameter coverage belongs to surface water, not groundwater")
 
     overlap = groundwater.get("overlap_assessment")
     expected_overlap = {
         "unique_site_count_status": "not_reported",
-        "lab_points_vs_parameter_coverage": "not_explained",
+        "groundwater_lab_vs_surface_water_parameter_coverage": "not_comparable_different_matrix",
         "routine_vs_field_site_overlap": "not_verifiable_from_public_aggregate",
         "nitrate_vs_field_instrumental_point_identity": "not_linked_by_public_site_ids",
     }
@@ -151,4 +150,8 @@ def validate_nea_2025_aggregate(snapshot: Any) -> None:
         raise Nea2025AggregateError("surface-water sampling-point count differs from the report")
     if _require_int(surface.get("sample_count"), "surface_water.sample_count") != 2571:
         raise Nea2025AggregateError("surface-water sample count differs from the report")
+    if _require_int(surface.get("parameter_coverage_points"), "surface_water.parameter_coverage_points") != 73:
+        raise Nea2025AggregateError("73-point parameter coverage belongs to the surface-water section")
+    if surface.get("parameter_coverage_scope") != "surface_water_only":
+        raise Nea2025AggregateError("surface-water parameter coverage scope must remain explicit")
 

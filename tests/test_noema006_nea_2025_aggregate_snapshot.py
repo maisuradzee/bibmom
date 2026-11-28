@@ -53,23 +53,37 @@ class Nea2025WaterAggregateSnapshotTests(unittest.TestCase):
         with self.assertRaises(Nea2025AggregateError):
             validate_nea_2025_aggregate(changed)
 
-    def test_nitrate_point_types_reproduce_50_and_control_well_is_not_household_well(self):
+    def test_nitrate_point_types_reproduce_50_and_household_well_translation(self):
         points = self.data["groundwater"]["nitrate_field_study_points"]
-        self.assertEqual(points["boreholes"] + points["springs"] + points["control_wells"], 50)
-        self.assertEqual(points["control_wells"], 1)
-        self.assertEqual(points["source_term_control_well"], "საკონტროლო ჭა")
-        self.assertEqual(points["control_well_translation"], "control well")
-        self.assertNotIn("household_wells", points)
+        self.assertEqual(points["boreholes"] + points["springs"] + points["household_wells"], 50)
+        self.assertEqual(points["household_wells"], 1)
+        self.assertEqual(points["source_term_household_well"], "საყოფაცხოვრებო ჭა")
+        self.assertEqual(points["household_well_translation"], "household well")
+        self.assertNotIn("control_wells", points)
 
-    def test_73_74_50_and_124_reporting_frames_remain_distinct(self):
+    def test_groundwater_and_surface_water_reporting_frames_remain_distinct(self):
         groundwater = self.data["groundwater"]
         self.assertEqual(groundwater["source_reported_total_points"], 124)
         self.assertEqual(groundwater["routine_hydrogeological_monitoring_points"], 74)
         self.assertEqual(groundwater["field_instrumental_study_points"], 50)
         self.assertEqual(groundwater["laboratory_sampling_points"], 74)
-        self.assertEqual(groundwater["points_with_listed_parameter_coverage"], 73)
+        self.assertNotIn("points_with_listed_parameter_coverage", groundwater)
         self.assertIsNone(groundwater["unique_site_count"])
-        self.assertEqual(groundwater["overlap_assessment"]["lab_points_vs_parameter_coverage"], "not_explained")
+        self.assertEqual(groundwater["overlap_assessment"]["groundwater_lab_vs_surface_water_parameter_coverage"], "not_comparable_different_matrix")
+
+    def test_wrong_control_well_translation_is_rejected(self):
+        changed = copy.deepcopy(self.data)
+        changed["groundwater"]["nitrate_field_study_points"]["source_term_household_well"] = "საკონტროლო ჭა"
+        with self.assertRaises(Nea2025AggregateError):
+            validate_nea_2025_aggregate(changed)
+
+    def test_73_surface_water_coverage_cannot_be_misclassified_as_groundwater(self):
+        changed = copy.deepcopy(self.data)
+        changed["groundwater"]["points_with_listed_parameter_coverage"] = 73
+        errors = list(Draft202012Validator(self.schema, format_checker=FormatChecker()).iter_errors(changed))
+        self.assertTrue(errors)
+        with self.assertRaises(Nea2025AggregateError):
+            validate_nea_2025_aggregate(changed)
 
     def test_nitrate_field_screening_is_not_promoted_to_concentration_or_compliance_result(self):
         nitrate = self.data["groundwater"]["nitrate_field_study_points"]
@@ -81,6 +95,8 @@ class Nea2025WaterAggregateSnapshotTests(unittest.TestCase):
         self.assertEqual(self.data["surface_water"]["sampling_points"], 238)
         self.assertEqual(self.data["surface_water"]["sample_count"], 2571)
         self.assertIn("separate", self.data["surface_water"]["matrix_separation_note"])
+        self.assertEqual(self.data["surface_water"]["parameter_coverage_points"], 73)
+        self.assertEqual(self.data["surface_water"]["parameter_coverage_scope"], "surface_water_only")
 
     def test_source_hash_is_not_invented(self):
         self.assertIsNone(self.data["source"]["file_sha256"])
