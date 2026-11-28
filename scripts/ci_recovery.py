@@ -197,6 +197,25 @@ def _audit_source_urls(text: str, relative_path: str) -> tuple[int, list[dict[st
     return safe_count, unsafe
 
 
+def summarize_step_outcomes(outcomes: dict[str, Any]) -> dict[str, Any]:
+    """Classify all required workflow steps; any non-success must block the job."""
+    rows = []
+    for step_id, details in outcomes.items():
+        if step_id == "summarize_validation_outcomes":
+            continue
+        outcome = details.get("outcome", "unknown") if isinstance(details, dict) else "unknown"
+        rows.append({"id": step_id, "outcome": outcome})
+    failures = [row for row in rows if row["outcome"] == "failure"]
+    skipped = [row for row in rows if row["outcome"] == "skipped"]
+    non_success = [row for row in rows if row["outcome"] != "success"]
+    return {
+        "step_count": len(rows),
+        "failed_steps": failures,
+        "skipped_steps": skipped,
+        "non_success_steps": non_success,
+    }
+
+
 def recover_drafts(root: Path = ROOT, *, fix: bool = False) -> dict[str, Any]:
     root = root.resolve()
     draft_root = (root / "research" / "drafts").resolve()
