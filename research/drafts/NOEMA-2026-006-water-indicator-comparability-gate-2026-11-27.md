@@ -1,0 +1,114 @@
+# NOEMA-2026-006 — წყლის ხარისხის მაჩვენებლების შედარებადობის კონტროლი
+
+- **ID:** NOEMA-2026-006
+- **სტატუსი:** draft
+- **თარიღი:** 2026-11-27
+- **სფერო:** სასმელი წყლის ზედამხედველობა, მონაცემთა ხარისხი და სტატისტიკური შედარებადობა
+- **ავტორი/მომზადების სისტემა:** NOEMA research workflow
+
+## საკვლევი კითხვა
+
+როგორ უნდა შეაფასოს AquaSignal-მა, შეიძლება თუ არა სხვადასხვა ოფიციალური წყაროდან გამოქვეყნებული წყლის ხარისხის პროცენტების შედარება ისე, რომ უცნობი მნიშვნელი, განსხვავებული სინჯის ჩარჩო ან წყლის მატრიცა ცრუ ეროვნულ ტრენდად არ იქცეს?
+
+## მოკლე შეჯამება
+
+შეიქმნა მკაცრი შედარებადობის პროტოტიპი. იგი ორ მაჩვენებელს მხოლოდ მაშინ ადარებს აღწერითად, როცა ემთხვევა ინდიკატორის განმარტება, წყლის მატრიცა, supply-type scope, სტანდარტი/ვერსია, პერიოდი, გეოგრაფია, შერჩევის ჩარჩო, შერჩევის დიზაინი, ჩართვის წესი და ანალიტიკური მეთოდი. დამატებით, ცალკე უნდა ემთხვეოდეს numerator/denominator-ის განმარტების ID-ები და დათვლის ერთეული (მაგ. ნიმუში, ობიექტი, სისტემა ან ადამიანი). საჭიროა ორივე წყაროს numerator/denominator და გამოქვეყნებული პროცენტის ხელახალი შეჯერებაც.
+
+საქართველოს 2023 წლისთვის ხელმისაწვდომ ორ წყაროში მოხსენიებული 49.5% და 44.5% ამ ეტაპზე **არ შედარდება**: ორივე ჩანაწერს აკლია მნიშვნელი და შერჩევის/ინდიკატორის განმარტების საკმარისი metadata. პროტოტიპი აბრუნებს `INSUFFICIENT_METADATA`-ს და არ ითვლის ხუთი პროცენტული პუნქტის სხვაობას.
+
+## არსებული ცოდნა და წყაროები
+
+WHO-ის 2026 წლის 17 ივნისის განახლებული სასმელი წყლის ხარისხის სახელმძღვანელოს თავი 5 ზედამხედველობას განასხვავებს მიმწოდებლის ხარისხის კონტროლისგან; მოითხოვს სხვადასხვა მიწოდების ტიპის აღწერას; მიუთითებს, რომ მხოლოდ მილსადენური სისტემების დაკვირვება არასაკმარისია, როცა ისინი მოსახლეობის უმცირესობას ემსახურება. მცირე/საზოგადოებრივი სისტემებისთვის სახელმძღვანელო აღწერს rolling programme-ს და stratified-random ან cluster sampling-ს. ამიტომ schema-ში წყლის მატრიცის გარდა დაემატა ცალკე supply_type_scope ველი. WHO ასევე აღნიშნავს, რომ ინფორმაცია თავისთავად გაუმჯობესებას არ იწვევს: surveillance-ს უნდა მოჰყვეს რეკომენდაცია და remedial-action follow-up. AquaSignal-ის მომდევნო არქიტექტურული ეტაპი ამიტომ უნდა შეიცავდეს ცალკე remediation record-ს: ოფიციალური რეკომენდაცია, პასუხისმგებელი უწყება, გამოქვეყნების თარიღი, სტატუსი და closure evidence URL. დახურვა არ უნდა გამოითქვას მხოლოდ dashboard-ის განახლებით.
+
+საქართველოს სახალხო დამცველის 2025 წლის ანგარიში მიუთითებს, რომ მონიტორინგის ვიზიტებისას მოსახლეობისთვის წყლის ხარისხის შესახებ ინფორმაციის ნაკლებობა მნიშვნელოვანი გამოწვევა იყო. ეს არის ზედამხედველობის დაკვირვება და არა ეროვნული ალბათური შერჩევა.
+
+JECM-ის 2025 წლის სტატია 2023 წლის 49.5%-ს ასახელებს NFA-ს მონაცემების მეორად ანალიზში; მთავრობის მიერ UNECE/WHO reporting system-ში წარდგენილი ანგარიში 44.5%-ს ასახელებს. წყაროების როლი და peer-review სტატუსი ერთმანეთისგან გამიჯნულია.
+
+## მტკიცებულებები
+
+- **FACT:** WHO-ის განახლებული 2026 წლის სახელმძღვანელო (თავი 5, გვ. 75–80) ამბობს, რომ surveillance არ ცვლის მიმწოდებლის პასუხისმგებლობას; piped-only დაკვირვება არასაკმარისია, თუ ის მიწოდების მცირე ნაწილს მოიცავს; მცირე/community supply-ებისთვის შესაძლებელია rolling programme და stratified-random ან cluster sampling. სახელმძღვანელო ასევე მოითხოვს findings-ის dissemination-სა და remedial-action follow-up-ს.
+- **FACT:** JECM-ის სტატია 2023 წლის 49.5%-ს აქვეყნებს, როგორც NFA monitoring data-ის მეორადი ანალიზის შედეგს.
+- **FACT:** საქართველოს მთავრობის მიერ წარდგენილი UNECE/WHO ანგარიში 2023 წლის 44.5%-ს აქვეყნებს.
+- **INFERENCE:** ხუთი პროცენტული პუნქტის სხვაობა შეიძლება ასახავდეს ინდიკატორის, წყლის მატრიცის, სტანდარტის, შერჩევის ჩარჩოს, inclusion rule-ის ან denominator-ის განსხვავებას; არსებული წყაროები მიზეზს არ ადგენს.
+- **REPRODUCED RESULT:** synthetic unit-test fixtures-ზე comparator აბრუნებს აღწერით შედარებას მხოლოდ მაშინ, როცა ყველა comparability field და ორივე count ხელმისაწვდომია და გამოქვეყნებული rate counts-ს ემთხვევა. რეალური 2023 წყაროების fixture აბრუნებს `INSUFFICIENT_METADATA`-ს, რადგან count unit და numerator/denominator definition ID-ებიც უცნობია.
+- **HYPOTHESIS:** metadata-first comparator შეამცირებს შეუთავსებელი წყაროებისგან ცრუ ტრენდის ან მუნიციპალური რეიტინგის შექმნის რისკს.
+- **UNTESTED IDEA:** AquaSignal-ის საჯარო ინტერფეისში შეიძლება გამოჩნდეს "შედარებადი / არასაკმარისი metadata / განსხვავებული ჩარჩო" სტატუსი, სანამ უფლებამოსილი უწყება შედეგებს დაამტკიცებს. ცალკე public-safe remediation record შეიძლება აჩვენებდეს ოფიციალურ რეკომენდაციასა და მის შემდგომ სტატუსს, პირადი ან ოპერატორული ჩანაწერების გამოქვეყნების გარეშე.
+
+## კონკურენტი ახსნები
+
+- 49.5% და 44.5% შესაძლოა სხვადასხვა sampling frame-ს ან denominator-ს ეფუძნებოდეს.
+- შესაძლოა განსხვავდებოდეს "broad non-compliance"-ის ზუსტი განსაზღვრება, სტანდარტის ვერსია ან წყლის მატრიცა.
+- შესაძლოა ერთი წყარო ასახავდეს secondary analysis-ს, მეორე კი ოფიციალურ ანგარიშგებაში შეჯამებულ მაჩვენებელს.
+- არსებული წყაროები არ გვაძლევს საკმარის მონაცემს, რომ რომელიმე ახსნა დადასტურდეს.
+
+## ჰიპოთეზა
+
+თუ AquaSignal ყველა მაჩვენებლის შედარებამდე მოითხოვს იდენტურ ინდიკატორს, წყლის მატრიცას, supply-type scope-ს, სტანდარტს, პერიოდს, გეოგრაფიას, sampling frame/design-ს, inclusion rule-ს, analytical method-ს, count unit-სა და numerator/denominator definition ID-ებს, ხოლო counts-სა და გამოქვეყნებულ პროცენტს ცალკე ამოწმებს, მაშინ განსხვავებული დათვლის საფუძვლით მიღებული პროცენტების შედარება ავტომატურად დაიბლოკება.
+
+## მეთოდი ან ექსპერიმენტის გეგმა
+
+1. თითოეული observation ვალიდირდება Draft 2020-12 schema-ით; უცნობი მნიშვნელობები რჩება null-ად და არ ივსება ვარაუდით.
+2. შედარებადობის ველები მოწმდება ცალ-ცალკე; მათ შორის count unit და numerator/denominator definition ID-ები. რომელიმე ველის არქონა აბრუნებს `INSUFFICIENT_METADATA`-ს.
+3. ცნობილი, მაგრამ განსხვავებული ველები აბრუნებს `NOT_COMPARABLE`-ს.
+4. numerator/denominator-ის არქონა აბრუნებს `INSUFFICIENT_COUNTS`-ს.
+5. წყაროს პროცენტი მოწმდება counts-იდან მიღებულ, წყაროს precision-ზე დამრგვალებულ მნიშვნელობასთან.
+6. წარმატებული შედეგი არის მხოლოდ `DESCRIPTIVELY_COMPARABLE`; population inference, significance testing, causal effect ან safe/unsafe label არ გამოითვლება.
+7. ტესტები მოიცავს missing metadata, განსხვავებულ matrix/frame-ს, denominator error-ს, rate mismatch-ს, closed schema-ს და მხოლოდ აღწერით წარმატებულ შემთხვევას.
+
+## შედეგები და ინტერპრეტაცია
+
+2023 წლის ორი საჯარო პროცენტისთვის comparator არ იძლევა სხვაობის გამოთვლის უფლებას. ეს არ ნიშნავს, რომ მაჩვენებლები აუცილებლად განსხვავებულ პოპულაციას ეხება; ნიშნავს, რომ არსებული metadata მათი შედარებისთვის საკმარისი არ არის.
+
+პროტოტიპის წარმატებული სინთეზური შემთხვევა მხოლოდ პროგრამული კონტრაქტის შემოწმებაა და არა საქართველოს მონაცემების დამოუკიდებელი რეპროდუქცია.
+
+## შეზღუდვები და გაურკვევლობები
+
+- JECM-ის formal peer-review პროცედურა დამოუკიდებლად არ დადასტურებულა.
+- მთავრობის ანგარიში არის საქართველოს მთავრობის წარდგენა და არა დამოუკიდებელი UNECE/WHO survey.
+- raw sample-level ჩანაწერები, numerator/denominator, sample selection, analytical method და reuse permissions არ არის მოპოვებული.
+- WHO-ის სახელმძღვანელო ნორმატიული/ტექნიკური მითითებაა და არა საქართველოს მონაცემთა აღწერა.
+- comparator-ის ყველა წარმატებული შედეგი აღწერითია; სტატისტიკური გაურკვევლობა და population inference ცალკე კვლევას მოითხოვს.
+
+## დასკვნა
+
+AquaSignal-ისთვის ყველაზე უსაფრთხო შემდეგი ნაბიჯი არ არის 49.5%-ისა და 44.5%-ის საშუალოს გამოთვლა. საჭიროა მონაცემთა ლექსიკონი, მნიშვნელი, შერჩევის ჩარჩო, წყლის მატრიცა, სტანდარტის ვერსია და ანალიტიკური მეთოდი. ახალი comparator ამ მოთხოვნებს კოდში ამოწმებს და უცნობ მონაცემს უცნობად ტოვებს.
+
+## წყაროები
+
+1. World Health Organization. *Guidelines for drinking-water quality: fourth edition incorporating the first, second and third addenda*. 2026. Chapter 5, pp. 75–80. https://cdn.who.int/media/docs/default-source/wash-documents/water-safety-and-quality/dwq-guidelines-4/gdwq_4ed_with_third-addenda_surveillance.pdf
+2. Public Defender (Ombudsman) of Georgia. *Realisation of the Right to Water in Georgia — Special Report*. 2025. https://www.undp.org/sites/g/files/zskgke326/files/2025-06/undp-georgia-pdo-report-right-to-water-eng.pdf
+3. *State control and monitoring trends of drinking water quality in Georgia*. JECM, 2025. https://journals.4science.ge/index.php/jecm/article/download/3442/3462
+4. Government of Georgia. *Summary report under Article 7 of the Protocol on Water and Health — Georgia*. Submitted 2025-04-01. https://unece.org/sites/default/files/2025-10/Georgia_summary_report_6th_cycle_1Apr25_ENG.pdf
+
+## შემდეგი ნაბიჯები
+
+1. NFA-სგან და ანგარიშის ავტორებისგან მოითხოვოს denominator, numerator, sample frame, inclusion rules, matrix, standard version და analytical methods.
+2. WHO guidance-ის მიხედვით ცალ-ცალკე აღწეროს formal utility, community-managed, household-stored და groundwater source records; თითოეულ აგრეგატს დაურთოს numerator/denominator definition ID და count unit.
+3. მხოლოდ უფლებამოსილი და de-identified მონაცემით შეამოწმოს comparator-ის რეალური მონაცემები.
+4. დამოუკიდებელმა წყლის ხარისხის სპეციალისტმა და სტატისტიკოსმა შეამოწმოს comparability fields და release rules.
+
+## შემოწმების სტატუსი
+
+- WHO 2026 guidance-ის Chapter 5 ონლაინ PDF გაიხსნა და გვერდები 75–80 შემოწმდა.
+- JECM და Government submission-ის წყაროს როლები და 2023 მაჩვენებლები შენარჩუნებულია; სხვაობა გადაუჭრელია.
+- ახალი schema და comparator განკუთვნილია მხოლოდ metadata validation-ისთვის.
+- საველე კვლევა, NFA/NEA API ინტეგრაცია ან რეალური sample-level reproduction არ ჩატარებულა.
+- სტატუსი რჩება Draft; დამოუკიდებელი წყლის ხარისხის, სტატისტიკისა და privacy review საჭიროა.
+
+
+## Run 23 follow-up — count semantics hardening
+
+დამოუკიდებელმა ტექნიკურმა გადახედვამ გამოავლინა ერთი დარჩენილი შედარებადობის ხარვეზი: ორი ჩანაწერი შეიძლება იზიარებდეს indicator ID-სა და sampling metadata-ს, მაგრამ numerator/denominator სხვადასხვა ტიპის ერთეულებს ან განსხვავებულ დათვლის განმარტებებს აღნიშნავდეს. ეს არ უნდა ჩაითვალოს შედარებადად მხოლოდ იმიტომ, რომ ორივე პროცენტია.
+
+ამიტომ schema და comparator გაფართოვდა სამი სავალდებულო metadata ველით: `count_unit`, `numerator_definition_id` და `denominator_definition_id`. საქართველოს ორი 2023 წყაროსთვის ეს ველები უცნობად რჩება (`null`); მათზე არ არის გამოგონილი დათვლის საფუძველი. სინთეზური ტესტები ამოწმებს, რომ დაკარგული დათვლის სემანტიკა ბლოკავს შედარებას, ხოლო ცნობილი განსხვავებული ერთეული ან denominator definition იწვევს `NOT_COMPARABLE`-ს.
+
+WHO 2026 სახელმძღვანელო ადასტურებს, რომ ზედამხედველობამ უნდა მოიცვას მიწოდების სხვადასხვა ტიპი და კარგად დაგეგმილი survey/rolling sampling; კონკრეტული count-definition ID-ების მოთხოვნა არის NOEMA-ს კონსერვატიული საინჟინრო კონტროლი და არა WHO-ს ციტირებული პირდაპირი მოთხოვნა. წყარო: https://www.who.int/publications/i/item/9789240121225 (17 June 2026), Chapter 5, pp. 75–80.
+
+
+## Run 23 follow-up — definition provenance hardening
+
+A code review identified that equality of opaque definition IDs is not, by itself, proof that two sources use the same underlying definition. The follow-up contract adds a content-addressed reference for each material definition: indicator, numerator, denominator, sampling frame, inclusion rule, analytical method and standard. Each reference contains an HTTPS source pointer, SHA-256 of the exact source artifact and a stable locator (page/table/section).
+
+The comparator requires every reference to be either fully populated or fully null. Missing provenance returns `INSUFFICIENT_METADATA`; a different content hash or locator returns `NOT_COMPARABLE`. Mirror URLs may differ when the content hash and locator match.
+
+**Security/evidence boundary:** the comparator does not fetch or authenticate the source URL and does not compute the hash. A caller-supplied digest is not proof of authority or authenticity. In production, a trusted acquisition process must download the authoritative document, compute SHA-256 over the exact bytes, record the locator and preserve the artifact under an approved reuse policy. The current 49.5% and 44.5% source observations retain null definition provenance and therefore remain non-comparable.
