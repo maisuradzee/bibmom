@@ -24,13 +24,13 @@ equality between the workflow step-name set and the manifest step-name set.
 ## Public credential preflight
 
 The repository scanner enumerates Git-tracked files and checks UTF-8 text for
-common provider token formats, complete private-key blocks, credential assignments,
+common provider token formats and common PEM private-key blocks (including encrypted PKCS#8), credential assignments,
 URL user-info, sensitive query/fragment parameter names and credential-like
-URL path segments. Obvious synthetic placeholder values used in tests are ignored. It reports only path, line and rule, never the matched
+URL path segments. Obvious synthetic placeholder values are ignored only on reserved example/localhost hosts. User-info and sensitive query/fragment values on non-example hosts are flagged even when their values resemble common placeholders. It reports only path, line and rule, never the matched
 value.
 
 Binary and non-UTF-8 files are skipped. The scanner is pattern-based and can
-miss unknown token formats or secrets split across lines. It is not a
+miss unknown token formats, non-PEM key formats or secrets split across lines. It is not a
 cryptographic secret detector, a complete repository-history scan, a
 provider-side secret scanner, or proof that the repository contains no
 secrets. Public-repository owners must still use provider-side push protection
