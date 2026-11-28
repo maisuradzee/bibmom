@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import statistics
 import zipfile
 from pathlib import Path
@@ -21,6 +22,18 @@ METHODS = (
     "threaded_neumaier_state",
     "threaded_fsum_partials",
 )
+EXPECTED_CELLS = {
+    "arm64-macos-free": ("arm64-macos", "arm64", "free_threaded"),
+    "arm64-macos-gil": ("arm64-macos", "arm64", "gil_enabled"),
+    "arm64-ubuntu-free": ("arm64-ubuntu", "arm64", "free_threaded"),
+    "arm64-ubuntu-gil": ("arm64-ubuntu", "arm64", "gil_enabled"),
+    "x86_64-ubuntu-free": ("x86_64-ubuntu", "x86_64", "free_threaded"),
+    "x86_64-ubuntu-gil": ("x86_64-ubuntu", "x86_64", "gil_enabled"),
+}
+CONFIGURATIONS_PER_CELL = 64
+MEASURED_RUNS_PER_CELL = 192
+CONFIGURATIONS_PER_METHOD = 16
+MEASURED_RUNS_PER_METHOD = 48
 
 
 def _rounded(value: float) -> float:
@@ -56,6 +69,65 @@ def validate_summary(summary: dict[str, Any], schema: dict[str, Any]) -> None:
     jsonschema.Draft202012Validator.check_schema(schema)
     jsonschema.validate(summary, schema)
     cells = summary["cells"]
+    if len(cells) != len(EXPECTED_CELLS):
+        raise ValueError("experiment 002 must contain exactly the six declared runner/runtime cells")
+
+    seen_cell_ids: set[str] = set()
+    observed_cell_ids: set[str] = set()
+    for cell in cells:
+        cell_id = cell.get("cell_id")
+        if not isinstance(cell_id, str) or cell_id in seen_cell_ids:
+            raise ValueError("experiment 002 cell IDs must be present and unique")
+        seen_cell_ids.add(cell_id)
+        observed_cell_ids.add(cell_id)
+        expected = EXPECTED_CELLS.get(cell_id)
+        if expected is None:
+            raise ValueError(f"unexpected experiment 002 cell: {cell_id}")
+        if (cell.get("runner"), cell.get("architecture"), cell.get("gil_mode")) != expected:
+            raise ValueError(f"runner/architecture/runtime mismatch for {cell_id}")
+        if cell.get("configurations") != CONFIGURATIONS_PER_CELL:
+            raise ValueError(f"configuration count mismatch for {cell_id}")
+        if cell.get("measured_runs") != MEASURED_RUNS_PER_CELL:
+            raise ValueError(f"measured-run count mismatch for {cell_id}")
+        cell_methods = cell.get("methods")
+        if not isinstance(cell_methods, dict) or set(cell_methods) != set(METHODS):
+            raise ValueError(f"method matrix mismatch for {cell_id}")
+        for method in METHODS:
+            metrics = cell_methods[method]
+            if not isinstance(metrics, dict):
+                raise ValueError(f"method metrics must be an object: {cell_id}/{method}")
+            for field in ("correct_runs", "total_runs", "speedup_gt_1_configurations", "cpu_wall_gt_1_05_configurations"):
+                value = metrics.get(field)
+                if type(value) is not int:
+                    raise ValueError(f"{field} must be an integer: {cell_id}/{method}")
+            if metrics["total_runs"] != MEASURED_RUNS_PER_METHOD:
+                raise ValueError(f"per-method measured-run count mismatch: {cell_id}/{method}")
+            if not 0 <= metrics["correct_runs"] <= MEASURED_RUNS_PER_METHOD:
+                raise ValueError(f"correct-run count out of range: {cell_id}/{method}")
+            if not 0 <= metrics["speedup_gt_1_configurations"] <= CONFIGURATIONS_PER_METHOD:
+                raise ValueError(f"speedup configuration count out of range: {cell_id}/{method}")
+            if not 0 <= metrics["cpu_wall_gt_1_05_configurations"] <= CONFIGURATIONS_PER_METHOD:
+                raise ValueError(f"CPU/wall configuration count out of range: {cell_id}/{method}")
+            speed_values = [
+                metrics.get("min_speedup"),
+                metrics.get("median_speedup"),
+                metrics.get("max_speedup"),
+            ]
+            if any(
+                isinstance(value, bool) or not isinstance(value, (int, float))
+                or not math.isfinite(float(value)) or float(value) <= 0
+                for value in speed_values
+            ):
+                raise ValueError(f"speedup summaries must be finite positive numbers: {cell_id}/{method}")
+            if not speed_values[0] <= speed_values[1] <= speed_values[2]:
+                raise ValueError(f"speedup summary order is invalid: {cell_id}/{method}")
+            if metrics["speedup_gt_1_configurations"] == 0 and speed_values[2] > 1.0:
+                raise ValueError(f"maximum speedup conflicts with zero-beating count: {cell_id}/{method}")
+            if metrics["speedup_gt_1_configurations"] > 0 and speed_values[2] <= 1.0:
+                raise ValueError(f"maximum speedup conflicts with beating count: {cell_id}/{method}")
+
+    if observed_cell_ids != set(EXPECTED_CELLS):
+        raise ValueError("experiment 002 runner/runtime matrix is incomplete")
     if len(cells) != 6:
         raise ValueError("experiment 002 must contain six runtime/runner cells")
     if sum(cell["configurations"] for cell in cells) != 384:
