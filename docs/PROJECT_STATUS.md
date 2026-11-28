@@ -1,3 +1,52 @@
+## NOEMA — Run 61: source-scope reinspection and INFRA preflight hardening
+
+**Date:** 2026-11-28  
+**Starting Main:** `c83e530d4330c21166bc230e8eb645dcf0e1fe51`  
+**Active streams reviewed:** 4  
+**Catalogue:** 12 Preliminary / 0 Published  
+**New streams:** 0
+
+### Work completed
+
+- **AquaSignal:** independently reopened the official NEA 2025 annual-report PDF. Confirmed groundwater 124 = 74 routine + 50 field-instrumental points; 74 laboratory points; 681 analysis-group counts; nitrate field points 30 springs + 19 boreholes + 1 household well; surface-water 238 points / 2,571 samples / 73 parameter-coverage points. The 73 count belongs to surface water (p. 13), not groundwater. The nitrate column is `საყოფაცხოვრებო ჭა` (household well), not `საკონტროლო ჭა` (control well). Arithmetic checks reconcile all regional rows and columns. No sample-level concentrations, laboratory confirmation or vulnerable-zone designation are reported by these tables.
+- **AquaSignal / NOEMA-2026-016:** rechecked NFA's official 2023 release and the Public Defender's 2025 report. NFA's 624 and rounded 12% are for combined food and drinking-water samples (>5,000), not water-only. The 520/850 drinking-water figures are planned allocations, not completed samples. No water-only prevalence is calculated.
+- **INFRA-001:** created current-Main Draft PR [#317](https://github.com/maisuradzee/bibmom/pull/317), adding legacy encrypted RSA PEM-header detection and fail-closed handling of tracked symlinks to the Run 60 CI contract/scanner. Exact-head Quality CI [46156074951](https://github.com/maisuradzee/bibmom/actions/runs/46156074951) passed 942 tests with one MPFR-dependent skip. Scanner: 500 tracked UTF-8 text files scanned, 3 binary/non-UTF-8 skipped, zero configured findings. PR remains Draft pending independent security review.
+- **NOEMA-005:** no new physical CPU experiment. Existing frozen CPU-thread reports and simulations passed CI.
+- **NOEMA-007:** no new privacy-approved Georgian warning-event/after-action data; no new operational-effectiveness claim.
+
+### Four-stream portfolio review
+
+| Stream | Status | Next step |
+|---|---|---|
+| AquaSignal / NOEMA-2026-006 | Active / Preliminary | Obtain official NEA RAR bytes and authorized sample dictionary; after 2026-12-01 separately verify 2027 plan submission, approval and publication |
+| NOEMA-005 | Active / Preliminary | Bare-metal x86-64/ARM64, alternative reductions, native RSS and DRAM counters |
+| NOEMA-007 | Active / Preliminary | Privacy-approved Georgian warning-event/after-action data with stage-specific denominators |
+| INFRA-001 | Active / Engineering | Independent security review, external trust anchor, encrypted off-host backup and clean-host restore |
+
+No fifth stream was added. No research was promoted to Published.
+
+### CI and deployment
+
+- PR #316 exact-head Quality CI [46155369320](https://github.com/maisuradzee/bibmom/actions/runs/46155369320): SUCCESS.
+- Starting Main Quality CI [46155436556](https://github.com/maisuradzee/bibmom/actions/runs/46155436556): SUCCESS on `c83e530d4330c21166bc230e8eb645dcf0e1fe51`.
+- Starting Main Pages deployment [46155436538](https://github.com/maisuradzee/bibmom/actions/runs/46155436538): SUCCESS on `c83e530d4330c21166bc230e8eb645dcf0e1fe51`.
+- PR #317 exact-head Quality CI [46156074951](https://github.com/maisuradzee/bibmom/actions/runs/46156074951): SUCCESS; remains Draft.
+
+### Limitations and safety
+
+The NEA PDF was inspected through the public document reader, but raw bytes were not available for SHA-256. The separate 2021–2025 groundwater RAR remains uninspected. No household coordinates, private-well data, sample-level personal/health records, credentials, private keys or backup payloads were added. No Supabase project or other project's database was created or used.
+
+### Next priorities
+
+1. After 2026-12-01, separately verify the 2027 monitoring plan's submission, ministerial approval and public release.
+2. Obtain the NEA RAR and NFA XLSX through authorized routes; hash raw bytes before extraction.
+3. Complete independent security review of PR #317 before merge; refresh and rerun exact-head CI if Main advances.
+4. Obtain bare-metal x86-64/ARM64 NOEMA-005 measurements and privacy-approved Georgian warning-event data for NOEMA-007.
+
+[Run 61 full audit](docs/run-audits/2026-11-28-run-61.md)
+
+---
+
 ## NOEMA — Run 58: AquaSignal aggregate audit and INFRA CI/secret-scan hardening
 
 **Date:** 2026-11-28  
