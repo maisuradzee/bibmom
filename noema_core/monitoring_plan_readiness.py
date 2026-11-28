@@ -60,8 +60,9 @@ def _iso_date(value: Any, name: str) -> date:
         raise PlanReadinessError(f"{name} must use canonical YYYY-MM-DD")
     return parsed
 
-def _evidence_pair(value: Any, name: str) -> str:
-    item = _object(value, name, {"status", "evidence_url"})
+def _evidence_pair(value: Any, name: str, *, allow_date: bool = False) -> str:
+    keys = {"status", "evidence_url"} | ({"date"} if allow_date else set())
+    item = _object(value, name, keys)
     if item["status"] == "verified":
         _https_url(item["evidence_url"], f"{name}.evidence_url")
         return "verified"
@@ -99,8 +100,8 @@ def assess_monitoring_plan_readiness(record: Mapping[str, Any]) -> PlanReadiness
         if retrieval == "inspected":
             _iso_date(plan["inspected_at"], "plan_document.inspected_at")
 
-    submission_status = _evidence_pair(root["submission"], "submission")
-    approval_status = _evidence_pair(root["approval"], "approval")
+    submission_status = _evidence_pair(root["submission"], "submission", allow_date=True)
+    approval_status = _evidence_pair(root["approval"], "approval", allow_date=True)
     for name, value, status in (("submission", root["submission"], submission_status), ("approval", root["approval"], approval_status)):
         item = _object(value, name, {"status", "date", "evidence_url"})
         if status == "verified":
