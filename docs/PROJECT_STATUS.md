@@ -794,3 +794,41 @@ Main remains at `726c71c9ef1a4e1c00dbc4a44b950e4b371c02f0`. Main Quality CI [460
 - PR #254 merged as Main commit `0d24667727a8eb90bf420e6c3dc44e4f5185d6d1`; exact-head CI [46100302948](https://github.com/maisuradzee/bibmom/actions/runs/46100302948) SUCCESS; Main Quality CI [46100400210](https://github.com/maisuradzee/bibmom/actions/runs/46100400210) and Pages deployment [46100400232](https://github.com/maisuradzee/bibmom/actions/runs/46100400232) SUCCESS.
 - PR #255 merged as Main commit `66bd3bf52c42715039798ff4c82649f859c414bc`; exact-head push CI [46100599299](https://github.com/maisuradzee/bibmom/actions/runs/46100599299) and PR CI [46100604299](https://github.com/maisuradzee/bibmom/actions/runs/46100604299) SUCCESS; Main Quality CI [46100659685](https://github.com/maisuradzee/bibmom/actions/runs/46100659685) and Pages deployment [46100659708](https://github.com/maisuradzee/bibmom/actions/runs/46100659708) SUCCESS.
 - Research catalogue remains 3 Preliminary / 0 Published; all four portfolio streams remain active. No independent external review is claimed.
+
+
+## Run 47 — 2026-11-28: warning-to-action reproduction and AquaSignal registry governance
+
+**Main after portfolio/catalogue sync:** 93d90e36ccd17f712bea457f5704bbc95e639bd5
+
+- **NOEMA-007:** PR [#257](https://github.com/maisuradzee/bibmom/pull/257) merged. Pinned LRF 2025 Wave 4 data independently reproduced selected 2026 report aggregates: warning receipt 80.0%; ability to act among warned 63.8%; 1/2/3 warning channels 37.5/50.5/64.2%; plan/agency groups 26.6/49.5/60.0/83.0%; income groups 48.0/46.9/75.5/70.9%. These are descriptive self-reported associations, not causal effects. Georgia base n=99; no national Georgia effectiveness estimate is inferred.
+- **AquaSignal:** PR [#259](https://github.com/maisuradzee/bibmom/pull/259) merged. Decree №424's >20 m, post-2026-09-01 fresh-drinking-groundwater well scope, failed/dry wells, 15/10 working-day deadlines, sensitive annex fields and optional sampling states are mapped in a privacy-safe record. No live registry data, personal identifiers, cadastral codes or exact coordinates were accessed.
+- **Portfolio/catalogue:** PR [#260](https://github.com/maisuradzee/bibmom/pull/260) merged. Four active streams remain; NOEMA-2026-008 is a Preliminary research item within AquaSignal. No fifth stream was added.
+- **Innovation:** the event-level prototype in noema_core/action_readiness.py remains separate from the WRP cross-country survey context; the two-lane architecture is documented in docs/architecture/noema007-warning-to-action-readiness.md.
+
+### Four-stream review
+
+| Stream | Status | Result / blocker |
+|---|---|---|
+| AquaSignal / NOEMA-2026-006 | Active | Decree №424 mapped; no authorized NEA registry data or reuse basis |
+| NOEMA-005 | Active | Frozen results still reproduce; no new physical x86-64/ARM64, RSS or DRAM experiment |
+| NOEMA-007 | Active | WRP action-enablers reproduced; no design-based CI or privacy-approved Georgian event-level validation |
+| INFRA-001 | Active | PR #252 remains Draft and mergeable=false; current-Main refresh and independent security review required |
+
+### CI and deployment
+
+- Main Quality CI [46103231565](https://github.com/maisuradzee/bibmom/actions/runs/46103231565): SUCCESS; 756 Python tests passed, one skipped.
+- Main Pages deployment [46103231594](https://github.com/maisuradzee/bibmom/actions/runs/46103231594): SUCCESS.
+- Site build: 4 Preliminary, 0 Published, 4 generated research HTML pages.
+- PR #257 exact-head Quality CI [46102592907](https://github.com/maisuradzee/bibmom/actions/runs/46102592907) and dedicated WRP reproduction [46102593457](https://github.com/maisuradzee/bibmom/actions/runs/46102593457): SUCCESS.
+- PR #259 exact-head Quality CI [46102878341](https://github.com/maisuradzee/bibmom/actions/runs/46102878341): SUCCESS.
+- PR #260 exact-head Quality CI [46103172098](https://github.com/maisuradzee/bibmom/actions/runs/46103172098): SUCCESS.
+- PR #258 closed as superseded without merge.
+
+### Next priorities
+
+1. AquaSignal: obtain NEA register data dictionary and documented third-party access/reuse basis.
+2. NOEMA-007: obtain survey variance/replicate-weight documentation and privacy-approved Georgian warning/after-action aggregates.
+3. NOEMA-005: run physical x86-64/ARM64 experiments only when suitable hardware is available; measure RSS and DRAM bandwidth.
+4. INFRA-001: refresh PR #252 from current Main 93d90e36ccd17f712bea457f5704bbc95e639bd5, rerun exact-head CI and obtain independent security review.
+
+Catalogue: 4 Preliminary, 0 Published. No raw microdata, personal well records, exact coordinates, cadastral identifiers or secrets were added to the public repository.
