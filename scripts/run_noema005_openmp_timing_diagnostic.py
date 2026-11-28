@@ -49,8 +49,32 @@ def parse_cpu_max(value: str | None) -> float | None:
         raise ValueError("invalid cgroup cpu.max quota")
     return int(parts[0]) / int(parts[1])
 
+def _relative_cgroup_path(membership: str, mount_root: str) -> str | None:
+    """Map a cgroup membership to a mount-relative path using exact path segments."""
+    def components(value: str) -> list[str] | None:
+        if not value.startswith("/") or "\x00" in value:
+            return None
+        if value == "/":
+            return []
+        parts = value[1:].split("/")
+        if any(part in {"", ".", ".."} for part in parts):
+            return None
+        return parts
+
+    if not isinstance(membership, str) or not isinstance(mount_root, str):
+        return None
+    member_parts = components(membership)
+    root_parts = components(mount_root)
+    if member_parts is None or root_parts is None:
+        return None
+    if member_parts[:len(root_parts)] != root_parts:
+        return None
+    relative_parts = member_parts[len(root_parts):]
+    return "/".join(relative_parts) if relative_parts else "."
+
+
 def _unescape_mount_field(value: str) -> str:
-    return value.replace("\\040", " ").replace("\\011", "\t").replace("\\134", "\\")
+    return value.replace("\\040", " ").replace("\\011", "\t").replace("\\012", "\n").replace("\\043", "#").replace("\\134", "\\")
 
 def _cgroup_v2_directory() -> tuple[Path | None, Path | None, bool]:
     membership = None
@@ -70,13 +94,8 @@ def _cgroup_v2_directory() -> tuple[Path | None, Path | None, bool]:
                 continue
             mount_root = _unescape_mount_field(left_fields[3])
             mount_point = Path(_unescape_mount_field(left_fields[4]))
-            if membership == mount_root:
-                relative = "."
-            elif mount_root == "/" and membership.startswith("/"):
-                relative = membership.lstrip("/")
-            elif membership.startswith(mount_root.rstrip("/") + "/"):
-                relative = membership[len(mount_root.rstrip("/")) + 1:]
-            else:
+            relative = _relative_cgroup_path(membership, mount_root)
+            if relative is None:
                 continue
             candidate = mount_point / relative
             if candidate.is_dir():
