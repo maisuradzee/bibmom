@@ -1115,6 +1115,65 @@
           "accessed_at": "2026-11-28"
         }
       ]
+    },
+    {
+      "id": "NOEMA-2026-011",
+      "title": "AquaSignal — მიწისქვეშა წყლის რაოდენობრივი სტატუსის წინაპირობები და №447 დანართის წყაროს აუდიტი",
+      "date": "2026-11-28",
+      "category": "წყლის რესურსები / ჰიდროგეოლოგია / სამართლებრივი მონაცემთა მოდელი",
+      "summary": "№447 დადგენილების ოფიციალური HTML მუხლი 7(1)-(2) ადგენს ჰიდროგეოლოგიური ერთეულის გამოყენებას groundwater body-ის განსაზღვრამდე და რაოდენობრივი სტატუსის შეფასების წინაპირობად პასუხისმგებელი უწყებების მიერ წყალაღების მონაცემებზე დაფუძნებული წყლის ბალანსის მომზადებას. Annex 2-ის სიხშირეები და low-flow მეთოდები მხოლოდ Legali.ge-ის მეორადი ტრანსკრიფციიდანაა მიღებული; ოფიციალური DOCX არ ჩამოტვირთულა ან ჰეშირებულა. შეიქმნა metadata-only evidence gate, რომელიც არ ანიჭებს კარგ/ცუდ სტატუსს.",
+      "file": "research/preprints/NOEMA-2026-011-georgia-groundwater-quantitative-readiness.md",
+      "status": "preliminary",
+      "version": "0.1",
+      "sources": [
+        {
+          "title": "Government Decree №447/2026 — Water-resource monitoring planning and implementation rules",
+          "authors": [
+            "Government of Georgia"
+          ],
+          "citation": "საქართველოს მთავრობის დადგენილება №447, 2026-09-15. მუხლი 7(1)-(2).",
+          "url": "https://matsne.gov.ge/ka/document/view/7000572",
+          "type": "primary_legal_source",
+          "publication_date": "2026-09-16",
+          "accessed_at": "2026-11-28"
+        },
+        {
+          "title": "Decree №447 Annex 1/2 text transcription",
+          "authors": [
+            "Legali.ge"
+          ],
+          "citation": "Legali.ge. (undated transcription of Government Decree №447/2026 Annexes 1–2).",
+          "url": "https://www.legali.ge/law/7000572/",
+          "type": "secondary_legal_text_transcription",
+          "publication_date": "2026-09-15",
+          "publication_note": "Legal act date shown on the page; the secondary transcription's own publication date is not stated. The official Matsne DOCX bytes were not retrieved or hashed.",
+          "accessed_at": "2026-11-28"
+        },
+        {
+          "title": "Law of Georgia on Water Resources Management",
+          "authors": [
+            "Parliament of Georgia"
+          ],
+          "citation": "საქართველოს კანონი „წყლის რესურსების მართვის შესახებ“, კონსოლიდირებული Matsne ტექსტი.",
+          "url": "https://www.matsne.gov.ge/ka/document/view/5846594",
+          "type": "primary_legal_source",
+          "publication_date": "2026-09-16",
+          "accessed_at": "2026-11-28"
+        }
+      ],
+      "methodology": {
+        "source_review": "Official Matsne HTML Articles 7(1)-(2) were reviewed. Annex 2 frequency and low-flow sampling details are recorded only as secondary transcription leads from Legali.ge because the official 46,049-byte DOCX attachment was not retrieved or hashed.",
+        "prototype": "Metadata-only groundwater quantitative-readiness gate: use hydrogeological-unit scope before groundwater-body designation; require caller-attested responsible-authority confirmation and abstraction-data basis before prerequisites are marked met; never assign a good/poor status.",
+        "validation": "Closed Draft 2020-12 evidence-record schema and synthetic unit tests for scope, missing evidence, authority confirmation, abstraction-data basis, HTTPS provenance, SHA-256 and non-assignment of status.",
+        "evidence_status": "FACT for official HTML Articles 7(1)-(2); SECONDARY_TRANSCRIPTION_ONLY for Annex 2 rows; REPRODUCED RESULT only for synthetic software tests; no live water-balance or sample-level data."
+      },
+      "limitations": [
+        "The official Annex DOCX was not retrieved or hashed; Annex 2 rows are secondary transcription only.",
+        "No responsible-authority abstraction-based water-balance record was obtained.",
+        "The prototype does not verify authority identity, source signatures, water-balance calculations or legal compliance.",
+        "No sample-level groundwater results, abstraction volumes, private well coordinates or personal data were used.",
+        "Independent Georgian legal and hydrogeological review remains outstanding."
+      ]
     }
   ]
 }
