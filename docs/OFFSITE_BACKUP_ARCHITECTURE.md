@@ -182,3 +182,12 @@ Restore-attestation bytes are limited to 1 MiB and 64 nested JSON containers bef
 The repository includes a file-backed SQLite compare-and-advance reference model in `noema_core/high_water_reference.py`. It tests generation monotonicity, previous-manifest binding, stale-state rejection, idempotent retry and local writer serialization. The refreshed input boundary requires canonical ASCII stream identifiers and validates persisted state before returning it.
 
 This remains a local conformance model, not an independent trust domain. The database shares the host's trust and rollback domain; a compromised host or restored older database can roll back the state. Production requires a separately administered authority, authenticated callers, independently trusted keys/freshness, provider-verified immutable object versions and a permissioned clean-host restore. No provider, account or credential is configured by this change.
+
+
+## 4.1 Verified artifact staging and post-verification path races
+
+noema_core.backup_manifest.open_verified_artifact() is a local staging primitive for a future restore consumer. It opens the source once with O_NOFOLLOW where supported, requires a regular file and expected size, streams the bytes into an anonymous TemporaryFile while hashing, checks the opened source's device/inode/size/mtime/ctime before and after the copy, compares the exact SHA-256 and byte length, then returns the rewound staged handle.
+
+A restore consumer must read from the returned handle and must not reopen the original source path. The staged handle remains bound to the bytes that were hashed even if the original path is replaced or the source file is modified after verification. A deterministic regression test covers path replacement after open, path replacement after verification and in-place source mutation after verification.
+
+**Boundary and limitations:** the expected digest and length must come from independently trusted metadata; this helper does not authenticate the manifest, decrypt ciphertext, verify provider object versions or retention, prevent rollback, validate SQLite contents or perform a restore. Python TemporaryFile may be disk-backed and is not an encryption or secure-erasure guarantee. Do not stage plaintext on an untrusted host; the future restore pipeline must define storage permissions, encrypted/ephemeral staging and cleanup before production use. No current restore consumer is yet wired to this API.
