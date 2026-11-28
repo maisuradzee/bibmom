@@ -175,7 +175,7 @@
       "observation_period": "2021-2025",
       "sample_level_schema_verified": false,
       "reuse_terms_verified": false,
-      "note": "Direct RAR payload URL is linked from the NEA 2026-11-26 announcement page. Run 55 resolved the official FTP link, but the web retrieval layer rejected the application/octet-stream payload and an alternate container download failed in this execution environment. The archive remains unextracted and unhashed; internal files, data dictionary, sample-level schema and reuse terms are unverified. This client/tool limitation does not establish general server unavailability.",
+      "note": "Direct RAR payload URL is linked from the NEA 2026-11-26 announcement page. Run 55 resolved the official FTP link, but the web retrieval layer rejected the application/octet-stream payload and an alternate container download failed in this execution environment. The archive remains unextracted and unhashed; internal files, data dictionary, sample-level schema and reuse terms are unverified. Retrieval limitations in this execution environment do not establish general server unavailability.",
       "announcement_url": "https://www.nea.gov.ge/Ge/News/3461"
     }
   ]
