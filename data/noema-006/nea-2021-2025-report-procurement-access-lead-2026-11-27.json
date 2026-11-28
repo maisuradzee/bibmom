@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-006",
+  "record_id": "AQUASIGNAL-NEA-REPORT-CONTRACT-ACCESS-2026-11-27",
+  "evidence_status": "FACT",
+  "source_authority": "National Environmental Agency of Georgia",
+  "tender_id": "NAT260019441",
+  "contract_number": "T-100801",
+  "contract_signed_date": "2026-10-09",
+  "contract_valid_through": "2026-12-31",
+  "contractual_delivery_window": "within 20 calendar days after contract signing",
+  "deliverables": [
+    {
+      "kind": "printed_groundwater_report",
+      "copies": 50,
+      "pages_min": 285,
+      "pages_max": 295,
+      "a3_maps": 2
+    },
+    {
+      "kind": "final_electronic_pdf",
+      "format": "PDF",
+      "interactive_table_of_contents_required": true,
+      "public_access_confirmed": false
+    },
+    {
+      "kind": "cd_media",
+      "copies": 50,
+      "content_description": "information supplied by the procuring authority",
+      "public_access_confirmed": false
+    },
+    {
+      "kind": "printed_nitrate_field_methodology",
+      "copies": 70,
+      "pages_min": 48,
+      "pages_max": 52
+    }
+  ],
+  "contract_value_gel_excluding_vat": 4200,
+  "delivery_location": "National Environmental Agency administrative building, 150 Davit Aghmashenebeli Avenue, Tbilisi, 9th floor",
+  "source_urls": {
+    "official_contract_pdf": "https://tenders.procurement.gov.ge/public/library/files.php?file=677451&mode=contract",
+    "nea_announcement": "https://www.nea.gov.ge/Ge/News/3461",
+    "tender_notice": "https://tenders.procurement.gov.ge/public/?go=704959&lang=ge",
+    "rar_archive": "https://ftp.mepa.gov.ge/Public/NEA/%E1%83%B0%E1%83%98%E1%83%93%E1%83%A0%E1%83%9D%E1%83%92%E1%83%94%E1%83%9D%E1%83%9A%E1%83%9D%E1%83%92%E1%83%98%E1%83%A3%E1%83%A0%E1%83%98%20%E1%83%90%E1%83%9C%E1%83%92%E1%83%90%E1%83%A0%E1%83%98%E1%83%A8%E1%83%98%20-%202026%20-%20%E1%83%94%E1%83%9A-%E1%83%95%E1%83%94%E1%83%A0%E1%83%A1%E1%83%98%E1%83%94%E1%83%91%E1%83%98.rar"
+  },
+  "interpretation": "The official NEA announcement of 2026-11-26 states that the 2021–2025 groundwater monitoring report and nitrate-risk field methodology were prepared. The official contract T-100801 specifies printed reports, an interactive electronic PDF, CD media and printed methodology, but this does not establish that the PDF is publicly downloadable, that the CD contains the complete report, that formal delivery/acceptance was completed, or that an open reuse licence exists. The linked RAR archive was not retrieved or hashed.",
+  "next_access_step": "Request from NEA the final electronic PDF or public inspection route, the signed acceptance/delivery act for contract T-100801, exact CD contents, sample/station data dictionary, archive/PDF checksum and explicit reuse/licence terms; do not contact the supplier or ingest data automatically.",
+  "privacy_boundary": "Only public procurement contract metadata is recorded. Personal contact details, bank details, signatures, and any non-public report contents are excluded.",
+  "official_announcement": {
+    "publisher": "National Environmental Agency of Georgia",
+    "publication_date": "2026-11-26",
+    "report_prepared": true,
+    "report_title": "2021–2025 groundwater monitoring results and observation-network development",
+    "methodology_title": "Identification of groundwater contaminated or at risk of nitrate contamination",
+    "reported_scope": [
+      "assessment of groundwater quantitative and qualitative characteristics",
+      "operation of the automatic monitoring system",
+      "processing and digitization of historical hydrogeological information",
+      "future development of the groundwater monitoring observation network"
+    ],
+    "methodology_basis": [
+      "Georgia's Law on Water Resources Management",
+      "internationally used groundwater investigation standards adapted to Georgian conditions and practical needs"
+    ],
+    "sample_level_results_in_announcement": false,
+    "station_level_payload_in_announcement": false,
+    "evidence_status": "FACT"
+  },
+  "archive_retrieval": {
+    "url": "https://ftp.mepa.gov.ge/Public/NEA/%E1%83%B0%E1%83%98%E1%83%93%E1%83%A0%E1%83%9D%E1%83%92%E1%83%94%E1%83%9D%E1%83%9A%E1%83%9D%E1%83%92%E1%83%98%E1%83%A3%E1%83%A0%E1%83%98%20%E1%83%90%E1%83%9C%E1%83%92%E1%83%90%E1%83%A0%E1%83%98%E1%83%A8%E1%83%98%20-%202026%20-%20%E1%83%94%E1%83%9A-%E1%83%95%E1%83%94%E1%83%A0%E1%83%A1%E1%83%98%E1%83%94%E1%83%91%E1%83%98.rar",
+    "retrieved": false,
+    "inspected": false,
+    "sha256": null,
+    "reader_result": "The available web reader rejected the application/octet-stream RAR response; no archive bytes were inspected.",
+    "evidence_status": "NOT_RETRIEVED"
+  },
+  "delivery_status": {
+    "contract_signed_date": "2026-10-09",
+    "contract_valid_through": "2026-12-31",
+    "contractual_delivery_window": "within 20 calendar days after contract signing",
+    "nea_announcement_says_report_prepared_on": "2026-11-26",
+    "formal_acceptance_or_delivery_act_observed": false,
+    "public_access_confirmed": false,
+    "interpretation": "The NEA announcement states that the report and field methodology were prepared; the contract specifies deliverables and a delivery window. No acceptance/delivery act or public-access confirmation was inspected."
+  }
+}
