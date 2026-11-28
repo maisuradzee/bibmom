@@ -489,3 +489,42 @@ The frozen per-configuration aggregate and original archive/report hashes are in
 
 
 **Run 36 public-evidence minimization note:** the sanitized snapshot retains only the coarse hosted Linux provider family (`aws`/`azure`) needed to distinguish runner pools. Kernel release and glibc build strings from raw `platform` metadata are excluded; raw artifacts remain outside the public repository.
+
+
+## 2026-11-28 Experiment 002 — six hosted runner/runtime cells
+
+**REPRODUCED RESULT:** Experiment 002 ran CPython 3.14.10 on six GitHub-hosted runner/runtime cells: x86-64 Ubuntu, ARM64 Ubuntu and ARM64 macOS, each in GIL-enabled and free-threaded modes. Each cell contains 64 configurations and 192 measured runs (one warm-up, three measured repetitions). Across the six cells this is **384 configurations and 1,152 measured runs**.
+
+| Method | Correctly rounded runs | Median speedup range across cells | Maximum configuration speedup | GIL CPU/wall >1.05 | Free-threaded CPU/wall >1.05 |
+|---|---:|---:|---:|---:|---:|
+| Naive scalar partials | 0/288 | 0.185162–0.568829× | 0.905775× | 0/48 | 36/48 |
+| Scalar Neumaier partials | 252/288 | 0.571729–0.771480× | 0.951345× | 0/48 | 34/48 |
+| Full Neumaier `(sum, correction)` state | 288/288 | 0.705763–0.773336× | 0.966795× | 0/48 | 36/48 |
+| Worker-local `math.fsum` scalar partials | 252/288 | 0.050252–0.193933× | 0.286832× | 0/48 | 35/48 |
+
+No threaded configuration beat its matching serial baseline (**0/384**). The free-threaded CPU/wall ratios show concurrent CPU use in some configurations, not lower wall time; the GIL-enabled counts were zero for all four methods.
+
+The two scalar-partial methods failed in the same narrow pattern: `grouped_cancellation`, `contiguous` partition, worker counts 2 and 8, with all three repetitions incorrect. This affected 12 configurations per method across six cells (36 incorrect runs per method). The observation is consistent with information loss when each worker emits only one rounded scalar before the final merge. It does not prove that every scalar-partial workload fails.
+
+The full Neumaier state retained both the running sum and compensation across worker boundaries and was correctly rounded in all 288 measured runs. This is an accuracy result for the two constructed cancellation layouts, not a claim of general numerical superiority across arbitrary production workloads.
+
+### Run 55 independent artifact reproduction
+
+The six original public artifact ZIPs were downloaded from the recorded GitHub Actions runs. An independent local verifier recomputed all six archive SHA-256 digests and all six embedded public-report SHA-256 digests; all 12 matched the frozen manifest. It then parsed all 384 configurations, recomputed per-method correctness totals, median/minimum/maximum speedups against the matching serial baseline, CPU/wall threshold counts, and the scalar-partial failure topology. Every per-cell metric matched the frozen aggregate. Native thread counts matched requested worker counts in every recorded repetition; raw native thread identifiers and detailed host build strings were absent. The six targeted legacy artifact lists were also independently checked and were empty after cleanup.
+
+The full audit and exact digest references are in [the Run 55 artifact reproduction audit](../../docs/run-audits/2026-11-28-run-55-noema005-artifact-reproduction.md); the frozen source of truth remains [experiment-002-summary.json](../../data/noema-005/experiment-002-summary.json).
+
+### Evidence limits
+
+- All six cells are GitHub-hosted virtual runners, not user-owned physical-device replication or independently administered machines.
+- The input is synthetic and deliberately cancellation-heavy; it does not estimate error frequency in representative scientific applications.
+- Only one warm-up and three measured repetitions per configuration were used; timing distributions are exploratory.
+- `tracemalloc` measures Python-traced allocations, not process RSS, native allocator usage or DRAM bandwidth.
+- CPU frequency, context switches, thermal state and hardware performance counters were not measured.
+- No general wall-time speedup is demonstrated; all observed threaded configurations were slower than their matching serial baseline.
+
+**INFERENCE:** on this benchmark, retaining the complete Neumaier compensation state is the only tested threaded merge method that preserved the correctly rounded reference in every run. Worker-local `math.fsum` followed by a final `math.fsum` of scalar partials did not reproduce a single global `math.fsum` for the two affected contiguous cancellation configurations.
+
+**NEXT TEST:** controlled physical x86-64 and ARM64 systems, at least 20 measured repetitions per configuration, representative numerical workloads, RSS/native allocation, DRAM bandwidth and CPU-frequency/context-switch counters.
+
+**NOEMA status remains preliminary; no Published status is claimed.**
