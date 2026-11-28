@@ -1,13 +1,13 @@
 # NOEMA — მიმდინარე პროექტის მდგომარეობა
 
-- **განახლდა:** 2026-11-28 (Run 45 draft research — NEA COP31 early-warning capability signal).
+- **განახლდა:** 2026-11-28 (Run 46 — AquaSignal report-link provenance; NOEMA-005 artifact verification merged).
 - **საცავი:** https://github.com/maisuradzee/bibmom
 - **Run 44 research merge commit:** `218021f38ed8bf3732b449fcdfea2cbbb821e96a` (PR #247 merged).
 - **PR #248 status-sync commit:** `cc63c75660096b70cb3f277c5c01b6b55a7200d7`; exact Main Quality CI [46092850682](https://github.com/maisuradzee/bibmom/actions/runs/46092850682) and Pages build/deploy [46092850684](https://github.com/maisuradzee/bibmom/actions/runs/46092850684) both SUCCESS on that SHA.
-- **Main Quality CI:** [46092675339](https://github.com/maisuradzee/bibmom/actions/runs/46092675339) — SUCCESS; 712 Python tests, schemas, frozen-result reproduction, site build and publication-boundary checks passed on the exact Main SHA.
-- **GitHub Pages:** [46092675352](https://github.com/maisuradzee/bibmom/actions/runs/46092675352) — build and deploy jobs SUCCESS for the exact Main SHA; deployment URL https://maisuradzee.github.io/bibmom/.
+- **Current Main SHA:** `0d24667727a8eb90bf420e6c3dc44e4f5185d6d1` (PR #254 merged). Main Quality CI [46100400210](https://github.com/maisuradzee/bibmom/actions/runs/46100400210) — SUCCESS on this exact SHA.
+- **GitHub Pages:** [46100400232](https://github.com/maisuradzee/bibmom/actions/runs/46100400232) — build and deploy SUCCESS for Main SHA `0d24667727a8eb90bf420e6c3dc44e4f5185d6d1`; deployment URL https://maisuradzee.github.io/bibmom/.
 - **PR #247:** merged as `218021f38ed8bf3732b449fcdfea2cbbb821e96a`; exact-head Quality CI runs [46092514227](https://github.com/maisuradzee/bibmom/actions/runs/46092514227) (push) and [46092518104](https://github.com/maisuradzee/bibmom/actions/runs/46092518104) (pull_request) both SUCCESS.
-- **PR #246:** remains Draft and unmerged. Exact-head CI [46088413816](https://github.com/maisuradzee/bibmom/actions/runs/46088413816) passed 716 tests, but static review found missing required-step inventory and unbounded URL/query parsing. It is now behind Main and GitHub reports mergeable=false; refresh, fix and rerun before any merge.
+- **INFRA-001 PR #252:** remains Draft and unmerged. Follow-up exact-head Quality CI [46100377784](https://github.com/maisuradzee/bibmom/actions/runs/46100377784) succeeded after pinning the summary command, required-step manifest, STEP_OUTCOMES input and diagnostic upload contract. It is still behind Main/mergeable=false; independent security review is still required. Older open drafts #246/#251 remain unmerged; PR #252 is the current fail-closed follow-up proposal. None of these drafts was merged.
 - **აქტიური პორტფელი:** ოთხივე ნაკადი აქტიურია — AquaSignal, NOEMA-005, NOEMA-007 და INFRA-001.
 - **კვლევის კატალოგი:** 3 Preliminary, 0 Published; Run 44 chronology remains draft, not a published research article.
 
@@ -741,7 +741,7 @@ Main remains at `726c71c9ef1a4e1c00dbc4a44b950e4b371c02f0`. Main Quality CI [460
 
 ## Run 45 — AquaSignal Decree 447 monitoring requirements (2026-11-28)
 
-- **Research branch:** `research/aquasignal-decree447-operational-monitoring-2026-11-28`; draft changes are not merged.
+- **Research branch:** `research/aquasignal-decree447-operational-monitoring-2026-11-28`; merged into Main by commit `149b50de310f77e15b7c53627fe79841c2124f8c` (exact Quality CI [46099234948](https://github.com/maisuradzee/bibmom/actions/runs/46099234948) and Pages deployment [46099234911](https://github.com/maisuradzee/bibmom/actions/runs/46099234911) SUCCESS).
 - **Primary legal source:** Government Decree №447, adopted 2026-09-15 and effective for relations arising from 2026-09-01; official Matsne HTML Articles 3–7 reviewed.
 - **Key requirements:** NEA submits the annual State Water Resources Monitoring Plan by 1 December; the plan is representative/risk-based and standardized; the system includes hydrological, hydrochemical, hydrobiological, hydromorphological and hydrogeological programmes; microbiological monitoring is determined by water-body type, pressures, use and microbial risk; operational monitoring of at-risk bodies is monthly or quarterly; investigative monitoring addresses pollution incidents or unknown reasons for failure to achieve good status.
 - **Matrix transition:** priority-substance monitoring in biota/sediment is introduced progressively; until full implementation chemical-status assessment may mainly use water-column results. For substances requiring those matrices, monitoring must start no later than 2028-01-01.
@@ -753,7 +753,7 @@ Main remains at `726c71c9ef1a4e1c00dbc4a44b950e4b371c02f0`. Main Quality CI [460
 
 ## Run 45 — NOEMA-005 ARM64 Run 33 frozen artifact verification (2026-11-28)
 
-- **Research branch:** `research/noema005-arm64-run33-artifact-verification-2026-11-28`; changes are proposed and not merged.
+- **Research branch:** `research/noema005-arm64-run33-artifact-verification-2026-11-28`; merged via PR #254 as Main commit `0d24667727a8eb90bf420e6c3dc44e4f5185d6d1`; exact-head Quality CI [46100302948](https://github.com/maisuradzee/bibmom/actions/runs/46100302948) SUCCESS. The run only verifies frozen artifacts; no new benchmark is claimed.
 - **Frozen source:** experiment `NOEMA-2026-005-REAL-THREADS-ARM64-001`, workflow run [46032894362](https://github.com/maisuradzee/bibmom/actions/runs/46032894362), benchmark head `176ab78fa998060621b4056c65fd2e1f155b1058`.
 - **Independent artifact check:** downloaded all four hosted ARM64 ZIP artifacts; all four ZIP SHA-256 values and all four extracted raw-report SHA-256/byte lengths match the frozen manifest. Recomputed aggregates match: 192 configurations / 576 measured runs; naive 0/192, scalar Neumaier 168/192, Neumaier-state 192/192 correctly-rounded runs; GIL-enabled CPU/wall >1.05 samples 4/288; free-threaded 202/288.
 - **Performance interpretation:** all four hosted ARM64 runner/runtime cells show median wall-time speedup below 1.0 for all three methods. CPU-time/wall-time above 1.05 indicates concurrent CPU activity, not useful throughput or wall-time acceleration.
@@ -769,3 +769,13 @@ Main remains at `726c71c9ef1a4e1c00dbc4a44b950e4b371c02f0`. Main Quality CI [460
 - All four raw-report hashes and byte lengths matched. A second independent calculation recomputed each case median from raw `wall_samples_ns` and speedup from the matching serial-baseline median; all stored values matched.
 - Regression tests now validate the closed record schema, cross-check every artifact entry against the frozen summary, and reject tampered derived speedups and medians.
 - No benchmark measurements or frozen aggregates changed; this is an artifact-record and verifier-integrity correction.
+
+
+## Run 46 — AquaSignal source-provenance follow-up (2026-11-28)
+
+- Re-opened the NEA 2026-11-26 announcement and followed its official RAR payload link. The announcement page and binary payload are now linked explicitly in the source-access inventory through `announcement_url`.
+- The RAR remains `official_report_archive_linked_not_extracted`: no archive SHA-256, internal file list, sample-level schema, data dictionary or reuse terms are claimed.
+- A retrieval limitation in this execution environment is recorded narrowly; it does not establish that the official server is generally unavailable.
+- No raw water observations, owner identifiers, coordinates or restricted data were imported.
+
+- **PR #255 — AquaSignal source provenance:** open; exact head `c1e126581654fe10452b6c1e8f9502af252c8b9b`; Quality CI [46100514618](https://github.com/maisuradzee/bibmom/actions/runs/46100514618) is running; not merged.
