@@ -181,7 +181,7 @@ A method description remains unchanged.
             manifest = (ROOT / "data" / "ci-required-step-ids.json").read_text(encoding="utf-8")
             import re
             workflow = re.sub(
-                r"(?ms)^      - name: Validate required files\\n.*?(?=^      - name: |\\Z)",
+                r"(?ms)^      - name: Validate required files\n.*?(?=^      - name: |\Z)",
                 "",
                 workflow,
                 count=1,
@@ -200,7 +200,7 @@ A method description remains unchanged.
             workflow = (ROOT / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
             manifest = (ROOT / "data" / "ci-required-step-ids.json").read_text(encoding="utf-8")
             workflow = workflow.replace(
-                "        id: check_01_validate_required_files\\n        continue-on-error: true",
+                "        id: check_01_validate_required_files\n        continue-on-error: true",
                 "        id: check_01_validate_required_files",
                 1,
             )
