@@ -49,6 +49,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - `scripts/verify_noema005_arm64_artifacts.py` — offline verifier for frozen ARM64 benchmark ZIP/raw-report SHA-256, raw-sample accuracy, CPU/wall ratios and recomputed median speedups; raw reports/thread IDs are not committed.
 - `requirements-site.txt` — ფიქსირებული Markdown renderer ვერსია.
 - `.github/workflows/deploy.yml` — საჯარო ფაილების შერჩევა და Pages deployment.
+- `docs/DATABASE_ARCHITECTURE.md` — NOEMA-ს სამომავლო მონაცემთა ფენის არქიტექტურა; `database/noema_supabase_schema_proposal.sql` — RLS-ით დაცული SQL წინადადება, რომელიც ჯერ არ გაშვებულა.
 
 ## მიმდინარე კვლევა
 
