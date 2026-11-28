@@ -66,8 +66,25 @@ def validate_workflow_contract(root: Path = ROOT) -> list[str]:
     upload = by_id.get(UPLOAD_ID, "")
     if SUMMARY_ID not in by_id or "if: always()" not in summary or "continue-on-error: true" in summary:
         errors.append("summary_gate_must_run_always_and_fail_job")
+    if "run: python scripts/ci_recovery.py --summarize" not in summary:
+        errors.append("summary_gate_command_missing")
+    if "--required-steps data/ci-required-step-ids.json" not in summary:
+        errors.append("summary_gate_required_manifest_missing")
+    if "STEP_OUTCOMES: ${{ toJSON(steps) }}" not in summary:
+        errors.append("summary_gate_step_outcomes_missing")
+    if "RECOVERY_PREFLIGHT_REPORT: ${{ runner.temp }}/noema-ci-recovery-preflight.json" not in summary:
+        errors.append("summary_gate_preflight_report_env_missing")
+    if '--report "$RUNNER_TEMP/noema-ci-recovery-report.json"' not in summary:
+        errors.append("summary_gate_report_path_missing")
     if UPLOAD_ID not in by_id or "if: always()" not in upload:
         errors.append("diagnostic_upload_must_run_always")
+    if (
+        "uses: actions/upload-artifact@v4" not in upload
+        or "${{ runner.temp }}/noema-ci-recovery-report.json" not in upload
+        or "${{ runner.temp }}/noema-ci-recovery-preflight.json" not in upload
+        or "${{ runner.temp }}/noema-ci-recovery.patch" not in upload
+    ):
+        errors.append("diagnostic_upload_contract_incomplete")
     if SUMMARY_ID in ids and all(step_id in ids for step_id in required):
         if ids.index(SUMMARY_ID) <= max(ids.index(step_id) for step_id in required):
             errors.append("summary_gate_not_after_all_required_steps")

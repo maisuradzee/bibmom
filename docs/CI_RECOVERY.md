@@ -48,3 +48,8 @@ After bounded presentation repair, the authoritative draft validator runs again.
 ## Security boundary
 
 URL validation is syntactic metadata hygiene only. It does not fetch URLs, resolve DNS, prevent SSRF in a future fetcher, authenticate publishers, verify TLS at retrieval time or prove source integrity. Those controls require a separate authorized, audited acquisition pipeline. No credentials, signed URL values, private keys or restricted source payloads belong in public branches, PRs or CI artifacts.
+
+
+## Static workflow contract
+
+The contract validator also pins the final aggregate command, its required-step manifest argument, the `STEP_OUTCOMES` and recovery-preflight environment inputs, the report output path, and the diagnostic artifact action/paths. This prevents a successful no-op from replacing the fail-closed aggregate gate while independent checks continue after failure.

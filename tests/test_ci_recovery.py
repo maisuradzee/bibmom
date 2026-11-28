@@ -20,6 +20,19 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class BoundedDraftRecoveryTests(unittest.TestCase):
+    def _contract_errors_after_workflow_edit(self, transform) -> list[str]:
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            workflow_dir = root / ".github" / "workflows"
+            data_dir = root / "data"
+            workflow_dir.mkdir(parents=True)
+            data_dir.mkdir(parents=True)
+            workflow = (ROOT / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
+            manifest = (ROOT / "data" / "ci-required-step-ids.json").read_text(encoding="utf-8")
+            (workflow_dir / "ci.yml").write_text(transform(workflow), encoding="utf-8")
+            (data_dir / "ci-required-step-ids.json").write_text(manifest, encoding="utf-8")
+            return validate_workflow_contract(root)
+
     def test_normalizes_only_known_metadata_and_heading_aliases(self) -> None:
         source = """# NOEMA-2026-999 — Example
 
@@ -211,6 +224,36 @@ A method description remains unchanged.
                 validate_workflow_contract(root),
             )
 
+
+    def test_workflow_contract_rejects_noop_summary_command(self) -> None:
+        errors = self._contract_errors_after_workflow_edit(
+            lambda workflow: workflow.replace(
+                "run: python scripts/ci_recovery.py --summarize",
+                "run: echo ok",
+                1,
+            )
+        )
+        self.assertIn("summary_gate_command_missing", errors)
+
+    def test_workflow_contract_rejects_missing_step_outcomes_environment(self) -> None:
+        errors = self._contract_errors_after_workflow_edit(
+            lambda workflow: workflow.replace(
+                "STEP_OUTCOMES: ${{ toJSON(steps) }}",
+                "STEP_OUTCOMES: {}",
+                1,
+            )
+        )
+        self.assertIn("summary_gate_step_outcomes_missing", errors)
+
+    def test_workflow_contract_rejects_replaced_diagnostic_upload_action(self) -> None:
+        errors = self._contract_errors_after_workflow_edit(
+            lambda workflow: workflow.replace(
+                "uses: actions/upload-artifact@v4",
+                "run: echo upload skipped",
+                1,
+            )
+        )
+        self.assertIn("diagnostic_upload_contract_incomplete", errors)
 
 if __name__ == "__main__":
     unittest.main()
