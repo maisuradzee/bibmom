@@ -43,6 +43,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - `.github/workflows/ci.yml` — საბაზისო შემოწმებები.
 - `scripts/build_site.py` — Markdown კვლევების უსაფრთხო HTML-გვერდებად გარდაქმნა და საჯარო არტეფაქტის აწყობა.
 - `scripts/validate_drafts.py` — დრაფტების მინიმალური სარედაქციო სისრულის ავტომატური შემოწმება.
+- `scripts/ci_recovery.py`, `scripts/validate_ci_workflow_contract.py` და `data/ci-required-step-ids.json` — bounded draft repair, explicit Sources URL safety და fail-closed required-step CI aggregation.
 - `requirements-site.txt` — ფიქსირებული Markdown renderer ვერსია.
 - `.github/workflows/deploy.yml` — საჯარო ფაილების შერჩევა და Pages deployment.
 
