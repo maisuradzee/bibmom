@@ -84,7 +84,7 @@ class NitrateBenchmarkTests(unittest.TestCase):
             NitrateBenchmark(
                 benchmark_id="INVALID-GROUNDWATER-REFERENCE",
                 kind="international_guideline",
-                value="50",
+                value=50,
                 basis="NO3",
                 matrix="groundwater",
                 source_url="https://example.org/groundwater",
