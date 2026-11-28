@@ -737,3 +737,15 @@ Main remains at `726c71c9ef1a4e1c00dbc4a44b950e4b371c02f0`. Main Quality CI [460
 - **Adjacent signal kept out of scope:** NEA's 2026-11-24 COP31 discussion on riverine/marine debris and Black Sea pollution is a separate marine/river pollution discovery lead; it is not merged into drinking-water compliance or warning-effectiveness data.
 - **Safety:** only public agency-level claims and public URLs are recorded. No person-level app data, exact private locations, event-level warning logs or critical-infrastructure coordinates are included.
 - **Validation:** exact-head CI and merge/deployment status are pending. The note remains in `research/drafts/`; no catalogue status is changed and no study is marked Published.
+
+
+## Run 45 — INFRA-001 CI recovery required-step gate (2026-11-28)
+
+- **Current Main base:** `d4ea596120eaca7254052169bc90b532d8210f46` (PR #250 merged after exact-head Quality CI success).
+- **Engineering branch / PR:** `engineering/ci-recovery-required-step-gate-run45-2026-11-28`, [PR #252](https://github.com/maisuradzee/bibmom/pull/252) — Draft, not merged.
+- **Required-step gate:** versioned manifest contains 44 required IDs (2 prerequisites and 42 independent validations). The workflow/manifest contract validator rejects removed/renamed steps and any validation step without `continue-on-error: true`. The final gate fails on missing, failed, skipped, cancelled or unknown outcomes.
+- **Source provenance:** recovery normalizes only known metadata/heading aliases. It never promotes narrative URLs into Sources. Only explicit Sources-section URLs are checked; URL length is capped at 2,048 characters, query fields at 32 and fragment fields at 16. Credential-like names are checked after bounded percent-decoding; user-info, invalid ports and non-public host literals are rejected.
+- **Diagnostics:** unsafe URL values are not emitted. Runner-local repairs are not pushed. The recovery artifact includes reason codes and a zero-context presentation patch.
+- **Validation:** exact-head Quality CI is pending; no test count, mergeability or deployment success is claimed. The PR remains Draft pending independent security review.
+- **Limitations:** URL checks are syntactic only; they do not fetch URLs, resolve DNS, authenticate publishers or prevent SSRF in a future fetcher.
+- **Next:** verify exact-head CI and recovery artifact redaction, then obtain an independent security review before considering merge.
