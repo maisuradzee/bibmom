@@ -12,6 +12,18 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - გამოქვეყნებამდე მასალა გადის სარედაქციო და ტექნიკურ შემოწმებას.
 - ავტომატიზაცია არ ნიშნავს დაუდასტურებელი შედეგების ავტომატურ გამოქვეყნებას.
 
+## NOEMA Run 56 — 2026-11-28
+
+- ოთხივე აქტიური კვლევითი ნაკადი გადაიხედა; ახალი ნაკადი არ დამატებულა. კატალოგი: **11 Preliminary / 0 Published**.
+- [PR #297](https://github.com/maisuradzee/bibmom/pull/297) ამატებს AquaSignal-ის Decree №447/2026 წლიური წყლის მონიტორინგის გეგმის evidence-intake პროტოტიპს. გეგმის ბაიტები და დანართები №1/№2 ჯერ არ მიგვიღია; შედეგი არის `NOT_ASSESSABLE_SOURCE_UNINSPECTED`, არა სამართლებრივი დარღვევა ან შესაბამისობის დასკვნა.
+- [PR #298](https://github.com/maisuradzee/bibmom/pull/298) NOEMA-007-ის გაყინული 80.0% warning-receipt და 63.8% conditional action აგრეგატებიდან იღებს დაახლოებით 51.0/29.0/20.0 კომპოზიციას 100 დაზარალებულ ზრდასრულზე. ეს არ არის ახალი მიკრომონაცემთა ანალიზი, მიზეზობრივი შედეგი ან საქართველოს შეფასება; შედეგი ეთანხმება UNDRR-ის 2026-10-13 შეჯამებას.
+- AquaSignal-ის PR #297 CI: **868 passed, 1 skipped**. NOEMA-007 PR #298 CI: **874 passed, 1 skipped**. ორივე ზუსტი head SHA შემოწმდა; ორივე PR გაერთიანდა.
+- INFRA-001 Draft PR #291 არ გაერთიანებულა. სტატიკური აუდიტი აჩვენებს, რომ workflow contract ამოწმებს step ID-ებსა და aggregate gate-ს, მაგრამ თითოეული step-ის რეალურ command body-ს არ აფიქსირებს; ასევე URL preflight არ არის სრული secret scanner. საჭიროა command fingerprint/expected-command contract და დამოუკიდებელი security review.
+- NOEMA-005-ზე ახალი ფიზიკური CPU ექსპერიმენტი არ ჩატარებულა. Run 55-ის hosted artifact reproduction უცვლელია; ფიზიკური x86-64/ARM64, RSS/native memory და DRAM counter-ები კვლავ ბლოკერია.
+- Main research SHA: `88ff7ec9bf66eb6cf52087f8f2561f0ace866743`. GitHub Pages deploy: [46137522563](https://github.com/maisuradzee/bibmom/actions/runs/46137522563) — წარმატებული. საბოლოო Main Quality CI [46137522561](https://github.com/maisuradzee/bibmom/actions/runs/46137522561) ამ ჩანაწერის მომზადებისას ჯერ მიმდინარეობდა.
+
+[Run 56-ის სრული აუდიტი](docs/run-audits/2026-11-28-run-56.md).
+
 ## NOEMA Run 55 — 2026-11-28
 
 - ოთხივე კვლევითი ნაკადი გადაიხედა; ახალი ნაკადი არ დამატებულა. კატალოგი: **9 Preliminary / 0 Published**.

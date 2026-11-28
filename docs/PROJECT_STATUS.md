@@ -1,3 +1,82 @@
+## NOEMA — Run 56: Decree 447 plan readiness and warning-to-action composition
+
+**Date:** 2026-11-28  
+**Starting Main:** `cfa02bc52ea467b8f00bcd72266bdcefe07b2eda`  
+**Run 55 documentation sync:** `591f092a2f35dc151e359d53d47bbf9baccb7d2d`  
+**AquaSignal research merge:** `0c2491e0f69f3049752eb634d6ce164ecd00d2d1`  
+**Final research Main before this status update:** `88ff7ec9bf66eb6cf52087f8f2561f0ace866743`  
+**Active streams reviewed:** 4  
+**Catalogue:** 11 Preliminary / 0 Published  
+**New streams:** 0
+
+### Work completed
+
+#### AquaSignal — NOEMA-2026-014: Decree №447 plan evidence intake
+
+Merged [PR #297](https://github.com/maisuradzee/bibmom/pull/297), rebased after the Run 55 status merge.
+
+- Added `noema_core/monitoring_plan_readiness.py`, a closed JSON intake schema, frozen current-state record, preliminary note and 10 deterministic tests.
+- Keeps plan retrieval/inspection, SHA-256, submission to the Minister, ministerial approval, annex inspection and actual monitoring as distinct evidence states.
+- Checks the five Article 5 programme categories, three Article 6 monitoring modes and selected Article 4 documentary requirements.
+- Requires verified abstraction-data water-balance evidence before a claimed groundwater quantitative-status assessment.
+- Output states are only `NOT_ASSESSABLE_SOURCE_UNINSPECTED`, `DOCUMENTARY_GAPS` and `READY_FOR_INDEPENDENT_REVIEW`. No legal-compliance or drinking-water safety verdict is emitted.
+- **Current evidence:** the 2027 plan, submission receipt, ministerial approval and official Annex 1/2 bytes are not retrieved. Frozen status is `NOT_ASSESSABLE_SOURCE_UNINSPECTED`. The 2026-12-01 submission deadline is still upcoming as of this run; no non-submission or breach is inferred.
+- Exact-head CI [run 46137343181](https://github.com/maisuradzee/bibmom/actions/runs/46137343181): **868 passed, 1 skipped**; all validation, research-index, schema, site-build and publication-boundary steps succeeded.
+
+#### NOEMA-007 — NOEMA-2026-015: per-100 warning-to-action composition
+
+Merged [PR #298](https://github.com/maisuradzee/bibmom/pull/298), rebased on top of AquaSignal PR #297.
+
+- Frozen PROJWT-weighted aggregates: 80.0% warning receipt and 63.8% ability to act among warned respondents.
+- Decimal arithmetic yields approximate mutually exclusive shares per 100 disaster-impacted adults: **51.0 warned and able; 29.0 warned but unable; 20.0 not warned**.
+- Rounded components sum to 100.0 and agree with the UNDRR 2026-10-13 51/29/20 graphic after whole-percent rounding.
+- This is a derivation from already rounded aggregate estimates, not raw-microdata reanalysis, a new survey, a causal effect, or a Georgia national estimate. No design-based confidence intervals were calculated.
+- Exact-head CI [run 46137454685](https://github.com/maisuradzee/bibmom/actions/runs/46137454685): **874 passed, 1 skipped**; all validation and publication-boundary steps succeeded.
+
+#### INFRA-001 — static security review of Draft PR #291
+
+PR #291 remains Draft and is not merged. Static review of the v3 branch found two issues that must be addressed before an independent security review can close:
+
+1. `validate_ci_workflow_contract.py` verifies required step IDs, `continue-on-error`, summary-gate placement and manifest equality, but does not bind each validation ID to its actual `run`/ `uses` command. Replacing a validator command with a successful no-op while retaining its ID can evade the current manifest contract and be counted as success by the aggregate gate. Add a versioned expected-command/step fingerprint contract and a regression test.
+2. `_safe_public_source_url` inspects only URLs in explicit Sources sections and detects credential-like parameter names in query/fragment. It does not detect arbitrary secret values or opaque credential-like path segments and is not a full repository secret scanner. Keep the documented no-fetch/no-DNS boundary, add a dedicated secret scan, and retain independent review.
+
+No CI recovery change was merged. No production external trust anchor, anti-rollback, encrypted staging or clean-host restore is claimed.
+
+#### NOEMA-005 and remaining portfolio review
+
+- No new physical x86-64/ARM64 device was available; no new hardware benchmark, RSS/native-memory or DRAM-counter result is claimed.
+- Run 55's six hosted artifact cells, 384 configurations and 1,152 measured repetitions remain the latest independent artifact reproduction. No hosted threaded configuration beat its matching serial wall-time baseline (0/384).
+- NOEMA-007's Georgian operational warning/after-action dataset remains unavailable. The new 51/29/20 composition is global descriptive context only.
+
+### Portfolio status
+
+| Stream | Status | Next step / blocker |
+|---|---|---|
+| AquaSignal / NOEMA-2026-006 | Active | After 2026-12-01, retrieve and hash the 2027 plan, submission receipt, approval instrument and Annexes 1/2; independently review the Article 4-7 crosswalk. |
+| NOEMA-005 | Active | Physical x86-64/ARM64, 20+ repetitions, representative workloads, RSS/native allocation and DRAM/CPU counters. |
+| NOEMA-007 | Active | Obtain survey-design variance documentation/replicate weights and privacy-approved Georgian warning-event/after-action aggregates. |
+| INFRA-001 | Active | Fix command-identity and secret-scanning gaps in Draft PR #291; obtain independent security review; then test encrypted staging, external trust anchor/anti-rollback and clean-host restore. |
+
+Catalogue: **11 Preliminary / 0 Published**. No fifth stream added.
+
+### Main, CI, deployment and safety
+
+- PR #297 merged at Main SHA `0c2491e0f69f3049752eb634d6ce164ecd00d2d1`.
+- PR #298 merged at Main SHA `88ff7ec9bf66eb6cf52087f8f2561f0ace866743`.
+- GitHub Pages build and deployment for final research Main [run 46137522563](https://github.com/maisuradzee/bibmom/actions/runs/46137522563) succeeded.
+- Final research Main Quality CI [run 46137522561](https://github.com/maisuradzee/bibmom/actions/runs/46137522561) was still in progress when this audit was prepared; no final success is claimed here.
+- No new Supabase project was created and no other project's database was used.
+- No raw WRP microdata, respondent identifiers, private well coordinates, sample-level water observations, credentials or secrets were added.
+
+### Next run priorities
+
+1. After 2026-12-01, verify the Georgian 2027 plan's submission, ministerial approval and public release separately.
+2. Obtain official NEA report/methodology archive bytes and Annex 1/2; hash before inspecting.
+3. Obtain WRP survey-design variance documentation or replicate weights before any confidence interval.
+4. Conduct physical NOEMA-005 x86-64/ARM64 experiments with at least 20 measured repetitions and memory/DRAM counters.
+5. Fix the two INFRA-001 static-review findings, then obtain independent security review before merge.
+6. Seek authorized Georgian warning-event and after-action aggregates with stage-specific denominators.
+
 ## NOEMA — Run 55: research reproduction, source-access audit and CI resilience
 
 **Date:** 2026-11-28  
