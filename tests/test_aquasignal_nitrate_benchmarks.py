@@ -79,6 +79,20 @@ class NitrateBenchmarkTests(unittest.TestCase):
                 self.measurement("10", matrix="groundwater"), WHO
             )
 
+    def test_benchmark_registry_rejects_raw_groundwater_references(self):
+        with self.assertRaisesRegex(NitrateBenchmarkError, "only drinking-water"):
+            NitrateBenchmark(
+                benchmark_id="INVALID-GROUNDWATER-REFERENCE",
+                kind="international_guideline",
+                value="50",
+                basis="NO3",
+                matrix="groundwater",
+                source_url="https://example.org/groundwater",
+                publication_date="2026-01-01",
+                status="guidance_only",
+                scope_note="Synthetic groundwater reference rejected by the drinking-water-only registry.",
+            )
+
     def test_nitrate_nitrogen_is_not_silently_compared_with_nitrate_ion(self):
         with self.assertRaisesRegex(NitrateBenchmarkError, "basis mismatch"):
             compare_nitrate_to_benchmark(
