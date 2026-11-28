@@ -112,6 +112,10 @@ jobs:
           test -f docs/run-audits/2026-11-28-run-47.md
           test -f docs/architecture/noema007-warning-to-action-readiness.md
           test -f data/noema-006/georgia-water-monitoring-plan-2026-09-15.json
+          test -f noema_core/annual_plan_deadline.py
+          test -f data/noema-006/annual-plan-deadline-status-2026-11-28.json
+          test -f data/noema-006/annual-plan-deadline-status.schema.json
+          test -f tests/test_aquasignal_annual_plan_deadline.py
           test -f data/noema-006/georgia-water-monitoring-plan-2026-09-15.schema.json
           test -f data/noema-006/nitrate-unit-basis-crosswalk-2026-11-28.json
           test -f data/noema-006/nitrate-unit-basis-crosswalk-2026-11-28.schema.json
