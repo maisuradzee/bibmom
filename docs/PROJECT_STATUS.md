@@ -1,3 +1,77 @@
+## NOEMA — Run 55: research reproduction, source-access audit and CI resilience
+
+**Date:** 2026-11-28  
+**Starting Main:** `3a30d172be78e0b286374acd141fbcb7e9e05d26`  
+**Main after research merges (before this documentation-only update):** `cfa02bc52ea467b8f00bcd72266bdcefe07b2eda`  
+**Active streams reviewed:** 4  
+**Catalogue:** 9 Preliminary / 0 Published  
+**New streams:** 0
+
+### Work completed
+
+#### NOEMA-007 — warning action-enabler subgroup semantics
+
+Merged [PR #285](https://github.com/maisuradzee/bibmom/pull/285) and [PR #292](https://github.com/maisuradzee/bibmom/pull/292).
+
+- The WRP `CountryIncomeLevel` variable is the World Bank country-income classification at fieldwork (FY2024-25), not respondent or household personal income.
+- Derived unadjusted differences from frozen PROJWT-weighted point estimates: 3 vs 1 warning channel +26.7 pp; both household plan + personal agency vs neither +56.4 pp; upper-middle vs low country-income group +27.5 pp; high vs lower-middle +24.0 pp.
+- No design-based confidence intervals, effective subgroup sample sizes or causal effects were computed. These are descriptive prioritisation signals only.
+- The public catalogue entry is version 1.2. Study remains Preliminary.
+
+#### NOEMA-005 — Experiment 002 independent artifact reproduction
+
+Merged [PR #288](https://github.com/maisuradzee/bibmom/pull/288).
+
+- Six GitHub-hosted runner/runtime cells: x86-64 Ubuntu, ARM64 Ubuntu and ARM64 macOS, each GIL-enabled and free-threaded.
+- 384 configurations / 1,152 measured runs (one warm-up, three measured repetitions).
+- Run 55 independently downloaded six public artifact ZIPs and verified 6/6 ZIP SHA-256 plus 6/6 embedded JSON SHA-256.
+- Recomputed all per-cell correctness, matching-serial speedup, median CPU/wall threshold counts and scalar-partial failure topology; every per-cell metric matched the frozen summary.
+- Full Neumaier `(sum, correction)` state: 288/288 correctly rounded; scalar Neumaier: 252/288; worker-local `math.fsum` scalar partials: 252/288; naive scalar: 0/288.
+- No threaded configuration beat its matching serial baseline (0/384). Free-threaded CPU/wall ratios show concurrent CPU use in some configurations, not wall-time speedup.
+- All six legacy artifact lists were independently checked and empty after cleanup; raw native thread IDs and detailed platform build strings were absent.
+
+**Limits:** all cells are hosted virtual runners; the workload is synthetic/cancellation-heavy; only three measured repetitions; no user-owned physical-device replication, representative scientific workload, RSS/native allocation, DRAM bandwidth, CPU-frequency or context-switch counters. Study remains Preliminary.
+
+#### AquaSignal — source-access and statutory-deadline audit
+
+Merged [PR #290](https://github.com/maisuradzee/bibmom/pull/290).
+
+- The NEA's official 2026-11-26 announcement links the 2021-2025 groundwater report and nitrate-risk field methodology. The official RAR URL resolved, but the payload was served as `application/octet-stream`; this execution environment could not retrieve the bytes. No SHA-256 or annex content is claimed.
+- The Folketing MOF Q199 page confirms a final-answer date of 2026-11-16; the answer PDF body remains unreviewed and its policy outcome is unknown.
+- The 2027 state water-monitoring plan submission-to-Minister deadline is 2026-12-01. As of 2026-11-28 it was still upcoming. Submission, approval and public release are separate unverified states; no non-compliance inference is made.
+
+#### INFRA-001 — fail-closed CI recovery proposal
+
+The current-Main v3 proposal is in [Draft PR #291](https://github.com/maisuradzee/bibmom/pull/291), based on pre-catalog Main `726c9b335acf386d2dab29b005b7817b1e38d910`; it is not merged and must be rebased after this documentation update.
+
+- 52 workflow steps: 2 fail-fast prerequisites + 48 independent validations, each with a stable ID; a closed 50-ID manifest; unconditional aggregate gate.
+- Exact-head CI [run 46136022076](https://github.com/maisuradzee/bibmom/actions/runs/46136022076) passed 875 tests, 1 skipped; all 50/50 required outcomes were observed.
+- The uploaded diagnostic artifact showed 51 drafts scanned, four metadata/heading-only repairs, zero remaining validation errors, zero source URL issues, and no changes to research claims, tests or frozen results. Its patch contained no source URL or credential values.
+- A regression test now rejects a truncated workflow root/header.
+- **Not merged:** independent security review of workflow logic, repair boundaries and diagnostic redaction is still required. No production backup/restore or external anti-rollback capability is claimed.
+
+### Main verification
+
+After PR #292, Main SHA was `cfa02bc52ea467b8f00bcd72266bdcefe07b2eda`.
+
+- Main Quality CI [run 46136189253](https://github.com/maisuradzee/bibmom/actions/runs/46136189253): **858 passed, 1 skipped**.
+- GitHub Pages [run 46136189284](https://github.com/maisuradzee/bibmom/actions/runs/46136189284): build and deploy jobs succeeded.
+- No new Supabase project was created; no other project's database was used.
+- No private well coordinates, sample-level water observations, respondent microdata, personal data, supplier bank details, credentials or secrets were added.
+
+### Next priorities
+
+1. After 2026-12-01, verify the Georgian 2027 monitoring-plan submission, ministerial approval and public release separately.
+2. Obtain the NEA RAR through an authorized alternate route or final interactive PDF/acceptance record; hash bytes before inspection.
+3. Retrieve and review the Folketing Q199 answer PDF before interpreting its policy outcome.
+4. Run NOEMA-005 on controlled physical x86-64 and ARM64 systems with at least 20 measured repetitions, representative workloads, RSS/native allocation and DRAM/CPU counters.
+5. For NOEMA-007, obtain design-based variance estimates/effective subgroup sample sizes and authorized operational warning-to-action data; do not infer Georgian operational effectiveness from global survey aggregates.
+6. Rebase INFRA-001 onto current Main and obtain independent security review; then test encrypted staging, external trust-anchor/anti-rollback and clean-host restore.
+
+[Full Run 55 audit](run-audits/2026-11-28-run-55.md).
+
+---
+
 ## NOEMA — Run 54: nitrate evidence provenance and high-water write-failure atomicity
 
 # NOEMA Run 54 — nitrate evidence provenance and high-water write-failure atomicity
