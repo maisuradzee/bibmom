@@ -174,3 +174,5 @@ The WHO's fourth edition incorporating the third addendum is the current interna
 - A combined WHO nitrate/nitrite ratio is not calculated without paired same-sample, same-time, same-matrix measurements and compatible ion reporting bases. WHO guidance remains distinct from Georgian Decree №58/2014.
 
 - [AquaSignal — NEA 2021–2025 groundwater report procurement access lead](research/drafts/NOEMA-2026-006-nea-procurement-access-lead-2026-11-27.md) — official 26.11.2026 report-prepared announcement plus contract T-100801; final PDF/CD, acceptance status, archive checksum and reuse terms remain unverified.
+
+- [NOEMA CI recovery policy](docs/CI_RECOVERY.md) — bounded metadata-only repair, no URL promotion, explicit source-list URL safety audit and final aggregate CI failure gate.
