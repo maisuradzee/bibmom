@@ -55,7 +55,7 @@ class Noema005Experiment002FrozenResultTests(unittest.TestCase):
         changed["cells"][0]["measured_runs"] = 191
         changed["cells"][1]["measured_runs"] = 193
         with self.assertRaisesRegex(ValueError, "measured-run count mismatch"):
-            validate_summary(changed, self.schema)
+            validate_summary(changed, self._relaxed_schema_for_semantic_mutations())
 
     def test_duplicate_or_substituted_cell_cannot_preserve_six_cell_total(self):
         import copy
@@ -63,12 +63,12 @@ class Noema005Experiment002FrozenResultTests(unittest.TestCase):
         changed = copy.deepcopy(self.summary)
         changed["cells"][1]["cell_id"] = changed["cells"][0]["cell_id"]
         with self.assertRaisesRegex(ValueError, "cell IDs"):
-            validate_summary(changed, self.schema)
+            validate_summary(changed, self._relaxed_schema_for_semantic_mutations())
 
         changed = copy.deepcopy(self.summary)
         changed["cells"][0]["gil_mode"] = "gil_enabled"
         with self.assertRaisesRegex(ValueError, "runner/architecture/runtime mismatch"):
-            validate_summary(changed, self.schema)
+            validate_summary(changed, self._relaxed_schema_for_semantic_mutations())
 
     def test_per_method_run_and_configuration_counts_are_bounded(self):
         import copy
@@ -76,12 +76,12 @@ class Noema005Experiment002FrozenResultTests(unittest.TestCase):
         changed = copy.deepcopy(self.summary)
         changed["cells"][0]["methods"]["threaded_neumaier_state"]["total_runs"] = 47
         with self.assertRaisesRegex(ValueError, "per-method measured-run count mismatch"):
-            validate_summary(changed, self.schema)
+            validate_summary(changed, self._relaxed_schema_for_semantic_mutations())
 
         changed = copy.deepcopy(self.summary)
         changed["cells"][0]["methods"]["threaded_neumaier_state"]["speedup_gt_1_configurations"] = 17
         with self.assertRaisesRegex(ValueError, "speedup configuration count out of range"):
-            validate_summary(changed, self.schema)
+            validate_summary(changed, self._relaxed_schema_for_semantic_mutations())
 
     def test_speedup_summary_must_be_finite_ordered_and_consistent(self):
         import copy
@@ -89,12 +89,12 @@ class Noema005Experiment002FrozenResultTests(unittest.TestCase):
         changed = copy.deepcopy(self.summary)
         changed["cells"][0]["methods"]["threaded_neumaier_state"]["median_speedup"] = float("nan")
         with self.assertRaisesRegex(ValueError, "finite positive"):
-            validate_summary(changed, self.schema)
+            validate_summary(changed, self._relaxed_schema_for_semantic_mutations())
 
         changed = copy.deepcopy(self.summary)
         changed["cells"][0]["methods"]["threaded_neumaier_state"]["max_speedup"] = 1.1
         with self.assertRaisesRegex(ValueError, "conflicts with zero-beating count"):
-            validate_summary(changed, self.schema)
+            validate_summary(changed, self._relaxed_schema_for_semantic_mutations())
 
     def test_accuracy_counts_preserve_full_neumaier_state_only(self):
         methods = self.summary["aggregate"]["per_method"]
