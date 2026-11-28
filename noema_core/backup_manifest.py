@@ -77,6 +77,19 @@ def _hash_regular_file(path: str | os.PathLike[str]) -> dict[str, int | str]:
         if identity_before != identity_after or byte_length != after.st_size:
             raise ValueError("artifact changed while it was being hashed")
 
+        # The descriptor can still refer to the original inode after the caller's
+        # path has been replaced. Check that the final path component still names
+        # the same regular file before returning a successful verification.
+        try:
+            path_after = os.stat(os.fspath(path), follow_symlinks=False)
+        except OSError as exc:
+            raise ValueError("artifact path changed while it was being hashed") from exc
+        if (
+            not stat.S_ISREG(path_after.st_mode)
+            or (path_after.st_dev, path_after.st_ino) != (after.st_dev, after.st_ino)
+        ):
+            raise ValueError("artifact path changed while it was being hashed")
+
         return {"sha256": digest.hexdigest(), "byte_length": byte_length}
     finally:
         os.close(descriptor)
