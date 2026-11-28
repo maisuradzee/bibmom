@@ -1,0 +1,217 @@
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-005",
+  "experiment_id": "NOEMA-2026-005-REAL-THREADS-ARM64-001",
+  "analysis_date": "2026-11-27",
+  "source_summary": {
+    "path": "data/noema-005/arm64-threaded-benchmark-summary-2026-11-26.json",
+    "git_blob_sha": "682d747f08d6f723375bada2d20feea438556287"
+  },
+  "protocol": {
+    "runner_runtime_cells": 4,
+    "threaded_configurations": 192,
+    "measured_runs": 576,
+    "repetitions_per_configuration": 3,
+    "workers": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "memory_metric": "tracemalloc peak delta; not process RSS or all native allocations",
+    "wall_time_baseline": "matching serial Neumaier"
+  },
+  "accuracy": {
+    "naive_scalar": {
+      "correct": 0,
+      "total": 192
+    },
+    "neumaier_scalar": {
+      "correct": 168,
+      "total": 192
+    },
+    "neumaier_state": {
+      "correct": 192,
+      "total": 192
+    }
+  },
+  "runner_scaling": [
+    {
+      "runner": "ubuntu-24.04-arm",
+      "runtime_mode": "gil-enabled",
+      "machine": "aarch64",
+      "worker_points": [
+        {
+          "worker_count": 1,
+          "median_speedup": 0.753635,
+          "median_peak_traced_python_bytes": 11535,
+          "median_cpu_wall_ratio": 1.00114,
+          "correctly_rounded_runs": 12,
+          "total_runs": 12
+        },
+        {
+          "worker_count": 2,
+          "median_speedup": 0.745266,
+          "median_peak_traced_python_bytes": 18490,
+          "median_cpu_wall_ratio": 1.003497,
+          "correctly_rounded_runs": 12,
+          "total_runs": 12
+        },
+        {
+          "worker_count": 4,
+          "median_speedup": 0.734001,
+          "median_peak_traced_python_bytes": 32488,
+          "median_cpu_wall_ratio": 1.008483,
+          "correctly_rounded_runs": 12,
+          "total_runs": 12
+        },
+        {
+          "worker_count": 8,
+          "median_speedup": 0.714125,
+          "median_peak_traced_python_bytes": 60740,
+          "median_cpu_wall_ratio": 1.011717,
+          "correctly_rounded_runs": 12,
+          "total_runs": 12
+        }
+      ],
+      "peak_traced_python_growth_8_over_1": 5.265713,
+      "best_worker_median_speedup": 0.753635,
+      "best_worker_count": 1
+    },
+    {
+      "runner": "ubuntu-24.04-arm",
+      "runtime_mode": "free-threaded",
+      "machine": "aarch64",
+      "worker_points": [
+        {
+          "worker_count": 1,
+          "median_speedup": 0.639982,
+          "median_peak_traced_python_bytes": 95151,
+          "median_cpu_wall_ratio": 1.002737,
+          "correctly_rounded_runs": 12,
+          "total_runs": 12
+        },
+        {
+          "worker_count": 2,
+          "median_speedup": 0.631513,
+          "median_peak_traced_python_bytes": 186926,
+          "median_cpu_wall_ratio": 1.988697,
+          "correctly_rounded_runs": 12,
+          "total_runs": 12
+        },
+        {
+          "worker_count": 4,
+          "median_speedup": 0.774778,
+          "median_peak_traced_python_bytes": 367428,
+          "median_cpu_wall_ratio": 3.521914,
+          "correctly_rounded_runs": 12,
+          "total_runs": 12
+        },
+        {
+          "worker_count": 8,
+          "median_speedup": 0.7326,
+          "median_peak_traced_python_bytes": 731408,
+          "median_cpu_wall_ratio": 3.662863,
+          "correctly_rounded_runs": 12,
+          "total_runs": 12
+        }
+      ],
+      "peak_traced_python_growth_8_over_1": 7.686814,
+      "best_worker_median_speedup": 0.774778,
+      "best_worker_count": 4
+    },
+    {
+      "runner": "macos-15-arm64",
+      "runtime_mode": "gil-enabled",
+      "machine": "arm64",
+      "worker_points": [
+        {
+          "worker_count": 1,
+          "median_speedup": 0.894121,
+          "median_peak_traced_python_bytes": 11535,
+          "median_cpu_wall_ratio": 1.001465,
+          "correctly_rounded_runs": 12,
+          "total_runs": 12
+        },
+        {
+          "worker_count": 2,
+          "median_speedup": 0.895491,
+          "median_peak_traced_python_bytes": 18466,
+          "median_cpu_wall_ratio": 1.001421,
+          "correctly_rounded_runs": 12,
+          "total_runs": 12
+        },
+        {
+          "worker_count": 4,
+          "median_speedup": 1.006134,
+          "median_peak_traced_python_bytes": 32204,
+          "median_cpu_wall_ratio": 1.004696,
+          "correctly_rounded_runs": 12,
+          "total_runs": 12
+        },
+        {
+          "worker_count": 8,
+          "median_speedup": 0.929092,
+          "median_peak_traced_python_bytes": 59788,
+          "median_cpu_wall_ratio": 1.008779,
+          "correctly_rounded_runs": 12,
+          "total_runs": 12
+        }
+      ],
+      "peak_traced_python_growth_8_over_1": 5.183182,
+      "best_worker_median_speedup": 1.006134,
+      "best_worker_count": 4
+    },
+    {
+      "runner": "macos-15-arm64",
+      "runtime_mode": "free-threaded",
+      "machine": "arm64",
+      "worker_points": [
+        {
+          "worker_count": 1,
+          "median_speedup": 0.615052,
+          "median_peak_traced_python_bytes": 95149,
+          "median_cpu_wall_ratio": 1.001625,
+          "correctly_rounded_runs": 12,
+          "total_runs": 12
+        },
+        {
+          "worker_count": 2,
+          "median_speedup": 1.029768,
+          "median_peak_traced_python_bytes": 185458,
+          "median_cpu_wall_ratio": 1.94609,
+          "correctly_rounded_runs": 12,
+          "total_runs": 12
+        },
+        {
+          "worker_count": 4,
+          "median_speedup": 0.959376,
+          "median_peak_traced_python_bytes": 366348,
+          "median_cpu_wall_ratio": 2.222738,
+          "correctly_rounded_runs": 12,
+          "total_runs": 12
+        },
+        {
+          "worker_count": 8,
+          "median_speedup": 0.983926,
+          "median_peak_traced_python_bytes": 731644,
+          "median_cpu_wall_ratio": 2.569922,
+          "correctly_rounded_runs": 12,
+          "total_runs": 12
+        }
+      ],
+      "peak_traced_python_growth_8_over_1": 7.689455,
+      "best_worker_median_speedup": 1.029768,
+      "best_worker_count": 2
+    }
+  ],
+  "interpretation": {
+    "runner_runtime_cells_with_any_worker_median_above_one": 2,
+    "runner_runtime_cells_total": 4,
+    "memory_growth_8_worker_over_1_worker_range": [
+      5.183182,
+      7.689455
+    ],
+    "statement": "Only two of four runner/runtime cells have a worker median speedup above 1.0; their best medians are 1.006134x and 1.029768x, each based on three repetitions. This does not establish robust wall-time speedup. Eight-worker peak traced Python allocation is 5.18x to 7.69x the one-worker value; this is not process RSS or complete native memory."
+  }
+}
