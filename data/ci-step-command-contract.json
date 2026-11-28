@@ -1,0 +1,206 @@
+{
+  "schema_version": 1,
+  "workflow_path": ".github/workflows/ci.yml",
+  "steps": [
+    {
+      "name": "Build public site and verify publication boundary",
+      "body": "        run: |\n          python scripts/build_site.py --output \"$RUNNER_TEMP/noema-site\"\n          test -f \"$RUNNER_TEMP/noema-site/index.html\"\n          test -f \"$RUNNER_TEMP/noema-site/assets/articles.css\"\n          test -f \"$RUNNER_TEMP/noema-site/data/research.json\"\n          test ! -d \"$RUNNER_TEMP/noema-site/research/drafts\"\n          test ! -d \"$RUNNER_TEMP/noema-site/research/published\"\n"
+    },
+    {
+      "name": "Check HTML document basics",
+      "body": "        run: |\n          grep -q '<html lang=\"ka\">' index.html\n          grep -q '<title>NOEMA' index.html\n"
+    },
+    {
+      "name": "Checkout",
+      "body": "        uses: actions/checkout@v7\n"
+    },
+    {
+      "name": "Install pinned site and research-analysis dependencies",
+      "body": "        run: |\n          python -m pip install --disable-pip-version-check -r requirements-site.txt\n          python -m pip install --disable-pip-version-check -r requirements-test.txt\n          python -m pip install --disable-pip-version-check numpy==2.3.4\n"
+    },
+    {
+      "name": "Reproduce HadCRUT5 200-member trend distribution and verify source hashes",
+      "body": "        run: |\n          SNAP=\"data/noema-003/hadcrut5-5.2.0.0\"\n          python scripts/analyze_hadcrut_ensemble.py \\\n            --input \"$SNAP/HadCRUT.5.2.0.0.analysis.ensemble_series.global.annual.csv\" \\\n            --summary-csv \"$SNAP/HadCRUT.5.2.0.0.analysis.summary_series.global.annual.csv\" \\\n            --output \"$RUNNER_TEMP/hadcrut5-ensemble-results.json\"\n          python - \"$RUNNER_TEMP/hadcrut5-ensemble-results.json\" <<'PY'\n          import hashlib\n          import json\n          from pathlib import Path\n          import sys\n\n          root = Path(\"data/noema-003/hadcrut5-5.2.0.0\")\n          manifest = json.loads((root / \"source-manifest.json\").read_text(encoding=\"utf-8\"))\n          for filename, metadata in manifest[\"files\"].items():\n              actual_hash = hashlib.sha256((root / filename).read_bytes()).hexdigest()\n              if actual_hash != metadata[\"sha256\"]:\n                  raise SystemExit(f\"HadCRUT5 source hash mismatch: {filename}\")\n          expected = json.loads((root / \"ensemble-trend-results-1979-2025.json\").read_text(encoding=\"utf-8\"))\n          actual = json.loads(Path(sys.argv[1]).read_text(encoding=\"utf-8\"))\n          if actual != expected:\n              import difflib\n              expected_text = json.dumps(expected, ensure_ascii=False, indent=2, sort_keys=True).splitlines()\n              actual_text = json.dumps(actual, ensure_ascii=False, indent=2, sort_keys=True).splitlines()\n              print(\"\\\\n\".join(difflib.unified_diff(expected_text, actual_text, fromfile=\"pinned\", tofile=\"generated\")))\n              raise SystemExit(\"HadCRUT5 generated ensemble results differ from pinned results\")\n          print(\"HadCRUT5 5.2.0.0 source hashes and 200-member results match\")\n          PY\n"
+    },
+    {
+      "name": "Reproduce NOEMA-003 cross-dataset comparison and check frozen results",
+      "body": "        run: |\n          python scripts/compare_noema003_datasets.py --output \"$RUNNER_TEMP/noema003-cross-results.json\"\n          python - \"$RUNNER_TEMP/noema003-cross-results.json\" <<'PY'\n          import json\n          from pathlib import Path\n          import sys\n\n          expected = json.loads(Path(\"data/noema-003/cross-dataset-results-2026-11-23.json\").read_text(encoding=\"utf-8\"))\n          actual = json.loads(Path(sys.argv[1]).read_text(encoding=\"utf-8\"))\n          if actual != expected:\n              raise SystemExit(\"NOEMA-003 cross-dataset results differ from the frozen result\")\n          print(\"NOEMA-003 cross-dataset frozen results match\")\n          PY\n"
+    },
+    {
+      "name": "Reproduce NOEMA-003 trend analysis and compare frozen results",
+      "body": "        run: |\n          python scripts/analyze_noema003.py --output \"$RUNNER_TEMP/noema003-results.json\"\n          python - \"$RUNNER_TEMP/noema003-results.json\" <<'PY'\n          import json\n          from pathlib import Path\n          import sys\n\n          expected = json.loads(Path(\"data/noema-003/trend-sensitivity-results-2026-11-23.json\").read_text(encoding=\"utf-8\"))\n          actual = json.loads(Path(sys.argv[1]).read_text(encoding=\"utf-8\"))\n          if actual != expected:\n              raise SystemExit(\"NOEMA-003 generated results differ from frozen results\")\n          print(\"NOEMA-003 frozen results match\")\n          PY\n"
+    },
+    {
+      "name": "Reproduce NOEMA-005 experiment 002 frozen aggregate",
+      "body": "        run: python scripts/reproduce_noema005_experiment_002.py --check\n"
+    },
+    {
+      "name": "Reproduce NOEMA-005 Run 36 sanitized hosted artifact aggregates",
+      "body": "        run: python scripts/reproduce_noema005_run36_threaded.py --check\n"
+    },
+    {
+      "name": "Reproduce NOEMA-005 sharded reduction simulation and compare frozen results",
+      "body": "        run: |\n          python --version\n          python -c \"import platform; print(platform.platform())\"\n          python scripts/simulate_noema005_parallel_reduction.py --output \"$RUNNER_TEMP/noema005-parallel.json\"\n          python - \"$RUNNER_TEMP/noema005-parallel.json\" <<'PY'\n          import json\n          from pathlib import Path\n          import sys\n\n          expected = json.loads(Path(\"data/noema-005/parallel-reduction-results.json\").read_text(encoding=\"utf-8\"))\n          actual = json.loads(Path(sys.argv[1]).read_text(encoding=\"utf-8\"))\n          if actual != expected:\n              raise SystemExit(\"NOEMA-005 parallel reduction results differ from frozen summary\")\n          print(\"NOEMA-005 parallel reduction simulation matches 330-case frozen summary\")\n          PY\n"
+    },
+    {
+      "name": "Reproduce NOEMA-005 summation experiment and compare frozen results",
+      "body": "        run: |\n          python scripts/simulate_noema005_summation.py --output \"$RUNNER_TEMP/noema005-results.json\"\n          python - \"$RUNNER_TEMP/noema005-results.json\" <<'PY'\n          import json\n          from pathlib import Path\n          import sys\n\n          expected = json.loads(Path(\"data/noema-005/floating-summation-results.json\").read_text(encoding=\"utf-8\"))\n          actual = json.loads(Path(sys.argv[1]).read_text(encoding=\"utf-8\"))\n          # Runtime/platform metadata is recorded for provenance but is not\n          # expected to match across independent CI runner images.\n          expected.pop(\"environment\", None)\n          actual.pop(\"environment\", None)\n          if actual != expected:\n              import difflib\n              expected_text = json.dumps(expected, ensure_ascii=False, indent=2, sort_keys=True).splitlines()\n              actual_text = json.dumps(actual, ensure_ascii=False, indent=2, sort_keys=True).splitlines()\n              print(\"\\\\n\".join(difflib.unified_diff(\n                  expected_text, actual_text, fromfile=\"frozen\", tofile=\"generated\"\n              )))\n              raise SystemExit(\"NOEMA-005 generated summation results differ from frozen results\")\n          print(\"NOEMA-005 summation results match the frozen snapshot\")\n          PY\n"
+    },
+    {
+      "name": "Reproduce NOEMA-005 two-run threaded raw reports",
+      "body": "        run: python scripts/reproduce_noema005_threaded_reruns.py --check\n"
+    },
+    {
+      "name": "Reproduce NOEMA-007 anticipatory-action aggregates",
+      "body": "        run: python scripts/reproduce_noema007_anticipatory_action.py --check\n"
+    },
+    {
+      "name": "Reproduce NOEMA-007 WMO roadmap aggregates",
+      "body": "        run: python scripts/reproduce_noema007_wmo_roadmaps.py --check\n"
+    },
+    {
+      "name": "Run finite-sample simulation smoke test",
+      "body": "        run: python scripts/short_sequence_bias_simulation.py --trials 2000\n"
+    },
+    {
+      "name": "Run NOEMA-005 runtime and memory benchmark smoke test",
+      "body": "        run: |\n          python scripts/benchmark_noema005_summation.py \\\n            --sizes 128,512 --warmups 1 --repetitions 2 \\\n            --output \"$RUNNER_TEMP/noema005-benchmark.json\"\n          python - \"$RUNNER_TEMP/noema005-benchmark.json\" <<'PY'\n          import json\n          from pathlib import Path\n          import sys\n\n          report = json.loads(Path(sys.argv[1]).read_text(encoding=\"utf-8\"))\n          expected_formats = {\"binary32\", \"binary64\", \"decimal64\", \"decimal128\"}\n          if {case[\"format\"] for case in report[\"cases\"]} != expected_formats:\n              raise SystemExit(\"NOEMA-005 benchmark format coverage mismatch\")\n          if len(report[\"cases\"]) != 8:\n              raise SystemExit(\"NOEMA-005 benchmark size/format case count mismatch\")\n          for case in report[\"cases\"]:\n              if not case[\"methods\"]:\n                  raise SystemExit(f\"No benchmark methods recorded for {case['format']}\")\n              for method in case[\"methods\"]:\n                  if method[\"median_runtime_ns\"] <= 0 or method[\"peak_traced_python_bytes\"] < 0:\n                      raise SystemExit(f\"Invalid benchmark measurement: {case['format']}/{method['method']}\")\n          print(\"NOEMA-005 runtime/memory benchmark smoke test OK\")\n          PY\n"
+    },
+    {
+      "name": "Run Python unit tests",
+      "body": "        run: python -m unittest discover -s tests -v\n"
+    },
+    {
+      "name": "Run verified artifact restore integration tests",
+      "body": "        run: python -m unittest discover -s tests -p 'test_verified_restore_integration.py' -v\n"
+    },
+    {
+      "name": "Scan tracked public files for credential patterns",
+      "body": "        id: scan_public_secret_patterns\n        run: python scripts/scan_public_secrets.py\n"
+    },
+    {
+      "name": "Test NOEMA-005 experiment 002 frozen aggregate",
+      "body": "        run: python -m unittest discover -s tests -p 'test_noema005_experiment_002.py' -v\n"
+    },
+    {
+      "name": "Test NOEMA-005 Run 36 artifact aggregate reproduction",
+      "body": "        run: python -m unittest discover -s tests -p 'test_noema005_run36_threaded.py' -v\n"
+    },
+    {
+      "name": "Test NOEMA-005 two-run threaded raw-report reproduction",
+      "body": "        run: python -m unittest discover -s tests -p 'test_noema005_threaded_reruns.py' -v\n"
+    },
+    {
+      "name": "Validate AquaSignal Decree 424 well-registry scope and privacy boundary",
+      "body": "        run: python -m unittest discover -s tests -p 'test_noema006_decree424_well_registry_scope.py' -v\n"
+    },
+    {
+      "name": "Validate AquaSignal Georgia monitoring and nitrate unit crosswalk",
+      "body": "        run: |\n          python -m unittest discover -s tests -p 'test_aquasignal_georgia_water_monitoring_plan.py' -v\n          python -m unittest discover -s tests -p 'test_aquasignal_nitrate_unit_crosswalk.py' -v\n          python -m unittest discover -s tests -p 'test_water_chemistry.py' -v\n          python -m unittest discover -s tests -p 'test_aquasignal_who_2026_guidance_scope.py' -v\n"
+    },
+    {
+      "name": "Validate AquaSignal groundwater quantitative-readiness gate and Annex evidence boundary",
+      "body": "        run: python -m unittest discover -s tests -p 'test_aquasignal_groundwater_readiness.py' -v\n"
+    },
+    {
+      "name": "Validate AquaSignal source-access inventory schema",
+      "body": "        run: python -m unittest discover -s tests -p 'test_noema006_source_access_inventory.py' -v\n"
+    },
+    {
+      "name": "Validate AquaSignal WRP 2025 water-harm protocol and frozen result",
+      "body": "        run: python -m unittest discover -s tests -p 'test_aquasignal_wrp2025_water_harm.py' -v\n"
+    },
+    {
+      "name": "Validate backup manifest against Draft 2020-12 at runtime",
+      "body": "        run: python -m unittest discover -s tests -p 'test_backup_manifest_runtime_validation.py' -v\n"
+    },
+    {
+      "name": "Validate CI step-command contract",
+      "body": "        id: validate_ci_step_command_contract\n        run: python scripts/validate_ci_step_contract.py --check\n"
+    },
+    {
+      "name": "Validate draft completeness",
+      "body": "        run: python scripts/validate_drafts.py\n"
+    },
+    {
+      "name": "Validate durable job queue",
+      "body": "        run: python scripts/validate_job_queue.py\n"
+    },
+    {
+      "name": "Validate frozen NOEMA-005 real CPU-thread benchmark summary",
+      "body": "        run: python scripts/validate_noema005_cpu_thread_summary.py\n"
+    },
+    {
+      "name": "Validate Georgia hazard mapping and zoning coordination signal",
+      "body": "        run: python -m unittest discover -s tests -p 'test_noema007_hazard_mapping_zoning_signal.py' -v\n"
+    },
+    {
+      "name": "Validate Georgia warning authority and capability crosswalk",
+      "body": "        run: python -m unittest discover -s tests -p 'test_noema007_georgia_warning_authority_crosswalk.py' -v\n"
+    },
+    {
+      "name": "Validate NOEMA mission and autonomy policy",
+      "body": "        run: python scripts/validate_mission.py\n"
+    },
+    {
+      "name": "Validate NOEMA-005 2026-11-26 threaded rerun summary",
+      "body": "        run: python scripts/validate_noema005_threaded_rerun.py\n"
+    },
+    {
+      "name": "Validate NOEMA-005 raw artifact provenance audit",
+      "body": "        run: python -m unittest discover -s tests -p 'test_noema005_thread_artifact_audit.py' -v\n"
+    },
+    {
+      "name": "Validate NOEMA-005 Run 34 two-pair threaded summary",
+      "body": "        run: python -m unittest discover -s tests -p 'test_noema005_threaded_run_summary.py' -v\n"
+    },
+    {
+      "name": "Validate NOEMA-007 action-readiness aggregate contract",
+      "body": "        run: python -m unittest discover -s tests -p 'test_noema007_action_readiness.py' -v\n"
+    },
+    {
+      "name": "Validate NOEMA-007 WRP 2025 reproduction protocol and frozen aggregate",
+      "body": "        run: python -m unittest discover -s tests -p 'test_noema007_wrp2025_reproduction.py' -v\n"
+    },
+    {
+      "name": "Validate NOEMA-007 WRP 2026 action-enabler protocol and frozen aggregate",
+      "body": "        run: python -m unittest discover -s tests -p 'test_noema007_wrp2026_action_enablers.py' -v\n"
+    },
+    {
+      "name": "Validate offsite backup manifest schema contract",
+      "body": "        run: python -m unittest discover -s tests -p 'test_offsite_backup_manifest_schema.py' -v\n"
+    },
+    {
+      "name": "Validate required files",
+      "body": "        run: |\n          test -f index.html\n          test -f assets/styles.css\n          test -f assets/articles.css\n          test -f requirements-site.txt\n          test -f requirements-test.txt\n          test -f data/research.json\n          test -f data/noema-005/real-cpu-thread-summary-2026-11-26.json\n          test -f scripts/noema005_run51_openmp.c\n          test -f scripts/verify_noema005_run51_local_openmp.py\n          test -f data/noema-005/run51-local-openmp-report-2026-11-28.json\n          test -f data/noema-005/run51-local-openmp-report.schema.json\n          test -f data/noema-005/raw/run51-local-openmp-2026-11-28.jsonl.gz.b64\n          test -f research/preprints/NOEMA-2026-010-run51-local-openmp-compensated-reduction.md\n          test -f tests/test_noema005_run51_local_openmp.py\n          test -f docs/run-audits/2026-11-28-run-51-noema005.md\n          test -f docs/run-audits/2026-11-28-run-54.md\n          test -f data/noema-005/threaded-artifact-provenance-audit-2026-11-26.json\n          test -f research/drafts/NOEMA-2026-005-thread-artifact-provenance-audit-2026-11-26.md\n          test -f tests/test_noema005_thread_artifact_audit.py\n          test -f data/noema-005/threaded-rerun-2026-11-26.json\n          test -f scripts/validate_noema005_threaded_rerun.py\n          test -f tests/test_noema005_threaded_rerun.py\n          test -f data/noema-005/threaded-reruns-2026-11-26.json\n          test -f data/noema-005/raw/run-45867519546-gil-enabled.json.gz.b64\n          test -f data/noema-005/raw/run-45867519546-free-threaded.json.gz.b64\n          test -f scripts/reproduce_noema005_threaded_reruns.py\n          test -f tests/test_noema005_threaded_reruns.py\n          test -f scripts/validate_noema005_cpu_thread_summary.py\n          test -f tests/test_noema005_cpu_thread_summary.py\n          test -f data/noema-005/threaded-run-2026-11-27-summary.json\n          test -f data/noema-005/threaded-run-2026-11-27-summary.schema.json\n          test -f tests/test_noema005_threaded_run_summary.py\n          test -f data/noema-005/threaded-run36-artifact-snapshot.json\n          test -f data/noema-005/threaded-run36-artifact-snapshot.schema.json\n          test -f scripts/reproduce_noema005_run36_threaded.py\n          test -f tests/test_noema005_run36_threaded.py\n          test -f data/noema-005/experiment-002-summary.json\n          test -f data/noema-005/experiment-002-summary.schema.json\n          test -f scripts/reproduce_noema005_experiment_002.py\n          test -f tests/test_noema005_experiment_002.py\n          test -f data/noema-007/mhews-2026-source-snapshot.json\n          test -f data/noema-007/mhews-2026-derived-results.json\n          test -f scripts/reproduce_noema007_mhews_snapshot.py\n          test -f tests/test_noema007_mhews_snapshot.py\n          test -f data/noema-007/wmo-roadmaps-2026-source-snapshot.json\n          test -f data/noema-007/wmo-roadmaps-2026-derived-results.json\n          test -f data/noema-007/action-readiness-observation.schema.json\n          test -f noema_core/action_readiness.py\n          test -f scripts/reproduce_noema007_wmo_roadmaps.py\n          test -f tests/test_noema007_wmo_roadmaps.py\n          test -f data/noema-007/anticipatory-action-2025-source-snapshot.json\n          test -f data/noema-007/anticipatory-action-2025-derived-results.json\n          test -f scripts/reproduce_noema007_anticipatory_action.py\n          test -f tests/test_noema007_anticipatory_action.py\n          test -f tests/test_noema007_action_readiness.py\n          test -f data/noema-007/georgia-warning-authority-capacity-crosswalk-2026-11-28.json\n          test -f data/noema-007/georgia-warning-authority-capacity-crosswalk-2026-11-28.schema.json\n          test -f tests/test_noema007_georgia_warning_authority_crosswalk.py\n          test -f data/noema-007/georgia-natural-hazard-mapping-zoning-meeting-2026-10-26.json\n          test -f data/noema-007/georgia-natural-hazard-mapping-zoning-meeting-2026-10-26.schema.json\n          test -f tests/test_noema007_hazard_mapping_zoning_signal.py\n          test -f data/noema-007/georgia-seven-basin-chronology-2026-11-28.json\n          test -f data/noema-007/georgia-seven-basin-chronology-2026-11-28.schema.json\n          test -f tests/test_noema007_georgia_basin_chronology.py\n          test -f data/noema-007/wrp2025-reproduction-protocol.json\n          test -f data/noema-007/wrp2025-reproduction-protocol.schema.json\n          test -f data/noema-007/wrp2025-independent-reproduction-2026-11-27.json\n          test -f data/noema-007/wrp2025-independent-reproduction.schema.json\n          test -f scripts/reproduce_noema007_wrp2025.py\n          test -f tests/test_noema007_wrp2025_reproduction.py\n          test -f data/noema-007/wrp2026-action-enablers-protocol.json\n          test -f data/noema-007/wrp2026-action-enablers-protocol.schema.json\n          test -f data/noema-007/wrp2026-action-enablers-result-2026-11-28.json\n          test -f data/noema-007/wrp2026-action-enablers-result.schema.json\n          test -f scripts/reproduce_noema007_wrp2026_action_enablers.py\n          test -f tests/test_noema007_wrp2026_action_enablers.py\n          test -f .github/workflows/noema007-wrp2025-reproduction.yml\n          test -f research/preprints/NOEMA-2026-007-wrp2025-warning-action-reproduction.md\n          test -f data/noema-006/source-access-inventory.schema.json\n          test -f data/noema-006/source-access-inventory-2026-11-27.json\n          test -f data/noema-006/decree424-well-registry-scope-2026-11-28.json\n          test -f data/noema-006/decree424-well-registry-scope.schema.json\n          test -f tests/test_noema006_decree424_well_registry_scope.py\n          test -f research/drafts/NOEMA-2026-006-decree424-well-registry-data-governance-2026-11-28.md\n          test -f research/preprints/NOEMA-2026-008-decree424-well-registry-data-governance.md\n          test -f data/noema-006/wrp2025-water-harm-protocol.json\n          test -f data/noema-006/wrp2025-water-harm-protocol.schema.json\n          test -f data/noema-006/wrp2025-water-harm-result-2026-11-27.json\n          test -f data/noema-006/wrp2025-water-harm-result.schema.json\n          test -f research/preprints/NOEMA-2026-006-aquasignal-wrp2025-water-harm-reproduction.md\n          test -f scripts/reproduce_aquasignal_wrp2025_water_harm.py\n          test -f tests/test_aquasignal_wrp2025_water_harm.py\n          test -f .github/workflows/aquasignal-wrp2025-water-harm.yml\n          test -f tests/test_noema006_source_access_inventory.py\n          test -f docs/run-audits/2026-11-28-run-46-aquasignal-access-provenance.md\n          test -f docs/run-audits/2026-11-28-run-46-infra-ci-recovery-review.md\n          test -f docs/run-audits/2026-11-28-run-47.md\n          test -f docs/architecture/noema007-warning-to-action-readiness.md\n          test -f data/noema-006/georgia-water-monitoring-plan-2026-09-15.json\n          test -f noema_core/annual_plan_deadline.py\n          test -f data/noema-006/annual-plan-deadline-status-2026-11-28.json\n          test -f data/noema-006/annual-plan-deadline-status.schema.json\n          test -f tests/test_aquasignal_annual_plan_deadline.py\n          test -f data/noema-006/georgia-water-monitoring-plan-2026-09-15.schema.json\n          test -f data/noema-006/nitrate-unit-basis-crosswalk-2026-11-28.json\n          test -f data/noema-006/nitrate-unit-basis-crosswalk-2026-11-28.schema.json\n          test -f noema_core/water_chemistry.py\n          test -f noema_core/nitrate_benchmarks.py\n          test -f data/noema-006/nitrate-policy-evidence-2026-11-28.json\n          test -f data/noema-006/nitrate-policy-evidence-2026-11-28.schema.json\n          test -f research/preprints/NOEMA-2026-013-nitrate-health-evidence-and-threshold-provenance.md\n          test -f tests/test_aquasignal_georgia_water_monitoring_plan.py\n          test -f tests/test_aquasignal_nitrate_unit_crosswalk.py\n          test -f tests/test_water_chemistry.py\n          test -f noema_core/nitrate_nitrite.py\n          test -f noema_core/aquasignal_groundwater.py\n          test -f data/noema-006/groundwater-quantitative-readiness-2026-11-28.json\n          test -f data/noema-006/groundwater-quantitative-readiness.schema.json\n          test -f research/preprints/NOEMA-2026-011-georgia-groundwater-quantitative-readiness.md\n          test -f tests/test_aquasignal_groundwater_readiness.py\n          test -f tests/test_aquasignal_nitrate_nitrite.py\n          test -f data/noema-006/nitrate-nitrite-guideline-crosswalk-2026-11-28.json\n          test -f data/noema-006/nitrate-nitrite-guideline-crosswalk-2026-11-28.schema.json\n          test -f tests/test_aquasignal_nitrate_nitrite_crosswalk.py\n          test -f research/preprints/NOEMA-2026-009-georgia-nitrate-nitrite-guideline-crosswalk.md\n          test -f data/noema-006/who-2026-guidance-scope-audit.json\n          test -f data/noema-006/who-2026-guidance-scope-audit.schema.json\n          test -f research/drafts/NOEMA-2026-006-who-2026-guidance-scope-audit-2026-11-28.md\n          test -f tests/test_aquasignal_who_2026_guidance_scope.py\n          test -f tests/test_aquasignal_nitrate_benchmarks.py\n          test -f tests/test_aquasignal_nitrate_policy_evidence.py\n          test -f research/TEMPLATE.md\n          test -f scripts/validate_research.py\n          test -f scripts/validate_drafts.py\n          test -f scripts/build_site.py\n          test -f scripts/short_sequence_bias_simulation.py\n          test -f scripts/audit_signbase.py\n          test -f scripts/analyze_noema003.py\n          test -f scripts/compare_noema003_datasets.py\n          test -f scripts/analyze_hadcrut_ensemble.py\n          test -f scripts/reconstruct_hadcrut_coverage.py\n          test -f scripts/simulate_noema005_summation.py\n          test -f scripts/benchmark_noema005_summation.py\n          test -f scripts/simulate_noema005_parallel_reduction.py\n          test -f data/noema-005/parallel-reduction-protocol.json\n          test -f data/noema-005/parallel-reduction-results.json\n          test -f tests/test_noema005_parallel_reduction.py\n          test -f data/noema-005/benchmark-protocol.json\n          test -f tests/test_benchmark_noema005_summation.py\n          test -f data/noema-005/floating-summation-results.json\n          test -f research/drafts/NOEMA-2026-005-floating-summation-order.md\n          test -f data/noema-003/cross-dataset-results-2026-11-23.json\n          test -f data/noema-003/hadcrut5-5.2.0.0/HadCRUT.5.2.0.0.analysis.ensemble_series.global.annual.csv\n          test -f data/noema-003/hadcrut5-5.2.0.0/HadCRUT.5.2.0.0.analysis.summary_series.global.annual.csv\n          test -f data/noema-003/hadcrut5-5.2.0.0/ensemble-trend-results-1979-2025.json\n          test -f data/noema-003/hadcrut5-5.2.0.0/source-manifest.json\n          test -f data/noema-003/snapshots/2026.10/sources.json\n          test -f data/noema-003/snapshots/2026.10/gistemp.csv\n          test -f data/noema-003/snapshots/2026.10/hadcrut5_annual.csv\n          test -f data/noema-003/snapshots/2026.10/noaaglobaltemp_annual.asc\n          test -f data/noema-003/noaa-globaltemp-v6.1.0-global-annual-202606.csv\n          test -f data/noema-003/dataset-metadata-2026-11-23.json\n          test -f data/noema-003/trend-sensitivity-results-2026-11-23.json\n          test -f tests/test_analyze_noema003.py\n          test -f tests/test_compare_noema003_datasets.py\n          test -f tests/test_analyze_hadcrut_ensemble.py\n          test -f tests/test_reconstruct_hadcrut_coverage.py\n          test -f tests/test_noema005_summation.py\n          test -f docs/RESEARCH_STANDARD.md\n          test -f docs/CORE_MISSION.md\n          test -f docs/AUTONOMY_ARCHITECTURE.md\n          test -f noema_core/__init__.py\n          test -f noema_core/aquasignal.py\n          test -f noema_core/mission.py\n          test -f noema_core/mission.json\n          test -f scripts/validate_mission.py\n          test -f tests/test_aquasignal.py\n          test -f tests/test_mission_core.py\n          test -f noema_core/jobs.py\n          test -f tests/test_database_backup.py\n          test -f docs/OFFSITE_BACKUP_ARCHITECTURE.md\n          test -f data/noema-backup-manifest.schema.json\n          test -f noema_core/backup_manifest.py\n          test -f noema_core/verified_restore.py\n          test -f tests/test_verified_restore_integration.py\n          test -f docs/architecture/infra001-verified-restore-consumer.md\n          test -f tests/test_backup_verified_stream.py\n          test -f data/noema-restore-attestation.schema.json\n          test -f noema_core/restore_attestation.py\n          test -f tests/test_restore_attestation_gate.py\n          test -f docs/RESTORE_ATTESTATION_GATE.md\n          test -f scripts/validate_noema_backup_manifest.py\n          test -f tests/test_backup_manifest_runtime_validation.py\n          test -f scripts/verify_noema_backup_artifacts.py\n          test -f tests/test_backup_artifact_verification.py\n          test -f scripts/verify_noema_backup_manifest_signature.py\n          test -f tests/test_backup_manifest_signature.py\n          test -f tests/test_offsite_backup_manifest_schema.py\n          test -f noema_core/jobs_cli.py\n          test -f tests/test_durable_job_queue.py\n          test -f noema_core/worker.py\n          test -f noema_core/supervisor.py\n          test -f noema_core/workflows.py\n          test -f noema_core/scheduler.py\n          test -f noema_core/service.py\n          test -f tests/test_noema_service.py\n          test -f docs/SERVICE_DEPLOYMENT.md\n          test -f deploy/systemd/noema.service\n          test -f tests/test_interval_scheduler.py\n          test -f tests/test_workflow_engine.py\n          test -f tests/test_worker_supervisor.py\n          test -f tests/test_noema_worker.py\n          test -f scripts/validate_job_queue.py\n          test -f research/protocols/NOEMA-002-blind-coding-protocol.md\n          test -f scripts/verify_noema005_arm64_artifacts.py\n          test -f tests/test_noema005_arm64_artifact_verifier.py\n          test -f data/noema-005/arm64-run33-artifact-verification-2026-11-28.json\n          test -f data/noema-005/arm64-run33-artifact-verification-2026-11-28.schema.json\n          test -f research/drafts/NOEMA-2026-005-arm64-run33-independent-artifact-verification-2026-11-28.md\n"
+    },
+    {
+      "name": "Validate research index",
+      "body": "        run: python scripts/validate_research.py\n"
+    },
+    {
+      "name": "Validate runnable NOEMA service entrypoint",
+      "body": "        run: python -m noema_core.service --check --db \"$RUNNER_TEMP/noema-service-check.sqlite3\"\n"
+    },
+    {
+      "name": "Validate SQLite backup and restore CLI",
+      "body": "        run: |\n          DB=\"$RUNNER_TEMP/noema-ops.sqlite3\"\n          BACKUP=\"$RUNNER_TEMP/noema-ops-backup.sqlite3\"\n          RESTORED=\"$RUNNER_TEMP/noema-ops-restored.sqlite3\"\n          python -m noema_core.jobs_cli --db \"$DB\" metrics\n          python -m noema_core.jobs_cli --db \"$DB\" backup --output \"$BACKUP\"\n          python -m noema_core.jobs_cli restore --source \"$BACKUP\" --destination \"$RESTORED\"\n          python -m noema_core.jobs_cli --db \"$RESTORED\" verify\n          python -m noema_core.jobs_cli --db \"$RESTORED\" metrics\n"
+    },
+    {
+      "name": "Verify backup artifact digests against manifest",
+      "body": "        run: python -m unittest discover -s tests -p 'test_backup_artifact_verification.py' -v\n"
+    },
+    {
+      "name": "Verify detached Ed25519 backup manifest signature",
+      "body": "        run: python -m unittest discover -s tests -p 'test_backup_manifest_signature.py' -v\n"
+    },
+    {
+      "name": "Verify NOEMA-005 Run 51 raw OpenMP artifact",
+      "body": "        run: python scripts/verify_noema005_run51_local_openmp.py\n"
+    },
+    {
+      "name": "Verify pinned SignBase 2.0 audit snapshot",
+      "body": "        run: |\n          BASE=\"https://raw.githubusercontent.com/christianbentz/PaleoSigns/b376bd87d9676fbf63f8555d03e06b4c28113740/data/signBase\"\n          curl --fail --location --silent --show-error \"$BASE/Sb2Artifact-2025-03-06.csv\" --output /tmp/signbase-objects.csv\n          curl --fail --location --silent --show-error \"$BASE/Sign-2025-03-06.csv\" --output /tmp/signbase-signs.csv\n          python scripts/audit_signbase.py \\\n            --artifacts /tmp/signbase-objects.csv \\\n            --dictionary /tmp/signbase-signs.csv \\\n            --output /tmp/signbase-audit.json\n          diff -u data/audits/signbase-v2-audit-2026-11-23.json /tmp/signbase-audit.json\n"
+    }
+  ]
+}
