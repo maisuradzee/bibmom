@@ -1,3 +1,73 @@
+# NOEMA — Run 53: nitrate-zone evidence crosswalk, procurement access route and frozen ARM64 re-audit
+
+**Date:** 2026-11-28  
+**Final Main:** `c0a6c5a6d46dcaf1ffa22687309f6317256e4fa6`  
+**Merged PRs:** #277, #278, #279  
+**Main Quality CI:** [46125953807](https://github.com/maisuradzee/bibmom/actions/runs/46125953807) — SUCCESS, 839 passed / 1 skipped  
+**GitHub Pages:** [46125953795](https://github.com/maisuradzee/bibmom/actions/runs/46125953795) — build and deploy SUCCESS  
+**Research catalogue:** 8 Preliminary / 0 Published  
+**Portfolio:** 4 active streams; no fifth stream added
+
+## Run 53 work
+
+### AquaSignal — NOEMA-2026-012 (deep work)
+
+Compared three primary evidence lanes:
+
+1. NEAP-4 2024 monitoring report, Annex 2 activity 5.1.8, which reports groundwater nitrate-vulnerable-zone identification as implemented (100%) and attributes the work to EU technical-assistance experts.
+2. Law No.1766-Vმს-XIმპ (2026-06-24), Article 37(2)(b.e), which requires the Minister to identify groundwater nitrate-polluted/risk zones and define nitrate-vulnerable zones by 2027-09-01.
+3. NEA's 2026-11-26 announcement that the 2021-2025 groundwater report and nitrate field methodology were prepared.
+
+**Inference:** these records concern the same broad subject, but available text does not prove that the historical programme deliverable and current statutory task have identical scope, geographic coverage, approval instrument or legal effect. This is an evidence-reconciliation gap, not proof of contradiction or non-compliance.
+
+A primary procurement contract T-100801 (signed 2026-10-09) provides an alternate access route. It specifies an interactive-TOC PDF, 50 printed reports, 50 CD copies and 70 methodology booklets, with delivery within 20 calendar days (calculated date 2026-10-29) and an acceptance act. No delivery/acceptance record was verified; no breach is inferred. The contract says report text/maps are supplied by the contracting authority. Supplier contact, banking and tax details were not copied into the public repository.
+
+Added:
+- `noema_core/aquasignal_nitrate_zone_obligation.py`
+- `tests/test_aquasignal_nitrate_zone_obligation.py`
+- `data/noema-006/nitrate-zone-obligation-crosswalk-2026-11-28.json`
+- `data/noema-006/nitrate-zone-obligation-crosswalk.schema.json`
+- `research/preprints/NOEMA-2026-012-georgia-groundwater-nitrate-obligation-crosswalk.md`
+- preliminary catalogue and AquaSignal portfolio metadata.
+
+The gate is metadata-only. It can reach `READY_FOR_INDEPENDENT_LEGAL_REVIEW`, never `COMPLIANT` or `LEGAL_VIOLATION`. Official RAR bytes remain unavailable and unhashed; no groundwater samples, final zone map or designation instrument were obtained.
+
+### NOEMA-005 — repeat frozen-artifact audit (small independent work)
+
+Four hosted ARM64 ZIP artifacts from workflow run 46032894362 were downloaded and independently rechecked. This is the same frozen artifact set already reproduced in Run 45; Run 53 is a separately implemented cross-check, not new experimental data.
+
+- 4/4 ZIP digests and 4/4 raw JSON SHA-256/byte-length pairs matched.
+- 192 configurations / 576 measured runs were re-aggregated.
+- Correctly rounded runs: naive 0/192; scalar Neumaier 168/192; full Neumaier state 192/192.
+- CPU-time/wall-time ratio above 1.05: GIL 4/288; free-threaded 202/288.
+- All per-cell median speedups remain below 1.0.
+
+No new bare-metal x86-64/ARM64 run, RSS/native-memory measurement, DRAM hardware counter or external numerical-method review was performed.
+
+### NOEMA-007 and INFRA-001 audit
+
+- **NOEMA-007:** no new authorized Georgian warning-event or after-action dataset. No operational-effectiveness claim added.
+- **INFRA-001:** same-UID and privileged-local-process limitations of 0700/0600 staging remain. No external high-water authority, provider retention proof, encrypted offsite backup or clean-host restore was demonstrated.
+
+## Portfolio and PR state
+
+- AquaSignal, NOEMA-005, NOEMA-007 and INFRA-001 remain active.
+- No new fifth stream.
+- PRs #277, #278 and #279 were merged after exact-head CI and mergeability checks.
+- 40 unrelated open PRs remain; open Issues: 0. Stale CI recovery PRs #252, #251 and #246 were not merged or closed because they require current-Main refresh and separate review.
+- No private well coordinates, sample-level data, personal/supplier contact details, bank data or secrets were added. No Supabase project or external database was created or used.
+
+## Next priorities
+
+1. After 2026-12-01, separately verify whether the 2027 state water-monitoring plan was submitted/approved; absence of public evidence must not be treated as proof of non-submission.
+2. Obtain the official NEA RAR or final interactive PDF and acceptance act for T-100801; hash each received file and verify reuse terms before extracting data.
+3. Obtain final groundwater nitrate-zone maps and formal approval instrument; obtain independent Georgian legal and hydrogeological review.
+4. Repeat NOEMA-005 on independent bare-metal x86-64 and ARM64 devices with Pairwise/Exact methods, RSS/native memory and DRAM counters.
+5. Obtain privacy-approved Georgian warning-event/after-action aggregates for NOEMA-007.
+6. Complete INFRA-001 external high-water authority, encrypted staging and permissioned clean-host restore design.
+
+---
+
 # NOEMA — Run 52: raw-derived benchmark verification and groundwater readiness gate
 
 - **Updated:** 2026-11-28.

@@ -203,3 +203,15 @@ The National Environmental Agency's notices describe distinct stages: four plans
 - [PR #275](https://github.com/maisuradzee/bibmom/pull/275) adds NOEMA-2026-011 and a synthetic-only AquaSignal groundwater quantitative-readiness gate based on Decree №447 Article 7(1)-(2). The gate never assigns a good/poor status.
 - Legali.ge Annex 2 rows are secondary transcription only. The official Matsne DOCX remains not retrieved and unhashed; no Annex-derived schedule is encoded in production.
 - The four-stream portfolio remains unchanged. No new NOEMA-005 physical-device run, authorized Georgian warning-event dataset, groundwater water-balance record, or production disaster-recovery drill was obtained in this cycle.
+
+
+## NOEMA Run 53 — nitrate-zone evidence crosswalk and frozen ARM64 re-audit (2026-11-28)
+
+- [PR #277](https://github.com/maisuradzee/bibmom/pull/277) adds preliminary study **NOEMA-2026-012**. It separates NEAP-4 2024 groundwater-nitrate activity 5.1.8 (reported 100% complete) from the 2026 statutory task in Law No.1766-Vმს-XIმპ, Article 37(2)(b.e), due 2027-09-01. The available sources do not establish that the old programme deliverable and current statutory task are identical; no contradiction or non-compliance is inferred.
+- The NEA's 2026-11-26 announcement confirms that the 2021-2025 groundwater report and nitrate field methodology were prepared. Official procurement contract T-100801 (signed 2026-10-09) specifies an interactive-TOC PDF, printed copies and an acceptance act; the 20-calendar-day delivery date was 2026-10-29, but delivery/acceptance evidence was not verified. The RAR bytes remain unretrieved and unhashed.
+- AquaSignal's metadata-only evidence gate never determines legal compliance. The new record remains **Preliminary**.
+- [PR #278](https://github.com/maisuradzee/bibmom/pull/278) records a second, independently implemented check of the same four hosted ARM64 artifacts already reproduced in Run 45. It confirms no drift (192 cases / 576 runs) but adds no new benchmark data; all median speedups remain below 1.0.
+- [PR #279](https://github.com/maisuradzee/bibmom/pull/279) marks Run 53 as a repeat frozen-artifact audit in the portfolio.
+- NOEMA-007 received no new authorized Georgian warning-event/after-action dataset; INFRA-001 remains same-host only, with no external high-water authority or clean-host restore.
+- Final Main: `c0a6c5a6d46dcaf1ffa22687309f6317256e4fa6`. Main Quality CI passed **839 tests, 1 skipped**; Pages build and deployment succeeded. The catalogue contains 8 Preliminary and 0 Published studies.
+
