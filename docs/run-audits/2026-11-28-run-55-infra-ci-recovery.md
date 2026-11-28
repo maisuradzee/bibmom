@@ -1,0 +1,11 @@
+# NOEMA Run 55 — INFRA-001 CI recovery refresh (v3)
+
+- **Reviewed Main:** `726c9b335acf386d2dab29b005b7817b1e38d910` (after NOEMA-005 and AquaSignal Run 55 changes were merged).
+- **Superseded work:** PR #246 and #252 were closed as stale; PR #286 was closed after its workflow omitted the root header; PR #287 v2 was based on pre-research Main and is superseded by this branch.
+- **Replacement branch:** `engineering/ci-recovery-current-main-run55-v3-2026-11-28`, created from exact Main SHA above. It preserves the complete current workflow root/header and all existing validators, then adds two recovery validators, stable IDs and the final aggregate gate.
+- **Required-step design:** checkout and pinned dependencies remain fail-fast prerequisites. All existing validators plus bounded recovery preflight and workflow-contract validation receive stable IDs and `continue-on-error: true`; an unconditional aggregate gate fails on missing or non-success outcomes. Diagnostic upload is unconditional and non-blocking.
+- **Manifest:** 50 required IDs (2 prerequisites + 48 validations); all IDs are unique and no longer than 64 characters.
+- **Root-structure guard:** the workflow contract rejects a step-only fragment or missing/out-of-order `name`, `on`, `jobs`, `validate`, `runs-on` and `steps` sections. A regression test covers the exact header-truncation failure from the first replacement attempt.
+- **Public-source boundary:** only explicit Sources-section URLs are inspected. The checker bounds URL length and query/fragment fields, rejects user-info, local/private IP literals, local hostnames, invalid ports and credential-like parameter names after bounded decoding. It does not fetch or resolve DNS. Reports contain reason codes, not URL values.
+- **Draft repair boundary:** only known metadata labels and headings are normalized. Research claims, citations, URLs, measurements, schemas, tests and frozen results are not invented or rewritten. The runner-local patch/report are not pushed.
+- **Validation status:** v2's exact-head CI and redaction artifact passed; this v3 branch must rerun CI because it is based on the new Main. Independent security review remains pending. No merge or deployment is claimed.
