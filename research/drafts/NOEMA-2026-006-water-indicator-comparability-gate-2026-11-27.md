@@ -112,3 +112,8 @@ A code review identified that equality of opaque definition IDs is not, by itsel
 The comparator requires every reference to be either fully populated or fully null. Missing provenance returns `INSUFFICIENT_METADATA`; a different content hash or locator returns `NOT_COMPARABLE`. Mirror URLs may differ when the content hash and locator match.
 
 **Security/evidence boundary:** the comparator does not fetch or authenticate the source URL and does not compute the hash. A caller-supplied digest is not proof of authority or authenticity. In production, a trusted acquisition process must download the authoritative document, compute SHA-256 over the exact bytes, record the locator and preserve the artifact under an approved reuse policy. The current 49.5% and 44.5% source observations retain null definition provenance and therefore remain non-comparable.
+
+
+## Precision update — exact counts versus displayed percentages
+
+The comparator now computes the percentage-point contrast from the exact integer numerator/denominator counts using rational arithmetic, while returning the difference between publisher-rounded percentages as a separate diagnostic. This prevents a difference such as 49.5% − 44.5% from being presented as the count-derived contrast when the underlying exact rates differ within the publishers' rounding intervals. Four decimal places are only an arithmetic representation; they are not a confidence interval, statistical significance result or population estimate.
