@@ -225,27 +225,11 @@
           "accessed_at": "2026-11-27"
         },
         {
-          "title": "September 18 is World Water Monitoring Day — NEA public network snapshot",
-          "publisher": "National Environmental Agency of Georgia",
-          "publication_date": "2025-09-18",
-          "url": "https://nea.gov.ge/En/News/2335",
-          "type": "official_network_snapshot",
-          "accessed_at": "2026-11-27"
-        },
-        {
           "title": "National Environmental Agency 2025 annual report — water resources monitoring",
           "publisher": "National Environmental Agency of Georgia",
           "publication_date": "undated",
           "url": "https://nea.gov.ge/en/Download/File/1444",
           "type": "official_annual_report",
-          "accessed_at": "2026-11-27"
-        },
-        {
-          "title": "NEA announcement — 2021–2025 groundwater monitoring report and nitrate-risk field methodology",
-          "publisher": "National Environmental Agency of Georgia",
-          "publication_date": "2026-11-26",
-          "url": "https://nea.gov.ge/ajs/News/3461",
-          "type": "official_announcement",
           "accessed_at": "2026-11-27"
         },
         {
@@ -312,7 +296,8 @@
           "publication_date": "2026-10-09",
           "url": "https://tenders.procurement.gov.ge/public/library/files.php?file=677451&mode=contract",
           "type": "official_procurement_contract",
-          "accessed_at": "2026-11-27"
+          "accessed_at": "2026-11-28",
+          "note": "Contract T-100801 specifies an interactive final PDF, 50 CD media units and printed deliverables. NEA's 2026-11-26 announcement says the report/methodology were prepared, but no acceptance/delivery act, public access, exact CD contents or reuse rights were verified."
         },
         {
           "title": "2025 წელს გამოვლენილი დარღვევები",
@@ -410,15 +395,6 @@
           "note": "Historical 2016-2017 aggregate only; no raw sample data or current exposure claim."
         },
         {
-          "title": "Georgia Government Decree №58/2014 — drinking-water operational control articles",
-          "publisher": "Legislative Herald of Georgia",
-          "publication_date": "2014-01-15",
-          "url": "https://matsne.gov.ge/ka/document/view/2196792",
-          "type": "official_legal_text",
-          "accessed_at": "2026-11-28",
-          "note": "Articles 1(2)-(3), 1(5)-(7), 3(2)-(4), 3(6), 3(9), Table 7, 4(2). Legal transition/repeal status after 2027-09-01 requires review; this is not legal advice."
-        },
-        {
           "title": "Government Decree №447/2026 — Water-resource monitoring planning and implementation rules",
           "publisher": "Legislative Herald of Georgia",
           "publication_date": "2026-09-15",
@@ -462,15 +438,6 @@
           "type": "secondary_legal_text_transcription",
           "accessed_at": "2026-11-28",
           "note": "Used only as a discovery lead for Annex 2 groundwater monitoring frequencies and nitrate/low-flow sampling methods. The official Matsne page lists a 46,049-byte DOCX attachment, but its bytes were not retrieved, hashed or inspected. Do not treat annex-specific rows as verified primary facts."
-        },
-        {
-          "title": "Public procurement contract T-100801 — NEA 2021–2025 groundwater report and nitrate field methodology",
-          "publisher": "State Procurement Agency of Georgia",
-          "publication_date": "2026-10-09",
-          "url": "https://tenders.procurement.gov.ge/public/library/files.php?file=677451&mode=contract",
-          "type": "official_procurement_contract",
-          "accessed_at": "2026-11-28",
-          "note": "Specifies printed report, interactive PDF, CD media and printed nitrate methodology deliverables. Does not prove public access, CD contents, completed acceptance or reuse rights."
         }
       ],
       "data_needs": [
