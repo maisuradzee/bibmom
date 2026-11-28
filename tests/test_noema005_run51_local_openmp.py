@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import base64
+import copy
+import gzip
 import json
 import shutil
 import subprocess
@@ -10,7 +13,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
-from verify_noema005_run51_local_openmp import verify_report
+from verify_noema005_run51_local_openmp import verify_report, validate_raw_layout_metrics
 
 SOURCE = ROOT / "scripts/noema005_run51_openmp.c"
 
