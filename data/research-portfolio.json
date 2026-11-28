@@ -549,17 +549,26 @@
         {
           "title": "Public Defender of Georgia — Special Report on the Realisation of the Right to Water in Georgia (2025-03-24)",
           "url": "https://ombudsman.ge/res/docs/2025041010211260067.pdf",
-          "publisher": "Public Defender of Georgia"
+          "publisher": "Public Defender of Georgia",
+          "type": "official human-rights oversight report",
+          "publication_date": "2025-03-24",
+          "accessed_at": "2026-11-28"
         },
         {
           "title": "National Food Agency — 2023 food and drinking-water monitoring summary (2024-02-20)",
           "url": "https://nfa.gov.ge/En/News/Details/489",
-          "publisher": "National Food Agency of Georgia"
+          "publisher": "National Food Agency of Georgia",
+          "type": "official agency release",
+          "publication_date": "2024-02-20",
+          "accessed_at": "2026-11-28"
         },
         {
           "title": "Bakradze et al. — State Control and Monitoring Trends of Drinking Water Quality in Georgia (2025)",
           "url": "https://doi.org/10.52340/jecm.2025.01.25",
-          "publisher": "Experimental and Clinical Medicine Georgia"
+          "publisher": "Experimental and Clinical Medicine Georgia",
+          "type": "journal secondary analysis",
+          "publication_date": "2025-03-01",
+          "accessed_at": "2026-11-28"
         }
       ],
       "data_needs": [
