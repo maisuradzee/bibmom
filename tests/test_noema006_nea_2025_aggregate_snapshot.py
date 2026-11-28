@@ -31,6 +31,12 @@ class Nea2025WaterAggregateSnapshotTests(unittest.TestCase):
         for field in ("chemical", "microbiological", "heavy_metals", "petroleum_products", "pesticides"):
             self.assertEqual(sum(row[field] for row in groundwater["regional_lab_sample_counts"]), groundwater["reported_sample_counts_by_analysis_group"][field])
 
+    def test_boolean_analysis_count_is_rejected_by_runtime_validator(self):
+        changed = copy.deepcopy(self.data)
+        changed["groundwater"]["reported_sample_counts_by_analysis_group"]["chemical"] = True
+        with self.assertRaises(Nea2025AggregateError):
+            validate_nea_2025_aggregate(changed)
+
     def test_regional_mutation_is_rejected_even_when_column_total_is_preserved(self):
         changed = copy.deepcopy(self.data)
         rows = changed["groundwater"]["regional_lab_sample_counts"]
