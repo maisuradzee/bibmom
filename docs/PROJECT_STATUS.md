@@ -694,3 +694,11 @@ Main remains at `726c71c9ef1a4e1c00dbc4a44b950e4b371c02f0`. Main Quality CI [460
 - Official procurement contract T-100801 (tender NAT260019441), signed 2026-10-09, specifies a final interactive PDF, 50 CD media units and printed deliverables. This does not prove public access, CD contents, formal acceptance or reuse rights.
 - Added a strict metadata record/schema, focused tests and a draft access note. No supplier contact/bank/signature data or report payload was copied.
 - Next: request the final PDF/public-inspection route, acceptance/delivery act, exact CD contents, data dictionary, checksum and reuse terms from NEA.
+
+
+## Run 43 — INFRA-001 citation-safe CI recovery (current Main, 2026-11-28)
+
+- Review found that the older CI recovery draft could promote arbitrary narrative/next-step URLs into a Sources section, risking false citation provenance. PRs #234, #241 and #242 were closed without merge as superseded.
+- Current-Main replacement branch implements only bounded date/status/heading normalization. It never copies or invents URLs; it audits only explicit source-list bullet entries and reports path/line/reason without echoing URL values.
+- Independent validation steps use continue-on-error, followed by a final aggregate gate that fails on any required failure. Recovery patches remain runner artifacts and are never pushed automatically.
+- The URL check is syntactic only: no DNS resolution, live fetch, publisher authentication, complete secret scanning or SSRF protection. PR #246 remains Draft pending independent security review.
