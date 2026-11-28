@@ -1,0 +1,197 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AquaSignal Georgia Decree 447 monitoring requirements",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_id",
+    "study_id",
+    "reviewed_at",
+    "classification",
+    "sources",
+    "requirements",
+    "scope_boundaries",
+    "aqua_signal_design_implications",
+    "not_established",
+    "privacy"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "record_id": {
+      "const": "AQUASIGNAL-GEORGIA-DECREE447-WATER-MONITORING-2026-09-15"
+    },
+    "study_id": {
+      "const": "NOEMA-2026-006"
+    },
+    "reviewed_at": {
+      "type": "string",
+      "format": "date",
+      "const": "2026-11-28"
+    },
+    "classification": {
+      "const": "REGULATORY_MONITORING_REQUIREMENTS"
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "publisher",
+          "title",
+          "url",
+          "accessed_at",
+          "source_type"
+        ],
+        "properties": {
+          "publisher": {
+            "const": "Legislative Herald of Georgia (Matsne)"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 30
+          },
+          "adopted_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "effective_from": {
+            "type": "string",
+            "format": "date"
+          },
+          "publication_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "relevant_amendment": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "accessed_at": {
+            "const": "2026-11-28"
+          },
+          "source_type": {
+            "const": "official_primary_legislation"
+          }
+        }
+      }
+    },
+    "requirements": {
+      "type": "array",
+      "minItems": 8,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "article",
+          "requirement"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "article": {
+            "type": "string"
+          },
+          "requirement": {
+            "type": "string",
+            "minLength": 30
+          },
+          "next_observed_deadline": {
+            "type": "string",
+            "format": "date"
+          },
+          "status_at_review": {
+            "type": "string"
+          },
+          "start_by": {
+            "type": "string",
+            "format": "date"
+          },
+          "note": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "scope_boundaries": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "distinction",
+          "fact",
+          "implication"
+        ],
+        "properties": {
+          "distinction": {
+            "type": "string"
+          },
+          "fact": {
+            "type": "string",
+            "minLength": 40
+          },
+          "implication": {
+            "type": "string",
+            "minLength": 30
+          }
+        }
+      }
+    },
+    "aqua_signal_design_implications": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "string",
+        "minLength": 30
+      }
+    },
+    "not_established": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "string",
+        "minLength": 30
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "personal_data_included",
+        "exact_station_coordinates_included",
+        "raw_lab_records_included",
+        "household_or_consumer_records_included",
+        "restricted_annex_payload_included"
+      ],
+      "properties": {
+        "personal_data_included": {
+          "const": false
+        },
+        "exact_station_coordinates_included": {
+          "const": false
+        },
+        "raw_lab_records_included": {
+          "const": false
+        },
+        "household_or_consumer_records_included": {
+          "const": false
+        },
+        "restricted_annex_payload_included": {
+          "const": false
+        }
+      }
+    }
+  }
+}
