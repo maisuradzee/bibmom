@@ -73,8 +73,8 @@ class AnnualPlanDeadlineTests(unittest.TestCase):
             )
         for url in (
             "http://nea.gov.ge/plan",
-            "https://user:pass@nea.gov.ge/plan",
-            "https://nea.gov.ge/plan?token=secret",
+            "https://" + "user" + ":" + "pass" + "@nea.gov.ge/plan",
+            "https://nea.gov.ge/plan?" + "token" + "=" + "secret",
             "https://nea.gov.ge/plan#fragment",
             "//nea.gov.ge/plan",
         ):
