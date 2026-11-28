@@ -132,6 +132,25 @@ Method.
             self.assertEqual(second["files_with_safe_repairs"], [])
             self.assertFalse(second["safe_repairs_applied"])
 
+    def test_aggregate_gate_blocks_failed_skipped_and_unknown_required_steps(self) -> None:
+        from scripts.ci_recovery import summarize_step_outcomes
+
+        outcomes = {
+            "checkout": {"outcome": "success"},
+            "check_schema": {"outcome": "failure"},
+            "check_frozen_result": {"outcome": "skipped"},
+            "check_other": {"outcome": "cancelled"},
+            "summarize_validation_outcomes": {"outcome": "success"},
+        }
+        summary = summarize_step_outcomes(outcomes)
+        self.assertEqual(summary["step_count"], 4)
+        self.assertEqual([item["id"] for item in summary["failed_steps"]], ["check_schema"])
+        self.assertEqual([item["id"] for item in summary["skipped_steps"]], ["check_frozen_result"])
+        self.assertEqual(
+            [item["id"] for item in summary["non_success_steps"]],
+            ["check_schema", "check_frozen_result", "check_other"],
+        )
+
     def test_published_status_is_not_downgraded_or_relabelled(self) -> None:
         source = "# NOEMA-2026-999 — Example\n\n- **Status:** published\n"
         repaired, rules = _normalize_draft(source)
