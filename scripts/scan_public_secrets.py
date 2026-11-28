@@ -22,9 +22,9 @@ _PATTERNS = (
     ("jwt-like-token", re.compile(r"\beyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\b")),
 )
 _PRIVATE_KEY_BLOCK = re.compile(
-    r"-----BEGIN (?:RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----\s*"
-    r"(?:[A-Za-z0-9+/=]{40,}\s*)+"
-    r"-----END (?:RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----",
+    r"-----BEGIN (?:RSA |EC |OPENSSH |DSA |ENCRYPTED )?PRIVATE KEY-----\s*"
+    r"(?:[A-Za-z0-9+/=]{1,76}\s*)+"
+    r"-----END (?:RSA |EC |OPENSSH |DSA |ENCRYPTED )?PRIVATE KEY-----",
     re.DOTALL,
 )
 _ASSIGNMENT = re.compile(
@@ -67,6 +67,16 @@ def _is_placeholder(value: str) -> bool:
     return normal in _PLACEHOLDERS or any(marker in normal for marker in ("example", "placeholder", "redacted"))
 
 
+def _is_reserved_example_host(host: str | None) -> bool:
+    if not host:
+        return False
+    normal = host.casefold().rstrip(".")
+    if normal == "localhost" or normal.endswith(".localhost"):
+        return True
+    reserved = ("example.com", "example.net", "example.org", "example", "invalid", "test")
+    return any(normal == suffix or normal.endswith("." + suffix) for suffix in reserved)
+
+
 def _url_rules(value: str) -> set[str]:
     rules: set[str] = set()
     candidate = value.rstrip(".,;:)]}")
@@ -76,7 +86,11 @@ def _url_rules(value: str) -> set[str]:
     except ValueError:
         return rules
     userinfo = [item for item in (parts.username, parts.password) if item is not None]
-    if userinfo and any(not _is_placeholder(unquote_plus(item)) for item in userinfo):
+    example_host = _is_reserved_example_host(parts.hostname)
+    if userinfo and (
+        not example_host
+        or any(not _is_placeholder(unquote_plus(item)) for item in userinfo)
+    ):
         rules.add("url-userinfo-credentials")
     sensitive = {re.sub(r"[^a-z0-9]", "", item) for item in _SENSITIVE_NAMES}
     for component in (parts.query, parts.fragment):
@@ -87,7 +101,9 @@ def _url_rules(value: str) -> set[str]:
                 rules.add("url-excessive-parameter-count")
                 continue
             for name, value in pairs:
-                if _normalise_parameter_name(name) in sensitive and not _is_placeholder(value):
+                if _normalise_parameter_name(name) in sensitive and value and (
+                    not example_host or not _is_placeholder(value)
+                ):
                     rules.add("url-sensitive-parameter-name")
     segments = [segment for segment in parts.path.split("/") if segment]
     markers = {re.sub(r"[^a-z0-9]", "", item) for item in _PATH_MARKERS}
