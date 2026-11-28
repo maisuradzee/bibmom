@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "record_id": "NOEMA005-ARM64-RUN33-FROZEN-ARTIFACT-VERIFICATION-2026-11-28",
+  "study_id": "NOEMA-2026-005",
+  "experiment_id": "NOEMA-2026-005-REAL-THREADS-ARM64-001",
+  "reviewed_at": "2026-11-28",
+  "classification": "FROZEN_ARTIFACT_REPRODUCED_RESULT",
+  "source": {
+    "summary_path": "data/noema-005/arm64-threaded-benchmark-summary-2026-11-27.json",
+    "workflow_run_id": 46032894362,
+    "workflow_run_url": "https://github.com/maisuradzee/bibmom/actions/runs/46032894362",
+    "benchmark_head_sha": "176ab78fa998060621b4056c65fd2e1f155b1058",
+    "summary_commit_base": "710a4a3a7b87c7f226222a2fae523957ffb66571",
+    "access_date": "2026-11-28"
+  },
+  "method": {
+    "type": "offline_frozen_artifact_verification",
+    "steps": [
+      "Downloaded the four GitHub Actions ZIP artifacts by their published artifact IDs.",
+      "Recomputed SHA-256 for each ZIP and compared it with the summary manifest.",
+      "Extracted each single JSON report in memory and recomputed raw-report SHA-256 and byte length.",
+      "Recomputed correctly-rounded run counts, CPU-time/wall-time samples above 1.05, per-runner median speedups and input-layout hash equivalence from the raw reports.",
+      "Did not rerun the benchmark or treat hosted runners as physical-device replication."
+    ],
+    "tool": "scripts/verify_noema005_arm64_artifacts.py",
+    "raw_reports_committed": false,
+    "native_thread_ids_copied": false
+  },
+  "artifacts": [
+    {
+      "runner": "ubuntu-24.04-arm",
+      "runtime_mode": "gil-enabled",
+      "artifact_id": 15213989722,
+      "report_filename": "noema005-arm64-ubuntu-24.04-arm-gil-enabled.json",
+      "zip_sha256": "88ca52d4ff6e977fb1ce20bdacac3c89a03641166a135ac7644a52551898c72b",
+      "raw_report_sha256": "27a16f73fd466d65c8569a2662890928ae61954d01acf74d0f5b1329641aff69",
+      "raw_report_bytes": 56822,
+      "hash_match": true
+    },
+    {
+      "runner": "ubuntu-24.04-arm",
+      "runtime_mode": "free-threaded",
+      "artifact_id": 15215700349,
+      "report_filename": "noema005-arm64-ubuntu-24.04-arm-free-threaded.json",
+      "zip_sha256": "174198009043406a79bed32eaa1656bfaa2ddb419df33e09e0e3c17b1545f",
+      "raw_report_sha256": "0d63e6c45218eb6e4b436d6962b70adaa4216d969311126cc774fda673299b33",
+      "raw_report_bytes": 56949,
+      "hash_match": true
+    },
+    {
+      "runner": "macos-15-arm64",
+      "runtime_mode": "gil-enabled",
+      "artifact_id": 15215925170,
+      "report_filename": "noema005-arm64-macos-15-arm64-gil-enabled.json",
+      "zip_sha256": "6bb2a01a276940f329892c6b0d2617e98d1f72712722f9f98d58b11fe242eae9",
+      "raw_report_sha256": "f59517eb644084f122a60a57878f4f2ea0ceaf9c780bcf5f89a12603f4151105",
+      "raw_report_bytes": 56835,
+      "hash_match": true
+    },
+    {
+      "runner": "macos-15-arm64",
+      "runtime_mode": "free-threaded",
+      "artifact_id": 15214628760,
+      "report_filename": "noema005-arm64-macos-15-arm64-free-threaded.json",
+      "zip_sha256": "e0e9e71269911827eca7efb757966d8318f66ac5235a672482aa716a100ca641",
+      "raw_report_sha256": "57503b6b247725526f09e8e9cf6ff5d6d55e509c361ad6055e26f94658c553c7",
+      "raw_report_bytes": 56982,
+      "hash_match": true
+    }
+  ],
+  "reproduced_aggregates": {
+    "arm64_runtimes": 4,
+    "threaded_configurations": 192,
+    "measured_runs": 576,
+    "accuracy": {
+      "naive_scalar": {
+        "correct": 0,
+        "total": 192
+      },
+      "neumaier_scalar": {
+        "correct": 168,
+        "total": 192
+      },
+      "neumaier_state": {
+        "correct": 192,
+        "total": 192
+      }
+    },
+    "cpu_wall_samples_above_1_05": {
+      "gil_enabled": {
+        "count": 4,
+        "total": 288
+      },
+      "free_threaded": {
+        "count": 202,
+        "total": 288
+      }
+    },
+    "median_speedup_by_runner": {
+      "ubuntu-24.04-arm/gil-enabled": {
+        "naive_scalar": 0.494044,
+        "neumaier_scalar": 0.736527,
+        "neumaier_state": 0.733395
+      },
+      "ubuntu-24.04-arm/free-threaded": {
+        "naive_scalar": 0.178673,
+        "neumaier_scalar": 0.642287,
+        "neumaier_state": 0.640091
+      },
+      "macos-15-arm64/gil-enabled": {
+        "naive_scalar": 0.402504,
+        "neumaier_scalar": 0.736784,
+        "neumaier_state": 0.837476
+      },
+      "macos-15-arm64/free-threaded": {
+        "naive_scalar": 0.213532,
+        "neumaier_scalar": 0.645782,
+        "neumaier_state": 0.620236
+      }
+    },
+    "all_median_speedups_below_one": true,
+    "input_hashes_identical_across_cells": true,
+    "distinct_input_layouts": 2
+  },
+  "interpretation": {
+    "fact": [
+      "The frozen workflow reports four hosted ARM64 runner/runtime cells, 192 threaded configurations and 576 measured runs (three repetitions per configuration).",
+      "All four ZIP digests and all four extracted raw-report SHA-256 values were independently recomputed and matched the summary manifest.",
+      "The raw reports reproduce 0/192 correctly-rounded naive-scalar runs, 168/192 scalar-Neumaier runs and 192/192 Neumaier-state runs.",
+      "Free-threaded cells have 202/288 CPU-time/wall-time samples above 1.05; GIL-enabled cells have 4/288."
+    ],
+    "inference": [
+      "For this synthetic cancellation workload, Neumaier-state retained exact-reference accuracy while every runner/runtime/method median wall-time speedup remained below 1.0.",
+      "The CPU-time/wall-time ratios demonstrate concurrent CPU activity in free-threaded cells, not useful throughput improvement or a wall-time speedup."
+    ],
+    "hypothesis": [
+      "A reduction architecture that minimizes Python-level per-element work or uses an optimized native/vectorized kernel may improve throughput, but this has not been tested in this experiment."
+    ],
+    "untested_idea": [
+      "Compare pairwise tree reduction and a reproducible exact/superaccumulator against Neumaier-state using both cancellation-heavy and representative memory-bandwidth-bound workloads."
+    ]
+  },
+  "limitations": [
+    "This is independent verification of frozen artifacts and aggregate calculations, not a fresh benchmark run or independent physical-device experiment.",
+    "GitHub-hosted ARM64 runners are not independent physical-device or external-laboratory replication.",
+    "Only three measured repetitions per configuration were run.",
+    "Inputs are deterministic synthetic cancellation fixtures, not representative application or memory-bandwidth-bound workloads.",
+    "Memory measurement is tracemalloc peak delta only; process RSS, native allocator overhead and DRAM bandwidth were not measured.",
+    "Runner families and images must not be compared causally."
+  ],
+  "privacy": {
+    "raw_reports_committed": false,
+    "native_thread_ids_committed": false,
+    "full_host_build_strings_committed": false,
+    "personal_data_included": false,
+    "credentials_included": false
+  }
+}
