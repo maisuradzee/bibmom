@@ -1,0 +1,203 @@
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-006",
+  "snapshot_date": "2026-11-28",
+  "source": {
+    "title": "National Environmental Agency 2025 annual report",
+    "publisher": "National Environmental Agency of Georgia",
+    "url": "https://nea.gov.ge/en/Download/File/1444",
+    "report_year": 2025,
+    "locator": "Water resources monitoring: groundwater pp. 10–12; nitrate field-instrumental table p. 11; surface waters p. 13 (page locators follow the report contents).",
+    "accessed_at": "2026-11-28",
+    "file_sha256": null,
+    "file_sha256_status": "NOT_COMPUTED"
+  },
+  "groundwater": {
+    "source_reported_total_points": 124,
+    "routine_hydrogeological_monitoring_points": 74,
+    "field_instrumental_study_points": 50,
+    "unique_site_count": null,
+    "automatic_stations_added": 2,
+    "online_monitoring_software_updated": true,
+    "laboratory_sampling_points": 74,
+    "laboratory_sample_count": 681,
+    "reported_sample_counts_by_analysis_group": {
+      "chemical": 147,
+      "microbiological": 147,
+      "heavy_metals": 158,
+      "petroleum_products": 82,
+      "pesticides": 147
+    },
+    "regional_lab_sample_counts": [
+      {
+        "region_code": "ADJARA",
+        "region_ka": "აჭარა",
+        "region_en": "Adjara",
+        "chemical": 12,
+        "microbiological": 12,
+        "heavy_metals": 12,
+        "petroleum_products": 6,
+        "pesticides": 12,
+        "total": 54
+      },
+      {
+        "region_code": "GURIA",
+        "region_ka": "გურია",
+        "region_en": "Guria",
+        "chemical": 8,
+        "microbiological": 8,
+        "heavy_metals": 8,
+        "petroleum_products": 6,
+        "pesticides": 8,
+        "total": 38
+      },
+      {
+        "region_code": "IMERETI",
+        "region_ka": "იმერეთი",
+        "region_en": "Imereti",
+        "chemical": 10,
+        "microbiological": 10,
+        "heavy_metals": 10,
+        "petroleum_products": 7,
+        "pesticides": 10,
+        "total": 47
+      },
+      {
+        "region_code": "SAMEGRELO_ZEMO_SVANETI",
+        "region_ka": "სამეგრელო-ზემო სვანეთი",
+        "region_en": "Samegrelo-Zemo Svaneti",
+        "chemical": 10,
+        "microbiological": 10,
+        "heavy_metals": 11,
+        "petroleum_products": 10,
+        "pesticides": 10,
+        "total": 51
+      },
+      {
+        "region_code": "SHIDA_KARTLI",
+        "region_ka": "შიდა ქართლი",
+        "region_en": "Shida Kartli",
+        "chemical": 4,
+        "microbiological": 4,
+        "heavy_metals": 4,
+        "petroleum_products": 2,
+        "pesticides": 4,
+        "total": 18
+      },
+      {
+        "region_code": "KVEMO_KARTLI",
+        "region_ka": "ქვემო ქართლი",
+        "region_en": "Kvemo Kartli",
+        "chemical": 9,
+        "microbiological": 9,
+        "heavy_metals": 9,
+        "petroleum_products": 5,
+        "pesticides": 9,
+        "total": 41
+      },
+      {
+        "region_code": "MTSKHETA_MTIANETI",
+        "region_ka": "მცხეთა-მთიანეთი",
+        "region_en": "Mtskheta-Mtianeti",
+        "chemical": 19,
+        "microbiological": 19,
+        "heavy_metals": 19,
+        "petroleum_products": 9,
+        "pesticides": 19,
+        "total": 85
+      },
+      {
+        "region_code": "KAKHETI",
+        "region_ka": "კახეთი",
+        "region_en": "Kakheti",
+        "chemical": 75,
+        "microbiological": 75,
+        "heavy_metals": 85,
+        "petroleum_products": 37,
+        "pesticides": 75,
+        "total": 347
+      }
+    ],
+    "nitrate_field_study_points": {
+      "total": 50,
+      "boreholes": 19,
+      "springs": 30,
+      "control_wells": 1,
+      "source_term_control_well": "საკონტროლო ჭა",
+      "control_well_translation": "control well",
+      "regional_counts": [
+        {
+          "region_code": "IMERETI",
+          "region_ka": "იმერეთი",
+          "region_en": "Imereti",
+          "springs": 17,
+          "boreholes": 9,
+          "control_wells": 1,
+          "total": 27
+        },
+        {
+          "region_code": "SAMEGRELO_ZEMO_SVANETI",
+          "region_ka": "სამეგრელო-ზემო სვანეთი",
+          "region_en": "Samegrelo-Zemo Svaneti",
+          "springs": 0,
+          "boreholes": 10,
+          "control_wells": 0,
+          "total": 10
+        },
+        {
+          "region_code": "SAMTSKHE_JAVAKHETI",
+          "region_ka": "სამცხე-ჯავახეთი",
+          "region_en": "Samtskhe-Javakheti",
+          "springs": 3,
+          "boreholes": 0,
+          "control_wells": 0,
+          "total": 3
+        },
+        {
+          "region_code": "SHIDA_KARTLI",
+          "region_ka": "შიდა ქართლი",
+          "region_en": "Shida Kartli",
+          "springs": 7,
+          "boreholes": 0,
+          "control_wells": 0,
+          "total": 7
+        },
+        {
+          "region_code": "MTSKHETA_MTIANETI",
+          "region_ka": "მცხეთა-მთიანეთი",
+          "region_en": "Mtskheta-Mtianeti",
+          "springs": 3,
+          "boreholes": 0,
+          "control_wells": 0,
+          "total": 3
+        }
+      ],
+      "concentration_results_published": false,
+      "laboratory_confirmation_published": false,
+      "final_vulnerable_zone_designation_in_this_report": false
+    },
+    "points_with_listed_parameter_coverage": 73,
+    "overlap_assessment": {
+      "unique_site_count_status": "not_reported",
+      "lab_points_vs_parameter_coverage": "not_explained",
+      "routine_vs_field_site_overlap": "not_verifiable_from_public_aggregate",
+      "nitrate_vs_field_instrumental_point_identity": "not_linked_by_public_site_ids"
+    }
+  },
+  "surface_water": {
+    "sampling_points": 238,
+    "sample_count": 2571,
+    "matrix_separation_note": "Surface-water counts are kept separate from groundwater monitoring and must not be pooled into groundwater, raw-groundwater or drinking-water compliance estimates."
+  },
+  "limitations": [
+    "These are source-reported annual aggregate counts, not sample-level analytical results or unique sample identifiers.",
+    "The report's 124 combined groundwater points are described as 74 routine hydrogeological monitoring points plus 50 field-instrumental study points; overlap and unique-site count are not published.",
+    "The report lists 74 laboratory-sampling points and separately lists parameter coverage at 73 groundwater points; their relationship is not explained and must not be inferred.",
+    "The 681 laboratory sample counts by analysis group are not a compliance numerator or denominator and may not represent unique physical samples.",
+    "The 50-point nitrate table reports field-instrumental point types and regional counts, not nitrate concentrations, laboratory confirmation or final vulnerable-zone designation.",
+    "The Georgian source term is 'საკონტროლო ჭა' (control well), not a household well.",
+    "No station/sample dictionary, coordinates, sample dates, analyte values, units, LOD/LOQ, standard versions, laboratory QA/QC, accreditation scope, correction history or reuse terms are supplied in this aggregate snapshot.",
+    "The PDF was inspected through the public browser reader, but its raw bytes were not available to the current retrieval runtime; SHA-256 was not computed.",
+    "The 2025 annual report is distinct from the 2021–2025 groundwater RAR announced on 2026-11-26; the RAR archive was not retrieved or inspected."
+  ]
+}
