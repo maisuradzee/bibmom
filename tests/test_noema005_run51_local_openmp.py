@@ -47,6 +47,42 @@ class Noema005Run51OpenMPTests(unittest.TestCase):
             self.assertEqual({c["requested_workers"] for c in cases}, {1, 2, 4, 5, 8})
             self.assertTrue(all(c["median_wall_ns"] > 0 and c["median_process_cpu_ns"] > 0 for c in cases))
 
+    def _raw_layout(self, index: int = 0):
+        encoded = (ROOT / "data/noema-005/raw/run51-local-openmp-2026-11-28.jsonl.gz.b64").read_text(encoding="ascii").strip()
+        raw = gzip.decompress(base64.b64decode(encoded, validate=True))
+        layouts = [json.loads(line) for line in raw.decode("utf-8").splitlines() if line]
+        return copy.deepcopy(layouts[index])
+
+    def test_raw_speedup_and_effective_scan_rate_are_recomputed(self):
+        for index in (0, 1):
+            validate_raw_layout_metrics(self._raw_layout(index))
+
+    def test_corrupted_speedup_is_rejected_even_if_report_summary_would_match(self):
+        layout = self._raw_layout()
+        case = next(item for item in layout["cases"] if item["method"] == "openmp_neumaier_full_state")
+        case["speedup_vs_serial_method"] += 0.25
+        with self.assertRaisesRegex(ValueError, "speedup_vs_serial_method"):
+            validate_raw_layout_metrics(layout)
+
+    def test_corrupted_effective_scan_rate_is_rejected(self):
+        layout = self._raw_layout()
+        case = next(item for item in layout["cases"] if item["method"] == "openmp_neumaier_full_state")
+        case["median_effective_input_gib_s"] += 0.25
+        with self.assertRaisesRegex(ValueError, "median_effective_input_gib_s"):
+            validate_raw_layout_metrics(layout)
+
+    def test_missing_or_nonpositive_raw_timing_samples_are_rejected(self):
+        layout = self._raw_layout()
+        case = next(item for item in layout["cases"] if item["method"] == "openmp_neumaier_full_state")
+        case["wall_samples_ns"].pop()
+        with self.assertRaisesRegex(ValueError, "wall-time sample count"):
+            validate_raw_layout_metrics(layout)
+        layout = self._raw_layout()
+        case = next(item for item in layout["cases"] if item["method"] == "openmp_neumaier_full_state")
+        case["process_cpu_samples_ns"][0] = 0
+        with self.assertRaisesRegex(ValueError, "process CPU-time sample"):
+            validate_raw_layout_metrics(layout)
+
     @unittest.skipUnless(shutil.which("gcc"), "GCC is unavailable")
     def test_c_harness_compiles_and_runs_small_openmp_correctness_case(self):
         with tempfile.TemporaryDirectory(prefix="noema005-run51-ci-") as temporary:
