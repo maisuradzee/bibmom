@@ -1,10 +1,18 @@
 name: NOEMA quality checks
 
 on:
+  # Validate production updates and every PR before merge. Research branch
+  # pushes are validated by their PR event, avoiding duplicate push+PR runs.
   push:
-    branches: [main, "research/**"]
+    branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
+
+# New commits supersede older in-flight checks for the same branch/PR.
+concurrency:
+  group: noema-quality-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
