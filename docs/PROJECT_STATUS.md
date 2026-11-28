@@ -1,3 +1,60 @@
+## NOEMA — Run 58: AquaSignal aggregate audit and INFRA CI/secret-scan hardening
+
+**Date:** 2026-11-28  
+**Starting Main:** `f1924abccb8d184a86758c5c54560f56f5912588`  
+**Active streams reviewed:** 4  
+**Catalogue:** 11 Preliminary / 0 Published  
+**New streams:** 0
+
+### Work completed
+
+#### AquaSignal — NEA 2025 groundwater coverage
+
+Draft PR [#306](https://github.com/maisuradzee/bibmom/pull/306) refreshes stale PR #144 onto current Main. It adds a public aggregate snapshot, closed JSON Schema, regional-table validator and mutation tests. The NEA 2025 annual report describes 124 combined groundwater points (74 routine hydrogeological monitoring + 50 field-instrumental study points), 2 new automatic stations, 74 laboratory-sampling points and 681 analysis-group counts, 73 parameter-coverage points, and a separate 50-point nitrate field table (30 springs, 19 boreholes, 1 control well). The source term “საკონტროლო ჭა” is recorded as **control well**.
+
+The eight laboratory regional rows and five nitrate regional rows are checked independently. The 124/74/73/50 frames remain separate because unique-site overlap is not reported. The nitrate table is field-instrumental coverage only; it contains no sample-level nitrate concentrations, laboratory confirmation or final vulnerable-zone designation. The PDF was inspected through the browser reader; raw bytes were not obtained and SHA-256 is **NOT_COMPUTED**. The separate 2021–2025 groundwater RAR announced on 2026-11-26 remains uninspected.
+
+PR #306 exact-head CI [46144520244](https://github.com/maisuradzee/bibmom/actions/runs/46144520244) passed **911 tests / 1 skipped**; draft validation, research index, frozen reproductions, site build and publication-boundary checks succeeded. Site build reported 0 Published / 11 Preliminary. PR remains Draft pending independent hydrogeological, laboratory and statistical review; not merged.
+
+#### INFRA-001 — CI command and public credential preflight
+
+Draft PR [#307](https://github.com/maisuradzee/bibmom/pull/307) is a clean-current-Main replacement for stale PR #304. It pins all named CI step bodies and adds a tracked UTF-8 text credential scanner. Run 58 self-audit fixes cover encrypted PKCS#8 keys with short final base64 lines and placeholder-looking URL credentials on non-example hosts.
+
+PR #307 exact-head CI [46144710939](https://github.com/maisuradzee/bibmom/actions/runs/46144710939) passed **891 tests / 1 skipped**. The command contract matched all named step bodies; the scanner checked 475 tracked UTF-8 text files, skipped 3 binary/non-UTF-8 files and found no configured patterns. It remains pattern-based, does not scan Git history and is not proof that the repository is secret-free. The manifest/validator share the same public repository and are not an independent trust anchor. PR remains Draft pending independent security review; not merged.
+
+Stale PRs #144 and #304 were closed as superseded; their commits remain in history and were not merged.
+
+#### NOEMA-005
+
+No new physical CPU experiment was run. Existing 330-case parallel-reduction simulation and frozen summaries passed in PR #306 CI. Existing 96-case real-thread summary with 288 timed runs passed in PR #307 CI. These are frozen-result checks, not new hardware measurements. Physical x86-64/ARM64, RSS and DRAM-counter work remains blocked on suitable hardware/access.
+
+#### NOEMA-007
+
+No new authorized Georgian warning-event or after-action dataset was obtained. Existing WRP 2025 and WRP 2026 action-enabler frozen reproductions passed in PR #306 CI. Operational delivery, comprehension, feasible action and after-action effectiveness remain unmeasured.
+
+### Four-stream portfolio review
+
+| Stream | Status | Run 58 blocker / next step |
+|---|---|---|
+| AquaSignal / NOEMA-2026-006 | Active / Preliminary | Obtain the 2021–2025 RAR and authorized sample-level dictionary/export; after 2026-12-01 separately verify 2027 plan submission, approval and publication |
+| NOEMA-005 | Active / Preliminary | Physical x86-64/ARM64, Pairwise/Binned/Exact methods, RSS/native memory and DRAM counters |
+| NOEMA-007 | Active / Preliminary | Privacy-approved warning-event and after-action data with stage-specific denominators |
+| INFRA-001 | Active / Engineering | Independent security review; external rollback-resistant trust anchor, encrypted off-host backup and clean-host restore |
+
+No fifth stream was added. Catalogue remains 11 Preliminary / 0 Published. No private coordinates, person-level records, health data, credentials or restricted archive payloads were added. No Supabase project or other project database was created or used.
+
+### Merge and deployment status
+
+Main remains `f1924abccb8d184a86758c5c54560f56f5912588`. PR #306 and #307 have exact-head Quality CI success and are mergeable, but both remain Draft and unmerged pending independent review. No post-merge Main CI or Pages deployment is claimed. No direct commit to Main was made.
+
+### Next priorities
+
+1. AquaSignal: authorized RAR retrieval, archive inventory and SHA-256 after raw bytes are obtained; request the station/sample dictionary and permitted data export.
+2. AquaSignal: after 2026-12-01, verify 2027 monitoring-plan submission, ministerial approval and public release separately.
+3. INFRA-001: independent security review of PR #307.
+4. NOEMA-005: physical x86-64/ARM64 benchmark with alternative algorithms, RSS and DRAM counters.
+5. NOEMA-007: authorized event-stage and after-action aggregates.
+
 ## NOEMA — Run 57: frozen benchmark cell-matrix guard and CI command/credential preflight
 
 **Date:** 2026-11-28  
