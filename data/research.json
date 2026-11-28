@@ -1465,6 +1465,69 @@
         "Global result is not a Georgia national estimate; Georgia warning-question base is 99.",
         "No causal inference is made."
       ]
+    },
+    {
+      "id": "NOEMA-2026-016",
+      "title": "AquaSignal — საქართველოს სასმელი წყლის მონიტორინგის მნიშვნელები და საჯარო ინფორმაციის ხარვეზი",
+      "date": "2026-11-28",
+      "category": "water safety and public data governance",
+      "summary": "საქართველოს ოფიციალური წყაროების შეჯერება განასხვავებს სურსათისა და სასმელი წყლის შერეულ 2023 წლის შედეგებს, 2023–2024 წლების დაგეგმილ სასმელი წყლის სინჯებს და საჯარო მონაცემების გეოგრაფიულ ინტერპრეტირებადობას. დაემატა fail-closed gate, რომელიც გეგმას ან შერეულ მატრიცას წყლის ფაქტობრივ მნიშვნელად არ იღებს.",
+      "file": "research/preprints/NOEMA-2026-016-georgia-drinking-water-monitoring-disclosure-gap.md",
+      "status": "preliminary",
+      "version": "1.0",
+      "sources": [
+        {
+          "title": "Special Report on the Realisation of the Right to Water in Georgia",
+          "authors": [
+            "Public Defender of Georgia"
+          ],
+          "citation": "Public Defender of Georgia. Special Report on the Realisation of the Right to Water in Georgia, published 24 March 2025, pp. 33–34.",
+          "url": "https://ombudsman.ge/res/docs/2025041010211260067.pdf",
+          "type": "official human-rights oversight report",
+          "publication_date": "2025-03-24",
+          "accessed_at": "2026-11-28"
+        },
+        {
+          "title": "In 2023 the rate of violations in more than 5000 samples of food and drinking water is 12%",
+          "authors": [
+            "National Food Agency of Georgia"
+          ],
+          "citation": "National Food Agency of Georgia, official release, 20 February 2024.",
+          "url": "https://nfa.gov.ge/En/News/Details/489",
+          "type": "official agency release",
+          "publication_date": "2024-02-20",
+          "accessed_at": "2026-11-28"
+        },
+        {
+          "title": "State Control and Monitoring Trends of Drinking Water Quality in Georgia",
+          "authors": [
+            "Lali Bakradze",
+            "Salome Bezarashvili",
+            "Genadi Kverenჩხილაძე",
+            "Nato Khunashvili",
+            "Ketevan Murjikნeli",
+            "Eter Tsiklauri"
+          ],
+          "citation": "Bakradze et al. Experimental and Clinical Medicine Georgia, 2025(1), 122–126. DOI: 10.52340/jecm.2025.01.25. Secondary analysis; PDF tables not re-extracted in this run.",
+          "url": "https://doi.org/10.52340/jecm.2025.01.25",
+          "type": "journal secondary analysis",
+          "publication_date": "2025-03-01",
+          "accessed_at": "2026-11-28"
+        }
+      ],
+      "methodology": {
+        "type": "documentary source crosswalk and deterministic metadata gate",
+        "input": "official public releases and report text only; no row-level workbook data",
+        "reproduction": "python -m unittest tests.test_aquasignal_monitoring_frames",
+        "boundary": "no water-only rate is calculated from mixed or planned frames"
+      },
+      "limitations": [
+        "The NFA 12% figure covers combined food and drinking-water samples and its exact denominator is not published in the release.",
+        "The 520 and 850 values are planned drinking-water sample allocations, not observed completed samples.",
+        "The official NFA 2023 XLSX payload could not be inspected in this run; raw bytes and SHA-256 are unavailable.",
+        "The JECM article's abstract and citation were reviewed, but its PDF tables were not re-extracted.",
+        "No national water-only prevalence, potability, legal-compliance or causal health conclusion is made."
+      ]
     }
   ]
 }
