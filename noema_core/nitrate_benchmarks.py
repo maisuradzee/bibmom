@@ -81,8 +81,8 @@ class NitrateBenchmark:
             basis = self.basis if isinstance(self.basis, NitrateBasis) else NitrateBasis(self.basis)
         except (TypeError, ValueError) as exc:
             raise NitrateBenchmarkError("benchmark basis must be NO3 or NO3-N") from exc
-        if not isinstance(self.matrix, str) or not self.matrix.strip():
-            raise NitrateBenchmarkError("benchmark matrix must be non-empty")
+        if self.matrix != "drinking_water":
+            raise NitrateBenchmarkError("only drinking-water benchmark references are supported")
         if not isinstance(self.source_url, str):
             raise NitrateBenchmarkError("benchmark source URL must be HTTPS")
         parsed = urlsplit(self.source_url)
