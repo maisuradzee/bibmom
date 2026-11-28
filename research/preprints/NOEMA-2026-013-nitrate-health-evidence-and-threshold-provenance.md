@@ -33,7 +33,7 @@ Source: [Matsne — Government Decree №58/2014](https://www.matsne.gov.ge/ka/d
 
 ### FACT — Danish expert report and unit correction
 
-The Danish Ministry's international expert group report, *Evaluation of the parametric value for Nitrate in drinking water*, was delivered on 2025-11-24 and the corrected version became effective on 2026-01-07. The report says the earlier version was refined because some underlying studies reported nitrate ion (NO3-) while others reported nitrate-nitrogen (NO3-N), and the distinction had not been applied consistently. The corrected report supersedes the original.
+The Danish Ministry's international expert group report, *Evaluation of the parametric value for Nitrate in drinking water*, was delivered on 2025-11-24 and the corrected version dated 2026-01-07. The report says the earlier version was refined because some underlying studies reported nitrate ion (NO3-) while others reported nitrate-nitrogen (NO3-N), and the distinction had not been applied consistently. The corrected report supersedes the original.
 
 The group recommends 6 mg/L nitrate in drinking water as a precautionary parametric value. It explains that the recommendation is grounded in two Danish population-based studies, but only one study was considered suitable for the benchmark-dose modelling; that study supplied five exposure categories. The report explicitly discusses the limited number of studies and modelling uncertainty. This is an expert recommendation to a ministry, not by itself an enacted legal limit.
 
