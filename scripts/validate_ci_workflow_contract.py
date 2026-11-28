@@ -24,6 +24,49 @@ def _step_blocks(workflow_text: str) -> list[tuple[str | None, str]]:
     return blocks
 
 
+def _workflow_root_errors(workflow_text: str) -> list[str]:
+    """Reject a step-only fragment or missing top-level Actions workflow sections."""
+    lines = workflow_text.splitlines()
+    nonempty = next((line for line in lines if line.strip()), "")
+    required_lines = {
+        "workflow_root_name_missing": "name:",
+        "workflow_root_on_missing": "on:",
+        "workflow_root_jobs_missing": "jobs:",
+        "workflow_validate_job_missing": "  validate:",
+        "workflow_validate_runner_missing": "    runs-on:",
+        "workflow_validate_steps_missing": "    steps:",
+    }
+    errors = []
+    if not nonempty.startswith("name:"):
+        errors.append("workflow_root_name_missing")
+    positions = {}
+    for error, prefix in required_lines.items():
+        if error == "workflow_root_name_missing":
+            continue
+        position = next((i for i, line in enumerate(lines) if line.startswith(prefix)), None)
+        if position is None:
+            errors.append(error)
+        else:
+            positions[error] = position
+    first_step = next((i for i, line in enumerate(lines) if line.startswith("      - name: ")), None)
+    if first_step is None:
+        errors.append("workflow_first_step_missing")
+    elif "workflow_validate_steps_missing" not in errors and first_step <= positions["workflow_validate_steps_missing"]:
+        errors.append("workflow_first_step_precedes_steps_section")
+    ordered = [
+        positions.get("workflow_root_on_missing"),
+        positions.get("workflow_root_jobs_missing"),
+        positions.get("workflow_validate_job_missing"),
+        positions.get("workflow_validate_runner_missing"),
+        positions.get("workflow_validate_steps_missing"),
+        first_step,
+    ]
+    present = [position for position in ordered if position is not None]
+    if len(present) == len(ordered) and present != sorted(present):
+        errors.append("workflow_root_sections_out_of_order")
+    return errors
+
+
 def validate_workflow_contract(root: Path = ROOT) -> list[str]:
     root = root.resolve()
     workflow_path = root / ".github" / "workflows" / "ci.yml"
@@ -33,7 +76,7 @@ def validate_workflow_contract(root: Path = ROOT) -> list[str]:
     workflow_text = workflow_path.read_text(encoding="utf-8")
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     blocks = _step_blocks(workflow_text)
-    errors: list[str] = []
+    errors: list[str] = _workflow_root_errors(workflow_text)
     ids = [step_id for step_id, _block in blocks]
     if any(step_id is None for step_id in ids):
         errors.append("workflow_step_missing_id")
