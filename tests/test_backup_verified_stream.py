@@ -67,7 +67,7 @@ class VerifiedArtifactStreamTests(unittest.TestCase):
 
     def test_rejects_invalid_digest_and_boolean_length(self):
         with self.assertRaisesRegex(ValueError, "64 lowercase"):
-            open_verified_artifact(self.path, "not-a-digest", len(self.original))
+            open_verified_artifact(self.path, "not-a-digest", len(self.original), max_staged_byte_length=len(self.original))
         with self.assertRaisesRegex(ValueError, "positive integer"):
             open_verified_artifact(self.path, self.sha, True, max_staged_byte_length=len(self.original))
 
