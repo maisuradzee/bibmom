@@ -179,3 +179,6 @@ The WHO's fourth edition incorporating the third addendum is the current interna
 ## NOEMA-007 — Georgia multi-hazard basin-plan chronology (2025–2026)
 
 The National Environmental Agency's notices describe distinct stages: four plans discussed as prepared in October 2025; presentation of risk-assessment validation process/results for seven basins in April 2026; and consultation on preparing plans for seven named basins in November 2026. These records do not establish formal approval, publication or implementation of all seven plans. The chronology and its evidence boundaries are recorded in [the Run 44 research note](research/drafts/NOEMA-2026-007-georgia-basin-program-chronology-2026-11-28.md) and [structured source record](data/noema-007/georgia-seven-basin-chronology-2026-11-28.json).
+
+
+**Run 44 implementation:** [PR #247](https://github.com/maisuradzee/bibmom/pull/247) merged as `218021f38ed8bf3732b449fcdfea2cbbb821e96a`. Main Quality CI and GitHub Pages deployment succeeded on this exact commit.
