@@ -1253,6 +1253,112 @@
         "The NEAP-4 activity completion statement does not expose the underlying maps or prove identity with the later statutory task.",
         "No independent Georgian legal review, groundwater dataset, final map or formal designation instrument was obtained."
       ]
+    },
+    {
+      "id": "NOEMA-2026-013",
+      "title": "AquaSignal — ნიტრატის ჯანმრთელობის მტკიცებულება და სასმელი წყლის ზღვრების წარმომავლობა",
+      "date": "2026-11-28",
+      "category": "წყლის უსაფრთხოება / მტკიცებულების წარმომავლობა",
+      "summary": "2026 წლის ახალი ზელანდიის ეროვნული კოჰორტა აღწერს NO3-N ექსპოზიციასა და ნაადრევ მშობიარობას შორის ასოციაციას; დანიის ექსპერტთა 6 mg/L რეკომენდაცია, WHO-ს 50 mg/L გზამკვლევი და საქართველოს №58/2014 ტექსტი განსხვავებული ძალისა და ერთეულის საფუძვლის წყაროებია. შეიქმნა provenance guard, რომელიც არ ურევს NO3-სა და NO3-N-ს, სასმელ წყალსა და ნედლ მიწისქვეშა წყალს, რეკომენდაციასა და სამართლებრივ ზღვარს. საქართველოს ნიმუშების მონაცემი არ ყოფილა და შესაბამისობა არ შეფასებულა.",
+      "file": "research/preprints/NOEMA-2026-013-nitrate-health-evidence-and-threshold-provenance.md",
+      "status": "preliminary",
+      "version": "0.1",
+      "sources": [
+        {
+          "title": "Guidelines for drinking-water quality: fourth edition incorporating the first, second and third addenda",
+          "authors": [
+            "World Health Organization"
+          ],
+          "citation": "WHO, 2026-06-17 consolidated edition, nitrate/nitrite chemical fact sheet, assessment date 2016.",
+          "url": "https://www.who.int/publications/i/item/9789240121225",
+          "type": "primary_international_guideline",
+          "publication_date": "2026-06-17",
+          "accessed_at": "2026-11-28"
+        },
+        {
+          "title": "Government Decree №58/2014 — Drinking Water Technical Regulation",
+          "authors": [
+            "Legislative Herald of Georgia"
+          ],
+          "citation": "Government of Georgia Decree №58/2014, 2014-01-15, Article 1 and Article 2 Table 4.",
+          "url": "https://www.matsne.gov.ge/ka/document/view/2196792",
+          "type": "primary_legal_source",
+          "publication_date": "2014-01-15",
+          "accessed_at": "2026-11-28"
+        },
+        {
+          "title": "Evaluation of the parametric value for Nitrate in drinking water — corrected report",
+          "authors": [
+            "Amalie Timmermann",
+            "Antonio Hernández",
+            "Jan Wohlfahrt",
+            "Laurent Bodin",
+            "Tina Kold Jensen",
+            "Tony Fletcher",
+            "Thorhallur Ingi Halldorsson"
+          ],
+          "citation": "Danish Ministry international expert group report, delivered 2025-11-24; corrected version effective 2026-01-07.",
+          "url": "https://mim.dk/media/o4hptfht/nitratereport-jan-7-2026-revised-clean.pdf",
+          "type": "primary_government_commissioned_expert_report",
+          "publication_date": "2026-01-07",
+          "accessed_at": "2026-11-28"
+        },
+        {
+          "title": "Nitrate in drinking water and preterm birth: a national retrospective cohort study in New Zealand",
+          "authors": [
+            "Tim Chambers",
+            "Alice H. M. Kim",
+            "Frank Dean",
+            "Isaac Bain",
+            "Jeroen Douwes",
+            "Mary Berry",
+            "Michael G. Baker",
+            "Simon Hales"
+          ],
+          "citation": "Chambers et al., Environmental Research 306 (2026), 125169, DOI 10.1016/j.envres.2026.125169; 735,831 live singleton births, exposure reported as mg/L NO3-N.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42385869/",
+          "type": "peer_reviewed_national_retrospective_cohort",
+          "publication_date": "2026-09-15",
+          "publication_note": "Article date 2026-07-01; PubMed publication status ppublish 2026-09-15.",
+          "accessed_at": "2026-11-28"
+        },
+        {
+          "title": "Global coalition urges WHO to update drinking-water nitrate guidelines",
+          "authors": [
+            "Greenpeace International"
+          ],
+          "citation": "Greenpeace International press release, 2026-11-03; reports an open letter by more than 80 organisations.",
+          "url": "https://www.greenpeace.org/international/press-release/86816/who-nitrate-drinking-water-guidelines-health-risks/",
+          "type": "advocacy_policy_signal",
+          "publication_date": "2026-11-03",
+          "accessed_at": "2026-11-28"
+        },
+        {
+          "title": "MOF question 199: request to WHO for full nitrate reassessment",
+          "authors": [
+            "Folketing — Danish Parliament"
+          ],
+          "citation": "Parliamentary question submitted 2026-10-21; official page records a final answer dated 2026-11-16. Answer PDF content not reviewed.",
+          "url": "https://www.ft.dk/samling/20261/almdel/MOF/spm/199/svar/2254457/index.htm",
+          "type": "primary_parliamentary_record_metadata_only",
+          "publication_date": "2026-11-16",
+          "accessed_at": "2026-11-28"
+        }
+      ],
+      "methodology": {
+        "source_review": "Primary WHO, Matsne and Danish Ministry sources were compared with the PubMed record/abstract for the 2026 New Zealand cohort and policy-signal metadata.",
+        "unit_handling": "All source-native NO3 and NO3-N values are retained. No implicit conversion is performed and no rounded conversion is used for legal decisions.",
+        "evidence_classification": "FACT describes what a source reports; the cohort is not independently reproduced. INFERENCE, HYPOTHESIS and UNTESTED_IDEA are separately labelled.",
+        "prototype": "A deterministic typed benchmark guard compares only matching drinking-water matrix and nitrate basis; it never emits compliance or potability decisions."
+      },
+      "limitations": [
+        "No Georgian sample-level nitrate data, station/sample dictionary or laboratory QA/QC records were available.",
+        "The New Zealand cohort was not independently reproduced; residual confounding and exposure misclassification remain possible.",
+        "The Danish expert report used one study for benchmark-dose modelling and five exposure categories; the model was not independently reproduced.",
+        "The Danish parliamentary answer dated 2026-11-16 was recorded from official metadata only; its substantive content was not reviewed.",
+        "The Danish 6 mg/L figure is an expert recommendation in this record, not an enacted legal limit.",
+        "No independent Georgian legal, toxicological, epidemiological or hydrogeological review was obtained."
+      ]
     }
   ]
 }
