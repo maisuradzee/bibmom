@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AquaSignal annual state water monitoring plan deadline status",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_id",
+    "study_id",
+    "as_of",
+    "due_date",
+    "status",
+    "submission_evidence_status",
+    "legal_compliance_conclusion",
+    "public_release_deadline_specified",
+    "source",
+    "interpretation_limits",
+    "privacy"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "record_id": {
+      "const": "AQUASIGNAL-ANNUAL-PLAN-DEADLINE-2026-11-28"
+    },
+    "study_id": {
+      "const": "NOEMA-2026-006"
+    },
+    "as_of": {
+      "type": "string",
+      "format": "date",
+      "const": "2026-11-28"
+    },
+    "due_date": {
+      "type": "string",
+      "format": "date",
+      "const": "2026-12-01"
+    },
+    "status": {
+      "const": "upcoming"
+    },
+    "submission_evidence_status": {
+      "const": "not_verified"
+    },
+    "legal_compliance_conclusion": {
+      "const": "not_assessed"
+    },
+    "public_release_deadline_specified": {
+      "const": false
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "publisher",
+        "document",
+        "article",
+        "url",
+        "checked_at",
+        "annex_downloaded_or_inspected"
+      ],
+      "properties": {
+        "publisher": {
+          "const": "Legislative Herald of Georgia"
+        },
+        "document": {
+          "const": "Government Decree No.447/2026"
+        },
+        "article": {
+          "const": "3(2)(a)"
+        },
+        "url": {
+          "const": "https://matsne.gov.ge/ka/document/view/7000572"
+        },
+        "checked_at": {
+          "const": "2026-11-28"
+        },
+        "annex_downloaded_or_inspected": {
+          "const": false
+        }
+      }
+    },
+    "interpretation_limits": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "string",
+        "minLength": 30
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "personal_data_included",
+        "exact_site_coordinates_included",
+        "raw_sample_records_included"
+      ],
+      "properties": {
+        "personal_data_included": {
+          "const": false
+        },
+        "exact_site_coordinates_included": {
+          "const": false
+        },
+        "raw_sample_records_included": {
+          "const": false
+        }
+      }
+    }
+  }
+}
