@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "record_id": "AQUASIGNAL-GEORGIA-NITRATE-NITRITE-GUIDELINE-CROSSWALK-2026-11-28",
+  "study_id": "NOEMA-2026-009",
+  "stream_id": "NOEMA-2026-006",
+  "evidence_status": "FACT",
+  "accessed_at": "2026-11-28",
+  "sources": [
+    {
+      "publisher": "World Health Organization",
+      "title": "Guidelines for drinking-water quality: fourth edition incorporating the first, second and third addenda — chemical fact sheets",
+      "publication_date": "2026-06-17",
+      "assessment_date": "2016",
+      "url": "https://cdn.who.int/media/docs/default-source/wash-documents/water-safety-and-quality/dwq-guidelines-4/gdwq_4ed_with_third-addenda_chemical-fact-sheets.pdf?sfvrsn=77d972e1_5",
+      "locator": "printed pages 466–472; PDF pages 109–114",
+      "supports": [
+        "WHO nitrate guideline value is 50 mg/L as nitrate ion (NO3-).",
+        "WHO nitrite guideline value is 3 mg/L as nitrite ion (NO2-).",
+        "WHO says the sum of nitrate concentration divided by 50 and nitrite concentration divided by 3 should not exceed 1 when both occur in drinking-water.",
+        "WHO publishes rounded conversions of 0.226 for nitrate ion to nitrate-nitrogen and 0.304 for nitrite ion to nitrite-nitrogen.",
+        "The 2026 consolidated edition's nitrate/nitrite fact sheet states an assessment date of 2016."
+      ]
+    },
+    {
+      "publisher": "Legislative Herald of Georgia",
+      "title": "Government Decree №58/2014 — Drinking Water Technical Regulation",
+      "publication_date": "2014-01-15",
+      "url": "https://www.matsne.gov.ge/ka/document/view/2196792",
+      "locator": "Article 1(2)–(3); Article 2, Table 4, nitrate/nitrite rows; Article 2(21)",
+      "supports": [
+        "For water within its scope, Table 4 lists nitrate at 50 mg/L as NO3- with a short-term exposure limiting sign.",
+        "For water within its scope, Table 4 lists nitrite at 0.2 mg/L as NO2- with a long-term exposure limiting sign.",
+        "Article 2(21) states a sum-of-ratios rule for multiple chemicals normalized under the same limiting sign, excluding radiological components.",
+        "Article 1(3) contains scope exclusions, including specified small individual-source supplies and certain mineral waters."
+      ]
+    }
+  ],
+  "who_guidance": {
+    "nitrate": {
+      "value": "50",
+      "unit": "mg/L as NO3-"
+    },
+    "nitrite": {
+      "value": "3",
+      "unit": "mg/L as NO2-"
+    },
+    "conversion_factors": {
+      "nitrate_ion_to_nitrate_nitrogen": "0.226",
+      "nitrite_ion_to_nitrite_nitrogen": "0.304",
+      "precision_note": "Both factors are published rounded conversions. Preserve original values and reporting basis; do not use converted rounded values alone for a near-threshold legal decision."
+    },
+    "combined_rule": "C_NO3_as_ion/50 + C_NO2_as_ion/3 <= 1",
+    "applies_to": "WHO drinking-water guidance when both analytes occur in the same drinking-water sample"
+  },
+  "georgia_decree_58_2014": {
+    "scope_note": "Apply only after confirming Article 1 scope and exclusions for the particular supply.",
+    "nitrate": {
+      "value": "50",
+      "unit": "mg/L as NO3-",
+      "limiting_sign": "short_term_exposure"
+    },
+    "nitrite": {
+      "value": "0.2",
+      "unit": "mg/L as NO2-",
+      "limiting_sign": "long_term_exposure"
+    },
+    "multiple_chemicals_rule": {
+      "article": "Article 2(21)",
+      "condition": "sum concentration/limit ratios only for multiple chemicals normalized under the same limiting sign; radiological components are excluded",
+      "interpretation_status": "INFERENCE_REQUIRING_LEGAL_REVIEW",
+      "interpretation": "The table assigns nitrate and nitrite different limiting signs. The text therefore does not support automatically importing the WHO nitrate-plus-nitrite combined ratio as a Georgian legal pass/fail rule. Obtain independent Georgian legal review before implementing a local combined compliance calculation."
+    }
+  },
+  "comparability_guards": [
+    "Do not apply the WHO combined ratio to raw groundwater or another matrix without confirming that the sample is drinking-water within the guidance scope.",
+    "Do not combine nitrate and nitrite values from different sample identifiers or collection times.",
+    "The executable WHO ratio helper requires both analytes on their native ion basis in mg/L and one pseudonymous sample identifier, timezone-aware collection timestamp and drinking-water matrix.",
+    "Do not treat the WHO combined ratio as a Georgian legal compliance decision; Decree 58/2014 lists different limiting signs for nitrate and nitrite.",
+    "Do not use rounded nitrogen-basis conversion factors as the sole basis for near-threshold legal decisions.",
+    "No sample-level Georgian nitrate/nitrite data were available; no local ratio, exposure estimate or compliance result is calculated."
+  ],
+  "privacy": {
+    "sample_records_included": false,
+    "sample_identifiers_included": false,
+    "personal_data_included": false,
+    "exact_site_coordinates_included": false,
+    "private_well_register_data_included": false
+  }
+}

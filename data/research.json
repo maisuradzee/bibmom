@@ -981,6 +981,53 @@
         "The reviewed text does not prove operational register completeness or accuracy.",
         "This is a preliminary legal/data-governance analysis, not legal advice or a water-quality assessment."
       ]
+    },
+    {
+      "id": "NOEMA-2026-009",
+      "title": "AquaSignal — საქართველოს ნიტრატისა და ნიტრიტის ერთეულები და WHO/ქართული სამართლებრივი ზღვარი",
+      "date": "2026-11-28",
+      "category": "წყლის უსაფრთხოება / ქიმიური ერთეულები და რეგულაციური შედარება",
+      "summary": "შეჯერებულია WHO-ის 2026 წლის კონსოლიდირებული სასმელი წყლის სახელმძღვანელოს ნიტრატ/ნიტრიტ გვერდები და საქართველოს დადგენილება №58/2014. WHO განსაზღვრავს 50 mg/L NO3- და 3 mg/L NO2- მნიშვნელობებს და ერთსა და იმავე სასმელი წყლის სინჯზე კომბინირებულ შეფარდებათა წესს; ქართულ ცხრილში ნიტრატი 50 mg/L NO3- მოკლევადიანი, ხოლო ნიტრიტი 0.2 mg/L NO2- გრძელვადიანი ზემოქმედების ნიშნითაა. განსხვავებული limiting sign-ის გამო WHO-ის კომბინირებული წესი ქართულ სამართლებრივ pass/fail წესად ავტომატურად არ გადმოგვაქვს. დამატებულია მხოლოდ სინთეზურ ტესტებზე შემოწმებული, ერთ სინჯზე შეზღუდული Decimal helper; რეალური ქართული სინჯები არ გამოყენებულა.",
+      "file": "research/preprints/NOEMA-2026-009-georgia-nitrate-nitrite-guideline-crosswalk.md",
+      "status": "preliminary",
+      "version": "0.1",
+      "sources": [
+        {
+          "title": "Guidelines for drinking-water quality: fourth edition incorporating the first, second and third addenda — chemical fact sheets",
+          "authors": [
+            "World Health Organization"
+          ],
+          "citation": "World Health Organization. (2026-06-17). Guidelines for drinking-water quality: fourth edition incorporating the first, second and third addenda — chemical fact sheets, printed pp. 466–472. Nitrate/nitrite assessment date stated as 2016.",
+          "url": "https://cdn.who.int/media/docs/default-source/wash-documents/water-safety-and-quality/dwq-guidelines-4/gdwq_4ed_with_third-addenda_chemical-fact-sheets.pdf?sfvrsn=77d972e1_5",
+          "type": "primary_health_guidance_pdf",
+          "publication_date": "2026-06-17",
+          "accessed_at": "2026-11-28"
+        },
+        {
+          "title": "Government Decree №58/2014 — Drinking Water Technical Regulation",
+          "authors": [
+            "Government of Georgia"
+          ],
+          "citation": "საქართველოს მთავრობის დადგენილება №58, 2014-01-15. Article 1(2)–(3), Article 2 Table 4 nitrate/nitrite rows and Article 2(21).",
+          "url": "https://www.matsne.gov.ge/ka/document/view/2196792",
+          "type": "primary_legal_source",
+          "publication_date": "2014-01-15",
+          "accessed_at": "2026-11-28"
+        }
+      ],
+      "methodology": {
+        "source_review": "Primary-source comparison of the WHO 2026 consolidated chemical fact sheet, printed pages 466–472, and Georgian Decree №58/2014 Article 1, Table 4 and Article 2(21).",
+        "calculation_contract": "Decimal conversion and WHO combined-ratio helper requires one pseudonymous sample ID, timezone-aware timestamp, drinking-water matrix, mg/L and native NO3-/NO2- ion basis.",
+        "validation": "Closed Draft 2020-12 JSON Schema plus 14 synthetic unit tests and four schema/privacy tests.",
+        "evidence": "FACT for source-published values and legal wording; INFERENCE_REQUIRING_LEGAL_REVIEW for the Article 2(21) interaction; REPRODUCED RESULT only for synthetic software tests; no sample-level laboratory reproduction."
+      },
+      "limitations": [
+        "No paired Georgian nitrate/nitrite sample-level data or laboratory certificates were available.",
+        "WHO conversion factors 0.226 and 0.304 are rounded and must not be used alone for near-threshold legal decisions.",
+        "The Georgian Article 2(21) interpretation and Decree 58/2014 Article 1 scope require independent local legal review.",
+        "The helper computes WHO guidance only and does not classify Georgian legal compliance, potability, contamination or health risk.",
+        "Analytical uncertainty, LOD/LOQ censoring, sample preservation, treatment-stage differences and laboratory QA/QC are not modelled."
+      ]
     }
   ]
 }

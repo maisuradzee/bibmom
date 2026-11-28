@@ -119,6 +119,12 @@ jobs:
           test -f tests/test_aquasignal_georgia_water_monitoring_plan.py
           test -f tests/test_aquasignal_nitrate_unit_crosswalk.py
           test -f tests/test_water_chemistry.py
+          test -f noema_core/nitrate_nitrite.py
+          test -f tests/test_aquasignal_nitrate_nitrite.py
+          test -f data/noema-006/nitrate-nitrite-guideline-crosswalk-2026-11-28.json
+          test -f data/noema-006/nitrate-nitrite-guideline-crosswalk-2026-11-28.schema.json
+          test -f tests/test_aquasignal_nitrate_nitrite_crosswalk.py
+          test -f research/preprints/NOEMA-2026-009-georgia-nitrate-nitrite-guideline-crosswalk.md
           test -f data/noema-006/who-2026-guidance-scope-audit.json
           test -f data/noema-006/who-2026-guidance-scope-audit.schema.json
           test -f research/drafts/NOEMA-2026-006-who-2026-guidance-scope-audit-2026-11-28.md
