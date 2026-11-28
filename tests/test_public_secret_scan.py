@@ -11,8 +11,8 @@ class PublicSecretPatternScanTests(unittest.TestCase):
         self.assertNotIn(secret, repr(findings))
 
     def test_detects_private_key_header(self):
-        key = ("-----BEGIN OPENSSH " + "PRIVATE KEY-----\\n" + "A" * 64 +
-               "\\n-----END OPENSSH " + "PRIVATE KEY-----")
+        key = ("-----BEGIN OPENSSH " + "PRIVATE KEY-----\n" + "A" * 64 +
+               "\n-----END OPENSSH " + "PRIVATE KEY-----")
         findings = scan_text("sample.txt", key)
         self.assertTrue(any(item[2] == "private-key-block" for item in findings))
 
