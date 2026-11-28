@@ -737,3 +737,16 @@ Main remains at `726c71c9ef1a4e1c00dbc4a44b950e4b371c02f0`. Main Quality CI [460
 - **Adjacent signal kept out of scope:** NEA's 2026-11-24 COP31 discussion on riverine/marine debris and Black Sea pollution is a separate marine/river pollution discovery lead; it is not merged into drinking-water compliance or warning-effectiveness data.
 - **Safety:** only public agency-level claims and public URLs are recorded. No person-level app data, exact private locations, event-level warning logs or critical-infrastructure coordinates are included.
 - **Validation:** exact-head CI and merge/deployment status are pending. The note remains in `research/drafts/`; no catalogue status is changed and no study is marked Published.
+
+
+## Run 45 — AquaSignal Decree 447 monitoring requirements (2026-11-28)
+
+- **Research branch:** `research/aquasignal-decree447-operational-monitoring-2026-11-28`; draft changes are not merged.
+- **Primary legal source:** Government Decree №447, adopted 2026-09-15 and effective for relations arising from 2026-09-01; official Matsne HTML Articles 3–7 reviewed.
+- **Key requirements:** NEA submits the annual State Water Resources Monitoring Plan by 1 December; the plan is representative/risk-based and standardized; the system includes hydrological, hydrochemical, hydrobiological, hydromorphological and hydrogeological programmes; microbiological monitoring is determined by water-body type, pressures, use and microbial risk; operational monitoring of at-risk bodies is monthly or quarterly; investigative monitoring addresses pollution incidents or unknown reasons for failure to achieve good status.
+- **Matrix transition:** priority-substance monitoring in biota/sediment is introduced progressively; until full implementation chemical-status assessment may mainly use water-column results. For substances requiring those matrices, monitoring must start no later than 2028-01-01.
+- **Legal scope separation:** the consolidated Water Resources Management Law assigns drinking-water quality state control to NFA (Article 31(3)) and sets 2027-09-01 for a separate human-consumption water quality technical regulation (Article 37(1)(b)(b), commencement in Article 42). Decree 447 is not itself a tap-water compliance standard.
+- **Deadline status:** the next 1 December annual-plan deadline is upcoming on 2026-11-28; submission/publication is not yet verified.
+- **Limitations:** the official annex DOCX was not downloaded; annex tables, exact station schedules and laboratory methods remain unverified. No sample counts or water-quality results were invented.
+- **Safety:** only public legal text and metadata are recorded; no raw lab records, station coordinates, household records or restricted annex payloads were added.
+- **Validation:** exact-head CI pending; note remains Draft and is not Published.
