@@ -128,6 +128,10 @@ jobs:
           test -f data/noema-006/nitrate-unit-basis-crosswalk-2026-11-28.json
           test -f data/noema-006/nitrate-unit-basis-crosswalk-2026-11-28.schema.json
           test -f noema_core/water_chemistry.py
+          test -f noema_core/nitrate_benchmarks.py
+          test -f data/noema-006/nitrate-policy-evidence-2026-11-28.json
+          test -f data/noema-006/nitrate-policy-evidence-2026-11-28.schema.json
+          test -f research/preprints/NOEMA-2026-013-nitrate-health-evidence-and-threshold-provenance.md
           test -f tests/test_aquasignal_georgia_water_monitoring_plan.py
           test -f tests/test_aquasignal_nitrate_unit_crosswalk.py
           test -f tests/test_water_chemistry.py
@@ -146,6 +150,8 @@ jobs:
           test -f data/noema-006/who-2026-guidance-scope-audit.schema.json
           test -f research/drafts/NOEMA-2026-006-who-2026-guidance-scope-audit-2026-11-28.md
           test -f tests/test_aquasignal_who_2026_guidance_scope.py
+          test -f tests/test_aquasignal_nitrate_benchmarks.py
+          test -f tests/test_aquasignal_nitrate_policy_evidence.py
           test -f research/TEMPLATE.md
           test -f scripts/validate_research.py
           test -f scripts/validate_drafts.py

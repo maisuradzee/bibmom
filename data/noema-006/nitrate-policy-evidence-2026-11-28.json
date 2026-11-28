@@ -1,0 +1,200 @@
+{
+  "schema_version": 1,
+  "record_id": "AQUASIGNAL-NITRATE-EVIDENCE-THRESHOLD-PROVENANCE-2026-11-28",
+  "study_id": "NOEMA-2026-013",
+  "stream_id": "NOEMA-2026-006",
+  "accessed_at": "2026-11-28",
+  "evidence_items": [
+    {
+      "id": "WHO-GDWQ-NITRATE-2026",
+      "evidence_class": "FACT",
+      "source_type": "international_guideline",
+      "publisher": "World Health Organization",
+      "title": "Guidelines for drinking-water quality: fourth edition incorporating the first, second and third addenda",
+      "publication_date": "2026-06-17",
+      "assessment_date": "2016",
+      "url": "https://www.who.int/publications/i/item/9789240121225",
+      "matrix": "drinking_water",
+      "analyte": "nitrate",
+      "native_value": "50",
+      "native_unit": "mg/L",
+      "native_basis": "NO3",
+      "reproduction_status": "not_independently_reproduced",
+      "note": "The 2026 consolidated volume includes the nitrate fact sheet, but its assessment date is 2016."
+    },
+    {
+      "id": "GE-DECREE-58-2014-NITRATE",
+      "evidence_class": "FACT",
+      "source_type": "national_regulatory_text",
+      "publisher": "Legislative Herald of Georgia",
+      "title": "Government Decree №58/2014 — Drinking Water Technical Regulation",
+      "publication_date": "2014-01-15",
+      "url": "https://www.matsne.gov.ge/ka/document/view/2196792",
+      "matrix": "drinking_water",
+      "analyte": "nitrate",
+      "native_value": "50",
+      "native_unit": "mg/L",
+      "native_basis": "NO3",
+      "reproduction_status": "not_applicable",
+      "note": "Article 1 scope and exclusions must be checked; table value is not automatically a raw-groundwater threshold."
+    },
+    {
+      "id": "DK-NITRATE-EXPERT-REPORT-2026",
+      "evidence_class": "FACT",
+      "source_type": "government_commissioned_expert_report",
+      "publisher": "Danish Ministry of Environment and Gender Equality",
+      "title": "Evaluation of the parametric value for Nitrate in drinking water — corrected report",
+      "publication_date": "2026-01-07",
+      "url": "https://mim.dk/media/o4hptfht/nitratereport-jan-7-2026-revised-clean.pdf",
+      "matrix": "drinking_water",
+      "analyte": "nitrate",
+      "native_value": "6",
+      "native_unit": "mg/L",
+      "native_basis": "NO3",
+      "reproduction_status": "not_independently_reproduced",
+      "note": "Expert recommendation only; corrected version supersedes the original after NO3-/NO3-N basis corrections. BMD modelling used one study and five exposure categories."
+    },
+    {
+      "id": "NZ-PRETERM-COHORT-2026",
+      "evidence_class": "FACT",
+      "source_type": "peer_reviewed_observational_cohort",
+      "publisher": "Environmental Research",
+      "title": "Nitrate in drinking water and preterm birth: a national retrospective cohort study in New Zealand",
+      "authors": [
+        "Tim Chambers",
+        "Alice H. M. Kim",
+        "Frank Dean",
+        "Isaac Bain",
+        "Jeroen Douwes",
+        "Mary Berry",
+        "Michael G. Baker",
+        "Simon Hales"
+      ],
+      "publication_date": "2026-09-15",
+      "article_date": "2026-07-01",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42385869/",
+      "doi": "10.1016/j.envres.2026.125169",
+      "matrix": "drinking_water",
+      "analyte": "nitrate",
+      "native_unit": "mg/L",
+      "native_basis": "NO3-N",
+      "sample_size": 735831,
+      "study_design": "national_retrospective_cohort",
+      "reported_results": {
+        "preterm_birth_percent": "5.7",
+        "adjusted_odds_ratio_per_1_mg_L_NO3_N": "1.01",
+        "adjusted_odds_ratio_per_1_mg_L_NO3_N_ci": "1.01-1.02",
+        "highest_vs_lowest_quartile_all_preterm_birth_aor": "1.08",
+        "highest_vs_lowest_quartile_all_preterm_birth_ci": "1.05-1.12",
+        "highest_vs_lowest_quartile_extremely_preterm_birth_aor": "1.17",
+        "highest_vs_lowest_quartile_extremely_preterm_birth_ci": "1.03-1.32",
+        "population_attributable_fraction_conditional": "approximately 4% / 120 per year if the association is causal"
+      },
+      "reproduction_status": "not_independently_reproduced",
+      "note": "Observational association; residual confounding and exposure misclassification cannot be excluded. Not a threshold or a Georgian exposure estimate."
+    },
+    {
+      "id": "GREENPEACE-NITRATE-OPEN-LETTER-2026",
+      "evidence_class": "FACT",
+      "source_type": "advocacy_policy_signal",
+      "publisher": "Greenpeace International",
+      "title": "Global coalition urges WHO to update drinking-water nitrate guidelines",
+      "publication_date": "2026-11-03",
+      "url": "https://www.greenpeace.org/international/press-release/86816/who-nitrate-drinking-water-guidelines-health-risks/",
+      "reproduction_status": "not_applicable",
+      "note": "Publisher reports an open letter by more than 80 organisations. This is an advocacy signal, not a WHO decision or revised guideline."
+    },
+    {
+      "id": "DK-PARLIAMENT-MOF-Q199-2026",
+      "evidence_class": "FACT",
+      "source_type": "parliamentary_question_and_answer_metadata",
+      "publisher": "Folketing — Danish Parliament",
+      "title": "MOF question 199: request to WHO for full nitrate reassessment",
+      "publication_date": "2026-11-16",
+      "url": "https://www.ft.dk/samling/20261/almdel/MOF/spm/199/svar/2254457/index.htm",
+      "reproduction_status": "answer_body_not_reviewed",
+      "note": "Question submitted 2026-10-21; official page records a final answer dated 2026-11-16. The answer PDF content was not inspected, so its policy outcome is unknown."
+    }
+  ],
+  "benchmarks": [
+    {
+      "benchmark_id": "WHO-GDWQ-NO3-2026",
+      "kind": "international_guideline",
+      "value": "50",
+      "unit": "mg/L",
+      "basis": "NO3",
+      "matrix": "drinking_water",
+      "status": "guidance_only",
+      "publication_date": "2026-06-17",
+      "assessment_date": "2016",
+      "source_url": "https://www.who.int/publications/i/item/9789240121225",
+      "scope_note": "International drinking-water guidance; not Georgian law and not an automatic raw-groundwater threshold."
+    },
+    {
+      "benchmark_id": "GE-DECREE-58-2014-NO3",
+      "kind": "national_regulation",
+      "value": "50",
+      "unit": "mg/L",
+      "basis": "NO3",
+      "matrix": "drinking_water",
+      "status": "regulatory_scope_review_required",
+      "publication_date": "2014-01-15",
+      "source_url": "https://www.matsne.gov.ge/ka/document/view/2196792",
+      "scope_note": "Regulatory text value; Article 1 scope/exclusions, currentness and supply-specific legal interpretation must be checked."
+    },
+    {
+      "benchmark_id": "DK-EXPERT-REPORT-2026-NO3",
+      "kind": "expert_recommendation",
+      "value": "6",
+      "unit": "mg/L",
+      "basis": "NO3",
+      "matrix": "drinking_water",
+      "status": "recommendation_only",
+      "publication_date": "2026-01-07",
+      "source_url": "https://mim.dk/media/o4hptfht/nitratereport-jan-7-2026-revised-clean.pdf",
+      "scope_note": "Government-commissioned expert recommendation; not treated here as an enacted Danish legal limit."
+    }
+  ],
+  "synthesis": {
+    "FACT": [
+      "The 2026 WHO consolidated volume retains 50 mg/L as NO3- while the nitrate fact sheet assessment date is 2016.",
+      "Georgia Decree №58/2014 lists 50 mg/L as NO3- for nitrate within its drinking-water scope; Article 1 exclusions apply.",
+      "The corrected Danish expert report recommends 6 mg/L as NO3- and documents a prior NO3-/NO3-N unit correction.",
+      "The 2026 New Zealand cohort reports associations between estimated NO3-N exposure and preterm birth in 735831 singleton births."
+    ],
+    "REPRODUCED_RESULT": [],
+    "INFERENCE": [
+      "The New Zealand cohort post-dates the corrected Danish expert report and is additional evidence for future assessment, but it does not establish causality or a new threshold.",
+      "WHO guidance, Georgian regulatory text and the Danish expert recommendation have different authority and must not share one compliance status."
+    ],
+    "HYPOTHESIS": [
+      "A separate legal-control channel and emerging-evidence watch channel can reduce threshold conflation in AquaSignal."
+    ],
+    "UNTESTED_IDEA": [
+      "A non-alerting evidence-watch service could notify human reviewers when peer-reviewed nitrate studies or official policy instruments change; its operational value has not been evaluated."
+    ]
+  },
+  "unit_and_matrix_guards": [
+    "Keep NO3- and NO3-N values in source-native units; never compare them directly.",
+    "Do not use rounded conversion factors alone for near-threshold legal decisions.",
+    "Apply drinking-water benchmarks only to drinking-water samples with confirmed intended use and legal scope.",
+    "Do not use an epidemiological exposure category as a regulatory threshold.",
+    "Do not treat an expert recommendation or advocacy statement as enacted law.",
+    "Do not infer Georgian prevalence, exposure or compliance from foreign cohorts."
+  ],
+  "limitations": [
+    "No Georgian sample-level nitrate data, station/sample dictionary or laboratory QA/QC records were available.",
+    "The New Zealand cohort was not independently reproduced by NOEMA.",
+    "The Danish expert report's benchmark-dose model was not independently reproduced; it used one study and five exposure categories.",
+    "The Danish parliamentary answer dated 2026-11-16 was recorded from official metadata only; its content was not reviewed.",
+    "The official NEA 2021-2025 groundwater RAR and acceptance record for contract T-100801 remain unverified.",
+    "No independent Georgian legal, toxicological, epidemiological or hydrogeological review was obtained."
+  ],
+  "privacy": {
+    "raw_sample_records_included": false,
+    "sample_identifiers_included": false,
+    "personal_data_included": false,
+    "exact_site_coordinates_included": false,
+    "private_well_register_data_included": false
+  }
+}
