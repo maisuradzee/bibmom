@@ -1039,12 +1039,16 @@
       "status": "preliminary",
       "version": "1.0",
       "url": "https://github.com/maisuradzee/bibmom/blob/main/research/preprints/NOEMA-2026-010-run51-local-openmp-compensated-reduction.md",
-      "methodology": [
-        "Compile the committed C/OpenMP harness with GCC 14.2.0 using -O3 -fopenmp -fno-fast-math -ffp-contract=off -Wall -Wextra -Werror.",
-        "Generate two deterministic 36,000,000-element binary64 arrays: repeated triplet [2^53, 1, -2^53] and grouped [2^53]*N + [1]*N + [-2^53]*N, with exact integer sum N=12,000,000.",
-        "Compare four serial and four OpenMP reduction methods at requested worker counts 1, 2, 4, 5 and 8; record actual OpenMP team size, wall time and process CPU time.",
-        "Use one warm-up and five measured repetitions per case; verify exact equality with the known integer sum and preserve raw samples in a SHA-256-verified compressed artifact."
-      ],
+      "methodology": {
+        "protocol": [
+          "Compile the C/OpenMP harness with GCC 14.2.0 using -O3 -fopenmp -fno-fast-math -ffp-contract=off -Wall -Wextra -Werror.",
+          "Generate two deterministic 36,000,000-element binary64 arrays: repeated triplet [2^53, 1, -2^53] and grouped [2^53]*N + [1]*N + [-2^53]*N, with exact integer sum N=12,000,000.",
+          "Compare four serial and four OpenMP reduction methods at requested worker counts 1, 2, 4, 5 and 8; record actual OpenMP team size, wall time and process CPU time."
+        ],
+        "measurement": "One warm-up and five measured repetitions per case; wall time uses CLOCK_MONOTONIC and process CPU time uses CLOCK_PROCESS_CPUTIME_ID. Raw JSONL is preserved as gzip/base64 and verified by SHA-256.",
+        "correctness_oracle": "Exact integer N=12,000,000, exactly representable in binary64 at this magnitude; each run is counted correct only when the final result equals N exactly.",
+        "interpretation": "The experiment tests only two deterministic adversarial cancellation orders. It does not establish accuracy on arbitrary data or general scaling."
+      },
       "limitations": [
         "Single KVM-virtualized Linux x86-64 environment; not bare-metal and not an independent second-device replication.",
         "Five CPU IDs are visible but cgroup quota is four CPUs; 5- and 8-worker measurements are oversubscription diagnostics.",
