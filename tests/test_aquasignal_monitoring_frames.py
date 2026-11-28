@@ -1,11 +1,19 @@
 from __future__ import annotations
 
+import json
 import unittest
+from pathlib import Path
+
+from jsonschema import Draft202012Validator, FormatChecker
 
 from noema_core.monitoring_frames import (
     is_eligible_water_rate_candidate,
     water_rate_ineligibility_reasons,
 )
+
+ROOT = Path(__file__).resolve().parents[1]
+SNAPSHOT = ROOT / "data/noema-006/georgia-drinking-water-monitoring-frames-2023-2024.json"
+SCHEMA = ROOT / "data/noema-006/georgia-drinking-water-monitoring-frames-2023-2024.schema.json"
 
 
 def complete_record(**overrides):
@@ -29,6 +37,20 @@ def complete_record(**overrides):
 
 
 class MonitoringFrameEligibilityTests(unittest.TestCase):
+    def test_public_snapshot_matches_closed_schema(self):
+        snapshot = json.loads(SNAPSHOT.read_text(encoding="utf-8"))
+        schema = json.loads(SCHEMA.read_text(encoding="utf-8"))
+        Draft202012Validator.check_schema(schema)
+        errors = list(
+            Draft202012Validator(schema, format_checker=FormatChecker()).iter_errors(snapshot)
+        )
+        self.assertEqual(errors, [])
+        combined = snapshot["observations"][0]
+        self.assertEqual(combined["non_compliances"], 624)
+        self.assertFalse(combined["rate_is_water_only"])
+        planned = snapshot["observations"][1:]
+        self.assertEqual([item["planned_sample_count"] for item in planned], [520, 850])
+
     def test_exact_water_only_actual_frame_is_only_a_rate_candidate(self):
         self.assertTrue(is_eligible_water_rate_candidate(complete_record()))
 
