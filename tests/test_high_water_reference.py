@@ -286,5 +286,35 @@ class HighWaterReferenceTests(unittest.TestCase):
             self.store.read("   ")
 
 
+    def test_storage_write_abort_rolls_back_generation_and_allows_retry(self) -> None:
+        first = self.genesis()
+        with sqlite3.connect(self.database) as connection:
+            connection.execute(
+                """
+                CREATE TRIGGER reject_high_water_update
+                BEFORE UPDATE ON high_water_state
+                BEGIN
+                    SELECT RAISE(ABORT, 'synthetic storage write failure');
+                END;
+                """
+            )
+
+        proposed = candidate(2, "b", digest("a"), "object-v2")
+        with self.assertRaisesRegex(sqlite3.IntegrityError, "synthetic storage write failure"):
+            self.store.compare_and_advance(first.state, proposed)
+
+        # compare_and_advance must roll back its BEGIN IMMEDIATE transaction;
+        # a failed write must not leave a partial or advanced generation.
+        self.assertEqual(self.store.read("noema-test-stream"), first.state)
+
+        with sqlite3.connect(self.database) as connection:
+            connection.execute("DROP TRIGGER reject_high_water_update")
+
+        retried = self.store.compare_and_advance(first.state, proposed)
+        self.assertEqual(retried.state.generation, 2)
+        self.assertEqual(retried.state.manifest_sha256, digest("b"))
+        self.assertFalse(retried.idempotent)
+
+
 if __name__ == "__main__":
     unittest.main()
