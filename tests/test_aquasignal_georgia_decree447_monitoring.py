@@ -67,6 +67,37 @@ class AquaSignalDecree447Tests(unittest.TestCase):
     def test_nitrate_zone_milestone_is_not_claimed_complete(self) -> None:
         self.assertTrue(any("have not been verified as completed" in x for x in self.record["not_established"]))
 
+    def test_groundwater_designation_and_water_balance_dependencies_are_explicit(self) -> None:
+        designation = next(x for x in self.record["requirements"] if x["id"] == "groundwater_body_designation_transition")
+        balance = next(x for x in self.record["requirements"] if x["id"] == "groundwater_water_balance_dependency")
+        self.assertIn("hydrogeological units", designation["requirement"])
+        self.assertIn("water balance", balance["requirement"])
+        self.assertIn("abstraction data", balance["requirement"])
+
+    def test_transboundary_and_black_sea_monitoring_is_separate(self) -> None:
+        item = next(x for x in self.record["requirements"] if x["id"] == "transboundary_and_black_sea_component")
+        self.assertIn("Black Sea", item["requirement"])
+        self.assertIn("neighbouring countries", item["requirement"])
+
+    def test_observational_monitoring_and_adaptive_review_are_explicit(self) -> None:
+        observational = next(x for x in self.record["requirements"] if x["id"] == "observational_monitoring")
+        adaptive = next(x for x in self.record["requirements"] if x["id"] == "adaptive_plan_review_triggers")
+        self.assertIn("long-term", observational["requirement"])
+        self.assertIn("unexpected results", adaptive["requirement"])
+        self.assertIn("not representative", adaptive["requirement"])
+
+    def test_background_values_and_network_optimization_are_documented(self) -> None:
+        baseline = next(x for x in self.record["requirements"] if x["id"] == "documented_background_values")
+        network = next(x for x in self.record["requirements"] if x["id"] == "representative_network_optimization")
+        self.assertIn("periodically reviewed", baseline["requirement"])
+        self.assertIn("representative", network["requirement"])
+        self.assertIn("safety, access", network["requirement"])
+
+    def test_biota_sediment_programme_requires_method_and_lab_metadata(self) -> None:
+        item = next(x for x in self.record["requirements"] if x["id"] == "biota_sediment_programme_details")
+        for term in ("locations", "analytical methods", "laboratory requirements", "frequencies"):
+            self.assertIn(term, item["requirement"])
+
     def test_no_actual_plan_submission_or_sample_data_is_invented(self) -> None:
         self.assertTrue(any("has not yet been verified" in x for x in self.record["not_established"]))
         self.assertTrue(all(value is False for value in self.record["privacy"].values()))
