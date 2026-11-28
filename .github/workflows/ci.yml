@@ -184,6 +184,11 @@ jobs:
           test -f tests/test_noema_worker.py
           test -f scripts/validate_job_queue.py
           test -f research/protocols/NOEMA-002-blind-coding-protocol.md
+          test -f scripts/verify_noema005_arm64_artifacts.py
+          test -f tests/test_noema005_arm64_artifact_verifier.py
+          test -f data/noema-005/arm64-run33-artifact-verification-2026-11-28.json
+          test -f data/noema-005/arm64-run33-artifact-verification-2026-11-28.schema.json
+          test -f research/drafts/NOEMA-2026-005-arm64-run33-independent-artifact-verification-2026-11-28.md
       - name: Validate draft completeness
         run: python scripts/validate_drafts.py
       - name: Validate research index
