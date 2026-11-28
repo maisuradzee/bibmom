@@ -19,13 +19,13 @@ except ModuleNotFoundError:  # direct invocation: python scripts/ci_recovery.py
 
 ROOT = Path(__file__).resolve().parents[1]
 DATE_ALIASES = re.compile(
-    r"^(- \\*\\*)(?:Date|Updated|Last updated|Date / last updated):(\\*\\*\\s*)(\\d{4}-\\d{2}-\\d{2})(.*)$",
+    r"^(- \*\*)(?:Date|Updated|Last updated|Date / last updated):(\*\*\s*)(\d{4}-\d{2}-\d{2})(.*)$",
     re.IGNORECASE,
 )
-STATUS_ALIAS = re.compile(r"^(- \\*\\*)Status:(\\*\\*\\s*)(.+?)\\s*$", re.IGNORECASE)
-URL_PATTERN = re.compile(r"https?://[^\\s\\])}>]+", re.IGNORECASE)
+STATUS_ALIAS = re.compile(r"^(- \*\*)Status:(\*\*\s*)(.+?)\s*$", re.IGNORECASE)
+URL_PATTERN = re.compile(r"https?://[^\s\])}>]+", re.IGNORECASE)
 SOURCE_SECTION = re.compile(
-    r"^#{2,3}\\s+(?:წყაროები|Sources|References)\\s*\\n(?P<body>.*?)(?=^#{2,3}\\s|\\Z)",
+    r"^#{2,3}\s+(?:წყაროები|Sources|References)\s*\n(?P<body>.*?)(?=^#{2,3}\s|\Z)",
     re.MULTILINE | re.DOTALL | re.IGNORECASE,
 )
 HEADING_ALIASES = {
@@ -166,7 +166,7 @@ def _normalize_draft(text: str) -> tuple[str, list[str]]:
     normalized: list[str] = []
     for line in lines:
         date_match = DATE_ALIASES.match(line)
-        if date_match and not re.match(r"^- \\*\\*თარიღი:\\*\\*", line):
+        if date_match and not re.match(r"^- \*\*თარიღი:\*\*", line):
             normalized.append(
                 f"{date_match.group(1)}თარიღი:{date_match.group(2)}"
                 f"{date_match.group(3)}{date_match.group(4)}"
@@ -174,14 +174,14 @@ def _normalize_draft(text: str) -> tuple[str, list[str]]:
             repairs.append("metadata.date_label")
             continue
         status_match = STATUS_ALIAS.match(line)
-        if status_match and not re.match(r"^- \\*\\*სტატუსი:\\*\\*", line):
+        if status_match and not re.match(r"^- \*\*სტატუსი:\*\*", line):
             normalized.append(
                 f"{status_match.group(1)}სტატუსი:{status_match.group(2)}"
                 f"{status_match.group(3)}"
             )
             repairs.append("metadata.status_label")
             continue
-        heading_match = re.match(r"^(#{2,3}\\s+)(.+?)\\s*$", line)
+        heading_match = re.match(r"^(#{2,3}\s+)(.+?)\s*$", line)
         if heading_match:
             heading_key = heading_match.group(2).strip().casefold()
             replacement = HEADING_ALIASES.get(heading_key)
@@ -190,9 +190,9 @@ def _normalize_draft(text: str) -> tuple[str, list[str]]:
                 repairs.append(f"heading.{heading_key.replace(' ', '_')}")
                 continue
         normalized.append(line)
-    result = "\\n".join(normalized)
-    if text.endswith("\\n") or result:
-        result += "\\n"
+    result = "\n".join(normalized)
+    if text.endswith("\n") or result:
+        result += "\n"
     return result, sorted(set(repairs))
 
 
@@ -231,7 +231,7 @@ def recover_drafts(root: Path = ROOT, *, fix: bool = False) -> dict[str, Any]:
                 )
             )
             if fix:
-                resolved.write_text(repaired, encoding="utf-8", newline="\\n")
+                resolved.write_text(repaired, encoding="utf-8", newline="\n")
 
         inspected_text = repaired if fix else original
         source_urls = _extract_source_urls(inspected_text)
@@ -283,7 +283,7 @@ def summarize_step_outcomes(steps: dict[str, Any], required_step_ids: list[str])
 
 
 def _write_json(path: Path | None, payload: dict[str, Any]) -> None:
-    serialized = json.dumps(payload, ensure_ascii=False, indent=2) + "\\n"
+    serialized = json.dumps(payload, ensure_ascii=False, indent=2) + "\n"
     if path:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(serialized, encoding="utf-8")
@@ -313,22 +313,22 @@ def main() -> int:
         summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
         if summary_path:
             with Path(summary_path).open("a", encoding="utf-8") as handle:
-                handle.write("## NOEMA required validation gate\\n\\n")
-                handle.write(f"- Required steps: **{gate['required_step_count']}**\\n")
-                handle.write(f"- Observed step IDs: **{gate['observed_step_count']}**\\n")
-                handle.write(f"- Missing required IDs: **{len(gate['missing_required_steps'])}**\\n")
-                handle.write(f"- Non-success required outcomes: **{len(gate['non_success_required_steps'])}**\\n")
+                handle.write("## NOEMA required validation gate\n\n")
+                handle.write(f"- Required steps: **{gate['required_step_count']}**\n")
+                handle.write(f"- Observed step IDs: **{gate['observed_step_count']}**\n")
+                handle.write(f"- Missing required IDs: **{len(gate['missing_required_steps'])}**\n")
+                handle.write(f"- Non-success required outcomes: **{len(gate['non_success_required_steps'])}**\n")
                 if gate["missing_required_steps"]:
-                    handle.write("\\n### Missing required steps\\n\\n")
+                    handle.write("\n### Missing required steps\n\n")
                     for item in gate["missing_required_steps"]:
-                        handle.write(f"- `{item}`\\n")
+                        handle.write(f"- `{item}`\n")
                 if gate["non_success_required_steps"]:
-                    handle.write("\\n### Non-success required steps\\n\\n")
+                    handle.write("\n### Non-success required steps\n\n")
                     for item in gate["non_success_required_steps"]:
-                        handle.write(f"- `{item['id']}`: `{item['outcome']}`\\n")
+                        handle.write(f"- `{item['id']}`: `{item['outcome']}`\n")
                 if recovery:
-                    handle.write(f"\\n- Draft files scanned: **{recovery['draft_files_scanned']}**\\n")
-                    handle.write(f"- Unsafe/missing explicit source URLs: **{len(recovery['source_url_issues'])}**\\n")
+                    handle.write(f"\n- Draft files scanned: **{recovery['draft_files_scanned']}**\n")
+                    handle.write(f"- Unsafe/missing explicit source URLs: **{len(recovery['source_url_issues'])}**\n")
         return 0 if gate["ok"] else 1
 
     report = recover_drafts(args.root, fix=args.fix)
