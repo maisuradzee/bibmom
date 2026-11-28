@@ -90,7 +90,13 @@ def validate_nea_2025_aggregate(snapshot: Any) -> None:
         "petroleum_products": 82,
         "pesticides": 147,
     }
-    if not isinstance(analysis, dict) or analysis != expected_analysis or sum(analysis.values()) != lab_total:
+    if (
+        not isinstance(analysis, dict)
+        or set(analysis) != set(expected_analysis)
+        or any(type(value) is not int or value < 0 for value in analysis.values())
+        or analysis != expected_analysis
+        or sum(analysis.values()) != lab_total
+    ):
         raise Nea2025AggregateError("laboratory analysis-group totals do not reproduce 681")
     _rows_by_code(
         groundwater.get("regional_lab_sample_counts"),
