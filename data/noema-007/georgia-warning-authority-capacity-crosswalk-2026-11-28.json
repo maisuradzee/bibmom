@@ -1,0 +1,183 @@
+{
+  "schema_version": 1,
+  "record_id": "NOEMA007-GEORGIA-WARNING-AUTHORITY-CAPACITY-CROSSWALK-2026-11-28",
+  "study_id": "NOEMA-2026-007",
+  "reviewed_at": "2026-11-28",
+  "classification": "OFFICIAL_CAPABILITY_AND_ROLE_CROSSWALK",
+  "evidence_boundary": "Official public agency pages and notices only; no station-level payload, private location, person-level warning record or operational telemetry was retrieved.",
+  "sources": [
+    {
+      "id": "NEA_FUNCTIONS",
+      "publisher": "National Environmental Agency of Georgia",
+      "title": "Agency's functions",
+      "publication_date": "undated",
+      "url": "https://www.nea.gov.ge/En/Functions",
+      "accessed_at": "2026-11-28",
+      "type": "official_primary_agency_page"
+    },
+    {
+      "id": "NEA_HYDROLOGY",
+      "publisher": "National Environmental Agency of Georgia",
+      "title": "Hydrology Department",
+      "publication_date": "undated",
+      "url": "https://nea.gov.ge/en/Departments/Hydrology",
+      "accessed_at": "2026-11-28",
+      "type": "official_primary_department_page"
+    },
+    {
+      "id": "NEA_GEOLOGY",
+      "publisher": "National Environmental Agency of Georgia",
+      "title": "Geology Department",
+      "publication_date": "undated",
+      "url": "https://nea.gov.ge/En/Departments/Geology",
+      "accessed_at": "2026-11-28",
+      "type": "official_primary_department_page"
+    },
+    {
+      "id": "NEA_NETWORK_2026_07_14",
+      "publisher": "National Environmental Agency of Georgia",
+      "title": "Nino Tandilashvili on the expansion of the hydrometeorological observation network of the National Environmental Agency",
+      "publication_date": "2026-07-14",
+      "url": "https://nea.gov.ge/En/News/2419",
+      "accessed_at": "2026-11-28",
+      "type": "official_primary_agency_notice"
+    },
+    {
+      "id": "NEA_MHEWS_WORKSHOP_2025_12_26",
+      "publisher": "National Environmental Agency of Georgia",
+      "title": "Working Meeting Held on Multi-Hazard Forecasting Platforms and Early Warning Protocols",
+      "publication_date": "2025-12-26",
+      "url": "https://nea.gov.ge/En/News/2360",
+      "accessed_at": "2026-11-28",
+      "type": "official_primary_agency_notice"
+    }
+  ],
+  "role_claims": [
+    {
+      "role": "agency_wide",
+      "claim": "NEA describes its functions as establishing and operating meteorological, hydrological, geological and environmental monitoring systems; collecting and disseminating monitoring data; producing forecasts and issuing warnings within its competence; and providing warning information to central and local authorities and mass media.",
+      "evidence_class": "FACT",
+      "source_ids": [
+        "NEA_FUNCTIONS"
+      ]
+    },
+    {
+      "role": "hydrology_department",
+      "claim": "The Hydrology Department describes stationary surface-water observation-network oversight, hydrological forecasts, preparation and distribution of warnings about expected hydrological events to decision-makers, interested persons and legal entities, and mass media; it also lists GIS integration and hydrological data-quality work.",
+      "evidence_class": "FACT",
+      "source_ids": [
+        "NEA_HYDROLOGY"
+      ]
+    },
+    {
+      "role": "geology_department",
+      "claim": "The Geology Department lists regular geological monitoring, landslide and debris/mudflow monitoring, hazard-zoning maps, GIS catalogues, instrumental monitoring at extremely sensitive sites, fresh-drinking-groundwater monitoring and annual hydrogeological bulletins.",
+      "evidence_class": "FACT",
+      "source_ids": [
+        "NEA_GEOLOGY"
+      ]
+    },
+    {
+      "role": "hydrometeorological_network_and_ict",
+      "claim": "A 14 July 2026 NEA notice reports 278 hydrometeorological stations already installed and a target of 298 stations/watchpoints by the end of 2026; it also describes online data transmission and an introduced ICT system for collection, processing, analysis and warning dissemination.",
+      "evidence_class": "FACT",
+      "source_ids": [
+        "NEA_NETWORK_2026_07_14"
+      ]
+    },
+    {
+      "role": "geological_monitoring_platform",
+      "claim": "The same 14 July 2026 NEA notice reports modern monitoring systems on 28 landslide bodies, including 22 integrated into one server platform.",
+      "evidence_class": "FACT",
+      "source_ids": [
+        "NEA_NETWORK_2026_07_14"
+      ]
+    },
+    {
+      "role": "multi_hazard_protocol_development",
+      "claim": "A 26 December 2025 NEA workshop discussed proposals for multi-hazard forecasting platforms and early-warning protocols; the notice describes discussion and project direction, not formal adoption or operational completion.",
+      "evidence_class": "FACT",
+      "source_ids": [
+        "NEA_MHEWS_WORKSHOP_2025_12_26"
+      ]
+    }
+  ],
+  "capacity_claims": [
+    {
+      "metric": "hydrometeorological_stations_installed",
+      "value": 278,
+      "unit": "stations",
+      "qualifier": "agency_reported_installed_count",
+      "as_of_date": "2026-07-14",
+      "source_id": "NEA_NETWORK_2026_07_14"
+    },
+    {
+      "metric": "hydrometeorological_stations_year_end_target",
+      "value": 298,
+      "unit": "stations_or_watchpoints",
+      "qualifier": "agency_reported_target_not_observed_result",
+      "target_window": "by_end_of_2026",
+      "source_id": "NEA_NETWORK_2026_07_14"
+    },
+    {
+      "metric": "landslide_bodies_with_modern_monitoring_systems",
+      "value": 28,
+      "unit": "landslide_bodies",
+      "qualifier": "agency_reported_installed_systems",
+      "as_of_date": "2026-07-14",
+      "source_id": "NEA_NETWORK_2026_07_14"
+    },
+    {
+      "metric": "landslide_bodies_integrated_into_single_server_platform",
+      "value": 22,
+      "unit": "landslide_bodies",
+      "qualifier": "agency_reported_platform_integration",
+      "as_of_date": "2026-07-14",
+      "source_id": "NEA_NETWORK_2026_07_14"
+    }
+  ],
+  "not_established": [
+    "The 298 year-end figure is a target stated on 2026-07-14, not evidence that 298 stations were installed or operational by 2026-11-28.",
+    "No current station inventory, hazard/region coverage, active/inactive dates, uptime, telemetry completeness, calibration or maintenance record was retrieved.",
+    "The notice does not provide hazard-specific forecast verification, lead-time distributions, probability of detection, false-alarm ratios or calibration metrics.",
+    "No separate counts or denominators were found for warnings issued, sent, delivered, acknowledged, understood, feasible to act on or acted on.",
+    "No active-user, app-delivery, accessibility, language-coverage or offline-channel performance data were published in the inspected pages.",
+    "The 2025 workshop notice does not establish that a national multi-hazard protocol was formally adopted, funded, operationalized or independently evaluated.",
+    "The agency-reported station and landslide-platform counts were not independently audited by NOEMA."
+  ],
+  "required_follow_up_metrics": [
+    "Versioned station inventory by hazard, region and responsible department, with active dates, uptime, data completeness, calibration, maintenance and source provenance.",
+    "Hazard-specific forecast verification by lead time, including probability of detection, false-alarm ratio, critical success index, calibration and uncertainty.",
+    "Warning-event metadata with authority, hazard, geographic scope, issue/validity times, revisions, channel and pre-agreed action playbook identifiers.",
+    "Separate aggregate denominators for sent, delivered, acknowledged, understood, feasible and verified protective action; endpoint counts must not be labelled as people.",
+    "Evidence of formal protocol approval, responsible agencies, version, effective date, budget and after-action corrective-action closure.",
+    "Privacy-reviewed accessibility and language coverage, including non-digital channels, without person-level app telemetry or exact household locations in the public repository."
+  ],
+  "interpretation": {
+    "fact": [
+      "NEA's public functions page assigns the Agency monitoring, data dissemination, forecasting, warning and hazard-risk participation functions within its competence.",
+      "NEA's Hydrology and Geology department pages describe distinct hydrological-forecast/warning and geological-monitoring/zoning responsibilities.",
+      "The 14 July 2026 notice reports 278 hydrometeorological stations installed, a target of 298 by year-end, and modern monitoring systems on 28 landslide bodies with 22 integrated into one server platform.",
+      "The 26 December 2025 notice records a workshop where multi-hazard forecasting-platform and early-warning-protocol proposals were discussed."
+    ],
+    "inference": [
+      "The official material establishes institutional and technical capability signals, but not the completeness, reliability or equitable reach of the end-to-end warning chain.",
+      "The 278 installed count, 298 target and 28/22 landslide-platform counts measure different infrastructure outputs and must not be combined into one coverage percentage.",
+      "The next decision-relevant step is to connect an approved warning event to its issuing authority, forecast/station provenance, dissemination stages and feasible protective-action evidence."
+    ],
+    "hypothesis": [
+      "A versioned, metadata-only authority and capability crosswalk linked to each authorised warning event could make missing ownership, provenance and warning-chain stages easier to identify without duplicating official warning issuance."
+    ],
+    "untested_idea": [
+      "Build a read-only warning-event evidence registry that stores official reference IDs, authority, hazard, coarse area, issue/validity timestamps, source version, playbook version and aggregate stage denominators; keep all personal delivery telemetry outside the public system."
+    ]
+  },
+  "privacy": {
+    "personal_data_included": false,
+    "person_level_warning_records_included": false,
+    "app_telemetry_included": false,
+    "exact_station_coordinates_included": false,
+    "household_locations_included": false,
+    "critical_infrastructure_coordinates_included": false
+  }
+}

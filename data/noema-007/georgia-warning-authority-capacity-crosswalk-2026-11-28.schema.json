@@ -1,0 +1,273 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NOEMA-007 Georgia warning authority and capability crosswalk",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_id",
+    "study_id",
+    "reviewed_at",
+    "classification",
+    "evidence_boundary",
+    "sources",
+    "role_claims",
+    "capacity_claims",
+    "not_established",
+    "required_follow_up_metrics",
+    "interpretation",
+    "privacy"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "record_id": {
+      "const": "NOEMA007-GEORGIA-WARNING-AUTHORITY-CAPACITY-CROSSWALK-2026-11-28"
+    },
+    "study_id": {
+      "const": "NOEMA-2026-007"
+    },
+    "reviewed_at": {
+      "type": "string",
+      "format": "date",
+      "const": "2026-11-28"
+    },
+    "classification": {
+      "const": "OFFICIAL_CAPABILITY_AND_ROLE_CROSSWALK"
+    },
+    "evidence_boundary": {
+      "type": "string",
+      "minLength": 80
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "publisher",
+          "title",
+          "publication_date",
+          "url",
+          "accessed_at",
+          "type"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Z0-9_]+$"
+          },
+          "publisher": {
+            "const": "National Environmental Agency of Georgia"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 10
+          },
+          "publication_date": {
+            "type": "string",
+            "pattern": "^(undated|[0-9]{4}(-[0-9]{2}(-[0-9]{2})?)?)$"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https://"
+          },
+          "accessed_at": {
+            "type": "string",
+            "format": "date"
+          },
+          "type": {
+            "enum": [
+              "official_primary_agency_page",
+              "official_primary_department_page",
+              "official_primary_agency_notice"
+            ]
+          }
+        }
+      }
+    },
+    "role_claims": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "role",
+          "claim",
+          "evidence_class",
+          "source_ids"
+        ],
+        "properties": {
+          "role": {
+            "type": "string",
+            "minLength": 3
+          },
+          "claim": {
+            "type": "string",
+            "minLength": 60
+          },
+          "evidence_class": {
+            "enum": [
+              "FACT",
+              "INFERENCE"
+            ]
+          },
+          "source_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Z0-9_]+$"
+            }
+          }
+        }
+      }
+    },
+    "capacity_claims": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "metric",
+          "value",
+          "unit",
+          "qualifier",
+          "source_id"
+        ],
+        "properties": {
+          "metric": {
+            "type": "string",
+            "minLength": 5
+          },
+          "value": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "unit": {
+            "type": "string",
+            "minLength": 3
+          },
+          "qualifier": {
+            "enum": [
+              "agency_reported_installed_count",
+              "agency_reported_target_not_observed_result",
+              "agency_reported_installed_systems",
+              "agency_reported_platform_integration"
+            ]
+          },
+          "as_of_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "target_window": {
+            "type": "string"
+          },
+          "source_id": {
+            "type": "string",
+            "pattern": "^[A-Z0-9_]+$"
+          }
+        }
+      }
+    },
+    "not_established": {
+      "type": "array",
+      "minItems": 6,
+      "items": {
+        "type": "string",
+        "minLength": 50
+      }
+    },
+    "required_follow_up_metrics": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "string",
+        "minLength": 50
+      }
+    },
+    "interpretation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fact",
+        "inference",
+        "hypothesis",
+        "untested_idea"
+      ],
+      "properties": {
+        "fact": {
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "type": "string",
+            "minLength": 50
+          }
+        },
+        "inference": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "string",
+            "minLength": 50
+          }
+        },
+        "hypothesis": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 50
+          }
+        },
+        "untested_idea": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 50
+          }
+        }
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "personal_data_included",
+        "person_level_warning_records_included",
+        "app_telemetry_included",
+        "exact_station_coordinates_included",
+        "household_locations_included",
+        "critical_infrastructure_coordinates_included"
+      ],
+      "properties": {
+        "personal_data_included": {
+          "const": false
+        },
+        "person_level_warning_records_included": {
+          "const": false
+        },
+        "app_telemetry_included": {
+          "const": false
+        },
+        "exact_station_coordinates_included": {
+          "const": false
+        },
+        "household_locations_included": {
+          "const": false
+        },
+        "critical_infrastructure_coordinates_included": {
+          "const": false
+        }
+      }
+    }
+  }
+}

@@ -68,6 +68,9 @@ jobs:
           test -f scripts/reproduce_noema007_anticipatory_action.py
           test -f tests/test_noema007_anticipatory_action.py
           test -f tests/test_noema007_action_readiness.py
+          test -f data/noema-007/georgia-warning-authority-capacity-crosswalk-2026-11-28.json
+          test -f data/noema-007/georgia-warning-authority-capacity-crosswalk-2026-11-28.schema.json
+          test -f tests/test_noema007_georgia_warning_authority_crosswalk.py
           test -f data/noema-007/georgia-natural-hazard-mapping-zoning-meeting-2026-10-26.json
           test -f data/noema-007/georgia-natural-hazard-mapping-zoning-meeting-2026-10-26.schema.json
           test -f tests/test_noema007_hazard_mapping_zoning_signal.py
@@ -228,6 +231,8 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_noema007_hazard_mapping_zoning_signal.py' -v
       - name: Validate NOEMA-007 action-readiness aggregate contract
         run: python -m unittest discover -s tests -p 'test_noema007_action_readiness.py' -v
+      - name: Validate Georgia warning authority and capability crosswalk
+        run: python -m unittest discover -s tests -p 'test_noema007_georgia_warning_authority_crosswalk.py' -v
       - name: Validate NOEMA-007 WRP 2025 reproduction protocol and frozen aggregate
         run: python -m unittest discover -s tests -p 'test_noema007_wrp2025_reproduction.py' -v
       - name: Validate NOEMA-007 WRP 2026 action-enabler protocol and frozen aggregate
