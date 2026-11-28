@@ -50,6 +50,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - `scripts/build_site.py` — Markdown კვლევების უსაფრთხო HTML-გვერდებად გარდაქმნა და საჯარო არტეფაქტის აწყობა.
 - `scripts/validate_drafts.py` — დრაფტების მინიმალური სარედაქციო სისრულის ავტომატური შემოწმება.
 - `scripts/ci_recovery.py` და `scripts/validate_ci_workflow_contract.py` — დრაფტების შეზღუდული presentation repair, Sources URL metadata safety, workflow-root/manifest contract და fail-closed required-step CI aggregation.
+- `scripts/ci_recovery.py` და `scripts/validate_ci_workflow_contract.py` — დრაფტების შეზღუდული presentation repair, Sources URL metadata safety, workflow-root/manifest contract და fail-closed required-step CI aggregation.
 - `scripts/verify_noema005_arm64_artifacts.py` — offline verifier for frozen ARM64 benchmark ZIP/raw-report SHA-256, raw-sample accuracy, CPU/wall ratios and recomputed median speedups; raw reports/thread IDs are not committed.
 - `requirements-site.txt` — ფიქსირებული Markdown renderer ვერსია.
 - `.github/workflows/deploy.yml` — საჯარო ფაილების შერჩევა და Pages deployment.
