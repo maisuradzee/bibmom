@@ -68,7 +68,7 @@ class AquaSignalSourceAccessInventoryTests(unittest.TestCase):
         self.assertEqual(source["observation_period"], "2021-2025")
         self.assertIs(source["sample_level_schema_verified"], False)
         self.assertIs(source["reuse_terms_verified"], False)
-        self.assertIn("retrieval from this execution environment failed", source["note"].casefold())
+        self.assertIn("retrieval limitations in this execution environment", source["note"].casefold())
 
     def test_official_archive_payload_is_linked_to_its_announcement_page_without_claiming_extraction(self):
         source = next(item for item in self.instance["sources"] if item["id"] == "NEA_GW_2021_2025_RAR")
