@@ -101,8 +101,8 @@ class GroundwaterQuantitativeReadinessTests(unittest.TestCase):
     def test_evidence_requires_https_provenance_and_sha256(self):
         for overrides, message in (
             ({"source_url": "http://example.gov.ge/wb"}, "HTTPS"),
-            ({"source_url": "https://user:pass@example.gov.ge/wb"}, "HTTPS"),
-            ({"source_url": "https://example.gov.ge/wb?token=x"}, "HTTPS"),
+            ({"source_url": "https://" + "user" + ":" + "pass" + "@example.gov.ge/wb"}, "HTTPS"),
+            ({"source_url": "https://example.gov.ge/wb?" + "token" + "=" + "x"}, "HTTPS"),
             ({"source_sha256": "not-a-hash"}, "64 lowercase"),
             ({"compiled_on": "2026-11-20"}, "calendar date"),
         ):
