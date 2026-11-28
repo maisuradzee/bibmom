@@ -18,6 +18,22 @@ class Noema005Experiment002FrozenResultTests(unittest.TestCase):
         cls.summary = json.loads(DEFAULT_SUMMARY.read_text(encoding="utf-8"))
         cls.schema = json.loads(DEFAULT_SCHEMA.read_text(encoding="utf-8"))
 
+    def _relaxed_schema_for_semantic_mutations(self):
+        import copy
+
+        schema = copy.deepcopy(self.schema)
+        cell = schema["properties"]["cells"]["items"]["properties"]
+        cell["configurations"].pop("const", None)
+        cell["measured_runs"].pop("const", None)
+        methods = cell["methods"]["properties"]
+        for method in methods.values():
+            properties = method["properties"]
+            properties["total_runs"].pop("const", None)
+            properties["speedup_gt_1_configurations"].pop("const", None)
+            for field in ("median_speedup", "min_speedup", "max_speedup"):
+                properties[field].pop("maximum", None)
+        return schema
+
     def test_frozen_summary_schema_and_aggregate_arithmetic(self):
         validate_summary(self.summary, self.schema)
 
@@ -33,7 +49,7 @@ class Noema005Experiment002FrozenResultTests(unittest.TestCase):
         changed["cells"][0]["configurations"] = 63
         changed["cells"][1]["configurations"] = 65
         with self.assertRaisesRegex(ValueError, "configuration count mismatch"):
-            validate_summary(changed, self.schema)
+            validate_summary(changed, self._relaxed_schema_for_semantic_mutations())
 
         changed = copy.deepcopy(self.summary)
         changed["cells"][0]["measured_runs"] = 191
