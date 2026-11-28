@@ -1,0 +1,412 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NOEMA-005 Run 59 local OpenMP replication report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "study_id",
+    "date",
+    "executed_at_utc",
+    "evidence_status",
+    "host",
+    "build",
+    "protocol",
+    "results",
+    "comparison_to_run51",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "run_id": {
+      "const": "NOEMA-005-RUN59-LOCAL-OPENMP-2026-11-28"
+    },
+    "study_id": {
+      "const": "NOEMA-2026-005"
+    },
+    "date": {
+      "const": "2026-11-28"
+    },
+    "executed_at_utc": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "evidence_status": {
+      "const": "REPRODUCED RESULT"
+    },
+    "host": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "os",
+        "architecture",
+        "cpu_model",
+        "virtualization",
+        "visible_cpu_ids",
+        "cpu_quota",
+        "cpu_quota_cores",
+        "memory_limit_bytes",
+        "python_version",
+        "compiler",
+        "openmp_enabled",
+        "openmp_version_macro",
+        "long_double_mant_dig"
+      ],
+      "properties": {
+        "os": {
+          "type": "string"
+        },
+        "architecture": {
+          "type": "string"
+        },
+        "cpu_model": {
+          "type": "string"
+        },
+        "virtualization": {
+          "type": "string"
+        },
+        "visible_cpu_ids": {
+          "type": "string"
+        },
+        "cpu_quota": {
+          "type": "string"
+        },
+        "cpu_quota_cores": {
+          "const": 4
+        },
+        "memory_limit_bytes": {
+          "const": 4294967296
+        },
+        "python_version": {
+          "type": "string"
+        },
+        "compiler": {
+          "type": "string"
+        },
+        "openmp_enabled": {
+          "const": true
+        },
+        "openmp_version_macro": {
+          "const": 201511
+        },
+        "long_double_mant_dig": {
+          "const": 64
+        }
+      }
+    },
+    "build": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_path",
+        "source_sha256",
+        "binary_sha256",
+        "compile_command",
+        "run_command",
+        "raw_stdout_sha256",
+        "raw_gzip_sha256",
+        "raw_gzip_base64_path"
+      ],
+      "properties": {
+        "source_path": {
+          "const": "scripts/noema005_run51_openmp.c"
+        },
+        "source_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "binary_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "compile_command": {
+          "type": "string"
+        },
+        "run_command": {
+          "type": "string"
+        },
+        "raw_stdout_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "raw_gzip_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "raw_gzip_base64_path": {
+          "const": "data/noema-005/raw/run59-local-openmp-2026-11-28.jsonl.gz.b64"
+        }
+      }
+    },
+    "protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repeats_per_layout",
+        "input_elements_per_layout",
+        "input_bytes_per_layout",
+        "warmups_per_case",
+        "measured_repetitions_per_case",
+        "measured_runs_total",
+        "requested_workers",
+        "layouts",
+        "methods",
+        "synthetic_input",
+        "correctness_oracle",
+        "thread_partition",
+        "memory_measurement"
+      ],
+      "properties": {
+        "repeats_per_layout": {
+          "const": 12000000
+        },
+        "input_elements_per_layout": {
+          "const": 36000000
+        },
+        "input_bytes_per_layout": {
+          "const": 288000000
+        },
+        "warmups_per_case": {
+          "const": 2
+        },
+        "measured_repetitions_per_case": {
+          "const": 20
+        },
+        "measured_runs_total": {
+          "const": 960
+        },
+        "requested_workers": {
+          "const": [
+            1,
+            2,
+            4,
+            5,
+            8
+          ]
+        },
+        "layouts": {
+          "const": [
+            "triplet",
+            "grouped"
+          ]
+        },
+        "methods": {
+          "type": "array",
+          "minItems": 8,
+          "maxItems": 8,
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "synthetic_input": {
+          "type": "string"
+        },
+        "correctness_oracle": {
+          "type": "string"
+        },
+        "thread_partition": {
+          "type": "string"
+        },
+        "memory_measurement": {
+          "type": "string"
+        }
+      }
+    },
+    "results": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "layout",
+          "repeats",
+          "input_elements",
+          "input_bytes",
+          "peak_rss_kib",
+          "warmups",
+          "repetitions",
+          "long_double_mant_dig",
+          "accuracy",
+          "neumaier_runtime"
+        ],
+        "properties": {
+          "layout": {
+            "enum": [
+              "triplet",
+              "grouped"
+            ]
+          },
+          "repeats": {
+            "const": 12000000
+          },
+          "input_elements": {
+            "const": 36000000
+          },
+          "input_bytes": {
+            "const": 288000000
+          },
+          "peak_rss_kib": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "warmups": {
+            "const": 2
+          },
+          "repetitions": {
+            "const": 20
+          },
+          "long_double_mant_dig": {
+            "const": 64
+          },
+          "accuracy": {
+            "type": "array",
+            "minItems": 24,
+            "maxItems": 24,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "method",
+                "requested_workers",
+                "actual_threads_min",
+                "actual_threads_max",
+                "correct_runs",
+                "total_runs"
+              ],
+              "properties": {
+                "method": {
+                  "type": "string"
+                },
+                "requested_workers": {
+                  "enum": [
+                    1,
+                    2,
+                    4,
+                    5,
+                    8
+                  ]
+                },
+                "actual_threads_min": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "actual_threads_max": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "correct_runs": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 20
+                },
+                "total_runs": {
+                  "const": 20
+                }
+              }
+            }
+          },
+          "neumaier_runtime": {
+            "type": "array",
+            "minItems": 5,
+            "maxItems": 5,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "requested_workers",
+                "actual_threads_min",
+                "actual_threads_max",
+                "correct_runs",
+                "repetitions",
+                "median_wall_ns",
+                "median_process_cpu_ns",
+                "speedup_vs_serial_method",
+                "median_effective_input_gib_s"
+              ],
+              "properties": {
+                "requested_workers": {
+                  "enum": [
+                    1,
+                    2,
+                    4,
+                    5,
+                    8
+                  ]
+                },
+                "actual_threads_min": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "actual_threads_max": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "correct_runs": {
+                  "const": 20
+                },
+                "repetitions": {
+                  "const": 20
+                },
+                "median_wall_ns": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                "median_process_cpu_ns": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                "speedup_vs_serial_method": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                "median_effective_input_gib_s": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "comparison_to_run51": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reference_run_id",
+        "reference_host_cpu_model",
+        "comparison_scope",
+        "same_correctness_matrix"
+      ],
+      "properties": {
+        "reference_run_id": {
+          "const": "NOEMA-005-RUN51-LOCAL-OPENMP-2026-11-28"
+        },
+        "reference_host_cpu_model": {
+          "const": "INTEL(R) XEON(R) PLATINUM 8573C"
+        },
+        "comparison_scope": {
+          "type": "string"
+        },
+        "same_correctness_matrix": {
+          "const": true
+        }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 8,
+      "items": {
+        "type": "string",
+        "minLength": 20
+      }
+    }
+  }
+}
