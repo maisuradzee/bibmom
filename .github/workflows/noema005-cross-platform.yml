@@ -1,0 +1,65 @@
+name: NOEMA-005 cross-platform deterministic reproduction
+
+on:
+  push:
+    branches:
+      - research/noema005-cross-platform-ci-2026-11-24
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: noema005-cross-platform-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  reproduce:
+    name: Reproduce on ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-24.04
+          - windows-latest
+          - macos-latest
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14.4"
+
+      - name: Record environment
+        shell: bash
+        run: |
+          python --version
+          python -c "import platform; print(platform.platform()); print('machine=' + platform.machine())"
+
+      - name: Reproduce 330-case sharded reduction simulation
+        shell: bash
+        run: |
+          python scripts/simulate_noema005_parallel_reduction.py --output "$RUNNER_TEMP/noema005-parallel.json"
+          python - "$RUNNER_TEMP/noema005-parallel.json" <<'PY'
+          import json
+          import platform
+          import sys
+          from pathlib import Path
+
+          expected = json.loads(Path("data/noema-005/parallel-reduction-results.json").read_text(encoding="utf-8"))
+          actual = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+          if actual != expected:
+              raise SystemExit("Cross-platform NOEMA-005 results differ from the frozen reference")
+          if actual["case_count"] != 330:
+              raise SystemExit("Expected exactly 330 cases")
+          if actual["case_matrix_sha256"] != "ad15ddf2119ac798e66ffa22bfe6854801a9b9d810283c03212c516c14008625":
+              raise SystemExit("Case-matrix SHA-256 mismatch")
+          print(f"PASS: {actual['case_count']} cases; {platform.python_version()} / {platform.platform()} / {platform.machine()}")
+          print(f"case_matrix_sha256={actual['case_matrix_sha256']}")
+          PY
