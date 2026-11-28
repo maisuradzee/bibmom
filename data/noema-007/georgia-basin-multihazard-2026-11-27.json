@@ -1,0 +1,545 @@
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-007",
+  "snapshot_date": "2026-11-28",
+  "evidence_status": "FACT",
+  "sources": [
+    {
+      "id": "nea-georgia-seven-basin-mhrm-consultation-2026-11-25",
+      "publisher": "National Environmental Agency of Georgia",
+      "title": "Consultative meetings on multi-hazard risk management plans for seven river basins",
+      "publication_date": "2026-11-25",
+      "url": "https://nea.gov.ge/En/News/3459",
+      "accessed_at": "2026-11-27",
+      "source_claims": {
+        "meeting_duration_days": 2,
+        "river_basins_discussed": [
+          "Alazani",
+          "Iori",
+          "Mtkvari",
+          "Khrami-Ktsia",
+          "Chorokhi-Acharistskali",
+          "Enguri",
+          "Rioni"
+        ],
+        "programme_target_river_basins": 11,
+        "hazards": [
+          "floods",
+          "debris flows",
+          "avalanches",
+          "landslides",
+          "droughts",
+          "hailstorms",
+          "strong winds"
+        ],
+        "programme_partners": [
+          "Government of Georgia",
+          "United Nations Development Programme",
+          "Green Climate Fund"
+        ],
+        "purpose": "Develop risk-management and mitigation measures for climate-related multi-hazards at river-basin level"
+      }
+    },
+    {
+      "id": "nea-georgia-mhews-development-cop31-2026-11-16",
+      "publisher": "National Environmental Agency of Georgia",
+      "title": "Georgia climate adaptation and early-warning system development update at COP31",
+      "publication_date": "2026-11-16",
+      "url": "https://nea.gov.ge/En/News/3457",
+      "accessed_at": "2026-11-27",
+      "source_claims": {
+        "reported_capabilities": [
+          "hazard assessment and risk zoning",
+          "modernization of hydrometeorological observation and forecasting",
+          "development of early-warning mechanisms",
+          "meteo.gov.ge mobile application for meteorological and hydrological information and early warnings",
+          "observation-network expansion",
+          "modern forecasting technologies",
+          "improved access to potential-hazard information"
+        ],
+        "reported_operational_topics": [
+          "long-term system sustainability",
+          "institutional capacity",
+          "regional cooperation",
+          "cross-border hydrometeorological data and forecast exchange"
+        ]
+      }
+    },
+    {
+      "id": "nea-geology-department-mandate-undated",
+      "publisher": "National Environmental Agency of Georgia",
+      "title": "Geology Department — monitoring, hazard zoning and GIS functions",
+      "publication_date": "undated",
+      "url": "https://nea.gov.ge/ge/Departments/Geology",
+      "accessed_at": "2026-11-27",
+      "source_claims": {
+        "functions": [
+          "regular spring/autumn geological monitoring in urban settlements and surrounding areas",
+          "emergency hazard-risk assessment and recommendations for landslides, debris flows, rockfalls and other geological processes",
+          "annual geological bulletin and next-year forecast",
+          "geological hazard zoning maps",
+          "Tbilisi geological-hazard monitoring and zoning-map updates",
+          "GIS database and cadastre for geological processes",
+          "instrumental monitoring at critically active landslide/debris-flow sites",
+          "fresh groundwater monitoring and annual hydrogeological bulletin"
+        ]
+      }
+    },
+    {
+      "id": "nea-geological-bulletin-2025-linked-but-not-retrieved",
+      "publisher": "National Environmental Agency of Georgia",
+      "title": "Results of natural geological processes in Georgia in 2025 and forecast for 2026",
+      "publication_date": "undated",
+      "url": "https://ftp.mepa.gov.ge/Public/NEA/%E1%83%92%E1%83%94%E1%83%9D%E1%83%9A%E1%83%9D%E1%83%92%E1%83%98%E1%83%A3%E1%83%A0%E1%83%98%20%E1%83%91%E1%83%98%E1%83%A3%E1%83%9A%E1%83%94%E1%83%A2%E1%83%94%E1%83%9C%E1%83%98%202025%20%281%29.pdf",
+      "accessed_at": "2026-11-27",
+      "source_claims": {
+        "listed_on_geology_department_page": true,
+        "content_type": "application/pdf",
+        "content_length_bytes": 704801491,
+        "retrieval_status": "not_fetched_due_to_tool_limit",
+        "retrieval_note": "The web retrieval tool rejected the 704801491-byte PDF as too large; the document contents were not inspected.",
+        "no_substantive_content_extracted": true,
+        "document_scope_from_link_title": "2025 geological-process results and 2026 forecast"
+      }
+    },
+    {
+      "id": "mepa-geospatial-portal-spatial-data-inventory",
+      "publisher": "Ministry of Environmental Protection and Agriculture of Georgia",
+      "title": "Spatial data inventory — NEA geological, hydrological, meteorological and avalanche layers",
+      "publication_date": "undated",
+      "url": "https://portal.mepa.gov.ge/En/User/data?Links-page=5&Links-sort=GeoDataId-desc",
+      "accessed_at": "2026-11-27",
+      "source_claims": {
+        "catalogue_fields": [
+          "identifier",
+          "layer title",
+          "technical layer name",
+          "geometry type",
+          "sharing type",
+          "price",
+          "storage location",
+          "portal location",
+          "server location",
+          "catalogue date"
+        ],
+        "scope_note": "Expanded page-by-page catalogue audit. These are catalogue metadata only. Public/free does not prove direct feature download or an open reuse licence; a portal map URL, where present, is not treated as a download endpoint.",
+        "catalogue_page_urls": [
+          "https://portal.mepa.gov.ge/En/User/data?Links-page=2&Links-sort=Descrioption-desc",
+          "https://portal.mepa.gov.ge/En/User/data?Links-page=5&Links-sort=GeoDataId-desc",
+          "https://portal.mepa.gov.ge/En/User/data?Links-page=6&Links-sort=UnitName-desc"
+        ],
+        "verified_layer_ids": [
+          "NEA38",
+          "NEA54",
+          "NEA55",
+          "NEA56",
+          "NEA57",
+          "NEA58",
+          "NEA65",
+          "NEA66",
+          "NEA123",
+          "NEA124"
+        ]
+      }
+    },
+    {
+      "id": "geo-outlook-georgia-seven-basin-mhrm-project-implementation-undated",
+      "publisher": "GEO Outlook LLC (secondary project-implementer page)",
+      "title": "Development of Multi-Hazard Risk Management Plans for seven river basins in East and West Georgia",
+      "publication_date": "undated",
+      "url": "https://geo.org.ge/climate-change-and-drr/",
+      "accessed_at": "2026-11-28",
+      "source_claims": {
+        "reported_project_period_start": "2024-09",
+        "reported_project_period_end": "2026-10",
+        "reported_main_result": "Multi-Hazard Risk Management Plans developed for seven river basins",
+        "named_basins": [
+          "Rioni",
+          "Enguri",
+          "Adjaristskali",
+          "Alazani",
+          "Iori",
+          "Khrami-Ktsia",
+          "Mtkvari (Kura)"
+        ],
+        "ambiguous_original_wording": "The same source line continues with the phrase 'for 4 river basins of Georgia', which is inconsistent with the preceding seven-basin list.",
+        "source_classification": "SECONDARY_IMPLEMENTER_CLAIM",
+        "adoption_or_approval_proof": false,
+        "note": "This project-implementer page is a secondary source. Its wording is ambiguous and does not supply signed plan documents, approval decisions, version identifiers or publication links."
+      }
+    }
+  ],
+  "local_planning_signal": {
+    "basins_discussed_count": 7,
+    "programme_target_river_basins": 11,
+    "named_basins": [
+      "Alazani",
+      "Iori",
+      "Mtkvari",
+      "Khrami-Ktsia",
+      "Chorokhi-Acharistskali",
+      "Enguri",
+      "Rioni"
+    ],
+    "hazard_classes": [
+      "floods",
+      "debris flows",
+      "avalanches",
+      "landslides",
+      "droughts",
+      "hailstorms",
+      "strong winds"
+    ]
+  },
+  "institutional_capability_signal": {
+    "reported": true,
+    "capability_classes": [
+      "hazard assessment",
+      "risk zoning",
+      "hydrometeorological observation",
+      "forecasting",
+      "early-warning mechanisms",
+      "public information channel",
+      "regional data exchange"
+    ],
+    "evidence_boundary": "Official announcements describe institutional activity and system-development outputs; they do not quantify operational coverage or last-mile outcomes."
+  },
+  "not_reported_in_sources": [
+    "basin-by-basin plan approval and implementation status",
+    "population or critical-facility coverage by hazard and warning channel",
+    "warning issue time, lead time, validity and geographic precision",
+    "unique eligible people and unique timely human receipt",
+    "message comprehension and accessibility by language, age or disability",
+    "feasible protective action and independently verified action",
+    "after-action review completion and corrective-action closure",
+    "false/misdirected warning rate and missed-event rate"
+  ],
+  "interpretation_guardrails": [
+    "Seven basins discussed at a consultation are not proof that seven plans are approved, implemented or operational.",
+    "The programme target of eleven basins is not a measured coverage denominator; do not calculate 7/11 as implementation progress.",
+    "The official sources establish institutional activity and planning signals, not warning effectiveness or avoided losses.",
+    "Do not infer that a public mobile application reaches every exposed person or that app delivery equals comprehension or protective action.",
+    "NOEMA-007 is an evaluation/measurement layer only; it must not issue duplicate official warnings or override competent authorities.",
+    "Only privacy-reviewed, permissioned aggregates may be used in public research; no person, device, message or exact household-location records are included.",
+    "A secondary project-implementer page reports seven plans developed for 2024-09 to 2026-10, but the same sentence also says 'for 4 river basins'; retain this as an unresolved source-status discrepancy and do not infer formal approval, adoption or implementation."
+  ],
+  "spatial_data_catalogue": [
+    {
+      "id": "NEA38",
+      "title": "Main river basin and sub-basin polygons",
+      "layer_name": "Rioni_Basins; Adjaristskali_Basins; Khobi_Basins; Natanebi_basins; Kintrishi_Basins; Supsa_Basins",
+      "geometry_types": [
+        "polygon"
+      ],
+      "sharing_type": "public",
+      "price": "free",
+      "catalogue_date": "2025-10-16",
+      "storage": [
+        "SQL SDE server",
+        "GIS server",
+        "portal",
+        "GISSQLFC01\\NEA_Hydrology"
+      ],
+      "portal_map_url": "https://portal.mepa.gov.ge/Ge/user/map/16",
+      "direct_download_confirmed": false,
+      "reuse_license_confirmed": false,
+      "data_payload_obtained": false,
+      "scope": {
+        "visible_asset_names": [
+          "Rioni_Basins",
+          "Adjaristskali_Basins",
+          "Khobi_Basins",
+          "Natanebi_basins",
+          "Kintrishi_Basins",
+          "Supsa_Basins"
+        ],
+        "layer_interpretation": "The catalogue row exposes six technical sub-basin layer names and a portal map. It does not establish that the map exposes a downloadable feature service or that the layer set is complete."
+      }
+    },
+    {
+      "id": "NEA54",
+      "title": "Flood-hazard modelling layers for major river basins",
+      "layer_name": "Arrival time.tif; Depth.tif; Duration.tif; Velocity.tif; WSE.tif; Flood_extent.shp",
+      "geometry_types": [
+        "polygon"
+      ],
+      "sharing_type": "public",
+      "price": "free",
+      "catalogue_date": "2025-07-28",
+      "storage": [
+        "SQL SDE server",
+        "GISSQLFC01\\NEA_HYDRAVLIC"
+      ],
+      "portal_map_url": null,
+      "direct_download_confirmed": false,
+      "reuse_license_confirmed": false,
+      "data_payload_obtained": false,
+      "scope": {
+        "modelled_rivers": [
+          "Enguri",
+          "Khobi",
+          "Rioni",
+          "Supsa",
+          "Natanebi",
+          "Kintrishi",
+          "Mtkvari",
+          "Alazani",
+          "Ktsia-Khrami"
+        ],
+        "return_periods_years": [
+          2,
+          5,
+          25,
+          50,
+          100,
+          500
+        ],
+        "visible_asset_names": [
+          "Arrival time.tif",
+          "Depth.tif",
+          "Duration.tif",
+          "Velocity.tif",
+          "WSE.tif",
+          "Flood_extent.shp"
+        ],
+        "layer_interpretation": "Catalogue-described hydraulic-model outputs; no model run, raster or feature was retrieved, and these are not a current forecast."
+      },
+      "data_formats": [
+        "shp",
+        "tif"
+      ]
+    },
+    {
+      "id": "NEA55",
+      "title": "Regional modeling of avalanche hazards",
+      "layer_name": "(30y,100y,300y)_For_10m_rel.shp; Outlines_(30y,100y,300y)_For.shp; (30y,100y,300y)_For_MaxHeight.tif; (30y,100y,300y)_For_MaxPressure.tif",
+      "geometry_types": [
+        "polygon"
+      ],
+      "sharing_type": "public",
+      "price": "free",
+      "catalogue_date": "2025-07-28",
+      "storage": [
+        "SQL SDE server",
+        "GISSQLFC01\\\\nea_snow_avalanch"
+      ],
+      "portal_map_url": null,
+      "direct_download_confirmed": false,
+      "reuse_license_confirmed": false,
+      "data_payload_obtained": false,
+      "scope": {
+        "regions": [
+          "Northeast",
+          "Northwest",
+          "Southwest"
+        ],
+        "return_periods_years": [
+          30,
+          100,
+          300
+        ],
+        "forest_scenarios": [
+          "with forest",
+          "without forest"
+        ],
+        "visible_asset_names": [
+          "(30y,100y,300y)_For_10m_rel.shp",
+          "Outlines_(30y,100y,300y)_For.shp",
+          "(30y,100y,300y)_For_MaxHeight.tif",
+          "(30y,100y,300y)_For_MaxPressure.tif"
+        ]
+      },
+      "data_formats": [
+        "shp",
+        "tif"
+      ]
+    },
+    {
+      "id": "NEA56",
+      "title": "Local avalanche-hazard modelling by river basin/sub-basin",
+      "layer_name": "(30y,100y,300y)_For_10m_rel.shp; (30y,100y,300y)_For_MaxHeight.tif; (30y,100y,300y)_For_MaxPressure.tif; (30y,100y,300y)_For_Accumulation.tif; (30y,100y,300y)_For_Velocity.tif",
+      "geometry_types": [
+        "polygon"
+      ],
+      "sharing_type": "public",
+      "price": "free",
+      "catalogue_date": "2025-07-28",
+      "storage": [
+        "hard disks",
+        "personal computer"
+      ],
+      "portal_map_url": null,
+      "direct_download_confirmed": false,
+      "reuse_license_confirmed": false,
+      "data_payload_obtained": false,
+      "scope": {
+        "return_periods_years": [
+          30,
+          100,
+          300
+        ],
+        "visible_asset_names": [
+          "(30y,100y,300y)_For_10m_rel.shp",
+          "(30y,100y,300y)_For_MaxHeight.tif",
+          "(30y,100y,300y)_For_MaxPressure.tif",
+          "(30y,100y,300y)_For_Accumulation.tif",
+          "(30y,100y,300y)_For_Velocity.tif"
+        ],
+        "layer_interpretation": "Local avalanche modelling by basin/sub-basin; separate from NEA55 regional modelling. No forest-scenario claim is made for NEA56."
+      },
+      "data_formats": [
+        "shp",
+        "tif"
+      ]
+    },
+    {
+      "id": "NEA57",
+      "title": "Clidata climate-station metadata",
+      "layer_name": "Meteo_Network",
+      "geometry_types": [
+        "polygon"
+      ],
+      "sharing_type": "public",
+      "price": "free",
+      "catalogue_date": "2025-07-28",
+      "storage": [
+        "SQL SDE server",
+        "GISSQLFC01\\NEA_Meteorology"
+      ],
+      "portal_map_url": null,
+      "direct_download_confirmed": false,
+      "reuse_license_confirmed": false,
+      "data_payload_obtained": false,
+      "scope": {
+        "station_system": "Clidata",
+        "layer_interpretation": "Catalogue metadata about stations in the Clidata climate-data system; not a time-series observation feed."
+      }
+    },
+    {
+      "id": "NEA58",
+      "title": "Aquarius hydrological-station metadata",
+      "layer_name": "Hydro_Network",
+      "geometry_types": [
+        "polygon"
+      ],
+      "sharing_type": "public",
+      "price": "free",
+      "catalogue_date": "2025-07-28",
+      "storage": [
+        "SQL SDE server",
+        "GISSQLFC01\\NEA_Meteorology.sde/Operational_meteorological_Stations"
+      ],
+      "portal_map_url": null,
+      "direct_download_confirmed": false,
+      "reuse_license_confirmed": false,
+      "data_payload_obtained": false,
+      "scope": {
+        "station_system": "Aquarius",
+        "layer_interpretation": "Catalogue metadata about stations in the Aquarius hydrological data system; not a time-series observation feed."
+      }
+    },
+    {
+      "id": "NEA65",
+      "title": "Recorded landslide outlines",
+      "layer_name": "Landslide",
+      "geometry_types": [
+        "polygon"
+      ],
+      "sharing_type": "public",
+      "price": "free",
+      "catalogue_date": "2025-07-28",
+      "storage": [],
+      "portal_map_url": null,
+      "direct_download_confirmed": false,
+      "reuse_license_confirmed": false,
+      "data_payload_obtained": false,
+      "scope": {
+        "layer_interpretation": "Catalogue describes outlines of recorded landslides; this is not, by itself, a susceptibility model, active-movement indicator or forecast."
+      }
+    },
+    {
+      "id": "NEA66",
+      "title": "Geological hazards — Tbilisi zoning",
+      "layer_name": "Zonireba_Tbilisi_Geologia",
+      "geometry_types": [
+        "polygon"
+      ],
+      "sharing_type": "public",
+      "price": "free",
+      "catalogue_date": "2026-03-06",
+      "storage": [
+        "SQL SDE server",
+        "personal computer"
+      ],
+      "portal_map_url": null,
+      "direct_download_confirmed": false,
+      "reuse_license_confirmed": false,
+      "data_payload_obtained": false,
+      "scope": {
+        "map_scale": "1:25000"
+      }
+    },
+    {
+      "id": "NEA123",
+      "title": "Hydrological stations",
+      "layer_name": "Hydro_Geo_Eng",
+      "geometry_types": [
+        "point"
+      ],
+      "sharing_type": "public",
+      "price": "free",
+      "catalogue_date": "2026-03-09",
+      "storage": [
+        "SQL SDE server",
+        "personal computer"
+      ],
+      "portal_map_url": null,
+      "direct_download_confirmed": false,
+      "reuse_license_confirmed": false,
+      "data_payload_obtained": false,
+      "scope": {
+        "station_status": "active stations; exact locations are described in the catalogue"
+      }
+    },
+    {
+      "id": "NEA124",
+      "title": "Meteorological stations and observation posts",
+      "layer_name": "Meteo_Geo_Eng",
+      "geometry_types": [
+        "point"
+      ],
+      "sharing_type": "public",
+      "price": "free",
+      "catalogue_date": "2026-03-09",
+      "storage": [
+        "SQL SDE server",
+        "personal computer"
+      ],
+      "portal_map_url": null,
+      "direct_download_confirmed": false,
+      "reuse_license_confirmed": false,
+      "data_payload_obtained": false,
+      "scope": {
+        "station_status": "active stations and posts; exact locations are described in the catalogue"
+      }
+    }
+  ],
+  "status_discrepancy": {
+    "official_nea_2026_11_25": {
+      "source_id": "nea-georgia-seven-basin-mhrm-consultation-2026-11-25",
+      "reported_status": "A two-day consultative meeting on preparation of multi-hazard risk-management plans for the seven named basins."
+    },
+    "secondary_implementer_page": {
+      "source_id": "geo-outlook-georgia-seven-basin-mhrm-project-implementation-undated",
+      "reported_status": "The implementer page says plans were developed during a project period from 2024-09 to 2026-10, but the same sentence also refers to four basins."
+    },
+    "evidence_status": "UNRESOLVED_SOURCE_STATUS",
+    "interpretation": "The sources may describe different stages (draft development, stakeholder validation or preparation for approval). They do not establish that seven plans were formally approved, adopted, published or implemented.",
+    "required_primary_evidence": [
+      "signed or formally approved plan document for each basin",
+      "official approval decision and responsible authority",
+      "document version, approval date and public publication URL",
+      "map/model scale, reference period, scenario assumptions and validation report"
+    ]
+  }
+}
