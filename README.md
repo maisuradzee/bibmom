@@ -23,6 +23,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - `noema_core/aquasignal_store.py` — ინციდენტების replay-ზე დაფუძნებული SQLite persistence, SHA-256 audit chain და unsigned caller-supplied checkpoint-ის hash/count comparison.
 - `noema_core/aquasignal_checkpoint.py` — exact canonical payload-ზე detached Ed25519 checkpoint verification, event-chain head matching და caller-managed external monotonic high-water guard; private keys და high-water storage ამ public prototype-ში არ ინახება.
 - `noema_core/action_readiness.py` — NOEMA-007-ის event/area aggregate-only warning-to-action metrics validator; endpoint receipts და survey denominators განცალკევებულია.
+- `noema_core/risk_baseline_freshness.py` — source-declared update interval-ზე დაფუძნებული metadata-only risk-baseline freshness evaluator; არ ადგენს უნივერსალურ ზღვარს, არ ჩამოტვირთავს მონაცემს და ingestion-ს არ ავტორიზებს.
 - `noema_core/backup_manifest.py` — strict Draft 2020-12 manifest validator, streamed plaintext/ciphertext SHA-256/byte-length verifier და caller-supplied trusted Ed25519 public key-ით exact-byte detached-signature verification; decryption, provider retention, anti-rollback და restore ცალკე ეტაპებია.
 - `noema_core/restore_attestation.py` — same-host/offsite restore-drill attestation completeness gate; it never authenticates caller-supplied evidence by itself.
 - `noema_core/mission.json` და `noema_core/mission.py` — მანქანურად წაკითხვადი მისია, ინფორმაციის წვდომის პოლიტიკა და ავტონომიური მოქმედებების წესები.
