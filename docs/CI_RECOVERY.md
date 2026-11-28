@@ -24,7 +24,7 @@ This is a conservative syntax check, not a full secret scanner or SSRF defense: 
 
 1. Checkout and pinned dependency installation are prerequisites; failures remain hard failures.
 2. Required-file checks, bounded draft recovery, draft/index validation, research reproductions, unit tests, site build, publication-boundary checks and external snapshot audits run as independent validation steps with \`continue-on-error: true\`.
-3. A final summary inspects every prerequisite and validation step's \`outcome\`, writes \`GITHUB_STEP_SUMMARY\`, and fails the job if any required check failed.
+3. A final summary inspects every prerequisite and validation step's \`outcome\`, writes \`GITHUB_STEP_SUMMARY\`, and fails the job if any required step did not finish with outcome=success.
 4. A JSON diagnostic report and a patch containing only the allowed presentation repairs are uploaded for 14 days, including failures and skipped steps. The patch is an auditable runner artifact and is never pushed to the research branch automatically.
 5. Artifact upload is diagnostic only and cannot turn a failed quality gate into success.
 
