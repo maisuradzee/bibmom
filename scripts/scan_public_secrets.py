@@ -22,8 +22,8 @@ _PATTERNS = (
     ("jwt-like-token", re.compile(r"\beyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\b")),
 )
 _PRIVATE_KEY_BLOCK = re.compile(
-    r"-----BEGIN (?:RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----\\s*"
-    r"(?:[A-Za-z0-9+/=]{40,}\\s*)+"
+    r"-----BEGIN (?:RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----\s*"
+    r"(?:[A-Za-z0-9+/=]{40,}\s*)+"
     r"-----END (?:RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----",
     re.DOTALL,
 )
@@ -102,7 +102,7 @@ def _url_rules(value: str) -> set[str]:
 def scan_text(path: str, content: str) -> list[tuple[str, int, str]]:
     findings: list[tuple[str, int, str]] = []
     for match in _PRIVATE_KEY_BLOCK.finditer(content):
-        line_number = content.count("\\n", 0, match.start()) + 1
+        line_number = content.count("\n", 0, match.start()) + 1
         findings.append((path, line_number, "private-key-block"))
     for line_number, line in enumerate(content.splitlines(), start=1):
         for rule, pattern in _PATTERNS:
