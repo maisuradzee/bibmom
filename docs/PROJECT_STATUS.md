@@ -1,15 +1,16 @@
 # NOEMA — მიმდინარე პროექტის მდგომარეობა
 
-- **განახლდა:** 2026-11-28 (Run 46 final — AquaSignal provenance, NOEMA-005 artifact verification and INFRA CI-contract review).
+- **განახლდა:** 2026-11-28 (Run 48 final — Georgia warning-authority crosswalk and backup path-binding hardening).
 - **საცავი:** https://github.com/maisuradzee/bibmom
-- **Run 44 research merge commit:** `218021f38ed8bf3732b449fcdfea2cbbb821e96a` (PR #247 merged).
-- **PR #248 status-sync commit:** `cc63c75660096b70cb3f277c5c01b6b55a7200d7`; exact Main Quality CI [46092850682](https://github.com/maisuradzee/bibmom/actions/runs/46092850682) and Pages build/deploy [46092850684](https://github.com/maisuradzee/bibmom/actions/runs/46092850684) both SUCCESS on that SHA.
-- **Current Main SHA:** `66bd3bf52c42715039798ff4c82649f859c414bc` (PR #255 merged). Main Quality CI [46100659685](https://github.com/maisuradzee/bibmom/actions/runs/46100659685) — SUCCESS on this exact SHA.
-- **GitHub Pages:** [46100659708](https://github.com/maisuradzee/bibmom/actions/runs/46100659708) — build and deploy SUCCESS for Main SHA `66bd3bf52c42715039798ff4c82649f859c414bc`; deployment URL https://maisuradzee.github.io/bibmom/.
-- **PR #247:** merged as `218021f38ed8bf3732b449fcdfea2cbbb821e96a`; exact-head Quality CI runs [46092514227](https://github.com/maisuradzee/bibmom/actions/runs/46092514227) (push) and [46092518104](https://github.com/maisuradzee/bibmom/actions/runs/46092518104) (pull_request) both SUCCESS.
-- **INFRA-001 PR #252:** remains Draft and unmerged. Follow-up exact-head Quality CI [46100377784](https://github.com/maisuradzee/bibmom/actions/runs/46100377784) succeeded after pinning the summary command, required-step manifest, STEP_OUTCOMES input and diagnostic upload contract. It is still behind Main/mergeable=false; independent security review is still required. Older open drafts #246/#251 remain unmerged; PR #252 is the current fail-closed follow-up proposal. None of these drafts was merged.
-- **აქტიური პორტფელი:** ოთხივე ნაკადი აქტიურია — AquaSignal, NOEMA-005, NOEMA-007 და INFRA-001.
-- **კვლევის კატალოგი:** 3 Preliminary, 0 Published; Run 44 chronology remains draft, not a published research article.
+- **Verified Main SHA before this status-only update:** `4da99b1ae3eda2b9a6b915cd40a0060e2b9c13a9`.
+- **Run 48 / NOEMA-007:** PR [#262](https://github.com/maisuradzee/bibmom/pull/262) merged as `d8df7bfade2b9ce2d392576e30691106b6175cce`; exact-head push CI [46107082587](https://github.com/maisuradzee/bibmom/actions/runs/46107082587) and PR CI [46107085468](https://github.com/maisuradzee/bibmom/actions/runs/46107085468) succeeded. Main CI [46107155252](https://github.com/maisuradzee/bibmom/actions/runs/46107155252) passed 764 tests; Pages deployment [46107155134](https://github.com/maisuradzee/bibmom/actions/runs/46107155134) succeeded on that merge SHA.
+- **Run 48 / INFRA-001:** PR [#263](https://github.com/maisuradzee/bibmom/pull/263) merged as `4da99b1ae3eda2b9a6b915cd40a0060e2b9c13a9`; exact-head Quality CI [46107271580](https://github.com/maisuradzee/bibmom/actions/runs/46107271580) succeeded with 766 tests (one skipped). The verifier now checks that the final path still names the opened inode after hashing; post-return TOCTOU remains.
+- **Final Main Quality CI:** [46107334582](https://github.com/maisuradzee/bibmom/actions/runs/46107334582) — SUCCESS on `4da99b1ae3eda2b9a6b915cd40a0060e2b9c13a9`, 766 tests passed, one skipped.
+- **Final Main Pages deployment:** [46107334597](https://github.com/maisuradzee/bibmom/actions/runs/46107334597) — build/deploy SUCCESS for `4da99b1ae3eda2b9a6b915cd40a0060e2b9c13a9`; https://maisuradzee.github.io/bibmom/.
+- **INFRA-001 recovery proposal PRs:** #252, #251 and #246 remain open/unmerged and stale against Main. PR #252 is the most complete fail-closed CI-recovery proposal, but it still requires current-Main refresh and independent security review. The local backup path-binding fix in #263 does not make off-host recovery production-ready.
+- **აქტიური პორტფელი:** ოთხივე ნაკადი აქტიურია — AquaSignal / NOEMA-2026-006, NOEMA-005, NOEMA-007 და INFRA-001.
+- **კვლევის კატალოგი:** 4 Preliminary, 0 Published. Run 48 NOEMA-007 crosswalk remains a draft; no research item was promoted to Published.
+- **GitHub state at audit:** 40 open PRs, 0 open issues. Legacy drafts are not treated as completed work.
 
 ## Run 38 — ექვსი hosted benchmark cell, ახალი ქართული groundwater access lead და მონაცემთა სანდოობის კონტროლები
 
@@ -832,3 +833,52 @@ Main remains at `726c71c9ef1a4e1c00dbc4a44b950e4b371c02f0`. Main Quality CI [460
 4. INFRA-001: refresh PR #252 from current Main 93d90e36ccd17f712bea457f5704bbc95e639bd5, rerun exact-head CI and obtain independent security review.
 
 Catalogue: 4 Preliminary, 0 Published. No raw microdata, personal well records, exact coordinates, cadastral identifiers or secrets were added to the public repository.
+
+
+## Run 48 — 2026-11-28: official warning-authority crosswalk and backup path-binding audit
+
+### NOEMA-007 — official Georgia warning authority/capability crosswalk
+
+- Primary sources reviewed: NEA agency functions; Hydrology Department responsibilities; Geology Department responsibilities; the 2026-07-14 network expansion notice; and the 2025-12-26 multi-hazard forecasting/early-warning workshop notice.
+- NEA reports 278 hydrometeorological stations installed and a target of 298 by the end of 2026. The 298 value remains a target, not an achieved November count.
+- The same 2026-07-14 notice reports modern monitoring systems on 28 landslide bodies, including 22 integrated into one server platform. These are distinct infrastructure units and are not converted into one coverage percentage.
+- NEA's Hydrology Department page describes hydrological forecasts and warnings; the Geology Department page describes geological monitoring, zoning/GIS and groundwater monitoring. The 2025 workshop documents discussion of proposals, not formal protocol adoption.
+- No current station inventory, uptime, calibration, hazard-specific forecast skill, warning delivery, comprehension, feasible-action or after-action dataset was retrieved. Agency-reported capacity figures are not independent performance evidence.
+- PR [#262](https://github.com/maisuradzee/bibmom/pull/262) merged. It adds a closed JSON Schema, eight focused tests, a draft research note, portfolio source metadata and CI coverage.
+
+### INFRA-001 — local backup artifact path-binding hardening
+
+- Static review found that the streamed artifact verifier checked the opened descriptor before/after hashing but did not confirm that the caller's final path still named the same inode when verification returned.
+- PR [#263](https://github.com/maisuradzee/bibmom/pull/263) adds a no-follow final path stat and device/inode comparison, plus deterministic tests for path replacement during hashing and a mismatched path lookup.
+- The architecture document records the residual post-return TOCTOU boundary: a future restore consumer must stage verified bytes into a new owner-only temporary file or consume the same verified descriptor and revalidate. The verifier still does not decrypt, authenticate provider storage, prove retention, prevent rollback or perform a restore.
+- Exact-head Quality CI [46107271580](https://github.com/maisuradzee/bibmom/actions/runs/46107271580) succeeded with 766 tests (one skipped). PR #263 merged as `4da99b1ae3eda2b9a6b915cd40a0060e2b9c13a9`.
+
+### AquaSignal — no new dataset; access blocker remains
+
+- Rechecked the Decree №447 annual-plan milestone. As of 2026-11-28, the 2026-12-01 submission deadline had not passed; no non-compliance or missed-deadline claim is made.
+- Attempted to retrieve the official Decree №447 DOCX annex and NEA 2021–2025 groundwater RAR through the available web/runtime paths. The DOCX endpoint returned an unsupported `application/msword` payload to the web reader; the RAR endpoint returned unsupported `application/octet-stream`; direct runtime downloads failed. No bytes, archive listing, checksum or annex contents were obtained.
+- Existing source-access metadata remains accurate: official links are identified, but payload contents, data dictionary, sample-level granularity and reuse terms are unverified. No water-safety threshold or operational alert was changed.
+
+### NOEMA-005 — frozen-result audit only
+
+- Main Quality CI reproduced existing frozen summation, hosted-thread and runtime/memory artifacts successfully.
+- No new physical x86-64/ARM64 device experiment, RSS measurement or DRAM-bandwidth benchmark was run in this cycle. No new performance claim is added.
+
+### Four-stream portfolio review
+
+| Stream | Status | Run 48 result / blocker |
+|---|---|---|
+| AquaSignal / NOEMA-2026-006 | Active / Preliminary | Legal/source-access audit only; DOCX/RAR bytes and reuse terms remain unavailable; 1 Dec deadline is still upcoming as of this audit |
+| NOEMA-005 | Active / Preliminary | Frozen reproductions pass; physical device/runtime-memory experiments remain outstanding |
+| NOEMA-007 | Active / Preliminary | Official NEA role/capability crosswalk merged; operational warning-chain effectiveness remains unmeasured |
+| INFRA-001 | Active / Engineering | Local path-to-inode guard merged; off-host trust domain, retention, anti-rollback and clean-host restore remain unimplemented |
+
+No fifth stream was added. Four catalogue entries remain Preliminary; zero are Published. No private, person-level, exact-coordinate, raw survey or restricted archive data was added to the public repository. No Supabase project or external database was created or used.
+
+### Next priorities
+
+1. AquaSignal: after 2026-12-01, check whether the annual state water-monitoring plan was submitted/published; obtain the official DOCX/RAR through an authorized alternate transfer route and verify its digest before inspecting content.
+2. NOEMA-007: obtain a versioned station inventory, formal protocol approval/version and privacy-approved warning-event aggregates with separate stage denominators.
+3. NOEMA-005: run physical x86-64/ARM64 comparisons only when suitable hardware is available; include Pairwise/Exact accumulator, RSS and DRAM bandwidth.
+4. INFRA-001: refresh PR #252 to current Main, complete failure-injection and obtain independent security review; separately design an external rollback-resistant high-water authority and clean-host restore drill.
+
