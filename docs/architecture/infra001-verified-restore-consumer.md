@@ -32,3 +32,10 @@ Synthetic tests cover successful restore, source-path replacement after verifica
 ## Same-UID trust boundary (Run 52 audit)
 
 The 0700 staging directory and 0600 file permissions prevent ordinary access by different local UIDs, but they do **not** isolate the staged pathname from another process running under the same UID. The helper therefore assumes the restore process's local account is trusted; it is not a defense against same-UID malware, a compromised service account, root, or other privileged local actors. Do not describe owner-only permissions as a sandbox or secure-erasure guarantee. A stronger threat model would require a dedicated isolated service identity, protected staging filesystem, or a same-descriptor/OS-specific handoff, followed by a clean-host restore review.
+
+
+## Run 54 — injected high-water write-failure atomicity
+
+A synthetic SQLite trigger now aborts the generation upsert after the local reference model begins its immediate write transaction. The regression test verifies that the failed operation leaves the previously accepted generation unchanged, then removes the trigger and confirms that the exact next-generation retry succeeds.
+
+**Evidence status:** REPRODUCED_RESULT for this deterministic local SQLite test only. It is not a power-loss, filesystem-corruption, host-compromise or remote-authority test. SQLiteHighWaterReference remains a same-host conformance model; its database is not an independent anti-rollback trust domain.
