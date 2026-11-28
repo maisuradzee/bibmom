@@ -16,6 +16,17 @@ class PublicSecretPatternScanTests(unittest.TestCase):
         findings = scan_text("sample.txt", key)
         self.assertTrue(any(item[2] == "private-key-block" for item in findings))
 
+    def test_detects_encrypted_pkcs8_key_with_short_final_base64_line(self):
+        key = (
+            "-----BEGIN ENCRYPTED PRIVATE KEY-----\\n"
+            + "A" * 64
+            + "\\n"
+            + "B" * 32
+            + "\\n-----END ENCRYPTED PRIVATE KEY-----"
+        )
+        findings = scan_text("encrypted-key.txt", key)
+        self.assertTrue(any(item[2] == "private-key-block" for item in findings))
+
     def test_detects_url_userinfo_query_and_path_credentials(self):
         findings = scan_text(
             "sources.md",
@@ -27,6 +38,16 @@ class PublicSecretPatternScanTests(unittest.TestCase):
         self.assertIn("url-credential-like-path-segment", rules)
         self.assertNotIn("url-userinfo-credentials", rules)
         self.assertNotIn("url-sensitive-parameter-name", rules)
+
+    def test_placeholder_values_are_not_suppressed_on_non_example_hosts(self):
+        findings = scan_text(
+            "sources.md",
+            "https://user:password@api.acme-water.io/data\\n"
+            "https://api.acme-water.io/feed?access_token=opaque",
+        )
+        rules = {item[2] for item in findings}
+        self.assertIn("url-userinfo-credentials", rules)
+        self.assertIn("url-sensitive-parameter-name", rules)
 
     def test_known_hash_and_safe_public_source_urls_are_not_path_token_findings(self):
         findings = scan_text(
