@@ -12,6 +12,19 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - გამოქვეყნებამდე მასალა გადის სარედაქციო და ტექნიკურ შემოწმებას.
 - ავტომატიზაცია არ ნიშნავს დაუდასტურებელი შედეგების ავტომატურ გამოქვეყნებას.
 
+## NOEMA Run 55 — 2026-11-28
+
+- ოთხივე კვლევითი ნაკადი გადაიხედა; ახალი ნაკადი არ დამატებულა. კატალოგი: **9 Preliminary / 0 Published**.
+- [PR #285](https://github.com/maisuradzee/bibmom/pull/285) განაახლებს NOEMA-007-ს: `CountryIncomeLevel` მკაფიოდ არის ქვეყნის დონის კლასიფიკაციად მონიშნული და არა რესპონდენტის პირად შემოსავლად; დაემატა ოთხი აღწერითი percentage-point contrast. მიზეზობრივი ან დიზაინზე მორგებული ეფექტი არ არის ნავარაუდევი.
+- [PR #288](https://github.com/maisuradzee/bibmom/pull/288) ამატებს NOEMA-005 Experiment 002-ის ექვსი hosted artifact-ის დამოუკიდებელ გამეორებას: 6/6 ZIP და 6/6 JSON SHA-256 დაემთხვა; 384 კონფიგურაცია და 1,152 გაზომილი გაშვება ხელახლა დაითვალა. სრული Neumaier state — 288/288 სწორი დამრგვალება; scalar Neumaier და worker-local `math.fsum` — 252/288; naive — 0/288. threaded კონფიგურაციებს serial baseline-ზე wall-time უპირატესობა არ ჰქონდათ.
+- [PR #290](https://github.com/maisuradzee/bibmom/pull/290) აფიქსირებს AquaSignal-ის წყაროებზე წვდომის საზღვრებს: NEA-ს ოფიციალური RAR ბმული იხსნება, მაგრამ ამ გარემოში `application/octet-stream` payload ვერ ჩამოიტვირთა; SHA და დანართის შინაარსი უცნობია. Folketing Q199-ის საბოლოო პასუხის თარიღი 2026-11-16 დადასტურებულია, მაგრამ PDF-ის ტექსტი არ განხილულა.
+- [PR #292](https://github.com/maisuradzee/bibmom/pull/292) განაახლებს NOEMA-007-ის საჯარო კატალოგს ვერსიამდე 1.2 და ინახავს ჯგუფების ერთეულის/მტკიცებულების შეზღუდვებს.
+- INFRA-001-ის CI recovery წინადადება ჯერ Draft-ია: v3 branch-ის ზუსტ SHA-ზე CI წარმატებულია (875 tests, 1 skipped; 50/50 required steps), 51 draft შემოწმდა, ოთხი მხოლოდ metadata/heading repair გაკეთდა runner-ის დროებით გარემოში; 0 დარჩენილი validation error და 0 source URL issue. კვლევის შინაარსი, ტესტები და frozen results არ შეცვლილა. დამოუკიდებელი security review და მიმდინარე Main-ზე rebase კვლავ აუცილებელია; ცვლილება Main-ში არ გაერთიანებულა.
+- კვლევითი Main baseline PR-ების შემდეგ: `cfa02bc52ea467b8f00bcd72266bdcefe07b2eda`. Main Quality CI: **858 passed, 1 skipped**. GitHub Pages build და deploy წარმატებულია.
+- შემდეგი AquaSignal ვადა: **2026-12-01** — 2027 წლის სახელმწიფო წყლის მონიტორინგის გეგმის მინისტრისთვის წარდგენის შემოწმება. 2026-11-28 მდგომარეობით ვადა ჯერ არ იყო გასული; წარუდგენლობა ან სამართლებრივი დარღვევა არ დადგენილა.
+
+[Run 55-ის სრული აუდიტი](docs/run-audits/2026-11-28-run-55.md)
+
 ## სტრუქტურა
 
 - `index.html` — მთავარი გვერდი.
