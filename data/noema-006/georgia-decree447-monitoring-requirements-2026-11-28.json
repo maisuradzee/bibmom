@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "record_id": "AQUASIGNAL-GEORGIA-DECREE447-WATER-MONITORING-2026-09-15",
+  "study_id": "NOEMA-2026-006",
+  "reviewed_at": "2026-11-28",
+  "classification": "REGULATORY_MONITORING_REQUIREMENTS",
+  "sources": [
+    {
+      "publisher": "Legislative Herald of Georgia (Matsne)",
+      "title": "საქართველოს მთავრობის დადგენილება №447 — წყლის რესურსების მონიტორინგის დაგეგმვისა და განხორციელების წესის დამტკიცების შესახებ",
+      "adopted_date": "2026-09-15",
+      "effective_from": "2026-09-01",
+      "url": "https://matsne.gov.ge/ka/document/view/7000572",
+      "accessed_at": "2026-11-28",
+      "source_type": "official_primary_legislation"
+    },
+    {
+      "publisher": "Legislative Herald of Georgia (Matsne)",
+      "title": "საქართველოს კანონი „წყლის რესურსების მართვის შესახებ“ — კონსოლიდირებული ვერსია",
+      "publication_date": "2026-09-16",
+      "relevant_amendment": "№1862/2-VIმს-XIმპ",
+      "url": "https://www.matsne.gov.ge/ka/document/view/5846594",
+      "accessed_at": "2026-11-28",
+      "source_type": "official_primary_legislation"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "annual_plan_submission",
+      "article": "Decree 447, Article 3(2)(a)",
+      "requirement": "NEA prepares the State Water Resources Monitoring Plan annually and submits it to the Minister for approval no later than 1 December each year.",
+      "next_observed_deadline": "2026-12-01",
+      "status_at_review": "UPCOMING_NOT_YET_DUE",
+      "note": "The decree does not state in this article which plan-year label must be used. Do not claim that the next plan has or has not been submitted before the deadline."
+    },
+    {
+      "id": "data_standardization_and_access",
+      "article": "Decree 447, Article 3(2)(b)-(c)",
+      "requirement": "Monitoring data are stored in standardized formats for national reports and river-basin management plans; access is provided subject to environmental-information access, data-protection and confidentiality law."
+    },
+    {
+      "id": "representative_risk_based_network",
+      "article": "Decree 447, Articles 4 and 6",
+      "requirement": "The state monitoring plan is representative and risk-based, uses standardized methods/indices for temporal comparability, documents background values and justifies representative monitoring/grouping."
+    },
+    {
+      "id": "monitoring_programmes",
+      "article": "Decree 447, Article 5",
+      "requirement": "The state system includes hydrological, hydrochemical, hydrobiological, hydromorphological and hydrogeological programmes for surface-water and groundwater bodies."
+    },
+    {
+      "id": "microbiological_monitoring",
+      "article": "Decree 447, Article 6(1)(k)",
+      "requirement": "The need, sites, microbiological parameters, frequency and methods are determined by water-body type, existing or likely pressures, water use, microbiological contamination risk and monitoring objectives."
+    },
+    {
+      "id": "operational_monitoring",
+      "article": "Decree 447, Article 6(2)(b)",
+      "requirement": "Operational monitoring applies to water bodies at risk, covers significant pressures and evaluates measure effectiveness; the rule describes high frequency as monthly or quarterly."
+    },
+    {
+      "id": "investigative_monitoring",
+      "article": "Decree 447, Article 6(2)(c)",
+      "requirement": "Investigative monitoring is triggered by pollution incidents/accidents or when the reason for failure to achieve good status is unknown; it is flexible and problem-oriented."
+    },
+    {
+      "id": "biota_sediment_transition",
+      "article": "Decree 447, Article 7(3)-(5)",
+      "requirement": "Priority-substance monitoring in biota and sediment is introduced progressively. Until full implementation, chemical-status assessment may mainly rely on water-column results. For substances requiring biota/sediment assessment, monitoring must start no later than 2028-01-01.",
+      "start_by": "2028-01-01",
+      "note": "This deadline applies to substances whose assessment requires these matrices, not indiscriminately to every analyte."
+    }
+  ],
+  "scope_boundaries": [
+    {
+      "distinction": "state_water_resource_monitoring_vs_drinking_water_quality_control",
+      "fact": "Decree 447 regulates the state water-resource monitoring system for surface-water and groundwater bodies. The consolidated Water Resources Management Law separately assigns the National Food Agency state control of drinking-water quality (Article 31(3)).",
+      "implication": "Do not apply Decree 447's water-body monitoring frequency or matrix rules as if they were consumer tap-water compliance thresholds."
+    },
+    {
+      "distinction": "future_drinking_water_technical_regulation",
+      "fact": "The consolidated Water Resources Management Law Article 37(1)(b)(b) sets 2027-09-01 as the deadline for adopting the technical regulation on water quality intended for human consumption; Article 42(3) sets the relevant provisions' commencement date at 2027-09-01.",
+      "implication": "This is a future statutory milestone as of 2026-11-28, not proof that the technical regulation is already adopted or in force."
+    }
+  ],
+  "aqua_signal_design_implications": [
+    "Store water matrix and point-of-use context explicitly: surface water, groundwater, coastal/transitional water, raw source water, treatment-plant outlet and distribution/tap water are not interchangeable.",
+    "Represent monitoring programme and trigger separately: observational, operational and investigative; keep monthly/quarterly operational frequency distinct from risk-based observational schedules.",
+    "Record the reason for microbiological monitoring (water-body type, pressure, use, contamination risk, objective) and the sampling method, QA/QC and denominator.",
+    "For priority substances, store water-column, biota and sediment results as separate matrices with their own units, detection limits and dates; apply the 2028 transition only to substances requiring those matrices.",
+    "Track the annual monitoring-plan submission as a dated milestone; on 2026-12-01 verify publication/submission status rather than presuming it."
+  ],
+  "not_established": [
+    "The 2026-12-01 annual submission has not yet been verified; it is an upcoming deadline on the review date.",
+    "The decree does not provide the actual monitoring-station inventory, 2027 schedule, sample counts, analytical results, laboratory detection limits or current compliance rates.",
+    "The annex DOCX was not independently downloaded in this run; the structured requirements above are drawn from the official Matsne HTML body, not unverified annex tables.",
+    "The decree does not itself establish consumer tap-water concentration limits or replace the separate drinking-water technical regulation."
+  ],
+  "privacy": {
+    "personal_data_included": false,
+    "exact_station_coordinates_included": false,
+    "raw_lab_records_included": false,
+    "household_or_consumer_records_included": false,
+    "restricted_annex_payload_included": false
+  }
+}
