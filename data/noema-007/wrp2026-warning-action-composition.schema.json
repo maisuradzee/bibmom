@@ -1,0 +1,250 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NOEMA-007 rounded warning-to-action population composition",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "study_id",
+    "experiment_id",
+    "evidence_status",
+    "derivation_basis",
+    "input_record",
+    "population_composition",
+    "external_published_reference",
+    "source_data",
+    "methodology",
+    "interpretation",
+    "limitations",
+    "privacy"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "study_id": {
+      "const": "NOEMA-2026-007"
+    },
+    "experiment_id": {
+      "const": "NOEMA-2026-007-WRP2026-WARNING-ACTION-COMPOSITION-001"
+    },
+    "evidence_status": {
+      "const": "REPRODUCED RESULT"
+    },
+    "derivation_basis": {
+      "type": "string",
+      "minLength": 40
+    },
+    "input_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "git_blob_sha1",
+        "warning_receipt_pct_1dp",
+        "ability_to_act_among_warned_pct_1dp",
+        "warning_question_base_n",
+        "warned_action_base_n"
+      ],
+      "properties": {
+        "path": {
+          "const": "data/noema-007/wrp2026-action-enablers-result-2026-11-28.json"
+        },
+        "git_blob_sha1": {
+          "const": "8b6d0f1b520aa81a004be3bd1cd6b8d918512a4e"
+        },
+        "warning_receipt_pct_1dp": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "ability_to_act_among_warned_pct_1dp": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "warning_question_base_n": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "warned_action_base_n": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "population_composition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "warned_and_able_pct_1dp",
+        "warned_but_unable_pct_1dp",
+        "not_warned_pct_1dp",
+        "sum_pct_1dp"
+      ],
+      "properties": {
+        "warned_and_able_pct_1dp": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "warned_but_unable_pct_1dp": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "not_warned_pct_1dp": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "sum_pct_1dp": {
+          "const": 100
+        }
+      }
+    },
+    "external_published_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "publisher",
+        "publication_date",
+        "url",
+        "approximate_warned_and_able_pct",
+        "approximate_warned_but_unable_pct",
+        "approximate_not_warned_pct",
+        "rounded_components_agree"
+      ],
+      "properties": {
+        "publisher": {
+          "const": "United Nations Office for Disaster Risk Reduction"
+        },
+        "publication_date": {
+          "const": "2026-10-13"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://"
+        },
+        "approximate_warned_and_able_pct": {
+          "const": 51
+        },
+        "approximate_warned_but_unable_pct": {
+          "const": 29
+        },
+        "approximate_not_warned_pct": {
+          "const": 20
+        },
+        "rounded_components_agree": {
+          "const": true
+        }
+      }
+    },
+    "source_data": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository",
+        "commit",
+        "path",
+        "sha256",
+        "report_doi",
+        "license"
+      ],
+      "properties": {
+        "repository": {
+          "const": "lrfoundation/world_risk_poll_data"
+        },
+        "commit": {
+          "const": "f2b810c3c4333de6347ad2c9eade3c48ae17be4c"
+        },
+        "path": {
+          "const": "WRP_2025/WRP_2025.parquet"
+        },
+        "sha256": {
+          "const": "07b4632826e13ec1975ec977b0e057b528547c6f7805c0838abc1586b78da56b"
+        },
+        "report_doi": {
+          "const": "10.60743/yx1k-t541"
+        },
+        "license": {
+          "const": "CC BY-SA 4.0"
+        }
+      }
+    },
+    "methodology": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "denominator",
+        "weight",
+        "calculation",
+        "rounding"
+      ],
+      "properties": {
+        "denominator": {
+          "type": "string",
+          "minLength": 40
+        },
+        "weight": {
+          "type": "string",
+          "minLength": 20
+        },
+        "calculation": {
+          "type": "string",
+          "minLength": 30
+        },
+        "rounding": {
+          "type": "string",
+          "minLength": 40
+        }
+      }
+    },
+    "interpretation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "statement"
+      ],
+      "properties": {
+        "status": {
+          "const": "DESCRIPTIVE_POPULATION_COMPOSITION_NOT_CAUSAL"
+        },
+        "statement": {
+          "type": "string",
+          "minLength": 40
+        }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "string",
+        "minLength": 30
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "raw_microdata_used_in_this_derivation",
+        "respondent_ids_committed",
+        "small_cells_or_country_records_added"
+      ],
+      "properties": {
+        "raw_microdata_used_in_this_derivation": {
+          "const": false
+        },
+        "respondent_ids_committed": {
+          "const": false
+        },
+        "small_cells_or_country_records_added": {
+          "const": false
+        }
+      }
+    }
+  }
+}

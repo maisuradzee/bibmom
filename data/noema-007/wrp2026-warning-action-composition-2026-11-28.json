@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-007",
+  "experiment_id": "NOEMA-2026-007-WRP2026-WARNING-ACTION-COMPOSITION-001",
+  "evidence_status": "REPRODUCED RESULT",
+  "derivation_basis": "Arithmetic derived from one-decimal PROJWT-weighted aggregate percentages; not recomputed from respondent-level microdata.",
+  "input_record": {
+    "path": "data/noema-007/wrp2026-action-enablers-result-2026-11-28.json",
+    "git_blob_sha1": "8b6d0f1b520aa81a004be3bd1cd6b8d918512a4e",
+    "warning_receipt_pct_1dp": 80,
+    "ability_to_act_among_warned_pct_1dp": 63.8,
+    "warning_question_base_n": 24249,
+    "warned_action_base_n": 16996
+  },
+  "population_composition": {
+    "warned_and_able_pct_1dp": 51,
+    "warned_but_unable_pct_1dp": 29,
+    "not_warned_pct_1dp": 20,
+    "sum_pct_1dp": 100
+  },
+  "external_published_reference": {
+    "publisher": "United Nations Office for Disaster Risk Reduction",
+    "publication_date": "2026-10-13",
+    "url": "https://www.undrr.org/implementing-sendai-framework/bridging-the-early-warning-to-action-gap-requires-building-resilience-at-home",
+    "approximate_warned_and_able_pct": 51,
+    "approximate_warned_but_unable_pct": 29,
+    "approximate_not_warned_pct": 20,
+    "rounded_components_agree": true
+  },
+  "source_data": {
+    "repository": "lrfoundation/world_risk_poll_data",
+    "commit": "f2b810c3c4333de6347ad2c9eade3c48ae17be4c",
+    "path": "WRP_2025/WRP_2025.parquet",
+    "sha256": "07b4632826e13ec1975ec977b0e057b528547c6f7805c0838abc1586b78da56b",
+    "report_doi": "10.60743/yx1k-t541",
+    "license": "CC BY-SA 4.0"
+  },
+  "methodology": {
+    "denominator": "Population represented by adults who reported a disaster impact in the previous five years and were asked the advance-warning question; this is not all adults.",
+    "weight": "Uses the publisher-aligned PROJWT-weighted aggregate percentages from the frozen reproduction record.",
+    "calculation": "warned_and_able = round1(receipt * conditional_action / 100); warned_but_unable = round1(receipt - warned_and_able); not_warned = round1(100 - receipt).",
+    "rounding": "Inputs are already rounded to one decimal place. Residual allocation makes displayed categories sum to 100.0; components are approximate, not exact underlying population estimates."
+  },
+  "interpretation": {
+    "status": "DESCRIPTIVE_POPULATION_COMPOSITION_NOT_CAUSAL",
+    "statement": "The decomposition makes the conditional warning-to-action gap visible on a common per-100-impacted-adults denominator. It does not identify why people could not act or estimate protective actions verified by independent event records."
+  },
+  "limitations": [
+    "The inputs are one-decimal rounded estimates; derived components are approximate and rounding residual is assigned to warned-but-unable.",
+    "No design-based confidence intervals or effective sample sizes are calculated.",
+    "The survey is retrospective and self-reported; warning receipt, comprehension, feasibility, verified action and avoided loss are distinct constructs.",
+    "The result is global and must not be interpreted as a Georgia national estimate; Georgia's warning-question base is 99.",
+    "This is arithmetic on an existing frozen aggregate record, not a new survey or a second raw-microdata reproduction."
+  ],
+  "privacy": {
+    "raw_microdata_used_in_this_derivation": false,
+    "respondent_ids_committed": false,
+    "small_cells_or_country_records_added": false
+  }
+}

@@ -1372,6 +1372,52 @@
         "The Danish 6 mg/L figure is an expert recommendation in this record, not an enacted legal limit.",
         "No independent Georgian legal, toxicological, epidemiological or hydrogeological review was obtained."
       ]
+    },
+    {
+      "id": "NOEMA-2026-015",
+      "title": "გაფრთხილებიდან მოქმედებამდე: მოსახლეობის 100 ადამიანზე გადაყვანილი გლობალური კომპოზიცია",
+      "date": "2026-11-28",
+      "category": "ადრეული გაფრთხილება / მოსახლეობის რისკი",
+      "summary": "გაყინული WRP 2025 PROJWT-შეწონილი 80.0% warning receipt და 63.8% ability-to-act conditional aggregate Decimal არითმეტიკით გადაყვანილია დაახლოებით 51.0/29.0/20.0 კომპოზიციად 100 დაზარალებულ ზრდასრულზე. შედეგი ეთანხმება UNDRR-ის 2026-10-13 ვიზუალურ შეჯამებას, მაგრამ მიღებულია უკვე დამრგვალებული აგრეგატებიდან და არ წარმოადგენს ახალ მიკრომონაცემთა ანალიზს, მიზეზობრივ დასკვნას ან საქართველოს შეფასებას.",
+      "file": "research/preprints/NOEMA-2026-015-warning-action-composition.md",
+      "status": "preliminary",
+      "version": "0.1",
+      "sources": [
+        {
+          "title": "Bridging the early warning-to-action gap requires building resilience at home",
+          "authors": [
+            "United Nations Office for Disaster Risk Reduction"
+          ],
+          "citation": "UNDRR. (2026-10-13). Bridging the early warning-to-action gap requires building resilience at home.",
+          "url": "https://www.undrr.org/implementing-sendai-framework/bridging-the-early-warning-to-action-gap-requires-building-resilience-at-home",
+          "type": "official_secondary_summary",
+          "publication_date": "2026-10-13",
+          "accessed_at": "2026-11-28"
+        },
+        {
+          "title": "From alert to agency: What turns warnings into action?",
+          "authors": [
+            "Lloyd's Register Foundation"
+          ],
+          "citation": "World Risk Poll 2026 report, published 2026-10-13, DOI 10.60743/yx1k-t541.",
+          "url": "https://doi.org/10.60743/yx1k-t541",
+          "type": "primary_research_report",
+          "publication_date": "2026-10-13",
+          "accessed_at": "2026-11-28"
+        }
+      ],
+      "methodology": {
+        "approach": "Decimal arithmetic on frozen one-decimal PROJWT-weighted warning receipt and conditional ability-to-act estimates; residual allocation ensures displayed components sum to 100.0; cross-publication comparison to UNDRR's rounded graphic.",
+        "code": "scripts/reproduce_noema007_warning_action_composition.py",
+        "tests": "tests/test_noema007_warning_action_composition.py",
+        "evidence_boundary": "Derived from a frozen aggregate result record, not respondent-level microdata; inputs already rounded to one decimal place."
+      },
+      "limitations": [
+        "Components are approximate because inputs are rounded; no design-based confidence intervals are computed.",
+        "Retrospective self-report does not verify warning timestamps, comprehension or protective action.",
+        "Global result is not a Georgia national estimate; Georgia warning-question base is 99.",
+        "No causal inference is made."
+      ]
     }
   ]
 }
