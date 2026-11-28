@@ -17,7 +17,8 @@
     "privacy",
     "architecture_recommendations",
     "claims",
-    "limitations"
+    "limitations",
+    "catalogue_id"
   ],
   "properties": {
     "schema_version": {
@@ -419,6 +420,9 @@
         "type": "string",
         "minLength": 30
       }
+    },
+    "catalogue_id": {
+      "const": "NOEMA-2026-008"
     }
   }
 }

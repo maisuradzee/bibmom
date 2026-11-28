@@ -18,6 +18,15 @@ class Decree424WellRegistryScopeTests(unittest.TestCase):
         cls.record = json.loads(RECORD.read_text(encoding="utf-8"))
         cls.schema = json.loads(SCHEMA.read_text(encoding="utf-8"))
 
+    def test_preliminary_catalogue_copy_is_linked_to_aquasignal_stream(self):
+        preprint = (ROOT / "research/preprints/NOEMA-2026-008-decree424-well-registry-data-governance.md").read_text(encoding="utf-8")
+        self.assertEqual(self.record["catalogue_id"], "NOEMA-2026-008")
+        self.assertIn("# NOEMA-2026-008", preprint)
+        self.assertIn("- **Stream ID:** NOEMA-2026-006 (AquaSignal)", preprint)
+        self.assertIn("- **სტატუსი:** preliminary", preprint)
+        self.assertIn("NOEMA-2026-006-DECREE424-001", preprint)
+        self.assertNotIn("- **სტატუსი:** published", preprint.lower())
+
     def test_record_matches_closed_schema(self):
         Draft202012Validator.check_schema(self.schema)
         errors = list(Draft202012Validator(self.schema, format_checker=FormatChecker()).iter_errors(self.record))
