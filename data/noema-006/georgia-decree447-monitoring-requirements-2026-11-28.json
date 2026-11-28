@@ -69,6 +69,14 @@
       "requirement": "Priority-substance monitoring in biota and sediment is introduced progressively. Until full implementation, chemical-status assessment may mainly rely on water-column results. For substances requiring biota/sediment assessment, monitoring must start no later than 2028-01-01.",
       "start_by": "2028-01-01",
       "note": "This deadline applies to substances whose assessment requires these matrices, not indiscriminately to every analyte."
+    },
+    {
+      "id": "nitrate_vulnerable_zones_and_action_plans",
+      "article": "Water Resources Management Law, Article 37(2)(b)(c)-(e)",
+      "requirement": "By 2027-09-01, the Minister must ensure identification of nitrate-contaminated or nitrate-risk zones in surface water and groundwater, identify nitrate-vulnerable zones, and define good agricultural practice rules and action plans for those zones.",
+      "deadline": "2027-09-01",
+      "responsible": "Minister, as named in the Law",
+      "note": "This is a future statutory milestone as of 2026-11-28; it is not evidence that the zones or action plans have already been completed."
     }
   ],
   "scope_boundaries": [
@@ -81,6 +89,11 @@
       "distinction": "future_drinking_water_technical_regulation",
       "fact": "The consolidated Water Resources Management Law Article 37(1)(b)(b) sets 2027-09-01 as the deadline for adopting the technical regulation on water quality intended for human consumption; Article 42(3) sets the relevant provisions' commencement date at 2027-09-01.",
       "implication": "This is a future statutory milestone as of 2026-11-28, not proof that the technical regulation is already adopted or in force."
+    },
+    {
+      "distinction": "future_nitrate_vulnerability_identification",
+      "fact": "The Water Resources Management Law Article 37(2)(b)(c)-(e) sets a 2027-09-01 deadline for identifying nitrate-contaminated or at-risk surface-water and groundwater zones, nitrate-vulnerable zones, and related good-agricultural-practice rules/action plans.",
+      "implication": "AquaSignal must track the legal milestone separately from observed nitrate concentrations and from consumer drinking-water compliance; the law does not provide the completed zone map or monitoring results."
     }
   ],
   "aqua_signal_design_implications": [
@@ -88,13 +101,15 @@
     "Represent monitoring programme and trigger separately: observational, operational and investigative; keep monthly/quarterly operational frequency distinct from risk-based observational schedules.",
     "Record the reason for microbiological monitoring (water-body type, pressure, use, contamination risk, objective) and the sampling method, QA/QC and denominator.",
     "For priority substances, store water-column, biota and sediment results as separate matrices with their own units, detection limits and dates; apply the 2028 transition only to substances requiring those matrices.",
-    "Track the annual monitoring-plan submission as a dated milestone; on 2026-12-01 verify publication/submission status rather than presuming it."
+    "Track the annual monitoring-plan submission as a dated milestone; on 2026-12-01 verify publication/submission status rather than presuming it.",
+    "Track nitrate-vulnerable-zone identification, good agricultural practice rules and action plans as a separate 2027-09-01 statutory milestone; do not infer completion from nitrate concentration records."
   ],
   "not_established": [
     "The 2026-12-01 annual submission has not yet been verified; it is an upcoming deadline on the review date.",
     "The decree does not provide the actual monitoring-station inventory, 2027 schedule, sample counts, analytical results, laboratory detection limits or current compliance rates.",
     "The annex DOCX was not independently downloaded in this run; the structured requirements above are drawn from the official Matsne HTML body, not unverified annex tables.",
-    "The decree does not itself establish consumer tap-water concentration limits or replace the separate drinking-water technical regulation."
+    "The decree does not itself establish consumer tap-water concentration limits or replace the separate drinking-water technical regulation.",
+    "The nitrate-vulnerable zones, good agricultural practice rules and action plans due by 2027-09-01 have not been verified as completed in this review."
   ],
   "privacy": {
     "personal_data_included": false,
