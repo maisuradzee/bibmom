@@ -18,6 +18,22 @@ class Noema005Experiment002FrozenResultTests(unittest.TestCase):
         cls.summary = json.loads(DEFAULT_SUMMARY.read_text(encoding="utf-8"))
         cls.schema = json.loads(DEFAULT_SCHEMA.read_text(encoding="utf-8"))
 
+    def _relaxed_schema_for_semantic_mutations(self):
+        import copy
+
+        schema = copy.deepcopy(self.schema)
+        cell = schema["properties"]["cells"]["items"]["properties"]
+        cell["configurations"].pop("const", None)
+        cell["measured_runs"].pop("const", None)
+        methods = cell["methods"]["properties"]
+        for method in methods.values():
+            properties = method["properties"]
+            properties["total_runs"].pop("const", None)
+            properties["speedup_gt_1_configurations"].pop("const", None)
+            for field in ("median_speedup", "min_speedup", "max_speedup"):
+                properties[field].pop("maximum", None)
+        return schema
+
     def test_frozen_summary_schema_and_aggregate_arithmetic(self):
         validate_summary(self.summary, self.schema)
 
@@ -25,6 +41,60 @@ class Noema005Experiment002FrozenResultTests(unittest.TestCase):
         self.assertEqual(self.summary["aggregate"]["cell_count"], 6)
         self.assertEqual(self.summary["aggregate"]["total_configurations"], 384)
         self.assertEqual(self.summary["aggregate"]["total_measured_runs"], 1152)
+
+    def test_each_cell_has_the_exact_runner_runtime_and_configuration_matrix(self):
+        import copy
+
+        changed = copy.deepcopy(self.summary)
+        changed["cells"][0]["configurations"] = 63
+        changed["cells"][1]["configurations"] = 65
+        with self.assertRaisesRegex(ValueError, "configuration count mismatch"):
+            validate_summary(changed, self._relaxed_schema_for_semantic_mutations())
+
+        changed = copy.deepcopy(self.summary)
+        changed["cells"][0]["measured_runs"] = 191
+        changed["cells"][1]["measured_runs"] = 193
+        with self.assertRaisesRegex(ValueError, "measured-run count mismatch"):
+            validate_summary(changed, self._relaxed_schema_for_semantic_mutations())
+
+    def test_duplicate_or_substituted_cell_cannot_preserve_six_cell_total(self):
+        import copy
+
+        changed = copy.deepcopy(self.summary)
+        changed["cells"][1]["cell_id"] = changed["cells"][0]["cell_id"]
+        with self.assertRaisesRegex(ValueError, "cell IDs"):
+            validate_summary(changed, self._relaxed_schema_for_semantic_mutations())
+
+        changed = copy.deepcopy(self.summary)
+        changed["cells"][0]["gil_mode"] = "gil_enabled"
+        with self.assertRaisesRegex(ValueError, "runner/architecture/runtime mismatch"):
+            validate_summary(changed, self._relaxed_schema_for_semantic_mutations())
+
+    def test_per_method_run_and_configuration_counts_are_bounded(self):
+        import copy
+
+        changed = copy.deepcopy(self.summary)
+        changed["cells"][0]["methods"]["threaded_neumaier_state"]["total_runs"] = 47
+        with self.assertRaisesRegex(ValueError, "per-method measured-run count mismatch"):
+            validate_summary(changed, self._relaxed_schema_for_semantic_mutations())
+
+        changed = copy.deepcopy(self.summary)
+        changed["cells"][0]["methods"]["threaded_neumaier_state"]["speedup_gt_1_configurations"] = 17
+        with self.assertRaisesRegex(ValueError, "speedup configuration count out of range"):
+            validate_summary(changed, self._relaxed_schema_for_semantic_mutations())
+
+    def test_speedup_summary_must_be_finite_ordered_and_consistent(self):
+        import copy
+
+        changed = copy.deepcopy(self.summary)
+        changed["cells"][0]["methods"]["threaded_neumaier_state"]["median_speedup"] = float("nan")
+        with self.assertRaisesRegex(ValueError, "finite positive"):
+            validate_summary(changed, self._relaxed_schema_for_semantic_mutations())
+
+        changed = copy.deepcopy(self.summary)
+        changed["cells"][0]["methods"]["threaded_neumaier_state"]["max_speedup"] = 1.1
+        with self.assertRaisesRegex(ValueError, "conflicts with zero-beating count"):
+            validate_summary(changed, self._relaxed_schema_for_semantic_mutations())
 
     def test_accuracy_counts_preserve_full_neumaier_state_only(self):
         methods = self.summary["aggregate"]["per_method"]
