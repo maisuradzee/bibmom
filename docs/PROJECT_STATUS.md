@@ -64,7 +64,7 @@ Catalogue: **11 Preliminary / 0 Published**. No fifth stream added.
 - PR #297 merged at Main SHA `0c2491e0f69f3049752eb634d6ce164ecd00d2d1`.
 - PR #298 merged at Main SHA `88ff7ec9bf66eb6cf52087f8f2561f0ace866743`.
 - GitHub Pages build and deployment for final research Main [run 46137522563](https://github.com/maisuradzee/bibmom/actions/runs/46137522563) succeeded.
-- Final research Main Quality CI [run 46137522561](https://github.com/maisuradzee/bibmom/actions/runs/46137522561) was still in progress when this audit was prepared; no final success is claimed here.
+- Post-merge Main Quality CI [run 46137682863](https://github.com/maisuradzee/bibmom/actions/runs/46137682863) succeeded: **874 passed, 1 skipped**; site build reported 0 Published / 11 Preliminary. GitHub Pages deployment [run 46137682856](https://github.com/maisuradzee/bibmom/actions/runs/46137682856) succeeded for Main SHA `ebf8e50a49f46ae3c03e2ba255f61ce582cc008a`.
 - No new Supabase project was created and no other project's database was used.
 - No raw WRP microdata, respondent identifiers, private well coordinates, sample-level water observations, credentials or secrets were added.
 
