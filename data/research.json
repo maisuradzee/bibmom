@@ -1372,6 +1372,41 @@
         "The Danish 6 mg/L figure is an expert recommendation in this record, not an enacted legal limit.",
         "No independent Georgian legal, toxicological, epidemiological or hydrogeological review was obtained."
       ]
+    },
+    {
+      "id": "NOEMA-2026-014",
+      "title": "AquaSignal — საქართველოს წყლის მონიტორინგის წლიური გეგმის მტკიცებულებითი მზადყოფნა",
+      "date": "2026-11-28",
+      "category": "წყლის მონიტორინგის მმართველობა / მტკიცებულების წარმომავლობა",
+      "summary": "საქართველოს მთავრობის №447 დადგენილების მუხლები 3-7 გადატანილია metadata-only annual-plan intake კონტრაქტში. გეგმის მიღება, SHA-256, შინაარსის შემოწმება, მინისტრისთვის წარდგენა, დამტკიცება, დანართები და ფაქტობრივი მონიტორინგი ცალკე მტკიცებულების მდგომარეობებად რჩება. 2027 წლის გეგმა ამ ჩანაწერის შექმნისას მიუღებელია; შედეგი NOT_ASSESSABLE_SOURCE_UNINSPECTED-ია და არა სამართლებრივი დარღვევა.",
+      "file": "research/preprints/NOEMA-2026-014-georgia-water-monitoring-plan-readiness.md",
+      "status": "preliminary",
+      "version": "0.1",
+      "sources": [
+        {
+          "title": "Government Decree No.447/2026 — water-resource monitoring planning and implementation rules",
+          "authors": [
+            "Government of Georgia"
+          ],
+          "citation": "საქართველოს მთავრობის დადგენილება №447, 15.09.2026, სარეგისტრაციო კოდი 400000000.10.003.025997.",
+          "url": "https://www.matsne.gov.ge/ka/document/view/7000572",
+          "type": "primary_legal_source",
+          "publication_date": "2026-09-15",
+          "accessed_at": "2026-11-28"
+        }
+      ],
+      "methodology": {
+        "approach": "Article-to-evidence mapping for Articles 3-7; closed JSON intake contract; HTTPS provenance references; SHA-256 format validation; separate plan, submission, approval and annex states; deterministic synthetic tests.",
+        "code": "noema_core/monitoring_plan_readiness.py",
+        "tests": "tests/test_aquasignal_monitoring_plan_readiness.py",
+        "evidence_boundary": "The plan document and annexes were not retrieved. The frozen intake is not assessable; synthetic tests validate software behavior only."
+      },
+      "limitations": [
+        "The 2027 monitoring plan, submission receipt, ministerial approval and Annex 1/2 bytes were not obtained.",
+        "No sample-level data, station coordinates, water-body status or drinking-water compliance was assessed.",
+        "SHA-256 identifies received bytes but does not authenticate the issuing authority or legal validity.",
+        "No independent Georgian legal or hydrogeological review has been completed."
+      ]
     }
   ]
 }
