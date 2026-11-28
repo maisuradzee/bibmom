@@ -1950,7 +1950,7 @@
         "Run 46: static review of CI Recovery PR #252 found that the workflow-contract validator checked summary-step presence/order but not its actual command or STEP_OUTCOMES input. The branch now pins the fail-closed summary command, required-step manifest, STEP_OUTCOMES/preflight/report paths and upload-artifact contract, with negative tests for a no-op summary, missing environment input and replaced upload action. Exact-head Quality CI 46100377784 passed; the PR remains Draft and unmerged pending base refresh and independent security review.",
         "Run 48: audit the local streamed artifact verifier for path-to-inode binding; add a deterministic path-replacement-during-hash regression test and document the residual post-return TOCTOU boundary.",
         "Run 49: add open_verified_artifact(), which copies one opened regular-file descriptor into an anonymous TemporaryFile while hashing, verifies exact size/digest and before/after file identity/metadata, then returns the rewound staged handle so the restore consumer need not reopen a mutable source path.",
-        "Run 49: deterministic synthetic failure-injection tests replace the source path after open and after verification, and mutate the source after verification; the returned staged bytes must remain the verified original bytes."
+        "Run 49: deterministic synthetic failure-injection tests require path replacement during hashing to fail closed; after verification, path replacement and in-place source mutation cannot change the returned staged bytes."
       ],
       "sources": [
         {

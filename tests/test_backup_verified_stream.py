@@ -35,7 +35,7 @@ class VerifiedArtifactStreamTests(unittest.TestCase):
         finally:
             staged.close()
 
-    def test_path_replacement_after_open_during_hash_keeps_verified_descriptor_bytes(self):
+    def test_path_replacement_during_hash_fails_closed(self):
         replacement = self.root / "replacement.bin"
         replacement.write_bytes(b"attacker-controlled-replacement")
         real_fdopen = os.fdopen
@@ -46,11 +46,8 @@ class VerifiedArtifactStreamTests(unittest.TestCase):
             return stream
 
         with patch("noema_core.backup_manifest.os.fdopen", side_effect=replace_after_open):
-            staged = open_verified_artifact(self.path, self.sha, len(self.original))
-        try:
-            self.assertEqual(staged.read(), self.original)
-        finally:
-            staged.close()
+            with self.assertRaisesRegex(ValueError, "artifact changed while it was being staged"):
+                open_verified_artifact(self.path, self.sha, len(self.original))
 
     def test_in_place_source_mutation_after_verification_cannot_change_staged_bytes(self):
         staged = open_verified_artifact(self.path, self.sha, len(self.original))
