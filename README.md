@@ -20,6 +20,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - `docs/AQUASIGNAL_EVENT_STORE.md` — ინციდენტების კერძო, append-only SQLite event store-ის უსაფრთხოების საზღვრები და აღდგენის შეზღუდვები.
 - `docs/OFFSITE_BACKUP_ARCHITECTURE.md` — off-host backup/recovery არქიტექტურა; local detached Ed25519 manifest verification უკვე პროტოტიპად არსებობს, მაგრამ encryption/decryption, provider retention, anti-rollback high-water და clean-host restore ჯერ არ არის დანერგილი; `data/noema-backup-manifest.schema.json` განსაზღვრავს მკაცრ, საიდუმლო მასალის არმქონე metadata contract-ს.
 - `noema_core/nitrate_nitrite.py` — Decimal-based nitrite basis conversion and a WHO-only combined nitrate/nitrite ratio requiring one same-sample drinking-water record; it does not decide Georgian legal compliance.
+- `noema_core/nitrate_benchmarks.py` — source-provenance-aware nitrate reference comparison; rejects matrix/basis mismatches and never decides legal compliance or potability.
 - `noema_core/aquasignal_groundwater.py` — metadata-only Decree №447 Article 7(1)-(2) readiness gate: uses hydrogeological-unit scope before groundwater-body designation and never assigns good/poor status; caller attestations are not cryptographic verification.
 - `noema_core/annual_plan_deadline.py` — date-explicit classifier for the Decree №447 annual plan submission-to-Minister deadline; it separates submission evidence from public release and never infers non-submission or legal breach from missing public evidence.
 - `noema_core/backup_manifest.open_verified_artifact()` — caller must provide a trusted `max_staged_byte_length`; the returned handle contains the exact hash-verified bytes, and callers must consume it rather than reopen the source path. The size cap is a resource bound, not encryption or a production restore pipeline.
@@ -204,6 +205,19 @@ The National Environmental Agency's notices describe distinct stages: four plans
 - Legali.ge Annex 2 rows are secondary transcription only. The official Matsne DOCX remains not retrieved and unhashed; no Annex-derived schedule is encoded in production.
 - The four-stream portfolio remains unchanged. No new NOEMA-005 physical-device run, authorized Georgian warning-event dataset, groundwater water-balance record, or production disaster-recovery drill was obtained in this cycle.
 
+
+## NOEMA Run 54 — nitrate evidence provenance and high-water write-failure atomicity (2026-11-28)
+
+- [PR #283](https://github.com/maisuradzee/bibmom/pull/283) adds preliminary study **NOEMA-2026-013** on the 2026 New Zealand nitrate/preterm-birth cohort and separates WHO guidance, Georgia Decree №58/2014, the Danish 6 mg/L expert recommendation, peer-reviewed observational evidence and advocacy signals.
+- The new benchmark guard compares only matching drinking-water matrices and nitrate bases; it rejects NO3-N/NO3- mismatch and never returns compliance or potability decisions.
+- [PR #282](https://github.com/maisuradzee/bibmom/pull/282) adds a synthetic high-water write-abort test: SQLite rollback preserves the prior generation and exact retry succeeds. This is local transaction evidence only, not remote anti-rollback or power-loss proof.
+- The Danish report's corrected 2026-01-07 version explicitly fixes NO3-/NO3-N unit confusion and says only one study was suitable for benchmark-dose modelling. The New Zealand cohort is observational and was not independently reproduced by NOEMA.
+- NOEMA-005 and NOEMA-007 had no new physical-device or authorised operational dataset respectively; their existing checks were exercised by PR CI.
+- Four active streams remain; no fifth stream added. Catalogue: 9 Preliminary / 0 Published.
+- Final Main: `cb5f3a507ea96b345c1fce98981149d356b9dabc`. PR #283 exact-head CI passed **856 tests, 1 skipped**. Post-merge Main CI and Pages deployment are not yet independently verified; Pages is not described as updated.
+- The 2027 state water-monitoring plan submission-to-Minister deadline is **2026-12-01**. It is not yet due on 2026-11-28; submission and approval remain unverified, and no breach is inferred.
+
+See [Run 54 audit](docs/run-audits/2026-11-28-run-54.md) and [PROJECT_STATUS.md](docs/PROJECT_STATUS.md).
 
 ## NOEMA Run 53 — nitrate-zone evidence crosswalk and frozen ARM64 re-audit (2026-11-28)
 
