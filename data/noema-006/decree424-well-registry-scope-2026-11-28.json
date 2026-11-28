@@ -1,0 +1,196 @@
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-006",
+  "record_id": "NOEMA-2026-006-DECREE424-001",
+  "status": "draft",
+  "evidence_status": "FACT_INFERENCE_UNTESTED_IDEA",
+  "source": {
+    "title": "საქართველოს მთავრობის დადგენილება №424 — მიწისქვეშა მტკნარი სასმელი წყლის მოპოვების მიზნით ჭაბურღილების აღრიცხვის წესი",
+    "authority": "საქართველოს მთავრობა",
+    "document_number": "424",
+    "adopted_date": "2026-08-31",
+    "effective_date": "2026-09-01",
+    "url": "https://matsne.gov.ge/ka/document/view/6991245",
+    "source_type": "primary_legislation",
+    "accessed_at": "2026-11-28"
+  },
+  "scope": {
+    "purpose": "მიწისქვეშა მტკნარი სასმელი წყლის მოპოვების მიზნით ჭაბურღილების სახელმწიფო აღრიცხვა",
+    "minimum_depth_m": 20,
+    "depth_operator": "greater_than",
+    "effective_from": "2026-09-01",
+    "applies_to_wells_drilled_on_or_after_effective_date": true,
+    "included_outcomes": [
+      "expected_quantity_and_quality_obtained",
+      "expected_quantity_or_quality_not_obtained",
+      "no_groundwater_obtained"
+    ],
+    "exclusions": [
+      "mineral_groundwater",
+      "thermal_groundwater",
+      "therapeutic_balneological_groundwater",
+      "fresh_drinking_groundwater_wells_drilled_before_effective_date"
+    ],
+    "household_plot_exemption_found_in_article_2": false,
+    "household_exemption_review_scope": "Article 2 of Decree 424 only; this is not a conclusion about other legislation."
+  },
+  "obligations": {
+    "driller_submission_deadline_working_days": 15,
+    "driller_deadline_trigger": "completion_of_drilling",
+    "nea_notice_deadline_working_days": 10,
+    "nea_deadline_trigger": "receipt_of_annex_information",
+    "submission_formats": [
+      "paper",
+      "electronic"
+    ],
+    "driller_responsible_for_information_except_owner_personal_data": true,
+    "owner_confirms_personal_data_accuracy": true,
+    "owner_consent_to_share_personal_and_well_technical_information_with_nea": true,
+    "nea_may_verify_or_clarify_submitted_information": true,
+    "nea_may_conduct_hydrogeological_monitoring_and_sampling_as_needed": true
+  },
+  "annex_data_categories": {
+    "location_fields": [
+      "municipality_or_self_governing_city",
+      "settlement_or_address",
+      "cadastral_code_if_available",
+      "utm_wgs84_x",
+      "utm_wgs84_y"
+    ],
+    "owner_fields": [
+      "person_or_entity_name",
+      "personal_number_or_tax_identification_code",
+      "contact_phone",
+      "email"
+    ],
+    "driller_fields": [
+      "person_or_entity_name",
+      "personal_number_or_tax_identification_code",
+      "legal_and_actual_address",
+      "contact_phone",
+      "email"
+    ],
+    "technical_fields": [
+      "well_depth_m",
+      "wellhead_elevation_m",
+      "well_construction",
+      "casing_diameter_and_intervals",
+      "filter_intervals",
+      "filter_total_length",
+      "filter_type_and_dimensions"
+    ],
+    "hydrogeological_fields": [
+      "lithological_log",
+      "aquifer_intervals",
+      "aquifer_thickness",
+      "static_water_level",
+      "drawdown",
+      "recovery",
+      "dynamic_water_level",
+      "specific_capacity",
+      "discharge",
+      "pump_type_and_capacity"
+    ],
+    "water_quality_fields": [
+      "field_sampling_status",
+      "field_results_if_sampled",
+      "laboratory_sampling_status",
+      "laboratory_results_if_sampled",
+      "laboratory_performer_identity"
+    ]
+  },
+  "sampling": {
+    "field_sampling_optional": true,
+    "laboratory_analysis_optional": true,
+    "explicit_not_sampled_state_available": true,
+    "nea_may_sample_as_needed_based_on_location_and_hydrogeological_conditions": true,
+    "registration_is_potability_certificate": false,
+    "potability_requires_separate_validated_sampling_and_lab_evidence": true
+  },
+  "privacy": {
+    "annex_contains_owner_personal_or_tax_identifier": true,
+    "annex_contains_owner_contact_details": true,
+    "annex_contains_driller_personal_or_tax_identifier": true,
+    "annex_contains_exact_well_coordinates": true,
+    "annex_may_contain_cadastral_code_and_address": true,
+    "raw_registry_records_committed_to_public_repository": false,
+    "exact_coordinates_committed_to_public_repository": false,
+    "owner_identifiers_committed_to_public_repository": false,
+    "public_release_mode": "aggregate_only_after_authorized_access_and_privacy_review",
+    "decree_owner_consent_is_to_nea_not_noema": true
+  },
+  "architecture_recommendations": {
+    "separate_identity_vault_from_hydrogeological_measurements": true,
+    "use_pseudonymous_noema_record_id": true,
+    "role_based_access_and_audit_log": true,
+    "encrypt_restricted_records_at_rest_and_in_transit": true,
+    "sampling_status_enum": [
+      "not_sampled",
+      "field_sample_only",
+      "laboratory_result_attached"
+    ],
+    "do_not_infer_potability_from_registration_or_missing_sample": true,
+    "suppress_or_review_small_aggregate_cells_before_public_release": true,
+    "small_cell_threshold_is_noema_proposal_not_a_legal_requirement": true
+  },
+  "claims": [
+    {
+      "label": "FACT",
+      "claim": "The regulation applies to wells deeper than 20 metres drilled for extraction of fresh drinking groundwater, subject to the stated effective-date scope.",
+      "reference": "Article 2(1)-(2)"
+    },
+    {
+      "label": "FACT",
+      "claim": "The scope includes wells that produce expected quantity and quality, wells that fail to produce expected quantity and/or quality, and wells that produce no groundwater.",
+      "reference": "Article 2(1)(a)-(c)"
+    },
+    {
+      "label": "FACT",
+      "claim": "Mineral, thermal and therapeutic-balneological groundwater and fresh-drinking-water wells drilled before 2026-09-01 are excluded by Article 2(2).",
+      "reference": "Article 2(2)"
+    },
+    {
+      "label": "FACT",
+      "claim": "The driller submits the annex information within 15 working days after drilling completion; NEA notifies the driller within 10 working days after receipt that information has been placed in the hydrogeological database.",
+      "reference": "Articles 5(1)(a), 6(1)(a)"
+    },
+    {
+      "label": "FACT",
+      "claim": "The annex contains exact UTM WGS 1984 well coordinates, cadastral code where available, owner and driller identifiers, contact details, addresses and technical/hydrogeological fields.",
+      "reference": "Annex, location/owner/driller/technical/hydrogeological sections"
+    },
+    {
+      "label": "FACT",
+      "claim": "The annex explicitly allows the field-sampling and laboratory-analysis states to be recorded as not sampled; NEA may conduct monitoring and sampling as needed.",
+      "reference": "Article 5(2)(b); Annex, water-characteristics section"
+    },
+    {
+      "label": "FACT",
+      "claim": "The owner signs to confirm personal-data accuracy and consent to share personal and well technical information with NEA.",
+      "reference": "Article 6(1)(b) and owner signature/consent in Annex"
+    },
+    {
+      "label": "INFERENCE",
+      "claim": "A registry entry alone is not evidence that the water has passed a drinking-water potability assessment because sampling and laboratory-result fields may be marked not sampled.",
+      "reference": "Article 5(2)(b); Annex, water-characteristics section"
+    },
+    {
+      "label": "INFERENCE",
+      "claim": "The consent clause names NEA; it does not establish a separate legal basis or consent for NOEMA to obtain or process identifiable registry records.",
+      "reference": "Article 6(1)(b); third-party processing basis remains to be assessed"
+    },
+    {
+      "label": "UNTESTED IDEA",
+      "claim": "AquaSignal should maintain a private identity vault, pseudonymous well IDs, explicit sample-state transitions and aggregate-only public releases after authorization and privacy review.",
+      "reference": "NOEMA architecture proposal; not a requirement stated by Decree 424"
+    }
+  ],
+  "limitations": [
+    "Only the official Matsne text and annex were reviewed; no live state-register data or API was accessed.",
+    "The decree does not establish that the register is publicly downloadable; access and reuse permissions remain unverified.",
+    "No real well records, coordinates, cadastral codes, owner or driller identifiers, contact details or sample results are included.",
+    "The legal consent clause names NEA; third-party processing rights and any other legal basis require separate legal review.",
+    "No operational audit established whether NEA's register is populated, complete, accurate or routinely updated.",
+    "This is a research and data-governance note, not legal advice or a drinking-water quality assessment."
+  ]
+}
