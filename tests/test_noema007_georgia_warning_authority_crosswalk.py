@@ -24,6 +24,8 @@ class GeorgiaWarningAuthorityCrosswalkTests(unittest.TestCase):
 
     def test_source_dates_and_primary_domains_are_pinned(self):
         sources = {source["id"]: source for source in self.record["sources"]}
+        self.assertEqual(sources["NEA_FUNCTIONS"]["publication_date"], "undated")
+        self.assertEqual(sources["NEA_HYDROLOGY"]["publication_date"], "undated")
         self.assertEqual(sources["NEA_NETWORK_2026_07_14"]["publication_date"], "2026-07-14")
         self.assertEqual(sources["NEA_MHEWS_WORKSHOP_2025_12_26"]["publication_date"], "2025-12-26")
         self.assertTrue(all(source["url"].startswith("https://") for source in sources.values()))
