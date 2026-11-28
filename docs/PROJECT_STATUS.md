@@ -750,3 +750,22 @@ Main remains at `726c71c9ef1a4e1c00dbc4a44b950e4b371c02f0`. Main Quality CI [460
 - **Limitations:** the official annex DOCX was not downloaded; annex tables, exact station schedules and laboratory methods remain unverified. No sample counts or water-quality results were invented.
 - **Safety:** only public legal text and metadata are recorded; no raw lab records, station coordinates, household records or restricted annex payloads were added.
 - **Validation:** exact-head CI pending; note remains Draft and is not Published.
+
+## Run 45 — NOEMA-005 ARM64 Run 33 frozen artifact verification (2026-11-28)
+
+- **Research branch:** `research/noema005-arm64-run33-artifact-verification-2026-11-28`; changes are proposed and not merged.
+- **Frozen source:** experiment `NOEMA-2026-005-REAL-THREADS-ARM64-001`, workflow run [46032894362](https://github.com/maisuradzee/bibmom/actions/runs/46032894362), benchmark head `176ab78fa998060621b4056c65fd2e1f155b1058`.
+- **Independent artifact check:** downloaded all four hosted ARM64 ZIP artifacts; all four ZIP SHA-256 values and all four extracted raw-report SHA-256/byte lengths match the frozen manifest. Recomputed aggregates match: 192 configurations / 576 measured runs; naive 0/192, scalar Neumaier 168/192, Neumaier-state 192/192 correctly-rounded runs; GIL-enabled CPU/wall >1.05 samples 4/288; free-threaded 202/288.
+- **Performance interpretation:** all four hosted ARM64 runner/runtime cells show median wall-time speedup below 1.0 for all three methods. CPU-time/wall-time above 1.05 indicates concurrent CPU activity, not useful throughput or wall-time acceleration.
+- **Innovation:** added an offline artifact verifier that checks ZIP/raw SHA-256, byte lengths, accuracy, CPU/wall counts, median speedups and input-layout hash equivalence without emitting raw thread IDs or full host build strings.
+- **Limitations:** hosted runners only; three repetitions per configuration; synthetic cancellation inputs; tracemalloc only; no RSS/native allocator or DRAM bandwidth; no physical-device replication.
+- **Next:** pairwise-tree and exact/superaccumulator comparison, representative memory-bandwidth workload, then 20+ repetitions on independent physical x86-64 and ARM64 with RSS/DRAM measurements.
+- **Status:** research note remains Draft; no new benchmark is claimed and no catalogue/Published status changes.
+
+
+### Run 45 verification follow-up
+
+- An independent local SHA-256 pass found one malformed 61-character digest in the verification record for ARM64 Ubuntu free-threaded artifact 15215700349. The downloaded ZIP and frozen summary agree on the corrected 64-character digest; the record was corrected.
+- All four raw-report hashes and byte lengths matched. A second independent calculation recomputed each case median from raw `wall_samples_ns` and speedup from the matching serial-baseline median; all stored values matched.
+- Regression tests now validate the closed record schema, cross-check every artifact entry against the frozen summary, and reject tampered derived speedups and medians.
+- No benchmark measurements or frozen aggregates changed; this is an artifact-record and verifier-integrity correction.
