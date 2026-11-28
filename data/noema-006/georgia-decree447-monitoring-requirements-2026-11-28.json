@@ -1,0 +1,176 @@
+{
+  "schema_version": 1,
+  "record_id": "AQUASIGNAL-GEORGIA-DECREE447-WATER-MONITORING-2026-09-15",
+  "study_id": "NOEMA-2026-006",
+  "reviewed_at": "2026-11-28",
+  "classification": "REGULATORY_MONITORING_REQUIREMENTS",
+  "sources": [
+    {
+      "publisher": "Legislative Herald of Georgia (Matsne)",
+      "title": "საქართველოს მთავრობის დადგენილება №447 — წყლის რესურსების მონიტორინგის დაგეგმვისა და განხორციელების წესის დამტკიცების შესახებ",
+      "adopted_date": "2026-09-15",
+      "effective_from": "2026-09-01",
+      "url": "https://matsne.gov.ge/ka/document/view/7000572",
+      "accessed_at": "2026-11-28",
+      "source_type": "official_primary_legislation"
+    },
+    {
+      "publisher": "Legislative Herald of Georgia (Matsne)",
+      "title": "საქართველოს კანონი „წყლის რესურსების მართვის შესახებ“ — კონსოლიდირებული ვერსია",
+      "publication_date": "2026-09-16",
+      "relevant_amendment": "№1862/2-VIმს-XIმპ",
+      "url": "https://www.matsne.gov.ge/ka/document/view/5846594",
+      "accessed_at": "2026-11-28",
+      "source_type": "official_primary_legislation"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "annual_plan_submission",
+      "article": "Decree 447, Article 3(2)(a)",
+      "requirement": "NEA prepares the State Water Resources Monitoring Plan annually and submits it to the Minister for approval no later than 1 December each year.",
+      "next_observed_deadline": "2026-12-01",
+      "status_at_review": "UPCOMING_NOT_YET_DUE",
+      "note": "The decree does not state in this article which plan-year label must be used. Do not claim that the next plan has or has not been submitted before the deadline."
+    },
+    {
+      "id": "data_standardization_and_access",
+      "article": "Decree 447, Article 3(2)(b)-(c)",
+      "requirement": "Monitoring data are stored in standardized formats for national reports and river-basin management plans; access is provided subject to environmental-information access, data-protection and confidentiality law."
+    },
+    {
+      "id": "representative_risk_based_network",
+      "article": "Decree 447, Articles 4 and 6",
+      "requirement": "The state monitoring plan is representative and risk-based, uses standardized methods/indices for temporal comparability, documents background values and justifies representative monitoring/grouping."
+    },
+    {
+      "id": "monitoring_programmes",
+      "article": "Decree 447, Article 5",
+      "requirement": "The state system includes hydrological, hydrochemical, hydrobiological, hydromorphological and hydrogeological programmes for surface-water and groundwater bodies."
+    },
+    {
+      "id": "microbiological_monitoring",
+      "article": "Decree 447, Article 6(1)(k)",
+      "requirement": "The need, sites, microbiological parameters, frequency and methods are determined by water-body type, existing or likely pressures, water use, microbiological contamination risk and monitoring objectives."
+    },
+    {
+      "id": "operational_monitoring",
+      "article": "Decree 447, Article 6(2)(b)",
+      "requirement": "Operational monitoring applies to water bodies at risk, covers significant pressures and evaluates measure effectiveness; the rule describes high frequency as monthly or quarterly."
+    },
+    {
+      "id": "investigative_monitoring",
+      "article": "Decree 447, Article 6(2)(c)",
+      "requirement": "Investigative monitoring is triggered by pollution incidents/accidents or when the reason for failure to achieve good status is unknown; it is flexible and problem-oriented."
+    },
+    {
+      "id": "biota_sediment_transition",
+      "article": "Decree 447, Article 7(3)-(5)",
+      "requirement": "Priority-substance monitoring in biota and sediment is introduced progressively. Until full implementation, chemical-status assessment may mainly rely on water-column results. For substances requiring biota/sediment assessment, monitoring must start no later than 2028-01-01.",
+      "start_by": "2028-01-01",
+      "note": "This deadline applies to substances whose assessment requires these matrices, not indiscriminately to every analyte."
+    },
+    {
+      "id": "nitrate_vulnerable_zones_and_action_plans",
+      "article": "Water Resources Management Law, Article 37(2)(b)(c)-(e)",
+      "requirement": "By 2027-09-01, the Minister must ensure identification of nitrate-contaminated or nitrate-risk zones in surface water and groundwater, identify nitrate-vulnerable zones, and define good agricultural practice rules and action plans for those zones.",
+      "deadline": "2027-09-01",
+      "responsible": "Minister, as named in the Law",
+      "note": "This is a future statutory milestone as of 2026-11-28; it is not evidence that the zones or action plans have already been completed."
+    },
+    {
+      "id": "monitoring_waterbody_types_and_methods",
+      "article": "Decree 447, Article 4(2)",
+      "requirement": "Monitoring planning and reporting are performed at the level of identified surface-water bodies and all groundwater-body types, including rivers, lakes, groundwater, transitional waters, coastal waters and, where present, seasonal rivers, using the relevant methods in Annexes 1 and 2."
+    },
+    {
+      "id": "documented_background_values",
+      "article": "Decree 447, Article 4(3)-(5)",
+      "requirement": "Background values are documented for each surface-water type and groundwater body and form the basis for status assessment/classification. Methods and assumptions must be documented and periodically reviewed."
+    },
+    {
+      "id": "observational_monitoring",
+      "article": "Decree 447, Article 6(2)(a)",
+      "requirement": "Observational monitoring characterizes water bodies, confirms pressure/impact assessments and detects long-term natural and anthropogenic trends; its frequency is risk-based and considers hydromorphological/hydrogeological conditions and assessment objectives."
+    },
+    {
+      "id": "transboundary_and_black_sea_component",
+      "article": "Decree 447, Article 6(1)(i)",
+      "requirement": "The plan includes a transboundary-water monitoring component to assess transboundary bodies and cross-border pollutant pressures/loads, including pollutant loads entering the Black Sea, international reporting and cooperation with neighbouring countries."
+    },
+    {
+      "id": "adaptive_plan_review_triggers",
+      "article": "Decree 447, Article 6(3)",
+      "requirement": "The plan is periodically reviewed/corrected when water-body status changes, unexpected results or new risks/pollutants/trends emerge, investigative monitoring is needed, measures are ineffective, a station is not representative or data reliability/accuracy is inadequate."
+    },
+    {
+      "id": "representative_network_optimization",
+      "article": "Decree 447, Article 6(6)-(7)",
+      "requirement": "Monitoring points must be representative and risk-selected; biological, physicochemical and hydromorphological monitoring should use the same location where practicable, with justification for separate points. The network is periodically optimized when risks, safety, access or station functionality change."
+    },
+    {
+      "id": "groundwater_body_designation_transition",
+      "article": "Decree 447, Article 7(1)",
+      "requirement": "The rule's requirements apply to groundwater bodies after they are designated; until designation, the requirements apply to hydrogeological units."
+    },
+    {
+      "id": "groundwater_water_balance_dependency",
+      "article": "Decree 447, Article 7(2)",
+      "requirement": "Groundwater quantitative-status assessment of the balance between recharge and abstraction is performed after the responsible authorities compile a water balance based on abstraction data."
+    },
+    {
+      "id": "biota_sediment_programme_details",
+      "article": "Decree 447, Article 7(5)",
+      "requirement": "NEA must prepare a biota/sediment monitoring programme specifying the priority substances, monitoring locations, analytical methods, laboratory requirements and monitoring frequencies."
+    }
+  ],
+  "scope_boundaries": [
+    {
+      "distinction": "state_water_resource_monitoring_vs_drinking_water_quality_control",
+      "fact": "Decree 447 regulates the state water-resource monitoring system for surface-water and groundwater bodies. The consolidated Water Resources Management Law separately assigns the National Food Agency state control of drinking-water quality (Article 31(3)).",
+      "implication": "Do not apply Decree 447's water-body monitoring frequency or matrix rules as if they were consumer tap-water compliance thresholds."
+    },
+    {
+      "distinction": "future_drinking_water_technical_regulation",
+      "fact": "The consolidated Water Resources Management Law Article 37(1)(b)(b) sets 2027-09-01 as the deadline for adopting the technical regulation on water quality intended for human consumption; Article 42(3) sets the relevant provisions' commencement date at 2027-09-01.",
+      "implication": "This is a future statutory milestone as of 2026-11-28, not proof that the technical regulation is already adopted or in force."
+    },
+    {
+      "distinction": "future_nitrate_vulnerability_identification",
+      "fact": "The Water Resources Management Law Article 37(2)(b)(c)-(e) sets a 2027-09-01 deadline for identifying nitrate-contaminated or at-risk surface-water and groundwater zones, nitrate-vulnerable zones, and related good-agricultural-practice rules/action plans.",
+      "implication": "AquaSignal must track the legal milestone separately from observed nitrate concentrations and from consumer drinking-water compliance; the law does not provide the completed zone map or monitoring results."
+    }
+  ],
+  "aqua_signal_design_implications": [
+    "Store water matrix and point-of-use context explicitly: surface water, groundwater, coastal/transitional water, raw source water, treatment-plant outlet and distribution/tap water are not interchangeable.",
+    "Represent monitoring programme and trigger separately: observational, operational and investigative; keep monthly/quarterly operational frequency distinct from risk-based observational schedules.",
+    "Record the reason for microbiological monitoring (water-body type, pressure, use, contamination risk, objective) and the sampling method, QA/QC and denominator.",
+    "For priority substances, store water-column, biota and sediment results as separate matrices with their own units, detection limits and dates; apply the 2028 transition only to substances requiring those matrices.",
+    "Track the annual monitoring-plan submission as a dated milestone; on 2026-12-01 verify publication/submission status rather than presuming it.",
+    "Track nitrate-vulnerable-zone identification, good agricultural practice rules and action plans as a separate 2027-09-01 statutory milestone; do not infer completion from nitrate concentration records.",
+    "Represent rivers, lakes, groundwater bodies/hydrogeological units, transitional and coastal waters as distinct water-body types; bind each to the relevant annex method version.",
+    "Store background values with their derivation method, assumptions, evidence source and review date; do not treat a modelled/expert baseline as a measured sample.",
+    "Preserve transboundary monitoring and Black Sea pollutant-load records as a separate regional water-quality matrix; they are not drinking-water compliance results.",
+    "Model observational, operational and investigative programmes separately, including the risk trigger, review trigger and station representativeness rationale.",
+    "For groundwater, track the hydrogeological-unit transition and the abstraction-data water-balance dependency before claiming quantitative-status assessment completeness.",
+    "Store the NEA biota/sediment programme's substances, locations, methods, laboratory requirements and frequencies when it is published."
+  ],
+  "not_established": [
+    "The 2026-12-01 annual submission has not yet been verified; it is an upcoming deadline on the review date.",
+    "The decree does not provide the actual monitoring-station inventory, 2027 schedule, sample counts, analytical results, laboratory detection limits or current compliance rates.",
+    "The annex DOCX was not independently downloaded in this run; the structured requirements above are drawn from the official Matsne HTML body, not unverified annex tables.",
+    "The decree does not itself establish consumer tap-water concentration limits or replace the separate drinking-water technical regulation.",
+    "The nitrate-vulnerable zones, good agricultural practice rules and action plans due by 2027-09-01 have not been verified as completed in this review.",
+    "The current designated groundwater-body inventory and the hydrogeological-unit crosswalk were not retrieved.",
+    "The abstraction-data-based water balance required before groundwater quantitative-status assessment was not retrieved.",
+    "The official Annex 1/2 method tables and the NEA biota/sediment programme details were not downloaded or independently parsed.",
+    "Transboundary monitoring locations and measured pollutant loads reaching the Black Sea were not retrieved."
+  ],
+  "privacy": {
+    "personal_data_included": false,
+    "exact_station_coordinates_included": false,
+    "raw_lab_records_included": false,
+    "household_or_consumer_records_included": false,
+    "restricted_annex_payload_included": false
+  }
+}
