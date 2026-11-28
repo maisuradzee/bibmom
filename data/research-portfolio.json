@@ -68,6 +68,7 @@
         "Run 46: explicitly link the official 2021–2025 groundwater RAR payload to its NEA announcement page in the source-access inventory. Preserve the linked-but-not-extracted status; do not infer archive contents, sample-level data availability or reuse permission.",
         "Run 47: primary-source review of Decree №424 Articles 2, 5 and 6 plus the annex; encode scope, deadlines, sampling states and privacy-sensitive field categories in a closed JSON Schema; synthetic tests only, no state-register records or real coordinates.",
         "Run 49: compare the WHO 2026 consolidated nitrate/nitrite chemical fact sheet (printed pp. 466–472; assessment date 2016) with Georgian Decree №58/2014 Article 1, Table 4 and Article 2(21); preserve separate WHO-guidance and Georgian-legal regimes.",
+        "Run 50: track the Decree №447 Article 3(2)(a) deadline as submission to the Minister for approval, not a public-release deadline; without verified submission evidence after the due date, retain status as unverified and do not infer non-compliance.",
         "Run 49: implement a Decimal-based nitrite reporting-basis conversion and a WHO-only combined-ratio helper that requires native ion bases, one pseudonymous sample ID, one timezone-aware timestamp and the drinking_water matrix; reject raw groundwater and cross-sample inputs.",
         "Run 49: validate a closed legal/unit crosswalk and synthetic tests only; no sample-level Georgian results or operational alerts are generated."
       ],
