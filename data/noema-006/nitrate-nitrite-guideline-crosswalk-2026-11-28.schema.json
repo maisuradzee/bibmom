@@ -1,0 +1,293 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AquaSignal Georgia nitrate/nitrite WHO and Decree 58 crosswalk",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_id",
+    "study_id",
+    "stream_id",
+    "evidence_status",
+    "accessed_at",
+    "sources",
+    "who_guidance",
+    "georgia_decree_58_2014",
+    "comparability_guards",
+    "privacy"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "record_id": {
+      "const": "AQUASIGNAL-GEORGIA-NITRATE-NITRITE-GUIDELINE-CROSSWALK-2026-11-28"
+    },
+    "study_id": {
+      "const": "NOEMA-2026-009"
+    },
+    "stream_id": {
+      "const": "NOEMA-2026-006"
+    },
+    "evidence_status": {
+      "const": "FACT"
+    },
+    "accessed_at": {
+      "const": "2026-11-28"
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "publisher",
+          "title",
+          "publication_date",
+          "url",
+          "locator",
+          "supports"
+        ],
+        "properties": {
+          "publisher": {
+            "type": "string",
+            "minLength": 10
+          },
+          "title": {
+            "type": "string",
+            "minLength": 20
+          },
+          "publication_date": {
+            "type": "string",
+            "pattern": "^\\d{4}(-\\d{2}(-\\d{2})?)?$"
+          },
+          "assessment_date": {
+            "type": "string",
+            "pattern": "^\\d{4}$"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https://"
+          },
+          "locator": {
+            "type": "string",
+            "minLength": 5
+          },
+          "supports": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "type": "string",
+              "minLength": 20
+            }
+          }
+        }
+      }
+    },
+    "who_guidance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "nitrate",
+        "nitrite",
+        "conversion_factors",
+        "combined_rule",
+        "applies_to"
+      ],
+      "properties": {
+        "nitrate": {
+          "$ref": "#/$defs/ion_value_no3"
+        },
+        "nitrite": {
+          "$ref": "#/$defs/ion_value_no2"
+        },
+        "conversion_factors": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "nitrate_ion_to_nitrate_nitrogen",
+            "nitrite_ion_to_nitrite_nitrogen",
+            "precision_note"
+          ],
+          "properties": {
+            "nitrate_ion_to_nitrate_nitrogen": {
+              "const": "0.226"
+            },
+            "nitrite_ion_to_nitrite_nitrogen": {
+              "const": "0.304"
+            },
+            "precision_note": {
+              "type": "string",
+              "minLength": 60
+            }
+          }
+        },
+        "combined_rule": {
+          "const": "C_NO3_as_ion/50 + C_NO2_as_ion/3 <= 1"
+        },
+        "applies_to": {
+          "type": "string",
+          "minLength": 20
+        }
+      }
+    },
+    "georgia_decree_58_2014": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scope_note",
+        "nitrate",
+        "nitrite",
+        "multiple_chemicals_rule"
+      ],
+      "properties": {
+        "scope_note": {
+          "type": "string",
+          "minLength": 20
+        },
+        "nitrate": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/ion_value_no3"
+            },
+            {
+              "properties": {
+                "limiting_sign": {
+                  "const": "short_term_exposure"
+                }
+              },
+              "required": [
+                "limiting_sign"
+              ]
+            }
+          ]
+        },
+        "nitrite": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/ion_value_no2"
+            },
+            {
+              "properties": {
+                "value": {
+                  "const": "0.2"
+                },
+                "limiting_sign": {
+                  "const": "long_term_exposure"
+                }
+              },
+              "required": [
+                "limiting_sign"
+              ]
+            }
+          ]
+        },
+        "multiple_chemicals_rule": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "article",
+            "condition",
+            "interpretation_status",
+            "interpretation"
+          ],
+          "properties": {
+            "article": {
+              "const": "Article 2(21)"
+            },
+            "condition": {
+              "type": "string",
+              "minLength": 40
+            },
+            "interpretation_status": {
+              "const": "INFERENCE_REQUIRING_LEGAL_REVIEW"
+            },
+            "interpretation": {
+              "type": "string",
+              "minLength": 80
+            }
+          }
+        }
+      }
+    },
+    "comparability_guards": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "string",
+        "minLength": 30
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sample_records_included",
+        "sample_identifiers_included",
+        "personal_data_included",
+        "exact_site_coordinates_included",
+        "private_well_register_data_included"
+      ],
+      "properties": {
+        "sample_records_included": {
+          "const": false
+        },
+        "sample_identifiers_included": {
+          "const": false
+        },
+        "personal_data_included": {
+          "const": false
+        },
+        "exact_site_coordinates_included": {
+          "const": false
+        },
+        "private_well_register_data_included": {
+          "const": false
+        }
+      }
+    }
+  },
+  "$defs": {
+    "ion_value_no3": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "unit"
+      ],
+      "properties": {
+        "value": {
+          "const": "50"
+        },
+        "unit": {
+          "const": "mg/L as NO3-"
+        },
+        "limiting_sign": {
+          "type": "string"
+        }
+      }
+    },
+    "ion_value_no2": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "unit"
+      ],
+      "properties": {
+        "value": {
+          "type": "string"
+        },
+        "unit": {
+          "const": "mg/L as NO2-"
+        },
+        "limiting_sign": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
