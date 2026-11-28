@@ -852,10 +852,10 @@
       "title": "გაფრთხილების მიღება და მოქმედების შესაძლებლობა — WRP 2025 დამოუკიდებელი გამეორება",
       "date": "2026-11-28",
       "category": "ადრეული გაფრთხილება / სტატისტიკური გამეორება",
-      "summary": "NOEMA-მ LRF-ის 2025 Wave 4 საჯარო Parquet მონაცემებზე დამოუკიდებლად გაიმეორა გლობალური გაფრთხილების მიღებისა და მოქმედების შესაძლებლობის აგრეგატები. 24,249-კაციან warning base-ში 16,996-მა მიიღო მინიმუმ ერთი გაფრთხილება; PROJWT-შეწონილი წილი 80.011542% იყო (გამომცემლის დამრგვალება 80.0%). გაფრთხილებულ 16,996 რესპონდენტში 9,479-ს შეეძლო მოქმედება (63.779158%), 7,383-ს — არა (35.759146%), ხოლო 134-მა უპასუხა არ ვიცი/უარი (0.461696%). საქართველოს warning-question base იყო 99, ქვემოთ ანგარიშის n>=100 რეიტინგის ზღვარზე. ეს არის survey aggregate reproduction და არა საქართველოს ოპერაციული შეფასება ან მიზეზობრივი ეფექტიანობის მტკიცებულება. დამატებითი 2026-11-28 action-enablers გამეორებით: მოქმედების შესაძლებლობა იყო 37.5%/50.5%/64.2% 1/2/3 გაფრთხილების არხზე; 26.6% არც გეგმისა და არც agency-ის მქონე ჯგუფში და 83.0% ორივეს მქონე ჯგუფში; შემოსავლის ჯგუფებით 48.0%/46.9%/75.5%/70.9%. ეს არის აღწერითი ასოციაციები და არა მიზეზობრივი ეფექტები.",
+      "summary": "NOEMA-მ LRF-ის 2025 Wave 4 საჯარო Parquet მონაცემებზე დამოუკიდებლად გაიმეორა გლობალური გაფრთხილების მიღებისა და მოქმედების შესაძლებლობის აგრეგატები. 24,249-კაციან warning base-ში 16,996-მა მიიღო მინიმუმ ერთი გაფრთხილება; PROJWT-შეწონილი წილი 80.011542% იყო (გამომცემლის დამრგვალება 80.0%). გაფრთხილებულ 16,996 რესპონდენტში 9,479-ს შეეძლო მოქმედება (63.779158%), 7,383-ს — არა (35.759146%), ხოლო 134-მა უპასუხა არ ვიცი/უარი (0.461696%). საქართველოს warning-question base იყო 99, ქვემოთ ანგარიშის n>=100 რეიტინგის ზღვარზე. ეს არის survey aggregate reproduction და არა საქართველოს ოპერაციული შეფასება ან მიზეზობრივი ეფექტიანობის მტკიცებულება. დამატებითი 2026-11-28 action-enablers გამეორებით: მოქმედების შესაძლებლობა იყო 37.5%/50.5%/64.2% 1/2/3 გაფრთხილების არხზე; 26.6% არც გეგმისა და არც agency-ის მქონე ჯგუფში და 83.0% ორივეს მქონე ჯგუფში; შემოსავლის ჯგუფებით 48.0%/46.9%/75.5%/70.9%. ეს არის აღწერითი ასოციაციები და არა მიზეზობრივი ეფექტები. CountryIncomeLevel არის ქვეყნის დონის World Bank კლასიფიკაცია საველე სამუშაოს დროს (FY2024-25) და არა რესპონდენტის პირადი/ოჯახის შემოსავალი. გაყინული PROJWT-შეწონილი წერტილოვანი შეფასებებიდან აღწერითი სხვაობებია: 3 vs 1 გაფრთხილების არხი +26.7 პპ; ორივე გეგმა+agency vs არცერთი +56.4 პპ; upper-middle vs low country-income +27.5 პპ; high vs lower-middle +24.0 პპ. ეს სხვაობები არ არის დიზაინზე მორგებული ეფექტები, confidence interval-ები ან მიზეზობრივი მტკიცებულება.",
       "file": "research/preprints/NOEMA-2026-007-wrp2025-warning-action-reproduction.md",
       "status": "preliminary",
-      "version": "1.1",
+      "version": "1.2",
       "sources": [
         {
           "title": "World Risk Poll 2025, Wave 4 public data release",
@@ -938,12 +938,25 @@
         "aggregate_json_sha256": "4e52e493a213b88346abae58871763842bd075672e5ae9878b21e1bd535fb1c4",
         "weight": "PROJWT",
         "warning_base": "WP24181 non-null; any code 1 across WP24181-WP24188 means warned; codes 2/97/98/99 remain in denominator and count as no warning.",
-        "action_base": "Warned respondents only; WP24215 codes 1/2/98/99 remain in denominator."
+        "action_base": "Warned respondents only; WP24215 codes 1/2/98/99 remain in denominator.",
+        "income_group_unit": "country_level_classification_not_respondent_personal_income",
+        "derived_contrasts_pp": {
+          "warning_channels_three_vs_one": 26.7,
+          "both_plan_and_agency_vs_neither": 56.4,
+          "upper_middle_vs_low_country_income": 27.5,
+          "high_vs_lower_middle_country_income": 24,
+          "unit": "percentage_points",
+          "interpretation": "descriptive_only_not_causal",
+          "confidence_intervals": "not_computed",
+          "effective_subgroup_sample_sizes": "not_computed"
+        }
       },
       "limitations": [
         "Independent arithmetic on the publisher's public microdata is not an independent survey or operational early-warning audit.",
         "Self-reported warning receipt and ability to act do not establish message timeliness, comprehension, verified protective action or avoided loss.",
-        "Global weighted estimates must not be presented as a Georgian national estimate; Georgia's warning-question base is 99, below the report's n>=100 ranking threshold."
+        "Global weighted estimates must not be presented as a Georgian national estimate; Georgia's warning-question base is 99, below the report's n>=100 ranking threshold.",
+        "CountryIncomeLevel is a country-level classification, not respondent personal income; subgroup differences are not household-level income gradients.",
+        "Derived percentage-point contrasts are unadjusted differences between weighted point estimates; no design-based confidence intervals or effective subgroup sample sizes were computed."
       ]
     },
     {
