@@ -52,11 +52,26 @@
 3. **Monitoring mode:** observational, operational, investigative.
 4. **Trigger:** risk status, pollution incident/accident, unknown reason for failure to achieve good status.
 5. **Sample provenance:** object ID, sample date, method, lab, QA/QC, units, detection limit, matrix, result qualifier and source version.
-6. **Transition:** water-column results must not silently replace biota/sediment matrices when the substance requires them; until full implementation the decree permits water-column-based assessment as a transition.
+6. **Groundwater designation:** until formal groundwater-body designation, keep the applicable hydrogeological-unit identifier; do not silently replace it with a future body ID.
+7. **Water balance:** do not mark groundwater quantitative-status assessment complete until the responsible authority's abstraction-data-based water balance is available.
+8. **Baseline provenance:** store background values, derivation method, assumptions and review date.
+9. **Transboundary component:** keep cross-border water-body assessment and Black Sea pollutant-load records separate from drinking-water compliance.
+10. **Adaptive network:** store why each station is representative, risk-selected and safe/accessibly functional; record plan-review triggers and station changes.
+11. **Transition:** water-column results must not silently replace biota/sediment matrices when the substance requires them; until full implementation the decree permits water-column-based assessment as a transition.
 
 ## სამართლებრივი ფარგლების გამიჯვნა
 
 დადგენილება №447 არ უნდა იქნეს წარმოდგენილი როგორც ონკანის/მომხმარებლის სასმელი წყლის ხარისხის ზღვრების სრული ტექნიკური რეგლამენტი. კანონის კონსოლიდირებული ვერსიის მუხლი 31(3) სასმელი წყლის ხარისხის სახელმწიფო კონტროლს სურსათის ეროვნულ სააგენტოს უკავშირებს; მუხლი 37 ცალკე სასმელი წყლის ტექნიკურ რეგლამენტს 2027-09-01-მდე ითხოვს. ეს ვადა მომავალია და არ ნიშნავს, რომ რეგლამენტი უკვე მიღებულია ან ძალაშია.
+
+## დამატებითი მუხლობრივი მოთხოვნები
+
+- **მუხლი 4(2):** დაგეგმვა/ანგარიშგება ხდება მდინარეების, ტბების, მიწისქვეშა, გარდამავალი და სანაპირო წყლების, ასევე სეზონური მდინარეების დონეზე; შესაბამისი მეთოდები მოცემულია №1 და №2 დანართებში.
+- **მუხლი 4(3)-(5):** ფონური მაჩვენებლები დოკუმენტურად აისახება; მეთოდოლოგია და დაშვებები უნდა იყოს დოკუმენტირებული და პერიოდულად გადახედილი.
+- **მუხლი 6(1)(i):** გეგმა მოიცავს ტრანსსასაზღვრო წყლების შეფასებას, საზღვრის გადამკვეთი დამაბინძურებლების ზეწოლას და შავ ზღვაში ჩამდინარე დატვირთვას.
+- **მუხლი 6(2)(a):** დაკვირვებითი მონიტორინგი ადასტურებს ზეწოლა/ზემოქმედების შეფასებას და ადგენს გრძელვადიან ბუნებრივ/ანთროპოგენურ ტენდენციებს.
+- **მუხლი 6(3), (6)-(7):** გეგმა და ქსელი გადაიხედება ახალი რისკების, მოულოდნელი შედეგების, ახალი დამაბინძურებლების, არასაკმარისი წარმომადგენლობითობის, უსაფრთხოების, ხელმისაწვდომობის ან სადგურის ფუნქციონირების პრობლემებისას.
+- **მუხლი 7(1)-(2):** მიწისქვეშა წყლის ობიექტების განსაზღვრამდე მოთხოვნები ვრცელდება ჰიდროგეოლოგიურ ერთეულებზე; რაოდენობრივი სტატუსის შეფასება ეყრდნობა პასუხისმგებელი უწყებების მიერ წყალაღების მონაცემებზე შედგენილ წყლის ბალანსს.
+- **მუხლი 7(5):** NEA ამზადებს ბიოტა/ნალექის პროგრამას, სადაც განისაზღვრება ნივთიერებები, ადგილები, ანალიზის მეთოდები, ლაბორატორიული მოთხოვნები და სიხშირეები.
 
 ## შემდეგი ნაბიჯები
 
@@ -64,7 +79,10 @@
 2. მოიპოვე ოფიციალური DOCX დანართი უფლებამოსილი ჩამოტვირთვის გზით; შეინახე SHA-256 და მხოლოდ უფლებამოსილი, საჯაროდ გასატანი სტრუქტურირებული ამონაწერი.
 3. შეადარე გეგმის რეალური სადგურები, მატრიცები, სიხშირეები და QA/QC დადგენილების მოთხოვნებს.
 4. ცალკე მოიპოვე NFA-ის სასმელი წყლის სახელმწიფო კონტროლის მონაცემთა ლექსიკონი და შედეგები; არ გააერთიანო ისინი ზედაპირული/მიწისქვეშა წყლის მონიტორინგის შედეგებთან.
-5. 2027-09-01-მდე მოიპოვე ნიტრატებისადმი მოწყვლადი ზონების ოფიციალური იდენტიფიკაცია, კარგი სასოფლო-სამეურნეო პრაქტიკის წესები და სამოქმედო გეგმები; გადაამოწმე შესაბამისი წყლის მატრიცები და ზონების საზღვრების ვერსია.
+5. მოიპოვე groundwater-body designation/hydrogeological-unit crosswalk და წყალაღების მონაცემებზე დაფუძნებული water balance.
+6. მოიპოვე ტრანსსასაზღვრო მონიტორინგის ადგილები და შავ ზღვაში ჩამდინარე დამაბინძურებლების აგრეგირებული დატვირთვის მონაცემები.
+7. მოიპოვე NEA-ს ბიოტა/ნალექის პროგრამა ნივთიერებების, ადგილების, მეთოდების, ლაბორატორიული მოთხოვნებისა და სიხშირეების ჩათვლით.
+8. 2027-09-01-მდე მოიპოვე ნიტრატებისადმი მოწყვლადი ზონების ოფიციალური იდენტიფიკაცია, კარგი სასოფლო-სამეურნეო პრაქტიკის წესები და სამოქმედო გეგმები; გადაამოწმე შესაბამისი წყლის მატრიცები და ზონების საზღვრების ვერსია.
 
 ## შემოწმების სტატუსი
 
