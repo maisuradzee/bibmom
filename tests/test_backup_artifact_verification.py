@@ -109,7 +109,23 @@ class BackupArtifactVerificationTests(unittest.TestCase):
             return stream
 
         with patch("noema_core.backup_manifest.os.fdopen", side_effect=replace_after_open):
-            with self.assertRaisesRegex(ValueError, "artifact path changed"):
+            with self.assertRaisesRegex(ValueError, "artifact (path )?changed while it was being hashed"):
+                verify_backup_artifacts(
+                    self.manifest, self.plain_path, self.cipher_path
+                )
+
+    def test_path_lookup_must_still_name_the_opened_inode(self) -> None:
+        replacement = self.root / "replacement.sqlite"
+        replacement.write_bytes(b"different inode")
+        real_stat = os.stat
+
+        def report_replacement(path, *args, **kwargs):
+            if os.fspath(path) == os.fspath(self.plain_path):
+                return real_stat(replacement, follow_symlinks=False)
+            return real_stat(path, *args, **kwargs)
+
+        with patch("noema_core.backup_manifest.os.stat", side_effect=report_replacement):
+            with self.assertRaisesRegex(ValueError, "artifact path changed while it was being hashed"):
                 verify_backup_artifacts(
                     self.manifest, self.plain_path, self.cipher_path
                 )
