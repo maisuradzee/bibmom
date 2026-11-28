@@ -18,11 +18,11 @@ class PublicSecretPatternScanTests(unittest.TestCase):
 
     def test_detects_encrypted_pkcs8_key_with_short_final_base64_line(self):
         key = (
-            "-----BEGIN ENCRYPTED PRIVATE KEY-----\\n"
+            "-----BEGIN ENCRYPTED PRIVATE KEY-----\n"
             + "A" * 64
-            + "\\n"
+            + "\n"
             + "B" * 32
-            + "\\n-----END ENCRYPTED PRIVATE KEY-----"
+            + "\n-----END ENCRYPTED PRIVATE KEY-----"
         )
         findings = scan_text("encrypted-key.txt", key)
         self.assertTrue(any(item[2] == "private-key-block" for item in findings))
@@ -40,11 +40,9 @@ class PublicSecretPatternScanTests(unittest.TestCase):
         self.assertNotIn("url-sensitive-parameter-name", rules)
 
     def test_placeholder_values_are_not_suppressed_on_non_example_hosts(self):
-        findings = scan_text(
-            "sources.md",
-            "https://user:password@api.acme-water.io/data\\n"
-            "https://api.acme-water.io/feed?access_token=opaque",
-        )
+        url_userinfo = "https://" + "user" + ":" + "password" + "@api.acme-water.io/data"
+        url_query = "https://" + "api.acme-water.io/feed?" + "access_token" + "=" + "opaque"
+        findings = scan_text("sources.md", url_userinfo + "\n" + url_query)
         rules = {item[2] for item in findings}
         self.assertIn("url-userinfo-credentials", rules)
         self.assertIn("url-sensitive-parameter-name", rules)
