@@ -1,0 +1,607 @@
+{
+  "schema_version": 1,
+  "run_id": "NOEMA-005-RUN59-LOCAL-OPENMP-2026-11-28",
+  "study_id": "NOEMA-2026-005",
+  "date": "2026-11-28",
+  "executed_at_utc": "2026-11-28T13:22:25Z",
+  "evidence_status": "REPRODUCED RESULT",
+  "host": {
+    "os": "Linux 6.18.57 x86_64 (glibc 2.41)",
+    "architecture": "x86_64",
+    "cpu_model": "AMD EPYC 9V74 80-Core Processor (KVM guest-reported model)",
+    "virtualization": "KVM full virtualization",
+    "visible_cpu_ids": "0-4",
+    "cpu_quota": "400000 100000",
+    "cpu_quota_cores": 4,
+    "memory_limit_bytes": 4294967296,
+    "python_version": "3.13.5",
+    "compiler": "gcc (Debian 14.2.0-19) 14.2.0",
+    "openmp_enabled": true,
+    "openmp_version_macro": 201511,
+    "long_double_mant_dig": 64
+  },
+  "build": {
+    "source_path": "scripts/noema005_run51_openmp.c",
+    "source_sha256": "5959f479e7f2b45a298975aeed13f3b919a87a77bff64f2b8d649ba72d35d60b",
+    "binary_sha256": "826f7037c0538d31a2a7159191065a65361ed483dd0e485a9585b9ea9f94f931",
+    "compile_command": "gcc -O3 -std=c11 -fopenmp -fno-fast-math -ffp-contract=off -Wall -Wextra -Werror scripts/noema005_run51_openmp.c -lm -o <temporary-binary>",
+    "run_command": "noema005-run59-openmp 12000000 20 2",
+    "raw_stdout_sha256": "167afa21e6c99103a496bfdc6fd153127d6ad3afbf97c652c79f2f0716b6a246",
+    "raw_gzip_sha256": "cc7bb32be7d03285c5f9928efb9c7e07d13c5e2edd936f9ffe5f7d4961afb364",
+    "raw_gzip_base64_path": "data/noema-005/raw/run59-local-openmp-2026-11-28.jsonl.gz.b64"
+  },
+  "protocol": {
+    "repeats_per_layout": 12000000,
+    "input_elements_per_layout": 36000000,
+    "input_bytes_per_layout": 288000000,
+    "warmups_per_case": 2,
+    "measured_repetitions_per_case": 20,
+    "measured_runs_total": 960,
+    "requested_workers": [
+      1,
+      2,
+      4,
+      5,
+      8
+    ],
+    "layouts": [
+      "triplet",
+      "grouped"
+    ],
+    "methods": [
+      "serial_naive",
+      "serial_neumaier",
+      "serial_long_double",
+      "serial_pairwise",
+      "openmp_naive_partials",
+      "openmp_neumaier_full_state",
+      "openmp_long_double_partials",
+      "openmp_pairwise_partials"
+    ],
+    "synthetic_input": "Binary64 adversarial cancellation: triplet [2^53, 1, -2^53] repeated N times, or grouped [2^53]*N + [1]*N + [-2^53]*N. Every input value is exactly representable in binary64; exact mathematical sum is N.",
+    "correctness_oracle": "Exact integer N, exactly representable in binary64 at N=12,000,000; C result is compared for exact equality, not a tolerance.",
+    "thread_partition": "OpenMP contiguous block partition by thread index; each thread writes one private partial state; merge occurs in increasing thread index.",
+    "memory_measurement": "getrusage(RUSAGE_SELF).ru_maxrss process peak resident set size; not per-method allocation attribution. Effective input GiB/s is input_bytes / median wall time and is not a DRAM bandwidth counter."
+  },
+  "results": [
+    {
+      "layout": "triplet",
+      "repeats": 12000000,
+      "input_elements": 36000000,
+      "input_bytes": 288000000,
+      "peak_rss_kib": 281984,
+      "warmups": 2,
+      "repetitions": 20,
+      "long_double_mant_dig": 64,
+      "accuracy": [
+        {
+          "method": "serial_naive",
+          "requested_workers": 1,
+          "actual_threads_min": 1,
+          "actual_threads_max": 1,
+          "correct_runs": 0,
+          "total_runs": 20
+        },
+        {
+          "method": "serial_neumaier",
+          "requested_workers": 1,
+          "actual_threads_min": 1,
+          "actual_threads_max": 1,
+          "correct_runs": 20,
+          "total_runs": 20
+        },
+        {
+          "method": "serial_long_double",
+          "requested_workers": 1,
+          "actual_threads_min": 1,
+          "actual_threads_max": 1,
+          "correct_runs": 20,
+          "total_runs": 20
+        },
+        {
+          "method": "serial_pairwise",
+          "requested_workers": 1,
+          "actual_threads_min": 1,
+          "actual_threads_max": 1,
+          "correct_runs": 0,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_naive_partials",
+          "requested_workers": 1,
+          "actual_threads_min": 1,
+          "actual_threads_max": 1,
+          "correct_runs": 0,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_naive_partials",
+          "requested_workers": 2,
+          "actual_threads_min": 2,
+          "actual_threads_max": 2,
+          "correct_runs": 0,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_naive_partials",
+          "requested_workers": 4,
+          "actual_threads_min": 4,
+          "actual_threads_max": 4,
+          "correct_runs": 0,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_naive_partials",
+          "requested_workers": 5,
+          "actual_threads_min": 5,
+          "actual_threads_max": 5,
+          "correct_runs": 0,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_naive_partials",
+          "requested_workers": 8,
+          "actual_threads_min": 8,
+          "actual_threads_max": 8,
+          "correct_runs": 0,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_neumaier_full_state",
+          "requested_workers": 1,
+          "actual_threads_min": 1,
+          "actual_threads_max": 1,
+          "correct_runs": 20,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_neumaier_full_state",
+          "requested_workers": 2,
+          "actual_threads_min": 2,
+          "actual_threads_max": 2,
+          "correct_runs": 20,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_neumaier_full_state",
+          "requested_workers": 4,
+          "actual_threads_min": 4,
+          "actual_threads_max": 4,
+          "correct_runs": 20,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_neumaier_full_state",
+          "requested_workers": 5,
+          "actual_threads_min": 5,
+          "actual_threads_max": 5,
+          "correct_runs": 20,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_neumaier_full_state",
+          "requested_workers": 8,
+          "actual_threads_min": 8,
+          "actual_threads_max": 8,
+          "correct_runs": 20,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_long_double_partials",
+          "requested_workers": 1,
+          "actual_threads_min": 1,
+          "actual_threads_max": 1,
+          "correct_runs": 20,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_long_double_partials",
+          "requested_workers": 2,
+          "actual_threads_min": 2,
+          "actual_threads_max": 2,
+          "correct_runs": 20,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_long_double_partials",
+          "requested_workers": 4,
+          "actual_threads_min": 4,
+          "actual_threads_max": 4,
+          "correct_runs": 20,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_long_double_partials",
+          "requested_workers": 5,
+          "actual_threads_min": 5,
+          "actual_threads_max": 5,
+          "correct_runs": 20,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_long_double_partials",
+          "requested_workers": 8,
+          "actual_threads_min": 8,
+          "actual_threads_max": 8,
+          "correct_runs": 20,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_pairwise_partials",
+          "requested_workers": 1,
+          "actual_threads_min": 1,
+          "actual_threads_max": 1,
+          "correct_runs": 0,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_pairwise_partials",
+          "requested_workers": 2,
+          "actual_threads_min": 2,
+          "actual_threads_max": 2,
+          "correct_runs": 0,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_pairwise_partials",
+          "requested_workers": 4,
+          "actual_threads_min": 4,
+          "actual_threads_max": 4,
+          "correct_runs": 0,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_pairwise_partials",
+          "requested_workers": 5,
+          "actual_threads_min": 5,
+          "actual_threads_max": 5,
+          "correct_runs": 0,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_pairwise_partials",
+          "requested_workers": 8,
+          "actual_threads_min": 8,
+          "actual_threads_max": 8,
+          "correct_runs": 0,
+          "total_runs": 20
+        }
+      ],
+      "neumaier_runtime": [
+        {
+          "requested_workers": 1,
+          "actual_threads_min": 1,
+          "actual_threads_max": 1,
+          "correct_runs": 20,
+          "repetitions": 20,
+          "median_wall_ns": 42104224,
+          "median_process_cpu_ns": 42102203,
+          "speedup_vs_serial_method": 1.05996251,
+          "median_effective_input_gib_s": 6.370403556
+        },
+        {
+          "requested_workers": 2,
+          "actual_threads_min": 2,
+          "actual_threads_max": 2,
+          "correct_runs": 20,
+          "repetitions": 20,
+          "median_wall_ns": 23815250,
+          "median_process_cpu_ns": 47616174,
+          "speedup_vs_serial_method": 1.873963052,
+          "median_effective_input_gib_s": 11.262568978
+        },
+        {
+          "requested_workers": 4,
+          "actual_threads_min": 4,
+          "actual_threads_max": 4,
+          "correct_runs": 20,
+          "repetitions": 20,
+          "median_wall_ns": 14918685,
+          "median_process_cpu_ns": 62479844,
+          "speedup_vs_serial_method": 2.991476762,
+          "median_effective_input_gib_s": 17.978856815
+        },
+        {
+          "requested_workers": 5,
+          "actual_threads_min": 5,
+          "actual_threads_max": 5,
+          "correct_runs": 20,
+          "repetitions": 20,
+          "median_wall_ns": 13088580,
+          "median_process_cpu_ns": 61370606,
+          "speedup_vs_serial_method": 3.409758568,
+          "median_effective_input_gib_s": 20.492741859
+        },
+        {
+          "requested_workers": 8,
+          "actual_threads_min": 8,
+          "actual_threads_max": 8,
+          "correct_runs": 20,
+          "repetitions": 20,
+          "median_wall_ns": 14161701,
+          "median_process_cpu_ns": 55038463,
+          "speedup_vs_serial_method": 3.151379873,
+          "median_effective_input_gib_s": 18.939878867
+        }
+      ]
+    },
+    {
+      "layout": "grouped",
+      "repeats": 12000000,
+      "input_elements": 36000000,
+      "input_bytes": 288000000,
+      "peak_rss_kib": 282112,
+      "warmups": 2,
+      "repetitions": 20,
+      "long_double_mant_dig": 64,
+      "accuracy": [
+        {
+          "method": "serial_naive",
+          "requested_workers": 1,
+          "actual_threads_min": 1,
+          "actual_threads_max": 1,
+          "correct_runs": 0,
+          "total_runs": 20
+        },
+        {
+          "method": "serial_neumaier",
+          "requested_workers": 1,
+          "actual_threads_min": 1,
+          "actual_threads_max": 1,
+          "correct_runs": 20,
+          "total_runs": 20
+        },
+        {
+          "method": "serial_long_double",
+          "requested_workers": 1,
+          "actual_threads_min": 1,
+          "actual_threads_max": 1,
+          "correct_runs": 0,
+          "total_runs": 20
+        },
+        {
+          "method": "serial_pairwise",
+          "requested_workers": 1,
+          "actual_threads_min": 1,
+          "actual_threads_max": 1,
+          "correct_runs": 0,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_naive_partials",
+          "requested_workers": 1,
+          "actual_threads_min": 1,
+          "actual_threads_max": 1,
+          "correct_runs": 0,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_naive_partials",
+          "requested_workers": 2,
+          "actual_threads_min": 2,
+          "actual_threads_max": 2,
+          "correct_runs": 0,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_naive_partials",
+          "requested_workers": 4,
+          "actual_threads_min": 4,
+          "actual_threads_max": 4,
+          "correct_runs": 0,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_naive_partials",
+          "requested_workers": 5,
+          "actual_threads_min": 5,
+          "actual_threads_max": 5,
+          "correct_runs": 0,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_naive_partials",
+          "requested_workers": 8,
+          "actual_threads_min": 8,
+          "actual_threads_max": 8,
+          "correct_runs": 0,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_neumaier_full_state",
+          "requested_workers": 1,
+          "actual_threads_min": 1,
+          "actual_threads_max": 1,
+          "correct_runs": 20,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_neumaier_full_state",
+          "requested_workers": 2,
+          "actual_threads_min": 2,
+          "actual_threads_max": 2,
+          "correct_runs": 20,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_neumaier_full_state",
+          "requested_workers": 4,
+          "actual_threads_min": 4,
+          "actual_threads_max": 4,
+          "correct_runs": 20,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_neumaier_full_state",
+          "requested_workers": 5,
+          "actual_threads_min": 5,
+          "actual_threads_max": 5,
+          "correct_runs": 20,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_neumaier_full_state",
+          "requested_workers": 8,
+          "actual_threads_min": 8,
+          "actual_threads_max": 8,
+          "correct_runs": 20,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_long_double_partials",
+          "requested_workers": 1,
+          "actual_threads_min": 1,
+          "actual_threads_max": 1,
+          "correct_runs": 0,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_long_double_partials",
+          "requested_workers": 2,
+          "actual_threads_min": 2,
+          "actual_threads_max": 2,
+          "correct_runs": 0,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_long_double_partials",
+          "requested_workers": 4,
+          "actual_threads_min": 4,
+          "actual_threads_max": 4,
+          "correct_runs": 0,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_long_double_partials",
+          "requested_workers": 5,
+          "actual_threads_min": 5,
+          "actual_threads_max": 5,
+          "correct_runs": 0,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_long_double_partials",
+          "requested_workers": 8,
+          "actual_threads_min": 8,
+          "actual_threads_max": 8,
+          "correct_runs": 0,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_pairwise_partials",
+          "requested_workers": 1,
+          "actual_threads_min": 1,
+          "actual_threads_max": 1,
+          "correct_runs": 0,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_pairwise_partials",
+          "requested_workers": 2,
+          "actual_threads_min": 2,
+          "actual_threads_max": 2,
+          "correct_runs": 0,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_pairwise_partials",
+          "requested_workers": 4,
+          "actual_threads_min": 4,
+          "actual_threads_max": 4,
+          "correct_runs": 0,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_pairwise_partials",
+          "requested_workers": 5,
+          "actual_threads_min": 5,
+          "actual_threads_max": 5,
+          "correct_runs": 0,
+          "total_runs": 20
+        },
+        {
+          "method": "openmp_pairwise_partials",
+          "requested_workers": 8,
+          "actual_threads_min": 8,
+          "actual_threads_max": 8,
+          "correct_runs": 0,
+          "total_runs": 20
+        }
+      ],
+      "neumaier_runtime": [
+        {
+          "requested_workers": 1,
+          "actual_threads_min": 1,
+          "actual_threads_max": 1,
+          "correct_runs": 20,
+          "repetitions": 20,
+          "median_wall_ns": 43290413,
+          "median_process_cpu_ns": 43137072,
+          "speedup_vs_serial_method": 0.986528738,
+          "median_effective_input_gib_s": 6.19584991
+        },
+        {
+          "requested_workers": 2,
+          "actual_threads_min": 2,
+          "actual_threads_max": 2,
+          "correct_runs": 20,
+          "repetitions": 20,
+          "median_wall_ns": 25057002,
+          "median_process_cpu_ns": 49302461,
+          "speedup_vs_serial_method": 1.704403284,
+          "median_effective_input_gib_s": 10.704429105
+        },
+        {
+          "requested_workers": 4,
+          "actual_threads_min": 4,
+          "actual_threads_max": 4,
+          "correct_runs": 20,
+          "repetitions": 20,
+          "median_wall_ns": 13877220,
+          "median_process_cpu_ns": 50038438,
+          "speedup_vs_serial_method": 3.077506737,
+          "median_effective_input_gib_s": 19.328144337
+        },
+        {
+          "requested_workers": 5,
+          "actual_threads_min": 5,
+          "actual_threads_max": 5,
+          "correct_runs": 20,
+          "repetitions": 20,
+          "median_wall_ns": 12107820,
+          "median_process_cpu_ns": 59956786,
+          "speedup_vs_serial_method": 3.527243941,
+          "median_effective_input_gib_s": 22.152698868
+        },
+        {
+          "requested_workers": 8,
+          "actual_threads_min": 8,
+          "actual_threads_max": 8,
+          "correct_runs": 20,
+          "repetitions": 20,
+          "median_wall_ns": 12292975,
+          "median_process_cpu_ns": 47804700,
+          "speedup_vs_serial_method": 3.47411725,
+          "median_effective_input_gib_s": 21.819039044
+        }
+      ]
+    }
+  ],
+  "comparison_to_run51": {
+    "reference_run_id": "NOEMA-005-RUN51-LOCAL-OPENMP-2026-11-28",
+    "reference_host_cpu_model": "INTEL(R) XEON(R) PLATINUM 8573C",
+    "comparison_scope": "The per-layout/per-method correctness-count matrix was compared with Run 51 and matched exactly. Runtime values are not pooled or directly compared because the KVM guests report different CPU models and host environments.",
+    "same_correctness_matrix": true
+  },
+  "limitations": [
+    "This is a KVM-virtualized x86_64 container, not a bare-metal physical-device replication; the guest-reported AMD CPU model is not independently attested.",
+    "Five CPU IDs are visible but the cgroup quota is four CPU cores; 5- and 8-worker cases are oversubscription diagnostics, not evidence of five/eight physical cores.",
+    "The cgroup CPU quota is an average over its period and short tests can burst above the nominal quota; process-CPU/wall ratios above four are retained as diagnostics, not evidence of extra physical capacity.",
+    "The two adversarial cancellation layouts are synthetic and do not establish accuracy for arbitrary real-world distributions or reduction trees.",
+    "The exact integer oracle is valid for this constructed input and N; it is not a general high-precision oracle for arbitrary floating-point inputs.",
+    "ru_maxrss is a process high-water mark and does not isolate per-method peak memory; no allocator tracing or native allocation attribution was performed.",
+    "Effective input GiB/s is a derived scan-rate proxy with cache effects and OpenMP overhead; no DRAM hardware counters or memory-controller bandwidth were measured.",
+    "No ARM64, GPU, multi-node, NUMA scaling or independent numerical-method peer review was performed.",
+    "No timing conclusion is pooled across Run 51 and Run 59; run-to-run host variability and VM scheduling remain confounders."
+  ]
+}

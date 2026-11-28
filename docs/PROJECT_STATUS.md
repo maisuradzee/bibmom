@@ -1360,3 +1360,14 @@ No fifth stream was added. Four catalogue entries remain Preliminary; zero are P
 3. NOEMA-005: run physical x86-64/ARM64 comparisons only when suitable hardware is available; include Pairwise/Exact accumulator, RSS and DRAM bandwidth.
 4. INFRA-001: refresh PR #252 to current Main, complete failure-injection and obtain independent security review; separately design an external rollback-resistant high-water authority and clean-host restore drill.
 
+
+
+## Run 59 — NOEMA-005 independent x86-64 KVM replication (2026-11-28)
+
+- Starting Main: `6038f43548587a35d8dd725bb0fa7480b1a81167`.
+- Reused the exact Run 51 C/OpenMP source SHA `5959f479e7f2b45a298975aeed13f3b919a87a77bff64f2b8d649ba72d35d60b`; GCC 14.2.0; two cancellation layouts; 48 method/worker cells; 2 warm-ups and 20 measured repetitions per cell (960 measured runs).
+- Second KVM guest reports AMD EPYC 9V74, x86-64, 5 visible CPU IDs and a 4-CPU cgroup quota. Full Neumaier state was exact 20/20 in every worker cell for both layouts; naive and pairwise were 0/20; long double failed the grouped layout. The correctness matrix matches Run 51's separate Intel KVM guest.
+- 4-worker median speedup vs serial Neumaier was 2.991x (triplet) and 3.078x (grouped); 5/8-worker rows are oversubscription diagnostics. Runtime is descriptive, not a general speedup claim. CPU/wall ratios above four are retained as quota-period burst diagnostics; no DRAM hardware counters were available.
+- Process peak RSS was 281,984/282,112 KiB including the 288 MB input array; no per-method RSS/native-allocation attribution. No bare-metal or ARM64 replication.
+- Raw JSONL, compressed/base64 artifact, source/raw/gzip hashes, closed schema, offline verifier and mutation tests are added under NOEMA-005 Run 59. Research remains Preliminary pending physical x86-64/ARM64 replication and independent numerical-method review.
+- Portfolio remains four active streams. AquaSignal's NEA 2021–2025 RAR remains linked but uninspected; NOEMA-007 still lacks authorised Georgian warning-event data; INFRA-001 still needs independent security review and an external trust anchor.
