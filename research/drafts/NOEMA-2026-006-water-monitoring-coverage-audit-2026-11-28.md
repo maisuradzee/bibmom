@@ -1,104 +1,116 @@
-# AquaSignal — NEA 2025 groundwater monitoring coverage audit
+# NOEMA-2026-006 — AquaSignal NEA 2025 groundwater monitoring coverage audit
 
-**Snapshot date:** 2026-11-28  
-**Study:** NOEMA-2026-006  
-**Status:** Preliminary / source-reported aggregate audit
+- **ID:** NOEMA-2026-006
+- **სტატუსი:** draft
+- **თარიღი:** 2026-11-28
+- **სფერო:** მიწისქვეშა წყლების მონიტორინგის დაფარვა, ნიტრატების საველე სკრინინგი და მონაცემთა წარმომავლობა
+- **წყარო:** საქართველოს გარემოს ეროვნული სააგენტო, 2025 წლის ანგარიში — https://nea.gov.ge/en/Download/File/1444
 
-## Research question
+## საკვლევი კითხვა
 
-What can the National Environmental Agency's 2025 annual report establish about groundwater monitoring coverage and nitrate field screening, and which denominators must remain separate until site/sample-level metadata are available?
+რას ადასტურებს NEA-ს 2025 წლის ოფიციალური ანგარიში მიწისქვეშა წყლების მონიტორინგის, ლაბორატორიული სინჯების და ნიტრატების საველე კვლევის დაფარვის შესახებ, და რომელი მნიშვნელები/დაფარვის ჩარჩოები უნდა დარჩეს განცალკევებული, სანამ სტაბილური სადგურისა და სინჯის იდენტიფიკატორები არ იქნება ხელმისაწვდომი?
 
-## Primary source and retrieval
+## მტკიცებულებები
 
-National Environmental Agency of Georgia, *2025 annual report*, section “Water resources monitoring”:
-- groundwater monitoring and laboratory-sampling summary: report pp. 10–12;
-- nitrate field-instrumental table: report p. 11;
-- surface-water monitoring: report p. 13.
+### FACT — ანგარიშგებული მონიტორინგის ჩარჩოები
 
-Official PDF: https://nea.gov.ge/en/Download/File/1444
+NEA-ს 2025 წლის წლიური ანგარიში აღწერს:
+- **124** კომბინირებულ მიწისქვეშა წყლის მონიტორინგის წერტილს: **74** გეგმიური ჰიდროგეოლოგიური მონიტორინგის და **50** საველე-ინსტრუმენტული კვლევის წერტილს;
+- **2** ახალ ავტომატურ სადგურს და ავტომატური/ონლაინ მონიტორინგის პროგრამული უზრუნველყოფის განახლებას;
+- **74** ლაბორატორიული სინჯის აღების წერტილს და **681** ანგარიშგებულ ლაბორატორიულ სინჯს/ანალიზის ჯგუფურ რაოდენობას;
+- ცალკე **73** წერტილს, სადაც ჩამოთვლილი პარამეტრების დაფარვაა მითითებული;
+- ნიტრატების საველე-ინსტრუმენტულ კვლევას **50** წერტილზე: **30 წყარო**, **19 ჭაბურღილი** და **1 საკონტროლო ჭა**.
 
-The PDF was opened through the public browser reader and the relevant pages were inspected, including the rendered table image. A container-side binary download failed in this run, so the PDF byte-level SHA-256 is **NOT_COMPUTED**. No hash is claimed. This 2025 annual report is distinct from the separate 2021–2025 groundwater RAR and field methodology announced by NEA on 2026-11-26: https://nea.gov.ge/Ge/News/3461. That RAR remains uninspected.
+ანგარიშის 681 ლაბორატორიული რაოდენობის რეგიონული ცხრილი:
 
-## FACT — source-reported aggregate coverage
+| რეგიონი | ქიმიური | მიკრობიოლოგიური | მძიმე მეტალები | ნავთობპროდუქტები | პესტიციდები | ჯამი |
+|---|---:|---:|---:|---:|---:|---:|
+| აჭარა | 12 | 12 | 12 | 6 | 12 | 54 |
+| გურია | 8 | 8 | 8 | 6 | 8 | 38 |
+| იმერეთი | 10 | 10 | 10 | 7 | 10 | 47 |
+| სამეგრელო-ზემო სვანეთი | 10 | 10 | 11 | 10 | 10 | 51 |
+| შიდა ქართლი | 4 | 4 | 4 | 2 | 4 | 18 |
+| ქვემო ქართლი | 9 | 9 | 9 | 5 | 9 | 41 |
+| მცხეთა-მთიანეთი | 19 | 19 | 19 | 9 | 19 | 85 |
+| კახეთი | 75 | 75 | 85 | 37 | 75 | 347 |
+| **ჯამი** | **147** | **147** | **158** | **82** | **147** | **681** |
 
-The report states:
-- **124 combined groundwater monitoring points**, described as 74 routine hydrogeological monitoring points plus 50 field-instrumental study points;
-- **two new automatic groundwater stations** were added;
-- **74 points** were used for laboratory sampling, with **681 reported laboratory samples/analysis-group counts**:
-  - chemical 147;
-  - microbiological 147;
-  - heavy metals 158;
-  - petroleum products 82;
-  - pesticides 147;
-- a separate statement lists parameter coverage at **73 points**;
-- nitrate field-instrumental data were collected at **50 points**:
-  - 30 springs;
-  - 19 boreholes;
-  - 1 **control well**.
+ნიტრატების საველე-ინსტრუმენტული ცხრილი:
 
-The regional nitrate table reports:
-| Region | Springs | Boreholes | Control wells | Total |
+| რეგიონი | წყარო | ჭაბურღილი | საკონტროლო ჭა | ჯამი |
 |---|---:|---:|---:|---:|
-| Imereti | 17 | 9 | 1 | 27 |
-| Samegrelo-Zemo Svaneti | 0 | 10 | 0 | 10 |
-| Samtskhe-Javakheti | 3 | 0 | 0 | 3 |
-| Shida Kartli | 7 | 0 | 0 | 7 |
-| Mtskheta-Mtianeti | 3 | 0 | 0 | 3 |
-| **Total** | **30** | **19** | **1** | **50** |
+| იმერეთი | 17 | 9 | 1 | 27 |
+| სამეგრელო-ზემო სვანეთი | 0 | 10 | 0 | 10 |
+| სამცხე-ჯავახეთი | 3 | 0 | 0 | 3 |
+| შიდა ქართლი | 7 | 0 | 0 | 7 |
+| მცხეთა-მთიანეთი | 3 | 0 | 0 | 3 |
+| **ჯამი** | **30** | **19** | **1** | **50** |
 
-The source table uses the Georgian term **“საკონტროლო ჭა”**, which means **control well**, not household well. The source-page image was inspected to resolve OCR ambiguity.
+წყაროს ქართული ტერმინი არის **„საკონტროლო ჭა“** და მისი სწორი თარგმანია **control well**, არა household well.
 
-The 2025 annual report separately reports surface-water monitoring at **238 points** and **2,571 samples**. These are kept outside the groundwater and drinking-water compliance denominators.
+### FACT — ზედაპირული წყალი ცალკე მატრიცაა
 
-## REPRODUCED_RESULT — deterministic table arithmetic
+იმავე ანგარიშში ზედაპირული წყლისთვის მითითებულია **238** სინჯის აღების წერტილი და **2,571** სინჯი. ეს მაჩვენებლები არ ერთიანდება მიწისქვეშა წყლების ან სასმელი წყლის შესაბამისობის მაჩვენებლებთან.
 
-The public aggregate snapshot and validator reproduce:
-- five laboratory analysis-group counts: 147 + 147 + 158 + 82 + 147 = **681**;
-- eight regional laboratory rows sum to 681, and each analyte column matches its published aggregate;
-- nitrate point types: 30 + 19 + 1 = **50**;
-- five regional nitrate rows sum to 50 and match each published point-type total.
+### REPRODUCED_RESULT — ცხრილების არითმეტიკული გამეორება
 
-Mutation tests change a regional cell while preserving a global column total; the validator rejects the altered row. This reproduces arithmetic from the published table only. It does not reproduce laboratory assays or any water-quality result.
+- ხუთი ლაბორატორიული ანალიზის ჯგუფი: 147 + 147 + 158 + 82 + 147 = **681**.
+- რვა რეგიონული ლაბორატორიული მწკრივის ჯამი = **681**; თითოეული სვეტის ჯამი ემთხვევა ანგარიშის ჯგუფურ მაჩვენებელს.
+- ნიტრატების წერტილების ტიპები: 30 + 19 + 1 = **50**.
+- ხუთი რეგიონული ნიტრატის მწკრივის ჯამი = **50**.
 
-## INFERENCE — what the report does and does not establish
+დეტერმინისტული validator და mutation tests ცვლიან რეგიონულ უჯრედს ისე, რომ საერთო სვეტის ჯამი უცვლელი დარჩეს; validator მაინც უარყოფს შეცვლილ მწკრივს. ეს მხოლოდ გამოქვეყნებული ცხრილების არითმეტიკული გამეორებაა და არა ლაბორატორიული ანალიზის ან წყლის ხარისხის შედეგის გამეორება.
 
-The report establishes that NEA publicly described a 2025 groundwater monitoring programme, laboratory-sampling activity, automatic stations and nitrate-focused field-instrumental work.
+## ინტერპრეტაცია
 
-It does **not** establish:
-- that 124 are 124 unique physical sites;
-- whether the 74 laboratory points overlap the 73 parameter-coverage points;
-- whether the 50 nitrate field points are identical to all 50 field-instrumental survey points;
-- nitrate concentrations, laboratory confirmation, exceedance rates or vulnerable-zone boundaries;
-- drinking-water compliance, population exposure or household/private-well safety.
+- **INFERENCE:** ანგარიში ადასტურებს 2025 წლის მონიტორინგისა და ნიტრატებზე ორიენტირებული საველე სამუშაოების საჯაროდ ანგარიშგებულ მოცულობას, მაგრამ არა თითოეული წერტილის ხარისხობრივ შედეგს.
+- **INFERENCE:** 124/74/73/50 რაოდენობები განსხვავებული ანგარიშგებული ჩარჩოებია. საჯარო აგრეგატში სტაბილური site ID-ები არ არის, ამიტომ უნიკალური წერტილების რაოდენობა და ჯგუფებს შორის გადაფარვა უცნობია.
+- **INFERENCE:** 50-წერტილიანი ნიტრატის ცხრილი საველე-ინსტრუმენტული დაფარვის ცხრილია; ის არ იძლევა ნიტრატის კონცენტრაციებს, ლაბორატორიულ დადასტურებას ან საბოლოო მოწყვლადი ზონების საზღვრებს.
+- **HYPOTHESIS:** უფლებამოსილი და დეპერსონალიზებული სადგურის/სინჯის ექსპორტი სტაბილური ID-ებით, თარიღებით, წყლის მატრიცით, ანალიტით, ერთეულებით, LOD/LOQ-ით, მეთოდით, ლაბორატორიის აკრედიტაციის ფარგლებითა და QA/QC ველებით შესაძლებელს გახდის გამეორებად დაფარვისა და ტენდენციის ანალიზს.
+- **UNTESTED IDEA:** AquaSignal-ის coverage-quality პანელმა შეიძლება აჩვენოს 124/74/73/50 ჩარჩოები, მონაცემის სიახლე და დაკარგული metadata, მაგრამ უნდა დარჩეს არაოპერაციული/არაგამაფრთხილებელი, სანამ ლაბორატორიული მონაცემი და უფლებამოსილი ზღვრები არ იქნება ხელმისაწვდომი.
 
-The counts 124, 74, 73, 50, 681, 238 and 2,571 therefore remain separate source-defined reporting frames.
+## მეთოდი ან ექსპერიმენტის გეგმა
 
-## HYPOTHESIS
+1. ხელახლა გაიხსნა NEA-ს ოფიციალური 2025 წლის წლიური ანგარიშის PDF; წაიკითხა მიწისქვეშა წყლების მონიტორინგის სექცია (გვ. 10–12) და ზედაპირული წყლების სექცია (გვ. 13).
+2. ნიტრატების რეგიონული ცხრილისა და ტერმინის „საკონტროლო ჭა“ სიზუსტისთვის შემოწმდა PDF-ის გამოსახულებაც.
+3. გადაიწერა მხოლოდ საჯარო რეგიონული აგრეგატები; ნედლი სინჯები, კოორდინატები, მფლობელის მონაცემები ან ინდივიდუალური ჩანაწერები არ შეგროვებულა.
+4. დამოუკიდებლად გადამოწმდა ყველა რეგიონული მწკრივი, ანალიტის სვეტი და საერთო ჯამი Python validator-ით.
+5. დაემატა closed JSON Schema და mutation tests, რომლებიც ამოწმებს რეგიონულ უჯრედებს მაშინაც, როცა საერთო ჯამი შენარჩუნებულია.
+6. მიწისქვეშა, ზედაპირული და სასმელი წყლის შესაბამისობის მონაცემები ერთმანეთისგან განცალკევებულია.
 
-If an authorized, privacy-safe export provides stable station/sample IDs, coordinates at an approved precision, collection times, water matrix, analyte, native reporting units, method, LOD/LOQ, laboratory accreditation scope, QA/QC flags and revision history, AquaSignal could support reproducible coverage and trend analysis without conflating environmental groundwater monitoring with potable-network compliance.
+## შეზღუდვები
 
-## UNTESTED IDEA
+- ანგარიში ამ აგრეგატში არ იძლევა სინჯის/სადგურის ID-ებს, კოორდინატებს, თითოეული სინჯის თარიღებს, ნიტრატის კონცენტრაციებს, ერთეულებს, LOD/LOQ-ს, გამოყენებული სტანდარტის ვერსიას, ლაბორატორიის აკრედიტაციის ფარგლებს, QA/QC დროშებს ან კორექტირების ისტორიას.
+- 124 არის ანგარიშში მოცემული 74+50 კომბინირებული რაოდენობა; უნიკალური ფიზიკური წერტილების რაოდენობა და ჯგუფების გადაფარვა არ ქვეყნდება.
+- 74 ლაბორატორიული წერტილისა და 73 პარამეტრული დაფარვის წერტილის ურთიერთობა აუხსნელია.
+- 50 ნიტრატის წერტილი არ არის ნიტრატის კონცენტრაციის ან შესაბამისობის მნიშვნელი.
+- 681 არის ანგარიშში მოცემული ანალიზის ჯგუფური რაოდენობა და არა შესაბამისობის მრიცხველი/მნიშვნელი ან მოსახლეობის შეფასება.
+- PDF ბრაუზერის reader-ით შემოწმდა, მაგრამ raw bytes ამ retrieval runtime-ში ვერ ჩამოიტვირთა; SHA-256 **არ გამოთვლილა**.
+- 2025 წლის წლიური ანგარიში განსხვავდება NEA-ს მიერ 2026-11-26 გამოცხადებული ცალკე 2021–2025 წლების groundwater RAR-ისგან; RAR არ არის მიღებული ან შემოწმებული.
+- დამოუკიდებელი ჰიდროგეოლოგიური, ლაბორატორიული და სტატისტიკური რეცენზია ჯერ არ ჩატარებულა.
 
-AquaSignal could expose a coverage-quality panel showing the distinct 124/74/73/50 reporting frames, missing metadata and data freshness, but it should remain non-alerting until paired laboratory evidence and operator-approved thresholds are available.
+## წყაროები
 
-## Methodology
+1. National Environmental Agency of Georgia, *2025 annual report*, groundwater pp. 10–12 and surface-water p. 13, https://nea.gov.ge/en/Download/File/1444, accessed 2026-11-28. PDF-ის გამოცემის ზუსტი თარიღი დოკუმენტში მითითებული არ არის; 2025 არის ანგარიშის წელი.
+2. National Environmental Agency of Georgia, 2026-11-26 announcement about the separate 2021–2025 groundwater report and nitrate-risk field methodology, https://nea.gov.ge/Ge/News/3461, accessed 2026-11-28.
 
-1. Re-opened the official NEA 2025 annual-report PDF.
-2. Read the text and inspected the rendered page images for the nitrate table and the Georgian control-well term.
-3. Transcribed only public regional aggregate counts; no raw sample rows, station IDs, coordinates or owner data were collected.
-4. Independently recomputed regional and column totals with a deterministic Python validator.
-5. Added closed JSON Schema and mutation tests to detect regional transcription errors that global totals alone would miss.
-6. Kept groundwater, surface-water and potable-network compliance evidence separate.
+## შემდეგი ნაბიჯები
 
-## Limitations and risks
+1. მოიპოვოს უფლებამოსილი სადგურის/სინჯის მონაცემთა ლექსიკონი და სინჯის დონის ექსპორტი მხოლოდ საჯარო/დეპერსონალიზებული ველებით.
+2. დაზუსტდეს 74/73/50/124 წერტილების გადაფარვა სტაბილური site ID-ებით, თუ მათი გაზიარება კანონიერად და უსაფრთხოდ იქნება შესაძლებელი.
+3. 2021–2025 RAR მიიღოს ოფიციალური გზით; აღირიცხოს archive inventory, SHA-256 და reuse terms მხოლოდ raw bytes-ის მიღების შემდეგ.
+4. 2026-12-01-ის შემდეგ ცალკე გადამოწმდეს 2027 წლის სახელმწიფო წყლის მონიტორინგის გეგმის წარდგენა, მინისტრის დამტკიცება და საჯარო გამოქვეყნება.
+5. ნებისმიერი მომავალი ანომალიის მოდელი დარჩეს shadow რეჟიმში; ოპერაციულ რეაგირებამდე მოითხოვოს ლაბორატორიული დადასტურება და უფლებამოსილი ადამიანის განხილვა.
 
-- No sample-level results, station/sample dictionary, exact collection dates, concentrations, units, LOD/LOQ, laboratory accreditation, QA/QC, corrections or reuse licence were available in the annual-report aggregate.
-- The report's 74/73/50/124 point frames have no published stable IDs in this snapshot; overlap and unique-site count remain unknown.
-- The 681 figure is the report's analysis-group count, not a compliance numerator/denominator or a population estimate.
-- The nitrate table is field-instrumental coverage, not a concentration dataset or final vulnerable-zone designation.
-- The 2021–2025 RAR announced on 2026-11-26 remains inaccessible to the current binary retrieval route and unhashed.
-- No independent hydrogeological, laboratory, statistical or legal review has been obtained.
+## შემოწმების სტატუსი
 
-**Publication decision:** Preliminary only. No independent review has occurred. No Published status or operational safety conclusion is claimed.
+- წყაროს ტიპი: ოფიციალური NEA წლიური ანგარიში.
+- მტკიცებულების სტატუსი: FACT (ანგარიშში გამოქვეყნებული აგრეგატები) და REPRODUCED_RESULT (რეგიონული/ჯგუფური არითმეტიკა).
+- სინჯის დონის მონაცემები: არ მიღებულა.
+- ნიტრატის კონცენტრაციები: ამ ცხრილში არ ქვეყნდება.
+- მოსახლეობის რისკი, სასმელი წყლის შესაბამისობა და სამართლებრივი შესაბამისობა: არ შეფასებულა.
+- წყაროს raw-byte SHA-256: NOT_COMPUTED.
+- დამოუკიდებელი წყლის ხარისხის რეცენზია: მოლოდინში.
+- სტატუსი: Draft; Published არ არის.
 
-**Public-safety boundary:** No exact well coordinates, owner/driller identifiers, private household records, personal data, health records, credentials or restricted source payloads are included.
+საჯარო snapshot-ში ნედლი სინჯები, კოორდინატები, საყოფაცხოვრებო იდენტიფიკატორები, კერძო ჭაბურღილის მფლობელთა მონაცემები ან ჯანმრთელობის ჩანაწერები არ შედის.
