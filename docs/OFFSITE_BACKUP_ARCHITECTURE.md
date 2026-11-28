@@ -191,3 +191,10 @@ noema_core.backup_manifest.open_verified_artifact() is a local staging primitive
 A restore consumer must read from the returned handle and must not reopen the original source path. The staged handle remains bound to the bytes that were hashed even if the original path is replaced or the source file is modified after verification. A deterministic regression test confirms path replacement during hashing fails closed; separate tests prove that path replacement or in-place mutation after verification cannot change the already staged bytes.
 
 **Boundary and limitations:** the expected digest and length must come from independently trusted metadata; this helper does not authenticate the manifest, decrypt ciphertext, verify provider object versions or retention, prevent rollback, validate SQLite contents or perform a restore. Python TemporaryFile may be disk-backed and is not an encryption or secure-erasure guarantee. Do not stage plaintext on an untrusted host; the future restore pipeline must define storage permissions, encrypted/ephemeral staging and cleanup before production use. No current restore consumer is yet wired to this API.
+
+
+## 4.1 Caller-supplied staging budget
+
+The public helper `open_verified_artifact()` requires a caller-supplied `max_staged_byte_length`. There is intentionally no universal default: the restore operator must choose a bound from a trusted local recovery policy, not copy an untrusted size from an unsigned manifest. The helper rejects an expected artifact larger than that bound before opening the source and checks the streamed byte count while staging. A short write is treated as a failure and the temporary artifact is closed.
+
+The limit bounds temporary-storage consumption; it does not make `TemporaryFile` memory-only, encrypt its contents, guarantee secure erasure, or establish available disk capacity. Callers should define separate, workload-appropriate limits for plaintext and ciphertext and ensure sufficient protected staging capacity before a restore drill. The restore consumer must read the returned verified handle and must not reopen the original source path.

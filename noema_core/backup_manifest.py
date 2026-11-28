@@ -134,6 +134,8 @@ def open_verified_artifact(
     path: str | os.PathLike[str],
     expected_sha256: str,
     expected_byte_length: int,
+    *,
+    max_staged_byte_length: int,
 ) -> BinaryIO:
     """Return a rewound private temporary file containing the verified bytes.
 
@@ -143,9 +145,14 @@ def open_verified_artifact(
     Restore callers must consume this handle and must not reopen the source path.
 
     The expected digest/length must come from independently trusted metadata.
+    The caller must also supply an independently approved maximum staging size;
+    there is deliberately no permissive default. The cap is checked before the
+    source is opened and again while bytes are copied.
+
     This helper does not authenticate a manifest, decrypt ciphertext, verify
     remote retention, or prove a database restore. TemporaryFile may be
-    disk-backed; it is not an encryption or secure-erasure guarantee.
+    disk-backed; the cap limits resource consumption but is not encryption or
+    a secure-erasure guarantee.
     """
     if not isinstance(expected_sha256, str) or not _SHA256_HEX_RE.fullmatch(expected_sha256):
         raise ValueError("expected SHA-256 must be 64 lowercase hexadecimal characters")
@@ -155,6 +162,14 @@ def open_verified_artifact(
         or expected_byte_length < 1
     ):
         raise ValueError("expected byte length must be a positive integer")
+    if (
+        isinstance(max_staged_byte_length, bool)
+        or not isinstance(max_staged_byte_length, int)
+        or max_staged_byte_length < 1
+    ):
+        raise ValueError("maximum staged byte length must be a positive integer")
+    if expected_byte_length > max_staged_byte_length:
+        raise ValueError("artifact byte length exceeds configured staging limit")
 
     flags = os.O_RDONLY | getattr(os, "O_BINARY", 0)
     flags |= getattr(os, "O_NOFOLLOW", 0)
@@ -194,8 +209,12 @@ def open_verified_artifact(
             byte_length += len(chunk)
             if byte_length > expected_byte_length:
                 raise ValueError("artifact byte length mismatch")
+            if byte_length > max_staged_byte_length:
+                raise ValueError("artifact exceeds configured staging limit")
             digest.update(chunk)
-            staged.write(chunk)
+            written = staged.write(chunk)
+            if written != len(chunk):
+                raise OSError("short write while staging verified artifact")
 
         after = os.fstat(source.fileno())
         identity_before = (
