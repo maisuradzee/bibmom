@@ -57,6 +57,16 @@ class AquaSignalDecree447Tests(unittest.TestCase):
         future = next(x for x in self.record["scope_boundaries"] if x["distinction"] == "future_drinking_water_technical_regulation")
         self.assertIn("2027-09-01", future["fact"])
 
+    def test_nitrate_vulnerable_zone_deadline_and_action_plan_are_explicit(self) -> None:
+        item = next(x for x in self.record["requirements"] if x["id"] == "nitrate_vulnerable_zones_and_action_plans")
+        self.assertEqual(item["deadline"], "2027-09-01")
+        self.assertIn("nitrate-vulnerable zones", item["requirement"])
+        self.assertIn("action plans", item["requirement"])
+        self.assertIn("not evidence", item["note"])
+
+    def test_nitrate_zone_milestone_is_not_claimed_complete(self) -> None:
+        self.assertTrue(any("have not been verified as completed" in x for x in self.record["not_established"]))
+
     def test_no_actual_plan_submission_or_sample_data_is_invented(self) -> None:
         self.assertTrue(any("has not yet been verified" in x for x in self.record["not_established"]))
         self.assertTrue(all(value is False for value in self.record["privacy"].values()))
