@@ -6,7 +6,6 @@ This is a high-confidence preflight, not proof that no secret exists.
 """
 from __future__ import annotations
 import argparse
-import math
 import re
 import subprocess
 from pathlib import Path
@@ -15,13 +14,18 @@ from urllib.parse import parse_qsl, unquote_plus, urlsplit
 ROOT = Path(__file__).resolve().parents[1]
 _URL = re.compile(r"https?://[^\s<>\"']+", re.IGNORECASE)
 _PATTERNS = (
-    ("private-key-header", re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----")),
     ("github-token", re.compile(r"\b(?:gh[pousr]_[A-Za-z0-9_]{20,}|github_pat_[A-Za-z0-9_]{20,})\b")),
     ("aws-access-key", re.compile(r"\bAKIA[0-9A-Z]{16}\b")),
     ("slack-token", re.compile(r"\bxox[baprs]-[A-Za-z0-9-]{10,}\b")),
     ("stripe-secret", re.compile(r"\bsk_(?:live|test)_[A-Za-z0-9]{16,}\b")),
     ("google-api-key", re.compile(r"\bAIza[0-9A-Za-z_-]{35}\b")),
     ("jwt-like-token", re.compile(r"\beyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\b")),
+)
+_PRIVATE_KEY_BLOCK = re.compile(
+    r"-----BEGIN (?:RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----\\s*"
+    r"(?:[A-Za-z0-9+/=]{40,}\\s*)+"
+    r"-----END (?:RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----",
+    re.DOTALL,
 )
 _ASSIGNMENT = re.compile(
     r"(?i)\b(?:api[_-]?key|access[_-]?token|client[_-]?secret|password|passwd|"
@@ -39,7 +43,8 @@ _PATH_MARKERS = {
 }
 _PLACEHOLDERS = {
     "changeme", "example", "not-a-secret", "placeholder", "redacted",
-    "replace-me", "test", "your-token-here", "your-api-key-here",
+    "replace-me", "test", "user", "pass", "password", "secret", "x", "opaque",
+    "dummy", "sample", "your-token-here", "your-api-key-here",
 }
 _BINARY_SUFFIXES = {".7z", ".db", ".gz", ".jpeg", ".jpg", ".pdf", ".png", ".sqlite", ".sqlite3", ".zip"}
 
@@ -62,26 +67,6 @@ def _is_placeholder(value: str) -> bool:
     return normal in _PLACEHOLDERS or any(marker in normal for marker in ("example", "placeholder", "redacted"))
 
 
-def _path_entropy_candidate(segment: str) -> bool:
-    if len(segment) < 32 or len(segment) > 256:
-        return False
-    if re.fullmatch(r"[a-fA-F0-9]{40}|[a-fA-F0-9]{64}", segment):
-        return False
-    if re.fullmatch(r"[0-9a-fA-F-]{36}", segment) or "." in segment:
-        return False
-    classes = sum((
-        any(c.islower() for c in segment),
-        any(c.isupper() for c in segment),
-        any(c.isdigit() for c in segment),
-        any(c in "_-" for c in segment),
-    ))
-    if classes < 3:
-        return False
-    frequencies = [segment.count(char) / len(segment) for char in set(segment)]
-    entropy = -sum(value * math.log2(value) for value in frequencies)
-    return entropy >= 4.0
-
-
 def _url_rules(value: str) -> set[str]:
     rules: set[str] = set()
     candidate = value.rstrip(".,;:)]}")
@@ -90,7 +75,8 @@ def _url_rules(value: str) -> set[str]:
         _ = parts.port
     except ValueError:
         return rules
-    if parts.username is not None or parts.password is not None:
+    userinfo = [item for item in (parts.username, parts.password) if item is not None]
+    if userinfo and any(not _is_placeholder(unquote_plus(item)) for item in userinfo):
         rules.add("url-userinfo-credentials")
     sensitive = {re.sub(r"[^a-z0-9]", "", item) for item in _SENSITIVE_NAMES}
     for component in (parts.query, parts.fragment):
@@ -100,23 +86,24 @@ def _url_rules(value: str) -> set[str]:
             except ValueError:
                 rules.add("url-excessive-parameter-count")
                 continue
-            for name, _ in pairs:
-                if _normalise_parameter_name(name) in sensitive:
+            for name, value in pairs:
+                if _normalise_parameter_name(name) in sensitive and not _is_placeholder(value):
                     rules.add("url-sensitive-parameter-name")
     segments = [segment for segment in parts.path.split("/") if segment]
     markers = {re.sub(r"[^a-z0-9]", "", item) for item in _PATH_MARKERS}
     for index, segment in enumerate(segments):
         marker = re.sub(r"[^a-z0-9]", "", unquote_plus(segment).casefold())
         if marker in markers:
-            if index + 1 < len(segments) and len(segments[index + 1]) >= 24:
+            if index + 1 < len(segments) and len(segments[index + 1]) >= 24 and not _is_placeholder(segments[index + 1]):
                 rules.add("url-credential-like-path-segment")
-        elif _path_entropy_candidate(unquote_plus(segment)):
-            rules.add("url-opaque-path-token-candidate")
     return rules
 
 
 def scan_text(path: str, content: str) -> list[tuple[str, int, str]]:
     findings: list[tuple[str, int, str]] = []
+    for match in _PRIVATE_KEY_BLOCK.finditer(content):
+        line_number = content.count("\\n", 0, match.start()) + 1
+        findings.append((path, line_number, "private-key-block"))
     for line_number, line in enumerate(content.splitlines(), start=1):
         for rule, pattern in _PATTERNS:
             if pattern.search(line):
