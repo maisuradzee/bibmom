@@ -1,0 +1,329 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AquaSignal Decree 447 annex transcription audit",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_id",
+    "study_id",
+    "evidence_status",
+    "reviewed_at",
+    "primary_source",
+    "secondary_source",
+    "transcribed_annex_claims",
+    "nitrate_sampling_method_transcription",
+    "groundwater_sampling_method_transcription",
+    "interpretation_limits",
+    "privacy"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "record_id": {
+      "const": "AQUASIGNAL-GEORGIA-DECREE-447-ANNEX-TRANSCRIPTION-AUDIT-2026-11-28"
+    },
+    "study_id": {
+      "const": "NOEMA-2026-006"
+    },
+    "evidence_status": {
+      "const": "SECONDARY_TRANSCRIPTION_ONLY"
+    },
+    "reviewed_at": {
+      "type": "string",
+      "format": "date"
+    },
+    "primary_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "publisher",
+        "title",
+        "publication_date",
+        "decree_number",
+        "registration_code",
+        "url",
+        "main_text_inspected",
+        "attachment",
+        "verified_main_text_claims"
+      ],
+      "properties": {
+        "publisher": {
+          "const": "Legislative Herald of Georgia"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 20
+        },
+        "publication_date": {
+          "const": "2026-09-15"
+        },
+        "decree_number": {
+          "const": 447
+        },
+        "registration_code": {
+          "const": "400000000.10.003.025997"
+        },
+        "url": {
+          "const": "https://matsne.gov.ge/ka/document/view/7000572"
+        },
+        "main_text_inspected": {
+          "const": true
+        },
+        "attachment": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "filename",
+            "listed_on_official_page",
+            "listed_size_bytes",
+            "retrieved",
+            "content_inspected",
+            "sha256"
+          ],
+          "properties": {
+            "filename": {
+              "const": "447-დან.docx"
+            },
+            "listed_on_official_page": {
+              "const": true
+            },
+            "listed_size_bytes": {
+              "const": 46049
+            },
+            "retrieved": {
+              "const": false
+            },
+            "content_inspected": {
+              "const": false
+            },
+            "sha256": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "const": null
+            }
+          }
+        },
+        "verified_main_text_claims": {
+          "type": "array",
+          "minItems": 4,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "article",
+              "claim",
+              "evidence_status"
+            ],
+            "properties": {
+              "article": {
+                "type": "string"
+              },
+              "claim": {
+                "type": "string",
+                "minLength": 30
+              },
+              "evidence_status": {
+                "const": "FACT"
+              }
+            }
+          }
+        }
+      }
+    },
+    "secondary_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "publisher",
+        "title",
+        "publication_date",
+        "accessed_at",
+        "url",
+        "source_type",
+        "inspected_sections",
+        "limitation"
+      ],
+      "properties": {
+        "publisher": {
+          "const": "Legali.ge"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 20
+        },
+        "publication_date": {
+          "const": "2026-09-15"
+        },
+        "accessed_at": {
+          "const": "2026-11-28"
+        },
+        "url": {
+          "const": "https://www.legali.ge/law/7000572/"
+        },
+        "source_type": {
+          "const": "SECONDARY_LEGAL_TEXT_TRANSCRIPTION"
+        },
+        "inspected_sections": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "string"
+          }
+        },
+        "limitation": {
+          "type": "string",
+          "minLength": 60
+        }
+      }
+    },
+    "transcribed_annex_claims": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "annex_reference",
+          "monitoring_mode",
+          "parameter",
+          "evidence_status"
+        ],
+        "properties": {
+          "annex_reference": {
+            "type": "string"
+          },
+          "monitoring_mode": {
+            "type": "string"
+          },
+          "parameter": {
+            "type": "string"
+          },
+          "before_initial_status_assessment": {
+            "type": "string"
+          },
+          "after_initial_status_assessment": {
+            "type": "string"
+          },
+          "scope": {
+            "type": "string"
+          },
+          "frequency": {
+            "type": "string"
+          },
+          "evidence_status": {
+            "const": "SECONDARY_TRANSCRIPTION_ONLY"
+          }
+        }
+      }
+    },
+    "nitrate_sampling_method_transcription": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "annex_reference",
+        "field_parameters",
+        "optional_field_screening",
+        "laboratory_analysis",
+        "evidence_status"
+      ],
+      "properties": {
+        "annex_reference": {
+          "const": "Annex 2, Table 3"
+        },
+        "field_parameters": {
+          "type": "array",
+          "minItems": 4,
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "optional_field_screening": {
+          "type": "string"
+        },
+        "laboratory_analysis": {
+          "type": "string"
+        },
+        "evidence_status": {
+          "const": "SECONDARY_TRANSCRIPTION_ONLY"
+        }
+      }
+    },
+    "groundwater_sampling_method_transcription": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "annex_reference",
+        "selection_factors",
+        "pumped_wells",
+        "artesian_wells_and_springs",
+        "objective",
+        "evidence_status"
+      ],
+      "properties": {
+        "annex_reference": {
+          "const": "Annex 2, Table 3"
+        },
+        "selection_factors": {
+          "type": "array",
+          "minItems": 3,
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "pumped_wells": {
+          "type": "string",
+          "minLength": 40
+        },
+        "artesian_wells_and_springs": {
+          "type": "string",
+          "minLength": 40
+        },
+        "objective": {
+          "type": "string",
+          "minLength": 30
+        },
+        "evidence_status": {
+          "const": "SECONDARY_TRANSCRIPTION_ONLY"
+        }
+      }
+    },
+    "interpretation_limits": {
+      "type": "array",
+      "minItems": 6,
+      "items": {
+        "type": "string",
+        "minLength": 30
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "personal_data_included",
+        "precise_station_coordinates_included",
+        "sample_level_data_included",
+        "restricted_attachment_bytes_included"
+      ],
+      "properties": {
+        "personal_data_included": {
+          "const": false
+        },
+        "precise_station_coordinates_included": {
+          "const": false
+        },
+        "sample_level_data_included": {
+          "const": false
+        },
+        "restricted_attachment_bytes_included": {
+          "const": false
+        }
+      }
+    }
+  }
+}
