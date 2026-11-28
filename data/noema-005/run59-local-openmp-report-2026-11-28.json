@@ -3,7 +3,7 @@
   "run_id": "NOEMA-005-RUN59-LOCAL-OPENMP-2026-11-28",
   "study_id": "NOEMA-2026-005",
   "date": "2026-11-28",
-  "executed_at_utc": "2026-11-28T13:17:47Z",
+  "executed_at_utc": "2026-11-28T13:22:25Z",
   "evidence_status": "REPRODUCED RESULT",
   "host": {
     "os": "Linux 6.18.57 x86_64 (glibc 2.41)",
