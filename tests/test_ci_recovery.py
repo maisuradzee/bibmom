@@ -109,6 +109,10 @@ A method description remains unchanged.
             _safe_public_source_url("https://example.org/?%2561ccess_token=secret")[1],
             "query_credential_like_parameter",
         )
+        self.assertEqual(
+            _safe_public_source_url("https://example.org/#auth_token=secret")[1],
+            "fragment_credential_like_parameter",
+        )
 
     def test_recovery_report_does_not_echo_unsafe_url_values(self) -> None:
         with tempfile.TemporaryDirectory() as temp:
@@ -165,6 +169,47 @@ A method description remains unchanged.
         errors = list(Draft202012Validator(schema, format_checker=FormatChecker()).iter_errors(manifest))
         self.assertEqual(errors, [])
         self.assertEqual(validate_workflow_contract(ROOT), [])
+
+    def test_workflow_contract_fails_when_a_required_step_is_removed(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            workflow_dir = root / ".github" / "workflows"
+            data_dir = root / "data"
+            workflow_dir.mkdir(parents=True)
+            data_dir.mkdir(parents=True)
+            workflow = (ROOT / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
+            manifest = (ROOT / "data" / "ci-required-step-ids.json").read_text(encoding="utf-8")
+            import re
+            workflow = re.sub(
+                r"(?ms)^      - name: Validate required files\\n.*?(?=^      - name: |\\Z)",
+                "",
+                workflow,
+                count=1,
+            )
+            (workflow_dir / "ci.yml").write_text(workflow, encoding="utf-8")
+            (data_dir / "ci-required-step-ids.json").write_text(manifest, encoding="utf-8")
+            self.assertIn("workflow_step_ids_do_not_match_required_manifest", validate_workflow_contract(root))
+
+    def test_workflow_contract_fails_when_continue_on_error_is_removed(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            workflow_dir = root / ".github" / "workflows"
+            data_dir = root / "data"
+            workflow_dir.mkdir(parents=True)
+            data_dir.mkdir(parents=True)
+            workflow = (ROOT / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
+            manifest = (ROOT / "data" / "ci-required-step-ids.json").read_text(encoding="utf-8")
+            workflow = workflow.replace(
+                "        id: check_01_validate_required_files\\n        continue-on-error: true",
+                "        id: check_01_validate_required_files",
+                1,
+            )
+            (workflow_dir / "ci.yml").write_text(workflow, encoding="utf-8")
+            (data_dir / "ci-required-step-ids.json").write_text(manifest, encoding="utf-8")
+            self.assertIn(
+                "validation_step_not_continue_on_error:check_01_validate_required_files",
+                validate_workflow_contract(root),
+            )
 
 
 if __name__ == "__main__":
