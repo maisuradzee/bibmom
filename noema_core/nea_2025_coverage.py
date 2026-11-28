@@ -108,7 +108,7 @@ def validate_nea_2025_aggregate(snapshot: Any) -> None:
     nitrate = groundwater.get("nitrate_field_study_points")
     if not isinstance(nitrate, dict):
         raise Nea2025AggregateError("nitrate_field_study_points must be an object")
-    for name, expected in (("total", 50), ("boreholes", 19), ("springs", 30), ("control_wells", 1)):
+    for name, expected in (("total", 50), ("boreholes", 19), ("springs", 30), ("household_wells", 1)):
         if _require_int(nitrate.get(name), f"nitrate_field_study_points.{name}") != expected:
             raise Nea2025AggregateError(f"nitrate point count differs for {name}")
     if nitrate.get("source_term_household_well") != "საყოფაცხოვრებო ჭა" or nitrate.get("household_well_translation") != "household well":

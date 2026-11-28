@@ -56,7 +56,7 @@ class Nea2025WaterAggregateSnapshotTests(unittest.TestCase):
     def test_nitrate_point_types_reproduce_50_and_household_well_translation(self):
         points = self.data["groundwater"]["nitrate_field_study_points"]
         self.assertEqual(points["boreholes"] + points["springs"] + points["household_wells"], 50)
-        self.assertEqual(points["control_wells"], 1)
+        self.assertEqual(points["household_wells"], 1)
         self.assertEqual(points["source_term_household_well"], "საყოფაცხოვრებო ჭა")
         self.assertEqual(points["household_well_translation"], "household well")
         self.assertNotIn("control_wells", points)
