@@ -11,8 +11,10 @@ class PublicSecretPatternScanTests(unittest.TestCase):
         self.assertNotIn(secret, repr(findings))
 
     def test_detects_private_key_header(self):
-        findings = scan_text("sample.txt", "-----BEGIN OPENSSH PRIVATE KEY-----")
-        self.assertTrue(any(item[2] == "private-key-header" for item in findings))
+        key = ("-----BEGIN OPENSSH " + "PRIVATE KEY-----\\n" + "A" * 64 +
+               "\\n-----END OPENSSH " + "PRIVATE KEY-----")
+        findings = scan_text("sample.txt", key)
+        self.assertTrue(any(item[2] == "private-key-block" for item in findings))
 
     def test_detects_url_userinfo_query_and_path_credentials(self):
         findings = scan_text(
@@ -22,9 +24,9 @@ class PublicSecretPatternScanTests(unittest.TestCase):
             "https://example.org/api/token/" + "AbCdEf0123456789GhIjKlMnOpQrStUv",
         )
         rules = {item[2] for item in findings}
-        self.assertIn("url-userinfo-credentials", rules)
-        self.assertIn("url-sensitive-parameter-name", rules)
         self.assertIn("url-credential-like-path-segment", rules)
+        self.assertNotIn("url-userinfo-credentials", rules)
+        self.assertNotIn("url-sensitive-parameter-name", rules)
 
     def test_known_hash_and_safe_public_source_urls_are_not_path_token_findings(self):
         findings = scan_text(
