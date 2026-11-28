@@ -1,0 +1,260 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://maisuradzee.github.io/bibmom/schemas/aquasignal-nitrate-zone-obligation-crosswalk.schema.json",
+  "title": "AquaSignal groundwater nitrate-zone obligation crosswalk",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "study_id",
+    "as_of",
+    "legacy_programme_evidence",
+    "current_statutory_obligation",
+    "nea_announcement",
+    "crosswalk",
+    "limitations",
+    "procurement_contract"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "study_id": {
+      "const": "NOEMA-2026-012"
+    },
+    "as_of": {
+      "type": "string",
+      "format": "date"
+    },
+    "legacy_programme_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "report_id",
+        "report_date",
+        "activity_id",
+        "activity_title",
+        "reported_status",
+        "reported_progress_percent",
+        "responsible_body",
+        "reported_basis",
+        "source_url"
+      ],
+      "properties": {
+        "report_id": {
+          "type": "string",
+          "minLength": 3
+        },
+        "report_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "activity_id": {
+          "const": "5.1.8"
+        },
+        "activity_title": {
+          "type": "string",
+          "minLength": 10
+        },
+        "reported_status": {
+          "const": "implemented"
+        },
+        "reported_progress_percent": {
+          "const": 100
+        },
+        "responsible_body": {
+          "type": "string",
+          "minLength": 3
+        },
+        "reported_basis": {
+          "type": "string",
+          "minLength": 20
+        },
+        "source_url": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "current_statutory_obligation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "law_number",
+        "law_date",
+        "article",
+        "deadline",
+        "responsible_actor",
+        "obligation",
+        "evidence_status",
+        "source_url"
+      ],
+      "properties": {
+        "law_number": {
+          "type": "string",
+          "minLength": 5
+        },
+        "law_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "article": {
+          "const": "37(2)(b.e)"
+        },
+        "deadline": {
+          "const": "2027-09-01"
+        },
+        "responsible_actor": {
+          "type": "string",
+          "minLength": 5
+        },
+        "obligation": {
+          "type": "string",
+          "minLength": 30
+        },
+        "evidence_status": {
+          "const": "not_verified_by_available_evidence"
+        },
+        "source_url": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "nea_announcement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "date",
+        "report_prepared",
+        "field_methodology_prepared",
+        "announcement_url",
+        "official_archive_url",
+        "retrieval_status",
+        "official_archive_sha256"
+      ],
+      "properties": {
+        "date": {
+          "const": "2026-11-26"
+        },
+        "report_prepared": {
+          "const": true
+        },
+        "field_methodology_prepared": {
+          "const": true
+        },
+        "announcement_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "official_archive_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "retrieval_status": {
+          "const": "not_retrieved_in_this_run"
+        },
+        "official_archive_sha256": {
+          "type": "null"
+        }
+      }
+    },
+    "crosswalk": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "legacy_completion_proves_current_statutory_completion",
+        "contradiction_established",
+        "legal_noncompliance_established",
+        "evidence_class",
+        "interpretation",
+        "required_evidence"
+      ],
+      "properties": {
+        "legacy_completion_proves_current_statutory_completion": {
+          "const": false
+        },
+        "contradiction_established": {
+          "const": false
+        },
+        "legal_noncompliance_established": {
+          "const": false
+        },
+        "evidence_class": {
+          "const": "FACT_AND_INFERENCE"
+        },
+        "interpretation": {
+          "type": "string",
+          "minLength": 40
+        },
+        "required_evidence": {
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "type": "string",
+            "minLength": 10
+          }
+        }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "string",
+        "minLength": 10
+      }
+    },
+    "procurement_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_id",
+        "signed_on",
+        "delivery_due",
+        "contract_term_end",
+        "deliverables",
+        "acceptance_act_required",
+        "acceptance_verified",
+        "source_url",
+        "interpretation"
+      ],
+      "properties": {
+        "contract_id": {
+          "const": "T-100801"
+        },
+        "signed_on": {
+          "const": "2026-10-09"
+        },
+        "delivery_due": {
+          "const": "2026-10-29"
+        },
+        "contract_term_end": {
+          "const": "2026-12-31"
+        },
+        "deliverables": {
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "type": "string",
+            "minLength": 10
+          }
+        },
+        "acceptance_act_required": {
+          "const": true
+        },
+        "acceptance_verified": {
+          "const": false
+        },
+        "source_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "interpretation": {
+          "type": "string",
+          "minLength": 40
+        }
+      }
+    }
+  }
+}

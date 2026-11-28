@@ -1174,6 +1174,85 @@
         "No sample-level groundwater results, abstraction volumes, private well coordinates or personal data were used.",
         "Independent Georgian legal and hydrogeological review remains outstanding."
       ]
+    },
+    {
+      "id": "NOEMA-2026-012",
+      "title": "AquaSignal — მიწისქვეშა წყლების ნიტრატის ზონების სამართლებრივი მტკიცებულებების crosswalk",
+      "date": "2026-11-28",
+      "category": "წყლის რესურსები / სამართლებრივი მტკიცებულებების მიკვლევადობა",
+      "summary": "2024 NEAP-4 აქტივობა 5.1.8 ანგარიშში 100%-ით განხორციელებულად არის აღწერილი; 2026 წლის კანონი №1766-Vმს-XIმპ ცალკე ადგენს 2027-09-01 ვადას მიწისქვეშა წყლების ნიტრატის ზონებისთვის. 2026-11-26 NEA-ის განცხადება ადასტურებს ანგარიშისა და საველე მეთოდოლოგიის მომზადებას, მაგრამ RAR ბაიტები ამ გაშვებაში ვერ იქნა მიღებული. ჩანაწერები ერთსა და იმავე ფართო თემას ეხება, თუმცა მათი სამართლებრივი/გეოგრაფიული deliverable-ების იდენტურობა დადგენილი არ არის. შეიქმნა metadata-only gate, რომელიც compliance-ს არ ადგენს. დამატებით, ოფიციალური ხელშეკრულება №T-100801 განსაზღვრავს საბოლოო ინტერაქტიული PDF-ის, 50 ბეჭდური ანგარიშისა და 50 CD-ის მიწოდებას და მიღება-ჩაბარების აქტს; ფაქტობრივი მიღება ამ გაშვებაში არ გადამოწმებულა.",
+      "file": "research/preprints/NOEMA-2026-012-georgia-groundwater-nitrate-obligation-crosswalk.md",
+      "status": "preliminary",
+      "version": "0.1",
+      "sources": [
+        {
+          "title": "NEAP IV 2024 monitoring report, Annex 2 activity 5.1.8",
+          "authors": [
+            "Ministry of Environmental Protection and Agriculture of Georgia"
+          ],
+          "citation": "NEAP IV 2024 Monitoring Report, 2025-02-28, Annex 2, activity 5.1.8.",
+          "url": "https://mepa.gov.ge/ge/Files/ViewFile/55338",
+          "type": "primary_government_monitoring_report",
+          "publication_date": "2025-02-28",
+          "accessed_at": "2026-11-28"
+        },
+        {
+          "title": "Law of Georgia No.1766-Vმს-XIმპ amending the Law on Water Resources Management",
+          "authors": [
+            "Parliament of Georgia"
+          ],
+          "citation": "Law No.1766-Vმს-XIმპ, 2026-06-24, Article 37(2)(b.e).",
+          "url": "https://manage.matsne.gov.ge/ka/document/view/6904700",
+          "type": "primary_legal_source",
+          "publication_date": "2026-06-24",
+          "accessed_at": "2026-11-28"
+        },
+        {
+          "title": "2021-2025 groundwater monitoring report and nitrate field methodology announcement",
+          "authors": [
+            "National Environmental Agency of Georgia"
+          ],
+          "citation": "NEA announcement, 2026-11-26; report and nitrate field methodology stated as prepared.",
+          "url": "https://www.nea.gov.ge/Ge/News/3461",
+          "type": "primary_agency_announcement",
+          "publication_date": "2026-11-26",
+          "accessed_at": "2026-11-28"
+        },
+        {
+          "title": "NEAP IV 2023 monitoring report, Annex 2 activity 5.1.8",
+          "authors": [
+            "Ministry of Environmental Protection and Agriculture of Georgia"
+          ],
+          "citation": "NEAP IV 2023 Monitoring Report, 2024-02-29, Annex 2, activity 5.1.8.",
+          "url": "https://mepa.gov.ge/ge/Files/ViewFile/53998",
+          "type": "primary_government_monitoring_report",
+          "publication_date": "2024-02-29",
+          "accessed_at": "2026-11-28"
+        },
+        {
+          "title": "NEA groundwater report and nitrate field-methodology printing contract T-100801",
+          "authors": [
+            "National Environmental Agency of Georgia",
+            "State Procurement Agency of Georgia"
+          ],
+          "citation": "Public procurement contract T-100801, signed 2026-10-09, clauses 2, 7–8 and Annex 2; 20-calendar-day delivery term and acceptance-act requirement.",
+          "url": "https://tenders.procurement.gov.ge/public/library/files.php?file=677451&mode=contract",
+          "type": "primary_public_procurement_contract",
+          "publication_date": "2026-10-09",
+          "accessed_at": "2026-11-28"
+        }
+      ],
+      "methodology": {
+        "source_review": "Reviewed primary NEAP IV 2024 monitoring report, Law No.1766-Vმს-XIმპ and NEA announcement dated 2026-11-26.",
+        "crosswalk": "Compared activity ID, responsible actor, statutory deadline, scope and deliverable; no equivalence is inferred from matching subject matter.",
+        "prototype": "Metadata-only evidence gate separates historical programme status from current statutory evidence and never returns a legal-compliance decision.",
+        "evidence_status": "FACT for quoted official sources; INFERENCE for the non-equivalence/evidence-gap interpretation; REPRODUCED RESULT for synthetic unit/schema tests; no official archive bytes or groundwater measurements."
+      },
+      "limitations": [
+        "Official NEA RAR archive bytes were not retrieved or hashed in this run.",
+        "The NEAP-4 activity completion statement does not expose the underlying maps or prove identity with the later statutory task.",
+        "No independent Georgian legal review, groundwater dataset, final map or formal designation instrument was obtained."
+      ]
     }
   ]
 }
