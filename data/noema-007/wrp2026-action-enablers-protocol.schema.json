@@ -1,0 +1,369 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NOEMA-007 WRP 2025 action-enablers reproduction protocol",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "study_id",
+    "experiment_id",
+    "evidence_status",
+    "source",
+    "variables",
+    "publisher_reference",
+    "methodology",
+    "interpretation",
+    "privacy",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "study_id": {
+      "const": "NOEMA-2026-007"
+    },
+    "experiment_id": {
+      "const": "NOEMA-2026-007-WRP2026-ACTION-ENABLERS-001"
+    },
+    "evidence_status": {
+      "const": "REPRODUCED_RESULT"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository",
+        "commit",
+        "path",
+        "git_blob_sha1",
+        "byte_length",
+        "sha256",
+        "data_dictionary_blob_sha1",
+        "license",
+        "report_title",
+        "report_publication_date",
+        "report_doi",
+        "report_pdf_url",
+        "publisher_reproduction_readme_url",
+        "publisher_reproduction_results_url"
+      ],
+      "properties": {
+        "repository": {
+          "const": "lrfoundation/world_risk_poll_data"
+        },
+        "commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "path": {
+          "const": "WRP_2025/WRP_2025.parquet"
+        },
+        "git_blob_sha1": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "byte_length": {
+          "const": 7070416
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "data_dictionary_blob_sha1": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "license": {
+          "const": "CC BY-SA 4.0"
+        },
+        "report_title": {
+          "const": "From alert to agency: What turns warnings into action?"
+        },
+        "report_publication_date": {
+          "const": "2026-10-13"
+        },
+        "report_doi": {
+          "const": "10.60743/yx1k-t541"
+        },
+        "report_pdf_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "publisher_reproduction_readme_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "publisher_reproduction_results_url": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "variables": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "weight",
+        "income_group",
+        "warning_channels",
+        "ability_to_act",
+        "household_plan",
+        "personal_agency"
+      ],
+      "properties": {
+        "weight": {
+          "const": "PROJWT"
+        },
+        "income_group": {
+          "const": "CountryIncomeLevel"
+        },
+        "warning_channels": {
+          "const": [
+            "WP24181",
+            "WP24182",
+            "WP24183",
+            "WP24184",
+            "WP24185",
+            "WP24186",
+            "WP24187",
+            "WP24188"
+          ]
+        },
+        "ability_to_act": {
+          "const": "WP24215"
+        },
+        "household_plan": {
+          "const": "WP23345"
+        },
+        "personal_agency": {
+          "const": "WP22252"
+        }
+      }
+    },
+    "publisher_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "respondents_total",
+        "countries_and_territories",
+        "warning_question_base",
+        "warned_action_base",
+        "warning_receipt_pct_1dp",
+        "ability_to_act_pct_1dp",
+        "action_by_warning_channel_count",
+        "action_by_plan_and_agency",
+        "action_by_income_group"
+      ],
+      "properties": {
+        "respondents_total": {
+          "const": 143459
+        },
+        "countries_and_territories": {
+          "const": 140
+        },
+        "warning_question_base": {
+          "const": 24249
+        },
+        "warned_action_base": {
+          "const": 16996
+        },
+        "warning_receipt_pct_1dp": {
+          "const": 80
+        },
+        "ability_to_act_pct_1dp": {
+          "const": 63.8
+        },
+        "action_by_warning_channel_count": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "channel_count",
+              "weighted_able_pct_1dp",
+              "published_report_pct"
+            ],
+            "properties": {
+              "channel_count": {
+                "enum": [
+                  1,
+                  2,
+                  3
+                ]
+              },
+              "weighted_able_pct_1dp": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "published_report_pct": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              }
+            }
+          }
+        },
+        "action_by_plan_and_agency": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "group",
+              "weighted_able_pct_1dp",
+              "published_report_pct"
+            ],
+            "properties": {
+              "group": {
+                "enum": [
+                  "neither",
+                  "plan_only",
+                  "agency_only",
+                  "both"
+                ]
+              },
+              "weighted_able_pct_1dp": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "published_report_pct": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              }
+            }
+          }
+        },
+        "action_by_income_group": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "group",
+              "weighted_able_pct_1dp",
+              "published_report_pct"
+            ],
+            "properties": {
+              "group": {
+                "enum": [
+                  "low_income",
+                  "lower_middle_income",
+                  "upper_middle_income",
+                  "high_income"
+                ]
+              },
+              "weighted_able_pct_1dp": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "published_report_pct": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              }
+            }
+          }
+        }
+      }
+    },
+    "methodology": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "weight",
+        "warning_base",
+        "action_base",
+        "channel_count",
+        "plan_and_agency",
+        "income_groups",
+        "missingness"
+      ],
+      "properties": {
+        "weight": {
+          "type": "string",
+          "minLength": 20
+        },
+        "warning_base": {
+          "type": "string",
+          "minLength": 20
+        },
+        "action_base": {
+          "type": "string",
+          "minLength": 20
+        },
+        "channel_count": {
+          "type": "string",
+          "minLength": 20
+        },
+        "plan_and_agency": {
+          "type": "string",
+          "minLength": 20
+        },
+        "income_groups": {
+          "type": "string",
+          "minLength": 20
+        },
+        "missingness": {
+          "type": "string",
+          "minLength": 20
+        }
+      }
+    },
+    "interpretation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "statement"
+      ],
+      "properties": {
+        "status": {
+          "const": "DESCRIPTIVE_ASSOCIATION_NOT_CAUSAL"
+        },
+        "statement": {
+          "type": "string",
+          "minLength": 40
+        }
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "raw_microdata_committed",
+        "respondent_ids_committed",
+        "workflow_uploads_aggregate_only"
+      ],
+      "properties": {
+        "raw_microdata_committed": {
+          "const": false
+        },
+        "respondent_ids_committed": {
+          "const": false
+        },
+        "workflow_uploads_aggregate_only": {
+          "const": true
+        }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 6,
+      "items": {
+        "type": "string",
+        "minLength": 30
+      }
+    }
+  }
+}

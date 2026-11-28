@@ -850,12 +850,12 @@
     {
       "id": "NOEMA-2026-007",
       "title": "გაფრთხილების მიღება და მოქმედების შესაძლებლობა — WRP 2025 დამოუკიდებელი გამეორება",
-      "date": "2026-11-27",
+      "date": "2026-11-28",
       "category": "ადრეული გაფრთხილება / სტატისტიკური გამეორება",
-      "summary": "NOEMA-მ LRF-ის 2025 Wave 4 საჯარო Parquet მონაცემებზე დამოუკიდებლად გაიმეორა გლობალური გაფრთხილების მიღებისა და მოქმედების შესაძლებლობის აგრეგატები. 24,249-კაციან warning base-ში 16,996-მა მიიღო მინიმუმ ერთი გაფრთხილება; PROJWT-შეწონილი წილი 80.011542% იყო (გამომცემლის დამრგვალება 80.0%). გაფრთხილებულ 16,996 რესპონდენტში 9,479-ს შეეძლო მოქმედება (63.779158%), 7,383-ს — არა (35.759146%), ხოლო 134-მა უპასუხა არ ვიცი/უარი (0.461696%). საქართველოს warning-question base იყო 99, ქვემოთ ანგარიშის n>=100 რეიტინგის ზღვარზე. ეს არის survey aggregate reproduction და არა საქართველოს ოპერაციული შეფასება ან მიზეზობრივი ეფექტიანობის მტკიცებულება.",
+      "summary": "NOEMA-მ LRF-ის 2025 Wave 4 საჯარო Parquet მონაცემებზე დამოუკიდებლად გაიმეორა გლობალური გაფრთხილების მიღებისა და მოქმედების შესაძლებლობის აგრეგატები. 24,249-კაციან warning base-ში 16,996-მა მიიღო მინიმუმ ერთი გაფრთხილება; PROJWT-შეწონილი წილი 80.011542% იყო (გამომცემლის დამრგვალება 80.0%). გაფრთხილებულ 16,996 რესპონდენტში 9,479-ს შეეძლო მოქმედება (63.779158%), 7,383-ს — არა (35.759146%), ხოლო 134-მა უპასუხა არ ვიცი/უარი (0.461696%). საქართველოს warning-question base იყო 99, ქვემოთ ანგარიშის n>=100 რეიტინგის ზღვარზე. ეს არის survey aggregate reproduction და არა საქართველოს ოპერაციული შეფასება ან მიზეზობრივი ეფექტიანობის მტკიცებულება. დამატებითი 2026-11-28 action-enablers გამეორებით: მოქმედების შესაძლებლობა იყო 37.5%/50.5%/64.2% 1/2/3 გაფრთხილების არხზე; 26.6% არც გეგმისა და არც agency-ის მქონე ჯგუფში და 83.0% ორივეს მქონე ჯგუფში; შემოსავლის ჯგუფებით 48.0%/46.9%/75.5%/70.9%. ეს არის აღწერითი ასოციაციები და არა მიზეზობრივი ეფექტები.",
       "file": "research/preprints/NOEMA-2026-007-wrp2025-warning-action-reproduction.md",
       "status": "preliminary",
-      "version": "1.0",
+      "version": "1.1",
       "sources": [
         {
           "title": "World Risk Poll 2025, Wave 4 public data release",
@@ -902,6 +902,28 @@
           "type": "reproduction-method",
           "publication_date": "2026-10-13",
           "accessed_at": "2026-11-27"
+        },
+        {
+          "title": "From alert to agency: publisher reproduction results",
+          "authors": [
+            "Lloyd's Register Foundation"
+          ],
+          "citation": "Lloyd's Register Foundation. (2026). From alert to agency: publisher Python/R reproduction results for the 2025 Wave 4 data.",
+          "url": "https://github.com/lrfoundation/world_risk_poll_data/blob/f2b810c3c4333de6347ad2c9eade3c48ae17be4c/reports/WRP_2025/core_from_alert_to_agency/RESULTS.md",
+          "type": "publisher_reproduction_results",
+          "publication_date": "2026-10-13",
+          "accessed_at": "2026-11-28"
+        },
+        {
+          "title": "Bridging the early warning-to-action gap requires building resilience at home",
+          "authors": [
+            "United Nations Office for Disaster Risk Reduction"
+          ],
+          "citation": "UNDRR. (2026-10-13). Bridging the early warning-to-action gap requires building resilience at home.",
+          "url": "https://www.undrr.org/implementing-sendai-framework/bridging-the-early-warning-to-action-gap-requires-building-resilience-at-home",
+          "type": "official_secondary_summary",
+          "publication_date": "2026-10-13",
+          "accessed_at": "2026-11-28"
         }
       ],
       "methodology": {

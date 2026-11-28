@@ -1,0 +1,135 @@
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-007",
+  "experiment_id": "NOEMA-2026-007-WRP2026-ACTION-ENABLERS-001",
+  "evidence_status": "REPRODUCED_RESULT",
+  "source": {
+    "repository": "lrfoundation/world_risk_poll_data",
+    "commit": "f2b810c3c4333de6347ad2c9eade3c48ae17be4c",
+    "path": "WRP_2025/WRP_2025.parquet",
+    "git_blob_sha1": "3e785688e067ded5fdfbe9b50721023ecea87826",
+    "byte_length": 7070416,
+    "sha256": "07b4632826e13ec1975ec977b0e057b528547c6f7805c0838abc1586b78da56b",
+    "data_dictionary_blob_sha1": "3da85901b6875e74e599bb39f1ed92223881a539",
+    "license": "CC BY-SA 4.0",
+    "report_title": "From alert to agency: What turns warnings into action?",
+    "report_publication_date": "2026-10-13",
+    "report_doi": "10.60743/yx1k-t541",
+    "report_pdf_url": "https://www.lrfoundation.org.uk/sites/default/files/2026-10/world-risk-poll-report-2026-early-warnings.pdf",
+    "publisher_reproduction_readme_url": "https://github.com/lrfoundation/world_risk_poll_data/blob/f2b810c3c4333de6347ad2c9eade3c48ae17be4c/reports/WRP_2025/core_from_alert_to_agency/README.md",
+    "publisher_reproduction_results_url": "https://github.com/lrfoundation/world_risk_poll_data/blob/f2b810c3c4333de6347ad2c9eade3c48ae17be4c/reports/WRP_2025/core_from_alert_to_agency/RESULTS.md"
+  },
+  "variables": {
+    "weight": "PROJWT",
+    "income_group": "CountryIncomeLevel",
+    "warning_channels": [
+      "WP24181",
+      "WP24182",
+      "WP24183",
+      "WP24184",
+      "WP24185",
+      "WP24186",
+      "WP24187",
+      "WP24188"
+    ],
+    "ability_to_act": "WP24215",
+    "household_plan": "WP23345",
+    "personal_agency": "WP22252"
+  },
+  "publisher_reference": {
+    "respondents_total": 143459,
+    "countries_and_territories": 140,
+    "warning_question_base": 24249,
+    "warned_action_base": 16996,
+    "warning_receipt_pct_1dp": 80,
+    "ability_to_act_pct_1dp": 63.8,
+    "action_by_warning_channel_count": [
+      {
+        "channel_count": 1,
+        "weighted_able_pct_1dp": 37.5,
+        "published_report_pct": 37
+      },
+      {
+        "channel_count": 2,
+        "weighted_able_pct_1dp": 50.5,
+        "published_report_pct": 51
+      },
+      {
+        "channel_count": 3,
+        "weighted_able_pct_1dp": 64.2,
+        "published_report_pct": 64
+      }
+    ],
+    "action_by_plan_and_agency": [
+      {
+        "group": "neither",
+        "weighted_able_pct_1dp": 26.6,
+        "published_report_pct": 27
+      },
+      {
+        "group": "plan_only",
+        "weighted_able_pct_1dp": 49.5,
+        "published_report_pct": 50
+      },
+      {
+        "group": "agency_only",
+        "weighted_able_pct_1dp": 60,
+        "published_report_pct": 60
+      },
+      {
+        "group": "both",
+        "weighted_able_pct_1dp": 83,
+        "published_report_pct": 83
+      }
+    ],
+    "action_by_income_group": [
+      {
+        "group": "low_income",
+        "weighted_able_pct_1dp": 48,
+        "published_report_pct": 48
+      },
+      {
+        "group": "lower_middle_income",
+        "weighted_able_pct_1dp": 46.9,
+        "published_report_pct": 47
+      },
+      {
+        "group": "upper_middle_income",
+        "weighted_able_pct_1dp": 75.5,
+        "published_report_pct": 75
+      },
+      {
+        "group": "high_income",
+        "weighted_able_pct_1dp": 70.9,
+        "published_report_pct": 71
+      }
+    ]
+  },
+  "methodology": {
+    "weight": "PROJWT population-projection weight; weighted numerator divided by the full applicable subgroup denominator.",
+    "warning_base": "WP24181 is non-null; all eight channel variables are required on this base. A code 1 on any channel means warned; codes 2, 97, 98 and 99 remain in the denominator and count as no warning.",
+    "action_base": "Respondents with at least one warning; WP24215 codes 1, 2, 98 and 99 remain in the denominator. Ability to act is code 1.",
+    "channel_count": "Count of the eight channel items answered yes (code 1), among warned respondents; compare exactly one, two and three channels.",
+    "plan_and_agency": "Among warned respondents with binary yes/no answers to both WP23345 and WP22252. WP22252 code 3 (it depends), DK and refused are excluded from this grouping; WP24215 DK/refused remain in each action denominator.",
+    "income_groups": "CountryIncomeLevel codes 1-4 only; code 9 (not classified) is excluded. WP24215 DK/refused remain in each action denominator.",
+    "missingness": "The publisher reproduction uses WP24181 non-null as the asked base; all eight channel values must be present together on that base and absent outside it."
+  },
+  "interpretation": {
+    "status": "DESCRIPTIVE_ASSOCIATION_NOT_CAUSAL",
+    "statement": "Multiple warning channels and household preparedness/personal agency are associated with higher self-reported ability to act. This cross-sectional retrospective survey does not identify causal effects."
+  },
+  "privacy": {
+    "raw_microdata_committed": false,
+    "respondent_ids_committed": false,
+    "workflow_uploads_aggregate_only": true
+  },
+  "limitations": [
+    "This is an independent arithmetic reproduction of selected published aggregates from the publisher's public 2025 microdata, not an independent survey.",
+    "The survey is retrospective and self-reported; it does not verify warning timestamps, delivery, comprehension, actual protective action or avoided loss.",
+    "The channel-count and plan/agency gradients are descriptive associations, not causal effects; hazard severity, resources, exposure and other confounders may differ between groups.",
+    "No design-based confidence intervals are calculated in this reproduction; one-decimal point estimates must not be read as precise individual or country predictions.",
+    "The publisher's 2025 wave includes 143,459 respondents across 140 countries and territories; China used an opt-in web panel and should be interpreted under the publisher's methodology note.",
+    "Georgia's warning-question base is 99, below the publisher's n>=100 country-ranking threshold; no Georgia national effectiveness estimate is inferred.",
+    "The dataset is licensed CC BY-SA 4.0; only small aggregate results and attribution are stored here, not respondent-level records."
+  ]
+}
