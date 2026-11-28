@@ -499,34 +499,32 @@ jobs:
           import json
           import os
           from pathlib import Path
+          from scripts.ci_recovery import summarize_step_outcomes
 
           outcomes = json.loads(os.environ.get("STEP_OUTCOMES", "{}"))
-          rows = []
-          for step_id, details in outcomes.items():
-              if step_id == "summarize_validation_outcomes": continue
-              rows.append({"id": step_id, "outcome": details.get("outcome", "unknown")})
-          failures = [row for row in rows if row["outcome"] == "failure"]
-          skipped = [row for row in rows if row["outcome"] == "skipped"]
+          summary = summarize_step_outcomes(outcomes)
           recovery_path = Path(os.environ["RECOVERY_REPORT"])
           recovery = json.loads(recovery_path.read_text(encoding="utf-8")) if recovery_path.exists() else None
-          report = {"failed_steps": failures, "skipped_steps": skipped, "step_count": len(rows), "recovery": recovery, "policy": "Continue independent checks; never promote URLs or rewrite scientific claims/test expectations."}
+          report = {**summary, "recovery": recovery, "policy": "Every required step must finish with outcome=success; continue independent checks but never mask failure or skip."}
           output = Path(os.environ["RUNNER_TEMP"]) / "noema-ci-recovery-report.json"
           output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-          summary = Path(os.environ["GITHUB_STEP_SUMMARY"])
-          with summary.open("a", encoding="utf-8") as handle:
+          step_summary = Path(os.environ["GITHUB_STEP_SUMMARY"])
+          with step_summary.open("a", encoding="utf-8") as handle:
               handle.write("## NOEMA CI recovery report\n\n")
-              handle.write(f"- Validation steps observed: **{len(rows)}**\n")
-              handle.write(f"- Failed steps: **{len(failures)}**\n")
-              handle.write(f"- Skipped steps: **{len(skipped)}**\n")
-              if failures:
-                  handle.write("\n### Failed checks\n\n")
-                  for item in failures: handle.write(f"- `{item['id']}`\n")
+              handle.write(f"- Validation steps observed: **{summary['step_count']}**\n")
+              handle.write(f"- Failed steps: **{len(summary['failed_steps'])}**\n")
+              handle.write(f"- Skipped steps: **{len(summary['skipped_steps'])}**\n")
+              handle.write(f"- Any non-success outcome: **{len(summary['non_success_steps'])}**\n")
+              if summary['non_success_steps']:
+                  handle.write("\n### Non-success steps\n\n")
+                  for item in summary['non_success_steps']:
+                      handle.write(f"- `{item['id']}` — {item['outcome']}\n")
               if recovery:
                   handle.write(f"\n- Draft files scanned: **{recovery['draft_files_scanned']}**\n")
                   handle.write(f"- Files with safe repairs: **{len(recovery['files_with_safe_repairs'])}**\n")
                   handle.write(f"- Unsafe source-list URLs flagged: **{len(recovery['unsafe_source_urls'])}**\n")
           print(json.dumps(report, ensure_ascii=False, indent=2))
-          if failures: raise SystemExit(1)
+          if summary['non_success_steps']: raise SystemExit(1)
           PY
       - name: Upload CI recovery diagnostics
         if: always()
