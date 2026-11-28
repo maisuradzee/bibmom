@@ -132,3 +132,14 @@ Required primary evidence:
 - map/model scale, reference period, scenarios and validation report.
 
 The GEO Outlook page is recorded as a secondary project-implementer claim, including its ambiguous wording. No spatial payload, coordinates, household data, event telemetry or reuse permission was inferred.
+
+
+## Run 44 — primary-source chronology update (2026-11-28)
+
+The new chronology record at `data/noema-007/georgia-seven-basin-chronology-2026-11-28.json` adds NEA's 2025-10-06 notice and re-contextualizes the already recorded 2026-04-02 and 2026-11-25 notices.
+
+- 2025-10-06: the Agency said plans discussed at that meeting had been prepared in the preceding year for Supsa, Natanebi, Kintrishi and Khobistskali; similar plans for the remaining seven were planned by 2026.
+- 2026-04-02: the Agency said risk-assessment validation process/results for seven basins were presented to stakeholders, with community engagement intended to refine risk identification. The notice does not name the seven basins.
+- 2026-11-25: the Agency described consultation on preparation of plans for seven named basins.
+
+This is a stage chronology, not evidence that all seven final plans were approved. Signed plans, decisions, authoritative versions and map/model validation remain missing. The GEO Outlook statement remains secondary and internally ambiguous.

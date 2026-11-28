@@ -71,6 +71,9 @@ jobs:
           test -f data/noema-007/georgia-natural-hazard-mapping-zoning-meeting-2026-10-26.json
           test -f data/noema-007/georgia-natural-hazard-mapping-zoning-meeting-2026-10-26.schema.json
           test -f tests/test_noema007_hazard_mapping_zoning_signal.py
+          test -f data/noema-007/georgia-seven-basin-chronology-2026-11-28.json
+          test -f data/noema-007/georgia-seven-basin-chronology-2026-11-28.schema.json
+          test -f tests/test_noema007_georgia_basin_chronology.py
           test -f data/noema-007/wrp2025-reproduction-protocol.json
           test -f data/noema-007/wrp2025-reproduction-protocol.schema.json
           test -f data/noema-007/wrp2025-independent-reproduction-2026-11-27.json

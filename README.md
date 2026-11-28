@@ -174,3 +174,8 @@ The WHO's fourth edition incorporating the third addendum is the current interna
 - A combined WHO nitrate/nitrite ratio is not calculated without paired same-sample, same-time, same-matrix measurements and compatible ion reporting bases. WHO guidance remains distinct from Georgian Decree №58/2014.
 
 - [AquaSignal — NEA 2021–2025 groundwater report procurement access lead](research/drafts/NOEMA-2026-006-nea-procurement-access-lead-2026-11-27.md) — official 26.11.2026 report-prepared announcement plus contract T-100801; final PDF/CD, acceptance status, archive checksum and reuse terms remain unverified.
+
+
+## NOEMA-007 — Georgia multi-hazard basin-plan chronology (2025–2026)
+
+The National Environmental Agency's notices describe distinct stages: four plans discussed as prepared in October 2025; presentation of risk-assessment validation process/results for seven basins in April 2026; and consultation on preparing plans for seven named basins in November 2026. These records do not establish formal approval, publication or implementation of all seven plans. The chronology and its evidence boundaries are recorded in [the Run 44 research note](research/drafts/NOEMA-2026-007-georgia-basin-program-chronology-2026-11-28.md) and [structured source record](data/noema-007/georgia-seven-basin-chronology-2026-11-28.json).
