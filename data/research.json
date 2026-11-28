@@ -1180,7 +1180,7 @@
       "title": "AquaSignal — მიწისქვეშა წყლების ნიტრატის ზონების სამართლებრივი მტკიცებულებების crosswalk",
       "date": "2026-11-28",
       "category": "წყლის რესურსები / სამართლებრივი მტკიცებულებების მიკვლევადობა",
-      "summary": "2024 NEAP-4 აქტივობა 5.1.8 ანგარიშში 100%-ით განხორციელებულად არის აღწერილი; 2026 წლის კანონი №1766-Vმს-XIმპ ცალკე ადგენს 2027-09-01 ვადას მიწისქვეშა წყლების ნიტრატის ზონებისთვის. 2026-11-26 NEA-ის განცხადება ადასტურებს ანგარიშისა და საველე მეთოდოლოგიის მომზადებას, მაგრამ RAR ბაიტები ამ გაშვებაში ვერ იქნა მიღებული. ჩანაწერები ერთსა და იმავე ფართო თემას ეხება, თუმცა მათი სამართლებრივი/გეოგრაფიული deliverable-ების იდენტურობა დადგენილი არ არის. შეიქმნა metadata-only gate, რომელიც compliance-ს არ ადგენს.",
+      "summary": "2024 NEAP-4 აქტივობა 5.1.8 ანგარიშში 100%-ით განხორციელებულად არის აღწერილი; 2026 წლის კანონი №1766-Vმს-XIმპ ცალკე ადგენს 2027-09-01 ვადას მიწისქვეშა წყლების ნიტრატის ზონებისთვის. 2026-11-26 NEA-ის განცხადება ადასტურებს ანგარიშისა და საველე მეთოდოლოგიის მომზადებას, მაგრამ RAR ბაიტები ამ გაშვებაში ვერ იქნა მიღებული. ჩანაწერები ერთსა და იმავე ფართო თემას ეხება, თუმცა მათი სამართლებრივი/გეოგრაფიული deliverable-ების იდენტურობა დადგენილი არ არის. შეიქმნა metadata-only gate, რომელიც compliance-ს არ ადგენს. დამატებით, ოფიციალური ხელშეკრულება №T-100801 განსაზღვრავს საბოლოო ინტერაქტიული PDF-ის, 50 ბეჭდური ანგარიშისა და 50 CD-ის მიწოდებას და მიღება-ჩაბარების აქტს; ფაქტობრივი მიღება ამ გაშვებაში არ გადამოწმებულა.",
       "file": "research/preprints/NOEMA-2026-012-georgia-groundwater-nitrate-obligation-crosswalk.md",
       "status": "preliminary",
       "version": "0.1",
@@ -1227,6 +1227,18 @@
           "url": "https://mepa.gov.ge/ge/Files/ViewFile/53998",
           "type": "primary_government_monitoring_report",
           "publication_date": "2024-02-29",
+          "accessed_at": "2026-11-28"
+        },
+        {
+          "title": "NEA groundwater report and nitrate field-methodology printing contract T-100801",
+          "authors": [
+            "National Environmental Agency of Georgia",
+            "State Procurement Agency of Georgia"
+          ],
+          "citation": "Public procurement contract T-100801, signed 2026-10-09, clauses 2, 7–8 and Annex 2; 20-calendar-day delivery term and acceptance-act requirement.",
+          "url": "https://tenders.procurement.gov.ge/public/library/files.php?file=677451&mode=contract",
+          "type": "primary_public_procurement_contract",
+          "publication_date": "2026-10-09",
           "accessed_at": "2026-11-28"
         }
       ],

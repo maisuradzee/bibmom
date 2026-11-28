@@ -12,7 +12,8 @@
     "current_statutory_obligation",
     "nea_announcement",
     "crosswalk",
-    "limitations"
+    "limitations",
+    "procurement_contract"
   ],
   "properties": {
     "schema_version": {
@@ -202,6 +203,57 @@
       "items": {
         "type": "string",
         "minLength": 10
+      }
+    },
+    "procurement_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_id",
+        "signed_on",
+        "delivery_due",
+        "contract_term_end",
+        "deliverables",
+        "acceptance_act_required",
+        "acceptance_verified",
+        "source_url",
+        "interpretation"
+      ],
+      "properties": {
+        "contract_id": {
+          "const": "T-100801"
+        },
+        "signed_on": {
+          "const": "2026-10-09"
+        },
+        "delivery_due": {
+          "const": "2026-10-29"
+        },
+        "contract_term_end": {
+          "const": "2026-12-31"
+        },
+        "deliverables": {
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "type": "string",
+            "minLength": 10
+          }
+        },
+        "acceptance_act_required": {
+          "const": true
+        },
+        "acceptance_verified": {
+          "const": false
+        },
+        "source_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "interpretation": {
+          "type": "string",
+          "minLength": 40
+        }
       }
     }
   }

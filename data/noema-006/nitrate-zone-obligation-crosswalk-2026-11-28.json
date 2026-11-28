@@ -50,5 +50,21 @@
     "The NEA announcement links to a RAR archive, but the archive bytes were not retrieved in this run and no SHA-256 is claimed.",
     "The 2024 NEAP-4 report is a primary government progress report; its activity-level completion statement does not itself expose the underlying maps or prove identity with the 2026 statutory task.",
     "No independent Georgian legal review, groundwater dataset, final zone map or formal 2026-2027 designation instrument was obtained."
-  ]
+  ],
+  "procurement_contract": {
+    "contract_id": "T-100801",
+    "signed_on": "2026-10-09",
+    "delivery_due": "2026-10-29",
+    "contract_term_end": "2026-12-31",
+    "deliverables": [
+      "50 printed copies of the 2021-2025 groundwater report (approximately 290 pages, including two A3 maps)",
+      "Final report PDF with interactive table of contents",
+      "50 CD copies containing information supplied by the contracting authority",
+      "70 printed copies of the nitrate-risk field methodology booklet"
+    ],
+    "acceptance_act_required": true,
+    "acceptance_verified": false,
+    "source_url": "https://tenders.procurement.gov.ge/public/library/files.php?file=677451&mode=contract",
+    "interpretation": "The primary procurement contract establishes a production/delivery route and requires an acceptance act; it does not prove that delivery or acceptance occurred. The report text/maps are supplied by the contracting authority, while the supplier's scope includes layout/printing/media production. No supplier personal, banking or tax details are reproduced."
+  }
 }
