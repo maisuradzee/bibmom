@@ -685,3 +685,11 @@ Main remains at `726c71c9ef1a4e1c00dbc4a44b950e4b371c02f0`. Main Quality CI [460
 - The source-status difference is recorded as UNRESOLVED_SOURCE_STATUS. Draft development, consultation/validation, formal approval, publication and implementation are separate states. No 7/11 coverage percentage is calculated.
 - The 10-record official spatial-data catalogue remains metadata-only: public/free does not prove direct feature download, an open reuse licence, current model validity or operational forecast capability. No feature payload, station coordinates or household data was added.
 - Next: obtain signed/approved plans and official decisions for each basin; compare map/model scale, reference period, scenario assumptions and validation; obtain authorised privacy-reviewed warning/after-action aggregates.
+
+
+## Run 43 — INFRA-001 citation-safe CI recovery (2026-11-28)
+
+- Review found that the older CI recovery draft could promote arbitrary narrative/next-step URLs into a Sources section, risking false citation provenance. PRs #234 and #241 were closed without merge as superseded.
+- Current-Main replacement branch implements only bounded date/status/heading normalization. It never copies or invents URLs; it audits only explicit source-list bullet entries and reports path/line/reason without echoing URL values.
+- Independent validation steps use continue-on-error, followed by a final aggregate gate that fails on any required failure. Recovery patches remain runner artifacts and are never pushed automatically.
+- The URL check is syntactic only: no DNS resolution, live fetch, publisher authentication, complete secret scanning or SSRF protection. PR #244 remains Draft pending independent security review.
