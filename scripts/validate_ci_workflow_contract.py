@@ -18,8 +18,8 @@ def _step_blocks(workflow_text: str) -> list[tuple[str | None, str]]:
     blocks = []
     for position, start in enumerate(starts):
         end = starts[position + 1] if position + 1 < len(starts) else len(lines)
-        block = "\\n".join(lines[start:end])
-        match = re.search(r"^\\s+id:\\s*([A-Za-z0-9_-]+)\\s*$", block, re.MULTILINE)
+        block = "\n".join(lines[start:end])
+        match = re.search(r"^\s+id:\s*([A-Za-z0-9_-]+)\s*$", block, re.MULTILINE)
         blocks.append((match.group(1) if match else None, block))
     return blocks
 
@@ -64,13 +64,14 @@ def validate_workflow_contract(root: Path = ROOT) -> list[str]:
 
     summary = by_id.get(SUMMARY_ID, "")
     upload = by_id.get(UPLOAD_ID, "")
-    if "if: always()" not in summary or "continue-on-error: true" in summary:
+    if SUMMARY_ID not in by_id or "if: always()" not in summary or "continue-on-error: true" in summary:
         errors.append("summary_gate_must_run_always_and_fail_job")
-    if "if: always()" not in upload:
+    if UPLOAD_ID not in by_id or "if: always()" not in upload:
         errors.append("diagnostic_upload_must_run_always")
-    if ids.index(SUMMARY_ID) <= max(ids.index(step_id) for step_id in required if step_id in ids):
-        errors.append("summary_gate_not_after_all_required_steps")
-    if ids.index(UPLOAD_ID) <= ids.index(SUMMARY_ID):
+    if SUMMARY_ID in ids and all(step_id in ids for step_id in required):
+        if ids.index(SUMMARY_ID) <= max(ids.index(step_id) for step_id in required):
+            errors.append("summary_gate_not_after_all_required_steps")
+    if SUMMARY_ID in ids and UPLOAD_ID in ids and ids.index(UPLOAD_ID) <= ids.index(SUMMARY_ID):
         errors.append("diagnostic_upload_not_after_summary")
     return errors
 
@@ -82,7 +83,7 @@ def main() -> int:
     args = parser.parse_args()
     errors = validate_workflow_contract(args.root)
     if errors:
-        raise SystemExit("\\n".join(errors))
+        raise SystemExit("\n".join(errors))
     print("NOEMA CI workflow required-step contract OK")
     return 0
 
