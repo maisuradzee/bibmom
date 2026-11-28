@@ -70,7 +70,7 @@ class Noema005ArtifactVerifierTests(unittest.TestCase):
                 "runtime_mode": "free-threaded",
                 "accuracy": {"naive_scalar": "0/3", "neumaier_scalar": "2/3", "neumaier_state": "3/3"},
                 "cpu_wall_samples_above_1_05": {"naive_scalar": "1/3", "neumaier_scalar": "1/3", "neumaier_state": "1/3"},
-                "median_speedup_by_method": {"naive_scalar": 0.5, "neumaier_scalar": 0.8, "neumaier_state": 0.9},
+                "median_speedup_by_method": {"naive_scalar": 0.5, "neumaier_scalar": 0.8, "neumaier_state": 100 / 111},
                 "artifact": artifact,
             }],
             "aggregate": {
