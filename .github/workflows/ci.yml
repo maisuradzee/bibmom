@@ -37,6 +37,7 @@ jobs:
           test -f research/preprints/NOEMA-2026-010-run51-local-openmp-compensated-reduction.md
           test -f tests/test_noema005_run51_local_openmp.py
           test -f docs/run-audits/2026-11-28-run-51-noema005.md
+          test -f docs/run-audits/2026-11-28-run-54.md
           test -f data/noema-005/threaded-artifact-provenance-audit-2026-11-26.json
           test -f research/drafts/NOEMA-2026-005-thread-artifact-provenance-audit-2026-11-26.md
           test -f tests/test_noema005_thread_artifact_audit.py
