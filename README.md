@@ -57,6 +57,7 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - `docs/AQUASIGNAL_MVP.md` — წყლის ხარისხის ოპერატორული ადრეული სიგნალის პროტოტიპის არქიტექტურა.
 - `docs/AQUASIGNAL_EVENT_STORE.md` — ინციდენტების კერძო, append-only SQLite event store-ის უსაფრთხოების საზღვრები და აღდგენის შეზღუდვები.
 - `docs/OFFSITE_BACKUP_ARCHITECTURE.md` — off-host backup/recovery არქიტექტურა; local detached Ed25519 manifest verification უკვე პროტოტიპად არსებობს, მაგრამ encryption/decryption, provider retention, anti-rollback high-water და clean-host restore ჯერ არ არის დანერგილი; `data/noema-backup-manifest.schema.json` განსაზღვრავს მკაცრ, საიდუმლო მასალის არმქონე metadata contract-ს.
+- `docs/architecture/infra001-independent-trust-domain-and-clean-host-recovery.md` — Run 59-ის უსაფრთხო, vendor-neutral data/control/recovery plane დიზაინი; მხოლოდ არქიტექტურული წინადადებაა და დამოუკიდებელ უსაფრთხოების რეცენზიამდე წარმოებაში არ ინერგება.
 - `noema_core/nitrate_nitrite.py` — Decimal-based nitrite basis conversion and a WHO-only combined nitrate/nitrite ratio requiring one same-sample drinking-water record; it does not decide Georgian legal compliance.
 - `noema_core/nitrate_benchmarks.py` — source-provenance-aware nitrate reference comparison; rejects matrix/basis mismatches and never decides legal compliance or potability.
 - `noema_core/aquasignal_groundwater.py` — metadata-only Decree №447 Article 7(1)-(2) readiness gate: uses hydrogeological-unit scope before groundwater-body designation and never assigns good/poor status; caller attestations are not cryptographic verification.

@@ -1371,3 +1371,12 @@ No fifth stream was added. Four catalogue entries remain Preliminary; zero are P
 - Process peak RSS was 281,984/282,112 KiB including the 288 MB input array; no per-method RSS/native-allocation attribution. No bare-metal or ARM64 replication.
 - Raw JSONL, compressed/base64 artifact, source/raw/gzip hashes, closed schema, offline verifier and mutation tests are added under NOEMA-005 Run 59. Research remains Preliminary pending physical x86-64/ARM64 replication and independent numerical-method review.
 - Portfolio remains four active streams. AquaSignal's NEA 2021–2025 RAR remains linked but uninspected; NOEMA-007 still lacks authorised Georgian warning-event data; INFRA-001 still needs independent security review and an external trust anchor.
+
+
+## Run 59 — INFRA-001 independent trust-domain architecture (2026-11-28)
+
+- Added `docs/architecture/infra001-independent-trust-domain-and-clean-host-recovery.md`, a public design-only proposal separating immutable backup data, an independently administered signed monotonic checkpoint, and clean-host recovery.
+- The design rejects same-host SQLite/high-water state and same-UID 0700/0600 staging as independent trust boundaries; defines role separation, canonical checkpoint fields, anti-rollback and fail-closed restore gates, and pre-implementation acceptance criteria.
+- Sources reviewed: NIST SP 800-34 Rev. 1; NIST SP 800-57 Part 1 Rev. 5 final; Rev. 6 Initial Public Draft (not final guidance); CISA 2025 StopRansomware Guide; CISA/FBI/HHS AA20-302A.
+- Design only. No private archive, production backup, provider, signing/encryption key, external high-water service or clean-host restore exists. Independent security review, recovery-owner assignment and owner-approved RPO/RTO/retention remain blockers.
+- No secrets, credentials, personal data, production endpoint or private backup bytes are added; no Supabase project or other project's database is used.
