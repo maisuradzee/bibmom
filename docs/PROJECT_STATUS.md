@@ -2,7 +2,8 @@
 
 - **განახლდა:** 2026-11-28 (Run 44 post-merge verification — Georgia seven-basin chronology).
 - **საცავი:** https://github.com/maisuradzee/bibmom
-- **მიმდინარე Main SHA:** `218021f38ed8bf3732b449fcdfea2cbbb821e96a` (PR #247 merged).
+- **Run 44 research merge commit:** `218021f38ed8bf3732b449fcdfea2cbbb821e96a` (PR #247 merged).
+- **PR #248 status-sync commit:** `cc63c75660096b70cb3f277c5c01b6b55a7200d7`; exact Main Quality CI [46092850682](https://github.com/maisuradzee/bibmom/actions/runs/46092850682) and Pages build/deploy [46092850684](https://github.com/maisuradzee/bibmom/actions/runs/46092850684) both SUCCESS on that SHA.
 - **Main Quality CI:** [46092675339](https://github.com/maisuradzee/bibmom/actions/runs/46092675339) — SUCCESS; 712 Python tests, schemas, frozen-result reproduction, site build and publication-boundary checks passed on the exact Main SHA.
 - **GitHub Pages:** [46092675352](https://github.com/maisuradzee/bibmom/actions/runs/46092675352) — build and deploy jobs SUCCESS for the exact Main SHA; deployment URL https://maisuradzee.github.io/bibmom/.
 - **PR #247:** merged as `218021f38ed8bf3732b449fcdfea2cbbb821e96a`; exact-head Quality CI runs [46092514227](https://github.com/maisuradzee/bibmom/actions/runs/46092514227) (push) and [46092518104](https://github.com/maisuradzee/bibmom/actions/runs/46092518104) (pull_request) both SUCCESS.
@@ -717,3 +718,11 @@ Main remains at `726c71c9ef1a4e1c00dbc4a44b950e4b371c02f0`. Main Quality CI [460
 - Exact Main Pages workflow [46092675352](https://github.com/maisuradzee/bibmom/actions/runs/46092675352) completed both build and deploy jobs successfully. Deployment URL: https://maisuradzee.github.io/bibmom/.
 - Public catalogue remains 3 Preliminary / 0 Published. The new Georgia seven-basin chronology is a draft evidence note and does not claim formal approval, public map publication or operational warning performance.
 - PR #246 remains unmerged pending the two security fixes and independent review; its base is stale after the Main update.
+
+
+## Run 44 final status-sync verification (2026-11-28)
+
+- Documentation-only PR #248 merged as `cc63c75660096b70cb3f277c5c01b6b55a7200d7`.
+- Main Quality CI [46092850682](https://github.com/maisuradzee/bibmom/actions/runs/46092850682) succeeded on that exact SHA: 712 Python tests, all schema/frozen-result/site/publication-boundary checks passed.
+- Pages build/deploy [46092850684](https://github.com/maisuradzee/bibmom/actions/runs/46092850684) succeeded on the same SHA; the published site is https://maisuradzee.github.io/bibmom/.
+- This entry records the verified Run 44 snapshot; later Main commits may advance independently.
