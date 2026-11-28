@@ -726,3 +726,14 @@ Main remains at `726c71c9ef1a4e1c00dbc4a44b950e4b371c02f0`. Main Quality CI [460
 - Main Quality CI [46092850682](https://github.com/maisuradzee/bibmom/actions/runs/46092850682) succeeded on that exact SHA: 712 Python tests, all schema/frozen-result/site/publication-boundary checks passed.
 - Pages build/deploy [46092850684](https://github.com/maisuradzee/bibmom/actions/runs/46092850684) succeeded on the same SHA; the published site is https://maisuradzee.github.io/bibmom/.
 - This entry records the verified Run 44 snapshot; later Main commits may advance independently.
+
+
+## Run 45 — CI recovery required-step gate and source URL bounds (2026-11-28)
+
+- **Main base:** `f5a7d57d70705f2378a78e76e23013e6fb112835`.
+- **Engineering branch:** `engineering/ci-recovery-required-step-gate-2026-11-28`; implementation is proposed and not merged.
+- **INFRA-001 deep work:** added a required-step ID manifest, a workflow/manifest contract validator and a final aggregate gate. The gate treats missing, failed, skipped, cancelled and unknown outcomes as non-success; checkout/dependency installation remain prerequisites.
+- **Citation provenance:** draft recovery no longer promotes arbitrary narrative URLs into Sources. It inspects only explicit Sources-section URLs, requires HTTPS, rejects user-info/private hosts/invalid ports/credential-like parameters and bounds URL length plus query/fragment fields. Diagnostics do not echo URL values.
+- **Tests:** added regression tests for missing-step detection, continue-on-error contract, URL length/field bounds, encoded credentials, private hosts and no URL promotion. Exact-head CI has not yet completed; test count is not claimed.
+- **Safety/limitations:** URL validation does not fetch or authenticate publishers and is not SSRF protection. Recovery modifies only the CI runner workspace; it does not push repaired drafts. Independent security review remains required before merge.
+- **Next:** verify exact-head Quality CI, inspect the recovery artifact for redaction and ask for an independent security review; only then consider refreshing/merging the PR.
