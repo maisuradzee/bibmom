@@ -94,6 +94,7 @@ jobs:
           test -f .github/workflows/aquasignal-wrp2025-water-harm.yml
           test -f tests/test_noema006_source_access_inventory.py
           test -f docs/run-audits/2026-11-28-run-46-aquasignal-access-provenance.md
+          test -f docs/run-audits/2026-11-28-run-46-infra-ci-recovery-review.md
           test -f data/noema-006/georgia-water-monitoring-plan-2026-09-15.json
           test -f data/noema-006/georgia-water-monitoring-plan-2026-09-15.schema.json
           test -f data/noema-006/nitrate-unit-basis-crosswalk-2026-11-28.json

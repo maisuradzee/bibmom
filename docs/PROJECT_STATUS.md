@@ -1,11 +1,11 @@
 # NOEMA — მიმდინარე პროექტის მდგომარეობა
 
-- **განახლდა:** 2026-11-28 (Run 46 — AquaSignal report-link provenance; NOEMA-005 artifact verification merged).
+- **განახლდა:** 2026-11-28 (Run 46 final — AquaSignal provenance, NOEMA-005 artifact verification and INFRA CI-contract review).
 - **საცავი:** https://github.com/maisuradzee/bibmom
 - **Run 44 research merge commit:** `218021f38ed8bf3732b449fcdfea2cbbb821e96a` (PR #247 merged).
 - **PR #248 status-sync commit:** `cc63c75660096b70cb3f277c5c01b6b55a7200d7`; exact Main Quality CI [46092850682](https://github.com/maisuradzee/bibmom/actions/runs/46092850682) and Pages build/deploy [46092850684](https://github.com/maisuradzee/bibmom/actions/runs/46092850684) both SUCCESS on that SHA.
-- **Current Main SHA:** `0d24667727a8eb90bf420e6c3dc44e4f5185d6d1` (PR #254 merged). Main Quality CI [46100400210](https://github.com/maisuradzee/bibmom/actions/runs/46100400210) — SUCCESS on this exact SHA.
-- **GitHub Pages:** [46100400232](https://github.com/maisuradzee/bibmom/actions/runs/46100400232) — build and deploy SUCCESS for Main SHA `0d24667727a8eb90bf420e6c3dc44e4f5185d6d1`; deployment URL https://maisuradzee.github.io/bibmom/.
+- **Current Main SHA:** `66bd3bf52c42715039798ff4c82649f859c414bc` (PR #255 merged). Main Quality CI [46100659685](https://github.com/maisuradzee/bibmom/actions/runs/46100659685) — SUCCESS on this exact SHA.
+- **GitHub Pages:** [46100659708](https://github.com/maisuradzee/bibmom/actions/runs/46100659708) — build and deploy SUCCESS for Main SHA `66bd3bf52c42715039798ff4c82649f859c414bc`; deployment URL https://maisuradzee.github.io/bibmom/.
 - **PR #247:** merged as `218021f38ed8bf3732b449fcdfea2cbbb821e96a`; exact-head Quality CI runs [46092514227](https://github.com/maisuradzee/bibmom/actions/runs/46092514227) (push) and [46092518104](https://github.com/maisuradzee/bibmom/actions/runs/46092518104) (pull_request) both SUCCESS.
 - **INFRA-001 PR #252:** remains Draft and unmerged. Follow-up exact-head Quality CI [46100377784](https://github.com/maisuradzee/bibmom/actions/runs/46100377784) succeeded after pinning the summary command, required-step manifest, STEP_OUTCOMES input and diagnostic upload contract. It is still behind Main/mergeable=false; independent security review is still required. Older open drafts #246/#251 remain unmerged; PR #252 is the current fail-closed follow-up proposal. None of these drafts was merged.
 - **აქტიური პორტფელი:** ოთხივე ნაკადი აქტიურია — AquaSignal, NOEMA-005, NOEMA-007 და INFRA-001.
@@ -778,4 +778,19 @@ Main remains at `726c71c9ef1a4e1c00dbc4a44b950e4b371c02f0`. Main Quality CI [460
 - A retrieval limitation in this execution environment is recorded narrowly; it does not establish that the official server is generally unavailable.
 - No raw water observations, owner identifiers, coordinates or restricted data were imported.
 
-- **PR #255 — AquaSignal source provenance:** open; exact head `c1e126581654fe10452b6c1e8f9502af252c8b9b`; Quality CI [46100514618](https://github.com/maisuradzee/bibmom/actions/runs/46100514618) is running; not merged.
+- **PR #255 — AquaSignal source provenance:** merged as `66bd3bf52c42715039798ff4c82649f859c414bc`; exact-head push CI [46100599299](https://github.com/maisuradzee/bibmom/actions/runs/46100599299) and pull-request CI [46100604299](https://github.com/maisuradzee/bibmom/actions/runs/46100604299) both SUCCESS; Main Quality CI and Pages deployment also SUCCESS on the merge SHA.
+
+
+## Run 46 — INFRA-001 fail-closed CI recovery contract review (2026-11-28)
+
+- **Current proposal:** PR #252, branch `engineering/ci-recovery-required-step-gate-run45-2026-11-28`, remains Draft and unmerged. Its base is `d4ea596120eaca7254052169bc90b532d8210f46`, older than current Main `66bd3bf52c42715039798ff4c82649f859c414bc`; GitHub reports mergeable=false.
+- **Finding:** the first workflow-contract validator checked that the final summary step existed and ran always, but did not pin its command or the `STEP_OUTCOMES` environment input. A successful no-op could therefore defeat the intended fail-closed gate while independent checks continued after errors.
+- **Fix on PR #252 branch:** require the exact summary command, versioned required-step manifest, `STEP_OUTCOMES`, recovery preflight/report paths and diagnostic upload action/paths; add negative tests for no-op summary, missing input and replaced upload action.
+- **Validation:** exact-head Quality CI [46100377784](https://github.com/maisuradzee/bibmom/actions/runs/46100377784) SUCCESS. A review comment records the remaining requirements: refresh from current Main and obtain independent security review.
+- **Limitations:** this is workflow-contract hardening, not proof of production backup encryption, external rollback protection, key custody or clean-host recovery. PR #252 is not merged.
+
+## Run 46 — final Main/deployment state (2026-11-28)
+
+- PR #254 merged as Main commit `0d24667727a8eb90bf420e6c3dc44e4f5185d6d1`; exact-head CI [46100302948](https://github.com/maisuradzee/bibmom/actions/runs/46100302948) SUCCESS; Main Quality CI [46100400210](https://github.com/maisuradzee/bibmom/actions/runs/46100400210) and Pages deployment [46100400232](https://github.com/maisuradzee/bibmom/actions/runs/46100400232) SUCCESS.
+- PR #255 merged as Main commit `66bd3bf52c42715039798ff4c82649f859c414bc`; exact-head push CI [46100599299](https://github.com/maisuradzee/bibmom/actions/runs/46100599299) and PR CI [46100604299](https://github.com/maisuradzee/bibmom/actions/runs/46100604299) SUCCESS; Main Quality CI [46100659685](https://github.com/maisuradzee/bibmom/actions/runs/46100659685) and Pages deployment [46100659708](https://github.com/maisuradzee/bibmom/actions/runs/46100659708) SUCCESS.
+- Research catalogue remains 3 Preliminary / 0 Published; all four portfolio streams remain active. No independent external review is claimed.
