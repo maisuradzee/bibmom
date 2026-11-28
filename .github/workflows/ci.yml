@@ -80,6 +80,12 @@ jobs:
           test -f data/noema-007/wrp2025-independent-reproduction.schema.json
           test -f scripts/reproduce_noema007_wrp2025.py
           test -f tests/test_noema007_wrp2025_reproduction.py
+          test -f data/noema-007/wrp2026-action-enablers-protocol.json
+          test -f data/noema-007/wrp2026-action-enablers-protocol.schema.json
+          test -f data/noema-007/wrp2026-action-enablers-result-2026-11-28.json
+          test -f data/noema-007/wrp2026-action-enablers-result.schema.json
+          test -f scripts/reproduce_noema007_wrp2026_action_enablers.py
+          test -f tests/test_noema007_wrp2026_action_enablers.py
           test -f .github/workflows/noema007-wrp2025-reproduction.yml
           test -f research/preprints/NOEMA-2026-007-wrp2025-warning-action-reproduction.md
           test -f data/noema-006/source-access-inventory.schema.json
@@ -215,6 +221,8 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_noema007_action_readiness.py' -v
       - name: Validate NOEMA-007 WRP 2025 reproduction protocol and frozen aggregate
         run: python -m unittest discover -s tests -p 'test_noema007_wrp2025_reproduction.py' -v
+      - name: Validate NOEMA-007 WRP 2026 action-enabler protocol and frozen aggregate
+        run: python -m unittest discover -s tests -p 'test_noema007_wrp2026_action_enablers.py' -v
       - name: Validate NOEMA mission and autonomy policy
         run: python scripts/validate_mission.py
       - name: Validate durable job queue

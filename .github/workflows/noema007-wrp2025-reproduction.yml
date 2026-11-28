@@ -1,4 +1,4 @@
-name: NOEMA-007 WRP 2025 independent reproduction
+name: NOEMA-007 WRP 2025 warning-to-action and action-enablers reproduction
 
 on:
   pull_request:
@@ -6,6 +6,12 @@ on:
     paths:
       - scripts/reproduce_noema007_wrp2025.py
       - tests/test_noema007_wrp2025_reproduction.py
+      - scripts/reproduce_noema007_wrp2026_action_enablers.py
+      - tests/test_noema007_wrp2026_action_enablers.py
+      - data/noema-007/wrp2026-action-enablers-protocol.json
+      - data/noema-007/wrp2026-action-enablers-protocol.schema.json
+      - data/noema-007/wrp2026-action-enablers-result-2026-11-28.json
+      - data/noema-007/wrp2026-action-enablers-result.schema.json
       - data/noema-007/wrp2025-reproduction-protocol.json
       - data/noema-007/wrp2025-reproduction-protocol.schema.json
       - .github/workflows/noema007-wrp2025-reproduction.yml
@@ -47,5 +53,16 @@ jobs:
         with:
           name: noema007-wrp2025-aggregate-only
           path: ${{ runner.temp }}/noema007-wrp2025-aggregate.json
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Independently reproduce WRP 2026 action-enabler aggregates
+        run: python scripts/reproduce_noema007_wrp2026_action_enablers.py --input "$RUNNER_TEMP/WRP_2025.parquet" --expected-result data/noema-007/wrp2026-action-enablers-result-2026-11-28.json --output "$RUNNER_TEMP/noema007-wrp2026-action-enablers.json"
+
+      - name: Upload action-enablers aggregate-only result
+        uses: actions/upload-artifact@v7
+        with:
+          name: noema007-wrp2026-action-enablers-aggregate-only
+          path: ${{ runner.temp }}/noema007-wrp2026-action-enablers.json
           if-no-files-found: error
           retention-days: 30
