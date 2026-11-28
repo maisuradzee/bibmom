@@ -1,0 +1,424 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NOEMA AquaSignal Decree 424 well-registry scope and privacy-safe metadata",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "study_id",
+    "record_id",
+    "status",
+    "evidence_status",
+    "source",
+    "scope",
+    "obligations",
+    "annex_data_categories",
+    "sampling",
+    "privacy",
+    "architecture_recommendations",
+    "claims",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "study_id": {
+      "const": "NOEMA-2026-006"
+    },
+    "record_id": {
+      "const": "NOEMA-2026-006-DECREE424-001"
+    },
+    "status": {
+      "const": "draft"
+    },
+    "evidence_status": {
+      "const": "FACT_INFERENCE_UNTESTED_IDEA"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "authority",
+        "document_number",
+        "adopted_date",
+        "effective_date",
+        "url",
+        "source_type",
+        "accessed_at"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 40
+        },
+        "authority": {
+          "const": "საქართველოს მთავრობა"
+        },
+        "document_number": {
+          "const": "424"
+        },
+        "adopted_date": {
+          "const": "2026-08-31"
+        },
+        "effective_date": {
+          "const": "2026-09-01"
+        },
+        "url": {
+          "const": "https://matsne.gov.ge/ka/document/view/6991245"
+        },
+        "source_type": {
+          "const": "primary_legislation"
+        },
+        "accessed_at": {
+          "const": "2026-11-28"
+        }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "purpose",
+        "minimum_depth_m",
+        "depth_operator",
+        "effective_from",
+        "applies_to_wells_drilled_on_or_after_effective_date",
+        "included_outcomes",
+        "exclusions",
+        "household_plot_exemption_found_in_article_2",
+        "household_exemption_review_scope"
+      ],
+      "properties": {
+        "purpose": {
+          "type": "string",
+          "minLength": 20
+        },
+        "minimum_depth_m": {
+          "const": 20
+        },
+        "depth_operator": {
+          "const": "greater_than"
+        },
+        "effective_from": {
+          "const": "2026-09-01"
+        },
+        "applies_to_wells_drilled_on_or_after_effective_date": {
+          "const": true
+        },
+        "included_outcomes": {
+          "const": [
+            "expected_quantity_and_quality_obtained",
+            "expected_quantity_or_quality_not_obtained",
+            "no_groundwater_obtained"
+          ]
+        },
+        "exclusions": {
+          "const": [
+            "mineral_groundwater",
+            "thermal_groundwater",
+            "therapeutic_balneological_groundwater",
+            "fresh_drinking_groundwater_wells_drilled_before_effective_date"
+          ]
+        },
+        "household_plot_exemption_found_in_article_2": {
+          "const": false
+        },
+        "household_exemption_review_scope": {
+          "type": "string",
+          "minLength": 40
+        }
+      }
+    },
+    "obligations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "driller_submission_deadline_working_days",
+        "driller_deadline_trigger",
+        "nea_notice_deadline_working_days",
+        "nea_deadline_trigger",
+        "submission_formats",
+        "driller_responsible_for_information_except_owner_personal_data",
+        "owner_confirms_personal_data_accuracy",
+        "owner_consent_to_share_personal_and_well_technical_information_with_nea",
+        "nea_may_verify_or_clarify_submitted_information",
+        "nea_may_conduct_hydrogeological_monitoring_and_sampling_as_needed"
+      ],
+      "properties": {
+        "driller_submission_deadline_working_days": {
+          "const": 15
+        },
+        "driller_deadline_trigger": {
+          "const": "completion_of_drilling"
+        },
+        "nea_notice_deadline_working_days": {
+          "const": 10
+        },
+        "nea_deadline_trigger": {
+          "const": "receipt_of_annex_information"
+        },
+        "submission_formats": {
+          "const": [
+            "paper",
+            "electronic"
+          ]
+        },
+        "driller_responsible_for_information_except_owner_personal_data": {
+          "const": true
+        },
+        "owner_confirms_personal_data_accuracy": {
+          "const": true
+        },
+        "owner_consent_to_share_personal_and_well_technical_information_with_nea": {
+          "const": true
+        },
+        "nea_may_verify_or_clarify_submitted_information": {
+          "const": true
+        },
+        "nea_may_conduct_hydrogeological_monitoring_and_sampling_as_needed": {
+          "const": true
+        }
+      }
+    },
+    "annex_data_categories": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "location_fields",
+        "owner_fields",
+        "driller_fields",
+        "technical_fields",
+        "hydrogeological_fields",
+        "water_quality_fields"
+      ],
+      "properties": {
+        "location_fields": {
+          "const": [
+            "municipality_or_self_governing_city",
+            "settlement_or_address",
+            "cadastral_code_if_available",
+            "utm_wgs84_x",
+            "utm_wgs84_y"
+          ]
+        },
+        "owner_fields": {
+          "const": [
+            "person_or_entity_name",
+            "personal_number_or_tax_identification_code",
+            "contact_phone",
+            "email"
+          ]
+        },
+        "driller_fields": {
+          "const": [
+            "person_or_entity_name",
+            "personal_number_or_tax_identification_code",
+            "legal_and_actual_address",
+            "contact_phone",
+            "email"
+          ]
+        },
+        "technical_fields": {
+          "const": [
+            "well_depth_m",
+            "wellhead_elevation_m",
+            "well_construction",
+            "casing_diameter_and_intervals",
+            "filter_intervals",
+            "filter_total_length",
+            "filter_type_and_dimensions"
+          ]
+        },
+        "hydrogeological_fields": {
+          "const": [
+            "lithological_log",
+            "aquifer_intervals",
+            "aquifer_thickness",
+            "static_water_level",
+            "drawdown",
+            "recovery",
+            "dynamic_water_level",
+            "specific_capacity",
+            "discharge",
+            "pump_type_and_capacity"
+          ]
+        },
+        "water_quality_fields": {
+          "const": [
+            "field_sampling_status",
+            "field_results_if_sampled",
+            "laboratory_sampling_status",
+            "laboratory_results_if_sampled",
+            "laboratory_performer_identity"
+          ]
+        }
+      }
+    },
+    "sampling": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "field_sampling_optional",
+        "laboratory_analysis_optional",
+        "explicit_not_sampled_state_available",
+        "nea_may_sample_as_needed_based_on_location_and_hydrogeological_conditions",
+        "registration_is_potability_certificate",
+        "potability_requires_separate_validated_sampling_and_lab_evidence"
+      ],
+      "properties": {
+        "field_sampling_optional": {
+          "const": true
+        },
+        "laboratory_analysis_optional": {
+          "const": true
+        },
+        "explicit_not_sampled_state_available": {
+          "const": true
+        },
+        "nea_may_sample_as_needed_based_on_location_and_hydrogeological_conditions": {
+          "const": true
+        },
+        "registration_is_potability_certificate": {
+          "const": false
+        },
+        "potability_requires_separate_validated_sampling_and_lab_evidence": {
+          "const": true
+        }
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "annex_contains_owner_personal_or_tax_identifier",
+        "annex_contains_owner_contact_details",
+        "annex_contains_driller_personal_or_tax_identifier",
+        "annex_contains_exact_well_coordinates",
+        "annex_may_contain_cadastral_code_and_address",
+        "raw_registry_records_committed_to_public_repository",
+        "exact_coordinates_committed_to_public_repository",
+        "owner_identifiers_committed_to_public_repository",
+        "public_release_mode",
+        "decree_owner_consent_is_to_nea_not_noema"
+      ],
+      "properties": {
+        "annex_contains_owner_personal_or_tax_identifier": {
+          "const": true
+        },
+        "annex_contains_owner_contact_details": {
+          "const": true
+        },
+        "annex_contains_driller_personal_or_tax_identifier": {
+          "const": true
+        },
+        "annex_contains_exact_well_coordinates": {
+          "const": true
+        },
+        "annex_may_contain_cadastral_code_and_address": {
+          "const": true
+        },
+        "raw_registry_records_committed_to_public_repository": {
+          "const": false
+        },
+        "exact_coordinates_committed_to_public_repository": {
+          "const": false
+        },
+        "owner_identifiers_committed_to_public_repository": {
+          "const": false
+        },
+        "public_release_mode": {
+          "const": "aggregate_only_after_authorized_access_and_privacy_review"
+        },
+        "decree_owner_consent_is_to_nea_not_noema": {
+          "const": true
+        }
+      }
+    },
+    "architecture_recommendations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "separate_identity_vault_from_hydrogeological_measurements",
+        "use_pseudonymous_noema_record_id",
+        "role_based_access_and_audit_log",
+        "encrypt_restricted_records_at_rest_and_in_transit",
+        "sampling_status_enum",
+        "do_not_infer_potability_from_registration_or_missing_sample",
+        "suppress_or_review_small_aggregate_cells_before_public_release",
+        "small_cell_threshold_is_noema_proposal_not_a_legal_requirement"
+      ],
+      "properties": {
+        "separate_identity_vault_from_hydrogeological_measurements": {
+          "const": true
+        },
+        "use_pseudonymous_noema_record_id": {
+          "const": true
+        },
+        "role_based_access_and_audit_log": {
+          "const": true
+        },
+        "encrypt_restricted_records_at_rest_and_in_transit": {
+          "const": true
+        },
+        "sampling_status_enum": {
+          "const": [
+            "not_sampled",
+            "field_sample_only",
+            "laboratory_result_attached"
+          ]
+        },
+        "do_not_infer_potability_from_registration_or_missing_sample": {
+          "const": true
+        },
+        "suppress_or_review_small_aggregate_cells_before_public_release": {
+          "const": true
+        },
+        "small_cell_threshold_is_noema_proposal_not_a_legal_requirement": {
+          "const": true
+        }
+      }
+    },
+    "claims": {
+      "type": "array",
+      "minItems": 10,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "label",
+          "claim",
+          "reference"
+        ],
+        "properties": {
+          "label": {
+            "enum": [
+              "FACT",
+              "REPRODUCED_RESULT",
+              "INFERENCE",
+              "HYPOTHESIS",
+              "UNTESTED IDEA"
+            ]
+          },
+          "claim": {
+            "type": "string",
+            "minLength": 30
+          },
+          "reference": {
+            "type": "string",
+            "minLength": 10
+          }
+        }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 6,
+      "items": {
+        "type": "string",
+        "minLength": 30
+      }
+    }
+  }
+}
