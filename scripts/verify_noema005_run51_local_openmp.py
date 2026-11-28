@@ -69,8 +69,11 @@ def validate_raw_layout_metrics(raw_layout: dict[str, Any]) -> None:
     baseline_wall_ns = statistics.median(baseline["wall_samples_ns"])
     if baseline.get("repetitions") != repetitions:
         raise ValueError("Run 51 serial baseline repetition count mismatch")
-    if statistics.median(baseline.get("process_cpu_samples_ns", [])) <= 0:
-        raise ValueError("Run 51 serial baseline CPU-time samples are invalid")
+    _finite_positive_samples(
+        baseline.get("process_cpu_samples_ns"),
+        repetitions,
+        "serial baseline process CPU-time",
+    )
 
     for case in cases:
         method = case.get("method")
