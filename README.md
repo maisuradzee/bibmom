@@ -12,6 +12,20 @@ NOEMA აერთიანებს ცოდნის მოძიებას
 - გამოქვეყნებამდე მასალა გადის სარედაქციო და ტექნიკურ შემოწმებას.
 - ავტომატიზაცია არ ნიშნავს დაუდასტურებელი შედეგების ავტომატურ გამოქვეყნებას.
 
+## NOEMA Run 60 — 2026-11-28
+
+- ოთხივე აქტიური კვლევითი ნაკადი შენარჩუნებულია; კატალოგი: **12 Preliminary / 0 Published**. ახალი დამოუკიდებელი ნაკადი არ დამატებულა.
+- [PR #311](https://github.com/maisuradzee/bibmom/pull/311) გაერთიანდა: AquaSignal-ის NEA 2025 რეგიონული აგრეგატები, დახურული Schema-ები, არითმეტიკული validator, წყლის მაჩვენებლების comparability gate და ახალი Preliminary ქვეკვლევა **NOEMA-2026-016**.
+- NOEMA-2026-016-ის მთავარი საზღვარი: NFA-ს 2023 წლის 12% და 624 შეუსაბამობა ეხება **სურსათისა და სასმელი წყლის ერთობლივ** 5,000-ზე მეტ სინჯს; ეს არ არის სასმელი წყლის-only მაჩვენებელი. სახალხო დამცველის ანგარიშში 520 (2023) და 850 (2024) არის დაგეგმილი სასმელი წყლის სინჯები და არა ფაქტობრივად აღებული სინჯების რაოდენობა. ანგარიშში ასევე აღწერილია რეგიონული/მუნიციპალური ინფორმაციის შეზღუდული ხელმისაწვდომობა და კონსოლიდირებული პლატფორმის საჭიროება.
+- დაემატა `noema_core/monitoring_frames.py`: გეგმიური განაწილება, შერეული food/water მაჩვენებელი, ზუსტი მრიცხველის/მნიშვნელის არქონა ან sampling-frame/სტანდარტის/მეთოდის metadata-ის ნაკლებობა ვერ გახდება water-only rate-ის საფუძველი.
+- PR #311 exact-head Quality CI [46153938582](https://github.com/maisuradzee/bibmom/actions/runs/46153938582): **925 passed, 1 skipped**. Merge commit: `e9c0b8e4dd75aa169e95cdbe81a804c8f1b0b0cb`.
+- Main Quality CI [46154013005](https://github.com/maisuradzee/bibmom/actions/runs/46154013005): **SUCCESS**. GitHub Pages deployment [46154013054](https://github.com/maisuradzee/bibmom/actions/runs/46154013054): **SUCCESS**.
+- INFRA-001 [Draft PR #312](https://github.com/maisuradzee/bibmom/pull/312) განახლებულია current Main-ზე. Exact-head CI [46154084793](https://github.com/maisuradzee/bibmom/actions/runs/46154084793): **938 passed, 1 skipped**; scanner-მა შეამოწმა 499 tracked UTF-8 ტექსტური ფაილი, გამოტოვა 3 binary/non-UTF-8 ფაილი და დააფიქსირა 0 configured finding. PR რჩება Draft-ად დამოუკიდებელი უსაფრთხოების რეცენზიის მოლოდინში.
+- NOEMA-005-ზე ამ გაშვებაში ახალი ფიზიკური CPU ექსპერიმენტი არ ჩატარებულა; Run 59-ის frozen x86-64 KVM შედეგები უცვლელია. NOEMA-007-ში ახალი ავტორიზებული ქართული warning-event/after-action მონაცემები არ მიღებულა.
+- მოძველებული PR #306 და #307 დაიხურა როგორც superseded; მათი Git ისტორია შენარჩუნებულია. PR #291 კვლავ ცალკე review-ს საჭიროებს.
+
+[Run 60-ის სრული აუდიტი](docs/run-audits/2026-11-28-run-60.md).
+
 ## NOEMA Run 57 — 2026-11-28
 
 - ოთხივე აქტიური ნაკადი გადაიხედა; ახალი ნაკადი არ დამატებულა. კატალოგი: **11 Preliminary / 0 Published**.

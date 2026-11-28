@@ -1380,3 +1380,55 @@ No fifth stream was added. Four catalogue entries remain Preliminary; zero are P
 - Sources reviewed: NIST SP 800-34 Rev. 1; NIST SP 800-57 Part 1 Rev. 5 final; Rev. 6 Initial Public Draft (not final guidance); CISA 2025 StopRansomware Guide; CISA/FBI/HHS AA20-302A.
 - Design only. No private archive, production backup, provider, signing/encryption key, external high-water service or clean-host restore exists. Independent security review, recovery-owner assignment and owner-approved RPO/RTO/retention remain blockers.
 - No secrets, credentials, personal data, production endpoint or private backup bytes are added; no Supabase project or other project's database is used.
+
+
+## Run 60 — AquaSignal monitoring-frame research and INFRA current-Main CI refresh (2026-11-28)
+
+### Main baseline and portfolio
+
+- Starting Main: `a9b44dd36e7b2a88f86c681bf6f2e0de34e599fe`.
+- Final Main after AquaSignal PR #311: `e9c0b8e4dd75aa169e95cdbe81a804c8f1b0b0cb`.
+- Four independent active streams remain: AquaSignal, NOEMA-005, NOEMA-007 and INFRA-001. No fifth stream was added.
+- Catalogue: **12 Preliminary / 0 Published**. NOEMA-2026-016 is a sub-study within AquaSignal, not a new portfolio stream.
+
+### AquaSignal / NOEMA-2026-006
+
+- PR [#311](https://github.com/maisuradzee/bibmom/pull/311) merged on exact head `38ed29ca921e3c16f27b14839b7d137d1f118d91`; exact-head Quality CI [46153938582](https://github.com/maisuradzee/bibmom/actions/runs/46153938582) succeeded: **925 passed, 1 skipped**.
+- NEA 2025 aggregate snapshot records distinct reporting frames: 124 combined points, 74 routine hydrogeological points, 50 field-instrumental points, 74 laboratory-sampling points, 681 reported analysis-group counts, 73 parameter-coverage points and a separate 50-point nitrate field table (30 springs, 19 boreholes, 1 control well). Unique-site overlap and nitrate concentrations are not published in this snapshot.
+- Regional laboratory and nitrate rows are checked against their source-table totals. Raw PDF bytes were not available to this runtime; its SHA-256 is not claimed.
+- NOEMA-2026-016 cross-checks:
+  - NFA official 2023 release: 624 non-compliances and a rounded 12% across more than 5,000 combined food and drinking-water samples. This is not a water-only rate and the exact denominator is not stated in the release.
+  - Public Defender's 2025 report: 520 planned drinking-water samples in 2023 and 850 in 2024 (including packaged water). These are plans, not completed sample counts.
+  - The same report describes limits in regional/municipal interpretation of published monitoring compilations and recommends a consolidated information platform and locally appropriate communication. Its 35-village/15-municipality/5-region visits are fact-finding, not a representative national water-quality survey.
+  - The NFA 2023 XLSX download remains inaccessible to the current reader; no workbook bytes, row-level contents or SHA-256 were obtained.
+- New files: `data/noema-006/georgia-drinking-water-monitoring-frames-2023-2024.json` and schema; `noema_core/monitoring_frames.py`; `tests/test_aquasignal_monitoring_frames.py`; `research/preprints/NOEMA-2026-016-georgia-drinking-water-monitoring-disclosure-gap.md`; catalogue and portfolio metadata.
+- The new gate rejects planned allocations, mixed food/water summaries, missing exact integer numerator/denominator, missing sampling frame, missing standard/method and invalid numerator bounds. Passing is only a rate-candidate metadata check, not potability, legal compliance or health-risk assessment.
+- Sources: [NFA 2023 release](https://nfa.gov.ge/En/News/Details/489); [Public Defender report](https://ombudsman.ge/res/docs/2025041010211260067.pdf); [JECM secondary analysis](https://doi.org/10.52340/jecm.2025.01.25); [NEA 2025 annual report](https://nea.gov.ge/en/Download/File/1444).
+
+### INFRA-001
+
+- PR [#312](https://github.com/maisuradzee/bibmom/pull/312) is current-base Draft. Current base SHA `e9c0b8e4dd75aa169e95cdbe81a804c8f1b0b0cb`; exact head `a0af614d574875ae28b1a9a4ace0a7cbdb3127e5`.
+- Exact-head Quality CI [46154084793](https://github.com/maisuradzee/bibmom/actions/runs/46154084793): **938 passed, 1 skipped**. All 50 named CI step bodies match the contract. Public credential preflight scanned 499 tracked UTF-8 text files, skipped 3 binary/non-UTF-8 files and reported 0 configured findings.
+- The scanner is pattern-based, does not scan Git history or binary/non-UTF-8 files, and is not proof that the repository contains no secrets. The workflow, manifest and validator share one repository trust boundary. PR #312 remains Draft pending independent security review; no security certification is claimed.
+- PR #307 was closed as superseded; its history remains available.
+
+### NOEMA-005 and NOEMA-007
+
+- NOEMA-005: no new physical hardware experiment in Run 60. Run 59's frozen x86-64 KVM replication remains the latest new CPU-thread evidence; bare-metal x86-64 and ARM64, native per-method memory and DRAM counters remain outstanding.
+- NOEMA-007: no new privacy-approved Georgian warning-event or after-action data was obtained. No new delivery, comprehension, action or causal-effect metric is claimed.
+
+### CI and deployment
+
+- Main Quality CI [46154013005](https://github.com/maisuradzee/bibmom/actions/runs/46154013005): SUCCESS.
+- Main Pages deployment [46154013054](https://github.com/maisuradzee/bibmom/actions/runs/46154013054): SUCCESS.
+- PR #311 site build and publication-boundary checks passed as part of exact-head CI.
+- No private well coordinates, household records, health records, raw sample rows, credentials, private keys or backup bytes were added. No new Supabase project or other project's database was created or used.
+
+### Next priorities
+
+1. AquaSignal: obtain the official NFA 2023 XLSX and data dictionary through an authorized route; reconcile planned 520/850 allocations with actual collected/valid/tested water samples; after 2026-12-01 check the 2027 plan submission, ministerial approval and annexes separately.
+2. AquaSignal: obtain NEA 2021–2025 groundwater RAR bytes and reuse terms; verify digest before inspection; keep sample-level, station and public aggregate schemas separate.
+3. INFRA-001: independent security review of PR #312, then consider provider-side push protection and an external rollback-resistant trust anchor; no production restore until owner-approved RPO/RTO and clean-host evidence exist.
+4. NOEMA-005: physical x86-64/ARM64 experiments with Pairwise/Binned/Exact accumulators, RSS/native allocation, DRAM counters and uncertainty intervals.
+5. NOEMA-007: obtain survey variance/replicate-weight documentation and privacy-approved Georgian warning-event aggregates with stage-specific denominators.
+
