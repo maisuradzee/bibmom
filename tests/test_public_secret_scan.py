@@ -20,7 +20,7 @@ class PublicSecretPatternScanTests(unittest.TestCase):
         findings = scan_text(
             "sources.md",
             "https://user:password@example.org/data\n"
-            "https://example.org/feed?access%255ftoken=opaque\n"
+            "https://example.org/feed?" + "access%255ftoken=opaque\n"
             "https://example.org/api/token/" + "AbCdEf0123456789GhIjKlMnOpQrStUv",
         )
         rules = {item[2] for item in findings}
