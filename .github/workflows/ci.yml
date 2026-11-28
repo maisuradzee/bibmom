@@ -132,6 +132,11 @@ jobs:
           test -f tests/test_aquasignal_nitrate_unit_crosswalk.py
           test -f tests/test_water_chemistry.py
           test -f noema_core/nitrate_nitrite.py
+          test -f noema_core/aquasignal_groundwater.py
+          test -f data/noema-006/groundwater-quantitative-readiness-2026-11-28.json
+          test -f data/noema-006/groundwater-quantitative-readiness.schema.json
+          test -f research/preprints/NOEMA-2026-011-georgia-groundwater-quantitative-readiness.md
+          test -f tests/test_aquasignal_groundwater_readiness.py
           test -f tests/test_aquasignal_nitrate_nitrite.py
           test -f data/noema-006/nitrate-nitrite-guideline-crosswalk-2026-11-28.json
           test -f data/noema-006/nitrate-nitrite-guideline-crosswalk-2026-11-28.schema.json
@@ -247,6 +252,8 @@ jobs:
           python -m unittest discover -s tests -p 'test_aquasignal_nitrate_unit_crosswalk.py' -v
           python -m unittest discover -s tests -p 'test_water_chemistry.py' -v
           python -m unittest discover -s tests -p 'test_aquasignal_who_2026_guidance_scope.py' -v
+      - name: Validate AquaSignal groundwater quantitative-readiness gate and Annex evidence boundary
+        run: python -m unittest discover -s tests -p 'test_aquasignal_groundwater_readiness.py' -v
       - name: Validate AquaSignal WRP 2025 water-harm protocol and frozen result
         run: python -m unittest discover -s tests -p 'test_aquasignal_wrp2025_water_harm.py' -v
       - name: Validate Georgia hazard mapping and zoning coordination signal

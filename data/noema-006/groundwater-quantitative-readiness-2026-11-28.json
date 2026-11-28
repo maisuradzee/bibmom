@@ -1,0 +1,103 @@
+{
+  "record_id": "AQUASIGNAL-GW-QUANT-READINESS-2026-11-28",
+  "research_id": "NOEMA-2026-011",
+  "as_of": "2026-11-28",
+  "evidence_status": "PRELIMINARY_ARCHITECTURE",
+  "primary_legal_basis": {
+    "title": "Government Decree №447/2026 — Water-resource monitoring planning and implementation rules",
+    "publisher": "Legislative Herald of Georgia (Matsne)",
+    "publication_date": "2026-09-16",
+    "url": "https://matsne.gov.ge/ka/document/view/7000572",
+    "accessed_at": "2026-11-28",
+    "articles": [
+      {
+        "article": "7(1)",
+        "evidence_class": "FACT",
+        "statement": "Until groundwater bodies are formally designated, the Decree's groundwater requirements apply to hydrogeological units."
+      },
+      {
+        "article": "7(2)",
+        "evidence_class": "FACT",
+        "statement": "The recharge-versus-abstraction balance used for quantitative-status assessment is assessed after the responsible agencies have prepared a water balance based on abstraction data."
+      }
+    ]
+  },
+  "secondary_annex_transcription": {
+    "evidence_class": "SECONDARY_TRANSCRIPTION_ONLY",
+    "title": "Decree №447 Annex 1/2 text transcription",
+    "publisher": "Legali.ge",
+    "publication_date": "2026-09-15",
+    "url": "https://www.legali.ge/law/7000572/",
+    "accessed_at": "2026-11-28",
+    "official_attachment": {
+      "publisher": "Legislative Herald of Georgia (Matsne)",
+      "filename": "447-დან.docx",
+      "byte_length": 46049,
+      "mime_type": "application/msword",
+      "url": "https://matsne.gov.ge/ka/document/download/7000572/0/1",
+      "retrieval_status": "NOT_RETRIEVED",
+      "sha256": null
+    },
+    "observations": [
+      {
+        "annex": "2",
+        "table": "2",
+        "topic": "groundwater chemistry monitoring frequency",
+        "transcription": "Before the initial status assessment: at least twice per year; after status assessment: at least annually.",
+        "caution": "Secondary transcription only; not verified against the official DOCX."
+      },
+      {
+        "annex": "2",
+        "table": "2",
+        "topic": "groundwater quantitative monitoring frequency",
+        "transcription": "Before initial status assessment: at least monthly or quarterly depending on water-point type; after status assessment: risk-based.",
+        "caution": "Secondary transcription only; not verified against the official DOCX."
+      },
+      {
+        "annex": "2",
+        "table": "2",
+        "topic": "operational monitoring at-risk groundwater bodies",
+        "transcription": "Chemical composition quarterly or risk-based; quantitative characteristics monthly or quarterly, risk-based.",
+        "caution": "Secondary transcription only; not verified against the official DOCX."
+      },
+      {
+        "annex": "2",
+        "table": "2",
+        "topic": "groundwater quantity status and trends",
+        "transcription": "Continuous monitoring where possible, otherwise monthly; status/long-term trends reviewed annually.",
+        "caution": "Secondary transcription only; not verified against the official DOCX."
+      },
+      {
+        "annex": "2",
+        "table": "3",
+        "topic": "nitrate sampling",
+        "transcription": "Field context may include temperature, pH, conductivity, dissolved oxygen where needed and TDS; field nitrate photometry/test systems may be used where appropriate, with standard laboratory analysis.",
+        "caution": "Secondary transcription only; not verified against the official DOCX."
+      },
+      {
+        "annex": "2",
+        "table": "3",
+        "topic": "representative groundwater sampling",
+        "transcription": "Sampling method is selected by water-point type, hydrogeological conditions and monitoring purpose. Low-flow sampling is preferred in pumped wells where pumping rate can be controlled to minimize aquifer disturbance; artesian wells and springs use methods suited to natural flow.",
+        "caution": "Secondary transcription only; not verified against the official DOCX."
+      }
+    ]
+  },
+  "design_contract": {
+    "scope_before_designation": "hydrogeological_unit",
+    "scope_after_designation": "groundwater_body",
+    "quantitative_status_gate": "Require caller-attested responsible-authority confirmation and abstraction-data basis before marking assessment prerequisites as met.",
+    "prerequisite_success_semantics": "PREREQUISITES_MET_REQUIRES_AUTHORITY_ASSESSMENT",
+    "assigns_good_or_poor_status": false,
+    "requires_authority_review": true,
+    "stores_abstraction_volumes": false,
+    "stores_personal_or_private_well_data": false
+  },
+  "limitations": [
+    "The official Matsne HTML Article 7(1)-(2) was reviewed; the linked 46,049-byte DOCX Annex was not retrieved or hashed.",
+    "Annex 2 frequency and sampling-method observations come only from Legali.ge's secondary transcription and must not be treated as verified primary facts.",
+    "No official groundwater water-balance dataset or authority approval record was obtained.",
+    "The software prototype validates caller-supplied metadata only; it does not verify authority identity, document signatures, water-balance calculations or legal compliance.",
+    "No sample-level groundwater observations, abstraction volumes, exact well coordinates or personal data are included."
+  ]
+}
