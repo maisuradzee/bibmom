@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "study_id": "NOEMA-2026-012",
+  "as_of": "2026-11-28",
+  "legacy_programme_evidence": {
+    "report_id": "NEAP4-2024-monitoring-report",
+    "report_date": "2025-02-28",
+    "activity_id": "5.1.8",
+    "activity_title": "სასოფლო-სამეურნეო საქმიანობაში გამოყენებული ნიტრატებით დაბინძურებული ან დაბინძურების რისკის ქვეშ მყოფი მიწისქვეშა წყლების იდენტიფიცირება და ნიტრატებისადმი მოწყვლადი ზონების განსაზღვრა",
+    "reported_status": "implemented",
+    "reported_progress_percent": 100,
+    "responsible_body": "სსიპ გარემოს ეროვნული სააგენტო",
+    "reported_basis": "2024 წლის NEAP-4 მონიტორინგის ანგარიშში აქტივობა 5.1.8 აღნიშნულია განხორციელებულად (100%); ტექსტი ამბობს, რომ ზონები განისაზღვრა ევროკავშირის ტექნიკური დახმარების პროექტის ექსპერტების მიერ.",
+    "source_url": "https://mepa.gov.ge/ge/Files/ViewFile/55338"
+  },
+  "current_statutory_obligation": {
+    "law_number": "1766-Vმს-XIმპ",
+    "law_date": "2026-06-24",
+    "article": "37(2)(b.e)",
+    "deadline": "2027-09-01",
+    "responsible_actor": "საქართველოს გარემოს დაცვისა და სოფლის მეურნეობის მინისტრი",
+    "obligation": "მიწისქვეშა წყლებზე ნიტრატებით დაბინძურებული ან დაბინძურების რისკის ქვეშ მოქცეული ზონების იდენტიფიცირება და ნიტრატებისადმი მოწყვლადი ზონების განსაზღვრა.",
+    "evidence_status": "not_verified_by_available_evidence",
+    "source_url": "https://manage.matsne.gov.ge/ka/document/view/6904700"
+  },
+  "nea_announcement": {
+    "date": "2026-11-26",
+    "report_prepared": true,
+    "field_methodology_prepared": true,
+    "announcement_url": "https://www.nea.gov.ge/Ge/News/3461",
+    "official_archive_url": "https://ftp.mepa.gov.ge/Public/NEA/%E1%83%B0%E1%83%98%E1%83%93%E1%83%A0%E1%83%9D%E1%83%92%E1%83%94%E1%83%9D%E1%83%9A%E1%83%9D%E1%83%92%E1%83%98%E1%83%A3%E1%83%A0%E1%83%98%20%E1%83%90%E1%83%9C%E1%83%92%E1%83%90%E1%83%A0%E1%83%98%E1%83%A8%E1%83%98%20-%202026%20-%20%E1%83%94%E1%83%9A-%E1%83%95%E1%83%94%E1%83%A0%E1%83%A1%E1%83%98%E1%83%94%E1%83%91%E1%83%98.rar",
+    "retrieval_status": "not_retrieved_in_this_run",
+    "official_archive_sha256": null
+  },
+  "crosswalk": {
+    "legacy_completion_proves_current_statutory_completion": false,
+    "contradiction_established": false,
+    "legal_noncompliance_established": false,
+    "evidence_class": "FACT_AND_INFERENCE",
+    "interpretation": "2024 NEAP-4 activity 5.1.8 and the 2026 statutory task concern the same broad groundwater-nitrate subject, but the available records do not establish that their legal scope, approving instrument, geographic coverage, methodology or deliverables are identical. The 2024 programme completion is therefore historical programme evidence, not proof of completion of the later statutory task. This is an evidence-reconciliation gap, not proof of contradiction or non-compliance.",
+    "required_evidence": [
+      "Official 2021-2025 groundwater report and field methodology bytes with SHA-256 and version metadata",
+      "Final groundwater nitrate-vulnerable-zone maps with geographic coverage, criteria and date",
+      "Formal approval or designation instrument identifying the competent authority and statutory basis",
+      "Methodology version, sampling design, laboratory QA/QC and uncertainty treatment",
+      "Publicly shareable aggregate monitoring evidence supporting the identified zones"
+    ]
+  },
+  "limitations": [
+    "The NEA announcement links to a RAR archive, but the archive bytes were not retrieved in this run and no SHA-256 is claimed.",
+    "The 2024 NEAP-4 report is a primary government progress report; its activity-level completion statement does not itself expose the underlying maps or prove identity with the 2026 statutory task.",
+    "No independent Georgian legal review, groundwater dataset, final zone map or formal 2026-2027 designation instrument was obtained."
+  ]
+}
