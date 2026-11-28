@@ -1,0 +1,322 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Georgia multi-hazard river-basin plan chronology",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_id",
+    "study_id",
+    "reviewed_at",
+    "programme",
+    "chronology",
+    "secondary_claim",
+    "current_status",
+    "interpretation",
+    "privacy"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "record_id": {
+      "const": "NOEMA007-GEORGIA-SEVEN-BASIN-CHRONOLOGY-2026-11-28"
+    },
+    "study_id": {
+      "const": "NOEMA-2026-007"
+    },
+    "reviewed_at": {
+      "type": "string",
+      "format": "date",
+      "const": "2026-11-28"
+    },
+    "programme": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "target_basin_count",
+        "previously_reported_group",
+        "remaining_group"
+      ],
+      "properties": {
+        "target_basin_count": {
+          "const": 11
+        },
+        "previously_reported_group": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "count",
+            "basins",
+            "reported_status",
+            "source_date"
+          ],
+          "properties": {
+            "count": {
+              "const": 4
+            },
+            "basins": {
+              "const": [
+                "Supsa",
+                "Natanebi",
+                "Kintrishi",
+                "Khobistskali"
+              ]
+            },
+            "reported_status": {
+              "type": "string",
+              "minLength": 20
+            },
+            "source_date": {
+              "const": "2025-10-06"
+            }
+          }
+        },
+        "remaining_group": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "count",
+            "basins",
+            "source_date_for_named_list",
+            "original_target"
+          ],
+          "properties": {
+            "count": {
+              "const": 7
+            },
+            "basins": {
+              "const": [
+                "Enguri",
+                "Rioni",
+                "Chorokhi-Acharistskali",
+                "Mtkvari",
+                "Alazani",
+                "Iori",
+                "Khrami-Ktsia"
+              ]
+            },
+            "source_date_for_named_list": {
+              "const": "2026-11-25"
+            },
+            "original_target": {
+              "type": "string",
+              "minLength": 20
+            }
+          }
+        }
+      }
+    },
+    "chronology": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "date",
+          "stage",
+          "source",
+          "source_claims",
+          "not_established"
+        ],
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "stage": {
+            "enum": [
+              "four_plans_reported_prepared_seven_remaining_planned",
+              "seven_basin_risk_assessment_validation_process_and_results_presented",
+              "seven_basin_plan_preparation_consultation"
+            ]
+          },
+          "source": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "publisher",
+              "title",
+              "publication_date",
+              "url",
+              "accessed_at"
+            ],
+            "properties": {
+              "publisher": {
+                "const": "National Environmental Agency of Georgia"
+              },
+              "title": {
+                "type": "string",
+                "minLength": 20
+              },
+              "publication_date": {
+                "type": "string",
+                "format": "date"
+              },
+              "url": {
+                "type": "string",
+                "format": "uri"
+              },
+              "accessed_at": {
+                "type": "string",
+                "format": "date"
+              }
+            }
+          },
+          "source_claims": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "type": "string",
+              "minLength": 30
+            }
+          },
+          "not_established": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "type": "string",
+              "minLength": 30
+            }
+          }
+        }
+      }
+    },
+    "secondary_claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "publisher",
+        "publication_date",
+        "project_period_start",
+        "project_period_end",
+        "url",
+        "evidence_status",
+        "claim_summary",
+        "interpretation"
+      ],
+      "properties": {
+        "publisher": {
+          "const": "GEO Outlook LLC"
+        },
+        "publication_date": {
+          "const": "not stated"
+        },
+        "project_period_start": {
+          "const": "2024-09"
+        },
+        "project_period_end": {
+          "const": "2026-10"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "evidence_status": {
+          "const": "SECONDARY_CLAIM"
+        },
+        "claim_summary": {
+          "type": "string",
+          "minLength": 60
+        },
+        "interpretation": {
+          "type": "string",
+          "minLength": 80
+        }
+      }
+    },
+    "current_status": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "classification",
+        "formal_approval_confirmed",
+        "public_final_plan_versions_confirmed",
+        "operational_implementation_confirmed",
+        "warning_to_action_performance_reported"
+      ],
+      "properties": {
+        "classification": {
+          "const": "UNRESOLVED_FORMAL_PLAN_STATUS"
+        },
+        "formal_approval_confirmed": {
+          "const": false
+        },
+        "public_final_plan_versions_confirmed": {
+          "const": false
+        },
+        "operational_implementation_confirmed": {
+          "const": false
+        },
+        "warning_to_action_performance_reported": {
+          "const": false
+        }
+      }
+    },
+    "interpretation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fact",
+        "inference",
+        "unknowns"
+      ],
+      "properties": {
+        "fact": {
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "type": "string",
+            "minLength": 60
+          }
+        },
+        "inference": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "string",
+            "minLength": 60
+          }
+        },
+        "unknowns": {
+          "type": "array",
+          "minItems": 4,
+          "items": {
+            "type": "string",
+            "minLength": 40
+          }
+        }
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "personal_data_included",
+        "household_data_included",
+        "exact_private_locations_included",
+        "event_level_records_included",
+        "critical_infrastructure_coordinates_included"
+      ],
+      "properties": {
+        "personal_data_included": {
+          "const": false
+        },
+        "household_data_included": {
+          "const": false
+        },
+        "exact_private_locations_included": {
+          "const": false
+        },
+        "event_level_records_included": {
+          "const": false
+        },
+        "critical_infrastructure_coordinates_included": {
+          "const": false
+        }
+      }
+    }
+  }
+}
