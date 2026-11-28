@@ -113,7 +113,7 @@ Method.
                 "- **Status:** draft\n\n"
                 "## Research question\nQuestion.\n\n"
                 "## Method and limitations\nMethod.\n\n"
-                "## Sources\n\n"
+                "## Sources\n- https://example.org/source\n\n"
                 "## Next steps\n- Inspect https://example.org/demo\n\n"
                 "## Verification status\nPending independent review.\n",
                 encoding="utf-8",
